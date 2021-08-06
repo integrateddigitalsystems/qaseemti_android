@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.LocaleUtils
+import kotlinx.android.synthetic.main.activity_splash.*
 import java.util.*
 
 open class ActivityBase : Activity() {
@@ -19,6 +20,7 @@ open class ActivityBase : Activity() {
         super.onCreate(savedInstanceState)
          AppHelper.setLocal(this)
          AppHelper.handleCrashes(this)
+
     }
 
     override fun attachBaseContext(newBase: Context) {

@@ -7,12 +7,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
-
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
-
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
@@ -27,17 +25,14 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-
+import com.google.android.youtube.player.internal.v
 import com.ids.qasemti.controller.MyApplication
 import me.grantland.widget.AutofitHelper
-
 import java.io.File
-
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 
 /**
@@ -175,6 +170,27 @@ class AppHelper {
          //   return Typeface.DEFAULT_BOLD
         }
 
+
+        fun setAllTexts(v:View){
+            if(MyApplication.localizeArray != null){
+            try {
+                if (v is ViewGroup) {
+                    val vg = v as ViewGroup
+                    for (i in 0 until vg.childCount) {
+                        val child = vg.getChildAt(i)
+                        // recursively call this method
+                        setAllTexts(child)
+                    }
+                } else if (v is TextView) {
+                    v.textRemote(v.tag.toString())
+                }
+                else if (v is Button) {
+                    v.textRemote(v.tag.toString())
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }}
+        }
 
 
 

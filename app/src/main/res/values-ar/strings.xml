@@ -1,4 +1,7 @@
 <resources>
 
- 
+
+    <string name="hello">Hello 111</string>
+    <string name="hello2">Hello 222</string>
+    <string name="hello3">Hello 3333</string>
 </resources>

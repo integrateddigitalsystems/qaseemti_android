@@ -7,20 +7,24 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Build
 import androidx.preference.PreferenceManager
+import com.ids.qasemti.model.FirebaseLocalizeArray
+import com.ids.qasemti.model.FirebaseLocalizeItem
 import com.ids.qasemti.utils.AppConstants
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MyApplication : Application() {
     companion object {
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
         var showLogs: Boolean = true
+        var localizeArray: FirebaseLocalizeArray ?= null
         var BASE_URL = ""
         lateinit var sharedPreferences : SharedPreferences
         lateinit var sharedPreferencesEditor : SharedPreferences.Editor
 
         var languageCode : String
-            get() = sharedPreferences.getString(AppConstants.SELECTED_LANGUAGE, AppConstants.LANG_ARABIC)!!
+            get() = sharedPreferences.getString(AppConstants.SELECTED_LANGUAGE, AppConstants.LANG_ENGLISH)!!
             set(value) { sharedPreferencesEditor.putString(AppConstants.SELECTED_LANGUAGE, value).apply() }
         var UNIQUE_REQUEST_CODE = 0
 

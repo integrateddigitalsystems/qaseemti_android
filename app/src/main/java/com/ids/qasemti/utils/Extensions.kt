@@ -13,6 +13,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.ids.qasemti.controller.MyApplication
+import java.lang.Exception
 
 
 /**
@@ -60,7 +61,8 @@ fun String.isNumeric(): Boolean {
  * Used for simpler logging
  */
 fun Any.wtf(message: String) {
-    Log.wtf(this::class.java.simpleName, message)
+    if(MyApplication.showLogs)
+        Log.wtf(this::class.java.simpleName, message)
 }
 
 /**
@@ -75,11 +77,17 @@ fun Activity.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
 
-fun Context.logw(key:String,value: String){
+fun Any.logw(key:String,value: String){
     if(MyApplication.showLogs)
         Log.wtf(key,value)
 }
 
+fun TextView.textRemote(key:String){
+    if(MyApplication.localizeArray!=null){
+       try{ this.text = MyApplication.localizeArray!!.messages!!.find { it.localize_Key==key }!!.getMessage() }catch (e:Exception){}
+    }
+
+}
 
 @SuppressLint("RestrictedApi")
 fun AppCompatCheckBox.setCheckBoxColor(uncheckedColor: Int, checkedColor: Int) {
