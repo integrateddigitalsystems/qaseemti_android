@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="huge_margin">40dp</dimen>
+    <dimen name="normal_icon_size">30dp</dimen>
+    <dimen name="edit_text_hight">40dp</dimen>
+    <dimen name="small_margin">4dp</dimen>
+    <dimen name="push_text">-6dp</dimen>
+    <dimen name="logo_size_top_width">280dp</dimen>
+</resources>

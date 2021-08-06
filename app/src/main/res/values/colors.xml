@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff1d3d</color>
+    <color name="colorPrimaryDark">#ff1d3d </color>
+    <color name="colorAccent">#ff1d3d</color>
+
+    <color name="primary">#FF556E</color>
+    <color name="secondary">#ff1d3d</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="blacktrans">#22000000</color>
+
+</resources>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "872402407970",
+    "project_id": "qasemti-131ec",
+    "storage_bucket": "qasemti-131ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872402407970:android:9bb7cd89156697c6cc307b",
+        "android_client_info": {
+          "package_name": "com.ids.qasemti"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "872402407970-vh4ek6vrogmshbdisvi0s55rv6hio262.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1ACkWvYwNLMOKqXvo4ID3SkIFpPA9c6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "872402407970-vh4ek6vrogmshbdisvi0s55rv6hio262.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
