@@ -252,6 +252,7 @@ class AppHelper {
             }
 
             val configuration = Configuration()
+            var x = Locale.getDefault()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 configuration.setLocale(Locale.getDefault())
                 configuration.setLayoutDirection(Locale.getDefault())

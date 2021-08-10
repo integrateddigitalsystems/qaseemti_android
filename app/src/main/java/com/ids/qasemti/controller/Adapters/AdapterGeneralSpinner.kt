@@ -51,7 +51,7 @@ class AdapterGeneralSpinner(
          }*/
         label.text = values[position].name
 
-        label.setTextSize(TypedValue.COMPLEX_UNIT_PX,context.resources.getDimension(R.dimen.small_font_2))
+        label.setTextSize(TypedValue.COMPLEX_UNIT_PX,context.resources.getDimension(R.dimen.big_font))
 
         return label
     }

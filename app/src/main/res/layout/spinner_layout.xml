@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.ids.qasemti.custom.CustomTextViewMedium
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginLeft="@dimen/big_margin"
+    android:layout_marginStart="@dimen/big_margin"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/big_margin"
+    android:textSize="1sp"
+    android:gravity="start"
+    android:padding="5dip"
+    />

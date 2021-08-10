@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/logo_height"
+    android:background="@drawable/rounded_background_bottom">
+
+        <ImageView
+            android:id="@+id/logo_main"
+            android:layout_width="@dimen/inside_logo"
+            android:layout_height="@dimen/inside_logo"
+            android:src="@drawable/logo" />
+
+</LinearLayout>

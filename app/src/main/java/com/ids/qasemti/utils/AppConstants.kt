@@ -14,6 +14,9 @@ object AppConstants {
     const val XXHDPI = "72"
     const val XXXHDPI = "96"
 
+    const val CENTER_WHITE = 2
+    const val LEFT_BLACK = 4
+
     const val LANG_ENGLISH = "en"
     const val LANG_ARABIC = "ar"
     const val SELECTED_LANGUAGE = "key_language_code"

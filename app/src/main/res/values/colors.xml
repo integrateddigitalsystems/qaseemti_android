@@ -4,7 +4,11 @@
     <color name="colorPrimaryDark">#ff1d3d </color>
     <color name="colorAccent">#ff1d3d</color>
 
+
+    <color name="redPrimary">#e5193a</color>
+
     <color name="primary">#FF556E</color>
+    <color name="gray_medium_2">#dadada</color>
     <color name="secondary">#ff1d3d</color>
 
     <color name="transparent">#00000000</color>

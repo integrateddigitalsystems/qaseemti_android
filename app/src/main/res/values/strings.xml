@@ -9,4 +9,6 @@
     <string name="enter_mobile_number">Enter your mobile number</string>
     <string name="mobile">Mobile</string>
     <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="please_fill_the_below_fields_to_register">Please fill the below fields to register</string>
 </resources>

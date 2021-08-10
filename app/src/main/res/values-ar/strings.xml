@@ -9,4 +9,6 @@
     <string name="enter_mobile_number">أدخل رقم هاتفك المحمول</string>
     <string name="mobile">هاتف</string>
     <string name="login">تسجيل دخول</string>
+    <string name="register">تسجيل</string>
+    <string name="please_fill_the_below_fields_to_register">الرجاء ملئ المعلومات للتسجيل</string>
 </resources>
