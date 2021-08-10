@@ -1,7 +1,10 @@
 package com.ids.qasemti.controller.Activities
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -20,7 +23,7 @@ import kotlinx.android.synthetic.main.activity_splash.*
 
 
 class ActivitySplash : ActivityBase() {
-    var  mFirebaseRemoteConfig : FirebaseRemoteConfig?=null
+    var mFirebaseRemoteConfig: FirebaseRemoteConfig? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -28,10 +31,17 @@ class ActivitySplash : ActivityBase() {
         getFirebasePrefs()
 
 
-}
+    }
 
 
-    private fun getFirebasePrefs(){
+    fun nextStep() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            startActivity(Intent(this, ActivityChooseLanguage::class.java))
+            finish()
+        }, 1500)
+    }
+
+    private fun getFirebasePrefs() {
         mFirebaseRemoteConfig = Firebase.remoteConfig
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = 0
@@ -41,8 +51,12 @@ class ActivitySplash : ActivityBase() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val updated = task.result
-                     MyApplication.localizeArray = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE), FirebaseLocalizeArray::class.java)
-                     AppHelper.setAllTexts(rootLayout)
+                    MyApplication.localizeArray = Gson().fromJson(
+                        mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE),
+                        FirebaseLocalizeArray::class.java
+                    )
+                    AppHelper.setAllTexts(rootLayout)
+                    nextStep()
                 }
             }
     }

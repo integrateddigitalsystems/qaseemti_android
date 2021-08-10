@@ -4,4 +4,7 @@
     <string name="hello">Hello 111</string>
     <string name="hello2">Hello 222</string>
     <string name="hello3">Hello 3333</string>
+    <string name="lang_ar">ARABIC</string>
+    <string name="lang_eng">ENGLISH</string>
+    <string name="enter_mobile_number">Enter your mobile number</string>
 </resources>

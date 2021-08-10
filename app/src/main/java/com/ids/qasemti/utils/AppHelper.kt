@@ -2,6 +2,7 @@ package com.ids.qasemti.utils
 
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -79,6 +80,8 @@ class AppHelper {
 
         }
     }
+
+
 
 
     fun setbackgroundImage(context: Context, view: View, ImgUrl: String) {

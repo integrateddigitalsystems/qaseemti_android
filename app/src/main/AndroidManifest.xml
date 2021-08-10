@@ -39,18 +39,21 @@
         -->
 
 
-   <!--     <activity
-            android:name=".controller.Activities.ActivityHome"
-             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>-->
+        <!--     <activity
+                 android:name=".controller.Activities.ActivityHome"
+                  android:screenOrientation="portrait"
+                 android:theme="@style/AppTheme.NoActionBar" >
+             </activity>-->
 
+        <activity
+            android:name="com.ids.qasemti.controller.Activities.ActivityChooseLanguage"
+            android:screenOrientation="fullSensor" />
 
 
         <activity
             android:name="com.ids.qasemti.controller.Activities.ActivitySplash"
             android:screenOrientation="fullSensor" >
-             <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />

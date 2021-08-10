@@ -2,31 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/rootLayout"
+    android:gravity="center"
+    android:background="@drawable/splach_bg"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello"
-        android:tag="hello"
-        android:id="@+id/tvTest"
-        />
 
+    <ImageView
+        android:layout_width="@dimen/splash_logo"
+        android:layout_height="@dimen/splash_logo"
+        android:src="@drawable/logo"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello2"
-        android:tag="hello2"
-        android:id="@+id/tvTest2"
-        />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello3"
-        android:tag="hello3"
-        android:id="@+id/btNew"
-        />
     </LinearLayout>
