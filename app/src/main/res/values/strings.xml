@@ -7,4 +7,6 @@
     <string name="lang_ar">ARABIC</string>
     <string name="lang_eng">ENGLISH</string>
     <string name="enter_mobile_number">Enter your mobile number</string>
+    <string name="mobile">Mobile</string>
+    <string name="login">Login</string>
 </resources>

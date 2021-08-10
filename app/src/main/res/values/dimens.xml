@@ -3,6 +3,7 @@
     <dimen name="vsmall_margin">2dp</dimen>
     <dimen name="normal_margin">8dp</dimen>
     <dimen name="medium_margin">12dp</dimen>
+    <dimen name="margin_start_end">16dp</dimen>
     <dimen name="big_margin">20dp</dimen>
     <dimen name="big_margin_2">25dp</dimen>
     <dimen name="normal_font">13sp</dimen>
@@ -75,5 +76,6 @@
     <dimen name="margin_logo">200dp</dimen>
     <dimen name="button_width">200dp</dimen>
     <dimen name="button_height">45dp</dimen>
+    <dimen name="edit_text_height">52dp</dimen>
 
 </resources>

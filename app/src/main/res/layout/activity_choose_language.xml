@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:id="@+id/rootLayoutChooseLogin"
+    android:background="@drawable/splach_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/margin_logo"
+        android:layout_width="@dimen/inside_logo"
+        android:layout_height="@dimen/inside_logo"
+        android:src="@drawable/logo"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:gravity="center"
+            android:id="@+id/btToArabic"
+            android:background="@drawable/rounded_white_red_border"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:tag="lang_ar"
+            android:layout_marginBottom="@dimen/normal_margin"
+            android:text="@string/lang_ar"/>
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:gravity="center"
+            android:id="@+id/btToEnglish"
+            android:background="@drawable/rounded_white_red_border"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:tag="lang_eng"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:text="@string/lang_eng"/>
+    </LinearLayout>
+
+        <ImageView
+            android:layout_marginBottom="@dimen/big_margin"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/qas_copyright"/>
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

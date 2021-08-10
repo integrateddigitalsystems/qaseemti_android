@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/rootLayoutMobileRegister"
+    android:background="@drawable/red_curve_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/huge_margin"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="@dimen/inside_logo"
+        android:layout_height="@dimen/inside_logo"
+        android:src="@drawable/white_logo"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/huge_margin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:gravity="center"
+            android:layout_marginTop="@dimen/big_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/header_font"
+            android:text="@string/enter_mobile_number"
+            android:tag="enter_mobile_number"
+            />
+
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/normal_icon_size"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:text="961"
+                android:gravity="center"
+                android:background="@drawable/rounded_white_background"
+                android:layout_width="@dimen/bigger_image"
+                android:layout_height="@dimen/edit_text_height"/>
+
+            <EditText
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:hint="@string/mobile"
+                android:tag="mobile"
+                android:background="@drawable/rounded_white_background"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"/>
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:textColor="@color/white"
+            android:text="@string/login"
+            android:tag="login"
+            android:layout_marginTop="@dimen/big_margin"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/blue_rounded"/>
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

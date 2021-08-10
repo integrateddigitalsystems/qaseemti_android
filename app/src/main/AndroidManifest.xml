@@ -49,6 +49,10 @@
             android:name="com.ids.qasemti.controller.Activities.ActivityChooseLanguage"
             android:screenOrientation="fullSensor" />
 
+        <activity
+            android:name="com.ids.qasemti.controller.Activities.ActivityMobileRegistration"
+            android:screenOrientation="fullSensor" />
+
 
         <activity
             android:name="com.ids.qasemti.controller.Activities.ActivitySplash"
