@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray_bg"
+
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/curve_layout_home"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+             android:background="@drawable/rounded_white_background"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/big_margin"
+            android:paddingEnd="@dimen/big_margin"
+            android:id="@+id/linearProfileInfo"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            >
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/profile_placeholder"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/medium_margin"
+                android:paddingEnd="@dimen/medium_margin"
+                android:orientation="vertical">
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kamal Hamdan"
+                    android:paddingStart="@dimen/small_margin"
+                    android:textSize="@dimen/big_font"
+                    android:textColor="@color/gray_font_title"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="@dimen/big_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:background="@drawable/rounded_gray_corner">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="horizontal"
+                        android:background="@drawable/rounded_corner_green"
+                        android:id="@+id/pbComplete"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:background="@color/transparent"
+                        android:id="@+id/pbNotComplete"
+                        />
+                </LinearLayout>
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_font_light"
+                    android:textSize="@dimen/small_font"
+                    android:text="75% Completed"
+                    android:layout_marginTop="@dimen/mini_margin"
+                    android:paddingStart="@dimen/small_margin"
+                    />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+
+            android:layout_below="@+id/linearProfileInfo"
+            android:background="@drawable/shadow"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin_start_end"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/big_font"
+                android:textColor="@color/gray_font_title"
+                android:text="@string/personal_information"
+                android:layout_marginStart="@dimen/normal_margin"
+
+                android:tag="personal_information"
+
+                />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/margin_start_end"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:hint="@string/first_name"
+                android:textColorHint="@color/gray_font_light"
+                android:tag="first_name"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:hint="@string/middle_name"
+                android:textColorHint="@color/gray_font_light"
+                android:tag="middle_name"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:hint="@string/last_name"
+                android:textColorHint="@color/gray_font_light"
+                android:tag="last_name"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:background="@drawable/rounded_white_background"
+                >
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/small_font"
+                    android:text="@string/email"
+                    android:textColor="@color/gray_font_light"
+                    android:layout_marginTop="@dimen/mini_margin"
+                    />
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mini_margin"
+                    android:text="K.hamdan@ids.com.lb"
+                    android:textColor="@color/gray_font"
+                    android:textSize="@dimen/normal_font" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:background="@drawable/rounded_white_background"
+                >
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/small_font"
+                    android:text="@string/email"
+
+
+                    android:textColor="@color/gray_font_light"
+                    android:layout_marginTop="@dimen/mini_margin"
+                    />
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/normal_font"
+                    android:text="K.hamdan@ids.com.lb"
+                    android:textColor="@color/gray_font"
+                    android:layout_marginTop="@dimen/mini_margin"
+                    />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/normal_margin"
+
+
+                >
+
+
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:textColor="@color/gray_font"
+                    android:paddingStart="@dimen/margin_start_end"
+                    android:paddingEnd="@dimen/margin_start_end"
+                    android:textSize="@dimen/normal_font"
+                    android:background="@drawable/rounded_white_background"
+                    android:hint="@string/civil_id_nb"
+                    android:tag="civil_id_nb"
+                    />
+
+                <ImageButton
+                    android:layout_width="@dimen/edit_text_height"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:background="@drawable/icon_attach"
+                    android:layout_gravity="center"
+
+                    />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/rounded_white_background"
+                >
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:tag="male"
+                        android:textSize="@dimen/normal_font"
+                        android:buttonTint="@color/button_blue"
+                        android:textColor="@color/gray_font"
+                        android:backgroundTint="@color/button_blue"
+                        android:text="@string/male"/>
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:tag="female"
+                        android:buttonTint="@color/button_blue"
+                        android:textSize="@dimen/normal_font"
+                        android:textColor="@color/gray_font"
+                        android:backgroundTint="@color/button_blue"
+                        android:text="@string/female"/>
+
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:hint="@string/date_of_birth"
+                android:textColorHint="@color/gray_font_light"
+                android:textSize="@dimen/normal_font"
+                android:tag="date_of_birth"
+                android:background="@drawable/rounded_white_background"
+                />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:hint="@string/alternate_contact_number"
+                android:textColorHint="@color/gray_font_light"
+                android:tag="alternate_contact_number"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>

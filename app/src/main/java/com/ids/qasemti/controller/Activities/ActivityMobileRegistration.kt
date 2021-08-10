@@ -1,5 +1,6 @@
 package com.ids.qasemti.controller.Activities
 
+import android.content.Intent
 import android.os.Bundle
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -14,5 +15,9 @@ class ActivityMobileRegistration: ActivityBase(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mobile_registration)
         AppHelper.setAllTexts(rootLayoutMobileRegister)
+
+        btLogin.setOnClickListener{
+            startActivity(Intent(this,ActivityHome::class.java))
+        }
     }
 }
