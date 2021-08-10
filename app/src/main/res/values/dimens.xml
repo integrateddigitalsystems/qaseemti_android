@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="vsmall_margin">2dp</dimen>
     <dimen name="normal_margin">8dp</dimen>
     <dimen name="medium_margin">12dp</dimen>
     <dimen name="margin_start_end">16dp</dimen>
@@ -49,16 +48,6 @@
     <dimen name="bigger_block">450dp</dimen>
     <dimen name="calculate_width">300dp</dimen>
     <dimen name="bigger_button_width">240dp</dimen>
-    <dimen name="push_less">-14dp</dimen>
-    <dimen name="push_small">-12dp</dimen>
-    <dimen name="push_up">-20dp</dimen>
-    <dimen name="pushing_more">-35dp</dimen>
-    <dimen name="pushing_some">-33dp</dimen>
-    <dimen name="push_medium">-30dp</dimen>
-    <dimen name="push_lot">-55dp</dimen>
-    <dimen name="second_margin">10dp</dimen>
-    <dimen name="smaller_font">10sp</dimen>
-    <dimen name="v_Small_Font">9sp</dimen>
     <dimen name="tiny_font">5sp</dimen>
     <dimen name="big_button_width">200dp</dimen>
     <dimen name="image_news">240dp</dimen>
@@ -66,7 +55,6 @@
     <dimen name="margin_start_end_footer">36dp</dimen>
     <dimen name="big_margin_3">40dp</dimen>
     <dimen name="bigger_image">70dp</dimen>
-    <dimen name="push_text">0dp</dimen>
     <dimen name="first_margin">15dp</dimen>
     <dimen name="bigger_push">-65dp</dimen>
     <dimen name="vertical_dim">0.75dip</dimen>
@@ -77,7 +65,8 @@
     <dimen name="margin_logo">200dp</dimen>
     <dimen name="button_width">200dp</dimen>
     <dimen name="button_height">45dp</dimen>
-    <dimen name="edit_text_height">52dp</dimen>
+    <dimen name="edit_text_height">40dp</dimen>
+    <dimen name="margin_top">52dp</dimen>
     <dimen name="curve_height">100dp</dimen>
 
 </resources>

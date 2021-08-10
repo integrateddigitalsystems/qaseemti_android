@@ -10,7 +10,10 @@
 
 
     <LinearLayout
-        android:layout_marginTop="@dimen/edit_text_height"
+        android:gravity="center_horizontal"
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:layout_marginTop="@dimen/margin_top"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,6 +22,7 @@
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:tag="register"
             android:textSize="@dimen/title_font"
             android:gravity="center"
             android:text="@string/register"
@@ -28,9 +32,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/normal_margin"
+            android:tag="please_fill_the_below_fields_to_register"
             android:textSize="@dimen/header_font"
             android:gravity="center"
             android:text="@string/please_fill_the_below_fields_to_register" />
+
+        <EditText
+            android:layout_marginTop="@dimen/margin_top"
+            android:textColorHint="@color/gray_medium_2"
+            android:paddingStart="@dimen/normal_margin"
+            android:paddingEnd="@dimen/normal_margin"
+            android:tag="@string/first_name"
+            android:hint="@string/first_name"
+            android:background="@drawable/rounded_white_background"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"/>
+
+        <EditText
+            android:layout_marginTop="@dimen/normal_margin"
+            android:textColorHint="@color/gray_medium_2"
+            android:paddingStart="@dimen/normal_margin"
+            android:paddingEnd="@dimen/normal_margin"
+            android:tag="@string/last_name"
+            android:hint="@string/last_name"
+            android:background="@drawable/rounded_white_background"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"/>
+
+        <EditText
+            android:layout_marginTop="@dimen/normal_margin"
+            android:textColorHint="@color/gray_medium_2"
+            android:paddingStart="@dimen/normal_margin"
+            android:paddingEnd="@dimen/normal_margin"
+            android:inputType="textEmailAddress"
+            android:hint="@string/email"
+            android:tag="@string/email"
+            android:background="@drawable/rounded_white_background"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"/>
+
+
+        <Button
+            android:textColor="@color/white"
+            android:text="@string/register"
+            android:tag="register"
+            android:layout_marginTop="@dimen/big_margin_2"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:id="@+id/btRegister"
+            android:background="@drawable/blue_rounded"/>
+
+
 
 
 

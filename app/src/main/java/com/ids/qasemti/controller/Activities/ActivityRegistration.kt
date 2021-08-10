@@ -8,6 +8,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.utils.AppHelper
 import kotlinx.android.synthetic.main.activity_mobile_registration.*
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.white_logo_layout.*
 
 class ActivityRegistration : ActivityBase() {
@@ -15,7 +16,7 @@ class ActivityRegistration : ActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        AppHelper.setAllTexts(rootLayoutMobileRegister)
+        AppHelper.setAllTexts(rootLayoutRegistration)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ImageViewCompat.setImageTintList(logo_main,

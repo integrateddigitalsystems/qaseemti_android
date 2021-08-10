@@ -55,6 +55,10 @@
 
 
         <activity
+            android:name="com.ids.qasemti.controller.Activities.ActivityRegistration"
+            android:screenOrientation="fullSensor" />
+
+        <activity
             android:name="com.ids.qasemti.controller.Activities.ActivitySplash"
             android:screenOrientation="fullSensor" >
             <intent-filter>
