@@ -22,7 +22,9 @@
     <string name="email">Email</string>
     <string name="civil_id_nb">Civil ID Nb</string>
     <string name="male">Male</string>
+    <string name="register">Register</string>
     <string name="female">Female</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="alternate_contact_number">Alternate Contact Number</string>
+    <string name="please_fill_the_below_fields_to_register">Please fill the below fields to register</string>
 </resources>
