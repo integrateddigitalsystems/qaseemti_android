@@ -86,7 +86,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp-urlconnection:3.2.0"
     implementation 'me.grantland:autofittextview:0.2.+'
 
-
+    implementation 'com.google.android.material:material:1.4.0'
 
 
 

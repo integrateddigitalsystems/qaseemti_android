@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ff1d3d</color>
-    <color name="colorPrimaryDark">#ff1d3d </color>
-    <color name="colorAccent">#ff1d3d</color>
+    <color name="colorPrimary">#e5193a</color>
+    <color name="colorPrimaryDark">#e5193a </color>
+    <color name="colorAccent">#e5193a</color>
 
-
-    <color name="redPrimary">#e5193a</color>
-
-    <color name="primary">#FF556E</color>
-    <color name="gray_medium_2">#dadada</color>
-    <color name="secondary">#ff1d3d</color>
+    <color name="primary">#e5193a</color>
+    <color name="secondary">#e5193a</color>
 
     <color name="transparent">#00000000</color>
     <color name="button_blue">#009bfc</color>
@@ -17,4 +13,11 @@
     <color name="black">#000000</color>
     <color name="blacktrans">#22000000</color>
 
+    <color name="gray_font">#848484</color>
+    <color name="gray_bg">#f2f2f2</color>
+    <color name="gray_font_light">#b5b5b5</color>
+    <color name="gray_font_title">#606060</color>
+
+    <color name="gray_progress">#e6e6e6</color>
+    <color name="green">#00d42f</color>
 </resources>

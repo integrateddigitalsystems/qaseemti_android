@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    android:paddingLeft="@dimen/medium_margin"
+    android:paddingRight="@dimen/medium_margin"
+    android:background="@color/primary"
+
+    android:orientation="horizontal"
+    >
+
+    <ImageButton
+        android:layout_width="@dimen/normal_icon_size"
+        android:layout_height="@dimen/normal_icon_size"
+        android:background="@drawable/ic_drawer"
+        android:backgroundTint="@color/white"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btDrawer"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        />
+
+    <ImageButton
+        android:layout_width="@dimen/normal_icon_size"
+        android:layout_height="@dimen/normal_icon_size"
+        android:background="@drawable/ic_back"
+        android:backgroundTint="@color/white"
+        android:visibility="gone"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btBack"
+        android:layout_centerVertical="true"
+        />
+
+    <me.grantland.widget.AutofitTextView
+        android:maxLines="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textAlignment="viewStart"
+        android:textSize="@dimen/normal_font"
+        android:layout_toEndOf="@id/btBack"
+        android:id="@+id/tvPageTitle"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
+        android:layout_centerVertical="true"
+        />
+
+
+</RelativeLayout>
