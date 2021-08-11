@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gray_background"
+    android:id="@+id/rootLayoutAccountStatus"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/llLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/no_logo_layout"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_marginTop="-40dp"
+        android:layout_below="@id/llLogo"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    <com.ids.qasemti.custom.CustomTextViewMedium
+
+        android:layout_marginStart="75dp"
+        android:layout_marginEnd="75dp"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:padding="@dimen/normal_margin"
+        android:textSize="@dimen/title_font"
+        android:tag="account_status"
+        android:textColor="@color/redPrimary"
+        android:layout_height="60dp"
+        android:text="@string/account_status"
+        android:background="@drawable/rounded_white_background"/>
+
+
+        <com.ids.qasemti.custom.CustomTextViewBold
+            android:layout_marginTop="@dimen/big_margin"
+            android:layout_marginBottom="@dimen/big_margin"
+            android:layout_width="wrap_content"
+            android:gravity="start"
+            android:tag="account_pending"
+            android:textSize="@dimen/title_font"
+            android:layout_height="wrap_content"
+            android:text="@string/account_pending"/>
+
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:gravity="start"
+            android:tag="updated_how_notified"
+            android:lineSpacingExtra="-10dp"
+            android:text="@string/updated_how_notified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/big_font"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/huge_margin"
+            android:layout_marginBottom="@dimen/big_margin_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:id="@+id/llNotificationStatus"
+                android:gravity="center"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <LinearLayout
+                android:padding="@dimen/small_margin"
+                android:background="@drawable/rounded_white_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivNotificationStatus"
+                    android:layout_width="@dimen/bigger_icon"
+                    android:layout_height="@dimen/bigger_icon"
+                    android:src="@drawable/icon_notification"/>
+
+            </LinearLayout>
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_marginTop="@dimen/mini_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notifications"
+                    android:tag="notifications"
+                    />
+
+            </LinearLayout>
+
+             <LinearLayout
+                 android:id="@+id/llMessageStatus"
+                 android:layout_marginStart="@dimen/normal_margin"
+                android:gravity="center"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <LinearLayout
+                android:padding="@dimen/small_margin"
+                android:background="@drawable/rounded_white_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivMessageStatus"
+                    android:layout_width="@dimen/bigger_icon"
+                    android:layout_height="@dimen/bigger_icon"
+                    android:src="@drawable/icon_message"/>
+
+            </LinearLayout>
+
+                 <com.ids.qasemti.custom.CustomTextViewMedium
+                     android:layout_marginTop="@dimen/mini_margin"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="@string/sms"
+                     android:tag="sms"
+                     />
+
+             </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:gravity="start"
+            android:tag="update_in_email"
+            android:text="@string/update_in_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/big_font"/>
+
+
+        <Button
+            android:layout_marginTop="@dimen/big_margin"
+            android:text="@string/save"
+            android:tag="save"
+            android:textColor="@color/white"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/blue_rounded"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

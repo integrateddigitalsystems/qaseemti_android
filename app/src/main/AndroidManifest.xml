@@ -58,8 +58,9 @@
             android:name="com.ids.qasemti.controller.Activities.ActivityRegistration"
             android:screenOrientation="fullSensor" />
 
+
         <activity
-            android:name="com.ids.qasemti.controller.Activities.ActivitySplash"
+            android:name="com.ids.qasemti.controller.Activities.ActivityAccountStatus"
             android:screenOrientation="fullSensor" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -67,6 +68,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.ids.qasemti.controller.Activities.ActivityCodeVerification"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name="com.ids.qasemti.controller.Activities.ActivitySplash"
+            android:screenOrientation="fullSensor" />
 
         <activity
             android:name=".controller.Activities.ActivityHome"

@@ -7,7 +7,9 @@
     <color name="primary">#e5193a</color>
     <color name="secondary">#e5193a</color>
     <color name="redPrimary">#e5193a</color>
+    <color name="gray_tint">#818181</color>
     <color name="gray_medium_2">#dadada </color>
+    <color name="gray_background">#f2f2f2</color>
 
     <color name="transparent">#00000000</color>
     <color name="button_blue">#009bfc</color>
