@@ -24,9 +24,9 @@ class ActivityRegistration : ActivityBase() {
             if(etFirstName.text.isNullOrEmpty() || etLastName.text.isNullOrEmpty() || etEmail.text.isNullOrEmpty()){
                 AppHelper.createDialog(this,getString(R.string.please_fill_data))
             }else if(AppHelper.isValidEmail(etEmail.text.toString()) ){
-
+                AppHelper.createDialog(this,getString(R.string.enter_correct_email))
             }else{
-                
+
             }
         }
     }

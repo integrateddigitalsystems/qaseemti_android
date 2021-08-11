@@ -20,7 +20,7 @@ open class ActivityBase : Activity() {
 
         super.onCreate(savedInstanceState)
         AppHelper.setLocal(this)
-         AppHelper.handleCrashes(this)
+        AppHelper.handleCrashes(this)
 
     }
 

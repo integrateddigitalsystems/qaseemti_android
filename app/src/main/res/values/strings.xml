@@ -39,4 +39,6 @@
     <string name="save">Save</string>
     <string name="please_fill_data">Please fill all data</string>
     <string name="ok">ok</string>
+    <string name="enter_correct_email">Please enter a correct email</string>
+    <string name="select_get_notified">Please select how to get notified</string>
 </resources>

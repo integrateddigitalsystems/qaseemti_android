@@ -57,6 +57,7 @@
             </LinearLayout>
 
             <EditText
+                android:id="@+id/etPhone"
                 android:textColorHint="@color/gray_medium_2"
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"

@@ -64,7 +64,11 @@ class ActivityMobileRegistration: ActivityBase(){
         }
 
         btLogin.setOnClickListener {
-            startActivity(Intent(this, ActivityHome::class.java))
+            if(etPhone.text.isNullOrEmpty()){
+                AppHelper.createDialog(this,getString(R.string.please_fill_data))
+            }else {
+                startActivity(Intent(this, ActivityHome::class.java))
+            }
 
         }
     }

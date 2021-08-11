@@ -16,6 +16,8 @@ class ActivityCodeVerification : ActivityBase() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_code_verification)
         AppHelper.setAllTexts(rootlayoutCodeVerification)
-
+        pvCode.setOnFocusChangeListener { view, b ->
+            pvCode.text!!.clear()
+        }
     }
 }

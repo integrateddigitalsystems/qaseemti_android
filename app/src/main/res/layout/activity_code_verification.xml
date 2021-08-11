@@ -72,6 +72,7 @@
             app:cursorColor="@color/white"
             app:cursorWidth="1dp"
             app:itemCount="4"
+            app:hideLineWhenFilled="false"
             app:itemHeight="55dp"
             app:itemWidth="55dp"
             app:itemRadius="16dp"

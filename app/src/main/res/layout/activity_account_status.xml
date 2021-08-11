@@ -148,6 +148,7 @@
             android:layout_marginTop="@dimen/big_margin"
             android:text="@string/save"
             android:tag="save"
+            android:id="@+id/btSave"
             android:textColor="@color/white"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"

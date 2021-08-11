@@ -295,7 +295,6 @@ class AppHelper {
 
 
         fun setLocal(context: Context) {
-
             if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
                LocaleUtils.setLocale(Locale("en"))
             } else if (MyApplication.languageCode == AppConstants.LANG_ARABIC) {

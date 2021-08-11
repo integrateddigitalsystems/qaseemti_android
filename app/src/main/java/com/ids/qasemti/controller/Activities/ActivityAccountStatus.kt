@@ -19,6 +19,15 @@ class ActivityAccountStatus : ActivityBase() {
         setContentView(R.layout.activity_account_status)
         AppHelper.setAllTexts(rootLayoutAccountStatus)
 
+
+        btSave.setOnClickListener {
+            if(notfSelected==-1){
+                AppHelper.createDialog(this,getString(R.string.select_get_notified))
+            }else{
+
+            }
+        }
+
         llNotificationStatus.setOnClickListener {
             if(notfSelected==0 || notfSelected==-1){
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
