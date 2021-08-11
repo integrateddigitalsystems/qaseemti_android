@@ -36,33 +36,16 @@ class ActivityChooseLanguage : ActivityBase() {
     }
 
     fun changeLanguage(language: String) {
+        MyApplication.languageCode = language
         when (language) {
-            AppConstants.LANG_ARABIC -> Locale.setDefault(Locale("ar"))
-            AppConstants.LANG_ENGLISH -> Locale.setDefault(Locale.ENGLISH)
+            AppConstants.LANG_ARABIC -> LocaleUtils.setLocale(Locale(AppConstants.LANG_ARABIC))
+            AppConstants.LANG_ENGLISH -> LocaleUtils.setLocale(Locale(AppConstants.LANG_ENGLISH))
             "0" -> {
-                Locale.setDefault(Locale.ENGLISH)
+                LocaleUtils.setLocale(Locale(AppConstants.LANG_ENGLISH))
             }
         }
 
-        val configuration = Configuration()
-        var x = Locale.getDefault()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            configuration.setLocale(Locale.getDefault())
-            configuration.setLayoutDirection(Locale.getDefault())
 
-        } else
-            configuration.locale = Locale.getDefault()
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            createConfigurationContext(configuration);
-        } else {
-            resources.updateConfiguration(
-                configuration,
-                resources.displayMetrics
-            )
-        }
-        MyApplication.languageCode = language
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, ActivityMobileRegistration::class.java))
         }, 500)

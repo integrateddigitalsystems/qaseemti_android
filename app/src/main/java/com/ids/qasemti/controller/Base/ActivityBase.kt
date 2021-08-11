@@ -17,8 +17,9 @@ open class ActivityBase : Activity() {
         LocaleUtils.updateConfig(this)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppHelper.setLocal(this)
+
         super.onCreate(savedInstanceState)
+        AppHelper.setLocal(this)
          AppHelper.handleCrashes(this)
 
     }
