@@ -4,12 +4,12 @@
 <shape android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <corners
-        android:bottomLeftRadius="0dp"
+        android:bottomLeftRadius="@dimen/normal_radius"
         android:bottomRightRadius="@dimen/normal_radius"
         android:topLeftRadius="0dp"
-        android:topRightRadius="0dp"
+        android:topRightRadius="@dimen/normal_radius"
 
         />
-    <solid android:color="@color/button_blue"/>
+    <solid android:color="@color/white"/>
 
 </shape>
