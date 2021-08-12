@@ -14,6 +14,7 @@
     <color name="transparent">#00000000</color>
     <color name="button_blue">#009bfc</color>
     <color name="white">#ffffff</color>
+    <color name="gradient_red">#ff516b</color>
     <color name="black">#000000</color>
     <color name="blacktrans">#22000000</color>
 
