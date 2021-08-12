@@ -13,7 +13,7 @@
     <dimen name="small_font">12sp</dimen>
     <dimen name="small_font_2">11sp</dimen>
     <dimen name="huge_margin">40dp</dimen>
-    <dimen name="normal_radius">8dp</dimen>
+    <dimen name="normal_radius">12dp</dimen>
     <dimen name="big_radius">14dp</dimen>
     <dimen name="bigger_radius">16dp</dimen>
     <dimen name="medium_radius">12dp</dimen>
@@ -22,7 +22,7 @@
     <dimen name="icon">20dp</dimen>
     <dimen name="icon_2">25dp</dimen>
     <dimen name="normal_icon_size">30dp</dimen>
-    <dimen name="big_icon_size">40dp</dimen>
+    <dimen name="big_icon_size">35dp</dimen>
     <dimen name="bigger_edit_text">45dp</dimen>
     <dimen name="map_height">300dp</dimen>
     <dimen name="news_main_height">300dp</dimen>
@@ -71,6 +71,7 @@
     <dimen name="margin_top">52dp</dimen>
     <dimen name="curve_height">100dp</dimen>
     <dimen name="home_box_top_height">50dp</dimen>
-    <dimen name="block_hight">120dp</dimen>
+    <dimen name="block_hight">100dp</dimen>
+    <dimen name="font_big_number">28sp</dimen>
 
 </resources>

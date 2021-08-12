@@ -116,16 +116,17 @@
                      android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <com.ids.qasemti.custom.CustomTextViewBold
+                        android:id="@+id/tvActiveOrdersNbr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/title_font"
-                        android:text="3"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/normal_margin"
                         android:gravity="center_vertical"
-                        android:id="@+id/tvActiveOrdersNbr"
-                        android:layout_marginStart="@dimen/normal_margin"/>
+                        android:text="3"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_big_number" />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
@@ -133,8 +134,10 @@
                          android:layout_marginEnd="45dp"
                         android:layout_marginStart="@dimen/normal_margin"
                         android:text="@string/active_n_order"
+                        android:textAlignment="viewStart"
+                        android:lineSpacingMultiplier="0.6"
                         android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
+                        android:gravity="start"
                         android:textSize="@dimen/normal_font"
                         android:textColor="@color/white"
                      />
@@ -200,7 +203,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/title_font"
+                        android:textSize="@dimen/font_big_number"
                         android:text="7"
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
@@ -213,8 +216,9 @@
                         android:layout_marginEnd="45dp"
                         android:layout_marginStart="@dimen/normal_margin"
                         android:text="@string/upcoming_orders"
+                        android:lineSpacingMultiplier="0.6"
                         android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
+                        android:gravity="start"
                         android:textSize="@dimen/normal_font"
                         android:textColor="@color/white"
                         />
