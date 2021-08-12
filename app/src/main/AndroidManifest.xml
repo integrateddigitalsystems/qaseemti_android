@@ -58,9 +58,17 @@
             android:name="com.ids.qasemti.controller.Activities.ActivityRegistration"
             android:screenOrientation="fullSensor" />
 
+
+        <activity
+            android:name="com.ids.qasemti.controller.Activities.ActivityAccountStatus"
+            android:screenOrientation="fullSensor"/>
+
+        <activity
+            android:name="com.ids.qasemti.controller.Activities.ActivityCodeVerification"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name="com.ids.qasemti.controller.Activities.ActivitySplash"
-            android:screenOrientation="fullSensor" >
+            android:screenOrientation="fullSensor"  >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

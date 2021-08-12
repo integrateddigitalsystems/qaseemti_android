@@ -32,4 +32,18 @@
     <string name="active_n_order">Active \n Order</string>
     <string name="upcoming_orders">Upcoming \n Orders</string>
     <string name="dumy_text_underline"><u>Beirut, Bir hassan, J Bld 5th floor.Block B</u></string>
+    <string name="verification">Verification</string>
+    <string name="enter_the_4_digit_code_sent_to_you_from_qasemati">Enter the 4 digit code sent to you from Qasemati</string>
+    <string name="resend_code_in">Resend code in</string>
+    <string name="verify">Verify</string>
+    <string name="account_status">Account Status</string>
+    <string name="account_pending">Your account is pending approval</string>
+    <string name="updated_how_notified">We will let you know by the updated status.\nHow would you like to get notified?</string>
+    <string name="sms">SMS</string>
+    <string name="update_in_email">You can always find your updates in your email</string>
+    <string name="save">Save</string>
+    <string name="please_fill_data">Please fill all data</string>
+    <string name="ok">ok</string>
+    <string name="enter_correct_email">Please enter a correct email</string>
+    <string name="select_get_notified">Please select how to get notified</string>
 </resources>

@@ -17,14 +17,17 @@ class ActivityRegistration : ActivityBase() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         AppHelper.setAllTexts(rootLayoutRegistration)
+        AppHelper.setLogoTint(logo_main,this)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ImageViewCompat.setImageTintList(logo_main,
-                ColorStateList.valueOf(getResources().getColor(android.R.color.white, getTheme())))
-        }else {
-            ImageViewCompat.setImageTintList(logo_main,
-                ColorStateList.valueOf(
-                    getResources().getColor(android.R.color.white)))
+
+        btRegister.setOnClickListener {
+            if(etFirstName.text.isNullOrEmpty() || etLastName.text.isNullOrEmpty() || etEmail.text.isNullOrEmpty()){
+                AppHelper.createDialog(this,getString(R.string.please_fill_data))
+            }else if(AppHelper.isValidEmail(etEmail.text.toString()) ){
+                AppHelper.createDialog(this,getString(R.string.enter_correct_email))
+            }else{
+
+            }
         }
     }
 }

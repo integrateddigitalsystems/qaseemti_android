@@ -2,10 +2,12 @@ package com.ids.qasemti.utils
 
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Typeface
@@ -20,6 +22,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.core.widget.ImageViewCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.BitmapImageViewTarget
@@ -27,7 +30,9 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.youtube.player.internal.v
+import com.ids.qasemti.R
 import com.ids.qasemti.controller.MyApplication
+import kotlinx.android.synthetic.main.white_logo_layout.*
 import me.grantland.widget.AutofitHelper
 import java.io.File
 import java.text.DecimalFormat
@@ -80,6 +85,9 @@ class AppHelper {
 
         }
     }
+
+
+
 
 
 
@@ -239,6 +247,16 @@ class AppHelper {
         }
 
 
+        fun setLogoTint(img:ImageView,con:Context){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ImageViewCompat.setImageTintList(img,
+                    ColorStateList.valueOf(con.getResources().getColor(android.R.color.white, con.getTheme())))
+            }else {
+                ImageViewCompat.setImageTintList(img,
+                    ColorStateList.valueOf(
+                        con.getResources().getColor(android.R.color.white)))
+            }
+        }
 
 
         fun changeLanguage(context: Context, language: String) {
@@ -277,7 +295,6 @@ class AppHelper {
 
 
         fun setLocal(context: Context) {
-
             if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
                LocaleUtils.setLocale(Locale("en"))
             } else if (MyApplication.languageCode == AppConstants.LANG_ARABIC) {
@@ -430,6 +447,20 @@ class AppHelper {
 
 
 
+
+        fun createDialog(c: Activity, message: String) {
+
+            var ok = c.getString(R.string.ok)
+
+            val builder = AlertDialog.Builder(c)
+            builder
+                .setMessage(message)
+                .setCancelable(true)
+                .setNegativeButton(ok) { dialog, _ -> dialog.cancel() }
+            val alert = builder.create()
+            alert.show()
+
+        }
 
         fun getScreenSize(context: Context): String {
             when (context.resources.displayMetrics.densityDpi) {

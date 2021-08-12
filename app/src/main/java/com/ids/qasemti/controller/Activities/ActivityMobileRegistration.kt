@@ -29,21 +29,7 @@ class ActivityMobileRegistration: ActivityBase(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mobile_registration)
         AppHelper.setAllTexts(rootLayoutMobileRegister)
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ImageViewCompat.setImageTintList(
-                logo_main,
-                ColorStateList.valueOf(getResources().getColor(android.R.color.white, getTheme()))
-            )
-        } else {
-            ImageViewCompat.setImageTintList(
-                logo_main,
-                ColorStateList.valueOf(
-                    getResources().getColor(android.R.color.white)
-                )
-            )
-        }
+        AppHelper.setLogoTint(logo_main,this)
 
 
         var items: ArrayList<ItemSpinner> = arrayListOf()
@@ -78,7 +64,11 @@ class ActivityMobileRegistration: ActivityBase(){
         }
 
         btLogin.setOnClickListener {
-            startActivity(Intent(this, ActivityHome::class.java))
+            if(etPhone.text.isNullOrEmpty()){
+                AppHelper.createDialog(this,getString(R.string.please_fill_data))
+            }else {
+                startActivity(Intent(this, ActivityHome::class.java))
+            }
 
         }
     }
