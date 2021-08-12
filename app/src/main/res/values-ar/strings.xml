@@ -6,7 +6,7 @@
     <string name="hello3">Hello 3333</string>
     <string name="lang_ar">عربية</string>
     <string name="lang_eng">انجليزية</string>
-    <string name="enter_mobile_number">أدخل رقم هاتفك المحمول</string>
+    <string name="enterNumber">الرجاء إدخال رقم الهاتف</string>
     <string name="mobile">هاتف</string>
     <string name="login">تسجيل دخول</string>
     <string name="products">منتجات</string>
@@ -15,9 +15,9 @@
     <string name="notifications">اشعارات</string>
     <string name="account">حساب</string>
     <string name="personal_information">معلومات شخصية</string>
-    <string name="first_name">الاسم الأول</string>
+    <string name="FName">الاسم الأول</string>
     <string name="middle_name">الاسم الأوسط</string>
-    <string name="last_name">الاسم الأخير</string>
+    <string name="LName">الاسم الأخير</string>
     <string name="email">البريد الاكتروني</string>
     <string name="civil_id_nb">الرقم المدني</string>
     <string name="register">تسجيل</string>
@@ -26,11 +26,6 @@
     <string name="date_of_birth">تاريخ الولادة</string>
     <string name="alternate_contact_number">رقم بديل</string>
     <string name="please_fill_the_below_fields_to_register">الرجاء ملئ المعلومات للتسجيل </string>
-    <string name="available">Available</string>
-    <string name="client_s_rating">Client\'s Rating</string>
-    <string name="active_n_order">Active \n Order</string>
-    <string name="upcoming_orders">Upcoming Orders</string>
-    <string name="dumy_text_underline"><![CDATA[<u>Beirut, Bir hassan, J Bld 5th floor.Block B</u>]]></string>
     <string name="verification">تحقق</string>
     <string name="enter_the_4_digit_code_sent_to_you_from_qasemati">ادخل الأرقام الأربعة التي تم ارسالها من قصيمتي</string>
     <string name="resend_code_in">اعد ارسال الرقم</string>
@@ -45,9 +40,13 @@
     <string name="ok">حسنا</string>
     <string name="enter_correct_email">الرجاء ادخال بريد الكتروني صحيح</string>
     <string name="select_get_notified">الرجاء اختيار كيف تريد اخبارك</string>
-    <string name="available">Available</string>
-    <string name="client_s_rating">Client\'s Rating</string>
-    <string name="active_n_order">Active \n Order</string>
-    <string name="upcoming_orders">Upcoming Orders</string>
-    <string name="dumy_text_underline"><![CDATA[<u>Beirut, Bir hassan, J Bld 5th floor.Block B</u>]]></string>
+    <string name="available">متوفر</string>
+    <string name="client_s_rating">تقييم العملاء</string>
+    <string name="active_n_order">طلب /n فعال</string>
+    <string name="upcoming_orders">طلبات قادمة</string>
+    <string name="dumy_text_underline">Beirut, Bir hassan, J Bld 5th floor.Block</string>
+    <string name="new_member_register">New Member? Register</string>
+    <string name="cancel">Cancel</string>
+    <string name="ads_place">Ads Place</string>
+    <string name="our_services">Our Services</string>
 </resources>

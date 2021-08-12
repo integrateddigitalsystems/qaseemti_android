@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:layout_marginTop="@dimen/medium_margin"
+    android:layout_marginTop="@dimen/big_margin_2"
     android:orientation="vertical"
 
     >
@@ -27,12 +27,17 @@
             android:paddingEnd="@dimen/margin_start_end"
             android:orientation="horizontal">
 
+            <LinearLayout
+                android:background="@drawable/pink_background_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="@dimen/normal_icon_size"
                 android:layout_height="@dimen/normal_icon_size"
-                 android:src="@drawable/profile_placeholder"
+                 android:src="@drawable/icon_box_product"
                 android:layout_gravity="center_vertical"
                 />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -50,6 +55,7 @@
                      />
 
                 <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_marginTop="@dimen/push_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/normal_font"
@@ -92,7 +98,8 @@
                 <ImageView
                     android:layout_width="@dimen/small_icon"
                     android:layout_height="@dimen/small_icon"
-                    android:src="@drawable/footer_notifications"
+                    app:tint="@color/redPrimary"
+                    android:src="@drawable/wall_clock"
                      android:layout_gravity="top"
                     android:layout_marginTop="@dimen/mini_margin"
 
@@ -117,9 +124,10 @@
                         />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_marginTop="@dimen/push_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/small_font_2"
+                        android:textSize="@dimen/small_font_3"
                         android:textColor="@color/gray_font"
                         android:text="20 Jun,2021 16:00"
                         />
@@ -138,7 +146,8 @@
                 <ImageView
                     android:layout_width="@dimen/small_icon"
                     android:layout_height="@dimen/small_icon"
-                    android:src="@drawable/footer_notifications"
+                    app:tint="@color/redPrimary"
+                    android:src="@drawable/wall_clock"
                     android:layout_gravity="top"
                     android:layout_marginTop="@dimen/mini_margin"
 
@@ -163,9 +172,10 @@
                         />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_marginTop="@dimen/push_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/small_font_2"
+                        android:textSize="@dimen/small_font_3"
                         android:textColor="@color/gray_font"
                         android:text="20 Jun,2021 16:00"
                         />
@@ -188,20 +198,32 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="@dimen/normal_icon_size"
-                android:layout_height="@dimen/normal_icon_size"
-                android:src="@drawable/footer_notifications"
-                app:tint="@color/primary" />
+                android:layout_width="@dimen/normal_icon"
+                android:layout_height="@dimen/normal_icon"
+                android:src="@drawable/placeholder"
+                app:tint="@color/redPrimary" />
 
+            <LinearLayout
+                android:layout_marginStart="@dimen/normal_margin"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dumy_text_underline"
-                android:layout_marginStart="@dimen/normal_margin"
+
                 android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font"
 
                 />
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/redPrimary"/>
+
+            </LinearLayout>
 
         </LinearLayout>
         <include layout="@layout/separator"/>
@@ -225,7 +247,7 @@
                     android:layout_width="@dimen/small_icon"
                     android:layout_height="@dimen/small_icon"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/footer_notifications"
+                    android:src="@drawable/view"
                     app:tint="@color/button_blue" />
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
@@ -254,7 +276,7 @@
                     android:layout_width="@dimen/small_icon"
                     android:layout_height="@dimen/small_icon"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/footer_notifications"
+                    android:src="@drawable/checked"
                     app:tint="@color/white" />
 
                 <com.ids.qasemti.custom.CustomTextViewMedium

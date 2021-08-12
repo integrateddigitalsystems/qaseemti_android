@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/header_font"
-            android:text="@string/enter_mobile_number"
+            android:text="@string/enterNumber"
             android:tag="enter_mobile_number"
             />
 
@@ -81,6 +81,24 @@
             android:layout_height="@dimen/button_height"
             android:id="@+id/btLogin"
             android:background="@drawable/blue_rounded"/>
+
+        <LinearLayout
+            android:gravity="bottom"
+            android:id="@+id/llNewMember"
+            android:layout_marginBottom="@dimen/big_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:id="@+id/tvRegisterNewMember"
+                android:textColor="@color/redPrimary"
+                android:tag="new_member_register"
+                android:text="@string/new_member_register"
+                android:textSize="@dimen/big_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+        </LinearLayout>
 
 
 

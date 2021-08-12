@@ -13,6 +13,7 @@ import androidx.core.widget.ImageViewCompat
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
 import com.ids.sampleapp.model.ItemSpinner
@@ -30,6 +31,16 @@ class ActivityMobileRegistration: ActivityBase(){
         setContentView(R.layout.activity_mobile_registration)
         AppHelper.setAllTexts(rootLayoutMobileRegister)
         AppHelper.setLogoTint(logo_main,this)
+
+        if(MyApplication.isClient){
+            llNewMember.visibility=View.VISIBLE
+        }else{
+            llNewMember.visibility=View.GONE
+        }
+
+        tvRegisterNewMember.setOnClickListener {
+            startActivity(Intent(this,ActivityCodeVerification::class.java))
+        }
 
 
         var items: ArrayList<ItemSpinner> = arrayListOf()

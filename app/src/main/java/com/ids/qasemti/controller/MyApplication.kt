@@ -18,6 +18,7 @@ class MyApplication : Application() {
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
         var showLogs: Boolean = true
+        var isClient : Boolean = false
         var localizeArray: FirebaseLocalizeArray ?= null
         var BASE_URL = ""
         lateinit var sharedPreferences : SharedPreferences

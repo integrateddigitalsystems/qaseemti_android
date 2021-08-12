@@ -12,6 +12,7 @@
     <dimen name="spinner_width">100dp</dimen>
     <dimen name="small_font">12sp</dimen>
     <dimen name="small_font_2">11sp</dimen>
+    <dimen name="small_font_3">10sp</dimen>
     <dimen name="huge_margin">40dp</dimen>
     <dimen name="normal_radius">12dp</dimen>
     <dimen name="big_radius">14dp</dimen>
@@ -19,6 +20,8 @@
     <dimen name="medium_radius">12dp</dimen>
     <dimen name="height_35">35dp</dimen>
     <dimen name="small_icon">14dp</dimen>
+    <dimen name="push_text">-6dp</dimen>
+    <dimen name="normal_icon">18dp</dimen>
     <dimen name="icon">20dp</dimen>
     <dimen name="icon_2">25dp</dimen>
     <dimen name="normal_icon_size">30dp</dimen>

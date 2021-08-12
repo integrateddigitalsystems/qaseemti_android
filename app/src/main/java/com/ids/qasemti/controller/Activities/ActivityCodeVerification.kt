@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppHelper
 import kotlinx.android.synthetic.main.activity_choose_language.*
 import kotlinx.android.synthetic.main.activity_choose_language.rootLayoutChooseLogin
@@ -18,6 +19,14 @@ class ActivityCodeVerification : ActivityBase() {
         AppHelper.setAllTexts(rootlayoutCodeVerification)
         pvCode.setOnFocusChangeListener { view, b ->
             pvCode.text!!.clear()
+        }
+
+        if(MyApplication.isClient){
+            btVerifyCode.visibility =View.GONE
+            llClientVerfCode.visibility = View.VISIBLE
+        }else{
+            btVerifyCode.visibility =View.VISIBLE
+            llClientVerfCode.visibility = View.GONE
         }
     }
 }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_marginBottom="@dimen/big_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/llHomeCurve"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/curve_layout_home" />
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_marginTop="-25dp"
+            android:fillViewport="true"
+            android:layout_below="@id/llHomeCurve"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/linearProfileInfo"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:background="@drawable/rounded_white_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/big_margin"
+                android:paddingEnd="@dimen/big_margin">
+
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/ads_place"
+                    android:textSize="@dimen/big_font" />
+
+            </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="@dimen/big_margin"
+                    android:layout_marginStart="@dimen/margin_start_end"
+                    android:layout_marginEnd="@dimen/margin_start_end"
+                    android:layout_width="match_parent"
+                    android:id="@+id/rvServices"
+                    android:layout_height="match_parent"/>
+
+
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+        <LinearLayout
+            android:layout_marginEnd="@dimen/big_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/blue_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:padding="@dimen/first_margin"
+                android:src="@drawable/icon_floating"
+                android:layout_width="@dimen/bigger_icon"
+                android:layout_height="@dimen/bigger_icon"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>
