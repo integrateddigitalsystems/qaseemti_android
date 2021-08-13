@@ -20,6 +20,7 @@ class FragmentServices : Fragment() , RVOnItemClickListener {
     }
 
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(com.ids.qasemti.R.layout.fragment_services, container, false)
 

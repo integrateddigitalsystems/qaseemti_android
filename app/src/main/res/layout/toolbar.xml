@@ -6,7 +6,7 @@
     android:layout_height="@dimen/toolbar_height"
     android:paddingLeft="@dimen/medium_margin"
     android:paddingRight="@dimen/medium_margin"
-    android:background="@color/primary"
+    android:background="@color/transparent"
 
     android:orientation="horizontal"
     >

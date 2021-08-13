@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="@dimen/margin_start_end"
+    android:background="@color/gray_bg"
     android:paddingEnd="@dimen/margin_start_end"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">

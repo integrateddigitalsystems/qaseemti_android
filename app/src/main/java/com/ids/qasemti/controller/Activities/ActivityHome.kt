@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.navigation.NavigationView
 
@@ -13,6 +14,10 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.AppCompactBase
+import com.ids.qasemti.controller.Fragments.FragmentServices
+import com.ids.qasemti.utils.AppConstants
+import com.ids.qasemti.utils.AppHelper
+import kotlinx.android.synthetic.main.home_container.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
 
 import kotlinx.android.synthetic.main.toolbar.*
@@ -20,8 +25,9 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedListener,
     RVOnItemClickListener {
+    private lateinit var fragMang: FragmentManager
     private lateinit var drawerLayout: DrawerLayout
-    private var ordersArray:ArrayList<String> = arrayListOf()
+    private var ordersArray: ArrayList<String> = arrayListOf()
     var isClose = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +38,21 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
 
-
     private fun init() {
 
         btDrawer.visibility = View.VISIBLE
         btBack.visibility = View.GONE
         setMenu()
-        setOrders()
+        fragMang = supportFragmentManager
+        defaultFragment()
 
     }
 
+    fun defaultFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.homeContainer, FragmentServices(), "Fragment Services")
+            .commit()
+    }
 
 
     private fun setMenu() {
@@ -67,8 +78,8 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         // super.onBackPressed()
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             closeDrawer(drawerLayout, true)
-        }else {
-           super.onBackPressed()
+        } else {
+            super.onBackPressed()
         }
     }
 
@@ -81,7 +92,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
 
-    private fun setOrders(){
+    private fun setOrders() {
         ordersArray.clear()
         ordersArray.add("1")
         ordersArray.add("1")

@@ -6,7 +6,6 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_marginBottom="@dimen/big_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -15,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include layout="@layout/curve_layout_home" />
+            <include layout="@layout/no_logo_layout" />
         </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -53,12 +52,12 @@
             </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="@dimen/big_margin"
-                    android:layout_marginStart="@dimen/margin_start_end"
-                    android:layout_marginEnd="@dimen/margin_start_end"
-                    android:layout_width="match_parent"
                     android:id="@+id/rvServices"
-                    android:layout_height="match_parent"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_start_end"
+                    android:layout_marginTop="@dimen/big_margin"
+                    android:layout_marginEnd="@dimen/margin_start_end" />
 
 
             </LinearLayout>
@@ -71,14 +70,15 @@
             android:layout_marginEnd="@dimen/big_margin"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/blue_circle"
+            android:paddingBottom="@dimen/big_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
+                android:background="@drawable/blue_circle"
                 android:padding="@dimen/first_margin"
                 android:src="@drawable/icon_floating"
-                android:layout_width="@dimen/bigger_icon"
-                android:layout_height="@dimen/bigger_icon"
+                android:layout_width="@dimen/big_icon"
+                android:layout_height="@dimen/big_icon"
                 />
         </LinearLayout>
 

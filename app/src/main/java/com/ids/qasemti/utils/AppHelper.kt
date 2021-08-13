@@ -23,6 +23,8 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.widget.ImageViewCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.BitmapImageViewTarget
@@ -293,6 +295,13 @@ class AppHelper {
         }
 
 
+        fun AddFragment(fragmentManager: FragmentManager, selectedFragment:Int, myFragment: Fragment, myTag:String, id:Int){
+            fragmentAvailable = selectedFragment
+            fragmentManager.beginTransaction()
+                .add(id, myFragment, myTag)
+                .addToBackStack(null)
+                .commit()
+        }
 
         fun setLocal(context: Context) {
             if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
