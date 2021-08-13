@@ -30,7 +30,7 @@ class ActivityMobileRegistration: ActivityBase(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mobile_registration)
         AppHelper.setAllTexts(rootLayoutMobileRegister)
-        AppHelper.setLogoTint(logo_main,this)
+        AppHelper.setLogoTint(logo_main,this,R.color.white)
 
         if(MyApplication.isClient){
             llNewMember.visibility=View.VISIBLE

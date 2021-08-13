@@ -17,6 +17,7 @@ class MyApplication : Application() {
     companion object {
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
+        var selectedFragment : String ?=""
         var showLogs: Boolean = true
         var isClient : Boolean = false
         var localizeArray: FirebaseLocalizeArray ?= null

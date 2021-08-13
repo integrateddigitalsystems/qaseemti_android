@@ -14,9 +14,13 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.AppCompactBase
+import com.ids.qasemti.controller.Fragments.FragmentOrders
+import com.ids.qasemti.controller.Fragments.FragmentProfile
 import com.ids.qasemti.controller.Fragments.FragmentServices
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
+import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.home_container.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
 
@@ -45,13 +49,81 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         setMenu()
         fragMang = supportFragmentManager
         defaultFragment()
+        setListners()
+
+    }
+
+    fun setListners() {
+        llFooterOrders.setOnClickListener {
+            if (MyApplication.selectedFragment != AppConstants.FRAGMENT_ORDER) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.homeContainer, FragmentOrders(), AppConstants.FRAGMENT_ORDER)
+                    .commit()
+                MyApplication.selectedFragment = AppConstants.FRAGMENT_ORDER
+                AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
+                AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
+            }
+
+        }
+        llFooterHome.setOnClickListener {
+            if (MyApplication.selectedFragment != AppConstants.FRAGMENT_SERVICE) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.homeContainer, FragmentServices(), AppConstants.FRAGMENT_SERVICE)
+                    .commit()
+                MyApplication.selectedFragment = AppConstants.FRAGMENT_SERVICE
+                AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
+                AppHelper.setLogoTint(btDrawer, this, R.color.white)
+            }
+
+        }
+        llFooterProfile.setOnClickListener {
+            if (MyApplication.selectedFragment != AppConstants.FRAGMENT_PROFILE) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.homeContainer, FragmentProfile(), AppConstants.FRAGMENT_PROFILE)
+                    .commit()
+                MyApplication.selectedFragment = AppConstants.FRAGMENT_PROFILE
+                AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
+                AppHelper.setLogoTint(btDrawer, this, R.color.white)
+            }
+
+        }
+        llFooterProducts.setOnClickListener {
+            if (MyApplication.selectedFragment != AppConstants.FRAGMENT_PROD) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.homeContainer, FragmentProfile(), AppConstants.FRAGMENT_PROD)
+                    .commit()
+                MyApplication.selectedFragment = AppConstants.FRAGMENT_PROD
+                AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
+                AppHelper.setLogoTint(btDrawer, this, R.color.white)
+            }
+
+        }
+        llFooterNotifications.setOnClickListener {
+            if (MyApplication.selectedFragment != AppConstants.FRAGMENT_NOTFICATIONS) {
+                supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.homeContainer,
+                        FragmentProfile(),
+                        AppConstants.FRAGMENT_NOTFICATIONS
+                    )
+                    .commit()
+                MyApplication.selectedFragment = AppConstants.FRAGMENT_NOTFICATIONS
+                AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
+                AppHelper.setLogoTint(btDrawer, this, R.color.white)
+            }
+
+        }
+
 
     }
 
     fun defaultFragment() {
+
         supportFragmentManager.beginTransaction()
-            .replace(R.id.homeContainer, FragmentServices(), "Fragment Services")
+            .replace(R.id.homeContainer, FragmentServices(), AppConstants.FRAGMENT_SERVICE)
             .commit()
+        MyApplication.selectedFragment = AppConstants.FRAGMENT_SERVICE
+        AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
     }
 
 

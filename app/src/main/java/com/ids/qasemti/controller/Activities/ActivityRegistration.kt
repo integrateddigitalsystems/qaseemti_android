@@ -17,7 +17,7 @@ class ActivityRegistration : ActivityBase() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         AppHelper.setAllTexts(rootLayoutRegistration)
-        AppHelper.setLogoTint(logo_main,this)
+        AppHelper.setLogoTint(logo_main,this,R.color.white)
 
 
         btRegister.setOnClickListener {

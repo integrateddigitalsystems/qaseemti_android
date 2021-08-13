@@ -18,6 +18,7 @@ object AppConstants {
     const val LEFT_BLACK = 4
     const val SERVICES = 10
 
+
     const val LANG_ENGLISH = "en"
     const val LANG_ARABIC = "ar"
     const val SELECTED_LANGUAGE = "key_language_code"
@@ -26,6 +27,12 @@ object AppConstants {
     const val FIREBASE_FORCE_UPDATE = "android_force_update"
     const val FIREBASE_VERSION_CODE = "android_version_code"
     const val FIREBASE_LOCALIZE = "localize_msg"
+    const val FRAGMENT_SERVICE ="fragmentService"
+    const val FRAGMENT_ORDER = "fragmentOrder"
+    const val FRAGMENT_PROFILE = "fragmentProfile"
+    const val FRAGMENT_NOTFICATIONS = "fragmentNotifications"
+    const val FRAGMENT_PROD = "fragmentProducts"
+
 
 
 

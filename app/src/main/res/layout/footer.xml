@@ -10,6 +10,7 @@
 
 
     <LinearLayout
+        android:id="@+id/llFooterProducts"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -19,12 +20,14 @@
 
 
         <ImageView
+            android:id="@+id/ivProductFooter"
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
             android:src="@drawable/footer_products"
             android:layout_gravity="center"/>
 
         <com.ids.qasemti.custom.CustomTextViewMedium
+            android:id="@+id/tvProductFooter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_font"
@@ -40,6 +43,7 @@
 
 
     <LinearLayout
+        android:id="@+id/llFooterOrders"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -49,12 +53,14 @@
 
 
         <ImageView
+            android:id="@+id/ivFooterOrder"
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
             android:src="@drawable/footer_orders"
             android:layout_gravity="center"/>
 
         <com.ids.qasemti.custom.CustomTextViewMedium
+            android:id="@+id/tvFooterOrder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_font"
@@ -69,6 +75,7 @@
 
 
     <LinearLayout
+        android:id="@+id/llFooterHome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -78,12 +85,14 @@
 
 
         <ImageView
+            android:id="@+id/ivFooterHome"
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
             android:src="@drawable/footer_home"
             android:layout_gravity="center"/>
 
         <com.ids.qasemti.custom.CustomTextViewMedium
+            android:id="@+id/tvFooterHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_font"
@@ -97,6 +106,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llFooterNotifications"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -106,12 +116,14 @@
 
 
         <ImageView
+            android:id="@+id/ivFooterNotifications"
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
             android:src="@drawable/footer_notifications"
             android:layout_gravity="center"/>
 
         <com.ids.qasemti.custom.CustomTextViewMedium
+            android:id="@+id/tvFooterNotifications"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_font"
@@ -125,6 +137,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llFooterProfile"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -134,6 +147,7 @@
 
 
         <ImageView
+            android:id="@+id/ivFooterAccount"
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
             android:src="@drawable/footer_account"
@@ -141,13 +155,14 @@
 
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:layout_width="wrap_content"
+            android:id="@+id/tvFooterAccount"
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_font"
-            android:text="@string/orders"
+            android:text="@string/profile"
             android:textColor="@color/gray_font"
             android:layout_marginTop="@dimen/mini_margin"
             android:layout_gravity="center"
-            android:tag="account"
+            android:tag="@string/profile"
             />
 
     </LinearLayout>

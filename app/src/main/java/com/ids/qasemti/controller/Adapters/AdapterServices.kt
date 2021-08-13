@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
@@ -39,9 +40,11 @@ class AdapterServices(
     inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var title = itemView.findViewById<TextView>(R.id.tvServiceTitle)
         var image = itemView.findViewById<ImageView>(R.id.ivServiceLogo)
+        var linear = itemView.findViewById<LinearLayout>(R.id.linearService)
 
         init {
             itemView.setOnClickListener(this)
+            linear.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {

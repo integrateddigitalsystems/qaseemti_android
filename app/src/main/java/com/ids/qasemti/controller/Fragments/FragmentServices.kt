@@ -1,9 +1,12 @@
 package com.ids.qasemti.controller.Fragments
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
@@ -15,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_services.*
 
 class FragmentServices : Fragment() , RVOnItemClickListener {
 
+    var dialog : Dialog ?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -54,7 +58,25 @@ class FragmentServices : Fragment() , RVOnItemClickListener {
 
     }
 
+    private fun showPopupSocialMedia() {
+
+
+        dialog = Dialog(requireContext(), R.style.dialogWithoutTitle)
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setCanceledOnTouchOutside(true)
+        dialog!!.setContentView(R.layout.dialog_service)
+        dialog!!.window!!.setBackgroundDrawableResource(R.color.transparent)
+        dialog!!.setCancelable(true)
+
+
+        //btCancell!!.setOnClickListener { dialog!!.dismiss() }
+        dialog!!.show()
+
+    }
+
     override fun onItemClicked(view: View, position: Int) {
 
+        if(view.id==R.id.linearService)
+            showPopupSocialMedia()
     }
 }

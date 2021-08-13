@@ -8,20 +8,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:gravity="center_vertical|end"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
     <androidx.appcompat.widget.SwitchCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/available"
         android:tag="@string/available"
-        android:layout_gravity="end"
-        android:gravity="center_vertical"
         android:buttonTint="@color/green_switch"
         app:switchPadding="@dimen/small_margin"
         android:textColor="@color/gray_font"
-        android:layout_marginTop="@dimen/medium_margin"
         android:layout_marginEnd="@dimen/medium_margin"
         android:paddingStart="10dp"
         />
+
+    </LinearLayout>
 
 
     <LinearLayout
