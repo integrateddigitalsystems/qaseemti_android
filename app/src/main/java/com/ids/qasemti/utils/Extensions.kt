@@ -78,8 +78,9 @@ fun Activity.toast(message: String) {
 }
 
 fun Any.logw(key:String,value: String){
+    try{
     if(MyApplication.showLogs)
-        Log.wtf(key,value)
+        Log.wtf(key,value)}catch (e:Exception){}
 }
 
 fun TextView.textRemote(key:String){

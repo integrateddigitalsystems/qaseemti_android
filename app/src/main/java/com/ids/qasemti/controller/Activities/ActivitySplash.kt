@@ -55,6 +55,7 @@ class ActivitySplash : ActivityBase() {
                         mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE),
                         FirebaseLocalizeArray::class.java
                     )
+                    logw("firebase_array_size","..."+MyApplication.localizeArray!!.messages!!.size)
                     AppHelper.setAllTexts(rootLayout)
                     nextStep()
                 }
