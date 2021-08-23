@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
@@ -23,6 +24,14 @@ class ActivityChooseLanguage : ActivityBase() {
         setContentView(R.layout.activity_choose_language)
         AppHelper.setAllTexts(rootLayoutChooseLogin)
 
+        logoClient.setOnClickListener {
+            MyApplication.isClient = !MyApplication.isClient
+            if(MyApplication.isClient){
+                Toast.makeText(this,"Client",Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(this,"Service",Toast.LENGTH_LONG).show()
+            }
+        }
         btToArabic.setOnClickListener {
             changeLanguage(AppConstants.LANG_ARABIC)
 

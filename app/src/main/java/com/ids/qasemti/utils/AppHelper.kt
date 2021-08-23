@@ -3,7 +3,6 @@ package com.ids.qasemti.utils
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -32,7 +31,6 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-import com.google.android.youtube.player.internal.v
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.MyApplication
 import kotlinx.android.synthetic.main.white_logo_layout.*
@@ -42,6 +40,8 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 /**
@@ -221,6 +221,14 @@ class AppHelper {
         }
 
 
+        fun getDrawable(context: Context, id: Int):Drawable{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                return  context.getDrawable(id)!!
+            }else{
+                return context.resources.getDrawable(id)
+            }
+        }
+
         private fun getStringResourceByName(aString: String, context: Context): String? {
             val packageName: String = context.getPackageName()
             val resId: Int = context.getResources().getIdentifier(aString, aString, packageName)
@@ -258,6 +266,43 @@ class AppHelper {
             }
         }
 
+        fun setUpFooterClient(context: Activity,selected:String){
+            var imgSet = context.findViewById<ImageView>(R.id.ivSettingsFooterC)
+            var tvSet = context.findViewById<TextView>(R.id.tvSettingsFooterC)
+            var imgOrd = context.findViewById<ImageView>(R.id.ivFooterOrderC)
+            var tvOrd = context.findViewById<TextView>(R.id.tvFooterOrderC)
+            var imgNot = context.findViewById<ImageView>(R.id.ivFooterNotificationsC)
+            var tvNot = context.findViewById<TextView>(R.id.tvFooterNotificationsC)
+            var imgAcc = context.findViewById<ImageView>(R.id.ivFooterAccountC)
+            var tvAcc = context.findViewById<TextView>(R.id.tvFooterAccountC)
+
+            setLogoTint(imgSet,context,R.color.gray_font)
+            setLogoTint(imgNot,context,R.color.gray_font)
+            setLogoTint(imgOrd,context,R.color.gray_font)
+            setLogoTint(imgAcc,context,R.color.gray_font)
+            setTextColor(context,tvSet,R.color.gray_font)
+            setTextColor(context,tvOrd,R.color.gray_font)
+            setTextColor(context,tvNot,R.color.gray_font)
+            setTextColor(context,tvAcc,R.color.gray_font)
+
+
+
+
+            if(selected==AppConstants.FRAGMENT_PROFILE){
+                setLogoTint(imgAcc,context,R.color.redPrimary)
+                setTextColor(context,tvAcc,R.color.redPrimary)
+            }else if(selected == AppConstants.FRAGMENT_SETTINGS){
+                setLogoTint(imgSet,context,R.color.redPrimary)
+                setTextColor(context,tvSet,R.color.redPrimary)
+            }else if(selected == AppConstants.FRAGMENT_ORDER){
+                setLogoTint(imgOrd,context,R.color.redPrimary)
+                setTextColor(context,tvOrd,R.color.redPrimary)
+            }else if(selected == AppConstants.FRAGMENT_NOTFICATIONS){
+                setLogoTint(imgNot,context,R.color.redPrimary)
+                setTextColor(context,tvNot,R.color.redPrimary)
+            }
+
+        }
         fun setUpFooter(context: Activity,selected:String){
             var imgPro = context.findViewById<ImageView>(R.id.ivProductFooter)
             var tvPro = context.findViewById<TextView>(R.id.tvProductFooter)
@@ -269,17 +314,21 @@ class AppHelper {
             var tvNot = context.findViewById<TextView>(R.id.tvFooterNotifications)
             var imgAcc = context.findViewById<ImageView>(R.id.ivFooterAccount)
             var tvAcc = context.findViewById<TextView>(R.id.tvFooterAccount)
+            var imgCart = context.findViewById<ImageView>(R.id.ivCartFooter)
+            var tvCart = context.findViewById<TextView>(R.id.tvCartFooter)
 
             setLogoTint(imgPro,context,R.color.gray_font)
             setLogoTint(imgHom,context,R.color.gray_font)
             setLogoTint(imgNot,context,R.color.gray_font)
             setLogoTint(imgOrd,context,R.color.gray_font)
             setLogoTint(imgAcc,context,R.color.gray_font)
+            setLogoTint(imgCart,context,R.color.gray_font)
             setTextColor(context,tvPro,R.color.gray_font)
             setTextColor(context,tvOrd,R.color.gray_font)
             setTextColor(context,tvHom,R.color.gray_font)
             setTextColor(context,tvNot,R.color.gray_font)
             setTextColor(context,tvAcc,R.color.gray_font)
+            setTextColor(context,tvCart,R.color.gray_font)
 
 
 
@@ -299,6 +348,9 @@ class AppHelper {
             }else if(selected == AppConstants.FRAGMENT_PROD){
                 setLogoTint(imgPro,context,R.color.redPrimary)
                 setTextColor(context,tvPro,R.color.redPrimary)
+            }else if(selected == AppConstants.FRAGMENT_CART){
+                setLogoTint(imgCart,context,R.color.redPrimary)
+                setTextColor(context,tvCart,R.color.redPrimary)
             }
 
         }
@@ -363,6 +415,13 @@ class AppHelper {
                 LocaleUtils.setLocale(Locale("ar", "LB"))
             }
 
+        }
+
+        fun isEmailValid(email: String?): Boolean {
+            val expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
+            val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+            val matcher: Matcher = pattern.matcher(email)
+            return matcher.matches()
         }
 
         fun isValidEmail(target: String): Boolean {
@@ -581,6 +640,14 @@ class AppHelper {
                 .centerCrop()
                 .into(img);
 
+        }
+
+        fun getColor(context: Context, color: Int):Int {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                return ContextCompat.getColor(context, color)
+            } else {
+                return context.resources.getColor(color)
+            }
         }
 
         fun setRoundImageResize(context: Context, img: ImageView, ImgUrl: String, isLocal: Boolean) {

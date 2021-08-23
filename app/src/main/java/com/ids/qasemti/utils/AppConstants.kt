@@ -28,10 +28,13 @@ object AppConstants {
     const val FIREBASE_VERSION_CODE = "android_version_code"
     const val FIREBASE_LOCALIZE = "localize_msg"
     const val FRAGMENT_SERVICE ="fragmentService"
+    const val FRAGMENT_SERVICE_DETAILS="fragmentServiceDetails"
+    const val FRAGMENT_SETTINGS = "fragmentSttings"
     const val FRAGMENT_ORDER = "fragmentOrder"
     const val FRAGMENT_PROFILE = "fragmentProfile"
     const val FRAGMENT_NOTFICATIONS = "fragmentNotifications"
     const val FRAGMENT_PROD = "fragmentProducts"
+    const val FRAGMENT_CART="fragmentCart"
 
 
 

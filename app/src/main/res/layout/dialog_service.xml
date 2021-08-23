@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     android:orientation="vertical"
-    android:padding="@dimen/first_margin"
+    android:background="@color/transparent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@drawable/rounded_white_background"
+
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -13,6 +13,8 @@
         android:layout_height="match_parent">
 
     <LinearLayout
+        android:background="@drawable/rounded_white_background"
+        android:padding="@dimen/first_margin"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -22,39 +24,42 @@
         android:layout_marginStart="@dimen/mini_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Category"
+        android:text="@string/category"
         android:textColor="@color/redPrimary"/>
 
 
-    <RadioGroup
-        android:layout_marginTop="@dimen/first_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <RadioGroup
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/first_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            >
 
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:tag="purchase"
+                android:textSize="@dimen/normal_font"
+                android:buttonTint="@color/button_blue"
+                android:textColor="@color/gray_font"
+                android:text="@string/purchase"/>
 
-        <RadioButton
-            android:padding="@dimen/small_margin"
-            android:text="Purchase"
-            android:textColor="@color/black"
-            android:textSize="@dimen/big_font"
-            android:buttonTint="@color/button_blue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:tag="rental"
+                android:buttonTint="@color/button_blue"
+                android:textSize="@dimen/normal_font"
+                style=""
+                android:textColor="@color/gray_font"
+                android:text="@string/rental"/>
 
-        <RadioButton
-            android:background="@color/transparent"
-            android:padding="@dimen/small_margin"
-            android:textColor="@color/black"
-            android:layout_gravity="end"
-            android:layout_marginStart="@dimen/huge_margin"
-            android:textSize="@dimen/big_font"
-            android:text="Rental"
-            android:buttonTint="@color/button_blue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </RadioGroup>
+        </RadioGroup>
 
 
     <LinearLayout
@@ -70,7 +75,7 @@
             android:paddingStart="@dimen/mini_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Service"
+            android:text="@string/service"
             android:textColor="@color/redPrimary"/>
 
         <RelativeLayout
@@ -103,7 +108,7 @@
             android:layout_marginTop="@dimen/normal_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Type"
+            android:text="@string/type"
             android:textColor="@color/redPrimary"/>
 
         <RelativeLayout
@@ -136,7 +141,7 @@
             android:layout_marginTop="@dimen/normal_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Service / Capacity"
+            android:text="@string/service_capacity"
             android:textColor="@color/redPrimary"/>
 
         <RelativeLayout
@@ -173,7 +178,7 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:text="Apply Filters"
+                android:text="@string/apply_filters"
                 android:textColor="@color/white"
                 android:layout_marginEnd="@dimen/mini_margin"
                 android:background="@drawable/blue_rounded"
@@ -183,7 +188,7 @@
 
             <Button
                 android:textColor="@color/redPrimary"
-                android:text="RESET"
+                android:text="@string/reset"
                 android:layout_marginStart="@dimen/mini_margin"
                 android:background="@drawable/rounded_white_red_border"
                 android:layout_weight="0.5"
@@ -196,5 +201,33 @@
     </LinearLayout>
 
     </ScrollView>
+
+
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/big_margin_2"
+        android:gravity="end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/big_margin"
+            android:paddingBottom="@dimen/big_margin">
+
+            <ImageView
+                android:id="@+id/btClose"
+                app:tint="@color/white"
+                android:layout_width="@dimen/big_icon"
+                android:layout_height="@dimen/big_icon"
+                android:background="@drawable/blue_circle"
+                android:padding="@dimen/small_margin"
+                android:src="@drawable/icon_close" />
+
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

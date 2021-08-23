@@ -8,16 +8,6 @@
         android:layout_height="@dimen/no_logo_height"
         android:background="@drawable/rounded_background_bottom">
 
-    <com.ids.qasemti.custom.CustomTextViewMedium
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="@dimen/medium_margin"
-        android:textColor="@color/white"
-        android:text="Profile"
-        android:id="@+id/tvToolbarCurveTitle"
-        android:textSize="@dimen/big_font"/>
 
 
 </LinearLayout>

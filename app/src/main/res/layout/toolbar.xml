@@ -36,18 +36,17 @@
         />
 
     <me.grantland.widget.AutofitTextView
-        android:maxLines="2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textAlignment="viewStart"
-        android:textSize="@dimen/normal_font"
-        android:layout_toEndOf="@id/btBack"
         android:id="@+id/tvPageTitle"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
-        android:layout_centerVertical="true"
-        />
+        android:layout_toEndOf="@id/btBack"
+        android:maxLines="2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/normal_font" />
 
 
 </RelativeLayout>

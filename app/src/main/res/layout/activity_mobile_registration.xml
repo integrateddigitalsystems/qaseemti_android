@@ -8,9 +8,7 @@
     android:layout_height="match_parent">
 
 
-
-    <include
-        layout="@layout/white_logo_layout" />
+    <include layout="@layout/white_logo_layout" />
 
     <LinearLayout
         android:gravity="center_horizontal"

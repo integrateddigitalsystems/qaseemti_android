@@ -112,6 +112,7 @@
 
             <Button
                 android:text="@string/register"
+                android:id="@+id/btRegisterVerf"
                 android:tag="register"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
@@ -120,6 +121,7 @@
             <Button
                 android:layout_marginTop="@dimen/normal_margin"
                 android:text="@string/cancel"
+                android:id="@+id/btCancelVerf"
                 android:tag="cancel"
                 android:textColor="@color/redPrimary"
                 android:layout_width="match_parent"

@@ -16,13 +16,27 @@
         layout="@layout/toolbar" />
 
     <LinearLayout
+        android:orientation="vertical"
         android:id="@+id/llFooter"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:id="@+id/llGeneralFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <include
             layout="@layout/footer" />
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/llClientFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include
+                layout="@layout/client_footer" />
+        </LinearLayout>
 
     </LinearLayout>
 

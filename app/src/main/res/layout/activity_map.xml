@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+
+
+        <com.google.android.gms.maps.MapView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/mvLocation"/>
+
+
+
+        <LinearLayout
+            android:id="@+id/llbackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/no_logo_layout" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginStart="@dimen/first_margin"
+            android:layout_marginEnd="@dimen/first_margin"
+            android:layout_below="@+id/llbackground"
+            android:layout_marginTop="-45dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+
+
+            android:orientation="vertical"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_white_background">
+
+
+            <LinearLayout
+                android:layout_marginStart="@dimen/big_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginBottom="@dimen/normal_margin"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:tint="@color/redPrimary"
+                    android:layout_width="@dimen/fab_margin"
+                    android:layout_height="@dimen/fab_margin"
+                    android:src="@drawable/icon_user"/>
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Kamal Hamdan"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginStart="@dimen/big_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginBottom="@dimen/normal_margin"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:tint="@color/redPrimary"
+                    android:layout_width="@dimen/fab_margin"
+                    android:layout_height="@dimen/fab_margin"
+                    android:src="@drawable/icon_phone"/>
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="00961 76 664 440"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginStart="@dimen/big_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginBottom="@dimen/big_margin"
+                android:gravity="top"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="@dimen/fab_margin"
+                    android:layout_height="@dimen/fab_margin"
+                    android:src="@drawable/icon_loc_red"/>
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hazmieh, Saeed Freiha street. \n Elias bldg Block A Fl. \n 3.Next to Pepsi Company"/>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@drawable/shadow" />
+
+        </LinearLayout>
+
+
+        <include
+            layout="@layout/toolbar" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -3,8 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ids.qasemti" >
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
+    <permission
+        android:name="com.example.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.example.permission.MAPS_RECEIVE"/>
+
 
 
     <application
@@ -19,6 +28,8 @@
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true" >
+
+
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -59,10 +70,15 @@
             android:screenOrientation="fullSensor" />
 
 
+       <!-- <activity android:name=".controller.Activities.ActivityMap"
+            android:screenOrientation="fullSensor"/>-->
         <activity
             android:name="com.ids.qasemti.controller.Activities.ActivityAccountStatus"
             android:screenOrientation="fullSensor"/>
 
+        <activity
+            android:name="com.ids.qasemti.controller.Activities.ActivityMap"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name="com.ids.qasemti.controller.Activities.ActivityCodeVerification"
             android:screenOrientation="fullSensor" />
@@ -80,6 +96,15 @@
             android:name=".controller.Activities.ActivityHome"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.NoActionBar" />
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_api_key" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 

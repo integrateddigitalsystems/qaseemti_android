@@ -38,7 +38,7 @@ class ActivitySplash : ActivityBase() {
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, ActivityChooseLanguage::class.java))
             finish()
-        }, 1500)
+        }, 500)
     }
 
     private fun getFirebasePrefs() {

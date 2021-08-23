@@ -32,6 +32,9 @@ class ActivityMobileRegistration: ActivityBase(){
         AppHelper.setAllTexts(rootLayoutMobileRegister)
         AppHelper.setLogoTint(logo_main,this,R.color.white)
 
+        logo_main.setOnClickListener {
+            startActivity(Intent(this,ActivityHome::class.java))
+        }
         if(MyApplication.isClient){
             llNewMember.visibility=View.VISIBLE
         }else{
@@ -78,7 +81,7 @@ class ActivityMobileRegistration: ActivityBase(){
             if(etPhone.text.isNullOrEmpty()){
                 AppHelper.createDialog(this,getString(R.string.please_fill_data))
             }else {
-                startActivity(Intent(this, ActivityHome::class.java))
+                startActivity(Intent(this, ActivityRegistration::class.java))
             }
 
         }

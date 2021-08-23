@@ -9,8 +9,8 @@ android {
         applicationId "com.ids.qasemti"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -74,6 +74,9 @@ dependencies {
 
 
 
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.13.3'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.13.3'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.13.3'
     implementation 'com.chaos.view:pinview:1.4.2'
     implementation 'com.google.firebase:firebase-core:19.0.0'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'

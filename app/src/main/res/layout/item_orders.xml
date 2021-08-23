@@ -47,11 +47,12 @@
                 android:orientation="vertical">
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:id="@+id/tvCategoryOrder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/small_font"
                     android:textColor="@color/gray_font"
-                    android:text="Category: Purchase"
+                    android:text="@string/category"
                      />
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -60,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
-                    android:text="Water Tank"
+                    android:text="@string/water_tank"
                     />
 
             </LinearLayout>
@@ -120,7 +121,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/normal_font"
                         android:textColor="@color/gray_font_title"
-                        android:text="Order Date"
+                        android:text="@string/order_date"
                         />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
@@ -163,12 +164,15 @@
 
 
 
-                    <com.ids.qasemti.custom.CustomTextViewBold
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
+                        android:textStyle="bold"
+                        android:id="@+id/tvDateExpected"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/normal_font"
                         android:textColor="@color/gray_font_title"
-                        android:text="Expected delivery"
+                        android:text="@string/expected_delivery"
                         />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
@@ -188,6 +192,7 @@
 
 
         <LinearLayout
+            android:id="@+id/llLocation"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -259,7 +264,7 @@
                     android:textColor="@color/button_blue"
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginEnd="@dimen/small_margin"
-                    android:text="VIEW ORDER DETAILS"/>
+                    android:text="@string/view_order_details"/>
 
 
             </LinearLayout>
@@ -288,7 +293,7 @@
                     android:textColor="@color/white"
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginEnd="@dimen/small_margin"
-                    android:text="ACCEPT"/>
+                    android:text="@string/accept"/>
 
 
             </LinearLayout>

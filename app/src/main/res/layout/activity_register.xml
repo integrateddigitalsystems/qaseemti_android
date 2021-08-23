@@ -9,6 +9,9 @@
     <include
         layout="@layout/white_logo_layout" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:gravity="center_horizontal"
@@ -91,5 +94,7 @@
 
 
     </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

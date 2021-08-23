@@ -8,6 +8,37 @@
     >
 
 
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/llFooterCart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/ivCartFooter"
+            android:layout_width="@dimen/icon"
+            android:layout_height="@dimen/icon"
+            android:src="@drawable/icon_cart"
+            android:layout_gravity="center"/>
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:id="@+id/tvCartFooter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_font"
+            android:text="@string/cart"
+            android:textColor="@color/gray_font"
+            android:layout_marginTop="@dimen/mini_margin"
+            android:layout_gravity="center"
+            android:tag="products"
+            />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llFooterProducts"

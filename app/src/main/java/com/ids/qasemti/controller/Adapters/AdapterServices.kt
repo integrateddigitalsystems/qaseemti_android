@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.model.ServiceItem
@@ -28,6 +29,8 @@ class AdapterServices(
     }
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
+
+        Glide.with(con).load(items.get(position).testCode).into(holder.image);
 
         holder.image.setBackgroundResource(items.get(position).testCode!!)
         holder.title.text = items.get(position).title

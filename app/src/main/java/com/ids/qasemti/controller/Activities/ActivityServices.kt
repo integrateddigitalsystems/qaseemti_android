@@ -10,6 +10,7 @@ import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.model.ServiceItem
 import kotlinx.android.synthetic.main.curve_layout_home.*
 import kotlinx.android.synthetic.main.fragment_services.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 class ActivityServices : ActivityBase()  , RVOnItemClickListener{
 
@@ -17,7 +18,7 @@ class ActivityServices : ActivityBase()  , RVOnItemClickListener{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_services)
 
-        tvToolbarCurveTitle.text = getString(R.string.our_services)
+        tvPageTitle.text = getString(R.string.our_services)
         var array : ArrayList<ServiceItem> = arrayListOf()
 
         array.add(ServiceItem("Gravel Truck","",R.drawable.icon_truck))

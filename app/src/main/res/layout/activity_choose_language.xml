@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:id="@+id/rootLayoutChooseLogin"
@@ -9,21 +9,20 @@
 
 
     <ImageView
+        android:id="@+id/logoClient"
         android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/margin_logo"
         android:layout_width="@dimen/inside_logo"
         android:layout_height="@dimen/inside_logo"
         android:src="@drawable/logo"/>
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <LinearLayout
+        android:layout_marginBottom="@dimen/big_margin_2"
+        android:layout_above="@+id/ivApp"
+        android:layout_centerHorizontal="true"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:gravity="center"
@@ -47,6 +46,7 @@
     </LinearLayout>
 
         <ImageView
+            android:id="@+id/ivApp"
             android:layout_marginBottom="@dimen/big_margin"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
@@ -54,9 +54,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/qas_copyright"/>
 
-    </RelativeLayout>
 
 
 
 
-</LinearLayout>
+</RelativeLayout>

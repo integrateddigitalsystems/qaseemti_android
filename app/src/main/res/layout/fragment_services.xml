@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayoutServices"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_bg"
@@ -18,46 +19,60 @@
         </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
-            android:layout_marginTop="-25dp"
-            android:fillViewport="true"
-            android:layout_below="@id/llHomeCurve"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@id/llHomeCurve"
+            android:layout_marginTop="-25dp"
+            android:fillViewport="true">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/linearProfileInfo"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:layout_marginStart="@dimen/margin_start_end"
-                android:layout_marginEnd="@dimen/margin_start_end"
-                android:background="@drawable/rounded_white_background"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/big_margin"
-                android:paddingEnd="@dimen/big_margin">
-
-
-                <com.ids.qasemti.custom.CustomTextViewMedium
+                <LinearLayout
+                    android:id="@+id/linearProfileInfo"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/ads_place"
-                    android:textSize="@dimen/big_font" />
+                    android:layout_height="90dp"
+                    android:layout_marginStart="@dimen/margin_start_end"
+                    android:layout_marginEnd="@dimen/margin_start_end"
+                    android:background="@drawable/rounded_white_background"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/big_margin"
+                    android:paddingEnd="@dimen/big_margin">
 
-            </LinearLayout>
+
+                    <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/ads_place"
+                        android:textSize="@dimen/big_font" />
+
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvServices"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/margin_start_end"
                     android:layout_marginTop="@dimen/big_margin"
                     android:layout_marginEnd="@dimen/margin_start_end" />
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/llNodata"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/no_logo_height"
+                        android:layout_height="@dimen/no_logo_height"
+                        android:src="@drawable/icon_no_data" />
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -67,23 +82,24 @@
 
 
         <LinearLayout
-            android:layout_marginEnd="@dimen/big_margin"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:paddingBottom="@dimen/big_margin"
+            android:id="@+id/llFilter"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/big_margin"
+            android:paddingBottom="@dimen/big_margin">
+
             <ImageView
-                android:background="@drawable/blue_circle"
-                android:padding="@dimen/first_margin"
-                android:src="@drawable/icon_floating"
                 android:layout_width="@dimen/big_icon"
                 android:layout_height="@dimen/big_icon"
-                />
+                android:background="@drawable/blue_circle"
+                android:padding="@dimen/small_margin"
+                android:src="@drawable/icon_floating" />
+
         </LinearLayout>
 
     </RelativeLayout>
-
 
 
 </LinearLayout>

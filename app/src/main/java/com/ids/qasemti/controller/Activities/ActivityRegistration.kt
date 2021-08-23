@@ -1,5 +1,6 @@
 package com.ids.qasemti.controller.Activities
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
@@ -23,10 +24,10 @@ class ActivityRegistration : ActivityBase() {
         btRegister.setOnClickListener {
             if(etFirstName.text.isNullOrEmpty() || etLastName.text.isNullOrEmpty() || etEmail.text.isNullOrEmpty()){
                 AppHelper.createDialog(this,getString(R.string.please_fill_data))
-            }else if(AppHelper.isValidEmail(etEmail.text.toString()) ){
+            }else if(!AppHelper.isEmailValid(etEmail.text.toString()) ){
                 AppHelper.createDialog(this,getString(R.string.enter_correct_email))
             }else{
-
+                startActivity(Intent(this,ActivityCodeVerification::class.java))
             }
         }
     }
