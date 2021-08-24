@@ -13,6 +13,7 @@ import androidx.core.widget.ImageViewCompat
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
 import com.ids.sampleapp.model.ItemSpinner
@@ -29,7 +30,20 @@ class ActivityMobileRegistration: ActivityBase(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mobile_registration)
         AppHelper.setAllTexts(rootLayoutMobileRegister)
-        AppHelper.setLogoTint(logo_main,this)
+        AppHelper.setLogoTint(logo_main,this,R.color.white)
+
+        logo_main.setOnClickListener {
+            startActivity(Intent(this,ActivityHome::class.java))
+        }
+        if(MyApplication.isClient){
+            llNewMember.visibility=View.VISIBLE
+        }else{
+            llNewMember.visibility=View.GONE
+        }
+
+        tvRegisterNewMember.setOnClickListener {
+            startActivity(Intent(this,ActivityCodeVerification::class.java))
+        }
 
 
         var items: ArrayList<ItemSpinner> = arrayListOf()
@@ -67,7 +81,7 @@ class ActivityMobileRegistration: ActivityBase(){
             if(etPhone.text.isNullOrEmpty()){
                 AppHelper.createDialog(this,getString(R.string.please_fill_data))
             }else {
-                startActivity(Intent(this, ActivityHome::class.java))
+                startActivity(Intent(this, ActivityRegistration::class.java))
             }
 
         }

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:background="@color/gray_bg"
+    android:id="@+id/rootLayoutProfile"
 
     android:layout_height="match_parent">
 
@@ -16,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
              android:background="@drawable/rounded_white_background"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="75dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/big_margin"
@@ -133,9 +134,9 @@
                 android:layout_marginTop="@dimen/margin_start_end"
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
-                android:hint="@string/first_name"
-                android:textColorHint="@color/gray_font_light"
-                android:tag="first_name"
+                android:hint="@string/FName"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="FName"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
@@ -148,7 +149,7 @@
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
                 android:hint="@string/middle_name"
-                android:textColorHint="@color/gray_font_light"
+                android:textColorHint="@color/gray_medium_2"
                 android:tag="middle_name"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
@@ -162,9 +163,9 @@
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
-                android:hint="@string/last_name"
-                android:textColorHint="@color/gray_font_light"
-                android:tag="last_name"
+                android:hint="@string/LName"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="LName"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
@@ -188,8 +189,9 @@
                     android:layout_marginTop="@dimen/mini_margin"
                     />
 
-                <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:background="@color/transparent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
                     android:text="K.hamdan@ids.com.lb"
@@ -214,23 +216,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/small_font"
-                    android:text="@string/email"
+                    android:text="@string/mobile"
 
 
                     android:textColor="@color/gray_font_light"
                     android:layout_marginTop="@dimen/mini_margin"
                     />
 
-                <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/transparent"
                     android:textSize="@dimen/normal_font"
-                    android:text="K.hamdan@ids.com.lb"
+                    android:text="03/1287612"
                     android:textColor="@color/gray_font"
                      />
 
 
             </LinearLayout>
+
+
 
 
             <LinearLayout
@@ -251,6 +256,7 @@
                     android:textColor="@color/gray_font"
                     android:paddingStart="@dimen/margin_start_end"
                     android:paddingEnd="@dimen/margin_start_end"
+                    android:textColorHint="@color/gray_medium_2"
                     android:textSize="@dimen/normal_font"
                     android:background="@drawable/rounded_white_background"
                     android:hint="@string/civil_id_nb"
@@ -326,7 +332,7 @@
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
                 android:hint="@string/date_of_birth"
-                android:textColorHint="@color/gray_font_light"
+                android:textColorHint="@color/gray_medium_2"
                 android:textSize="@dimen/normal_font"
                 android:tag="date_of_birth"
                 android:background="@drawable/rounded_white_background"
@@ -341,11 +347,146 @@
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
                 android:hint="@string/alternate_contact_number"
-                android:textColorHint="@color/gray_font_light"
+                android:textColorHint="@color/gray_medium_2"
                 android:tag="alternate_contact_number"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/normal_margin"
+
+
+                >
+
+
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:textColor="@color/gray_font"
+                    android:paddingStart="@dimen/margin_start_end"
+                    android:paddingEnd="@dimen/margin_start_end"
+                    android:textColorHint="@color/gray_medium_2"
+                    android:textSize="@dimen/normal_font"
+                    android:background="@drawable/rounded_white_background"
+                    android:hint="@string/address"
+                    android:tag="address"
+                    />
+
+                <ImageButton
+                    android:layout_marginStart="@dimen/mini_margin"
+                    android:layout_marginEnd="@dimen/mini_margin"
+                    android:layout_width="@dimen/normal_icon_size"
+                    android:layout_height="@dimen/normal_icon_size"
+                    android:background="@drawable/icon_pin_blue"
+                    android:layout_gravity="center"
+
+                    />
+
+
+            </LinearLayout>
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/msg_edit_text"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/margin_start_end"
+                android:gravity="start"
+                android:padding="@dimen/margin_start_end"
+                android:hint="@string/description"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="description"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginBottom="@dimen/normal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/big_font"
+                android:textColor="@color/gray_font_title"
+                android:text="@string/bank_account_information"
+                android:layout_marginStart="@dimen/normal_margin"
+
+                android:tag="bank_account_information"
+
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:hint="@string/account_number"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="account_number"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:hint="@string/bank_name"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="bank_name"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:hint="@string/branch_name"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="branch_name"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:hint="@string/iban"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="iban"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+            <Button
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                android:tag="save"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@drawable/blue_rounded"/>
+
+
 
 
         </LinearLayout>

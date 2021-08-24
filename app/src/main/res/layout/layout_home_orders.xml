@@ -3,29 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="@dimen/margin_start_end"
+    android:id="@+id/rootLayoutOrders"
+    android:background="@color/gray_bg"
     android:paddingEnd="@dimen/margin_start_end"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:gravity="center_vertical|end"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
     <androidx.appcompat.widget.SwitchCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/swAvailable"
         android:text="@string/available"
+        android:checked="true"
         android:tag="@string/available"
-        android:layout_gravity="end"
-        android:gravity="center_vertical"
         android:buttonTint="@color/green_switch"
         app:switchPadding="@dimen/small_margin"
         android:textColor="@color/gray_font"
-        android:layout_marginTop="@dimen/medium_margin"
         android:layout_marginEnd="@dimen/medium_margin"
         android:paddingStart="10dp"
         />
 
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/home_box_top_height"
+        android:layout_height="@dimen/edit_text_height"
         android:orientation="horizontal"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
@@ -86,6 +93,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/rlActive"
             android:layout_width="0dp"
             android:layout_height="@dimen/block_hight"
             android:layout_weight="1"
@@ -128,12 +136,16 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_big_number" />
 
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                          android:layout_marginEnd="45dp"
                         android:layout_marginStart="@dimen/normal_margin"
-                        android:text="@string/active_n_order"
+                        android:text="Active"
                         android:textAlignment="viewStart"
                         android:lineSpacingMultiplier="0.6"
                         android:layout_gravity="center_vertical"
@@ -141,6 +153,22 @@
                         android:textSize="@dimen/normal_font"
                         android:textColor="@color/white"
                      />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="45dp"
+                            android:layout_marginStart="@dimen/normal_margin"
+                            android:text="Order"
+                            android:layout_marginTop="@dimen/push_text"
+                            android:textAlignment="viewStart"
+                            android:lineSpacingMultiplier="0.6"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="start"
+                            android:textSize="@dimen/normal_font"
+                            android:textColor="@color/white"
+                            />
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -169,6 +197,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/rlUpcoming"
             android:layout_width="0dp"
             android:layout_height="@dimen/block_hight"
             android:layout_weight="1"
@@ -210,19 +239,36 @@
                         android:id="@+id/tvUpcomingOrderNumber"
                         android:layout_marginStart="@dimen/normal_margin"/>
 
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="45dp"
                         android:layout_marginStart="@dimen/normal_margin"
-                        android:text="@string/upcoming_orders"
+                        android:text="Upcoming"
                         android:lineSpacingMultiplier="0.6"
                         android:layout_gravity="center_vertical"
                         android:gravity="start"
-                        android:textSize="@dimen/normal_font"
+                        android:textSize="@dimen/small_font"
                         android:textColor="@color/white"
                         />
-
+                    <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/push_text"
+                        android:layout_marginEnd="45dp"
+                        android:layout_marginStart="@dimen/normal_margin"
+                        android:text="Orders"
+                        android:lineSpacingMultiplier="0.6"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="start"
+                        android:textSize="@dimen/small_font"
+                        android:textColor="@color/white"
+                        />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -251,10 +297,23 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/rvOrders"
-        android:layout_marginTop="@dimen/big_margin"
         />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/llNodata"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="@dimen/no_logo_height"
+            android:layout_height="@dimen/no_logo_height"
+            android:src="@drawable/icon_no_data" />
+    </LinearLayout>
+
 
 
 </LinearLayout>

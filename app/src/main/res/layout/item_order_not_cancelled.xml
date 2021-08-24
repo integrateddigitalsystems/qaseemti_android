@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:padding="@dimen/mini_margin"
+    android:layout_height="300dp"
+    android:layout_marginTop="@dimen/big_margin_2"
+    android:orientation="vertical"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_white_background"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:paddingTop="@dimen/mini_margin"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/margin_start_end"
+            android:paddingEnd="@dimen/margin_start_end"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:background="@drawable/pink_background_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="@dimen/normal_icon_size"
+                    android:layout_height="@dimen/normal_icon_size"
+                    android:src="@drawable/icon_box_product"
+                    android:layout_gravity="center_vertical"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/normal_margin"
+
+                android:orientation="vertical">
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:id="@+id/tvCategoryOrder"
+                    android:layout_width="wrap_content"
+                    android:text="Sami Suleiman"
+                    android:textColor="@color/gray_font_title"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/normal_font"
+                    />
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_marginTop="@dimen/push_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/small_font"
+                    android:textColor="@color/gray_font"
+                    android:text="#000777"
+                    />
+
+            </LinearLayout>
+
+
+            <ImageView
+
+                android:src="@drawable/icon_phone"
+                app:tint="@color/redPrimary"
+                android:layout_width="@dimen/normal_icon"
+                android:layout_height="@dimen/normal_icon"/>
+
+            <LinearLayout
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_width="1dp"
+                android:layout_height="@dimen/icon_2"
+                android:background="@color/gray_line"/>
+
+            <ImageView
+
+                android:src="@drawable/icon_chat"
+                android:layout_marginEnd="@dimen/big_margin"
+                android:layout_width="@dimen/icon_2"
+                android:layout_height="@dimen/icon_2"/>
+
+
+        </LinearLayout>
+        <include layout="@layout/separator"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/margin_start_end"
+            android:paddingEnd="@dimen/margin_start_end"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/small_icon"
+                    android:layout_height="@dimen/small_icon"
+                    app:tint="@color/redPrimary"
+                    android:src="@drawable/wall_clock"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="@dimen/mini_margin"
+
+                    />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+
+                    android:orientation="vertical">
+
+
+
+                    <com.ids.qasemti.custom.CustomTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/normal_font"
+                        android:textColor="@color/gray_font_title"
+                        android:text="@string/order_date"
+                        />
+
+                    <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_marginTop="@dimen/push_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_font_3"
+                        android:textColor="@color/gray_font"
+                        android:text="20 Jun,2021 16:00"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/small_icon"
+                    android:layout_height="@dimen/small_icon"
+                    app:tint="@color/redPrimary"
+                    android:src="@drawable/wall_clock"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="@dimen/mini_margin"
+
+                    />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+
+                    android:orientation="vertical">
+
+
+
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
+                        android:textStyle="bold"
+                        android:id="@+id/tvDateExpected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/normal_font"
+                        android:textColor="@color/gray_font_title"
+                        android:text="@string/expected_delivery"
+                        />
+
+                    <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_marginTop="@dimen/push_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small_font_3"
+                        android:textColor="@color/gray_font"
+                        android:text="20 Jun,2021 16:00"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+        <include layout="@layout/separator"/>
+
+
+        <LinearLayout
+            android:id="@+id/llLocation"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingStart="@dimen/margin_start_end"
+            android:paddingEnd="@dimen/margin_start_end"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/normal_icon"
+                android:layout_height="@dimen/normal_icon"
+                android:src="@drawable/placeholder"
+                app:tint="@color/redPrimary" />
+
+            <LinearLayout
+                android:layout_marginStart="@dimen/normal_margin"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dumy_text_underline"
+
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/normal_font"
+
+                    />
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/redPrimary"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <include layout="@layout/separator"/>
+
+
+
+        <LinearLayout
+            android:visibility="visible"
+            android:id="@+id/llRatings"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingStart="@dimen/margin_start_end"
+            android:paddingEnd="@dimen/margin_start_end"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/normal_icon"
+                android:layout_height="@dimen/normal_icon"
+                android:src="@drawable/icon_star"
+                app:tint="@color/redPrimary" />
+
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/normal_font"
+                android:textColor="@color/gray_font_title"
+                android:text="@string/rate"
+                android:tag="rate"
+                />
+
+            <LinearLayout
+                android:layout_marginStart="@dimen/huge_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="start"
+            >
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stepSize="1"
+                style="?attr/ratingBarStyleSmall"
+                android:layout_gravity="end"
+                android:progressTint="@color/button_blue"
+                />
+        </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSwitches"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:paddingStart="@dimen/mini_margin"
+            android:paddingEnd="@dimen/mini_margin"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:tag="on_track"
+                    android:layout_height="wrap_content"
+                    android:text="@string/on_track" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:text="@string/delivered"
+                    android:tag="delivered"
+                    android:textSize="@dimen/small_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <androidx.appcompat.widget.SwitchCompat
+                    android:gravity="center"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:text="@string/paid"
+                    android:tag="paid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <androidx.appcompat.widget.SwitchCompat
+                    android:gravity="center"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <include
+            layout="@layout/separator" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingStart="@dimen/normal_radius"
+            android:paddingEnd="@dimen/margin_start_end"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:paddingEnd="@dimen/small_margin"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/normal_font"
+                android:textColor="@color/redPrimary"
+                android:text="$"
+                android:tag="rate"
+                />
+
+            <LinearLayout
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="start"
+                >
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="order_amount"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/order_amount"
+                    />
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/redPrimary"
+                    android:text="10 KWD"
+                    />
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+        <include layout="@layout/separator"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="@dimen/margin_start_end"
+
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="@dimen/small_icon"
+                    android:layout_height="@dimen/small_icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/view"
+                    app:tint="@color/button_blue" />
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/normal_font"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/button_blue"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:text="@string/view_order_details"/>
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@drawable/shadow"/>
+</LinearLayout>

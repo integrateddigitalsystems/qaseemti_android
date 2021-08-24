@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/footer_height"
+    android:orientation="horizontal"
+    >
+
+
+
+    <LinearLayout
+        android:id="@+id/llFooterSettingsC"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <ImageView
+            app:tint="@color/gray_font"
+            android:id="@+id/ivSettingsFooterC"
+            android:layout_width="@dimen/icon_2"
+            android:layout_height="@dimen/icon_2"
+            android:src="@drawable/ic_settings"
+            android:layout_gravity="center"/>
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:id="@+id/tvSettingsFooterC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_font"
+            android:text="@string/settings"
+            android:textColor="@color/gray_font"
+            android:layout_gravity="center"
+            android:tag="products"
+            />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/llFooterOrdersC"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/ivFooterOrderC"
+            android:layout_width="@dimen/icon"
+            android:layout_height="@dimen/icon"
+            android:src="@drawable/footer_orders"
+            android:layout_gravity="center"/>
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:id="@+id/tvFooterOrderC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_font"
+            android:text="@string/orders"
+            android:textColor="@color/gray_font"
+            android:layout_marginTop="@dimen/mini_margin"
+            android:layout_gravity="center"
+            android:tag="orders"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llFooterNotificationsC"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/ivFooterNotificationsC"
+            android:layout_width="@dimen/icon"
+            android:layout_height="@dimen/icon"
+            android:src="@drawable/footer_notifications"
+            android:layout_gravity="center"/>
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:id="@+id/tvFooterNotificationsC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_font"
+            android:text="@string/notifications"
+            android:textColor="@color/gray_font"
+            android:layout_marginTop="@dimen/mini_margin"
+            android:layout_gravity="center"
+            android:tag="@string/notifications"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llFooterProfileC"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/ivFooterAccountC"
+            android:layout_width="@dimen/icon"
+            android:layout_height="@dimen/icon"
+            android:src="@drawable/footer_account"
+            android:layout_gravity="center"/>
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="wrap_content"
+            android:id="@+id/tvFooterAccountC"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_font"
+            android:text="@string/profile"
+            android:textColor="@color/gray_font"
+            android:layout_marginTop="@dimen/mini_margin"
+            android:layout_gravity="center"
+            android:tag="@string/profile"
+            />
+
+    </LinearLayout>
+</LinearLayout>

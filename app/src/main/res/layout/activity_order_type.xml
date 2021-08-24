@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:padding="@dimen/normal_margin"
+    android:id="@+id/rootLayoutOrderType"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/gray_bg"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:orientation="horizontal"
+        android:padding="@dimen/normal_margin"
+        android:background="@drawable/rounded_white_red_border"
+        android:layout_marginTop="@dimen/toolbar_height"
+        >
+        <EditText
+            android:background="@color/transparent"
+            android:textSize="@dimen/normal_font"
+            android:hint="@string/search_by_client_name_product_order"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
+        android:padding="@dimen/small_margin"
+        android:weightSum="4"
+        android:layout_marginTop="@dimen/first_margin"
+        android:background="@drawable/rounded_white_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height">
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:id="@+id/tvActive"
+            android:background="@drawable/rounded_red_background"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:tag="active"
+            android:text="@string/active"/>
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:textColor="@color/redPrimary"
+            android:layout_marginStart="@dimen/small_margin"
+            android:id="@+id/tvUpcoming"
+            android:tag="upcoming"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/upcoming"/>
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_width="match_parent"
+            android:id="@+id/tvCompleted"
+            android:tag="completed"
+            android:textColor="@color/redPrimary"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/completed"/>
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:textColor="@color/redPrimary"
+            android:id="@+id/tvCancelled"
+            android:tag="cancelled"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/cancelled"/>
+
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/first_margin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rvOrderDetails"/>
+
+</LinearLayout>

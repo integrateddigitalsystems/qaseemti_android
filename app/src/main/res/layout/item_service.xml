@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearService"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/big_margin"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+
+    <LinearLayout
+        android:background="@drawable/rounded_white_background"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/big_margin"
+        android:paddingEnd="@dimen/big_margin"
+        android:elevation="@dimen/small_margin"
+        android:layout_height="90dp"
+        android:layout_width="match_parent"
+       >
+
+    <LinearLayout
+        android:background="@drawable/pink_background_circle"
+        android:padding="@dimen/normal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="@dimen/big_icon_size"
+        android:layout_height="@dimen/big_icon_size"
+        android:id="@+id/ivServiceLogo"
+        />
+    </LinearLayout>
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:id="@+id/tvServiceTitle"
+        android:layout_marginStart="@dimen/big_margin"
+        android:text="Gravel Truck"
+        android:layout_height="wrap_content"/>
+
+
+    <ImageView
+        android:layout_width="@dimen/small_icon"
+        android:layout_height="@dimen/small_icon"
+        app:tint="@color/button_blue"
+        android:src="@drawable/arrow_right"
+        />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@drawable/shadow" />
+
+</LinearLayout>

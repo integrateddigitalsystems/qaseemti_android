@@ -4,9 +4,9 @@
     <dimen name="normal_icon_size">30dp</dimen>
     <dimen name="edit_text_hight">40dp</dimen>
     <dimen name="small_margin">4dp</dimen>
-    <dimen name="push_text">-6dp</dimen>
     <dimen name="logo_size_top_width">280dp</dimen>
     <dimen name="home_box_top_height">50dp</dimen>
     <dimen name="block_hight">120dp</dimen>
     <dimen name="font_big_number">28sp</dimen>
+    <dimen name="msg_edit_text">120dp</dimen>
 </resources>

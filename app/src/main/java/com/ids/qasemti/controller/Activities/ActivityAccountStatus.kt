@@ -1,14 +1,17 @@
 package com.ids.qasemti.controller.Activities
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.core.widget.ImageViewCompat
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.utils.AppHelper
 import kotlinx.android.synthetic.main.activity_account_status.*
 import kotlinx.android.synthetic.main.activity_code_verification.*
+import kotlinx.android.synthetic.main.no_logo_layout.*
 import kotlinx.android.synthetic.main.white_logo_layout.*
 
 class ActivityAccountStatus : ActivityBase() {
@@ -24,7 +27,7 @@ class ActivityAccountStatus : ActivityBase() {
             if(notfSelected==-1){
                 AppHelper.createDialog(this,getString(R.string.select_get_notified))
             }else{
-
+                startActivity(Intent(this,ActivityHome::class.java))
             }
         }
 

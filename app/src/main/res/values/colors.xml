@@ -12,11 +12,15 @@
     <color name="gray_background">#f2f2f2</color>
 
     <color name="transparent">#00000000</color>
+    <color name="new_blue">#0088ff</color>
     <color name="button_blue">#009bfc</color>
     <color name="white">#ffffff</color>
+    <color name="gradient_red">#ff516b</color>
+    <color name="pink_bg">#ffe7ea</color>
     <color name="black">#000000</color>
     <color name="blacktrans">#22000000</color>
 
+    <color name="gray_line">#e0e0e0</color>
     <color name="gray_font">#848484</color>
     <color name="gray_bg">#f2f2f2</color>
     <color name="gray_font_light">#b5b5b5</color>

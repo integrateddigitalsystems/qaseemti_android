@@ -9,6 +9,7 @@ import android.os.Build
 import androidx.preference.PreferenceManager
 import com.ids.qasemti.model.FirebaseLocalizeArray
 import com.ids.qasemti.model.FirebaseLocalizeItem
+import com.ids.qasemti.model.ServiceItem
 import com.ids.qasemti.utils.AppConstants
 import java.util.*
 import kotlin.collections.ArrayList
@@ -17,7 +18,14 @@ class MyApplication : Application() {
     companion object {
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
+        var selectedFragment : String ?=""
+        var typeSelected = 1
+        var selectedImage:String ?=""
+        var selectedVideo :String ?=""
+        var firstImage : Boolean ?=false
+        var selectedService : ServiceItem ?=null
         var showLogs: Boolean = true
+        var isClient : Boolean = false
         var localizeArray: FirebaseLocalizeArray ?= null
         var BASE_URL = ""
         lateinit var sharedPreferences : SharedPreferences

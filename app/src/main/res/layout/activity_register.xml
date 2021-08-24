@@ -9,6 +9,9 @@
     <include
         layout="@layout/white_logo_layout" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:gravity="center_horizontal"
@@ -44,8 +47,8 @@
             android:textColorHint="@color/gray_medium_2"
             android:paddingStart="@dimen/normal_margin"
             android:paddingEnd="@dimen/normal_margin"
-            android:tag="@string/first_name"
-            android:hint="@string/first_name"
+            android:tag="@string/FName"
+            android:hint="@string/FName"
             android:background="@drawable/rounded_white_background"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"/>
@@ -56,8 +59,8 @@
             android:textColorHint="@color/gray_medium_2"
             android:paddingStart="@dimen/normal_margin"
             android:paddingEnd="@dimen/normal_margin"
-            android:tag="@string/last_name"
-            android:hint="@string/last_name"
+            android:tag="@string/LName"
+            android:hint="@string/LName"
             android:background="@drawable/rounded_white_background"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"/>
@@ -91,5 +94,7 @@
 
 
     </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
