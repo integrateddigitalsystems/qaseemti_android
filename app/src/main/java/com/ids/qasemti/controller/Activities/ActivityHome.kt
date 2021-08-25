@@ -2,14 +2,16 @@ package com.ids.qasemti.controller.Activities
 
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.navigation.NavigationView
-
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
@@ -20,9 +22,11 @@ import com.ids.qasemti.controller.Fragments.FragmentServices
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.toDp
+import com.ids.qasemti.utils.toPx
 import kotlinx.android.synthetic.main.footer.*
+import kotlinx.android.synthetic.main.home_container.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
-
 import kotlinx.android.synthetic.main.toolbar.*
 
 
@@ -68,6 +72,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
     fun setListners() {
 
+        setTabs()
 
          llFooterCart.setOnClickListener {
             if (MyApplication.selectedFragment != AppConstants.FRAGMENT_CART) {
@@ -77,6 +82,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 MyApplication.selectedFragment = AppConstants.FRAGMENT_CART
                 AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
                 AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
+
             }
 
         }
@@ -89,6 +95,11 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 MyApplication.selectedFragment = AppConstants.FRAGMENT_ORDER
                 AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
                 AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
+                tablayout.isSelected=true
+                tablayout.getTabAt(1)!!.select()
+                resetIcons()
+                ivFooterOrder.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt())
+
             }
 
         }
@@ -119,6 +130,10 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                     MyApplication.selectedFragment = AppConstants.FRAGMENT_SERVICE
                     AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
                     AppHelper.setLogoTint(btDrawer, this, R.color.white)
+                    tablayout.getTabAt(2)!!.select()
+                    resetIcons()
+                    ivFooterHome.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt())
+
                 }
             }
 
@@ -131,6 +146,10 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 MyApplication.selectedFragment = AppConstants.FRAGMENT_PROFILE
                 AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
                 AppHelper.setLogoTint(btDrawer, this, R.color.white)
+                tablayout.getTabAt(4)!!.select()
+                resetIcons()
+                ivFooterAccount.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt())
+
             }
 
         }
@@ -142,6 +161,10 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 MyApplication.selectedFragment = AppConstants.FRAGMENT_PROD
                 AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
                 AppHelper.setLogoTint(btDrawer, this, R.color.white)
+                tablayout.getTabAt(0)!!.select()
+                resetIcons()
+                ivProductFooter.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt())
+
             }
 
         }
@@ -157,6 +180,10 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 MyApplication.selectedFragment = AppConstants.FRAGMENT_NOTFICATIONS
                 AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
                 AppHelper.setLogoTint(btDrawer, this, R.color.white)
+                tablayout.getTabAt(3)!!.select()
+                resetIcons()
+                ivFooterNotifications.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt())
+
             }
 
         }
@@ -236,6 +263,29 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         rvOrders.layoutManager = glm2
     }
 
+    private fun setTabs(){
+        repeat(5) { tablayout.addTab(tablayout.newTab()) }
+        val tabStrip = tablayout.getChildAt(0) as LinearLayout
+        for (i in 0 until tabStrip.childCount) {
+            tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
+            val tab = tabStrip.getChildAt(i)
+            val layoutParams = tab.layoutParams as LinearLayout.LayoutParams
+            layoutParams.marginEnd = 8.toPx()
+            layoutParams.marginStart = 8.toPx()
+            layoutParams.width = 12.toPx()
+            tab.layoutParams = layoutParams
+            tablayout.requestLayout()
+        }
+    }
+
+
+    private fun resetIcons(){
+        ivProductFooter.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt())
+        ivFooterOrder.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt())
+        ivFooterHome.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt())
+        ivFooterNotifications.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt())
+        ivFooterAccount.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt())
+    }
 
 }
 

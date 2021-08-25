@@ -32,4 +32,7 @@
 
     <color name="start_color">#ed5d74</color>
     <color name="end_color">#e51a3b</color>
+
+    <color name="start_color_gray">#aae3e3e3</color>
+    <color name="end_color_gray">#eee3e3e3</color>
 </resources>

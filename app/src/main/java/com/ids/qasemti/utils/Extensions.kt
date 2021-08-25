@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
+import android.content.res.Resources
 
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatRadioButton
@@ -25,7 +26,8 @@ fun CompoundButton.setCustomChecked(value: Boolean, listener: CompoundButton.OnC
     setOnCheckedChangeListener(listener)
 }
 
-
+fun Int.toDp():Int =(this / Resources.getSystem().displayMetrics.density).toInt()
+fun Int.toPx():Int =(this * Resources.getSystem().displayMetrics.density).toInt()
 
 /**
  * Calculate the occurrences of a certain string
