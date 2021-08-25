@@ -42,7 +42,7 @@ class ActivityMobileRegistration: ActivityBase(){
         }
 
         tvRegisterNewMember.setOnClickListener {
-            startActivity(Intent(this,ActivityCodeVerification::class.java))
+            startActivity(Intent(this,ActivityRegistration::class.java))
         }
 
 
@@ -81,7 +81,8 @@ class ActivityMobileRegistration: ActivityBase(){
             if(etPhone.text.isNullOrEmpty()){
                 AppHelper.createDialog(this,getString(R.string.please_fill_data))
             }else {
-                startActivity(Intent(this, ActivityRegistration::class.java))
+                MyApplication.isSignedIn = true
+                startActivity(Intent(this, ActivityHome::class.java))
             }
 
         }

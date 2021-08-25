@@ -49,4 +49,17 @@
         android:textSize="@dimen/normal_font" />
 
 
+    <ImageView
+        android:layout_width="@dimen/normal_icon_size"
+        android:layout_height="@dimen/normal_icon_size"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/btClose"
+        android:tint="@color/new_blue"
+        android:src="@drawable/close_x"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        />
+
+
 </RelativeLayout>

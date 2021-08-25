@@ -35,6 +35,7 @@ object AppConstants {
     const val FRAGMENT_NOTFICATIONS = "fragmentNotifications"
     const val FRAGMENT_PROD = "fragmentProducts"
     const val FRAGMENT_CART="fragmentCart"
+    const val CHECKOUT = "checkout"
 
 
 

@@ -43,6 +43,7 @@ class FragmentServices : Fragment() , RVOnItemClickListener {
 
     fun init(){
 
+
         llFilter.setOnClickListener {
             showPopupSocialMedia()
         }

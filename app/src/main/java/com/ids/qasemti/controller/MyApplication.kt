@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Build
+import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ids.qasemti.model.FirebaseLocalizeArray
 import com.ids.qasemti.model.FirebaseLocalizeItem
@@ -20,8 +21,10 @@ class MyApplication : Application() {
         var isDebug: Boolean = true
         var selectedFragment : String ?=""
         var typeSelected = 1
+        var theFragment  : Fragment ?=null
         var selectedImage:String ?=""
         var selectedVideo :String ?=""
+        var isSignedIn : Boolean = false
         var firstImage : Boolean ?=false
         var selectedService : ServiceItem ?=null
         var showLogs: Boolean = true

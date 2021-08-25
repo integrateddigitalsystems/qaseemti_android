@@ -9,6 +9,8 @@ import android.os.Looper
 import android.widget.Toast
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Fragments.FragmentOrders
+import com.ids.qasemti.controller.Fragments.FragmentServices
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
@@ -54,10 +56,23 @@ class ActivityChooseLanguage : ActivityBase() {
             }
         }
 
+        if(MyApplication.isClient){
+            MyApplication.selectedFragment = AppConstants.FRAGMENT_SERVICE
+            MyApplication.theFragment = FragmentServices()
+        }else{
+            MyApplication.selectedFragment = AppConstants.FRAGMENT_SERVICE
+            MyApplication.theFragment = FragmentOrders()
+        }
 
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, ActivityMobileRegistration::class.java))
+            if(MyApplication.isClient) {
+                startActivity(Intent(this, ActivityHome::class.java))
+            }else{
+                MyApplication.isSignedIn = true
+                startActivity(Intent(this, ActivityMobileRegistration::class.java))
+            }
         }, 500)
+
 
     }
 

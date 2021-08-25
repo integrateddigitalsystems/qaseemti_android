@@ -284,6 +284,11 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
     fun init(){
 
 
+        btServiceCheckout.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.homeContainer, FragmentCheckout(), AppConstants.CHECKOUT)
+                .commit()
+        }
         (activity as ActivityHome?)!!.setTitleAc(MyApplication.selectedService!!.title!!)
         tbMedias.setTabTextColors(
             AppHelper.getColor(requireContext(), R.color.transparent),
