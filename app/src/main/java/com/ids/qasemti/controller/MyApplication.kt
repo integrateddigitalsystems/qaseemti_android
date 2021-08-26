@@ -22,6 +22,7 @@ class MyApplication : Application() {
         var selectedFragment : String ?=""
         var typeSelected = 1
         var theFragment  : Fragment ?=null
+        var selectedPos : Int = 2
         var selectedImage:String ?=""
         var selectedVideo :String ?=""
         var isSignedIn : Boolean = false

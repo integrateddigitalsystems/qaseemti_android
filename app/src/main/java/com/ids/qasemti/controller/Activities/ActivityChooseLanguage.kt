@@ -63,7 +63,7 @@ class ActivityChooseLanguage : ActivityBase() {
             MyApplication.selectedFragment = AppConstants.FRAGMENT_SERVICE
             MyApplication.theFragment = FragmentOrders()
         }
-
+        MyApplication.selectedPos = 2
         Handler(Looper.getMainLooper()).postDelayed({
             if(MyApplication.isClient) {
                 startActivity(Intent(this, ActivityHome::class.java))

@@ -47,7 +47,7 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="toolbar_height">80dp</dimen>
-    <dimen name="footer_height">70dp</dimen>
+    <dimen name="footer_height">60dp</dimen>
     <dimen name="small_margin">6dp</dimen>
     <dimen name="block_height">400dp</dimen>
     <dimen name="bigger_block">450dp</dimen>
