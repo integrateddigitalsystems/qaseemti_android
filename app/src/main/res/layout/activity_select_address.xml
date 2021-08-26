@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/gray_bg"
+    android:layout_height="match_parent">
+
+
+
+
+    <LinearLayout
+        android:id="@+id/llTopLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <include
+        layout="@layout/no_logo_layout" />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/llFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/footer" />
+    </LinearLayout>
+
+
+    <include
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/medium_push"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:layout_below="@id/llTopLayout"
+        android:layout_above="@id/llFooter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:background="@drawable/rounded_white_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/big_margin"
+            android:paddingEnd="@dimen/big_margin"
+            android:elevation="@dimen/small_margin"
+            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            >
+
+            <LinearLayout
+                android:background="@drawable/pink_background_circle"
+                android:padding="@dimen/normal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="@dimen/big_icon_size"
+                    android:layout_height="@dimen/big_icon_size"
+                    android:id="@+id/ivServiceLogo"
+                    />
+            </LinearLayout>
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/tvServiceTitle"
+                android:layout_marginStart="@dimen/big_margin"
+                android:text="Gravel Truck"
+                android:layout_height="wrap_content"/>
+
+
+            <ImageView
+                android:layout_width="@dimen/small_icon"
+                android:layout_height="@dimen/small_icon"
+                android:tint="@color/button_blue"
+                android:src="@drawable/arrow_right"
+                />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@drawable/shadow" />
+
+    </LinearLayout>
+
+</RelativeLayout>

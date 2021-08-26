@@ -13,6 +13,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
@@ -237,8 +238,13 @@ class AppHelper {
 
 
         fun formatNumber(num: Double, format: String): String {
-            val formatter = DecimalFormat(format, setInEnglish())
-            return formatter.format(num)
+            try {
+                val formatter = DecimalFormat(format, setInEnglish())
+                return formatter.format(num)
+            }catch (ex:Exception){
+
+                return ""
+            }
         }
 
         fun setInEnglish(): DecimalFormatSymbols {
@@ -400,6 +406,8 @@ class AppHelper {
         }
 
 
+        fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
+
         fun AddFragment(fragmentManager: FragmentManager, selectedFragment:Int, myFragment: Fragment, myTag:String, id:Int){
             fragmentAvailable = selectedFragment
             fragmentManager.beginTransaction()
@@ -432,6 +440,7 @@ class AppHelper {
                 return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()
             }
         }
+
 
         fun hasPermissions(context: Context?, vararg permissions: String): Boolean {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {

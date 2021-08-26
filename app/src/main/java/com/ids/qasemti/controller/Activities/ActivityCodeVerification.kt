@@ -27,6 +27,10 @@ class ActivityCodeVerification : ActivityBase() {
         if(MyApplication.isClient){
             btVerifyCode.visibility =View.GONE
             llClientVerfCode.visibility = View.VISIBLE
+
+            btRegisterVerf.setOnClickListener {
+                startActivity(Intent(this,ActivityAccountStatus::class.java))
+            }
         }else{
             btVerifyCode.visibility =View.VISIBLE
             llClientVerfCode.visibility = View.GONE
@@ -35,9 +39,7 @@ class ActivityCodeVerification : ActivityBase() {
                 startActivity(Intent(this,ActivityAccountStatus::class.java))
             }
 
-            btRegisterVerf.setOnClickListener {
-                startActivity(Intent(this,ActivityAccountStatus::class.java))
-            }
+
         }
     }
 }

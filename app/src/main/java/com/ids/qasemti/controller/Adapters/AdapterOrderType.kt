@@ -32,9 +32,17 @@ class AdapterOrderType(val items: ArrayList<String>, private val itemClickListen
         }
 
         if(type){
+            if(MyApplication.isClient&&MyApplication.typeSelected==1){
+                holder.credit.visibility = View.VISIBLE
+                holder.switch.visibility = View.GONE
+            }else{
+                holder.switch.visibility = View.VISIBLE
+                holder.credit.visibility = View.GONE
+            }
             holder.rating.visibility=View.GONE
-            holder.switch.visibility = View.VISIBLE
+
         }else{
+            holder.credit.visibility = View.GONE
             holder.rating.visibility=View.VISIBLE
             holder.switch.visibility = View.GONE
         }
@@ -52,6 +60,7 @@ class AdapterOrderType(val items: ArrayList<String>, private val itemClickListen
         var location = itemView.findViewById<LinearLayout>(R.id.llLocation)
         var rating = itemView.findViewById<LinearLayout>(R.id.llRatings)
         var switch = itemView.findViewById<LinearLayout>(R.id.llSwitches)
+        var credit = itemView.findViewById<LinearLayout>(R.id.llCredit)
         init {
             itemView.setOnClickListener(this)
             location.setOnClickListener(this)
