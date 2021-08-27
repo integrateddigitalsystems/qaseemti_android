@@ -122,11 +122,11 @@ fun AppCompatRadioButton.setRadioButtonColor(uncheckedColor: Int, checkedColor: 
  * Used for Showing and Hiding views
  */
 fun View.showView() {
-    visibility = View.VISIBLE
+   try{ visibility = View.VISIBLE}catch (e:Exception){}
 }
 
 fun View.hideView() {
-    visibility = View.GONE
+   try{ visibility = View.GONE}catch (e:Exception){}
 }
 
 /**

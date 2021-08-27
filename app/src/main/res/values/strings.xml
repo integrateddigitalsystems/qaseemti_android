@@ -122,4 +122,12 @@
     <string name="saved_location">Saved Location</string>
     <string name="new_address">New Address</string>
     <string name="continue_">Continue</string>
+    <string name="add_new_address">ADD NEW ADDRESS</string>
+    <string name="address_name">Address Name</string>
+    <string name="street">Street</string>
+    <string name="save_to_my_address">SAVE TO MY ADDRESS</string>
+    <string name="building">Building</string>
+    <string name="floor">Floor</string>
+    <string name="more_details">More Details about your address</string>
+    <string name="use_only_this_time">USE ONLY THIS TIME</string>
 </resources>

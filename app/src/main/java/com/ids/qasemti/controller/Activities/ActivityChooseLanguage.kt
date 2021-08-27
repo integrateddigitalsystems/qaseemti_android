@@ -9,6 +9,7 @@ import android.os.Looper
 import android.widget.Toast
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Fragments.FragmentAddresses
 import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.Fragments.FragmentServices
 import com.ids.qasemti.controller.MyApplication
@@ -58,7 +59,7 @@ class ActivityChooseLanguage : ActivityBase() {
 
         if(MyApplication.isClient){
             MyApplication.selectedFragment = AppConstants.FRAGMENT_SERVICE
-            MyApplication.theFragment = FragmentServices()
+            MyApplication.theFragment = FragmentAddresses()
         }else{
             MyApplication.selectedFragment = AppConstants.FRAGMENT_SERVICE
             MyApplication.theFragment = FragmentOrders()
