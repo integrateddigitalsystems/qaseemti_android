@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:src="@drawable/icon_currentLocation"
+                    android:src="@drawable/icon_currentlocation"
                     android:layout_width="@dimen/big_icon_size"
                     android:layout_height="@dimen/big_icon_size"
                     android:id="@+id/ivCurrent"
@@ -112,7 +112,7 @@
                 <ImageView
                     android:layout_width="@dimen/big_icon_size"
                     android:layout_height="@dimen/big_icon_size"
-                    android:src="@drawable/icon_LocationMap"
+                    android:src="@drawable/icon_locationmap"
                     android:id="@+id/ivLocationMap"
                     />
             </LinearLayout>
@@ -162,7 +162,7 @@
                 <ImageView
                     android:layout_width="@dimen/big_icon_size"
                     android:layout_height="@dimen/big_icon_size"
-                    android:src="@drawable/icon_savedLocation"
+                    android:src="@drawable/icon_savedlocation"
                     />
             </LinearLayout>
 
@@ -209,7 +209,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:src="@drawable/icon_newAddress"
+                    android:src="@drawable/icon_newaddress"
                     android:layout_width="@dimen/big_icon_size"
                     android:layout_height="@dimen/big_icon_size"
                     android:id="@+id/ivServiceLogo"
