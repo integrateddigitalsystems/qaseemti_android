@@ -232,7 +232,7 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_text_height"
+            android:layout_height="@dimen/button_height"
             android:background="@drawable/blue_rounded"
             android:textColor="@color/white"/>
 

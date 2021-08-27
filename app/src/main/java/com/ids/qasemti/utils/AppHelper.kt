@@ -121,12 +121,12 @@ class AppHelper {
                       return if (Locale.getDefault().language == "ar")
                           Typeface.createFromAsset(
                               context.applicationContext.assets,
-                              "fonts/Cairo-Regular.ttf"
+                              "fonts/DroidKufiRegular.ttf"
                           )//"fonts/NeoTech-Medium.otf"
                       else
                           Typeface.createFromAsset(
                               context.applicationContext.assets,
-                              "fonts/Cairo-Regular.ttf"
+                              "fonts/MYRIADPRO_COND.OTF"
                           )//"fonts/NeoTech-Medium.otf"
 
            // return Typeface.DEFAULT
@@ -173,13 +173,13 @@ class AppHelper {
             return if (Locale.getDefault().language == "ar")
                 Typeface.createFromAsset(
                     context.applicationContext.assets,
-                    "fonts/Cairo-Bold.ttf"
+                    "fonts/DroidKufi-Bold.ttf"
                 )//fonts/NeoTech-Bold.otf
 
             else
                 Typeface.createFromAsset(
                     context.applicationContext.assets,
-                    "fonts/Cairo-Bold.ttf"
+                    "fonts/MYRIADPRO_BOLDCOND.OTF"
                 )//fonts/NeoTech-Bold.otf
 
          //   return Typeface.DEFAULT_BOLD
@@ -201,6 +201,8 @@ class AppHelper {
                 }
                 else if (v is Button) {
                     v.textRemote(v.tag.toString())
+                } else if(v is EditText){
+                    v.hint = v.tag.toString()
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()

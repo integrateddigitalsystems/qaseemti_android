@@ -10,6 +10,7 @@
     <color name="gray_tint">#818181</color>
     <color name="gray_medium_2">#dadada </color>
     <color name="gray_background">#f2f2f2</color>
+    <color name="gray_serperator">#e6e6e6</color>
 
     <color name="transparent">#00000000</color>
     <color name="new_blue">#0088ff</color>

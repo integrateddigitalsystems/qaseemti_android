@@ -24,6 +24,20 @@
         android:layout_gravity="center_vertical"
         />
 
+
+    <ImageView
+        android:layout_width="@dimen/normal_icon_size"
+        android:layout_height="@dimen/normal_icon_size"
+        android:background="@color/transparent"
+        android:backgroundTint="@color/white"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/btLogout"
+        android:src="@drawable/icon_logout"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        />
+
     <ImageButton
         android:layout_width="@dimen/normal_icon_size"
         android:layout_height="@dimen/normal_icon_size"

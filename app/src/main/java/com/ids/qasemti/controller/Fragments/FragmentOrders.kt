@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityMap
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
@@ -39,7 +40,8 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
     }
 
     fun init(){
-
+        (activity as ActivityHome?)!!.showLogout(false)
+        (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
         rlActive.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.homeContainer, FragmentOrderTypes(), AppConstants.FRAGMENT_ORDER)

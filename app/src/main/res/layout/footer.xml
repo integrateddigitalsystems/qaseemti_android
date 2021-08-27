@@ -190,11 +190,11 @@
             android:id="@+id/tvFooterAccount"
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_font"
-            android:text="@string/profile"
+            android:text="@string/account"
             android:textColor="@color/gray_font"
             android:layout_marginTop="@dimen/mini_margin"
             android:layout_gravity="center"
-            android:tag="@string/profile"
+            android:tag="account"
             />
 
     </LinearLayout>

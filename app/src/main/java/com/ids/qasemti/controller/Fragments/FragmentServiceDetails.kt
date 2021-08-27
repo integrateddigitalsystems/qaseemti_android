@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Outline
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -82,7 +83,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayoutServiceDetails)
         init()
-
+        tvItalicNote.setTypeface(AppHelper.getTypeFace(requireContext()), Typeface.BOLD_ITALIC)
 
     }
 
@@ -295,17 +296,18 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
             AppHelper.getColor(requireContext(), R.color.transparent)
         )
 
+
         val not_selected_circle = AppHelper.getDrawable(requireContext(), R.drawable.not_selected)
         val selected_circle = AppHelper.getDrawable(requireContext(), R.drawable.selected)
 // Scale it to 50 x 50
         // Scale it to 50 x 50
         selectedC = BitmapDrawable(
             resources,
-            Bitmap.createScaledBitmap(convertToBitmap(selected_circle)!!, 20, 20, true)
+            Bitmap.createScaledBitmap(convertToBitmap(selected_circle)!!, 30, 30, true)
         )
         notSelectedC = BitmapDrawable(
             resources,
-            Bitmap.createScaledBitmap(convertToBitmap(not_selected_circle)!!, 20, 20, true)
+            Bitmap.createScaledBitmap(convertToBitmap(not_selected_circle)!!, 30, 30, true)
         )
 
         arrayItems.add(SliderItem("https://freepikpsd.com/media/2019/10/dollar-logo-png-6-Transparent-Images.png",1,""))

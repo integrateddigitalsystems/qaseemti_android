@@ -44,6 +44,8 @@ class FragmentServices : Fragment() , RVOnItemClickListener {
     fun init(){
 
 
+        (activity as ActivityHome?)!!.showLogout(true)
+
         llFilter.setOnClickListener {
             showPopupSocialMedia()
         }
@@ -83,6 +85,7 @@ class FragmentServices : Fragment() , RVOnItemClickListener {
         dialog!!.setContentView(R.layout.dialog_service)
         dialog!!.window!!.setBackgroundDrawableResource(R.color.transparent)
         dialog!!.setCancelable(true)
+
 
         dialog!!.setOnCancelListener {
             llFilter.visibility=View.VISIBLE

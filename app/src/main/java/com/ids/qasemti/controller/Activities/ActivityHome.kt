@@ -70,12 +70,26 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     }
 
+    fun showLogout(show:Boolean){
+        if(show){
+            btLogout.visibility = View.VISIBLE
+        }else{
+            btLogout.visibility = View.GONE
+        }
+
+    }
     fun drawColor(){
         AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
     }
     fun setListners() {
 
         setTabs()
+
+        if(MyApplication.isClient){
+            tvFooterHome.text = getString(R.string.service)
+        }else{
+            tvFooterHome.text = getString(R.string.home)
+        }
 
          llFooterCart.setOnClickListener {
             if (MyApplication.selectedFragment != AppConstants.FRAGMENT_CART && MyApplication.isSignedIn) {
@@ -105,16 +119,16 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                     .replace(R.id.homeContainer, FragmentOrderTypes(), AppConstants.FRAGMENT_ORDER)
                     .commit()
                 MyApplication.selectedFragment = AppConstants.FRAGMENT_ORDER
-                AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
-                AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
-                tablayout.isSelected=true
-                MyApplication.selectedPos =1
                 tablayout.getTabAt(1)!!.select()
+                MyApplication.selectedPos = 1
+                tvPageTitle.visibility = View.GONE
                 resetIcons()
                 ivFooterOrder.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt())
+                AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
+                AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
 
             }else if(!MyApplication.isSignedIn){
-                MyApplication.selectedPos =1
+                MyApplication.selectedPos = 1
                 MyApplication.selectedFragment = AppConstants.FRAGMENT_ORDER
                 MyApplication.theFragment = FragmentOrderTypes()
                 startActivity(Intent(this, ActivityMobileRegistration::class.java))
@@ -171,6 +185,8 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
                 tablayout.getTabAt(4)!!.select()
                 resetIcons()
+                tvPageTitle.text = getString(R.string.account)
+                AppHelper.setTextColor(this,tvPageTitle,R.color.white)
                 MyApplication.selectedPos =4
                 ivFooterAccount.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt())
                 setTintLogo(R.color.white)
@@ -268,14 +284,47 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
     fun defaultFragment() {
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.homeContainer, MyApplication.theFragment!!, MyApplication.selectedFragment)
-            .commit()
-        resetIcons()
-        tablayout.getTabAt(MyApplication.selectedPos)!!.select()
-        setImageHeight()
-        setTintLogo(R.color.white)
-        AppHelper.setUpFooter(this, MyApplication.selectedFragment!!)
+        if(MyApplication.isClient) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.homeContainer, FragmentServices(), AppConstants.FRAGMENT_SERVICE)
+                .commit()
+            resetIcons()
+            tablayout.getTabAt(2)!!.select()
+            ivFooterHome.layoutParams = LinearLayout.LayoutParams(
+                TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    30f,
+                    resources.displayMetrics
+                ).toInt(),
+                TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    30f,
+                    resources.displayMetrics
+                ).toInt()
+            )
+            setTintLogo(R.color.white)
+            AppHelper.setUpFooter(this, AppConstants.FRAGMENT_SERVICE)
+        }else{
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.homeContainer, FragmentOrders(), AppConstants.FRAGMENT_SERVICE)
+                .commit()
+            resetIcons()
+            tablayout.getTabAt(2)!!.select()
+            ivFooterHome.layoutParams = LinearLayout.LayoutParams(
+                TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    30f,
+                    resources.displayMetrics
+                ).toInt(),
+                TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    30f,
+                    resources.displayMetrics
+                ).toInt()
+            )
+            setTintLogo(R.color.white)
+            AppHelper.setUpFooter(this, AppConstants.FRAGMENT_SERVICE)
+        }
     }
 
 

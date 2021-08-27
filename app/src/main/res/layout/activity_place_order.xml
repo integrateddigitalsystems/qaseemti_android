@@ -17,7 +17,7 @@
 
     <LinearLayout
         android:id="@+id/llMain"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/llFooter"
@@ -154,22 +154,21 @@
 
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/normal_margin"
 
                         android:orientation="vertical">
 
 
-                        <me.grantland.widget.AutofitTextView
+                        <com.ids.qasemti.custom.CustomTextViewBold
                             android:id="@+id/tvDateExpected"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:maxLines="1"
                             android:text="@string/expected_delivery"
                             android:textColor="@color/gray_font_title"
-                            android:textSize="@dimen/normal_font"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/normal_font" />
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
@@ -209,16 +208,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edit_text_height"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
                         <com.ids.qasemti.custom.CustomTextViewBold
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:padding="@dimen/first_margin"
                             android:tag="category"
                             android:text="@string/category" />
 
@@ -228,10 +227,11 @@
                             android:background="@color/white" />
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="@dimen/first_margin"
+                            android:gravity="center_vertical"
                             android:text="Purchase" />
 
                     </LinearLayout>
@@ -243,15 +243,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edit_text_height"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
                         <com.ids.qasemti.custom.CustomTextViewBold
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="@dimen/first_margin"
+                            android:gravity="center_vertical"
                             android:tag="service"
                             android:text="@string/service" />
 
@@ -261,10 +262,11 @@
                             android:background="@color/white" />
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="@dimen/first_margin"
                             android:text="Water Tank" />
 
                     </LinearLayout>
@@ -276,15 +278,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edit_text_height"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
                         <com.ids.qasemti.custom.CustomTextViewBold
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="@dimen/first_margin"
+                            android:gravity="center_vertical"
                             android:tag="type"
                             android:text="@string/type" />
 
@@ -294,10 +297,11 @@
                             android:background="@color/white" />
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="@dimen/first_margin"
                             android:text="Fresh" />
 
                     </LinearLayout>
@@ -309,15 +313,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edit_text_height"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
                         <com.ids.qasemti.custom.CustomTextViewBold
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="@dimen/first_margin"
                             android:tag="size_capacity"
                             android:text="@string/size_capacity" />
 
@@ -327,10 +332,11 @@
                             android:background="@color/white" />
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="@dimen/first_margin"
+                            android:gravity="center_vertical"
                             android:text="200 Gallons" />
 
                     </LinearLayout>
@@ -342,15 +348,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edit_text_height"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
                         <com.ids.qasemti.custom.CustomTextViewBold
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
                             android:layout_weight="1"
-                            android:padding="@dimen/first_margin"
                             android:tag="quantity"
                             android:text="@string/quantity" />
 
@@ -360,10 +367,11 @@
                             android:background="@color/white" />
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="@dimen/first_margin"
                             android:text="1 Trip" />
 
                     </LinearLayout>
@@ -379,16 +387,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edit_text_height"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
                         <com.ids.qasemti.custom.CustomTextViewBold
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:padding="@dimen/first_margin"
+                            android:paddingStart="@dimen/first_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:tag="subtotal"
                             android:text="@string/subtotal" />
 
@@ -399,10 +407,9 @@
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:padding="@dimen/first_margin"
                             android:text="10 KWD"
                             android:textColor="@color/redPrimary" />
 
@@ -415,15 +422,15 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edit_text_height"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
                         <com.ids.qasemti.custom.CustomTextViewBold
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="@dimen/first_margin"
                             android:tag="additional_fees_due"
                             android:text="@string/additional_fees_due" />
 
@@ -437,7 +444,6 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:padding="@dimen/first_margin"
                             android:text="2 KWD"
                             android:textColor="@color/redPrimary" />
 
@@ -455,10 +461,11 @@
                         android:weightSum="2">
 
                         <com.ids.qasemti.custom.CustomTextViewBold
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:padding="@dimen/first_margin"
+                            android:gravity="center_vertical"
                             android:tag="total_amount"
                             android:text="@string/total_amount" />
 
@@ -468,11 +475,11 @@
                             android:background="@color/white" />
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:paddingStart="@dimen/first_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/edit_text_height"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:padding="@dimen/first_margin"
                             android:text="12 KWD"
                             android:textColor="@color/redPrimary" />
 
@@ -587,7 +594,7 @@
 
                     <Button
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_height="@dimen/button_height"
                         android:layout_marginTop="@dimen/big_margin"
                         android:layout_marginBottom="@dimen/first_margin"
                         android:background="@drawable/blue_rounded"
@@ -606,7 +613,7 @@
     <RelativeLayout
         android:layout_marginStart="@dimen/edit_text_height"
         android:layout_marginEnd="@dimen/edit_text_height"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_above="@+id/llFooter"
         android:layout_below="@+id/llTool"
         android:id="@+id/rlNotService"
@@ -638,7 +645,7 @@
                 android:tag="go_to_services_page"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/button_height"
                 android:background="@drawable/rounded_red_background"
                 android:text="@string/go_to_services_page"/>
 

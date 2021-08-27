@@ -35,13 +35,25 @@ class AdapterOrderType(val items: ArrayList<String>, private val itemClickListen
             if(MyApplication.isClient&&MyApplication.typeSelected==1){
                 holder.credit.visibility = View.VISIBLE
                 holder.switch.visibility = View.GONE
-            }else{
+                holder.location.visibility = View.GONE
+                holder.border.visibility = View.VISIBLE
+                holder.track.visibility = View.VISIBLE
+            }else if(MyApplication.typeSelected==1 && MyApplication.typeSelected ==2 && !MyApplication.isClient){
                 holder.switch.visibility = View.VISIBLE
                 holder.credit.visibility = View.GONE
+            }else if(MyApplication.typeSelected==2 && MyApplication.isClient){
+                holder.credit.visibility = View.GONE
+                holder.switch.visibility = View.GONE
+                holder.location.visibility = View.VISIBLE
+                holder.border.visibility = View.GONE
+                holder.track.visibility = View.GONE
             }
+
+
             holder.rating.visibility=View.GONE
 
         }else{
+            holder.phoneChat.visibility = View.GONE
             holder.credit.visibility = View.GONE
             holder.rating.visibility=View.VISIBLE
             holder.switch.visibility = View.GONE
@@ -57,6 +69,9 @@ class AdapterOrderType(val items: ArrayList<String>, private val itemClickListen
     inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var title = itemView.findViewById<TextView>(R.id.tvCategoryOrder)
         var expected = itemView.findViewById<TextView>(R.id.tvDateExpected)
+        var phoneChat = itemView.findViewById<LinearLayout>(R.id.llPhoneChat)
+        var track = itemView.findViewById<LinearLayout>(R.id.llTrackOrder)
+        var border = itemView.findViewById<LinearLayout>(R.id.llBorderCan)
         var location = itemView.findViewById<LinearLayout>(R.id.llLocation)
         var rating = itemView.findViewById<LinearLayout>(R.id.llRatings)
         var switch = itemView.findViewById<LinearLayout>(R.id.llSwitches)

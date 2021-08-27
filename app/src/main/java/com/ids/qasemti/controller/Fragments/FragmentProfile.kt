@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.utils.AppHelper
+import kotlinx.android.synthetic.main.curve_layout_home.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.white_logo_layout.*
@@ -38,6 +40,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
 
     fun init(){
 
+        (activity as ActivityHome?)!!.showLogout(false)
+        tvToolbarCurveTitle.visibility = View.GONE
 
 
     }

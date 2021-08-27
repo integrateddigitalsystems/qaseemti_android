@@ -62,7 +62,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
 
     fun init(){
         (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
-
+        (activity as ActivityHome?)!!.showLogout(false)
         (activity as ActivityHome?)!!.setTitleAc(getString(R.string.checkout))
 
         etCheckoutTime.setFocusable(false);
@@ -72,6 +72,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
         rbNow.isChecked = true
         rbSpecify.isChecked = false
 
+        btPlaceOrder.typeface = AppHelper.getTypeFace(requireContext())
         btPlaceOrder.setOnClickListener {
             startActivity(Intent(requireContext(),ActivityPlaceOrder::class.java))
         }

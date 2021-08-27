@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:padding="@dimen/mini_margin"
     android:layout_height="300dp"
-    android:layout_marginTop="@dimen/big_margin_2"
+    android:layout_marginTop="@dimen/normal_margin"
     android:orientation="vertical"
 
     >
@@ -68,13 +68,25 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/llPhoneChat"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:weightSum="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
             <ImageView
-
+                android:padding="@dimen/mini_margin"
+                android:layout_weight="1"
                 android:src="@drawable/icon_phone"
                 app:tint="@color/redPrimary"
-                android:layout_width="@dimen/normal_icon"
-                android:layout_height="@dimen/normal_icon"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
             <LinearLayout
                 android:layout_marginEnd="@dimen/normal_margin"
@@ -84,11 +96,14 @@
                 android:background="@color/gray_line"/>
 
             <ImageView
-
+                android:layout_weight="1"
                 android:src="@drawable/icon_chat"
-                android:layout_marginEnd="@dimen/big_margin"
-                android:layout_width="@dimen/icon_2"
-                android:layout_height="@dimen/icon_2"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
         </LinearLayout>
@@ -142,7 +157,6 @@
                         />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
-                        android:layout_marginTop="@dimen/push_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/small_font_3"
@@ -193,7 +207,6 @@
                         />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
-                        android:layout_marginTop="@dimen/push_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/small_font_3"
@@ -349,6 +362,7 @@
 
 
             <LinearLayout
+                android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -361,7 +375,9 @@
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:gravity="center"
-                    android:layout_width="match_parent"
+                    android:scaleX="0.75"
+                    android:scaleY="0.75"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
 
             </LinearLayout>
@@ -379,13 +395,15 @@
                     android:layout_height="wrap_content"/>
                 <androidx.appcompat.widget.SwitchCompat
                     android:gravity="center"
-
-                    android:layout_width="match_parent"
+                    android:scaleX="0.75"
+                    android:scaleY="0.75"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -397,8 +415,9 @@
                     android:layout_height="wrap_content"/>
                 <androidx.appcompat.widget.SwitchCompat
                     android:gravity="center"
-
-                    android:layout_width="match_parent"
+                    android:scaleX="0.75"
+                    android:scaleY="0.75"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
 
 
@@ -472,13 +491,14 @@
             android:layout_weight="1"
             android:gravity="center"
             android:paddingStart="@dimen/margin_start_end"
-
+            android:weightSum="2"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_gravity="center"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <ImageView
@@ -498,6 +518,45 @@
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginEnd="@dimen/small_margin"
                     android:text="@string/view_order_details"/>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:id="@+id/llBorderCan"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_width="1dp"
+                android:layout_height="@dimen/icon_2"
+                android:background="@color/gray_line"/>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/llTrackOrder"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="@dimen/small_icon"
+                    android:layout_height="@dimen/small_icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_track_order"
+                    app:tint="@color/redPrimary" />
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/normal_font"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:tag="track_order_C"
+                    android:textColor="@color/redPrimary"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:text="@string/track_order_C"/>
 
 
             </LinearLayout>

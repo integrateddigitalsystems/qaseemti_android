@@ -47,8 +47,8 @@
                     android:text="@string/select_delivery_address" />
 
                 <ImageView
-                    android:layout_width="@dimen/normal_icon"
-                    android:layout_height="@dimen/normal_icon"
+                    android:layout_width="@dimen/fab_margin"
+                    android:layout_height="@dimen/fab_margin"
                     android:layout_marginEnd="@dimen/normal_margin"
                     android:rotation="180"
                     android:src="@drawable/ic_back"
@@ -92,8 +92,8 @@
 
                     <ImageView
                         android:id="@+id/ivOpenDateTime"
-                        android:layout_width="@dimen/normal_icon"
-                        android:layout_height="@dimen/normal_icon"
+                        android:layout_width="@dimen/fab_margin"
+                        android:layout_height="@dimen/fab_margin"
                         android:layout_marginEnd="@dimen/normal_margin"
                         android:rotation="-90"
                         android:src="@drawable/arrow_right"
@@ -113,7 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="@dimen/normal_margin"
-                    android:background="@color/gray_font" />
+                    android:background="@color/gray_serperator" />
 
                 <RadioGroup
                     android:layout_width="match_parent"
@@ -297,11 +297,11 @@
                             android:textSize="@dimen/header_font" />
 
                         <LinearLayout
-                            android:layout_width="1dp"
+                            android:layout_width="0.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/normal_margin"
                             android:layout_marginEnd="@dimen/normal_margin"
-                            android:background="@color/gray_font" />
+                            android:background="@color/gray_font_title" />
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
@@ -318,7 +318,7 @@
                     android:layout_marginBottom="@dimen/normal_margin"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/gray_font"/>
+                    android:background="@color/gray_serperator"/>
 
                 <LinearLayout
 
@@ -575,7 +575,7 @@
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
-                    android:layout_marginTop="@dimen/first_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
                     android:textSize="@dimen/header_font"
                     android:layout_width="match_parent"
                     android:tag="to"
@@ -636,7 +636,7 @@
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:id="@+id/tvApply"
-                    android:background="@drawable/blue_rounded"
+                    android:background="@drawable/rounded_blue"
                     android:layout_width="@dimen/toolbar_height"
                     android:layout_height="match_parent"
                     android:text="@string/apply"
@@ -666,9 +666,10 @@
 
             <Button
                 android:id="@+id/btPlaceOrder"
-                android:layout_marginTop="@dimen/first_margin"
+                android:layout_marginTop="@dimen/big_margin"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/button_height"
+                android:tag="find_server_provider"
                 android:background="@drawable/blue_rounded"
                 android:text="@string/find_server_provider"
                 android:textColor="@color/white"

@@ -43,7 +43,7 @@
                     android:paddingEnd="@dimen/big_margin">
 
 
-                    <com.ids.qasemti.custom.CustomTextViewMedium
+                    <com.ids.qasemti.custom.CustomTextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -51,14 +51,20 @@
                         android:textSize="@dimen/big_font" />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_marginStart="@dimen/big_margin"
+                    android:layout_marginEnd="@dimen/big_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shadow"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvServices"
                     android:visibility="visible"
+                    android:layout_marginBottom="@dimen/big_margin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/margin_start_end"
-                    android:layout_marginTop="@dimen/big_margin"
                     android:layout_marginEnd="@dimen/margin_start_end" />
 
                 <LinearLayout
@@ -81,8 +87,36 @@
         </androidx.core.widget.NestedScrollView>
 
 
+
         <LinearLayout
+            android:paddingBottom="@dimen/big_margin"
+            android:paddingEnd="@dimen/big_margin"
+            android:gravity="end"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/llFilter"
+            app:maxImageSize="@dimen/big_icon"
+            android:scaleType="center"
+            android:src="@drawable/icon_floating"
+            app:backgroundTint="@color/new_blue"
+            app:borderWidth="0dp"
+            app:elevation="@dimen/normal_margin"
+            app:fabSize="normal" />
+
+        </LinearLayout>
+
+<!--
+        <androidx.cardview.widget.CardView
+            android:background="@color/transparent"
+            android:id="@+id/llFilter"
+            android:elevation="@dimen/normal_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -91,13 +125,17 @@
             android:paddingBottom="@dimen/big_margin">
 
             <ImageView
+
                 android:layout_width="@dimen/big_icon"
                 android:layout_height="@dimen/big_icon"
                 android:background="@drawable/blue_circle"
                 android:padding="@dimen/small_margin"
                 android:src="@drawable/icon_floating" />
 
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
+-->
+
+
 
     </RelativeLayout>
 

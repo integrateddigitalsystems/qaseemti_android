@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <com.ids.qasemti.custom.CustomTextViewMedium
+        <com.ids.qasemti.custom.CustomTextViewBold
 
             android:layout_marginStart="75dp"
             android:layout_marginEnd="75dp"
@@ -44,16 +44,28 @@
 
         <me.grantland.widget.AutofitTextView
             android:maxLines="1"
-            android:layout_marginStart="@dimen/big_margin_2"
-            android:layout_marginEnd="@dimen/big_margin_2"
+            android:id="@+id/tvCodeSentVef"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/height_35"
             android:tag="enter_the_4_digit_code_sent_to_you_from_qasemati"
-            android:layout_marginBottom="@dimen/height_35"
+            android:layout_marginBottom="@dimen/big_margin_2"
             android:gravity="center"
             android:textSize="@dimen/header_font"
             android:text="@string/enter_the_4_digit_code_sent_to_you_from_qasemati"/>
+
+
+        <com.ids.qasemti.custom.CustomTextViewBold
+            android:gravity="center"
+            android:textSize="@dimen/header_font"
+            android:id="@+id/tvSubTitleVerf"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/height_35"
+            android:tag="verification_code"
+            android:layout_height="wrap_content"
+            android:text="@string/verification_code"/>
 
 
         <com.chaos.view.PinView

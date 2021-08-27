@@ -68,6 +68,10 @@
         <activity
             android:name="com.ids.qasemti.controller.Activities.ActivityRegistration"
             android:screenOrientation="fullSensor" />
+        <activity
+            android:name="com.ids.qasemti.controller.Activities.ActivityRegistrationClient"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
 
        <!-- <activity android:name=".controller.Activities.ActivityMap"

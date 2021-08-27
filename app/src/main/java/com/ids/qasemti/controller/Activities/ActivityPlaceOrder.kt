@@ -32,6 +32,9 @@ class ActivityPlaceOrder : AppCompactBase() , RVOnItemClickListener {
         getSupportActionBar()!!.hide();
         btClose.visibility=View.VISIBLE
 
+        tvPageTitle.text = getString(R.string.place_order)
+        AppHelper.setTextColor(this,tvPageTitle,R.color.redPrimary)
+
 
     }
 

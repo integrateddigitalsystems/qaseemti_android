@@ -56,7 +56,7 @@
                     android:layout_height="10dp"
                     android:orientation="horizontal"
                     android:layout_marginEnd="@dimen/big_margin"
-                    android:layout_marginTop="@dimen/medium_margin"
+                    android:layout_marginTop="@dimen/small_margin"
                     android:background="@drawable/rounded_gray_corner">
 
                     <LinearLayout
@@ -83,7 +83,6 @@
                     android:textColor="@color/gray_font_light"
                     android:textSize="@dimen/small_font"
                     android:text="75% Completed"
-                    android:layout_marginTop="@dimen/mini_margin"
                     android:paddingStart="@dimen/small_margin"
                     />
 
@@ -130,8 +129,9 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
+                android:maxLines="1"
                 android:textColor="@color/gray_font"
-                android:layout_marginTop="@dimen/margin_start_end"
+                android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
                 android:hint="@string/FName"
@@ -145,6 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
+                android:maxLines="1"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
@@ -162,6 +163,7 @@
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/margin_start_end"
+                android:maxLines="1"
                 android:paddingEnd="@dimen/margin_start_end"
                 android:hint="@string/LName"
                 android:textColorHint="@color/gray_medium_2"
@@ -193,7 +195,7 @@
                     android:background="@color/transparent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:maxLines="1"
                     android:text="K.hamdan@ids.com.lb"
                     android:textColor="@color/gray_font"
                     android:textSize="@dimen/normal_font" />
@@ -226,6 +228,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
                     android:background="@color/transparent"
                     android:textSize="@dimen/normal_font"
                     android:text="03/1287612"
@@ -256,6 +259,7 @@
                     android:textColor="@color/gray_font"
                     android:paddingStart="@dimen/margin_start_end"
                     android:paddingEnd="@dimen/margin_start_end"
+                    android:maxLines="1"
                     android:textColorHint="@color/gray_medium_2"
                     android:textSize="@dimen/normal_font"
                     android:background="@drawable/rounded_white_background"
@@ -330,6 +334,7 @@
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/margin_start_end"
+                android:maxLines="1"
                 android:paddingEnd="@dimen/margin_start_end"
                 android:hint="@string/date_of_birth"
                 android:textColorHint="@color/gray_medium_2"
@@ -344,6 +349,7 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
+                android:maxLines="1"
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
                 android:hint="@string/alternate_contact_number"
@@ -426,6 +432,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
+                android:maxLines="1"
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
                 android:hint="@string/account_number"
@@ -440,6 +447,7 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
+                android:maxLines="1"
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
                 android:hint="@string/bank_name"
@@ -454,6 +462,7 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
+                android:maxLines="1"
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
                 android:hint="@string/branch_name"
@@ -466,6 +475,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
+                android:maxLines="1"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/margin_start_end"
@@ -483,7 +493,7 @@
                 android:text="@string/save"
                 android:textColor="@color/white"
                 android:tag="save"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/button_height"
                 android:background="@drawable/blue_rounded"/>
 
 

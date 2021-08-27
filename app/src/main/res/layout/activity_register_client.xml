@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/gray_background"
+    android:id="@+id/rootLayoutRegistrationClient"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+    <LinearLayout
+        android:id="@+id/llLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/no_logo_layout"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="-40dp"
+        android:layout_below="@id/llLogo"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.ids.qasemti.custom.CustomTextViewBold
+
+            android:layout_marginStart="75dp"
+            android:layout_marginEnd="75dp"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:padding="@dimen/normal_margin"
+            android:textSize="@dimen/title_font"
+            android:tag="register"
+            android:textColor="@color/redPrimary"
+            android:layout_height="60dp"
+            android:text="@string/register"
+            android:background="@drawable/rounded_white_background"/>
+
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top"
+            android:tag="please_fill_the_below_fields_to_register"
+            android:textSize="@dimen/header_font"
+            android:gravity="center"
+            android:text="@string/please_fill_the_below_fields_to_register" />
+
+        <EditText
+            android:id="@+id/etFirstName"
+            android:layout_marginTop="@dimen/margin_top"
+            android:textColorHint="@color/gray_medium_2"
+            android:paddingStart="@dimen/normal_margin"
+            android:paddingEnd="@dimen/normal_margin"
+            android:tag="@string/FName"
+            android:hint="@string/FName"
+            android:background="@drawable/rounded_white_background"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"/>
+
+        <EditText
+            android:id="@+id/etLastName"
+            android:layout_marginTop="@dimen/first_margin"
+            android:textColorHint="@color/gray_medium_2"
+            android:paddingStart="@dimen/normal_margin"
+            android:paddingEnd="@dimen/normal_margin"
+            android:tag="@string/LName"
+            android:hint="@string/LName"
+            android:background="@drawable/rounded_white_background"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"/>
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_marginTop="@dimen/first_margin"
+            android:textColorHint="@color/gray_medium_2"
+            android:paddingStart="@dimen/normal_margin"
+            android:paddingEnd="@dimen/normal_margin"
+            android:inputType="textEmailAddress"
+            android:hint="@string/email"
+            android:tag="@string/email"
+            android:background="@drawable/rounded_white_background"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"/>
+
+
+        <Button
+            android:textColor="@color/white"
+            android:text="@string/register"
+            android:tag="register"
+            android:layout_marginTop="@dimen/first_margin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:id="@+id/btRegister"
+            android:background="@drawable/blue_rounded"/>
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

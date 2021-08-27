@@ -25,15 +25,20 @@ class ActivityCodeVerification : ActivityBase() {
         }
 
         if(MyApplication.isClient){
+            tvSubTitleVerf.visibility=View.VISIBLE
             btVerifyCode.visibility =View.GONE
             llClientVerfCode.visibility = View.VISIBLE
+            tvCodeSentVef.text = getString(R.string.verification_code_sent)
+
 
             btRegisterVerf.setOnClickListener {
                 startActivity(Intent(this,ActivityAccountStatus::class.java))
             }
         }else{
+            tvSubTitleVerf.visibility=View.GONE
             btVerifyCode.visibility =View.VISIBLE
             llClientVerfCode.visibility = View.GONE
+            tvCodeSentVef.text = getString(R.string.enter_the_4_digit_code_sent_to_you_from_qasemati)
 
             btVerifyCode.setOnClickListener {
                 startActivity(Intent(this,ActivityAccountStatus::class.java))

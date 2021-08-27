@@ -113,4 +113,8 @@
     <string name="place_order">Place Order</string>
     <string name="no_available_servce">Unfortunately there are no available service providers at the moment. Please try again later</string>
     <string name="go_to_services_page">Go to services page</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="verification_code_sent">Verification code has been sent to your mobile number.</string>
+    <string name="services">Services</string>
+    <string name="track_order_C">TRACK ORDER</string>
 </resources>

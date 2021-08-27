@@ -13,6 +13,7 @@ import androidx.core.widget.ImageViewCompat
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Fragments.FragmentServices
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
@@ -37,12 +38,14 @@ class ActivityMobileRegistration: ActivityBase(){
         }
         if(MyApplication.isClient){
             llNewMember.visibility=View.VISIBLE
+            btLogin.visibility=View.GONE
         }else{
+
             llNewMember.visibility=View.GONE
         }
 
         tvRegisterNewMember.setOnClickListener {
-            startActivity(Intent(this,ActivityRegistration::class.java))
+            startActivity(Intent(this,ActivityRegistrationClient::class.java))
         }
 
 
@@ -81,6 +84,16 @@ class ActivityMobileRegistration: ActivityBase(){
             if(etPhone.text.isNullOrEmpty()){
                 AppHelper.createDialog(this,getString(R.string.please_fill_data))
             }else {
+                MyApplication.isSignedIn = true
+                startActivity(Intent(this, ActivityRegistration::class.java))
+            }
+        }
+        btLoginClient.setOnClickListener {
+            if(etPhone.text.isNullOrEmpty()){
+                AppHelper.createDialog(this,getString(R.string.please_fill_data))
+            }else {
+                MyApplication.theFragment = FragmentServices()
+                MyApplication.selectedFragment = AppConstants.FRAGMENT_SERVICE
                 MyApplication.isSignedIn = true
                 startActivity(Intent(this, ActivityHome::class.java))
             }

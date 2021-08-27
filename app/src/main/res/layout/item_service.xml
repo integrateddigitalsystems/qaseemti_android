@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearService"
     android:orientation="vertical"
-    android:layout_marginBottom="@dimen/big_margin"
+    android:layout_marginTop="@dimen/first_margin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >

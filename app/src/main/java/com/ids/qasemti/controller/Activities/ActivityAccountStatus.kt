@@ -8,6 +8,10 @@ import android.view.View
 import androidx.core.widget.ImageViewCompat
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Fragments.FragmentOrders
+import com.ids.qasemti.controller.Fragments.FragmentServices
+import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
 import kotlinx.android.synthetic.main.activity_account_status.*
 import kotlinx.android.synthetic.main.activity_code_verification.*
@@ -27,6 +31,14 @@ class ActivityAccountStatus : ActivityBase() {
             if(notfSelected==-1){
                 AppHelper.createDialog(this,getString(R.string.select_get_notified))
             }else{
+                if(MyApplication.isClient){
+                    MyApplication.selectedFragment = AppConstants.FRAGMENT_SERVICE
+                    MyApplication.theFragment = FragmentServices()
+                }else{
+                    MyApplication.selectedFragment = AppConstants.FRAGMENT_SERVICE
+                    MyApplication.theFragment = FragmentOrders()
+                }
+                MyApplication.selectedPos = 2
                 startActivity(Intent(this,ActivityHome::class.java))
             }
         }

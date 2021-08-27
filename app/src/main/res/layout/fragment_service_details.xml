@@ -94,25 +94,36 @@
 
 
                 </androidx.cardview.widget.CardView>
+                <LinearLayout
+                    android:layout_below="@id/cvPager"
+                    android:layout_marginStart="@dimen/big_margin"
+                    android:layout_marginEnd="@dimen/big_margin"
+                    android:orientation="vertical"
+                    android:id="@+id/llShadow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shadow"/>
 
                 <com.google.android.material.tabs.TabLayout
-                    android:layout_below="@id/cvPager"
+                    android:layout_below="@id/llShadow"
                     android:layout_centerHorizontal="true"
                     android:layoutDirection="ltr"
                     android:background="@color/transparent"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     app:tabIndicator="@null"
-                    android:layout_marginTop="@dimen/push_text"
+                    android:textAlignment="center"
+                    app:tabIndicatorHeight="0dp"
+                    android:layout_marginTop="@dimen/normal_margin"
                     app:tabGravity="center"
-                    app:tabPaddingEnd="@dimen/push_text"
-                    app:tabPaddingStart="@dimen/push_text"
+                    app:tabPaddingEnd="-12dp"
+                    app:tabPaddingStart="-12dp"
                     android:id="@+id/tbMedias"/>
 
 
 
                 <LinearLayout
-                    android:layout_marginTop="@dimen/big_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
                     android:id="@+id/llSpinnerServices"
                     android:layout_marginStart="@dimen/normal_margin"
                     android:layout_marginEnd="@dimen/normal_margin"
@@ -144,7 +155,7 @@
                         <RelativeLayout
                             android:layout_marginTop="@dimen/normal_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
                             android:background="@drawable/rounded_white_background">
 
                             <Spinner
@@ -193,7 +204,7 @@
                         <RelativeLayout
                             android:layout_marginTop="@dimen/normal_margin"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
                             android:background="@drawable/rounded_white_background">
 
                             <Spinner
@@ -243,7 +254,7 @@ nisl ut aliquip ex ea commodo consequat. Duis
 
                 <Button
                     android:id="@+id/btServiceCheckout"
-                    android:layout_marginTop="@dimen/big_margin"
+                    android:layout_marginTop="@dimen/big_margin_2"
                     android:layout_marginStart="@dimen/margin_start_end"
                     android:layout_marginEnd="@dimen/margin_start_end"
                     android:layout_below="@id/tvDescription"
@@ -251,33 +262,35 @@ nisl ut aliquip ex ea commodo consequat. Duis
                     android:text="@string/checkout"
                     android:tag="checkout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_height="@dimen/button_height"
                     android:background="@drawable/blue_rounded"/>
 
 
                 <LinearLayout
-                    android:layout_marginBottom="@dimen/big_margin"
+                    android:padding="@dimen/normal_margin"
+                    android:layout_marginBottom="@dimen/big_margin_2"
                     android:gravity="center_vertical"
-                    android:layout_marginTop="@dimen/big_margin"
+                    android:layout_marginTop="@dimen/big_margin_2"
                     android:layout_below="@id/btServiceCheckout"
                     android:orientation="horizontal"
                     android:layout_marginStart="@dimen/margin_start_end"
                     android:layout_marginEnd="@dimen/margin_start_end"
                     android:background="@drawable/pink_rounded"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_height="wrap_content"
                     android:id="@+id/llAlert">
 
                     <ImageView
                         android:layout_marginStart="@dimen/normal_margin"
-                        android:layout_width="@dimen/icon"
-                        android:layout_height="@dimen/icon"
+                        android:layout_width="@dimen/normal_icon_size"
+                        android:layout_height="@dimen/normal_icon_size"
                         android:src="@drawable/icon_alert"/>
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_marginStart="@dimen/normal_margin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/tvItalicNote"
                         android:layout_marginEnd="@dimen/normal_margin"
                         android:textStyle="italic"
                         android:text="@string/price_effect"/>

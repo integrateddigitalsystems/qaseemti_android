@@ -42,7 +42,7 @@ class FragmentOrderTypes : Fragment() , RVOnItemClickListener {
     }
 
     fun init(){
-
+        (activity as ActivityHome?)!!.showLogout(false)
         if(typeSelected==1){
             tvActive.setBackgroundResource(R.drawable.rounded_red_background)
             tvCompleted.setBackgroundResource(R.color.transparent)
