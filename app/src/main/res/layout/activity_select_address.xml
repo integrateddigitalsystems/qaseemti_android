@@ -43,13 +43,14 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/llCurrentLocation"
             android:background="@drawable/rounded_white_background"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="@dimen/big_margin"
             android:paddingEnd="@dimen/big_margin"
             android:elevation="@dimen/small_margin"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_width="match_parent"
             >
 
@@ -59,18 +60,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:src="@drawable/icon_currentLocation"
                     android:layout_width="@dimen/big_icon_size"
                     android:layout_height="@dimen/big_icon_size"
-                    android:id="@+id/ivServiceLogo"
+                    android:id="@+id/ivCurrent"
                     />
             </LinearLayout>
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:id="@+id/tvServiceTitle"
+                android:tag="current_location"
+                android:id="@+id/tvCurrentLocation"
                 android:layout_marginStart="@dimen/big_margin"
-                android:text="Gravel Truck"
+                android:text="@string/current_location"
                 android:layout_height="wrap_content"/>
 
 
@@ -89,6 +92,7 @@
             android:background="@drawable/shadow" />
 
         <LinearLayout
+            android:id="@+id/llLocationOnMap"
             android:layout_marginTop="@dimen/normal_margin"
             android:background="@drawable/rounded_white_background"
             android:gravity="center_vertical"
@@ -96,7 +100,7 @@
             android:paddingStart="@dimen/big_margin"
             android:paddingEnd="@dimen/big_margin"
             android:elevation="@dimen/small_margin"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_width="match_parent"
             >
 
@@ -108,16 +112,18 @@
                 <ImageView
                     android:layout_width="@dimen/big_icon_size"
                     android:layout_height="@dimen/big_icon_size"
-                    android:id="@+id/ivServiceLogo"
+                    android:src="@drawable/icon_LocationMap"
+                    android:id="@+id/ivLocationMap"
                     />
             </LinearLayout>
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:id="@+id/tvServiceTitle"
+                android:tag="location_on_map"
+                android:id="@+id/tvLocationOnMap"
                 android:layout_marginStart="@dimen/big_margin"
-                android:text="Gravel Truck"
+                android:text="@string/location_on_map"
                 android:layout_height="wrap_content"/>
 
 
@@ -136,6 +142,7 @@
             android:background="@drawable/shadow" />
 
         <LinearLayout
+            android:id="@+id/llSavedLocation"
             android:layout_marginTop="@dimen/normal_margin"
             android:background="@drawable/rounded_white_background"
             android:gravity="center_vertical"
@@ -143,7 +150,7 @@
             android:paddingStart="@dimen/big_margin"
             android:paddingEnd="@dimen/big_margin"
             android:elevation="@dimen/small_margin"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_width="match_parent"
             >
 
@@ -155,16 +162,17 @@
                 <ImageView
                     android:layout_width="@dimen/big_icon_size"
                     android:layout_height="@dimen/big_icon_size"
-                    android:id="@+id/ivServiceLogo"
+                    android:src="@drawable/icon_savedLocation"
                     />
             </LinearLayout>
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:id="@+id/tvServiceTitle"
+                android:id="@+id/tvSavedLocation"
                 android:layout_marginStart="@dimen/big_margin"
-                android:text="Gravel Truck"
+                android:text="@string/saved_location"
+                android:tag="saved_location"
                 android:layout_height="wrap_content"/>
 
 
@@ -183,6 +191,7 @@
             android:background="@drawable/shadow" />
 
         <LinearLayout
+            android:id="@+id/llNewAddress"
             android:layout_marginTop="@dimen/normal_margin"
             android:background="@drawable/rounded_white_background"
             android:gravity="center_vertical"
@@ -190,7 +199,7 @@
             android:paddingStart="@dimen/big_margin"
             android:paddingEnd="@dimen/big_margin"
             android:elevation="@dimen/small_margin"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_width="match_parent"
             >
 
@@ -200,6 +209,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:src="@drawable/icon_newAddress"
                     android:layout_width="@dimen/big_icon_size"
                     android:layout_height="@dimen/big_icon_size"
                     android:id="@+id/ivServiceLogo"
@@ -209,9 +219,10 @@
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:id="@+id/tvServiceTitle"
+                android:id="@+id/tvNewLocation"
                 android:layout_marginStart="@dimen/big_margin"
-                android:text="Gravel Truck"
+                android:text="@string/new_address"
+                android:tag="new_address"
                 android:layout_height="wrap_content"/>
 
 
@@ -231,6 +242,9 @@
 
 
         <Button
+            android:text="@string/continue_"
+            android:tag="continue_"
+            android:layout_marginTop="@dimen/first_margin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:background="@drawable/blue_rounded"

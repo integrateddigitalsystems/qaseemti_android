@@ -117,4 +117,9 @@
     <string name="verification_code_sent">Verification code has been sent to your mobile number.</string>
     <string name="services">Services</string>
     <string name="track_order_C">TRACK ORDER</string>
+    <string name="current_location">Current Location</string>
+    <string name="location_on_map">Location On Map</string>
+    <string name="saved_location">Saved Location</string>
+    <string name="new_address">New Address</string>
+    <string name="continue_">Continue</string>
 </resources>
