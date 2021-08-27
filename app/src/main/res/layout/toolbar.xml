@@ -28,8 +28,9 @@
         android:layout_width="@dimen/normal_icon_size"
         android:layout_height="@dimen/normal_icon_size"
         android:background="@drawable/ic_back"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/redPrimary"
         android:visibility="gone"
+
         android:layout_alignParentStart="true"
         android:id="@+id/btBack"
         android:layout_centerVertical="true"

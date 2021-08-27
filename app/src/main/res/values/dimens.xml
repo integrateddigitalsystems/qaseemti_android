@@ -14,7 +14,7 @@
     <dimen name="small_font_2">11sp</dimen>
     <dimen name="small_font_3">10sp</dimen>
     <dimen name="huge_margin">40dp</dimen>
-    <dimen name="normal_radius">12dp</dimen>
+    <dimen name="normal_radius">8dp</dimen>
     <dimen name="big_radius">14dp</dimen>
     <dimen name="bigger_radius">16dp</dimen>
     <dimen name="medium_radius">12dp</dimen>
