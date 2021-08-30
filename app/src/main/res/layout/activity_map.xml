@@ -1,131 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include  layout="@layout/toolbar" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+     <EditText
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/edit_text_height"
+         android:layout_marginStart="@dimen/margin_start_end"
+         android:layout_marginEnd="@dimen/margin_start_end"
+         android:background="@drawable/rounded_white_red_border"
+         android:hint="@string/search_for_your_location"
+         android:textColorHint="@color/gray_font_light"
+         android:tag="search_for_your_location"
+         android:textSize="@dimen/normal_font"
+         android:textColor="@color/redPrimary"
+         android:paddingStart="@dimen/normal_margin"
+         android:paddingEnd="@dimen/normal_margin"
+         />
 
-
-
-
-
-        <com.google.android.gms.maps.MapView
+    <com.ids.qasemti.custom.CustomTextViewMedium
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:textColor="@color/gray_font"
+        android:textSize="@dimen/normal_font"
+        android:text="@string/move_the_map"
+        android:tag="move_the_map"
+        />
+     <com.google.android.gms.maps.MapView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+             android:layout_marginTop="@dimen/normal_margin"
             android:id="@+id/mvLocation"/>
 
 
 
-        <LinearLayout
-            android:id="@+id/llbackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <include layout="@layout/no_logo_layout" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginStart="@dimen/first_margin"
-            android:layout_marginEnd="@dimen/first_margin"
-            android:layout_below="@+id/llbackground"
-            android:layout_marginTop="-45dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <LinearLayout
-
-
-            android:orientation="vertical"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_white_background">
-
-
-            <LinearLayout
-                android:layout_marginStart="@dimen/big_margin"
-                android:layout_marginEnd="@dimen/normal_margin"
-                android:layout_marginTop="@dimen/big_margin"
-                android:layout_marginBottom="@dimen/normal_margin"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:tint="@color/redPrimary"
-                    android:layout_width="@dimen/fab_margin"
-                    android:layout_height="@dimen/fab_margin"
-                    android:src="@drawable/icon_user"/>
-
-                <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:layout_marginStart="@dimen/normal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Kamal Hamdan"/>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_marginStart="@dimen/big_margin"
-                android:layout_marginEnd="@dimen/normal_margin"
-                android:layout_marginTop="@dimen/normal_margin"
-                android:layout_marginBottom="@dimen/normal_margin"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:tint="@color/redPrimary"
-                    android:layout_width="@dimen/fab_margin"
-                    android:layout_height="@dimen/fab_margin"
-                    android:src="@drawable/icon_phone"/>
-
-                <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:layout_marginStart="@dimen/normal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="00961 76 664 440"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginStart="@dimen/big_margin"
-                android:layout_marginEnd="@dimen/normal_margin"
-                android:layout_marginTop="@dimen/normal_margin"
-                android:layout_marginBottom="@dimen/big_margin"
-                android:gravity="top"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="@dimen/fab_margin"
-                    android:layout_height="@dimen/fab_margin"
-                    android:src="@drawable/icon_loc_red"/>
-
-                <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:layout_marginStart="@dimen/normal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Hazmieh, Saeed Freiha street. \n Elias bldg Block A Fl. \n 3.Next to Pepsi Company"/>
-            </LinearLayout>
 
 
 
-        </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:background="@drawable/shadow" />
 
-        </LinearLayout>
-
-
-        <include
-            layout="@layout/toolbar" />
-
-    </RelativeLayout>
 
 </LinearLayout>

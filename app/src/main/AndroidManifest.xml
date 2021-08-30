@@ -85,6 +85,10 @@
         <activity
             android:name="com.ids.qasemti.controller.Activities.ActivityMap"
             android:screenOrientation="fullSensor" />
+
+        <activity
+            android:name="com.ids.qasemti.controller.Activities.ActivityMapAddress"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name="com.ids.qasemti.controller.Activities.ActivityPlaceOrder"
             android:screenOrientation="fullSensor" />
