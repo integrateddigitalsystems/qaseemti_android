@@ -1,6 +1,7 @@
 package com.ids.qasemti.controller.Activities
 
 
+import android.content.Intent
 import android.os.Bundle
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -29,5 +30,6 @@ class ActivityAddNewAddress : ActivityBase() {
 
     private fun listeners(){
         btBack.setOnClickListener{super.onBackPressed()}
+        btMapAddress.setOnClickListener{startActivity(Intent(this,ActivityMapAddress::class.java))}
     }
 }

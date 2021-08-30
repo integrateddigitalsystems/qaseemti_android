@@ -122,4 +122,7 @@
     <string name="floor">Floor</string>
     <string name="more_details">More Details about your address</string>
     <string name="use_only_this_time">USE ONLY THIS TIME</string>
+    <string name="search_for_your_location">Search for your location</string>
+    <string name="move_the_map">Move the map and drop the pin to your address</string>
+    <string name="mark_your_address">Mark your address on map for faster delivery</string>
 </resources>
