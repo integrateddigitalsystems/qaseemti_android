@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "328830102641",
+    "project_id": "qasemati-95aa8",
+    "storage_bucket": "qasemati-95aa8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328830102641:android:be87827f326fd69460bfd0",
+        "android_client_info": {
+          "package_name": "com.ids.qasemti"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328830102641-hi70o6d57778e9edvb21g86bvj0n70oo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ids.qasemti",
+            "certificate_hash": "133082cadc0b7e02273a30953224c8e5a2c7bb42"
+          }
+        },
+        {
+          "client_id": "328830102641-f201a74g7ritkrrve4jgpan5eg73b29h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACBxPYVDC-EuZjR9_z8arzx7SQIWiK36w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328830102641-f201a74g7ritkrrve4jgpan5eg73b29h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "328830102641-2pglak8irkg90ahtnndbfr6ckb3b08dj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ids.qasemati-client"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328830102641:android:672c64bfd19dbc8960bfd0",
+        "android_client_info": {
+          "package_name": "com.ids.qasemtiservice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328830102641-f201a74g7ritkrrve4jgpan5eg73b29h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACBxPYVDC-EuZjR9_z8arzx7SQIWiK36w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328830102641-f201a74g7ritkrrve4jgpan5eg73b29h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "328830102641-2pglak8irkg90ahtnndbfr6ckb3b08dj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ids.qasemati-client"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
