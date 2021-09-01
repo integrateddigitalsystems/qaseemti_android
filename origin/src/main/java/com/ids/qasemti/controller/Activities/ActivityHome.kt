@@ -183,5 +183,10 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
 
+    fun addFrag(fragment: Fragment,tag: String){
+        addFragment(R.id.homeContainer,supportFragmentManager,fragment, tag)
+    }
+
+
 }
 

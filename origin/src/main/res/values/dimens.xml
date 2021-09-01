@@ -83,5 +83,6 @@
     <dimen name="msg_edit_text">120dp</dimen>
     <dimen name="stroke">3dp</dimen>
     <dimen name="account_section_height">50dp</dimen>
+    <dimen name="settlement_inside_item_hight">40dp</dimen>
 
 </resources>

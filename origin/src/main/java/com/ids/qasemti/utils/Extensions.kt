@@ -70,10 +70,10 @@ fun Any.wtf(message: String) {
 }
 
 
-fun Any.AddFragment(fragmentManager: FragmentManager,  myFragment: Fragment, myTag:String, id:Int){
+fun Any.addFragment( container:Int,fragmentManager: FragmentManager,  myFragment: Fragment, myTag:String){
     MyApplication.selectedFragmentTag = myTag
     fragmentManager.beginTransaction()
-        .add(id, myFragment, myTag)
+        .add(container, myFragment, myTag)
         .addToBackStack(null)
         .commit()
 }
@@ -108,7 +108,8 @@ fun Any.logw(key:String,value: String){
 
 fun TextView.textRemote(key:String){
     if(MyApplication.localizeArray!=null){
-       try{ this.text = MyApplication.localizeArray!!.messages!!.find { it.localize_Key==key }!!.getMessage() }catch (e:Exception){}
+       try{ this.text = MyApplication.localizeArray!!.messages!!.find { it.localize_Key==key }!!.getMessage() }catch (e:Exception){
+       }
     }
 
 }

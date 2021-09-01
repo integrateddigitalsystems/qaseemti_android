@@ -23,6 +23,7 @@ class MyApplication : Application() {
         var isDebug: Boolean = true
         var selectedFragmentTag : String ?=""
         var typeSelected = 0
+        var settlementTabSelected = 0
         var selectedFragment  : Fragment ?=null
         var selectedPos : Int = 2
         var selectedImage:String ?=""

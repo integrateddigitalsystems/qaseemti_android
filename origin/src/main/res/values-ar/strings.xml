@@ -138,4 +138,13 @@
     <string name="logout">Logout</string>
     <string name="price">Price</string>
     <string name="earning">Earning</string>
+    <string name="to_be_settled">To be Settled</string>
+    <string name="previews_settlements">Previews Settlements</string>
+    <string name="total_order">Total Order</string>
+    <string name="count">Count</string>
+    <string name="settlement">Settlement</string>
+    <string name="amount">Amount</string>
+    <string name="my_earning">My Earning</string>
+    <string name="my_dues">My Dues</string>
+    <string name="request_settlements">Request Settlements</string>
 </resources>

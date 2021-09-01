@@ -34,8 +34,6 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
     }
 
     fun init(){
-
-
-
+        AppHelper.setTitle(requireActivity(),getString(R.string.profile),"profile")
     }
 }
