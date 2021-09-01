@@ -82,6 +82,7 @@
             android:background="@drawable/blue_rounded"/>
 
         <RelativeLayout
+            android:visibility="gone"
             android:orientation="vertical"
             android:id="@+id/llNewMember"
             android:layout_marginBottom="@dimen/big_margin"

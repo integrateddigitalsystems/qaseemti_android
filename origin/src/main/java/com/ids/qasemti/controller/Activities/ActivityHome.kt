@@ -42,6 +42,14 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
 
+    fun showLogout(show:Boolean){
+        if(show){
+            btLogout.visibility = View.VISIBLE
+        }else{
+            btLogout.visibility = View.GONE
+        }
+
+    }
     private fun init() {
 
         btDrawer.hide()
