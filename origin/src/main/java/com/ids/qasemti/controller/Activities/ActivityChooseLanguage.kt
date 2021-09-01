@@ -6,7 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
-import com.ids.qasemti.controller.Fragments.FragmentAddresses
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication

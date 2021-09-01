@@ -124,4 +124,16 @@
     <string name="search_for_your_location">Search for your location</string>
     <string name="move_the_map">Move the map and drop the pin to your address</string>
     <string name="mark_your_address">Mark your address on map for faster delivery</string>
+    <string name="my_account">My Account</string>
+    <string name="my_services">My Services</string>
+    <string name="settlements">Settlements</string>
+    <string name="contact_administrator">Contact Administrator</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_and_conditions">Terms and conditions</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="my_profile">My Profile</string>
+    <string name="language">Language</string>
+    <string name="push_notifications">Push Notifications</string>
+    <string name="share_app">Share App</string>
+    <string name="logout">Logout</string>
 </resources>

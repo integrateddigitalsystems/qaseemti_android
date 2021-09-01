@@ -75,7 +75,7 @@ class ActivityMobileRegistration: ActivityBase(){
                 AppHelper.createDialog(this,getString(R.string.please_fill_data))
             }else {
                 MyApplication.isSignedIn = true
-                AppHelper.goHome(this)
+                startActivity(Intent(this,ActivityRegistration::class.java))
             }
 
         }

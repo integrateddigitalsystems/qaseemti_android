@@ -28,7 +28,7 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        inflater.inflate(com.ids.qasemti.R.layout.layout_home_orders, container, false)
+        inflater.inflate(R.layout.layout_home_orders, container, false)
 
 
 

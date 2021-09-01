@@ -20,7 +20,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        inflater.inflate(com.ids.qasemti.R.layout.fragment_cart, container, false)
+        inflater.inflate(com.ids.qasemti.R.layout.fragment_account, container, false)
 
 
 

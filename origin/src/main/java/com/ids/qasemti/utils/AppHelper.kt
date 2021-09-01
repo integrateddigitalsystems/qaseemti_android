@@ -336,11 +336,11 @@ class AppHelper {
 
 
             when (selected) {
-                AppConstants.FRAGMENT_PROFILE -> {
+                AppConstants.FRAGMENT_ACCOUNT -> {
                     setLogoTint(imgAcc,context,R.color.redPrimary)
                     setTextColor(context,tvAcc,R.color.redPrimary)
                 }
-                AppConstants.FRAGMENT_HOME_CLIENT -> {
+                AppConstants.FRAGMENT_HOME_CLIENT,AppConstants.FRAGMENT_HOME_SP -> {
                     setLogoTint(imgHom,context,R.color.redPrimary)
                     setTextColor(context,tvHom,R.color.redPrimary)
                 }

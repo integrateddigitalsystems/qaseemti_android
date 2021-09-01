@@ -12,13 +12,15 @@
     <LinearLayout
         android:gravity="center_vertical|end"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height">
+        android:layout_height="@dimen/toolbar_height_small">
     <androidx.appcompat.widget.SwitchCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/swAvailable"
         android:text="@string/available"
         android:checked="true"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
         android:tag="@string/available"
         android:buttonTint="@color/green_switch"
         app:switchPadding="@dimen/small_margin"
@@ -39,7 +41,7 @@
         android:paddingEnd="@dimen/margin_start_end"
         android:paddingStart="@dimen/margin_start_end"
         android:background="@drawable/rounded_white_red_border"
-        android:layout_marginTop="@dimen/medium_margin"
+
         >
 
         <TextView
