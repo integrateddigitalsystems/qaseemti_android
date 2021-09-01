@@ -61,6 +61,7 @@
                 android:paddingEnd="@dimen/normal_margin"
                 android:inputType="phone"
                 android:hint="@string/mobile"
+                android:text="1"
                 android:background="@drawable/rounded_white_background"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:layout_width="match_parent"

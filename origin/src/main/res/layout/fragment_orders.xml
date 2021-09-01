@@ -34,6 +34,7 @@
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
         android:padding="@dimen/small_margin"
+        android:id="@+id/linearTabs"
         android:weightSum="4"
         android:layout_marginTop="@dimen/first_margin"
         android:background="@drawable/rounded_white_background"
