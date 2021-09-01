@@ -133,4 +133,8 @@
     <string name="search_for_your_location">Search for your location</string>
     <string name="move_the_map">Move the map and drop the pin to your address</string>
     <string name="mark_your_address">Mark your address on map for faster delivery</string>
+    <string name="suggest_new_delivery_time">Suggest new delivery time</string>
+    <string name="send_request">SEND REQUEST</string>
+    <string name="cancel_order">Cancel Order</string>
+    <string name="active_order_det">Active Order Details</string>
 </resources>
