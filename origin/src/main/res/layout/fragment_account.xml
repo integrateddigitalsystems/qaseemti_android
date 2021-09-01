@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/rootLayout"
+    android:background="@color/gray_bg"
+    >
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/big_font"
+        android:text="@string/my_account"
+        android:textColor="@color/redPrimary"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_margin="@dimen/normal_margin"
+        />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btMyServices"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_services"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/my_services"
+                    android:tag="my_services"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
+            <include layout="@layout/separator_dark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btSettelments"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_settlement"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/settlements"
+                    android:tag="settlements"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
+            <include layout="@layout/separator_dark"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btMyProfile"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_profile"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/my_profile"
+                    android:tag="my_profile"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
+            <include layout="@layout/separator_dark"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btLanguage"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_language"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/language"
+                    android:tag="language"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
+            <include layout="@layout/separator_dark"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btNotifications"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_notification"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/push_notifications"
+                    android:tag="push_notifications"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
+            <include layout="@layout/separator_dark"/>
+
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btContactAdministrator"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_contact_administrator"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/contact_administrator"
+                    android:tag="contact_administrator"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
+            <include layout="@layout/separator_dark"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btPrivacy"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_privacy"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/privacy_policy"
+                    android:tag="privacy_policy"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
+            <include layout="@layout/separator_dark"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btTermsAndConditions"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_terms"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/terms_and_conditions"
+                    android:tag="terms_and_conditions"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
+            <include layout="@layout/separator_dark"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btRateUs"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_terms"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/rate_us"
+                    android:tag="rate_us"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
+            <include layout="@layout/separator_dark"/>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btShareApp"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_terms"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/share_app"
+                    android:tag="share_app"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
+            <include layout="@layout/separator_dark"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btLogout"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_terms"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/logout"
+                    android:tag="logout"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
+            <include layout="@layout/separator_dark"/>
+
+
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>
