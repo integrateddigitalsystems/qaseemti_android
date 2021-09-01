@@ -49,6 +49,7 @@
             android:paddingEnd="@dimen/normal_margin"
             android:tag="@string/FName"
             android:hint="@string/FName"
+            android:text="aaa"
             android:background="@drawable/rounded_white_background"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"/>
@@ -61,6 +62,7 @@
             android:paddingEnd="@dimen/normal_margin"
             android:tag="@string/LName"
             android:hint="@string/LName"
+            android:text="bbb"
             android:background="@drawable/rounded_white_background"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"/>
@@ -74,6 +76,7 @@
             android:inputType="textEmailAddress"
             android:hint="@string/email"
             android:tag="@string/email"
+            android:text="aa@bb.cc"
             android:background="@drawable/rounded_white_background"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"/>

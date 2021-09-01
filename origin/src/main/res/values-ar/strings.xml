@@ -144,6 +144,8 @@
     <string name="push_notifications">Push Notifications</string>
     <string name="share_app">Share App</string>
     <string name="logout">Logout</string>
+    <string name="price">Price</string>
+    <string name="earning">Earning</string>
     <string name="suggest_new_delivery_time">Suggest new delivery time</string>
     <string name="send_request">SEND REQUEST</string>
     <string name="cancel_order">Cancel Order</string>

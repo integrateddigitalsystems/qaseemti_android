@@ -22,7 +22,7 @@ class MyApplication : Application() {
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
         var selectedFragmentTag : String ?=""
-        var typeSelected = 1
+        var typeSelected = 0
         var selectedFragment  : Fragment ?=null
         var selectedPos : Int = 2
         var selectedImage:String ?=""

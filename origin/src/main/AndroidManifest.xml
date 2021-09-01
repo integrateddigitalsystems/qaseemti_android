@@ -87,6 +87,14 @@
             android:screenOrientation="fullSensor" />
 
         <activity
+            android:name=".controller.Activities.ActivityServices"
+            android:screenOrientation="fullSensor" />
+
+        <activity
+            android:name=".controller.Activities.ActivitySettlements"
+            android:screenOrientation="fullSensor" />
+
+        <activity
             android:name=".controller.Activities.ActivityMapAddress"
             android:screenOrientation="fullSensor" />
         <activity
