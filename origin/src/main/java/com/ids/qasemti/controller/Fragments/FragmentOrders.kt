@@ -49,7 +49,6 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         ordersArray.add("1")
         ordersArray.add("1")
         ordersArray.add("1")
-
         (activity as ActivityHome?)!!.drawColor()
 
     }
@@ -60,7 +59,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
                 if(typeSelected!=i){
                     var tv=linearTabs.getChildAt(i) as TextView
                     setTabLayout(i,tv)
-                    setData()
+                    setData(true)
                 }
             }
         }
