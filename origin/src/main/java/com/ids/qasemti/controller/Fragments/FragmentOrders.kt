@@ -46,9 +46,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
 
     fun init(){
         ordersArray.clear()
-        ordersArray.add("1")
-        ordersArray.add("1")
-        ordersArray.add("1")
+        repeat(3) { ordersArray.add("1") }
         (activity as ActivityHome?)!!.drawColor()
 
     }
