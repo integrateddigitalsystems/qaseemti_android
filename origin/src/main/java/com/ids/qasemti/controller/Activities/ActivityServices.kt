@@ -37,6 +37,7 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
 
     private fun listeners(){
         btBck.setOnClickListener{super.onBackPressed()}
+        btAdd.setOnClickListener{startActivity(Intent(this,ActivityServiceInformation::class.java))}
     }
 
     private fun setData(){

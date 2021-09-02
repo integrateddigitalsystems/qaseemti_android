@@ -1,7 +1,145 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearService3"
     android:orientation="vertical"
     android:layout_height="match_parent">
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/price_earning"
+        android:textColor="@color/primary"
+        android:textSize="@dimen/big_font"
+        android:tag="ownership_proof"
+        />
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:id="@+id/rvData"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/icon_2"
+            android:layout_height="@dimen/icon_2"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_qtt"
+            />
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/gray_font"
+            android:layout_marginStart="@dimen/small_margin"
+            android:text="Price : 10 KWD"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/small_margin"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/icon_2"
+            android:layout_height="@dimen/icon_2"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_qtt"
+            />
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/gray_font"
+            android:layout_marginStart="@dimen/small_margin"
+            android:text="Earning : 7 KWD"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/small_margin"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/icon_2"
+            android:layout_height="@dimen/icon_2"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_qtt"
+            />
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/gray_font"
+            android:layout_marginStart="@dimen/small_margin"
+            android:text="Estimated delivery time : 4 business hours"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/big_margin"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/button_height"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/white"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:background="@drawable/rounded_red_background"
+            android:text="@string/previews"
+            android:tag="previews"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/button_height"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/white"
+            android:layout_marginStart="@dimen/small_margin"
+            android:background="@drawable/blue_rounded"
+            android:text="@string/create_service"
+            android:tag="create_service"
+            android:textAllCaps="false"
+            />
+    </LinearLayout>
+
+
 
 </LinearLayout>
