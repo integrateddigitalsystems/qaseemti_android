@@ -10,6 +10,7 @@
 
 
     <ImageButton
+        android:visibility="gone"
         android:layout_width="@dimen/icon_2"
         android:layout_height="@dimen/icon_2"
         android:id="@+id/btBck"

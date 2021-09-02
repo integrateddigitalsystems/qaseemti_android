@@ -25,11 +25,11 @@ class ActivityAddNewAddress : ActivityBase() {
 
     private fun init(){
         btDrawer.hide()
-        btBack.show()
+        btBackTool.show()
     }
 
     private fun listeners(){
-        btBack.setOnClickListener{super.onBackPressed()}
+        btBackTool.setOnClickListener{super.onBackPressed()}
         btMapAddress.setOnClickListener{startActivity(Intent(this,ActivityMapAddress::class.java))}
     }
 }

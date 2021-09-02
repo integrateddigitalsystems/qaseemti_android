@@ -8,6 +8,7 @@ import com.ids.qasemti.R
 
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
@@ -29,8 +30,10 @@ class ActivityMobileRegistration: ActivityBase(){
 
 
         if(MyApplication.isClient){
+            btLogin.hide()
             llNewMember.show()
         }else{
+            btLogin.show()
             llNewMember.hide()
         }
 
@@ -67,6 +70,18 @@ class ActivityMobileRegistration: ActivityBase(){
 
             }
 
+
+        }
+
+        btLoginClient.setOnClickListener {
+            if(etPhone.text.isNullOrEmpty()){
+                AppHelper.createDialog(this,getString(R.string.please_fill_data))
+            }else {
+                /*MyApplication.selectedFragment = FragmentHomeClient()
+                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT*/
+                MyApplication.isSignedIn = true
+                startActivity(Intent(this, ActivityHome::class.java))
+            }
 
         }
 

@@ -10,6 +10,7 @@ import android.content.res.Configuration
 import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.ids.qasemti.R
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.model.FirebaseLocalizeArray
@@ -23,6 +24,8 @@ class MyApplication : Application() {
         var isDebug: Boolean = true
         var selectedFragmentTag : String ?=""
         var typeSelected = 0
+        var tintColor = R.color.white
+        var orderType : Int = 0
         var selectedFragment  : Fragment ?=null
         var selectedPos : Int = 2
         var selectedImage:String ?=""

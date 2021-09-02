@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityPlaceOrder
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.utils.AppHelper
@@ -66,6 +67,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
         etFromDate.setFocusable(false)
         rbNow.isChecked = true
         rbSpecify.isChecked = false
+        (activity as ActivityHome?)!!.showBack(true)
 
         btPlaceOrder.setOnClickListener {
             startActivity(Intent(requireContext(),ActivityPlaceOrder::class.java))

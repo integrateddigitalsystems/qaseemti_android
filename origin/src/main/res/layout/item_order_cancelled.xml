@@ -116,6 +116,7 @@
         <include layout="@layout/separator" />
 
         <LinearLayout
+            android:id="@+id/llCancelReason"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_vertical"
@@ -217,7 +218,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llSwitches"
+            android:id="@+id/llPersonCancel"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_vertical"

@@ -47,7 +47,7 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.homeContainer, FragmentOrders(), AppConstants.FRAGMENT_ORDER)
                 .commit()
-            MyApplication.typeSelected = 1
+            MyApplication.typeSelected = 0
 
         }
         rlUpcoming.setOnClickListener {
@@ -55,7 +55,7 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
                 .replace(R.id.homeContainer, FragmentOrders(), AppConstants.FRAGMENT_ORDER)
                 .commit()
 
-            MyApplication.typeSelected = 2
+            MyApplication.typeSelected = 1
         }
         setOrders()
 

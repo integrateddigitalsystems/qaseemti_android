@@ -16,6 +16,7 @@ import com.ids.qasemti.controller.Activities.ActivityMap
 import com.ids.qasemti.controller.Adapters.AdapterOrderCancelled
 import com.ids.qasemti.controller.Adapters.AdapterOrderType
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.controller.MyApplication.Companion.typeSelected
 import com.ids.qasemti.utils.AppHelper
 import kotlinx.android.synthetic.main.fragment_orders.*
@@ -39,7 +40,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         AppHelper.setAllTexts(rootLayoutOrderType)
         init()
         setTabs()
-        setTabLayout(0,tvActive)
+        setTabLayout(typeSelected)
         setData(true)
 
     }
@@ -56,7 +57,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
             linearTabs.getChildAt(i).setOnClickListener{
                 if(typeSelected!=i){
                     var tv=linearTabs.getChildAt(i) as TextView
-                    setTabLayout(i,tv)
+                    setTabLayout(i)
                     setData(true)
                 }
             }
@@ -69,7 +70,31 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         }
     }
 
-    fun setTabLayout(position: Int,tvSelected:TextView){
+    fun setSelected(position: Int){
+
+        when (position) {
+            0 ->{
+                tvActive.setBackgroundResource(R.drawable.rounded_red_background)
+                AppHelper.setTextColor(requireContext(),tvActive,R.color.white)
+            }
+            1 ->{
+                tvUpcoming.setBackgroundResource(R.drawable.rounded_red_background)
+                AppHelper.setTextColor(requireContext(),tvUpcoming,R.color.white)
+            }
+            2 -> {
+                tvCompleted.setBackgroundResource(R.drawable.rounded_red_background)
+                AppHelper.setTextColor(requireContext(),tvCompleted,R.color.white)
+            }
+            3 -> {
+                tvCancelled.setBackgroundResource(R.drawable.rounded_red_background)
+                AppHelper.setTextColor(requireContext(),tvCancelled,R.color.white)
+            }
+            else -> {
+
+            }
+        }
+    }
+    fun setTabLayout(position: Int){
         typeSelected=position
         for (i in 0 until linearTabs.childCount){
             if (linearTabs.getChildAt(i) is TextView){
@@ -78,13 +103,13 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
                 AppHelper.setTextColor(requireContext(),tv,R.color.redPrimary)
             }
         }
-        tvSelected.setBackgroundResource(R.drawable.rounded_red_background)
-        AppHelper.setTextColor(requireContext(),tvSelected,R.color.white)
+
+        setSelected(position)
 
     }
 
     private fun setData(type:Boolean){
-        var adapter = AdapterOrderType(ordersArray, this, requireContext(),type)
+        var adapter = AdapterOrderType(ordersArray, this, requireContext())
         rvOrderDetails.adapter = adapter
         var glm2 = GridLayoutManager(requireContext(), 1)
         rvOrderDetails.layoutManager = glm2

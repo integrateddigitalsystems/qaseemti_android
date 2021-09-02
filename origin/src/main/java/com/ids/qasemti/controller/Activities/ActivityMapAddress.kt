@@ -1,10 +1,6 @@
 package com.ids.qasemti.controller.Activities
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.View
-import androidx.core.app.ActivityCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -44,8 +40,8 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
         mvLocation.getMapAsync(this);
 
         btDrawer.hide()
-        btBack.show()
-        btBack.setOnClickListener {
+        btBackTool.show()
+        btBackTool.setOnClickListener {
             onBackPressed()
         }
 

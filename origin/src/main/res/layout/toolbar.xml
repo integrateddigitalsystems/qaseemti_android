@@ -38,15 +38,13 @@
         android:layout_gravity="center_vertical"
         />
 
-    <ImageButton
+    <ImageView
         android:layout_width="@dimen/normal_icon_size"
         android:layout_height="@dimen/normal_icon_size"
-        android:background="@drawable/ic_back"
-        android:backgroundTint="@color/redPrimary"
+        android:src="@drawable/ic_back"
         android:visibility="gone"
-
         android:layout_alignParentStart="true"
-        android:id="@+id/btBack"
+        android:id="@+id/btBackTool"
         android:layout_centerVertical="true"
         />
 
@@ -58,7 +56,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
-        android:layout_toEndOf="@id/btBack"
+        android:layout_toEndOf="@id/btBackTool"
         android:maxLines="2"
         android:textColor="@color/white"
         android:textSize="@dimen/normal_font" />

@@ -21,19 +21,21 @@ import com.ids.qasemti.utils.hide
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.fragment_home_client.*
 
-class FragmentHomeClient : Fragment() , RVOnItemClickListener {
+class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
-    var dialog : Dialog ?=null
-    var array : ArrayList<ServiceItem> = arrayListOf()
+    var dialog: Dialog? = null
+    var array: ArrayList<ServiceItem> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View =
         inflater.inflate(com.ids.qasemti.R.layout.fragment_home_client, container, false)
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,36 +45,40 @@ class FragmentHomeClient : Fragment() , RVOnItemClickListener {
 
     }
 
-    fun init(){
+    fun init() {
 
 
-        (activity as ActivityHome?)!!.showLogout(true)
+        if (MyApplication.isSignedIn)
+            (activity as ActivityHome?)!!.showLogout(true)
+        else
+            (activity as ActivityHome?)!!.showLogout(false)
+
+        (activity as ActivityHome?)!!.showBack(false)
 
         llFilter.setOnClickListener {
             showPopupSocialMedia()
         }
 
-        AppHelper.setTitle(requireActivity(),getString(R.string.our_services),"services")
+        AppHelper.setTitle(requireActivity(), getString(R.string.our_services), "services")
 
-        array.add(ServiceItem("Gravel Truck","", R.drawable.icon_truck))
-        array.add(ServiceItem("Water Tank","", R.drawable.icon_water))
-        array.add(ServiceItem("Rubble Truck for Long Term","", R.drawable.icon_rubble_truck))
-        array.add(ServiceItem("Water Pump","", R.drawable.icon_water_pump))
-        array.add(ServiceItem("Rubble Truck","", R.drawable.icon_rubble))
-        array.add(ServiceItem("Water Pump","", R.drawable.icon_water))
-        array.add(ServiceItem("Gravel Truck","", R.drawable.icon_truck))
+        array.add(ServiceItem("Gravel Truck", "", R.drawable.icon_truck))
+        array.add(ServiceItem("Water Tank", "", R.drawable.icon_water))
+        array.add(ServiceItem("Rubble Truck for Long Term", "", R.drawable.icon_rubble_truck))
+        array.add(ServiceItem("Water Pump", "", R.drawable.icon_water_pump))
+        array.add(ServiceItem("Rubble Truck", "", R.drawable.icon_rubble))
+        array.add(ServiceItem("Water Pump", "", R.drawable.icon_water))
+        array.add(ServiceItem("Gravel Truck", "", R.drawable.icon_truck))
 
-        var adapter = AdapterServices(array,this,requireContext())
+        var adapter = AdapterServices(array, this, requireContext())
         rvServices.layoutManager = LinearLayoutManager(requireContext())
         rvServices.adapter = adapter
         rvServices.isNestedScrollingEnabled = false
 
-        if(array.size==0){
+        if (array.size == 0) {
             rvServices.hide()
             llFilter.hide()
             llNodata.show()
         }
-
 
 
     }
@@ -109,10 +115,14 @@ class FragmentHomeClient : Fragment() , RVOnItemClickListener {
 
     override fun onItemClicked(view: View, position: Int) {
 
-        if(view.id==R.id.linearService){
+        if (view.id == R.id.linearService) {
             MyApplication.selectedService = array.get(position)
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.homeContainer, FragmentServiceDetails(), AppConstants.FRAGMENT_SERVICE_DETAILS)
+                .replace(
+                    R.id.homeContainer,
+                    FragmentServiceDetails(),
+                    AppConstants.FRAGMENT_SERVICE_DETAILS
+                )
                 .commit()
         }
 
