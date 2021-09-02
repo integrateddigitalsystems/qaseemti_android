@@ -107,6 +107,10 @@
             android:name=".controller.Activities.ActivityHome"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".controller.Activities.ActivityOrderDetails"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".controller.Activities.ActivitySplash"

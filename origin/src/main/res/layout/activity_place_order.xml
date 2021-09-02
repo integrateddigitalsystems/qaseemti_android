@@ -197,7 +197,9 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <include
+                    layout="@layout/layout_border_data" />
+                <!--<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/first_margin"
@@ -374,115 +376,10 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </LinearLayout>-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/first_margin"
-                    android:background="@drawable/rounded_white_border"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text_height"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
-
-                        <com.ids.qasemti.custom.CustomTextViewBold
-                            android:gravity="center_vertical"
-                            android:paddingStart="@dimen/first_margin"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:tag="subtotal"
-                            android:text="@string/subtotal" />
-
-                        <LinearLayout
-                            android:layout_width="@dimen/stroke"
-                            android:layout_height="match_parent"
-                            android:background="@color/white" />
-
-                        <com.ids.qasemti.custom.CustomTextViewMedium
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="10 KWD"
-                            android:textColor="@color/redPrimary" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/stroke"
-                        android:background="@color/white" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text_height"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
-
-                        <com.ids.qasemti.custom.CustomTextViewBold
-                            android:paddingStart="@dimen/first_margin"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:tag="additional_fees_due"
-                            android:text="@string/additional_fees_due" />
-
-                        <LinearLayout
-                            android:layout_width="@dimen/stroke"
-                            android:layout_height="match_parent"
-                            android:background="@color/white" />
-
-                        <com.ids.qasemti.custom.CustomTextViewMedium
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="2 KWD"
-                            android:textColor="@color/redPrimary" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/stroke"
-                        android:background="@color/white" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
-
-                        <com.ids.qasemti.custom.CustomTextViewBold
-                            android:paddingStart="@dimen/first_margin"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:tag="total_amount"
-                            android:text="@string/total_amount" />
-
-                        <LinearLayout
-                            android:layout_width="@dimen/stroke"
-                            android:layout_height="match_parent"
-                            android:background="@color/white" />
-
-                        <com.ids.qasemti.custom.CustomTextViewMedium
-                            android:paddingStart="@dimen/first_margin"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="12 KWD"
-                            android:textColor="@color/redPrimary" />
-
-                    </LinearLayout>
-                </LinearLayout>
+                <include
+                    layout="@layout/layout_border_red" />
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="match_parent"

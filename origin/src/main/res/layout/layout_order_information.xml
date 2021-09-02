@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_marginStart="@dimen/margin_start_end"
+    android:layout_marginEnd="@dimen/margin_start_end"
+    android:layout_marginTop="@dimen/first_margin"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:weightSum="2"
+    android:padding="@dimen/normal_margin"
+    android:orientation="horizontal"
+    android:background="@drawable/rounded_white_background"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+
+            android:layout_width="@dimen/normal_icon"
+            android:layout_height="@dimen/normal_icon"
+            android:src="@drawable/icon_dollar"/>
+
+
+        <LinearLayout
+            android:layout_marginStart="@dimen/small_margin"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_width="match_parent"
+                android:text="@string/order_amount"
+                android:tag="order_amount"
+                android:gravity="top"
+                android:layout_height="@dimen/normal_icon"/>
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="match_parent"
+                android:text="10 KWD"
+                android:textColor="@color/redPrimary"
+                android:layout_height="@dimen/normal_icon"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+
+            android:layout_width="@dimen/normal_icon"
+            android:layout_height="@dimen/normal_icon"
+            android:src="@drawable/icon_payment"/>
+
+
+        <LinearLayout
+            android:layout_marginStart="@dimen/small_margin"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_width="match_parent"
+                android:text="@string/payment_method"
+                android:tag="payment_method"
+                android:gravity="center_vertical"
+                android:layout_height="@dimen/normal_icon"/>
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="match_parent"
+                android:text="Cash on delivery"
+                android:layout_height="@dimen/normal_icon"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

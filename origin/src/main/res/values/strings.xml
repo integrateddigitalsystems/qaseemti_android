@@ -151,4 +151,9 @@
     <string name="send_request">SEND REQUEST</string>
     <string name="cancel_order">Cancel Order</string>
     <string name="active_order_det">Active Order Details</string>
+    <string name="actual_delivery">Actual Delivery</string>
+    <string name="completed_order_details">Completed Order Details</string>
+    <string name="order">Order</string>
+    <string name="my_earnings">My Earnings</string>
+    <string name="my_dues">My Dues</string>
 </resources>

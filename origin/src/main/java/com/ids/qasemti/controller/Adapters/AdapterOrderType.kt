@@ -96,6 +96,7 @@ class AdapterOrderType(
         var cancelPerson = itemView.findViewById<LinearLayout>(R.id.llPersonCancel)
         var cancelorder = itemView.findViewById<LinearLayout>(R.id.llCancelOrderDate)
         var dates = itemView.findViewById<LinearLayout>(R.id.llDates)
+        var details = itemView.findViewById<LinearLayout>(R.id.llViewOrderDetails)
         var cancelBord = itemView.findViewById<LinearLayout>(R.id.llCancelBorder)
         var phoneChat = itemView.findViewById<LinearLayout>(R.id.llPhoneChat)
         var border = itemView.findViewById<LinearLayout>(R.id.llBorderCan)
@@ -106,6 +107,7 @@ class AdapterOrderType(
         init {
             itemView.setOnClickListener(this)
             location.setOnClickListener(this)
+            details.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {

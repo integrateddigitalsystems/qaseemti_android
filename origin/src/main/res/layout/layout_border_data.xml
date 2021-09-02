@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/first_margin"
+        android:background="@drawable/rounded_white_border"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rvDataBorder"/>
+<!--
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:paddingStart="@dimen/first_margin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:tag="category"
+                android:text="@string/category" />
+
+            <LinearLayout
+                android:layout_width="@dimen/stroke"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:paddingStart="@dimen/first_margin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Purchase" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/stroke"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:paddingStart="@dimen/first_margin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:tag="service"
+                android:text="@string/service" />
+
+            <LinearLayout
+                android:layout_width="@dimen/stroke"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:paddingStart="@dimen/first_margin"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Water Tank" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/stroke"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:paddingStart="@dimen/first_margin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:tag="type"
+                android:text="@string/type" />
+
+            <LinearLayout
+                android:layout_width="@dimen/stroke"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:paddingStart="@dimen/first_margin"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Fresh" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/stroke"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:paddingStart="@dimen/first_margin"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:tag="size_capacity"
+                android:text="@string/size_capacity" />
+
+            <LinearLayout
+                android:layout_width="@dimen/stroke"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:paddingStart="@dimen/first_margin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="200 Gallons" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/stroke"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:paddingStart="@dimen/first_margin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:tag="quantity"
+                android:text="@string/quantity" />
+
+            <LinearLayout
+                android:layout_width="@dimen/stroke"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:paddingStart="@dimen/first_margin"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="1 Trip" />
+
+        </LinearLayout>
+-->
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,9 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_9_2_2021_10_34_AM_[Default_Changelist]" date="1630568210898" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_9_2_2021_10_34_AM_[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 9/2/2021 10:34 AM [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/project_dex_archive/debug/out/com/ids/qasemti/controller/Activities/ActivityOrderDetails.dex" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+</changelist>

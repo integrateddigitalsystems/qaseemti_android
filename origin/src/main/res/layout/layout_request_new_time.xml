@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/first_margin"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_start_end"
+    android:layout_marginEnd="@dimen/margin_start_end"
+    android:background="@drawable/rounded_white_background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/margin_start_end"
+        android:paddingEnd="@dimen/margin_start_end">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/small_icon"
+                android:layout_height="@dimen/small_icon"
+                android:layout_gravity="top"
+                android:layout_marginTop="@dimen/mini_margin"
+                android:src="@drawable/wall_clock"
+                android:tint="@color/redPrimary"
+
+                />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/normal_margin"
+
+                android:orientation="vertical">
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order_date"
+                    android:textColor="@color/gray_font_title"
+                    android:textSize="@dimen/normal_font" />
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20 Jun,2021 16:00"
+                    android:textColor="@color/gray_font"
+                    android:textSize="@dimen/small_font_3" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/small_icon"
+                android:layout_height="@dimen/small_icon"
+                android:layout_gravity="top"
+                android:layout_marginTop="@dimen/mini_margin"
+                android:src="@drawable/wall_clock"
+                android:tint="@color/redPrimary"
+
+                />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/normal_margin"
+
+                android:orientation="vertical">
+
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/tvDateExpected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="@string/expected_delivery"
+                    android:textColor="@color/gray_font_title"
+                    android:textSize="@dimen/normal_font"
+                    android:textStyle="bold" />
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20 Jun,2021 16:00"
+                    android:textColor="@color/gray_font"
+                    android:textSize="@dimen/small_font_3" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llEditOrderTime"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/normal_margin"
+        android:paddingStart="@dimen/margin_start_end"
+        android:paddingEnd="@dimen/margin_start_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/small_icon"
+            android:layout_height="@dimen/small_icon"
+            android:layout_gravity="top"
+            android:layout_marginTop="@dimen/mini_margin"
+            android:src="@drawable/wall_clock"
+            android:tint="@color/redPrimary"
+
+            />
+
+
+        <com.ids.qasemti.custom.CustomTextViewBold
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/suggest_new_delivery_time"
+            android:textColor="@color/gray_font_title"
+            android:textSize="@dimen/normal_font" />
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/first_margin"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/first_margin"
+        android:layout_marginBottom="@dimen/first_margin"
+        android:weightSum="3">
+
+
+        <RelativeLayout
+            android:id="@+id/rlCheckoutDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:layout_weight="1"
+            android:background="@drawable/gray_background_rounded">
+
+
+
+            <EditText
+                android:inputType="none"
+                android:id="@+id/etCheckoutDate"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_35"
+                android:layout_toStartOf="@id/ivCal"
+                android:background="@color/transparent"
+                android:hint="dd/mm/yyyy"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/mini_margin"
+                android:textSize="@dimen/small_font"
+
+                />
+
+            <ImageView
+                android:id="@+id/ivCal"
+                android:layout_width="@dimen/normal_icon"
+                android:layout_height="@dimen/normal_icon"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:src="@drawable/icon_calendar"
+                android:tint="@color/new_blue" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlCheckoutTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_weight="2"
+            android:background="@drawable/gray_background_rounded">
+
+            <EditText
+                android:inputType="none"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_35"
+                android:layout_toStartOf="@id/ivTimeHour"
+                android:background="@color/transparent"
+                android:hint="--:--"
+                android:id="@+id/etCheckoutTime"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/mini_margin"
+                android:textSize="@dimen/small_font"
+
+                />
+
+            <ImageView
+                android:id="@+id/ivTimeHour"
+                android:layout_width="@dimen/icon_2"
+                android:layout_height="@dimen/icon_2"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:src="@drawable/icon_hourglass"
+                app:tint="@color/new_blue" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_marginBottom="@dimen/first_margin"
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:layout_width="match_parent"
+        android:background="@drawable/rounded_blue"
+        android:textColor="@color/white"
+        android:text="@string/send_request"
+        android:layout_height="@dimen/edit_text_height"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/llActualDelivery"
+        android:layout_marginBottom="@dimen/first_margin"
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/small_icon"
+            android:layout_height="@dimen/small_icon"
+            android:layout_gravity="top"
+            android:layout_marginTop="@dimen/mini_margin"
+            android:src="@drawable/wall_clock"
+            android:tint="@color/redPrimary"
+
+            />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+
+            android:orientation="vertical">
+
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/actual_delivery"
+                android:tag="actual_delivery"
+                android:textColor="@color/gray_font_title"
+                android:textSize="@dimen/normal_font" />
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20 Jun,2021 16:00"
+                android:textColor="@color/gray_font"
+                android:textSize="@dimen/small_font_3" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
