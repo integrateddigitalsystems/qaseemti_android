@@ -22,6 +22,7 @@ import com.ids.qasemti.utils.AppConstants.FRAGMENT_ACCOUNT
 import com.ids.qasemti.utils.AppConstants.FRAGMENT_CART
 import com.ids.qasemti.utils.AppConstants.FRAGMENT_NOTFICATIONS
 import com.ids.qasemti.utils.AppConstants.FRAGMENT_ORDER
+import com.ids.qasemti.utils.AppHelper.Companion.getFragmentCount
 import com.ids.qasemti.utils.AppHelper.Companion.resetIcons
 import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.home_container.*
@@ -96,6 +97,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             closeDrawer(drawerLayout, true)
         } else {
+            checkBack()
             super.onBackPressed()
         }
     }
@@ -110,7 +112,9 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
 
     private fun setSelectedTab(index: Int,fragment:Fragment,tag:String,selectedIcon:ImageView,drawerColor: Int){
-        replaceFragment(R.id.homeContainer,supportFragmentManager,fragment, tag)
+        replaceFragment(R.id.homeContainer,fragMang,fragment, tag)
+        hideBack()
+        tvPageTitle.hide()
         tablayout.getTabAt(index)!!.select()
         MyApplication.selectedPos = index
         resetIcons(this,ivCartFooter,ivProductFooter,ivFooterOrder,ivFooterHome,ivFooterNotifications,ivFooterAccount)
@@ -180,13 +184,36 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         }
 
         defaultFragment()
+
+        btBack.setOnClickListener{
+            super.onBackPressed()
+        }
     }
 
 
     fun addFrag(fragment: Fragment,tag: String){
-        addFragment(R.id.homeContainer,supportFragmentManager,fragment, tag)
+        addFragment(R.id.homeContainer,fragMang,fragment, tag)
     }
 
+    fun hideBack(){
+        btBack.hide()
+    }
+
+    fun showBack(color: Int){
+        btBack.show()
+        AppHelper.setLogoTint(btBack, this, color)
+    }
+
+
+    fun checkBack(){
+        if(getFragmentCount(fragMang)<=1){
+            btBack.hide()
+            tvPageTitle.hide()
+        }
+        else
+            btBack.show()
+
+    }
 
 }
 

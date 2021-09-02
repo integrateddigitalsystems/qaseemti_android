@@ -85,4 +85,7 @@
     <dimen name="account_section_height">50dp</dimen>
     <dimen name="settlement_inside_item_hight">40dp</dimen>
 
+
+    <dimen name="card_corner_radius">24dp</dimen>
+    <dimen name="tab_rounded_size">50dp</dimen>
 </resources>

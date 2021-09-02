@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    android:id="@+id/rootLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/gray_bg"
+    android:padding="@dimen/margin_start_end"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageButton
+        android:layout_width="@dimen/icon_2"
+        android:layout_height="@dimen/icon_2"
+        android:id="@+id/btBck"
+        android:tint="@color/redPrimary"
+
+        android:background="@drawable/ic_back"
+      />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/big_margin"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:id="@+id/linearProgress"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:background="@color/gray_progress"
+            />
+
+
+        <LinearLayout
+            android:layout_width="@dimen/tab_rounded_size"
+            android:layout_height="@dimen/tab_rounded_size"
+            android:gravity="center"
+            android:id="@+id/btTab1"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/circle_gray"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/icon"
+                android:layout_height="@dimen/icon"
+                android:layout_gravity="center"
+                android:id="@+id/ivTab1"
+                android:src="@drawable/ic_language"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/tab_rounded_size"
+            android:layout_height="@dimen/tab_rounded_size"
+            android:gravity="center"
+            android:id="@+id/btTab2"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/circle_gray"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/icon"
+                android:layout_height="@dimen/icon"
+                android:layout_gravity="center"
+                android:id="@+id/ivTab2"
+                android:src="@drawable/ic_language"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/tab_rounded_size"
+            android:layout_height="@dimen/tab_rounded_size"
+            android:gravity="center"
+            android:id="@+id/btTab3"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/circle_gray"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/icon"
+                android:layout_height="@dimen/icon"
+                android:layout_gravity="center"
+                android:id="@+id/ivTab3"
+                android:src="@drawable/ic_language"
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/medium_margin"
+        >
+
+        <include layout="@layout/service_tab_1"/>
+        <include layout="@layout/service_tab_2"/>
+        <include layout="@layout/service_tab_3"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

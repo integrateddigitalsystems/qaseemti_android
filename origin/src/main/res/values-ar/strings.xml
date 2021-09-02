@@ -147,4 +147,11 @@
     <string name="my_earning">My Earning</string>
     <string name="my_dues">My Dues</string>
     <string name="request_settlements">Request Settlements</string>
+    <string name="please_select_language">Please Select Language</string>
+    <string name="service_information">Service Information</string>
+    <string name="size_capacity">Size / Capacity</string>
+    <string name="stock_available">Stock Available</string>
+    <string name="for_the_service">(For the service / product / vehicule)</string>
+    <string name="choose_file">Choose File</string>
+    <string name="no_file_chosen">No file Chosen</string>
 </resources>

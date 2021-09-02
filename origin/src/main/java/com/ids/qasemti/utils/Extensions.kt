@@ -83,7 +83,11 @@ fun Any.replaceFragment(
     myFragment: Fragment,
     myTag: String
 ){
+    for (i in 0 until fragmentManager.backStackEntryCount) {
+        fragmentManager.popBackStack()
+    }
     MyApplication.selectedFragmentTag = myTag
+    MyApplication.selectedFragment = myFragment
     fragmentManager.beginTransaction()
     .replace(container, myFragment, myTag)
     .commit()

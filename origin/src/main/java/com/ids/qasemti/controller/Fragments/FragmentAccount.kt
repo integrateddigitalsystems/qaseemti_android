@@ -52,5 +52,10 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         btMyProfile.setOnClickListener{
             (requireActivity() as ActivityHome?)!!.addFrag(FragmentProfile(),AppConstants.FRAGMENT_PROFILE)
         }
+
+        btLanguage.setOnClickListener{
+            val bottom_fragment = FragmentBottomSeetLanguage()
+            bottom_fragment.show(requireActivity().supportFragmentManager,"fragment_change_language")
+        }
     }
 }

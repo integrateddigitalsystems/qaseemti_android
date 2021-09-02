@@ -758,6 +758,17 @@ class AppHelper {
 
         }
 
+        fun getFragmentCount(fragmentManager: FragmentManager):Int{
+            var count=0
+            try{
+                for (entry in 0 until fragmentManager.getBackStackEntryCount()) {
+                    count++
+                }}catch (e:java.lang.Exception){}
+            Log.wtf("count_frag",count.toString()+"aaa")
+            return count
+        }
+
+
         fun setRoundImage(context: Context, img: ImageView, ImgUrl: String, isLocal: Boolean) {
             Log.wtf("image_rounded", ImgUrl)
             if (isLocal) {
