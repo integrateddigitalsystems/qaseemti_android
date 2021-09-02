@@ -43,8 +43,9 @@
         android:layout_height="@dimen/normal_icon_size"
         android:src="@drawable/ic_back"
         android:visibility="gone"
+
         android:layout_alignParentStart="true"
-        android:id="@+id/btBackTool"
+        android:id="@+id/btBack"
         android:layout_centerVertical="true"
         />
 
@@ -54,6 +55,7 @@
         android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
         android:layout_toEndOf="@id/btBackTool"
@@ -67,12 +69,11 @@
         android:layout_height="@dimen/normal_icon_size"
         android:layout_alignParentEnd="true"
         android:id="@+id/btClose"
-        android:tint="@color/new_blue"
         android:src="@drawable/close_x"
         android:visibility="gone"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
-        />
+        app:tint="@color/new_blue" />
 
 
 </RelativeLayout>

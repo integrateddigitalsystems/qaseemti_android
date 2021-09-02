@@ -29,11 +29,8 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         super.onCreate(savedInstanceState)
     }
 
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        inflater.inflate(com.ids.qasemti.R.layout.fragment_orders, container, false)
-
+        inflater.inflate(R.layout.fragment_orders, container, false)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

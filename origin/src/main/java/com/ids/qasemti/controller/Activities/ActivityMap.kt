@@ -28,7 +28,7 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback{
             mapViewBundle = savedInstanceState.getBundle(getString(R.string.google_api_key))
         }
 
-        mvLocation.onCreate(mapViewBundle);
+        mvLocation.onCreate(mapViewBundle)
 
         init()
 

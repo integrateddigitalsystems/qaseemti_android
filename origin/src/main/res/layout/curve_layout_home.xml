@@ -20,7 +20,7 @@
             android:gravity="center_horizontal"
             android:layout_marginTop="@dimen/medium_margin"
             android:textColor="@color/white"
-            android:text="Profile"
+            android:visibility="gone"
             android:id="@+id/tvToolbarCurveTitle"
             android:textSize="@dimen/big_font"/>
 
