@@ -44,6 +44,7 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
         (activity as ActivityHome?)!!.showLogout(false)
         (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
         rlActive.setOnClickListener {
+            MyApplication.selectedFragment = FragmentOrders()
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.homeContainer, FragmentOrders(), AppConstants.FRAGMENT_ORDER)
                 .commit()
@@ -51,6 +52,7 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
 
         }
         rlUpcoming.setOnClickListener {
+            MyApplication.selectedFragment = FragmentOrders()
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.homeContainer, FragmentOrders(), AppConstants.FRAGMENT_ORDER)
                 .commit()

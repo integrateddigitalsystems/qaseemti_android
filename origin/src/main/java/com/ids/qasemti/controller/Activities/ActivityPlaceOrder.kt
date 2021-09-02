@@ -17,6 +17,7 @@ import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.toolbar.*
+import org.androidannotations.annotations.App
 
 class ActivityPlaceOrder : AppCompactBase() , RVOnItemClickListener {
 
@@ -33,7 +34,13 @@ class ActivityPlaceOrder : AppCompactBase() , RVOnItemClickListener {
         getSupportActionBar()!!.hide();
         btClose.show()
 
+        btClose.setOnClickListener {
+            super.onBackPressed()
+        }
         tvPageTitle.text = getString(R.string.place_order)
+        tvPageTitle.typeface=AppHelper.getTypeFace(this)
+        btPLaceOrder.typeface = AppHelper.getTypeFace(this)
+        btDrawer.hide()
         AppHelper.setTextColor(this,tvPageTitle,R.color.redPrimary)
 
 

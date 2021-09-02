@@ -153,7 +153,8 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         //common tabs
 
         btBackTool.setOnClickListener {
-            super.onBackPressed()
+            getSupportFragmentManager().beginTransaction().remove(MyApplication.selectedFragment!!).commit();
+
         }
         llFooterOrders.setOnClickListener {
             if (MyApplication.selectedFragmentTag != FRAGMENT_ORDER && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))

@@ -116,6 +116,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
 
         if (view.id == R.id.linearService) {
+            MyApplication.selectedFragment = FragmentServiceDetails()
             MyApplication.selectedService = array.get(position)
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(

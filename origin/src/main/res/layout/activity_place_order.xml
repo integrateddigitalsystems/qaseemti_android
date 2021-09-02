@@ -37,7 +37,7 @@
             <LinearLayout
                 android:id="@+id/llLocation"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
@@ -79,7 +79,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="@dimen/big_margin"
                 android:layout_weight="1.2"
@@ -126,7 +126,6 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/push_text"
                             android:text="20 Jun,2021 16:00"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/small_font_3" />
@@ -173,7 +172,6 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/push_text"
                             android:text="20 Jun,2021 16:00"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/small_font_3" />
@@ -593,6 +591,7 @@
 
 
                     <Button
+                        android:id="@+id/btPLaceOrder"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/button_height"
                         android:layout_marginTop="@dimen/big_margin"
@@ -642,6 +641,7 @@
                 android:text="@string/no_available_servce"/>
 
             <Button
+
                 android:tag="go_to_services_page"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"

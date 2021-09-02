@@ -59,16 +59,18 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
     }
 
     fun init(){
-        //(activity as ActivityHomeClient?)!!.setTintLogo(R.color.redPrimary)
+        (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
         AppHelper.setTitle(requireActivity(),getString(R.string.checkout),"checkout")
         etCheckoutTime.setFocusable(false);
         etCheckoutDate.setFocusable(false);
         etToDate.setFocusable(false)
         etFromDate.setFocusable(false)
+
         rbNow.isChecked = true
         rbSpecify.isChecked = false
         (activity as ActivityHome?)!!.showBack(true)
 
+        btPlaceOrder.typeface = AppHelper.getTypeFace(requireContext())
         btPlaceOrder.setOnClickListener {
             startActivity(Intent(requireContext(),ActivityPlaceOrder::class.java))
         }
