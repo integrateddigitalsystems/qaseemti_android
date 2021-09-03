@@ -40,7 +40,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         (activity as ActivityHome?)!!.showBack(R.color.white)
          AppHelper.setTitle(requireActivity(),getString(R.string.profile),"profile")
 
-        (activity as ActivityHome?)!!.showLogout(false)
+       // (activity as ActivityHome?)!!.showLogout(false)
         tvToolbarCurveTitle.visibility = View.GONE
 
 

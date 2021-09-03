@@ -251,7 +251,7 @@ class AppHelper {
 
 
         fun handleCrashes(context: Activity) {
-            if (!MyApplication.isDebug)
+         //   if (!MyApplication.isDebug)
                 Thread.setDefaultUncaughtExceptionHandler(MyExceptionHandler(context))
         }
 
