@@ -12,6 +12,7 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.LocaleUtils
+import com.ids.qasemti.utils.textRemote
 import kotlinx.android.synthetic.main.activity_choose_language.*
 import java.util.*
 
@@ -20,7 +21,7 @@ class ActivityChooseLanguage : ActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_language)
-        AppHelper.setAllTexts(rootLayoutChooseLogin)
+        AppHelper.setAllTexts(rootLayoutChooseLogin,this)
 
         btToArabic.setOnClickListener {
             changeLanguage(AppConstants.LANG_ARABIC)

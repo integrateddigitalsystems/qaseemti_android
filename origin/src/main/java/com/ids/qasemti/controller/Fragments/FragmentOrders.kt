@@ -35,7 +35,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutOrderType)
+        AppHelper.setAllTexts(rootLayoutOrderType,requireContext())
         init()
         setTabs()
         setTabLayout(typeSelected)

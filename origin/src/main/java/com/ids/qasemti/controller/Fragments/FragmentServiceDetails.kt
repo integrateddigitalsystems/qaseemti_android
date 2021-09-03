@@ -1,6 +1,7 @@
 package com.ids.qasemti.controller.Fragments
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
@@ -30,6 +31,7 @@ import com.google.android.exoplayer2.util.Util
 import com.google.android.material.tabs.TabLayout
 import com.ids.makhateer.controller.Adapters.PageAdapterSrvice
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityCheckout
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.MyApplication
@@ -70,7 +72,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutServiceDetails)
+        AppHelper.setAllTexts(rootLayoutServiceDetails,requireContext())
         init()
 
 
@@ -278,10 +280,11 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
         btServiceCheckout.typeface=AppHelper.getTypeFace(requireContext())
         btServiceCheckout.setOnClickListener {
-            MyApplication.selectedFragment = FragmentCheckout()
+            /*MyApplication.selectedFragment = FragmentCheckout()
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.homeContainer, FragmentCheckout(), AppConstants.CHECKOUT)
-                .commit()
+                .commit()*/
+            startActivity(Intent(requireContext(),ActivityCheckout::class.java))
         }
         AppHelper.setTitle(requireActivity(),MyApplication.selectedService!!.title!!,"")
         tbMedias.setTabTextColors(

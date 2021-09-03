@@ -33,7 +33,7 @@
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="match_parent"
-                android:text="@string/order_amount"
+                android:text="@string/OrderAmount"
                 android:tag="order_amount"
                 android:gravity="top"
                 android:layout_height="@dimen/normal_icon"/>

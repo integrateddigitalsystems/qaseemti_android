@@ -15,10 +15,7 @@ import com.ids.qasemti.controller.Adapters.AdapterServices
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ServiceItem
-import com.ids.qasemti.utils.AppConstants
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.fragment_home_client.*
 
 class FragmentHomeClient : Fragment(), RVOnItemClickListener {
@@ -40,7 +37,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutServices)
+        AppHelper.setAllTexts(rootLayoutServices,requireContext())
         init()
 
     }
@@ -118,13 +115,8 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         if (view.id == R.id.linearService) {
             MyApplication.selectedFragment = FragmentServiceDetails()
             MyApplication.selectedService = array.get(position)
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.homeContainer,
-                    FragmentServiceDetails(),
-                    AppConstants.FRAGMENT_SERVICE_DETAILS
-                )
-                .commit()
+            (requireActivity() as ActivityHome?)!!.addFrag(FragmentServiceDetails(),AppConstants.FRAGMENT_SERVICE_DETAILS)
+
         }
 
     }

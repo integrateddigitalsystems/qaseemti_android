@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLayoutCheckout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_bg"
     android:orientation="vertical"
-    android:paddingStart="@dimen/margin_start_end"
-    android:paddingEnd="@dimen/margin_start_end">
+    >
 
+
+    <LinearLayout
+        android:id="@+id/llToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/toolbar" />
+
+    </LinearLayout>
 
     <ScrollView
-        android:layout_marginTop="@dimen/toolbar_height"
-        android:layout_marginBottom="@dimen/big_margin"
-        android:scrollbars="none"
+        android:paddingStart="@dimen/margin_start_end"
+        android:paddingEnd="@dimen/margin_start_end"
+        android:layout_below="@+id/llToolBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/big_margin"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,7 +45,7 @@
                     android:layout_height="@dimen/normal_icon"
                     android:layout_marginStart="@dimen/first_margin"
                     android:src="@drawable/placeholder"
-                    android:tint="@color/redPrimary" />
+                    app:tint="@color/redPrimary" />
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="0dp"
@@ -52,7 +63,7 @@
                     android:layout_marginEnd="@dimen/normal_margin"
                     android:rotation="180"
                     android:src="@drawable/ic_back"
-                    android:tint="@color/new_blue" />
+                    app:tint="@color/new_blue" />
 
 
             </LinearLayout>
@@ -78,7 +89,7 @@
                         android:layout_height="@dimen/normal_icon"
                         android:layout_marginStart="@dimen/first_margin"
                         android:src="@drawable/wall_clock"
-                        android:tint="@color/redPrimary" />
+                        app:tint="@color/redPrimary" />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="0dp"
@@ -88,7 +99,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:tag="select_time_and_delivery_date"
-                        android:text="@string/select_time_and_delivery_date" />
+                        android:text="@string/select_time_date" />
 
                     <ImageView
                         android:id="@+id/ivOpenDateTime"
@@ -97,145 +108,142 @@
                         android:layout_marginEnd="@dimen/normal_margin"
                         android:rotation="-90"
                         android:src="@drawable/arrow_right"
-                        android:tint="@color/new_blue" />
+                        app:tint="@color/new_blue" />
 
                 </LinearLayout>
 
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/llTimeDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:visibility="gone">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginTop="@dimen/normal_margin"
-                    android:background="@color/gray_serperator" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:background="@color/gray_serperator" />
 
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/small_margin"
-                    android:layout_marginTop="@dimen/first_margin"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rbNow"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/button_blue"
-                        android:buttonTint="@color/button_blue"
-                        android:tag="now"
-                        android:text="@string/now"
-                        android:textColor="@color/gray_font"
-                        android:textSize="@dimen/normal_font" />
-
-                    <RadioButton
-                        android:id="@+id/rbSpecify"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/button_blue"
-                        android:buttonTint="@color/button_blue"
-                        android:tag="specify"
-                        android:text="@string/specify"
-                        android:textColor="@color/gray_font"
-                        android:textSize="@dimen/normal_font" />
-
-                </RadioGroup>
-
-
-
-
-                <LinearLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/first_margin"
-                    android:layout_marginTop="@dimen/normal_margin"
-                    android:layout_marginEnd="@dimen/first_margin"
-                    android:layout_marginBottom="@dimen/first_margin"
-                    android:weightSum="3">
-
-
-                    <RelativeLayout
-                        android:id="@+id/rlCheckoutDate"
+                    <RadioGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/normal_margin"
-                        android:layout_weight="1"
-                        android:background="@drawable/gray_background_rounded">
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:layout_marginTop="@dimen/first_margin"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rbNow"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/button_blue"
+                            android:buttonTint="@color/button_blue"
+                            android:tag="now"
+                            android:text="@string/now"
+                            android:textColor="@color/gray_font"
+                            android:textSize="@dimen/normal_font" />
+
+                        <RadioButton
+                            android:id="@+id/rbSpecify"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/button_blue"
+                            android:buttonTint="@color/button_blue"
+                            android:tag="specify"
+                            android:text="@string/specify"
+                            android:textColor="@color/gray_font"
+                            android:textSize="@dimen/normal_font" />
+
+                    </RadioGroup>
 
 
+                    <LinearLayout
 
-                        <EditText
-                            android:inputType="none"
-                            android:id="@+id/etCheckoutDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/height_35"
-                            android:layout_toStartOf="@id/ivCal"
-                            android:background="@color/transparent"
-                            android:hint="dd/mm/yyyy"
-                            android:paddingStart="@dimen/normal_margin"
-                            android:paddingEnd="@dimen/mini_margin"
-                            android:textSize="@dimen/small_font"
-
-                            />
-
-                        <ImageView
-                            android:id="@+id/ivCal"
-                            android:layout_width="@dimen/normal_icon"
-                            android:layout_height="@dimen/normal_icon"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="@dimen/normal_margin"
-                            android:src="@drawable/icon_calendar"
-                            android:tint="@color/new_blue" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rlCheckoutTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/normal_margin"
-                        android:layout_weight="2"
-                        android:background="@drawable/gray_background_rounded">
+                        android:layout_marginStart="@dimen/first_margin"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:layout_marginEnd="@dimen/first_margin"
+                        android:layout_marginBottom="@dimen/first_margin"
+                        android:weightSum="3">
 
-                        <EditText
-                            android:inputType="none"
+
+                        <RelativeLayout
+                            android:id="@+id/rlCheckoutDate"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/height_35"
-                            android:layout_toStartOf="@id/ivTimeHour"
-                            android:background="@color/transparent"
-                            android:hint="--:--"
-                            android:id="@+id/etCheckoutTime"
-                            android:paddingStart="@dimen/normal_margin"
-                            android:paddingEnd="@dimen/mini_margin"
-                            android:textSize="@dimen/small_font"
-
-                            />
-
-                        <ImageView
-                            android:id="@+id/ivTimeHour"
-                            android:layout_width="@dimen/icon_2"
-                            android:layout_height="@dimen/icon_2"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
+                            android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/normal_margin"
-                            android:src="@drawable/icon_hourglass"
-                            android:tint="@color/new_blue" />
-
-                    </RelativeLayout>
+                            android:layout_weight="1"
+                            android:background="@drawable/gray_background_rounded">
 
 
-                </LinearLayout>
+                            <EditText
+                                android:id="@+id/etCheckoutDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/height_35"
+                                android:layout_toStartOf="@id/ivCal"
+                                android:background="@color/transparent"
+                                android:hint="dd/mm/yyyy"
+                                android:inputType="none"
+                                android:paddingStart="@dimen/normal_margin"
+                                android:paddingEnd="@dimen/mini_margin"
+                                android:textSize="@dimen/small_font"
+
+                                />
+
+                            <ImageView
+                                android:id="@+id/ivCal"
+                                android:layout_width="@dimen/normal_icon"
+                                android:layout_height="@dimen/normal_icon"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/normal_margin"
+                                android:src="@drawable/icon_calendar"
+                                app:tint="@color/new_blue" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlCheckoutTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/normal_margin"
+                            android:layout_weight="2"
+                            android:background="@drawable/gray_background_rounded">
+
+                            <EditText
+                                android:id="@+id/etCheckoutTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/height_35"
+                                android:layout_toStartOf="@id/ivTimeHour"
+                                android:background="@color/transparent"
+                                android:hint="--:--"
+                                android:inputType="none"
+                                android:paddingStart="@dimen/normal_margin"
+                                android:paddingEnd="@dimen/mini_margin"
+                                android:textSize="@dimen/small_font"
+
+                                />
+
+                            <ImageView
+                                android:id="@+id/ivTimeHour"
+                                android:layout_width="@dimen/icon_2"
+                                android:layout_height="@dimen/icon_2"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/normal_margin"
+                                android:src="@drawable/icon_hourglass"
+                                app:tint="@color/new_blue" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -249,17 +257,17 @@
                 android:layout_marginTop="@dimen/first_margin"
                 android:layout_marginBottom="@dimen/first_margin"
                 android:tag="order_summary"
-                android:text="@string/order_summary"
+                android:text="@string/OrderSummary"
                 android:textSize="@dimen/header_font" />
 
 
             <LinearLayout
-                android:paddingTop="@dimen/first_margin"
-                android:paddingBottom="@dimen/first_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_white_background"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="@dimen/first_margin"
+                android:paddingBottom="@dimen/first_margin">
 
                 <LinearLayout
 
@@ -314,70 +322,68 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="@dimen/normal_margin"
-                    android:layout_marginBottom="@dimen/normal_margin"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/gray_serperator"/>
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginBottom="@dimen/normal_margin"
+                    android:background="@color/gray_serperator" />
 
                 <LinearLayout
 
-                    android:weightSum="2"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    >
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <LinearLayout
-                        android:layout_marginStart="@dimen/margin_start_end"
-                        android:orientation="vertical"
-                        android:layout_weight="1"
-                        android:weightSum="2"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_start_end"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2">
 
                         <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
 
 
                             <ImageView
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
                                 android:src="@drawable/icon_dollar"
-                                android:tint="@color/redPrimary"/>
+                                app:tint="@color/redPrimary" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
-                                android:layout_marginStart="@dimen/normal_margin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="10 KWD"/>
+                                android:layout_marginStart="@dimen/normal_margin"
+                                android:text="10 KWD" />
 
 
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_marginTop="@dimen/mini_margin"
-                            android:orientation="horizontal"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/mini_margin"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
 
 
                             <ImageView
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
                                 android:src="@drawable/icon_vehicules"
-                                android:tint="@color/redPrimary"/>
+                                app:tint="@color/redPrimary" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
-                                android:layout_marginStart="@dimen/normal_margin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Fresh"/>
+                                android:layout_marginStart="@dimen/normal_margin"
+                                android:text="Fresh" />
 
                         </LinearLayout>
 
@@ -385,56 +391,55 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_marginStart="@dimen/normal_margin"
-                        android:orientation="vertical"
-                        android:layout_weight="1"
-                        android:weightSum="2"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/normal_margin"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2">
 
                         <LinearLayout
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
 
                             <ImageView
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
                                 android:src="@drawable/icon_label"
-                                android:tint="@color/redPrimary"/>
+                                app:tint="@color/redPrimary" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
-                                android:layout_marginStart="@dimen/normal_margin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Purchase"/>
+                                android:layout_marginStart="@dimen/normal_margin"
+                                android:text="Purchase" />
 
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_marginTop="@dimen/mini_margin"
-                            android:orientation="horizontal"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/mini_margin"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
 
 
                             <ImageView
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
                                 android:src="@drawable/icon_quantity"
-                                android:tint="@color/redPrimary"/>
+                                app:tint="@color/redPrimary" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
-                                android:gravity="center_vertical"
-                                android:layout_marginStart="@dimen/normal_margin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="20 litres"/>
+                                android:layout_marginStart="@dimen/normal_margin"
+                                android:gravity="center_vertical"
+                                android:text="20 litres" />
 
                         </LinearLayout>
 
@@ -453,66 +458,67 @@
 
 
             <RelativeLayout
-                android:layout_marginTop="@dimen/first_margin"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/first_margin"
+                android:orientation="horizontal">
 
                 <com.ids.qasemti.custom.CustomTextViewBold
-                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
                     android:gravity="center"
-                    android:text="@string/quantity"
-                    android:textSize="@dimen/header_font"
                     android:tag="quantity"
-                    />
+                    android:text="@string/Quantity"
+                    android:textSize="@dimen/header_font" />
 
 
                 <LinearLayout
-                    android:layout_alignParentEnd="true"
-                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="horizontal">
 
                     <com.ids.qasemti.custom.CustomTextViewBold
-                        android:layout_marginEnd="@dimen/big_margin"
+                        android:id="@+id/tvQuant"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:id="@+id/tvQuant"
+                        android:layout_marginEnd="@dimen/big_margin"
                         android:gravity="center"
-                        android:textColor="@color/redPrimary"
                         android:text="45"
-                        />
+                        android:textColor="@color/redPrimary" />
 
 
                     <LinearLayout
-                        android:weightSum="2"
                         android:layout_width="@dimen/toolbar_height"
                         android:layout_height="@dimen/normal_icon_size"
-                        android:background="@drawable/rounded_white_background">
+                        android:background="@drawable/rounded_white_background"
+                        android:weightSum="2">
+
                         <com.ids.qasemti.custom.CustomTextViewBold
-                            android:layout_weight="1"
-                            android:textColor="@color/gray_medium_2"
-                            android:gravity="center"
                             android:id="@+id/btMinus"
-                            android:textSize="@dimen/header_font"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="-"/>
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="-"
+                            android:textColor="@color/gray_medium_2"
+                            android:textSize="@dimen/header_font" />
+
                         <LinearLayout
                             android:layout_width="0.5dp"
                             android:layout_height="match_parent"
-                            android:background="@color/gray_medium_2"/>
+                            android:background="@color/gray_medium_2" />
+
                         <com.ids.qasemti.custom.CustomTextViewBold
-                            android:layout_weight="1"
-                            android:gravity="center"
                             android:id="@+id/btPlus"
-                            android:textSize="@dimen/header_font"
-                            android:textColor="@color/gray_medium_2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="+"/>
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="+"
+                            android:textColor="@color/gray_medium_2"
+                            android:textSize="@dimen/header_font" />
 
 
                     </LinearLayout>
@@ -521,140 +527,43 @@
                 </LinearLayout>
 
 
-
-
-
-
-
             </RelativeLayout>
 
 
-                <com.ids.qasemti.custom.CustomTextViewBold
-                    android:layout_marginTop="@dimen/first_margin"
-                    android:textSize="@dimen/header_font"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:tag="from"
-                    android:text="@string/from"/>
-
-                <RelativeLayout
-                    android:id="@+id/rlFromDate"
-                    android:layout_marginTop="@dimen/normal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/normal_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_white_background">
-
-                    <ImageView
-                        android:id="@+id/ivCalFrom"
-                        android:layout_width="@dimen/normal_icon"
-                        android:layout_height="@dimen/normal_icon"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/normal_margin"
-                        android:src="@drawable/icon_calendar"
-                        android:tint="@color/new_blue" />
-
-                    <EditText
-                        android:id="@+id/etFromDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/height_35"
-                        android:layout_toStartOf="@id/ivCalFrom"
-                        android:background="@color/transparent"
-                        android:hint="dd/mm/yyyy"
-                        android:paddingStart="@dimen/normal_margin"
-                        android:paddingEnd="@dimen/mini_margin"
-                        android:textSize="@dimen/small_font"
-
-                        />
-
-                </RelativeLayout>
-
-
-
-
-                <com.ids.qasemti.custom.CustomTextViewBold
-                    android:layout_marginTop="@dimen/normal_margin"
-                    android:textSize="@dimen/header_font"
-                    android:layout_width="match_parent"
-                    android:tag="to"
-                    android:layout_height="wrap_content"
-                    android:text="@string/to"/>
-
-                <RelativeLayout
-                    android:id="@+id/rlToDate"
-                    android:layout_marginTop="@dimen/normal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/normal_margin"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_white_background">
-
-                    <ImageView
-                        android:id="@+id/ivCalTo"
-                        android:layout_width="@dimen/normal_icon"
-                        android:layout_height="@dimen/normal_icon"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/normal_margin"
-                        android:src="@drawable/icon_calendar"
-                        android:tint="@color/new_blue" />
-
-                    <EditText
-                        android:id="@+id/etToDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/height_35"
-                        android:layout_toStartOf="@id/ivCalTo"
-                        android:background="@color/transparent"
-                        android:hint="dd/mm/yyyy"
-                        android:paddingStart="@dimen/normal_margin"
-                        android:paddingEnd="@dimen/mini_margin"
-                        android:textSize="@dimen/small_font"
-
-                        />
-
-                </RelativeLayout>
-
-
-
             <com.ids.qasemti.custom.CustomTextViewBold
-                android:layout_marginTop="@dimen/first_margin"
-                android:textSize="@dimen/header_font"
                 android:layout_width="match_parent"
-                android:tag="do_you_have_a_coupon"
                 android:layout_height="wrap_content"
-                android:text="@string/do_you_have_a_coupon"/>
+                android:layout_marginTop="@dimen/first_margin"
+                android:tag="from"
+                android:text="@string/From"
+                android:textSize="@dimen/header_font" />
 
             <RelativeLayout
-                android:layout_marginTop="@dimen/normal_margin"
+                android:id="@+id/rlFromDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_white_background">
 
-                <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:id="@+id/tvApply"
-                    android:background="@drawable/rounded_blue"
-                    android:layout_width="@dimen/toolbar_height"
-                    android:layout_height="match_parent"
-                    android:text="@string/apply"
-                    android:tag="apply"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    android:textSize="@dimen/big_font"
+                <ImageView
+                    android:id="@+id/ivCalFrom"
+                    android:layout_width="@dimen/normal_icon"
+                    android:layout_height="@dimen/normal_icon"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:src="@drawable/icon_calendar"
+                    app:tint="@color/new_blue" />
 
                 <EditText
-                    android:id="@+id/etCoupon"
+                    android:id="@+id/etFromDate"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_35"
-                    android:layout_toStartOf="@id/tvApply"
+                    android:layout_toStartOf="@id/ivCalFrom"
                     android:background="@color/transparent"
-                    android:hint="@string/coupon_number"
-                    android:tag="coupon_number"
+                    android:hint="dd/mm/yyyy"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/mini_margin"
                     android:textSize="@dimen/small_font"
@@ -664,24 +573,111 @@
             </RelativeLayout>
 
 
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:tag="to"
+                android:text="@string/To"
+                android:textSize="@dimen/header_font" />
+
+            <RelativeLayout
+                android:id="@+id/rlToDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_white_background">
+
+                <ImageView
+                    android:id="@+id/ivCalTo"
+                    android:layout_width="@dimen/normal_icon"
+                    android:layout_height="@dimen/normal_icon"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:src="@drawable/icon_calendar"
+                    app:tint="@color/new_blue" />
+
+                <EditText
+                    android:id="@+id/etToDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_35"
+                    android:layout_toStartOf="@id/ivCalTo"
+                    android:background="@color/transparent"
+                    android:hint="dd/mm/yyyy"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/mini_margin"
+                    android:textSize="@dimen/small_font"
+
+                    />
+
+            </RelativeLayout>
+
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/first_margin"
+                android:tag="do_you_have_a_coupon"
+                android:text="@string/haveCoupon"
+                android:textSize="@dimen/header_font" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_white_background">
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:id="@+id/tvApply"
+                    android:layout_width="@dimen/toolbar_height"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/rounded_blue"
+                    android:gravity="center"
+                    android:tag="apply"
+                    android:text="@string/apply"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/big_font" />
+
+                <EditText
+                    android:id="@+id/etCoupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_35"
+                    android:layout_toStartOf="@id/tvApply"
+                    android:background="@color/transparent"
+                    android:hint="@string/coupon_number"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/mini_margin"
+                    android:tag="coupon_number"
+                    android:textSize="@dimen/small_font"
+
+                    />
+
+            </RelativeLayout>
+
+
             <Button
                 android:id="@+id/btPlaceOrder"
-                android:layout_marginTop="@dimen/big_margin"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
-                android:tag="find_server_provider"
+                android:layout_marginBottom="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/big_margin"
                 android:background="@drawable/blue_rounded"
+                android:tag="find_server_provider"
                 android:text="@string/find_server_provider"
-                android:textColor="@color/white"
-                />
-
+                android:textColor="@color/white" />
 
 
         </LinearLayout>
 
 
-
     </ScrollView>
 
 
-</LinearLayout>
+</RelativeLayout>

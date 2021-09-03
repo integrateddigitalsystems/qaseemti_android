@@ -52,7 +52,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.actiivity_service_information)
-        AppHelper.setAllTexts(rootLayout)
+        AppHelper.setAllTexts(rootLayout,this)
         init()
         listeners()
 

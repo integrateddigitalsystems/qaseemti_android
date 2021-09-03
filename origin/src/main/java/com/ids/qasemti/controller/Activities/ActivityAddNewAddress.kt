@@ -17,7 +17,7 @@ class ActivityAddNewAddress : ActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_address)
-        AppHelper.setAllTexts(rootLayout)
+        AppHelper.setAllTexts(rootLayout,this)
         init()
         listeners()
 

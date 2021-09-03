@@ -58,7 +58,6 @@
                 <com.ids.qasemti.custom.CustomTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/push_text"
                     android:text="#000777"
                     android:textColor="@color/gray_font"
                     android:textSize="@dimen/small_font" />
@@ -239,7 +238,7 @@
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/cancelled_by"
+                android:text="@string/CanceledBy"
                 android:tag="cancelled_by"
                 android:textColor="@color/gray_font_title" />
 
@@ -334,7 +333,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:tag="order_amount"
-                    android:text="@string/order_amount"
+                    android:text="@string/OrderAmount"
                     android:textColor="@color/gray_font_title"
                     android:textSize="@dimen/normal_font" />
 

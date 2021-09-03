@@ -32,7 +32,7 @@ class FragmentAddresses : Fragment() , RVOnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayout)
+        AppHelper.setAllTexts(rootLayout,requireContext())
         init()
         listeners()
         setData()

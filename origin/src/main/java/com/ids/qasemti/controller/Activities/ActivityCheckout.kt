@@ -1,17 +1,13 @@
-package com.ids.qasemti.controller.Fragments
+package com.ids.qasemti.controller.Activities
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TimePicker
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Activities.ActivityHome
-import com.ids.qasemti.controller.Activities.ActivityPlaceOrder
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
@@ -19,33 +15,26 @@ import com.ids.qasemti.utils.hide
 import com.ids.qasemti.utils.isNumeric
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.fragment_checkout.*
+import kotlinx.android.synthetic.main.toolbar.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FragmentCheckout : Fragment() , RVOnItemClickListener {
+class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
 
     var open = false
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_checkout)
+        AppHelper.setAllTexts(rootLayoutCheckout,this)
+        init()
+    }
+
+
     override fun onItemClicked(view: View, position: Int) {
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        inflater.inflate(com.ids.qasemti.R.layout.fragment_checkout, container, false)
-
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutCheckout,requireContext())
-        init()
-
-    }
 
     fun setUpCurr(){
         var cal = Calendar.getInstance()
@@ -58,9 +47,21 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
         etCheckoutTime.text = time.toEditable()
     }
 
+    fun setTintLogo(color:Int){
+        AppHelper.setLogoTint(btDrawer, this, color)
+        btDrawer.hide()
+        AppHelper.setTextColor(this,tvPageTitle,color)
+        AppHelper.setLogoTint(btBackTool,this,color)
+        AppHelper.setLogoTint(btLogout,this,color)
+        btBackTool.setOnClickListener {
+            super.onBackPressed()
+        }
+    }
+
     fun init(){
-        (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
-        AppHelper.setTitle(requireActivity(),getString(R.string.Checkout),"checkout")
+        setTintLogo(R.color.redPrimary)
+        tvPageTitle.text = getString(R.string.Checkout)
+        tvPageTitle.typeface = AppHelper.getTypeFace(this)
         etCheckoutTime.setFocusable(false);
         etCheckoutDate.setFocusable(false);
         etToDate.setFocusable(false)
@@ -68,13 +69,13 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
 
         rbNow.isChecked = true
         rbSpecify.isChecked = false
-        (activity as ActivityHome?)!!.showBack(true)
+        btBackTool.show()
 
-        btPlaceOrder.typeface = AppHelper.getTypeFace(requireContext())
+        btPlaceOrder.typeface = AppHelper.getTypeFace(this)
         btPlaceOrder.setOnClickListener {
-            startActivity(Intent(requireContext(),ActivityPlaceOrder::class.java))
+            startActivity(Intent(this,ActivityPlaceOrder::class.java))
         }
-       setUpCurr()
+        setUpCurr()
         rbNow.setOnClickListener {
             setUpCurr()
             rlCheckoutTime.setOnClickListener {
@@ -97,7 +98,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
 
                 mcurrentDate.set(mYear, mMonth, mDay)
                 val mDatePicker = DatePickerDialog(
-                    requireContext(),
+                    this,
                     DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
                         val myCalendar = Calendar.getInstance()
                         myCalendar[Calendar.YEAR] = selectedyear
@@ -122,7 +123,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
                 val now = mcurrentTime.time
                 val nowDate = sdf.format(now)
                 val timePickerDialog = TimePickerDialog(
-                    activity, R.style.DatePickerDialog,
+                  this, R.style.DatePickerDialog,
                     { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
                         var time = String.format("%02d", selectedHour)+" : "+ String.format("%02d", selectedMinute)
@@ -144,7 +145,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
 
             mcurrentDate.set(mYear, mMonth, mDay)
             val mDatePicker = DatePickerDialog(
-                requireContext(),
+                this,
                 DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
                     val myCalendar = Calendar.getInstance()
                     myCalendar[Calendar.YEAR] = selectedyear
@@ -170,7 +171,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
 
             mcurrentDate.set(mYear, mMonth, mDay)
             val mDatePicker = DatePickerDialog(
-                requireContext(),
+               this,
                 DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
                     val myCalendar = Calendar.getInstance()
                     myCalendar[Calendar.YEAR] = selectedyear

@@ -15,6 +15,7 @@
         android:layout_height="@dimen/inside_logo"
         android:src="@drawable/logo"/>
 
+
     <LinearLayout
         android:layout_marginBottom="@dimen/big_margin_2"
         android:layout_above="@+id/ivApp"

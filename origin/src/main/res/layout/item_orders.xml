@@ -56,7 +56,6 @@
                      />
 
                 <com.ids.qasemti.custom.CustomTextViewBold
-                    android:layout_marginTop="@dimen/push_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/normal_font"
@@ -125,7 +124,6 @@
                         />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
-                        android:layout_marginTop="@dimen/push_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/small_font_3"
@@ -176,7 +174,6 @@
                         />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
-                        android:layout_marginTop="@dimen/push_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/small_font_3"
