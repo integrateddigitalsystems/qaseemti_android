@@ -58,7 +58,6 @@
                 <com.ids.qasemti.custom.CustomTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/push_text"
                     android:text="#000777"
                     android:textColor="@color/gray_font"
                     android:textSize="@dimen/small_font" />

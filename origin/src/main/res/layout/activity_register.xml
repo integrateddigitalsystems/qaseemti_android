@@ -9,7 +9,8 @@
     <include
         layout="@layout/white_logo_layout" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
+        android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,7 +21,7 @@
         android:layout_marginTop="@dimen/margin_top"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
 
         <com.ids.qasemti.custom.CustomTextViewMedium
@@ -86,8 +87,9 @@
             android:textColor="@color/white"
             android:text="@string/register"
             android:tag="register"
-            android:layout_marginTop="@dimen/big_margin_2"
+            android:layout_marginTop="@dimen/normal_margin"
             android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/normal_margin"
             android:layout_height="@dimen/button_height"
             android:id="@+id/btRegister"
             android:background="@drawable/blue_rounded"/>
@@ -98,6 +100,6 @@
 
     </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

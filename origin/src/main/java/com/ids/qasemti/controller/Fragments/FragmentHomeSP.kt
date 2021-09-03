@@ -13,10 +13,7 @@ import com.ids.qasemti.controller.Activities.ActivityMap
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.utils.AppConstants
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
 
 class FragmentHomeSP : Fragment() , RVOnItemClickListener {
@@ -45,18 +42,13 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
         (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
         rlActive.setOnClickListener {
             MyApplication.selectedFragment = FragmentOrders()
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.homeContainer, FragmentOrders(), AppConstants.FRAGMENT_ORDER)
-                .commit()
+            (requireActivity() as ActivityHome?)!!.addFrag(FragmentOrders(),AppConstants.FRAGMENT_ORDER)
             MyApplication.typeSelected = 0
 
         }
         rlUpcoming.setOnClickListener {
             MyApplication.selectedFragment = FragmentOrders()
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.homeContainer, FragmentOrders(), AppConstants.FRAGMENT_ORDER)
-                .commit()
-
+            (requireActivity() as ActivityHome?)!!.addFrag(FragmentOrders(),AppConstants.FRAGMENT_ORDER)
             MyApplication.typeSelected = 1
         }
         setOrders()

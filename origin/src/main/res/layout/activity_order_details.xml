@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rootLayoutOrderDetails"
@@ -88,6 +89,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:background="@drawable/rounded_white_red_border"/>
+
+            <Button
+                android:layout_marginBottom="@dimen/big_margin"
+                android:layout_below="@+id/llOrderSwitches"
+                android:id="@+id/btRenewOrder"
+                android:layout_marginTop="@dimen/first_margin"
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:text="@string/renew_order"
+                android:tag="renew_order"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@drawable/rounded_blue"
+                />
 
         </RelativeLayout>
 

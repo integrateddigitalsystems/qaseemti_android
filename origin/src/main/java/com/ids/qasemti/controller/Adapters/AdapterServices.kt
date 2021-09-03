@@ -32,7 +32,7 @@ class AdapterServices(
 
         Glide.with(con).load(items.get(position).testCode).into(holder.image);
 
-        holder.image.setBackgroundResource(items.get(position).testCode!!)
+       // holder.image.setBackgroundResource(items.get(position).testCode!!)
         holder.title.text = items.get(position).title
     }
 

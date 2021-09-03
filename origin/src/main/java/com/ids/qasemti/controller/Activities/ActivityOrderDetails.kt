@@ -29,11 +29,20 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_details)
         btDrawer.hide()
+        btBackTool.show()
+        btBackTool.setOnClickListener {
+            super.onBackPressed()
+        }
         AppHelper.setAllTexts(rootLayoutOrderDetails)
         tvPageTitle.typeface = AppHelper.getTypeFace(this)
         if(MyApplication.typeSelected==0) {
             tvPageTitle.text = getString(R.string.active_order_det)
-            llEditOrderTime.show()
+            if(!MyApplication.isClient){
+                llEditOrderTime.show()
+            }else{
+                llEditOrderTime.hide()
+                llOrderSwitches.hide()
+            }
             llActualDelivery.hide()
         }else{
             tvPageTitle.text = getString(R.string.completed_order_details)
@@ -42,6 +51,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             llActualDelivery.show()
             llOrderSwitches.hide()
             btCancelOrder.hide()
+            if(MyApplication.isClient)
+                btRenewOrder.show()
         }
 
 

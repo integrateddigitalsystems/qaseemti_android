@@ -70,11 +70,12 @@
 
         <activity
             android:name=".controller.Activities.ActivityRegistration"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="fullSensor" />
-        <activity
-            android:name="com.ids.qasemti.controller.Activities.ActivityRegistrationClient"
+       <!-- <activity
+            android:name="com.ids.qasemti.controller.Activities.Activ"
             android:screenOrientation="fullSensor"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"/>-->
 
 
        <!-- <activity android:name=".controller.Activities.ActivityMap"
@@ -122,6 +123,11 @@
 
         <activity
             android:name=".controller.Activities.ActivityRelatedOrders"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".controller.Activities.ActivityCheckout"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.NoActionBar"/>
 

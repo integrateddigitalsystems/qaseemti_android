@@ -19,6 +19,7 @@ import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_settlement.*
 import kotlinx.android.synthetic.main.activity_settlement.linearTabs
 import kotlinx.android.synthetic.main.fragment_orders.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 
 class ActivitySettlements : ActivityBase(),RVOnItemClickListener {

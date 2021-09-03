@@ -42,6 +42,12 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     }
 
+    fun showTitle(show:Boolean){
+        if(show)
+            tvPageTitle.show()
+        else
+            tvPageTitle.hide()
+    }
 
     fun showBack(show:Boolean){
         if(show)

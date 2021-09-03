@@ -12,6 +12,7 @@
         android:layout_width="@dimen/icon_2"
         android:layout_height="@dimen/icon_2"
         android:id="@+id/btBck"
+        android:backgroundTint="@color/redPrimary"
         android:tint="@color/redPrimary"
         android:layout_marginTop="@dimen/margin_start_end"
         android:layout_marginStart="@dimen/margin_start_end"
