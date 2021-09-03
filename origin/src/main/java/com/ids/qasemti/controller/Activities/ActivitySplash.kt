@@ -57,8 +57,10 @@ class ActivitySplash : ActivityBase() {
                     )
                     logw("firebase_array_size","..."+MyApplication.localizeArray!!.messages!!.size)
                     AppHelper.setAllTexts(rootLayout)
-                    nextStep()
+
                 }
+
+                nextStep()
             }
     }
 }
