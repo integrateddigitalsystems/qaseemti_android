@@ -27,11 +27,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="12dp"
-            android:id="@+id/linearProgress"
-            android:orientation="horizontal"
             android:layout_centerVertical="true"
-            android:background="@color/gray_progress"
-            />
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="12dp"
+                android:id="@+id/linearProgress1"
+                android:orientation="horizontal"
+                android:background="@color/gray_progress"
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="12dp"
+                android:id="@+id/linearProgress2"
+                android:orientation="horizontal"
+                android:background="@color/gray_progress"
+                />
+
+        </LinearLayout>
+
 
 
         <LinearLayout
@@ -40,7 +57,7 @@
             android:gravity="center"
             android:id="@+id/btTab1"
             android:layout_alignParentStart="true"
-            android:background="@drawable/circle_gray"
+            android:background="@drawable/primary_circle"
             android:orientation="vertical"
             >
 
@@ -50,7 +67,7 @@
                 android:layout_gravity="center"
                 android:id="@+id/ivTab1"
                 android:src="@drawable/ic_language"
-                />
+                app:tint="@color/white" />
 
         </LinearLayout>
 

@@ -21,7 +21,7 @@
         android:textSize="@dimen/big_font"
         android:textColor="@color/gray_font_title"
         android:text="@string/description"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/small_margin"
         android:tag="description"
         />
 
@@ -30,23 +30,22 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/normal_font"
         android:textColor="@color/gray_font"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/small_margin"
         android:text="lorem ipsum is simply dummy text of the printing lorem ipsum is simply dummy text of the printing"
-        android:tag="description"
         />
 
     <com.ids.qasemti.custom.CustomTextViewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/big_font"
-        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         android:textColor="@color/gray_font_title"
         android:text="@string/type"
         android:tag="type"
         />
 
     <RelativeLayout
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/small_margin"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
         android:background="@drawable/rounded_white_background">
@@ -75,14 +74,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/big_font"
-        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         android:textColor="@color/gray_font_title"
         android:text="@string/size_capacity"
         android:tag="size_capacity"
         />
 
     <RelativeLayout
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/small_margin"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
         android:background="@drawable/rounded_white_background">
@@ -110,14 +109,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/big_font"
-        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         android:textColor="@color/gray_font_title"
         android:text="@string/stock_available"
         android:tag="stock_available"
         />
 
     <RelativeLayout
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/small_margin"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
         android:background="@drawable/rounded_white_background">
@@ -148,7 +147,7 @@
         android:textSize="@dimen/big_font"
         android:textColor="@color/gray_font_title"
         android:text="@string/description"
-        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         android:tag="description"
         />
 
@@ -166,7 +165,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/small_margin"
         >
 
         <Button
@@ -201,7 +200,7 @@
         android:background="@drawable/blue_rounded"
         android:textSize="@dimen/normal_font"
         android:textColor="@color/white"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/medium_margin"
         android:text="@string/save"
         android:tag="save"
         android:textAllCaps="false"
