@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_font"
-            android:text="@string/cart"
+            android:text="@string/Cart"
             android:textColor="@color/gray_font"
             android:layout_marginTop="@dimen/mini_margin"
             android:layout_gravity="center"
@@ -128,7 +128,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_font"
-            android:text="@string/home"
+            android:text="@string/Home"
             android:textColor="@color/gray_font"
             android:layout_marginTop="@dimen/mini_margin"
             android:layout_gravity="center"
@@ -190,11 +190,11 @@
             android:id="@+id/tvFooterAccount"
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_font"
-            android:text="@string/account"
+            android:text="@string/Account"
             android:textColor="@color/gray_font"
             android:layout_marginTop="@dimen/mini_margin"
             android:layout_gravity="center"
-            android:tag="@string/account"
+            android:tag="@string/Account"
             />
 
     </LinearLayout>

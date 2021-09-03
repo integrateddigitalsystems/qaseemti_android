@@ -33,7 +33,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         btBackTool.setOnClickListener {
             super.onBackPressed()
         }
-        AppHelper.setAllTexts(rootLayoutOrderDetails)
+        AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.typeface = AppHelper.getTypeFace(this)
         if(MyApplication.typeSelected==0) {
             tvPageTitle.text = getString(R.string.active_order_det)

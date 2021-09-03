@@ -1,10 +1,7 @@
 package com.ids.qasemti.controller.Activities
 
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.os.Build
 import android.os.Bundle
-import androidx.core.widget.ImageViewCompat
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.utils.AppHelper
@@ -17,15 +14,15 @@ class ActivityRegistration : ActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        AppHelper.setAllTexts(rootLayoutRegistration)
+        AppHelper.setAllTexts(rootLayoutRegistration,this)
         AppHelper.setLogoTint(logo_main,this,R.color.white)
 
 
         btRegister.setOnClickListener {
             if(etFirstName.text.isNullOrEmpty() || etLastName.text.isNullOrEmpty() || etEmail.text.isNullOrEmpty()){
-                AppHelper.createDialog(this,getString(R.string.please_fill_data))
+                AppHelper.createDialog(this,getString(R.string.fill_all_field))
             }else if(!AppHelper.isEmailValid(etEmail.text.toString()) ){
-                AppHelper.createDialog(this,getString(R.string.enter_correct_email))
+                AppHelper.createDialog(this,getString(R.string.email_valid_error))
             }else{
                 startActivity(Intent(this,ActivityCodeVerification::class.java))
             }

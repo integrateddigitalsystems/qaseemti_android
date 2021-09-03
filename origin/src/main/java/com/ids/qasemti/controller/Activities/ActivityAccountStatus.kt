@@ -16,7 +16,7 @@ class ActivityAccountStatus : ActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_status)
-        AppHelper.setAllTexts(rootLayoutAccountStatus)
+        AppHelper.setAllTexts(rootLayoutAccountStatus,this)
         btSave.setOnClickListener {
             if(notfSelected==-1){
                 AppHelper.createDialog(this,getString(R.string.select_get_notified))

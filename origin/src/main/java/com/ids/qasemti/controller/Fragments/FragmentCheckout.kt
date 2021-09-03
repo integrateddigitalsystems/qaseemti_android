@@ -42,7 +42,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutCheckout)
+        AppHelper.setAllTexts(rootLayoutCheckout,requireContext())
         init()
 
     }
@@ -60,7 +60,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
 
     fun init(){
         (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
-        AppHelper.setTitle(requireActivity(),getString(R.string.checkout),"checkout")
+        AppHelper.setTitle(requireActivity(),getString(R.string.Checkout),"checkout")
         etCheckoutTime.setFocusable(false);
         etCheckoutDate.setFocusable(false);
         etToDate.setFocusable(false)

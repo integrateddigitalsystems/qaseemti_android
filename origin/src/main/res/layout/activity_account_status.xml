@@ -53,7 +53,7 @@
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:gravity="start"
             android:tag="updated_how_notified"
-            android:text="@string/updated_how_notified"
+            android:text="@string/updated_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/big_font"/>
@@ -137,7 +137,7 @@
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:gravity="center"
             android:tag="update_in_email"
-            android:text="@string/update_in_email"
+            android:text="@string/find_your_updates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/big_font"/>

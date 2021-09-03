@@ -8,7 +8,6 @@ import com.ids.qasemti.R
 
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Base.ActivityBase
-import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
@@ -25,7 +24,7 @@ class ActivityMobileRegistration: ActivityBase(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mobile_registration)
-        AppHelper.setAllTexts(rootLayoutMobileRegister)
+        AppHelper.setAllTexts(rootLayoutMobileRegister,this)
         AppHelper.setLogoTint(logo_main,this,R.color.white)
 
 
@@ -75,7 +74,7 @@ class ActivityMobileRegistration: ActivityBase(){
 
         btLoginClient.setOnClickListener {
             if(etPhone.text.isNullOrEmpty()){
-                AppHelper.createDialog(this,getString(R.string.please_fill_data))
+                AppHelper.createDialog(this,getString(R.string.fill_all_field))
             }else {
                 /*MyApplication.selectedFragment = FragmentHomeClient()
                 MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT*/
@@ -87,7 +86,7 @@ class ActivityMobileRegistration: ActivityBase(){
 
         btLogin.setOnClickListener {
             if(etPhone.text.isNullOrEmpty()){
-                AppHelper.createDialog(this,getString(R.string.please_fill_data))
+                AppHelper.createDialog(this,getString(R.string.fill_all_field))
             }else {
                 MyApplication.isSignedIn = true
                 startActivity(Intent(this,ActivityRegistration::class.java))

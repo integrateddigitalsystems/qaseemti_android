@@ -32,7 +32,7 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutOrders)
+        AppHelper.setAllTexts(rootLayoutOrders,requireContext())
         init()
 
     }

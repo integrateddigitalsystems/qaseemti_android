@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/header_font"
-            android:text="@string/enterNumber"
+            android:text="@string/enter_mobile_number"
             android:tag="enter_mobile_number"
             />
 

@@ -27,7 +27,7 @@ class ActivitySettlements : ActivityBase(),RVOnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settlement)
-        AppHelper.setAllTexts(rootLayout)
+        AppHelper.setAllTexts(rootLayout,this)
         init()
         listeners()
     }

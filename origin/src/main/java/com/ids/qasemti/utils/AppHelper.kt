@@ -189,7 +189,7 @@ class AppHelper {
         }
 
 
-        fun setAllTexts(v:View){
+        fun setAllTexts(v:View,context: Context){
             if(MyApplication.localizeArray != null){
             try {
                 if (v is ViewGroup) {
@@ -197,13 +197,13 @@ class AppHelper {
                     for (i in 0 until vg.childCount) {
                         val child = vg.getChildAt(i)
                         // recursively call this method
-                        setAllTexts(child)
+                        setAllTexts(child,context)
                     }
                 } else if (v is TextView) {
-                    v.textRemote(v.tag.toString())
+                    v.textRemote(v.tag.toString(),context)
                 }
                 else if (v is Button) {
-                    v.textRemote(v.tag.toString())
+                    v.textRemote(v.tag.toString(),context)
                 } else if(v is EditText){
                     v.hint = v.tag.toString()
                 }
@@ -433,6 +433,7 @@ class AppHelper {
             }
 
         }
+
 
         fun setTitle(context: Context,text: String,tag:String){
             if(tag.isNotEmpty()){

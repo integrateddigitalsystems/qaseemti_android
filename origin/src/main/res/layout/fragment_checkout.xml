@@ -99,7 +99,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:tag="select_time_and_delivery_date"
-                        android:text="@string/select_time_and_delivery_date" />
+                        android:text="@string/select_time_date" />
 
                     <ImageView
                         android:id="@+id/ivOpenDateTime"
@@ -257,7 +257,7 @@
                 android:layout_marginTop="@dimen/first_margin"
                 android:layout_marginBottom="@dimen/first_margin"
                 android:tag="order_summary"
-                android:text="@string/order_summary"
+                android:text="@string/OrderSummary"
                 android:textSize="@dimen/header_font" />
 
 
@@ -469,7 +469,7 @@
                     android:layout_centerVertical="true"
                     android:gravity="center"
                     android:tag="quantity"
-                    android:text="@string/quantity"
+                    android:text="@string/Quantity"
                     android:textSize="@dimen/header_font" />
 
 
@@ -535,7 +535,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/first_margin"
                 android:tag="from"
-                android:text="@string/from"
+                android:text="@string/From"
                 android:textSize="@dimen/header_font" />
 
             <RelativeLayout
@@ -578,7 +578,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:tag="to"
-                android:text="@string/to"
+                android:text="@string/To"
                 android:textSize="@dimen/header_font" />
 
             <RelativeLayout
@@ -621,7 +621,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/first_margin"
                 android:tag="do_you_have_a_coupon"
-                android:text="@string/do_you_have_a_coupon"
+                android:text="@string/haveCoupon"
                 android:textSize="@dimen/header_font" />
 
             <RelativeLayout

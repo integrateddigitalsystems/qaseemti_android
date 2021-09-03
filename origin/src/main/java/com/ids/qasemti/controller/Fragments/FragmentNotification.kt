@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterNotification
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.model.Notification
@@ -30,11 +31,15 @@ class FragmentNotifications : Fragment() , RVOnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutNotifications)
+        AppHelper.setAllTexts(rootLayoutNotifications,requireContext())
         init()
     }
 
     fun init(){
+
+
+        AppHelper.setTitle(requireActivity(), getString(R.string.notifications), "notifications")
+
 
         var array : ArrayList<Notification> = arrayListOf()
         array.add(Notification("Notification 1","","https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"))

@@ -62,9 +62,11 @@
 
         <activity
             android:name=".controller.Activities.ActivityAddNewAddress"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="fullSensor" />
         <activity
             android:name=".controller.Activities.ActivityMobileRegistration"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="fullSensor" />
 
 
@@ -85,6 +87,7 @@
             android:screenOrientation="fullSensor"/>
         <activity
             android:name=".controller.Activities.ActivityMap"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="fullSensor" />
 
         <activity
@@ -93,6 +96,7 @@
 
         <activity
             android:name=".controller.Activities.ActivityServiceInformation"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="fullSensor" />
 
         <activity
@@ -105,6 +109,7 @@
 -->
         <activity
             android:name=".controller.Activities.ActivityMapAddress"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="fullSensor" />
         <activity
             android:name=".controller.Activities.ActivityPlaceOrder"
@@ -118,6 +123,7 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".controller.Activities.ActivityOrderDetails"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.NoActionBar"/>
 
@@ -128,6 +134,7 @@
 
         <activity
             android:name=".controller.Activities.ActivityCheckout"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.NoActionBar"/>
 

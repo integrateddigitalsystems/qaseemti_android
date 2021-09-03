@@ -494,7 +494,7 @@
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
                 android:layout_gravity="center_vertical"
-                android:id="@+id/btLogout"
+                android:id="@+id/btLogoutAccount"
                 android:gravity="center_vertical"
                 >
 

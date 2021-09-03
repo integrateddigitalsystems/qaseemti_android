@@ -37,7 +37,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutServices)
+        AppHelper.setAllTexts(rootLayoutServices,requireContext())
         init()
 
     }

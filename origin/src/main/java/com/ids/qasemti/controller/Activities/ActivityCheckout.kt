@@ -4,9 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
 import com.ids.qasemti.R
@@ -27,7 +25,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_checkout)
-        AppHelper.setAllTexts(rootLayoutCheckout)
+        AppHelper.setAllTexts(rootLayoutCheckout,this)
         init()
     }
 
@@ -62,7 +60,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
 
     fun init(){
         setTintLogo(R.color.redPrimary)
-        tvPageTitle.text = getString(R.string.checkout)
+        tvPageTitle.text = getString(R.string.Checkout)
         tvPageTitle.typeface = AppHelper.getTypeFace(this)
         etCheckoutTime.setFocusable(false);
         etCheckoutDate.setFocusable(false);

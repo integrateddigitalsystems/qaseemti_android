@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.curve_layout_home.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.white_logo_layout.*
-import org.androidannotations.annotations.App
 
 class FragmentProfile : Fragment(), RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
@@ -30,7 +29,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutProfile)
+        AppHelper.setAllTexts(rootLayoutProfile,requireContext())
         init()
 
     }
@@ -38,7 +37,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
     fun init(){
         //tvToolbarCurveTitle.setText(getString(R.string.profile))
         (activity as ActivityHome?)!!.showBack(R.color.white)
-         AppHelper.setTitle(requireActivity(),getString(R.string.profile),"profile")
+         AppHelper.setTitle(requireActivity(),getString(R.string.Profile),"profile")
 
        // (activity as ActivityHome?)!!.showLogout(false)
         tvToolbarCurveTitle.visibility = View.GONE

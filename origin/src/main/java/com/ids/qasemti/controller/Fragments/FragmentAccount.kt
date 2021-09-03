@@ -37,6 +37,9 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
     }
 
     fun init(){
+        (activity as ActivityHome).showBack(false)
+        (activity as ActivityHome).showLogout(false)
+        (activity as ActivityHome).showTitle(false)
 
     }
 

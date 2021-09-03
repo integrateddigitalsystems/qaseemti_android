@@ -352,7 +352,7 @@
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/cancelled_by"
+                android:text="@string/CanceledBy"
                 android:tag="cancelled_by"
                 android:textColor="@color/gray_font_title" />
 
@@ -524,7 +524,7 @@
                     android:layout_width="wrap_content"
                     android:tag="on_track"
                     android:layout_height="wrap_content"
-                    android:text="@string/on_track" />
+                    android:text="@string/OnTrack" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:gravity="center"
@@ -541,7 +541,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:text="@string/delivered"
+                    android:text="@string/Delivery"
                     android:tag="delivered"
                     android:textSize="@dimen/small_font"
                     android:layout_width="wrap_content"
@@ -562,7 +562,7 @@
                 android:layout_height="match_parent">
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:text="@string/paid"
+                    android:text="@string/Paid"
                     android:tag="paid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -624,7 +624,7 @@
                     android:tag="order_amount"
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/order_amount"
+                    android:text="@string/OrderAmount"
                     />
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
