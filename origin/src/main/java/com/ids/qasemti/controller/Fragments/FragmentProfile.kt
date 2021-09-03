@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.curve_layout_home.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.white_logo_layout.*
-import org.androidannotations.annotations.App
+
 
 class FragmentProfile : Fragment(), RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.ids.qasemti.R
+import com.ids.qasemti.utils.AppHelper
 import com.ids.sampleapp.model.ItemSpinner
 
 class AdapterGeneralSpinner(
@@ -15,6 +16,7 @@ class AdapterGeneralSpinner(
     private val values: ArrayList<ItemSpinner>,
     private val type:Int
 ) : ArrayAdapter<ItemSpinner>(context, textViewResourceId, values) {
+    var con = context
 
     override fun getCount(): Int {
         return values.size
@@ -61,7 +63,8 @@ class AdapterGeneralSpinner(
         parent: ViewGroup
     ): View {
         val label = super.getDropDownView(position, convertView, parent) as TextView
-        label.setTextColor(Color.BLACK)
+     //   label.setTextColor(Color.BLACK)
+        AppHelper.setTextColor(con,label,R.color.gray_font)
         label.text = values[position].name
       /*  if(values[position].selected) {
             label.setBackgroundResource(R.drawable.selected_spinner)

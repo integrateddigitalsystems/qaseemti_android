@@ -1,6 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:id="@+id/linearService1"
     android:orientation="vertical"
     android:layout_height="match_parent">
@@ -8,12 +10,85 @@
     <com.ids.qasemti.custom.CustomTextViewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/service_information"
-        android:textColor="@color/primary"
         android:textSize="@dimen/big_font"
-        android:tag="service_information"
+        android:textColor="@color/gray_font_title"
+        android:text="@string/category"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:tag="description"
         />
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_background"
+        android:orientation="horizontal"
+        android:id="@+id/rgCategory"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/small_margin">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:buttonTint="@color/button_blue"
+            android:checked="true"
+            android:tag="purchase"
+            android:id="@+id/rbPurchase"
+            android:textColor="@color/gray_font"
+            android:text="@string/purchase"/>
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/gray_font"
+            android:id="@+id/rbRental"
+            android:buttonTint="@color/button_blue"
+            android:tag="rental"
+            android:text="@string/rental"/>
+    </RadioGroup>
+
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/big_font"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:textColor="@color/gray_font_title"
+        android:text="@string/service"
+        android:tag="type"
+        />
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_background">
+
+        <Spinner
+            android:id="@+id/spService"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overlapAnchor="false"
+            android:gravity="center_vertical"
+            android:background="@color/transparent"
+            />
+
+        <ImageView
+            android:layout_marginEnd="@dimen/first_margin"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/small_icon"
+            android:layout_height="@dimen/small_icon"
+            android:src="@drawable/arrow_right"
+            android:rotation="90"
+            android:tint="@color/gray_font_title"
+            tools:ignore="UseAppTint" />
+
+    </RelativeLayout>
 
     <com.ids.qasemti.custom.CustomTextViewBold
         android:layout_width="wrap_content"
@@ -21,7 +96,7 @@
         android:textSize="@dimen/big_font"
         android:textColor="@color/gray_font_title"
         android:text="@string/description"
-        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         android:tag="description"
         />
 
@@ -53,7 +128,8 @@
         <Spinner
             android:id="@+id/spType"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_35"
+            android:layout_height="match_parent"
+            android:overlapAnchor="false"
             android:background="@color/transparent"
             />
 
@@ -65,6 +141,8 @@
             android:layout_height="@dimen/small_icon"
             android:src="@drawable/arrow_right"
             android:rotation="90"
+            tools:ignore="UseAppTint"
+            android:tint="@color/gray_font_title"
             app:tint="@color/gray_font_title"/>
 
     </RelativeLayout>
@@ -89,7 +167,8 @@
         <Spinner
             android:id="@+id/spSize"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_35"
+            android:layout_height="match_parent"
+            android:overlapAnchor="false"
             android:background="@color/transparent"
             />
 
@@ -101,6 +180,8 @@
             android:layout_height="@dimen/small_icon"
             android:src="@drawable/arrow_right"
             android:rotation="90"
+            tools:ignore="UseAppTint"
+            android:tint="@color/gray_font_title"
             app:tint="@color/gray_font_title"/>
 
     </RelativeLayout>
@@ -124,7 +205,8 @@
         <Spinner
             android:id="@+id/spStock"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_35"
+            android:layout_height="match_parent"
+            android:overlapAnchor="false"
             android:background="@color/transparent"
             />
 
@@ -136,7 +218,9 @@
             android:layout_height="@dimen/small_icon"
             android:src="@drawable/arrow_right"
             android:rotation="90"
-            app:tint="@color/gray_font_title"/>
+            android:tint="@color/gray_font_title"
+            app:tint="@color/gray_font_title"
+            tools:ignore="UseAppTint" />
 
     </RelativeLayout>
 
@@ -146,7 +230,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/big_font"
         android:textColor="@color/gray_font_title"
-        android:text="@string/description"
+        android:text="@string/upload_images"
         android:layout_marginTop="@dimen/normal_margin"
         android:tag="description"
         />
@@ -174,6 +258,7 @@
             android:background="@drawable/rounded_white_red_border"
             android:text="@string/choose_file"
             android:tag="@string/choose_file"
+            android:id="@+id/btPickImage"
             android:textSize="@dimen/small_font"
             android:textColor="@color/gray_font"
             android:textAllCaps="false"
@@ -187,6 +272,7 @@
             android:paddingStart="@dimen/small_margin"
             android:paddingEnd="@dimen/small_margin"
             android:text="@string/no_file_chosen"
+            android:id="@+id/tvPickedImage"
             android:tag="no_file_chosen"
             android:textSize="@dimen/small_font"
             />
@@ -202,6 +288,7 @@
         android:textColor="@color/white"
         android:layout_marginTop="@dimen/medium_margin"
         android:text="@string/save"
+        android:id="@+id/btSave"
         android:tag="save"
         android:textAllCaps="false"
         />

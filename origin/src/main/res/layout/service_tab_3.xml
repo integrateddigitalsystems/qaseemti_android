@@ -3,16 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearService3"
     android:orientation="vertical"
+    android:visibility="gone"
     android:layout_height="match_parent">
-
-    <com.ids.qasemti.custom.CustomTextViewBold
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/price_earning"
-        android:textColor="@color/primary"
-        android:textSize="@dimen/big_font"
-        android:tag="ownership_proof"
-        />
 
 
 
@@ -122,6 +114,7 @@
             android:layout_marginEnd="@dimen/small_margin"
             android:background="@drawable/rounded_red_background"
             android:text="@string/previews"
+            android:id="@+id/btPreviews2"
             android:tag="previews"
             android:textAllCaps="false"
             />
@@ -135,6 +128,7 @@
             android:layout_marginStart="@dimen/small_margin"
             android:background="@drawable/blue_rounded"
             android:text="@string/create_service"
+            android:id="@+id/btNext2"
             android:tag="create_service"
             android:textAllCaps="false"
             />

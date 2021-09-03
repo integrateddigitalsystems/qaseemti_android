@@ -3,16 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearService2"
     android:orientation="vertical"
+    android:visibility="gone"
     android:layout_height="match_parent">
-
-    <com.ids.qasemti.custom.CustomTextViewBold
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ownership_proof"
-        android:textColor="@color/primary"
-        android:textSize="@dimen/big_font"
-        android:tag="ownership_proof"
-        />
 
 
 
@@ -39,6 +31,7 @@
             android:background="@drawable/rounded_white_red_border"
             android:text="@string/choose_file"
             android:tag="@string/choose_file"
+            android:id="@+id/btPickDrivingLicense"
             android:textSize="@dimen/small_font"
             android:textColor="@color/gray_font"
             android:textAllCaps="false"
@@ -50,6 +43,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/small_margin"
+            android:id="@+id/tvPickedDrivingLicense"
             android:paddingEnd="@dimen/small_margin"
             android:text="@string/no_file_chosen"
             android:tag="no_file_chosen"
@@ -100,6 +94,7 @@
             android:text="@string/choose_file"
             android:tag="@string/choose_file"
             android:textSize="@dimen/small_font"
+            android:id="@+id/btPickWorkLisence"
             android:textColor="@color/gray_font"
             android:textAllCaps="false"
             />
@@ -111,6 +106,7 @@
             android:gravity="center_vertical"
             android:paddingStart="@dimen/small_margin"
             android:paddingEnd="@dimen/small_margin"
+            android:id="@+id/tvPickedWorkLicense"
             android:text="@string/no_file_chosen"
             android:tag="no_file_chosen"
             android:textSize="@dimen/small_font"
@@ -159,6 +155,7 @@
             android:text="@string/choose_file"
             android:tag="@string/choose_file"
             android:textSize="@dimen/small_font"
+            android:id="@+id/btPickVehicle"
             android:textColor="@color/gray_font"
             android:textAllCaps="false"
             />
@@ -171,6 +168,7 @@
             android:paddingStart="@dimen/small_margin"
             android:paddingEnd="@dimen/small_margin"
             android:text="@string/no_file_chosen"
+            android:id="@+id/tvPickedVehicle"
             android:tag="no_file_chosen"
             android:textSize="@dimen/small_font"
             />
@@ -203,7 +201,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/button_height"
-
+            android:id="@+id/btPreViews1"
             android:textSize="@dimen/normal_font"
             android:textColor="@color/white"
             android:layout_marginEnd="@dimen/small_margin"
@@ -217,6 +215,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/button_height"
+            android:id="@+id/btNext1"
             android:background="@drawable/blue_rounded"
             android:textSize="@dimen/normal_font"
             android:textColor="@color/white"

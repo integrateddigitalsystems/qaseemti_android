@@ -366,6 +366,7 @@ class AppHelper {
 
         }
         fun setLogoTint(img:ImageView,con:Context,color:Int){
+            try{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 ImageViewCompat.setImageTintList(img,
                     ColorStateList.valueOf(con.getResources().getColor(color, con.getTheme())))
@@ -373,7 +374,7 @@ class AppHelper {
                 ImageViewCompat.setImageTintList(img,
                     ColorStateList.valueOf(
                         con.getResources().getColor(color)))
-            }
+            }}catch (e:Exception){}
         }
 
         fun goHome(context: Context){
