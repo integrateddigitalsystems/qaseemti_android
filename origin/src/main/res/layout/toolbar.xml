@@ -45,7 +45,7 @@
         android:visibility="gone"
 
         android:layout_alignParentStart="true"
-        android:id="@+id/btBack"
+        android:id="@+id/btBackTool"
         android:layout_centerVertical="true"
         />
 

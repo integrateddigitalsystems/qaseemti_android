@@ -94,6 +94,10 @@
             android:name=".controller.Activities.ActivitySettlements"
             android:screenOrientation="fullSensor" />
 
+       <!-- <activity
+            android:name=".controller.Activities.ActivityRelatedOrders"
+            android:screenOrientation="fullSensor" />
+-->
         <activity
             android:name=".controller.Activities.ActivityMapAddress"
             android:screenOrientation="fullSensor" />
@@ -113,7 +117,7 @@
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name=".controller.Activities.ActivitySplash"
+            android:name=".controller.Activities.ActivityRelatedOrders"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>

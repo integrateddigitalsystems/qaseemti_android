@@ -209,7 +209,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
         defaultFragment()
 
-        btBack.setOnClickListener{
+        btBackTool.setOnClickListener{
             super.onBackPressed()
         }
     }
@@ -220,22 +220,22 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
     fun hideBack(){
-        btBack.hide()
+        btBackTool.hide()
     }
 
     fun showBack(color: Int){
-        btBack.show()
-        AppHelper.setLogoTint(btBack, this, color)
+        btBackTool.show()
+        AppHelper.setLogoTint(btBackTool, this, color)
     }
 
 
     fun checkBack(){
         if(getFragmentCount(fragMang)<=1){
-            btBack.hide()
+            btBackTool.hide()
             tvPageTitle.hide()
         }
         else
-            btBack.show()
+            btBackTool.show()
 
     }
 

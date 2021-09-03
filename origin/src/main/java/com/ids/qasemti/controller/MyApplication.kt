@@ -10,10 +10,11 @@ import android.content.res.Configuration
 import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
-import com.chaos.view.BuildConfig
 import com.ids.qasemti.R
+
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
+import com.ids.qasemti.controller.MyApplication.Companion.isClient
 import com.ids.qasemti.model.FirebaseLocalizeArray
 import com.ids.qasemti.model.ServiceItem
 import com.ids.qasemti.utils.AppConstants
@@ -25,11 +26,10 @@ class MyApplication : Application() {
         var isDebug: Boolean = true
         var selectedFragmentTag : String ?=""
         var typeSelected = 0
-        var tintColor = R.color.white
-        var orderType : Int = 0
-        var settlementTabSelected = 0
+        var settlementTabSelected =0
         var selectedFragment  : Fragment ?=null
         var selectedPos : Int = 2
+        var tintColor : Int = R.color.white
         var selectedImage:String ?=""
         var selectedVideo :String ?=""
         var isSignedIn : Boolean = false

@@ -47,7 +47,7 @@ android {
             buildConfigField 'String', "label", "\"qassemati_client\""
             buildConfigField 'String', "type", "\"client\""
             buildConfigField 'String', "homePage", "\"ActivityHomeClient\""//login
-            buildConfigField 'boolean', "isClient", "true"
+            buildConfigField "boolean", "isClient", "true"
             dimension "color"
             minSdkVersion 21
             targetSdkVersion 30
@@ -61,7 +61,7 @@ android {
             buildConfigField 'String', "type", "\"service\""
             buildConfigField 'String', "label", "\"qassemati_service\""
             buildConfigField 'String', "homePage", "\"ActivityHomeService\""//login
-            buildConfigField 'boolean', "isClient", "false"
+            buildConfigField "boolean", "isClient", "false"
             dimension "color"
             minSdkVersion 21
             targetSdkVersion 30
