@@ -20,6 +20,7 @@
         android:layout_marginTop="@dimen/toolbar_height"
         >
         <EditText
+            android:id="@+id/etSearchOrders"
             android:background="@color/transparent"
             android:textSize="@dimen/normal_font"
             android:hint="@string/search_by"

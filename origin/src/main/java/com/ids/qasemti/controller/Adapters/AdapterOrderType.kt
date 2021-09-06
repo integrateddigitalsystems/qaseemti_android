@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -34,9 +35,9 @@ class AdapterOrderType(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
         if (MyApplication.languageCode == AppConstants.LANG_ARABIC) {
-            holder.title.text = holder.title.text.toString() + ": " + "شراء"
+            holder.title.text = "سامي سليمان" + ": " + "شراء"
         } else {
-            holder.title.text = holder.title.text.toString() + ": " + "Purchase"
+            holder.title.text = "Sami Suleiman" + ": " + "Purchase"
         }
 
 
@@ -103,11 +104,15 @@ class AdapterOrderType(
         var rating = itemView.findViewById<LinearLayout>(R.id.llRatings)
         var switch = itemView.findViewById<LinearLayout>(R.id.llSwitches)
         var credit = itemView.findViewById<LinearLayout>(R.id.llCredit)
+        var call = itemView.findViewById<ImageView>(R.id.ivOrderCall)
+        var message = itemView.findViewById<ImageView>(R.id.ivOrderMessage)
 
         init {
             itemView.setOnClickListener(this)
             location.setOnClickListener(this)
             details.setOnClickListener(this)
+            call.setOnClickListener(this)
+            message.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {

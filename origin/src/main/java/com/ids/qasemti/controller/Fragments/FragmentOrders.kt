@@ -1,12 +1,13 @@
 package com.ids.qasemti.controller.Fragments
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.TypedValue
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,17 +15,20 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityMap
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
-import com.ids.qasemti.controller.Adapters.AdapterOrderCancelled
 import com.ids.qasemti.controller.Adapters.AdapterOrderType
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.controller.MyApplication.Companion.typeSelected
 import com.ids.qasemti.utils.AppHelper
 import kotlinx.android.synthetic.main.fragment_orders.*
+import kotlinx.android.synthetic.main.layout_order_contact_tab.*
+
 
 class FragmentOrders : Fragment() , RVOnItemClickListener {
 
     var ordersArray : ArrayList<String> = arrayListOf()
+    var adapter : AdapterOrderType ?=null
+    var mainArray : ArrayList<String> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -45,8 +49,44 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
 
     fun init(){
         ordersArray.clear()
-        repeat(3) { ordersArray.add("1") }
+        ordersArray.add("1")
+        ordersArray.add("2")
+        ordersArray.add("1")
+        ordersArray.add("3")
+        mainArray.addAll(ordersArray)
         (activity as ActivityHome?)!!.drawColor()
+        if(!MyApplication.isClient){
+            (activity as ActivityHome)!!.showBack(true)
+        }
+
+        etSearchOrders.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                if(s.length>0) {
+                    ordersArray.clear()
+                    for (item in mainArray) {
+                        if (item.contains(s)) {
+                            ordersArray.add(item)
+                        }
+                    }
+                    adapter!!.notifyDataSetChanged()
+                }else{
+                    ordersArray.clear()
+                    ordersArray.addAll(mainArray)
+                    adapter!!.notifyDataSetChanged()
+                }
+
+            }
+        })
 
     }
 
@@ -67,6 +107,15 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
             startActivity(Intent(requireActivity(), ActivityMap::class.java))
         }else if(view.id==R.id.llViewOrderDetails){
             startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
+        }else if(view.id==R.id.ivOrderCall){
+            val intent = Intent(Intent.ACTION_DIAL)
+            startActivity(intent)
+
+        }else if(view.id==R.id.ivOrderMessage){
+            val uri = Uri.parse("smsto:12346556")
+            val it = Intent(Intent.ACTION_SENDTO, uri)
+            it.putExtra("sms_body", "Here you can set the SMS text to be sent")
+            startActivity(it)
         }
     }
 
@@ -109,7 +158,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
     }
 
     private fun setData(type:Boolean){
-        var adapter = AdapterOrderType(ordersArray, this, requireContext())
+        adapter = AdapterOrderType(ordersArray, this, requireContext())
         rvOrderDetails.adapter = adapter
         var glm2 = GridLayoutManager(requireContext(), 1)
         rvOrderDetails.layoutManager = glm2

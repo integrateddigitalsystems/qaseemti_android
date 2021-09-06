@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityMap
+import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
@@ -85,6 +86,8 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
 
         if(view.id==R.id.llLocation){
             startActivity(Intent(requireActivity(),ActivityMap::class.java))
+        }else if(view.id==R.id.llViewOrderDetails){
+            startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
         }
     }
 }

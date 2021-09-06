@@ -157,6 +157,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
+                android:id="@+id/llCall"
+                android:layout_marginTop="@dimen/mini_margin"
+                android:layout_marginBottom="@dimen/mini_margin"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -178,6 +181,9 @@
                 android:background="@color/gray_line"/>
 
             <LinearLayout
+                android:id="@+id/llMessage"
+                android:layout_marginTop="@dimen/mini_margin"
+                android:layout_marginBottom="@dimen/mini_margin"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="match_parent"

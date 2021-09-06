@@ -41,26 +41,30 @@
             </LinearLayout>
 
             <LinearLayout
+                android:weightSum="1"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/normal_margin"
 
                 android:orientation="vertical">
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:id="@+id/tvCategoryOrder"
+                    android:gravity="bottom"
                     android:layout_width="wrap_content"
+                    android:layout_weight="0.5"
                     android:text="Sami Suleiman"
                     android:textColor="@color/gray_font_title"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:textSize="@dimen/normal_font"
                     />
 
                 <com.ids.qasemti.custom.CustomTextViewBold
-                    android:layout_marginTop="@dimen/push_text"
+                    android:layout_weight="0.5"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
                     android:textSize="@dimen/small_font"
                     android:textColor="@color/gray_font"
                     android:text="#000777"
@@ -81,6 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/ivOrderCall"
                 android:padding="@dimen/mini_margin"
                 android:layout_weight="1"
                 android:src="@drawable/icon_phone"
@@ -96,6 +101,7 @@
                 android:background="@color/gray_line"/>
 
             <ImageView
+                android:id="@+id/ivOrderMessage"
                 android:layout_weight="1"
                 android:src="@drawable/icon_chat"
                 android:layout_width="match_parent"

@@ -348,7 +348,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         arrayData.add(ServicesData(1, getString(R.string.category),selectedCategoryName, selectedCategoryId))
         arrayData.add(ServicesData(2, getString(R.string.service),selectedServiceName, selectedServiceId))
         arrayData.add(ServicesData(3, getString(R.string.type),selectedTypeName, selectedTypeId))
-        arrayData.add(ServicesData(4, getString(R.string.size_capacity),selectedSizeName, selectedSizeId))
+        arrayData.add(ServicesData(4, getString(R.string.SizeCapacity),selectedSizeName, selectedSizeId))
         arrayData.add(ServicesData(5, getString(R.string.Quantity),selectedQtyName, selectedQtyId))
         var adapter = AdapterServicesData(arrayData, this, this)
         rvData.layoutManager = LinearLayoutManager(this)
