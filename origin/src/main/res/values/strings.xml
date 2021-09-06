@@ -187,5 +187,8 @@
     <string name="order">Order</string>
     <string name="my_earnings">My Earnings</string>
     <string name="my_dues">My Dues</string>
+    <string name="upload_images">Upload Images</string>
+
+    <string name="permission_denied">Permission Denied</string>
     <string name="renew_order">Renew Order</string>
 </resources>

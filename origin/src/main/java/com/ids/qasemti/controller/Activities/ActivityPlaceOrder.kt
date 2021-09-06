@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.home_container.*
 import kotlinx.android.synthetic.main.layout_border_data.*
 import kotlinx.android.synthetic.main.layout_border_red.*
 import kotlinx.android.synthetic.main.toolbar.*
-import org.androidannotations.annotations.App
+
 
 class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 

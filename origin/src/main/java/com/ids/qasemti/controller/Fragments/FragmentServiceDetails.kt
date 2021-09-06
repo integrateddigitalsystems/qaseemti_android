@@ -42,8 +42,7 @@ import com.ids.qasemti.utils.hide
 import com.ids.qasemti.utils.show
 import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.fragment_service_details.*
-import kotlinx.android.synthetic.main.toolbar.*
-import org.androidannotations.annotations.App
+
 import java.util.ArrayList
 
 class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Player.EventListener {

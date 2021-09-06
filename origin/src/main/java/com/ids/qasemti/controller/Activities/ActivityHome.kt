@@ -216,6 +216,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         defaultFragment()
 
         btBackTool.setOnClickListener{
+            checkBack()
             super.onBackPressed()
         }
     }

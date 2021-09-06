@@ -199,7 +199,7 @@ class AppHelper {
                         // recursively call this method
                         setAllTexts(child,context)
                     }
-                } else if (v is TextView) {
+                } else if (v is TextView && v !is EditText) {
                     v.textRemote(v.tag.toString(),context)
                 }
                 else if (v is Button) {
@@ -366,6 +366,7 @@ class AppHelper {
 
         }
         fun setLogoTint(img:ImageView,con:Context,color:Int){
+            try{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 ImageViewCompat.setImageTintList(img,
                     ColorStateList.valueOf(con.getResources().getColor(color, con.getTheme())))
@@ -373,7 +374,7 @@ class AppHelper {
                 ImageViewCompat.setImageTintList(img,
                     ColorStateList.valueOf(
                         con.getResources().getColor(color)))
-            }
+            }}catch (e:Exception){}
         }
 
         fun goHome(context: Context){
