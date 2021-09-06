@@ -199,7 +199,7 @@ class AppHelper {
                         // recursively call this method
                         setAllTexts(child,context)
                     }
-                } else if (v is TextView) {
+                } else if (v is TextView && v !is EditText) {
                     v.textRemote(v.tag.toString(),context)
                 }
                 else if (v is Button) {
