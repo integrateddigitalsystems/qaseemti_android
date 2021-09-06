@@ -386,7 +386,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/big_margin"
                     android:tag="payment_method"
-                    android:text="@string/payment_method"
+                    android:text="@string/PaymentMethod"
                     android:textColor="@color/redPrimary" />
 
                 <LinearLayout
@@ -419,7 +419,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:tag="knet_payment"
-                            android:text="@string/knet_payment" />
+                            android:text="@string/KNETPayment" />
 
 
                     </LinearLayout>
@@ -449,7 +449,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:tag="credit_card"
-                            android:text="@string/credit_card" />
+                            android:text="@string/CreditCard" />
 
 
                     </LinearLayout>
@@ -481,7 +481,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:tag="cash_on_delivery"
-                            android:text="@string/cash_on_delivery" />
+                            android:text="@string/CashOnDelivery" />
 
 
                     </LinearLayout>

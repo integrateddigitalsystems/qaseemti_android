@@ -143,7 +143,7 @@
                             android:backgroundTint="@color/button_blue"
                             android:buttonTint="@color/button_blue"
                             android:tag="now"
-                            android:text="@string/now"
+                            android:text="@string/Now"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/normal_font" />
 
@@ -155,7 +155,7 @@
                             android:backgroundTint="@color/button_blue"
                             android:buttonTint="@color/button_blue"
                             android:tag="specify"
-                            android:text="@string/specify"
+                            android:text="@string/Specify"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/normal_font" />
 
@@ -651,7 +651,7 @@
                     android:layout_height="@dimen/height_35"
                     android:layout_toStartOf="@id/tvApply"
                     android:background="@color/transparent"
-                    android:hint="@string/coupon_number"
+                    android:hint="@string/couponNumber"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/mini_margin"
                     android:tag="coupon_number"
@@ -670,7 +670,7 @@
                 android:layout_marginTop="@dimen/big_margin"
                 android:background="@drawable/blue_rounded"
                 android:tag="find_server_provider"
-                android:text="@string/find_server_provider"
+                android:text="@string/FindService"
                 android:textColor="@color/white" />
 
 

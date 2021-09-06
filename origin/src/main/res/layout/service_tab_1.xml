@@ -76,7 +76,7 @@
         android:textSize="@dimen/big_font"
         android:layout_marginTop="@dimen/normal_margin"
         android:textColor="@color/gray_font_title"
-        android:text="@string/size_capacity"
+        android:text="@string/SizeCapacity"
         android:tag="size_capacity"
         />
 

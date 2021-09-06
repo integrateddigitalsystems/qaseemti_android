@@ -491,7 +491,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/normal_font"
                 android:textColor="@color/gray_font_light"
-                android:text="@string/pending_cash_on_delivery"
+                android:text="@string/pending_cash_delivery"
                 android:tag="pending_cash_on_delivery"
                 />
 

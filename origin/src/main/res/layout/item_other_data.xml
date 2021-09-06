@@ -18,7 +18,7 @@
             android:id="@+id/tvTitleOther"
             android:layout_weight="1"
             android:tag="additional_fees_due"
-            android:text="@string/additional_fees_due" />
+            android:text="@string/AdditionalFees" />
 
         <LinearLayout
             android:layout_width="@dimen/stroke"

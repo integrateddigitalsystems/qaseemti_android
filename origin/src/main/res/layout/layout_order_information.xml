@@ -70,7 +70,7 @@
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="match_parent"
-                android:text="@string/payment_method"
+                android:text="@string/PaymentMethod"
                 android:tag="payment_method"
                 android:gravity="center_vertical"
                 android:layout_height="@dimen/normal_icon"/>
