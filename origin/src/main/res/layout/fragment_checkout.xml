@@ -174,7 +174,6 @@
 
 
                         <RelativeLayout
-                            android:id="@+id/rlCheckoutDate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/normal_margin"
@@ -186,7 +185,6 @@
                                 android:id="@+id/etCheckoutDate"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_35"
-                                android:layout_toStartOf="@id/ivCal"
                                 android:background="@color/transparent"
                                 android:hint="dd/mm/yyyy"
                                 android:inputType="none"
@@ -196,20 +194,25 @@
 
                                 />
 
+                            <LinearLayout
+                                android:gravity="center_vertical|end"
+                                android:id="@+id/rlCheckoutDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/height_35">
+
                             <ImageView
                                 android:id="@+id/ivCal"
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/normal_margin"
                                 android:src="@drawable/icon_calendar"
                                 app:tint="@color/new_blue" />
 
+                            </LinearLayout>
+
                         </RelativeLayout>
 
                         <RelativeLayout
-                            android:id="@+id/rlCheckoutTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/normal_margin"
@@ -220,7 +223,6 @@
                                 android:id="@+id/etCheckoutTime"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_35"
-                                android:layout_toStartOf="@id/ivTimeHour"
                                 android:background="@color/transparent"
                                 android:hint="--:--"
                                 android:inputType="none"
@@ -229,6 +231,13 @@
                                 android:textSize="@dimen/small_font"
 
                                 />
+
+
+                            <LinearLayout
+                                android:gravity="center_vertical|end"
+                                android:id="@+id/rlCheckoutTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/height_35">
 
                             <ImageView
                                 android:id="@+id/ivTimeHour"
@@ -239,6 +248,8 @@
                                 android:layout_marginEnd="@dimen/normal_margin"
                                 android:src="@drawable/icon_hourglass"
                                 app:tint="@color/new_blue" />
+
+                            </LinearLayout>
 
                         </RelativeLayout>
 
