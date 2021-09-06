@@ -37,6 +37,11 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
     fun init(){
         tvPageTitle.textRemote("address",this)
         tvPageTitle.show()
+        btBackTool.setOnClickListener {
+            super.onBackPressed()
+        }
+        btBackTool.show()
+        AppHelper.setLogoTint(btBackTool,this,R.color.white)
      }
 
     private fun listeners(){
