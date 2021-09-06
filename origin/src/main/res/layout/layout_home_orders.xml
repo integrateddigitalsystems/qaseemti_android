@@ -162,7 +162,6 @@
                             android:layout_marginEnd="45dp"
                             android:layout_marginStart="@dimen/normal_margin"
                             android:text="Order"
-                            android:layout_marginTop="@dimen/push_text"
                             android:textAlignment="viewStart"
                             android:lineSpacingMultiplier="0.6"
                             android:layout_gravity="center_vertical"
@@ -260,7 +259,6 @@
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/push_text"
                         android:layout_marginEnd="45dp"
                         android:layout_marginStart="@dimen/normal_margin"
                         android:text="Orders"
