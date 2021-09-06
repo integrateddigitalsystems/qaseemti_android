@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityAddresses
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityPlaceOrder
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
@@ -44,6 +45,8 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayoutCheckout,requireContext())
         init()
+
+
 
     }
 
@@ -204,6 +207,8 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
                 tvQuant.text = value.toString()
             }
         }
+
+
 
         ivOpenDateTime.setOnClickListener {
             var up = -90

@@ -188,6 +188,9 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         }
 
 
+        llAddresses.setOnClickListener {
+            startActivity(Intent(this,ActivityAddresses::class.java))
+        }
 
         btPlus.setOnClickListener {
             var quant = tvQuant.text.toString()

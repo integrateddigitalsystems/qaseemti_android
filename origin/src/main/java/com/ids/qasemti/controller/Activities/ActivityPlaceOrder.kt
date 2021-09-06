@@ -196,8 +196,13 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         rvOtherData.layoutManager = LinearLayoutManager(this)
         rvOtherData.adapter = AdapterOtherOrderData(array2,this,this)
 
-        rlNotService.hide()
-        llMain.show()
+        if(MyApplication.position==1) {
+            rlNotService.show()
+            llMain.hide()
+        }else{
+            rlNotService.hide()
+            llMain.show()
+        }
         rbCash.setOnClickListener {
             if (selected != 0) {
                 ivCash.setImageDrawable(

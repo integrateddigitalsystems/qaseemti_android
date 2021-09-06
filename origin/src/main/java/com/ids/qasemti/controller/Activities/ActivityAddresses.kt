@@ -1,38 +1,33 @@
-package com.ids.qasemti.controller.Fragments
+package com.ids.qasemti.controller.Activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Activities.ActivityAddNewAddress
 import com.ids.qasemti.controller.Adapters.AdapterAddress
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.Base.ActivityBase
 
 import com.ids.qasemti.model.Address
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.hide
+import com.ids.qasemti.utils.show
+import com.ids.qasemti.utils.textRemote
 import kotlinx.android.synthetic.main.fragment_addresses.*
+import kotlinx.android.synthetic.main.toolbar.*
 
-class FragmentAddresses : Fragment() , RVOnItemClickListener {
+class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     var array : ArrayList<Address> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        inflater.inflate(com.ids.qasemti.R.layout.fragment_addresses, container, false)
-
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayout,requireContext())
+        setContentView(R.layout.fragment_addresses)
+        AppHelper.setAllTexts(rootLayout,this)
         init()
         listeners()
         setData()
@@ -40,12 +35,13 @@ class FragmentAddresses : Fragment() , RVOnItemClickListener {
     }
 
     fun init(){
-        AppHelper.setTitle(requireActivity(),getString(R.string.address),"address")
+        tvPageTitle.textRemote("address",this)
+        tvPageTitle.show()
      }
 
     private fun listeners(){
         btAddNew.setOnClickListener{
-            startActivityForResult(Intent(requireActivity(),ActivityAddNewAddress::class.java),1)
+            startActivityForResult(Intent(this,ActivityAddNewAddress::class.java),1)
         }
     }
 
@@ -53,8 +49,8 @@ class FragmentAddresses : Fragment() , RVOnItemClickListener {
         array.add(Address(1,"My Home","Jabriya"))
         array.add(Address(1,"My Work","Salmiya"))
 
-        var adapter = AdapterAddress(array,this,requireContext())
-        rvAddresses.layoutManager = LinearLayoutManager(requireContext())
+        var adapter = AdapterAddress(array,this,this)
+        rvAddresses.layoutManager = LinearLayoutManager(this)
         rvAddresses.adapter = adapter
         rvAddresses.isNestedScrollingEnabled = false
 

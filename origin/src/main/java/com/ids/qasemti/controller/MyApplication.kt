@@ -29,6 +29,7 @@ class MyApplication : Application() {
         var settlementTabSelected =0
         var selectedFragment  : Fragment ?=null
         var selectedPos : Int = 2
+        var position : Int =0
         var tintColor : Int = R.color.white
         var selectedImage:String ?=""
         var selectedVideo :String ?=""

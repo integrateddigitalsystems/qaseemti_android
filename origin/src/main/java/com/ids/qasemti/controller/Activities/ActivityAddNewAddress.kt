@@ -26,6 +26,7 @@ class ActivityAddNewAddress : ActivityBase() {
     private fun init(){
         btDrawer.hide()
         btBackTool.show()
+        AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
     }
 
     private fun listeners(){

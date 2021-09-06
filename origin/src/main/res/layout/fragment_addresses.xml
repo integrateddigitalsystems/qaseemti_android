@@ -19,6 +19,14 @@
             <include layout="@layout/no_logo_layout" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include
+                layout="@layout/toolbar" />
+        </LinearLayout>
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -69,7 +77,7 @@
                         android:layout_height="@dimen/icon_2"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_plus"
-                        app:tint="@color/white" />
+                        android:tint="@color/white" />
 
                 </LinearLayout>
 

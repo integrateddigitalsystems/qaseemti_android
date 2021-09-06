@@ -115,6 +115,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         if (view.id == R.id.linearService) {
             MyApplication.selectedFragment = FragmentServiceDetails()
             MyApplication.selectedService = array.get(position)
+            MyApplication.position = position
             (requireActivity() as ActivityHome?)!!.addFrag(FragmentServiceDetails(),AppConstants.FRAGMENT_SERVICE_DETAILS)
 
         }

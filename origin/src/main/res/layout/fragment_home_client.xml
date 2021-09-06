@@ -18,11 +18,36 @@
             <include layout="@layout/no_logo_layout" />
         </LinearLayout>
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+
+        <LinearLayout
             android:layout_below="@id/llHomeCurve"
             android:layout_marginTop="-25dp"
+            android:id="@+id/linearProfileInfo"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:background="@drawable/rounded_white_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/big_margin"
+            android:paddingEnd="@dimen/big_margin">
+
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/ads_place"
+                android:textSize="@dimen/big_font" />
+
+        </LinearLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_below="@id/linearProfileInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+
             android:fillViewport="true">
 
             <LinearLayout
@@ -30,27 +55,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/linearProfileInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="90dp"
-                    android:layout_marginStart="@dimen/margin_start_end"
-                    android:layout_marginEnd="@dimen/margin_start_end"
-                    android:background="@drawable/rounded_white_background"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/big_margin"
-                    android:paddingEnd="@dimen/big_margin">
 
-
-                    <com.ids.qasemti.custom.CustomTextViewBold
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/ads_place"
-                        android:textSize="@dimen/big_font" />
-
-                </LinearLayout>
                 <LinearLayout
                     android:layout_marginStart="@dimen/big_margin"
                     android:layout_marginEnd="@dimen/big_margin"

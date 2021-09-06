@@ -69,9 +69,14 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="fullSensor" />
 
-
         <activity
             android:name=".controller.Activities.ActivityRegistration"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="fullSensor" />
+
+
+        <activity
+            android:name=".controller.Activities.ActivityAddresses"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="fullSensor" />
        <!-- <activity
