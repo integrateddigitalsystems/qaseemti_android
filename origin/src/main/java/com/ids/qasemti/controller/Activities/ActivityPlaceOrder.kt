@@ -95,6 +95,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
 
         llFooterOrders.setOnClickListener {
+            MyApplication.fromFooterOrder = true
             if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_ORDER && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
                 setSelectedTab(
                     1,

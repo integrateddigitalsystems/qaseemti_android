@@ -129,7 +129,7 @@ class AppHelper {
                       else
                           Typeface.createFromAsset(
                               context.applicationContext.assets,
-                              "fonts/MYRIADPRO_COND.OTF"
+                              "fonts/Myriad_Pro_Regular.ttf"
                           )//"fonts/NeoTech-Medium.otf"
 
            // return Typeface.DEFAULT
@@ -182,7 +182,7 @@ class AppHelper {
             else
                 Typeface.createFromAsset(
                     context.applicationContext.assets,
-                    "fonts/MYRIADPRO_BOLDCOND.OTF"
+                    "fonts/Myriad_Pro_Semibold.ttf"
                 )//fonts/NeoTech-Bold.otf
 
          //   return Typeface.DEFAULT_BOLD

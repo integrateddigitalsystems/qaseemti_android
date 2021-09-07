@@ -52,7 +52,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
         (activity as ActivityHome?)!!.showBack(false)
 
-        llFilter.setOnClickListener {
+        btFilter.setOnClickListener {
             showPopupSocialMedia()
         }
 
@@ -73,7 +73,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
         if (array.size == 0) {
             rvServices.hide()
-            llFilter.hide()
+            btFilter.hide()
             llNodata.show()
         }
 
@@ -92,17 +92,17 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
 
         dialog!!.setOnCancelListener {
-            llFilter.show()
+            btFilter.show()
             dialog!!.cancel()
         }
         dialog!!.setOnDismissListener {
-            llFilter.show()
+            btFilter.show()
             dialog!!.cancel()
         }
-        llFilter.hide()
+        btFilter.hide()
         var close = dialog!!.findViewById<ImageView>(R.id.btClose)
         close.setOnClickListener {
-            llFilter.show()
+            btFilter.show()
             dialog!!.cancel()
         }
         //btCancell!!.setOnClickListener { dialog!!.dismiss() }

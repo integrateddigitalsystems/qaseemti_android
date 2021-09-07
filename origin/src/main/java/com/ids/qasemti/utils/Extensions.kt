@@ -6,12 +6,14 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatRadioButton
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.common.reflect.Reflection.getPackageName
@@ -135,6 +137,19 @@ fun TextView.textRemote(key: String, con:Context) {
 
     }
 
+}
+
+fun TextView.setColorTypeface(context: Context, color: Int,text:String) {
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        this.setTextColor(ContextCompat.getColor(context, color))
+    } else {
+        this.setTextColor(context.resources.getColor(color))
+    }
+    this.typeface = AppHelper.getTypeFace(context)
+    if(!text.isNullOrEmpty()){
+        this.text = text
+    }
 }
 
 

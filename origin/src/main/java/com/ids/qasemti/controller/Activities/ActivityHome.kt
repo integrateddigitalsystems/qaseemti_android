@@ -76,6 +76,11 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        MyApplication.fromFooterOrder = false
+    }
+
     fun drawColor(){
         AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
     }
@@ -168,6 +173,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 remove(getSupportFragmentManager().findFragmentById(R.id.container)!!).commit();
         }
         llFooterOrders.setOnClickListener {
+            MyApplication.fromFooterOrder = true
             if (MyApplication.selectedFragmentTag != FRAGMENT_ORDER && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
                 setSelectedTab(1,FragmentOrders(), FRAGMENT_ORDER,ivFooterOrder,R.color.redPrimary)
             else if(!MyApplication.isSignedIn && MyApplication.isClient)

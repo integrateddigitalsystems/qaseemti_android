@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLayoutServices"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,12 +20,14 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_below="@id/llHomeCurve"
             android:layout_marginTop="-25dp"
             android:id="@+id/linearProfileInfo"
             android:layout_width="match_parent"
             android:layout_height="90dp"
+            app:cardCornerRadius="@dimen/normal_radius"
+            android:elevation="@dimen/normal_margin"
             android:layout_marginStart="@dimen/margin_start_end"
             android:layout_marginEnd="@dimen/margin_start_end"
             android:background="@drawable/rounded_white_background"
@@ -41,18 +44,11 @@
                 android:text="@string/ads_place"
                 android:textSize="@dimen/big_font" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/llShadow"
-            android:layout_below="@id/linearProfileInfo"
-            android:layout_marginStart="@dimen/big_margin"
-            android:layout_marginEnd="@dimen/big_margin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shadow"/>
+        </androidx.cardview.widget.CardView>
+
+
         <androidx.core.widget.NestedScrollView
-            android:layout_below="@id/llShadow"
+            android:layout_below="@id/linearProfileInfo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
@@ -65,16 +61,14 @@
                 android:orientation="vertical">
 
 
-
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvServices"
-                    android:visibility="visible"
-                    android:layout_marginBottom="@dimen/big_margin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/margin_start_end"
-                    android:layout_marginEnd="@dimen/margin_start_end" />
+                    android:layout_marginEnd="@dimen/margin_start_end"
+                    android:layout_marginBottom="@dimen/big_margin"
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:visibility="gone"
@@ -97,29 +91,40 @@
 
 
 
-        <LinearLayout
+        <RelativeLayout
             android:paddingBottom="@dimen/big_margin"
-            android:paddingEnd="@dimen/big_margin"
-            android:gravity="end"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/llFilter"
-                app:maxImageSize="@dimen/big_icon"
-                android:scaleType="center"
-                android:src="@drawable/icon_floating"
-                app:backgroundTint="@color/new_blue"
-                app:borderWidth="0dp"
-                app:elevation="@dimen/normal_margin"
-                app:fabSize="normal" />
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/btRegisterLogin"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@drawable/blue_rounded"
+                android:textColor="@color/white"
+                android:text="@string/regsiter_or_login"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="@dimen/edit_text_height"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_alignParentBottom="true"
+                app:tint="@color/white"
+                android:layout_gravity="center"
+                android:id="@+id/btFilter"
+                app:fabCustomSize="40dp"
+                android:layout_marginEnd="@dimen/big_margin"
+                android:layout_marginStart="@dimen/normal_margin"
+                app:rippleColor="@color/button_blue"
+                app:backgroundTint="@color/button_blue"
+                android:src="@drawable/icon_floating"
+                android:layout_alignParentEnd="true"
+                />
+
+        </RelativeLayout>
 
         <!--
                 <androidx.cardview.widget.CardView

@@ -42,14 +42,16 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
         (activity as ActivityHome?)!!.showLogout(false)
         (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
         rlActive.setOnClickListener {
+            MyApplication.fromFooterOrder = false
             MyApplication.selectedFragment = FragmentOrders()
-            (requireActivity() as ActivityHome?)!!.addFrag(FragmentOrders(),AppConstants.FRAGMENT_ORDER)
+            (requireActivity() as ActivityHome?)!!.addFrag(FragmentOrders(),AppConstants.FRAGMENT_ORDER_FROM)
             MyApplication.typeSelected = 0
 
         }
         rlUpcoming.setOnClickListener {
+            MyApplication.fromFooterOrder = false
             MyApplication.selectedFragment = FragmentOrders()
-            (requireActivity() as ActivityHome?)!!.addFrag(FragmentOrders(),AppConstants.FRAGMENT_ORDER)
+            (requireActivity() as ActivityHome?)!!.addFrag(FragmentOrders(),AppConstants.FRAGMENT_ORDER_FROM)
             MyApplication.typeSelected = 1
         }
         setOrders()

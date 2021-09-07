@@ -38,6 +38,7 @@ class MyApplication : Application() {
         var selectedService : ServiceItem ?=null
         var showLogs: Boolean = true
         var isClient : Boolean = false
+        var fromFooterOrder : Boolean = true
         var localizeArray: FirebaseLocalizeArray ?= null
         var BASE_URL = ""
         lateinit var sharedPreferences : SharedPreferences

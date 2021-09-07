@@ -39,6 +39,7 @@ class AdapterOrderType(
         } else {
             holder.title.text = "Sami Suleiman" + ": " + "Purchase"
         }
+        holder.title.typeface = AppHelper.getTypeFace(con)
 
 
         if (MyApplication.isClient && MyApplication.typeSelected == 0) {

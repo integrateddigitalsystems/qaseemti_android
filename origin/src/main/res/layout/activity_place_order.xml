@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/gray_bg"
     android:orientation="vertical">
 
@@ -26,10 +27,21 @@
         android:layout_marginEnd="@dimen/margin_start_end"
         android:orientation="vertical">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/linearProfileInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            android:background="@drawable/rounded_white_background"
+            android:elevation="@dimen/normal_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/big_margin"
+            android:paddingEnd="@dimen/big_margin"
+            app:cardCornerRadius="@dimen/normal_radius">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_white_background"
             android:orientation="vertical"
             android:paddingTop="@dimen/margin_start_end"
             android:paddingBottom="@dimen/margin_start_end">
@@ -183,10 +195,8 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shadow" />
+        </androidx.cardview.widget.CardView>
+
 
         <ScrollView
             android:scrollbars="none"

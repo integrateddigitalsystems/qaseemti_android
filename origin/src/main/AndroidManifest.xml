@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission android:name="android.permission.INTERNET" />
 
 
@@ -25,6 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         tools:replace="android:allowBackup"
+        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true" >
@@ -117,6 +119,12 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="fullSensor" />
         <activity
+            android:name=".controller.Activities.ActivitySelectAddress"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
             android:name=".controller.Activities.ActivityPlaceOrder"
             android:screenOrientation="fullSensor" />
         <activity
@@ -157,7 +165,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_api_key" />
+            android:value="AIzaSyCKeZJUtvoCxtgf5Pjm3kQy_5yScjUst5U" />
 
         <meta-data
             android:name="com.google.android.gms.version"

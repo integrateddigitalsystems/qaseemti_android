@@ -38,6 +38,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         }
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.typeface = AppHelper.getTypeFace(this)
+        tvPageTitle.show()
         if(MyApplication.typeSelected==0) {
             tvPageTitle.text = getString(R.string.active_order_det)
             if(!MyApplication.isClient){

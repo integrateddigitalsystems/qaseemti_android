@@ -70,6 +70,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llSetDateTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/first_margin"
@@ -123,7 +124,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/normal_margin"
                         android:background="@color/gray_serperator" />
 
@@ -131,7 +132,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/small_margin"
+                        android:layout_marginStart="@dimen/first_margin"
                         android:layout_marginTop="@dimen/first_margin"
                         android:gravity="center"
                         android:orientation="horizontal">
@@ -163,6 +164,17 @@
                     </RadioGroup>
 
 
+                    <com.ids.qasemti.custom.CustomTextViewBold
+                        android:layout_marginStart="@dimen/first_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/gray_font_title"
+                        android:layout_marginTop="@dimen/first_margin"
+                        android:tag="From"
+                        android:text="@string/From"
+                        android:textSize="@dimen/header_font" />
+
+
                     <LinearLayout
 
                         android:layout_width="match_parent"
@@ -183,7 +195,7 @@
 
 
                             <EditText
-                                android:id="@+id/etCheckoutDate"
+                                android:id="@+id/etFromDate"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_35"
                                 android:background="@color/transparent"
@@ -197,12 +209,11 @@
 
                             <LinearLayout
                                 android:gravity="center_vertical|end"
-                                android:id="@+id/rlCheckoutDate"
+                                android:id="@+id/rlFromDate"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_35">
 
                             <ImageView
-                                android:id="@+id/ivCal"
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
                                 android:layout_marginEnd="@dimen/normal_margin"
@@ -221,7 +232,7 @@
                             android:background="@drawable/gray_background_rounded">
 
                             <EditText
-                                android:id="@+id/etCheckoutTime"
+                                android:id="@+id/etFromTime"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_35"
                                 android:background="@color/transparent"
@@ -236,12 +247,11 @@
 
                             <LinearLayout
                                 android:gravity="center_vertical|end"
-                                android:id="@+id/rlCheckoutTime"
+                                android:id="@+id/rlFromTime"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_35">
 
                             <ImageView
-                                android:id="@+id/ivTimeHour"
                                 android:layout_width="@dimen/icon_2"
                                 android:layout_height="@dimen/icon_2"
                                 android:layout_alignParentEnd="true"
@@ -249,6 +259,109 @@
                                 android:layout_marginEnd="@dimen/normal_margin"
                                 android:src="@drawable/icon_hourglass"
                                 app:tint="@color/new_blue" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <com.ids.qasemti.custom.CustomTextViewBold
+                        android:layout_marginStart="@dimen/first_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/first_margin"
+                        android:tag="To"
+                        android:text="@string/To"
+                        android:textColor="@color/gray_font_title"
+                        android:textSize="@dimen/header_font" />
+
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/first_margin"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:layout_marginEnd="@dimen/first_margin"
+                        android:layout_marginBottom="@dimen/first_margin"
+                        android:weightSum="3">
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/normal_margin"
+                            android:layout_weight="1"
+                            android:background="@drawable/gray_background_rounded">
+
+
+                            <EditText
+                                android:id="@+id/etToDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/height_35"
+                                android:background="@color/transparent"
+                                android:hint="dd/mm/yyyy"
+                                android:inputType="none"
+                                android:paddingStart="@dimen/normal_margin"
+                                android:paddingEnd="@dimen/mini_margin"
+                                android:textSize="@dimen/small_font"
+
+                                />
+
+                            <LinearLayout
+                                android:gravity="center_vertical|end"
+                                android:id="@+id/rlToDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/height_35">
+
+                                <ImageView
+                                    android:layout_width="@dimen/normal_icon"
+                                    android:layout_height="@dimen/normal_icon"
+                                    android:layout_marginEnd="@dimen/normal_margin"
+                                    android:src="@drawable/icon_calendar"
+                                    app:tint="@color/new_blue" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/normal_margin"
+                            android:layout_weight="2"
+                            android:background="@drawable/gray_background_rounded">
+
+                            <EditText
+                                android:id="@+id/etToTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/height_35"
+                                android:background="@color/transparent"
+                                android:hint="--:--"
+                                android:inputType="none"
+                                android:paddingStart="@dimen/normal_margin"
+                                android:paddingEnd="@dimen/mini_margin"
+                                android:textSize="@dimen/small_font"
+
+                                />
+
+
+                            <LinearLayout
+                                android:gravity="center_vertical|end"
+                                android:id="@+id/rlToTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/height_35">
+
+                                <ImageView
+                                    android:layout_width="@dimen/icon_2"
+                                    android:layout_height="@dimen/icon_2"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/normal_margin"
+                                    android:src="@drawable/icon_hourglass"
+                                    app:tint="@color/new_blue" />
 
                             </LinearLayout>
 
@@ -273,10 +386,21 @@
                 android:textSize="@dimen/header_font" />
 
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/linearProfileInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+                android:background="@drawable/rounded_white_background"
+                android:elevation="@dimen/normal_margin"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/big_margin"
+                android:paddingEnd="@dimen/big_margin"
+                app:cardCornerRadius="@dimen/normal_radius">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_white_background"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/first_margin"
                 android:paddingBottom="@dimen/first_margin">
@@ -463,10 +587,9 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:background="@drawable/shadow" />
+            </androidx.cardview.widget.CardView>
+
+
 
 
             <RelativeLayout
@@ -542,7 +665,7 @@
             </RelativeLayout>
 
 
-            <com.ids.qasemti.custom.CustomTextViewBold
+          <!--  <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/first_margin"
@@ -625,7 +748,7 @@
 
                     />
 
-            </RelativeLayout>
+            </RelativeLayout>-->
 
 
             <com.ids.qasemti.custom.CustomTextViewBold

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/gray_bg"
     android:layout_height="match_parent">
 
@@ -42,9 +42,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            android:background="@drawable/rounded_white_background"
+            android:elevation="@dimen/normal_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/big_margin"
+            android:paddingEnd="@dimen/big_margin"
+            app:cardCornerRadius="@dimen/normal_radius">
         <LinearLayout
             android:id="@+id/llCurrentLocation"
-            android:background="@drawable/rounded_white_background"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="@dimen/big_margin"
@@ -86,15 +96,24 @@
 
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="@drawable/shadow" />
 
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            android:background="@drawable/rounded_white_background"
+            android:elevation="@dimen/normal_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/big_margin"
+            android:paddingEnd="@dimen/big_margin"
+            app:cardCornerRadius="@dimen/normal_radius">
         <LinearLayout
             android:id="@+id/llLocationOnMap"
             android:layout_marginTop="@dimen/normal_margin"
-            android:background="@drawable/rounded_white_background"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="@dimen/big_margin"
@@ -136,15 +155,23 @@
 
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="@drawable/shadow" />
+        </androidx.cardview.widget.CardView>
 
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            android:background="@drawable/rounded_white_background"
+            android:elevation="@dimen/normal_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/big_margin"
+            android:paddingEnd="@dimen/big_margin"
+            app:cardCornerRadius="@dimen/normal_radius">
         <LinearLayout
             android:id="@+id/llSavedLocation"
             android:layout_marginTop="@dimen/normal_margin"
-            android:background="@drawable/rounded_white_background"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="@dimen/big_margin"
@@ -185,15 +212,23 @@
 
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="@drawable/shadow" />
+        </androidx.cardview.widget.CardView>
 
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            android:background="@drawable/rounded_white_background"
+            android:elevation="@dimen/normal_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/big_margin"
+            android:paddingEnd="@dimen/big_margin"
+            app:cardCornerRadius="@dimen/normal_radius">
         <LinearLayout
             android:id="@+id/llNewAddress"
             android:layout_marginTop="@dimen/normal_margin"
-            android:background="@drawable/rounded_white_background"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="@dimen/big_margin"
@@ -235,10 +270,8 @@
 
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="@drawable/shadow" />
+
+        </androidx.cardview.widget.CardView>
 
 
         <Button

@@ -19,14 +19,14 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.ids.qasemti.custom.CustomTextViewMedium
+            <com.ids.qasemti.custom.CustomTextViewBold
                 android:id="@+id/tvNotificationTitle"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/tab_rounded_size"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:layout_weight="1"
-                android:textColor="@color/gray_font"
+                android:textColor="@color/gray_font_title"
                 android:gravity="center_vertical"
                 android:text="Notification 1" />
 
@@ -37,7 +37,7 @@
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:rotation="90"
                 android:src="@drawable/arrow_right"
-                app:tint="@color/redPrimary" />
+                app:tint="@color/gray_font_title" />
 
         </LinearLayout>
 
@@ -52,7 +52,7 @@
                 android:layout_margin="@dimen/normal_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray_font_light"
+                android:textColor="@color/gray_font"
                 android:id="@+id/tvNotificationDetails"/>
 
         <ImageView

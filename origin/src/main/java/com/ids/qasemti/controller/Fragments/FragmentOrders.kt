@@ -55,7 +55,10 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         ordersArray.add("3")
         mainArray.addAll(ordersArray)
         (activity as ActivityHome?)!!.drawColor()
-        if(!MyApplication.isClient){
+        (activity as ActivityHome?)!!.setTitleAc(getString(R.string.order_type))
+        (activity as ActivityHome)!!.showTitle(true)
+        (activity as ActivityHome)!!.setTintLogo(R.color.redPrimary)
+        if(!MyApplication.fromFooterOrder){
             (activity as ActivityHome)!!.showBack(true)
         }
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_marginTop="@dimen/first_margin"
-    android:padding="@dimen/normal_margin"
+    android:padding="@dimen/mini_margin"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/margin_start_end"
     android:layout_marginEnd="@dimen/margin_start_end"
@@ -250,7 +250,7 @@
         android:background="@drawable/rounded_blue"
         android:textColor="@color/white"
         android:text="@string/send_request"
-        android:layout_height="@dimen/edit_text_height"/>
+        android:layout_height="@dimen/normal_icon_size"/>
 
     </LinearLayout>
 

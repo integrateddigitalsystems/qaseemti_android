@@ -10,8 +10,11 @@ import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityServices
 import com.ids.qasemti.controller.Activities.ActivitySettlements
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.hide
+import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.layout_profile.*
 
@@ -40,7 +43,29 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         (activity as ActivityHome).showBack(false)
         (activity as ActivityHome).showLogout(false)
         (activity as ActivityHome).showTitle(false)
+        showData()
 
+    }
+
+    fun showData(){
+        if(MyApplication.isClient){
+            btShareApp.show()
+            btLogoutAccount.show()
+            btMyAddresses.show()
+            btMyServices.hide()
+            btSettelments.hide()
+            llLastSeperator.show()
+            llLastSeperator2.show()
+
+        }else{
+            btShareApp.hide()
+            btLogoutAccount.hide()
+            btMyAddresses.hide()
+            btMyServices.show()
+            btSettelments.show()
+            llLastSeperator.hide()
+            llLastSeperator2.hide()
+        }
     }
 
     fun listeners(){

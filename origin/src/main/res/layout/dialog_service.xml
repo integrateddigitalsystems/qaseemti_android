@@ -226,18 +226,19 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/edit_text_height"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_alignParentBottom="true"
+            app:tint="@color/white"
+            android:layout_gravity="center"
             android:id="@+id/btClose"
-            app:maxImageSize="@dimen/edit_text_height"
-            android:scaleType="center"
-            android:tint="@color/white"
+            app:fabCustomSize="40dp"
+            android:layout_marginStart="@dimen/normal_margin"
+            app:rippleColor="@color/button_blue"
+            app:backgroundTint="@color/button_blue"
             android:src="@drawable/icon_close"
-            app:backgroundTint="@color/new_blue"
-            app:borderWidth="0dp"
-            app:elevation="@dimen/normal_margin"
-            app:fabSize="normal" />
+            android:layout_alignParentEnd="true"
+            />
 
     </LinearLayout>
 

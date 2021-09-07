@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.hide
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_map.*
@@ -25,7 +26,7 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback{
 
         var mapViewBundle: Bundle? = null
         if (savedInstanceState != null) {
-            mapViewBundle = savedInstanceState.getBundle(getString(R.string.google_api_key))
+            mapViewBundle = savedInstanceState.getBundle(getString(R.string.googleKey))
         }
 
         mvLocation.onCreate(mapViewBundle)
@@ -43,17 +44,21 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback{
         btBackTool.setOnClickListener {
             onBackPressed()
         }
+        AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
         tvPageTitle.text = getString(R.string.view_address)
+        AppHelper.setTextColor(this,tvPageTitle,R.color.redPrimary)
+        tvPageTitle.typeface = AppHelper.getTypeFace(this)
+        tvPageTitle.show()
 
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        var mapViewBundle = outState.getBundle(getString(R.string.google_api_key))
+        var mapViewBundle = outState.getBundle(getString(R.string.googleKey))
         if (mapViewBundle == null) {
             mapViewBundle = Bundle()
-            outState.putBundle(getString(R.string.google_api_key), mapViewBundle)
+            outState.putBundle(getString(R.string.googleKey), mapViewBundle)
         }
 
         mvLocation!!.onSaveInstanceState(mapViewBundle)

@@ -5,6 +5,18 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/linearProfileInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        android:background="@drawable/rounded_white_background"
+        android:elevation="@dimen/normal_margin"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/big_margin"
+        android:paddingEnd="@dimen/big_margin"
+        app:cardCornerRadius="@dimen/normal_radius">
     <RelativeLayout
         android:background="@drawable/rounded_white_background"
         android:id="@+id/llCurrentLocation"
@@ -83,12 +95,11 @@
                     android:orientation="horizontal">
 
 
-                    <com.ids.qasemti.custom.CustomTextViewBold
-                        android:gravity="center"
-                        android:textColor="@color/redPrimary"
+                    <ImageView
                         android:layout_width="@dimen/normal_icon"
                         android:layout_height="@dimen/normal_icon"
-                        android:text="#" />
+                        android:src="@drawable/icon_hashtag"
+                        android:tint="@color/redPrimary" />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
@@ -229,12 +240,8 @@
         </LinearLayout>
 
     </RelativeLayout>
-    <LinearLayout
-        android:layout_below="@id/llCurrentLocation"
-        android:layout_marginStart="@dimen/normal_icon"
-        android:layout_marginEnd="@dimen/normal_icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shadow"/>
+
+    </androidx.cardview.widget.CardView>
+
 
 </RelativeLayout>

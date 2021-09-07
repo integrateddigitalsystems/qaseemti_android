@@ -26,7 +26,7 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
 
         var mapViewBundle: Bundle? = null
         if (savedInstanceState != null) {
-            mapViewBundle = savedInstanceState.getBundle(getString(R.string.google_api_key))
+            mapViewBundle = savedInstanceState.getBundle(getString(R.string.googleKey))
         }
 
         mvLocation.onCreate(mapViewBundle);
@@ -50,10 +50,10 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
     public override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        var mapViewBundle = outState.getBundle(getString(R.string.google_api_key))
+        var mapViewBundle = outState.getBundle(getString(R.string.googleKey))
         if (mapViewBundle == null) {
             mapViewBundle = Bundle()
-            outState.putBundle(getString(R.string.google_api_key), mapViewBundle)
+            outState.putBundle(getString(R.string.googleKey), mapViewBundle)
         }
 
         mvLocation!!.onSaveInstanceState(mapViewBundle)

@@ -16,6 +16,7 @@
     <androidx.appcompat.widget.SwitchCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:theme="@style/Theme.MyTheme"
         android:id="@+id/swAvailable"
         android:text="@string/available"
         android:checked="true"

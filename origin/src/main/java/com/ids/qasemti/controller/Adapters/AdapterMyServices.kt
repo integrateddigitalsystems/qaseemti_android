@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.model.ServiceItem
+import com.ids.qasemti.utils.AppHelper
 import java.util.ArrayList
 
 class AdapterMyServices(
@@ -35,6 +36,8 @@ class AdapterMyServices(
 
         holder.image.setBackgroundResource(items.get(position).testCode!!)
         holder.title.text = items.get(position).title
+        holder.qtPrice.typeface = AppHelper.getTypeFace(con)
+        holder.qtEarn.typeface = AppHelper.getTypeFace(con)
     }
 
     override fun getItemCount(): Int {
@@ -44,6 +47,8 @@ class AdapterMyServices(
     inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var title = itemView.findViewById<TextView>(R.id.tvServiceTitle)
         var image = itemView.findViewById<ImageView>(R.id.ivServiceLogo)
+        var qtPrice = itemView.findViewById<TextView>(R.id.tvPriceQt)
+        var qtEarn = itemView.findViewById<TextView>(R.id.tvEarnQt)
 
         init {
             itemView.setOnClickListener(this)

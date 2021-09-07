@@ -191,4 +191,8 @@
 
     <string name="permission_denied">Permission Denied</string>
     <string name="renew_order">Renew Order</string>
+    <string name="order_type">Order Type</string>
+    <string name="regsiter_or_login">Regsiter or Login</string>
+    <string name="share">Share</string>
+    <string name="my_addresses">My Addresses</string>
 </resources>

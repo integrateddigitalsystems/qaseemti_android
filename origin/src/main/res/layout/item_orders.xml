@@ -2,25 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/big_margin_2"
     android:orientation="vertical"
 
     >
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/linearProfileInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        android:background="@drawable/rounded_white_background"
+        android:elevation="@dimen/normal_margin"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/big_margin"
+        android:paddingEnd="@dimen/big_margin"
+        app:cardCornerRadius="@dimen/normal_radius">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-
-        android:background="@drawable/rounded_white_background"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="@dimen/edit_text_height"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/margin_start_end"
@@ -46,14 +54,14 @@
 
                 android:orientation="vertical">
 
-                <com.ids.qasemti.custom.CustomTextViewMedium
+                <me.grantland.widget.AutofitTextView
+                    android:maxLines="1"
                     android:id="@+id/tvCategoryOrder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/small_font"
-                    android:textColor="@color/gray_font"
                     android:text="@string/category"
-                     />
+                    android:textColor="@color/gray_font"
+                    android:textSize="@dimen/small_font" />
 
                 <com.ids.qasemti.custom.CustomTextViewBold
                     android:layout_width="wrap_content"
@@ -78,8 +86,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.2"
+            android:layout_height="@dimen/edit_text_height"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/margin_start_end"
@@ -191,8 +198,7 @@
         <LinearLayout
             android:id="@+id/llLocation"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="@dimen/edit_text_height"
             android:paddingStart="@dimen/margin_start_end"
             android:paddingEnd="@dimen/margin_start_end"
             android:layout_gravity="center_vertical"
@@ -232,8 +238,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="@dimen/edit_text_height"
             android:paddingStart="@dimen/margin_start_end"
 
             android:orientation="horizontal">
@@ -302,8 +307,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:background="@drawable/shadow"/>
+    </androidx.cardview.widget.CardView>
+
 </LinearLayout>

@@ -42,9 +42,9 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         var sdf =
             SimpleDateFormat(myFormat, Locale.ENGLISH)
         var date = sdf.format(cal.time)
-        etCheckoutDate.text = date.toEditable()
-        var time = cal.get(Calendar.HOUR_OF_DAY).toString()+" : "+cal.get(Calendar.MINUTE)
-        etCheckoutTime.text = time.toEditable()
+        etFromDate.text = date.toEditable()
+        var time = String.format("%02d", cal.get(Calendar.HOUR_OF_DAY))+" : "+ String.format("%02d", cal.get(Calendar.MINUTE))
+        etFromTime.text = time.toEditable()
     }
 
     fun setTintLogo(color:Int){
@@ -58,36 +58,23 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         }
     }
 
-    fun init(){
-        setTintLogo(R.color.redPrimary)
-        tvPageTitle.text = getString(R.string.Checkout)
-        tvPageTitle.typeface = AppHelper.getTypeFace(this)
-        etCheckoutTime.setFocusable(false);
-        etCheckoutDate.setFocusable(false);
-        etToDate.setFocusable(false)
-        etFromDate.setFocusable(false)
-
-        rbNow.isChecked = true
-        rbSpecify.isChecked = false
-        btBackTool.show()
-
-        btPlaceOrder.typeface = AppHelper.getTypeFace(this)
+    fun setListeners(){
         btPlaceOrder.setOnClickListener {
             startActivity(Intent(this,ActivityPlaceOrder::class.java))
         }
-        setUpCurr()
+
         rbNow.setOnClickListener {
             setUpCurr()
-            rlCheckoutTime.setOnClickListener {
+            rlFromDate.setOnClickListener {
 
             }
-            rlCheckoutDate.setOnClickListener {
+            rlFromTime.setOnClickListener {
 
             }
         }
         rbSpecify.setOnClickListener {
 
-            rlCheckoutDate.setOnClickListener {
+            rlFromDate.setOnClickListener {
                 var mcurrentDate = Calendar.getInstance()
                 var mYear = 0
                 var mMonth = 0
@@ -108,12 +95,12 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
                         var sdf =
                             SimpleDateFormat(myFormat, Locale.ENGLISH)
                         var date = sdf.format(myCalendar.time)
-                        etCheckoutDate.text = date.toEditable()
+                        etFromDate.text = (String.format("%02d", selectedday) + "/"+String.format("%02d", selectedmonth+1)+"/"+String.format("%02d", selectedyear)).toEditable()
                     }, mYear, mMonth, mDay
                 )
                 mDatePicker.show()
             }
-            rlCheckoutTime.setOnClickListener {
+            rlFromTime.setOnClickListener {
                 // TODO Auto-generated method stub
                 val mcurrentTime = Calendar.getInstance()
                 val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
@@ -123,18 +110,38 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
                 val now = mcurrentTime.time
                 val nowDate = sdf.format(now)
                 val timePickerDialog = TimePickerDialog(
-                  this, R.style.DatePickerDialog,
+                    this, R.style.DatePickerDialog,
                     { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
                         var time = String.format("%02d", selectedHour)+" : "+ String.format("%02d", selectedMinute)
-                        etCheckoutTime.text = time.toEditable()
-                    }, hour, minute, false
+                        etFromTime.text = time.toEditable()
+                    }, hour, minute, true
                 ) //Yes 24 hour time
                 timePickerDialog.show()
             }
         }
 
-        rlFromDate.setOnClickListener {
+
+        rlToTime.setOnClickListener {
+            // TODO Auto-generated method stub
+            val mcurrentTime = Calendar.getInstance()
+            val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+            val minute = mcurrentTime[Calendar.MINUTE]
+            val myFormat = "dd/MM/yyyy" //Change as you need
+            val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+            val now = mcurrentTime.time
+            val nowDate = sdf.format(now)
+            val timePickerDialog = TimePickerDialog(
+                this, R.style.DatePickerDialog,
+                { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+
+                    var time = String.format("%02d", selectedHour)+" : "+ String.format("%02d", selectedMinute)
+                    etToTime.text = time.toEditable()
+                }, hour, minute, true
+            ) //Yes 24 hour time
+            timePickerDialog.show()
+        }
+        rlToDate.setOnClickListener {
             var mcurrentDate = Calendar.getInstance()
             var mYear = 0
             var mMonth = 0
@@ -155,41 +162,14 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
                     var sdf =
                         SimpleDateFormat(myFormat, Locale.ENGLISH)
                     var date = sdf.format(myCalendar.time)
-                    etFromDate.text = date.toEditable()
+                    etToDate.text = (String.format("%02d", selectedday) + "/"+String.format("%02d", selectedmonth+1)+"/"+String.format("%02d", selectedyear)).toEditable()
                 }, mYear, mMonth, mDay
             )
             mDatePicker.show()
         }
-        rlToDate.setOnClickListener {
-            var mcurrentDate = Calendar.getInstance()
-            var mYear = 0
-            var mMonth = 0
-            var mDay = 0
-            mYear = mcurrentDate!![Calendar.YEAR]
-            mMonth = mcurrentDate!![Calendar.MONTH]
-            mDay = mcurrentDate!![Calendar.DAY_OF_MONTH]
-
-            mcurrentDate.set(mYear, mMonth, mDay)
-            val mDatePicker = DatePickerDialog(
-               this,
-                DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
-                    val myCalendar = Calendar.getInstance()
-                    myCalendar[Calendar.YEAR] = selectedyear
-                    myCalendar[Calendar.MONTH] = selectedmonth
-                    myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                    val myFormat = "dd/mm/yyyy" //Change as you need
-                    var sdf =
-                        SimpleDateFormat(myFormat, Locale.ENGLISH)
-                    var date = sdf.format(myCalendar.time)
-                    etToDate.text = date.toEditable()
-                }, mYear, mMonth, mDay
-            )
-            mDatePicker.show()
-        }
-
 
         llAddresses.setOnClickListener {
-            startActivity(Intent(this,ActivityAddresses::class.java))
+            startActivity(Intent(this,ActivitySelectAddress::class.java))
         }
 
         btPlus.setOnClickListener {
@@ -209,7 +189,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
             }
         }
 
-        ivOpenDateTime.setOnClickListener {
+        llSetDateTime.setOnClickListener {
             var up = -90
             var down = 90
             if(open){
@@ -222,5 +202,29 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
 
             open = !open
         }
+
+    }
+    fun init(){
+        setTintLogo(R.color.redPrimary)
+        tvPageTitle.text = getString(R.string.Checkout)
+        tvPageTitle.typeface = AppHelper.getTypeFace(this)
+        tvPageTitle.show()
+        AppHelper.setTextColor(this,tvPageTitle,R.color.redPrimary)
+        etFromDate.setFocusable(false);
+        etFromTime.setFocusable(false);
+
+        rbNow.isChecked = true
+        rbSpecify.isChecked = false
+        btBackTool.show()
+
+        btPlaceOrder.typeface = AppHelper.getTypeFace(this)
+
+        setUpCurr()
+        setListeners()
+
+
+
+
+
     }
 }

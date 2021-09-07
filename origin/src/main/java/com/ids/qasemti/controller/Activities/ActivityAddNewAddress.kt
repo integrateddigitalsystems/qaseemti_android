@@ -31,6 +31,9 @@ class ActivityAddNewAddress : ActivityBase() {
 
     private fun listeners(){
         btBackTool.setOnClickListener{super.onBackPressed()}
+        tvPageTitle.text =getString(R.string.new_address)
+        AppHelper.setTextColor(this,tvPageTitle,R.color.redPrimary)
+        tvPageTitle.typeface = AppHelper.getTypeFace(this)
         btMapAddress.setOnClickListener{startActivity(Intent(this,ActivityMapAddress::class.java))}
     }
 }

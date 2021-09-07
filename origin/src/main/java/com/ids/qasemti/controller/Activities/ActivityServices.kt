@@ -12,11 +12,10 @@ import com.ids.qasemti.controller.Adapters.AdapterServices
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.model.ServiceItem
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_services.*
 import kotlinx.android.synthetic.main.no_logo_layout.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 
 class ActivityServices : ActivityBase(),RVOnItemClickListener {
@@ -32,15 +31,22 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
     }
 
     private fun init(){
-        btBck.show()
+       // btBck.show()
     }
 
     private fun listeners(){
-        btBck.setOnClickListener{super.onBackPressed()}
+      //  btBck.setOnClickListener{super.onBackPressed()}
         btAdd.setOnClickListener{startActivity(Intent(this,ActivityServiceInformation::class.java))}
     }
 
     private fun setData(){
+
+        tvPageTitle.show()
+        tvPageTitle.setColorTypeface(this,R.color.white,getString(R.string.my_services))
+        btBackTool.show()
+        btBackTool.setOnClickListener {
+            super.onBackPressed()
+        }
 
         array.add(ServiceItem("Water Tank","", R.drawable.icon_water))
         array.add(ServiceItem("Sand Truck","", R.drawable.icon_truck))
