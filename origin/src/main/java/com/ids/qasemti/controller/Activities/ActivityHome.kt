@@ -68,6 +68,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             btLogout.show()
         btDrawer.hide()
         setMenu()
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         tvPageTitle.typeface = AppHelper.getTypeFace(this)
         fragMang = supportFragmentManager
         llFooterProducts.hide()

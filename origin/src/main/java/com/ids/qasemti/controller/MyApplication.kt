@@ -22,6 +22,7 @@ import java.util.*
 
 class MyApplication : Application() {
     companion object {
+        var upcoming: Boolean ?=false
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
         var selectedFragmentTag : String ?=""

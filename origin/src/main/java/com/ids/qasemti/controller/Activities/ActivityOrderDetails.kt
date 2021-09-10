@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.TimePicker
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Adapters.AdapterOrderData
 import com.ids.qasemti.controller.Adapters.AdapterOtherOrderData
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -17,6 +18,7 @@ import com.ids.qasemti.model.OrderData
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import com.ids.qasemti.utils.hide
+import com.ids.qasemti.utils.setColorTypeface
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.layout_border_data.*
@@ -59,6 +61,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                 btRenewOrder.show()
         }
 
+        tvLocationOrderDeatils.setColorTypeface(this,R.color.redPrimary,"",false)
+
         setListeners()
         var array:ArrayList<OrderData> = arrayListOf()
         array.add(OrderData("Category","Purchase"))
@@ -68,7 +72,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         array.add(OrderData("Quantity","1 Trip"))
 
         rvDataBorder.layoutManager = LinearLayoutManager(this)
-        rvDataBorder.adapter = AdapterOtherOrderData(array,this,this)
+        rvDataBorder.adapter = AdapterOrderData(array,this,this)
 
     }
 

@@ -10,7 +10,7 @@
 
 
     <LinearLayout
-            android:background="@drawable/rounded_white_frame"
+            android:background="@drawable/rounded_white_background"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_marginBottom="@dimen/big_margin"

@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:id="@+id/linearService"
-
     android:orientation="vertical"
-    android:layout_marginBottom="@dimen/normal_margin"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:layout_marginTop="@dimen/push_card"
         android:id="@+id/linearProfileInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
-        android:background="@drawable/rounded_white_background"
+        app:cardElevation="@dimen/normal_margin"
         android:elevation="@dimen/normal_margin"
+        card_view:contentPadding="0dp"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="@dimen/normal_radius"
+        android:background="@drawable/rounded_white_background"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/big_margin"
-        android:paddingEnd="@dimen/big_margin"
-        app:cardCornerRadius="@dimen/normal_radius">
+        android:orientation="horizontal">
 
     <LinearLayout
 
@@ -101,7 +100,7 @@
                     >
                     <com.ids.qasemti.custom.CustomTextViewBold
                         android:layout_width="wrap_content"
-                        android:layout_marginStart="@dimen/big_margin"
+                        android:layout_marginStart="@dimen/normal_margin"
                         android:text="@string/price"
                         android:tag="price"
                         android:textSize="@dimen/normal_font"
@@ -128,7 +127,7 @@
                     <com.ids.qasemti.custom.CustomTextViewBold
                         android:layout_width="wrap_content"
                         android:maxLines="1"
-                        android:layout_marginStart="@dimen/big_margin"
+                        android:layout_marginStart="@dimen/normal_margin"
                         android:text="@string/earning"
                         android:tag="earning"
                         android:textSize="@dimen/normal_font"
@@ -142,7 +141,7 @@
                         android:text="7 KWD"
                         android:gravity="center_vertical"
                         android:id="@+id/tvEarnQt"
-                        android:textSize="@dimen/normal_font"
+                        android:textSize="@dimen/small_font_2"
                         android:textColor="@color/redPrimary"
                         android:layout_height="match_parent"/>
                 </LinearLayout>

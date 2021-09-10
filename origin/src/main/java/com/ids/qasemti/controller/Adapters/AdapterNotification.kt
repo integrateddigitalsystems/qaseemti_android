@@ -36,10 +36,11 @@ class AdapterNotification(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-        if(!items.get(position).image.isNullOrEmpty())
+        if(!items.get(position).image.isNullOrEmpty()) {
             Glide.with(con).load(items.get(position).image).into(holder.image);
-        else
+        }else {
             holder.image.hide()
+        }
         holder.title.text = items.get(position).title
         if(!items.get(position).details.isNullOrEmpty())
             holder.details.text = items.get(position).details

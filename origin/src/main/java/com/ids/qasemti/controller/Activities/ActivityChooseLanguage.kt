@@ -33,6 +33,11 @@ class ActivityChooseLanguage : ActivityBase() {
         }
 
 
+        logoClient.setOnClickListener {
+            startActivity(Intent(this,ActivityHome::class.java))
+        }
+
+
     }
 
     fun changeLanguage(language: String) {

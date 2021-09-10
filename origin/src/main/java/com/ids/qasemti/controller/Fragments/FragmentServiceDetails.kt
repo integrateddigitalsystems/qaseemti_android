@@ -275,7 +275,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
     fun init(){
         (activity as ActivityHome?)!!.showBack(true)
-        (activity as ActivityHome?)!!.showLogout(true)
+        (activity as ActivityHome?)!!.showLogout(false)
 
 
         btServiceCheckout.typeface=AppHelper.getTypeFace(requireContext())
@@ -286,7 +286,9 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
                 .commit()*/
             startActivity(Intent(requireContext(),ActivityCheckout::class.java))
         }
-        AppHelper.setTitle(requireActivity(),MyApplication.selectedService!!.title!!,"")
+        if(!MyApplication.selectedService!!.title.isNullOrEmpty()) {
+            AppHelper.setTitle(requireActivity(), MyApplication.selectedService!!.title!!, "")
+        }
         tbMedias.setTabTextColors(
             AppHelper.getColor(requireContext(), R.color.transparent),
             AppHelper.getColor(requireContext(), R.color.transparent)

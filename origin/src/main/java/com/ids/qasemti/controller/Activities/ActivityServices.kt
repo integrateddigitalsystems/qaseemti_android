@@ -41,8 +41,7 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
 
     private fun setData(){
 
-        tvPageTitle.show()
-        tvPageTitle.setColorTypeface(this,R.color.white,getString(R.string.my_services))
+        tvPageTitle.setColorTypeface(this,R.color.white,getString(R.string.my_services),false)
         btBackTool.show()
         btBackTool.setOnClickListener {
             super.onBackPressed()

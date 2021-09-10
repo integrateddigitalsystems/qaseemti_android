@@ -12,6 +12,7 @@
 
         <com.ids.qasemti.custom.CustomTextViewBold
             android:paddingStart="@dimen/first_margin"
+            android:paddingEnd="@dimen/first_margin"
             android:textColor="@color/gray_font_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,7 +33,7 @@
             android:layout_weight="1"
             android:paddingStart="@dimen/first_margin"
             android:id="@+id/tvOtherValue"
-            android:gravity="start|center_vertical"
+            android:gravity="center"
             android:text="2 KWD"
             android:textColor="@color/redPrimary" />
 

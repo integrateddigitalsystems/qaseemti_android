@@ -26,15 +26,16 @@
             android:id="@+id/linearProfileInfo"
             android:layout_width="match_parent"
             android:layout_height="90dp"
+            app:cardElevation="@dimen/mini_margin"
+            android:elevation="@dimen/mini_margin"
             app:cardCornerRadius="@dimen/normal_radius"
-            android:elevation="@dimen/normal_margin"
             android:layout_marginStart="@dimen/margin_start_end"
             android:layout_marginEnd="@dimen/margin_start_end"
             android:background="@drawable/rounded_white_background"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/big_margin"
-            android:paddingEnd="@dimen/big_margin">
+            android:paddingStart="@dimen/margin_start_end"
+            android:paddingEnd="@dimen/margin_start_end">
 
 
             <com.ids.qasemti.custom.CustomTextViewBold
@@ -47,27 +48,28 @@
         </androidx.cardview.widget.CardView>
 
 
-        <androidx.core.widget.NestedScrollView
+       <!-- <androidx.core.widget.NestedScrollView
             android:layout_below="@id/linearProfileInfo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
 
-            android:fillViewport="true">
+            android:fillViewport="true">-->
 
             <LinearLayout
+                android:layout_below="@id/linearProfileInfo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginStart="@dimen/card_new_margin"
+                    android:layout_marginEnd="@dimen/card_new_margin"
+
                     android:id="@+id/rvServices"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/margin_start_end"
-                    android:layout_marginEnd="@dimen/margin_start_end"
-                    android:layout_marginBottom="@dimen/big_margin"
                     android:visibility="visible" />
 
                 <LinearLayout
@@ -87,21 +89,20 @@
             </LinearLayout>
 
 
-        </androidx.core.widget.NestedScrollView>
+      <!--  </androidx.core.widget.NestedScrollView>-->
+
 
 
 
         <RelativeLayout
-            android:paddingBottom="@dimen/big_margin"
+            android:background="@color/transparent"
+            android:layout_margin="@dimen/margin_start_end"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
+            android:layout_height="120dp">
             <Button
+                android:layout_centerInParent="true"
                 android:id="@+id/btRegisterLogin"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/edit_text_height"
                 android:background="@drawable/blue_rounded"
@@ -111,12 +112,12 @@
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="@dimen/edit_text_height"
                 android:layout_height="@dimen/edit_text_height"
-                android:layout_alignParentBottom="true"
                 app:tint="@color/white"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/mini_margin"
                 android:id="@+id/btFilter"
                 app:fabCustomSize="40dp"
-                android:layout_marginEnd="@dimen/big_margin"
                 android:layout_marginStart="@dimen/normal_margin"
                 app:rippleColor="@color/button_blue"
                 app:backgroundTint="@color/button_blue"
@@ -124,7 +125,11 @@
                 android:layout_alignParentEnd="true"
                 />
 
+
         </RelativeLayout>
+
+
+
 
         <!--
                 <androidx.cardview.widget.CardView

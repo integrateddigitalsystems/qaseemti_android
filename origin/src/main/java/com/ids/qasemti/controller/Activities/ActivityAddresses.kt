@@ -14,10 +14,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.Base.ActivityBase
 
 import com.ids.qasemti.model.Address
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
-import com.ids.qasemti.utils.textRemote
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.fragment_addresses.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -35,8 +32,8 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
     }
 
     fun init(){
-        tvPageTitle.textRemote("address",this)
-        tvPageTitle.show()
+        var title = intent.getStringExtra("mapTitle")
+        tvPageTitle.setColorTypeface(this,R.color.white,title!!,false)
         btBackTool.setOnClickListener {
             super.onBackPressed()
         }
@@ -46,7 +43,8 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     private fun listeners(){
         btAddNew.setOnClickListener{
-            startActivityForResult(Intent(this,ActivityAddNewAddress::class.java),1)
+            startActivityForResult(Intent(this,ActivityAddNewAddress::class.java)
+                .putExtra("mapTitle",getString(R.string.new_address)),1)
         }
     }
 
@@ -62,6 +60,7 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
         if(array.size==0){
             rvAddresses.hide()
         }
+
     }
 
 

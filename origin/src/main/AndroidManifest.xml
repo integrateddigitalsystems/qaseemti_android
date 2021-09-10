@@ -60,95 +60,95 @@
 
         <activity
             android:name=".controller.Activities.ActivityChooseLanguage"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".controller.Activities.ActivityAddNewAddress"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".controller.Activities.ActivityMobileRegistration"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".controller.Activities.ActivityRegistration"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
 
         <activity
             android:name=".controller.Activities.ActivityAddresses"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
        <!-- <activity
             android:name="com.ids.qasemti.controller.Activities.Activ"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>-->
 
 
        <!-- <activity android:name=".controller.Activities.ActivityMap"
-            android:screenOrientation="fullSensor"/>-->
+            android:screenOrientation="portrait"/>-->
         <activity
             android:name=".controller.Activities.ActivityAccountStatus"
-            android:screenOrientation="fullSensor"/>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".controller.Activities.ActivityMap"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".controller.Activities.ActivityServices"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".controller.Activities.ActivityServiceInformation"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".controller.Activities.ActivitySettlements"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
        <!-- <activity
             android:name=".controller.Activities.ActivityRelatedOrders"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 -->
         <activity
             android:name=".controller.Activities.ActivityMapAddress"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".controller.Activities.ActivitySelectAddress"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".controller.Activities.ActivityPlaceOrder"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".controller.Activities.ActivityCodeVerification"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".controller.Activities.ActivityHome"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".controller.Activities.ActivityOrderDetails"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".controller.Activities.ActivityRelatedOrders"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".controller.Activities.ActivityCheckout"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity

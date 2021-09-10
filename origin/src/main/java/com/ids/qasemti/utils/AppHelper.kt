@@ -129,7 +129,7 @@ class AppHelper {
                       else
                           Typeface.createFromAsset(
                               context.applicationContext.assets,
-                              "fonts/Myriad_Pro_Regular.ttf"
+                              "fonts/Raleway-Regular.ttf"
                           )//"fonts/NeoTech-Medium.otf"
 
            // return Typeface.DEFAULT
@@ -180,12 +180,12 @@ class AppHelper {
                 )//fonts/NeoTech-Bold.otf
 
             else
-                Typeface.createFromAsset(
-                    context.applicationContext.assets,
-                    "fonts/Myriad_Pro_Semibold.ttf"
-                )//fonts/NeoTech-Bold.otf
+               Typeface.createFromAsset(
+                   context.applicationContext.assets,
+                       "fonts/Raleway-Bold.ttf"
+               )//fonts/NeoTech-Bold.otf
 
-         //   return Typeface.DEFAULT_BOLD
+           // return Typeface.DEFAULT_BOLD
         }
 
 
@@ -205,13 +205,30 @@ class AppHelper {
                 else if (v is Button) {
                     v.textRemote(v.tag.toString(),context)
                 } else if(v is EditText){
-                    v.hint = v.tag.toString()
+                   setHintTag(v,v.tag.toString(),context)
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
             }}
         }
 
+
+        fun setHintTag(view: View,tag:String,context: Context){
+            var edit = view as EditText
+            if (MyApplication.localizeArray != null) {
+                try {
+                    edit.hint= MyApplication.localizeArray!!.messages!!.find { it.localize_Key == tag }!!
+                        .getMessage()
+                } catch (e: Exception) {
+                    try {
+                        val resId = context.resources.getIdentifier(tag, "string", context.packageName)
+                        edit.hint = context.resources.getString(resId)
+                    } catch (e: Exception) {
+                    }
+                }
+
+            }
+        }
 
 
         fun getIdFromUserId(Id: Int){
@@ -298,6 +315,14 @@ class AppHelper {
         }
 
         fun setTextColor(context: Context, view: TextView, color: Int) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                view.setTextColor(ContextCompat.getColor(context, color))
+            } else {
+                view.setTextColor(context.resources.getColor(color))
+            }
+        }
+        fun setTextColor(context: Context, view: EditText, color: Int) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 view.setTextColor(ContextCompat.getColor(context, color))

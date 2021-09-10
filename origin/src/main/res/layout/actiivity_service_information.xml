@@ -64,11 +64,11 @@
             >
 
             <ImageView
-                android:layout_width="@dimen/icon"
-                android:layout_height="@dimen/icon"
+                android:layout_width="@dimen/normal_icon_size"
+                android:layout_height="@dimen/normal_icon_size"
                 android:layout_gravity="center"
                 android:id="@+id/ivTab1"
-                android:src="@drawable/ic_language"
+                android:src="@drawable/icon_servicinformation"
                 android:tint="@color/white"
                 app:tint="@color/white"
                 tools:ignore="UseAppTint" />
@@ -87,13 +87,13 @@
             >
 
             <ImageView
-                android:layout_width="@dimen/icon"
-                android:layout_height="@dimen/icon"
+                android:layout_width="@dimen/normal_icon_size"
+                android:layout_height="@dimen/normal_icon_size"
                 android:layout_gravity="center"
                 android:id="@+id/ivTab2"
                 android:tint="@color/gray_font"
                 app:tint="@color/gray_font"
-                android:src="@drawable/ic_language"
+                android:src="@drawable/icon_ownershirppoof"
                 tools:ignore="UseAppTint" />
 
         </LinearLayout>
@@ -109,14 +109,14 @@
             >
 
             <ImageView
-                android:layout_width="@dimen/icon"
-                android:layout_height="@dimen/icon"
+                android:layout_width="@dimen/normal_icon_size"
+                android:layout_height="@dimen/normal_icon_size"
                 android:layout_gravity="center"
                 android:id="@+id/ivTab3"
                 android:tint="@color/gray_font"
                 app:tint="@color/gray_font"
                 tools:ignore="UseAppTint"
-                android:src="@drawable/ic_language"
+                android:src="@drawable/icon_priceearing"
                 />
 
         </LinearLayout>

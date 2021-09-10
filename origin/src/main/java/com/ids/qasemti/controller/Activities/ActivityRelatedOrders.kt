@@ -9,6 +9,8 @@ import com.ids.qasemti.controller.Adapters.AdapterRelatedOrder
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.model.RelatedOrder
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.setColorTypeface
+import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_related_orders.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -38,9 +40,15 @@ class ActivityRelatedOrders : AppCompatActivity() , RVOnItemClickListener  {
 
         rvRelatedOrders.layoutManager = LinearLayoutManager(this)
         rvRelatedOrders.adapter = AdapterRelatedOrder(array,this,this)
-
-        tvPageTitle.text = "Related orders of settlement"
-        tvPageTitle.typeface = AppHelper.getTypeFace(this)
+        var title = intent.getStringExtra("settelmentId")
+        tvPageTitle.setColorTypeface(this,R.color.white,getString(R.string.relatedOrdersOf)+title,false)
+        btBackTool.show()
+        btBackTool.setOnClickListener {
+            super.onBackPressed()
+        }
+        tvTitleDues.setColorTypeface(this,R.color.gray_font_title,"",true)
+        tvTitleEarnings.setColorTypeface(this,R.color.gray_font_title,"",true)
+        tvTitleOrders.setColorTypeface(this,R.color.gray_font_title,"",true)
 
 
 

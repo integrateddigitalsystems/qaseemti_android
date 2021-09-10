@@ -29,7 +29,6 @@ class AdapterOtherOrderData(val items: ArrayList<OrderData>, private val itemCli
 
         holder.title.text = items.get(position).title
         holder.value.text = items.get(position).value
-        AppHelper.setTextColor(con,holder.value,R.color.gray_font_title)
         if(position==items.size-1){
             holder.line.hide()
         }

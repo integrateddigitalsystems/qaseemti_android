@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:id="@+id/rootLayoutCheckout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_bg"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -19,8 +19,6 @@
     </LinearLayout>
 
     <ScrollView
-        android:paddingStart="@dimen/margin_start_end"
-        android:paddingEnd="@dimen/margin_start_end"
         android:layout_below="@+id/llToolBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,6 +31,8 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
                 android:id="@+id/llAddresses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,6 +70,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
                 android:id="@+id/llSetDateTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,7 +111,7 @@
                         android:layout_height="@dimen/fab_margin"
                         android:layout_marginEnd="@dimen/normal_margin"
                         android:rotation="-90"
-                        android:src="@drawable/arrow_right"
+                        android:src="@drawable/ic_back"
                         app:tint="@color/new_blue" />
 
                 </LinearLayout>
@@ -124,22 +126,36 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="1dp"
                         android:layout_marginTop="@dimen/normal_margin"
-                        android:background="@color/gray_serperator" />
+                        android:background="@color/gray_medium_2" />
+
+                    <com.ids.qasemti.custom.CustomTextViewBold
+                        android:layout_marginStart="@dimen/first_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/gray_font_title"
+                        android:layout_marginTop="@dimen/first_margin"
+                        android:tag="From"
+                        android:text="@string/From"
+                        android:textSize="@dimen/header_font" />
 
                     <RadioGroup
+                        android:layout_marginLeft="-3dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_weight="2"
                         android:layout_marginStart="@dimen/first_margin"
+                        android:layout_marginEnd="@dimen/first_margin"
                         android:layout_marginTop="@dimen/first_margin"
                         android:gravity="center"
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:layout_marginLeft="-5dp"
                             android:id="@+id/rbNow"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:backgroundTint="@color/button_blue"
@@ -151,7 +167,7 @@
 
                         <RadioButton
                             android:id="@+id/rbSpecify"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:backgroundTint="@color/button_blue"
@@ -164,15 +180,7 @@
                     </RadioGroup>
 
 
-                    <com.ids.qasemti.custom.CustomTextViewBold
-                        android:layout_marginStart="@dimen/first_margin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/gray_font_title"
-                        android:layout_marginTop="@dimen/first_margin"
-                        android:tag="From"
-                        android:text="@string/From"
-                        android:textSize="@dimen/header_font" />
+
 
 
                     <LinearLayout
@@ -182,7 +190,6 @@
                         android:layout_marginStart="@dimen/first_margin"
                         android:layout_marginTop="@dimen/normal_margin"
                         android:layout_marginEnd="@dimen/first_margin"
-                        android:layout_marginBottom="@dimen/first_margin"
                         android:weightSum="3">
 
 
@@ -200,6 +207,7 @@
                                 android:layout_height="@dimen/height_35"
                                 android:background="@color/transparent"
                                 android:hint="dd/mm/yyyy"
+                                android:textColor="@color/gray_font_light"
                                 android:inputType="none"
                                 android:paddingStart="@dimen/normal_margin"
                                 android:paddingEnd="@dimen/mini_margin"
@@ -235,6 +243,7 @@
                                 android:id="@+id/etFromTime"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_35"
+                                android:textColor="@color/gray_font_light"
                                 android:background="@color/transparent"
                                 android:hint="--:--"
                                 android:inputType="none"
@@ -377,6 +386,8 @@
 
 
             <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/first_margin"
@@ -387,17 +398,22 @@
 
 
             <androidx.cardview.widget.CardView
+                android:layout_marginStart="@dimen/card_new_margin"
+                android:layout_marginEnd="@dimen/card_new_margin"
                 android:id="@+id/linearProfileInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardUseCompatPadding="true"
-                android:background="@drawable/rounded_white_background"
+                android:layout_marginTop="-8dp"
+                app:cardElevation="@dimen/normal_margin"
                 android:elevation="@dimen/normal_margin"
+                card_view:contentPadding="0dp"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="@dimen/normal_radius"
+                android:background="@drawable/rounded_white_background"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingStart="@dimen/big_margin"
-                android:paddingEnd="@dimen/big_margin"
-                app:cardCornerRadius="@dimen/normal_radius">
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -593,6 +609,9 @@
 
 
             <RelativeLayout
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/first_margin"
@@ -752,6 +771,8 @@
 
 
             <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/first_margin"
@@ -760,10 +781,11 @@
                 android:textSize="@dimen/header_font" />
 
             <RelativeLayout
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:layout_marginEnd="@dimen/normal_margin"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_white_background">
 
@@ -789,7 +811,7 @@
                     android:hint="@string/couponNumber"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/mini_margin"
-                    android:tag="coupon_number"
+                    android:tag="couponNumber"
                     android:textSize="@dimen/small_font"
 
                     />
@@ -798,6 +820,8 @@
 
 
             <Button
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
                 android:id="@+id/btPlaceOrder"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"

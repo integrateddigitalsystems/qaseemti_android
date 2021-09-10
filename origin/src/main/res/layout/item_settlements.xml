@@ -2,26 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/push_card"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/normal_margin"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="@dimen/mini_margin"
-
     >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/linearProfileInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
-        android:background="@drawable/rounded_white_background"
+        app:cardElevation="@dimen/normal_margin"
         android:elevation="@dimen/normal_margin"
+        card_view:contentPadding="0dp"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="@dimen/normal_radius"
+        android:background="@drawable/rounded_white_background"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/big_margin"
-        android:paddingEnd="@dimen/big_margin"
-        app:cardCornerRadius="@dimen/normal_radius">
-
+        android:orientation="horizontal">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -224,6 +222,7 @@
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/tvViewDetails"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginEnd="@dimen/small_margin"

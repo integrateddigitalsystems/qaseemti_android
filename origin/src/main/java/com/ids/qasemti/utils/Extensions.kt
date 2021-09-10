@@ -139,17 +139,23 @@ fun TextView.textRemote(key: String, con:Context) {
 
 }
 
-fun TextView.setColorTypeface(context: Context, color: Int,text:String) {
+fun TextView.setColorTypeface(context: Context, color: Int,text:String,bold:Boolean) {
 
+    this.show()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         this.setTextColor(ContextCompat.getColor(context, color))
     } else {
         this.setTextColor(context.resources.getColor(color))
     }
-    this.typeface = AppHelper.getTypeFace(context)
+    if(!bold) {
+        this.typeface = AppHelper.getTypeFace(context)
+    }else{
+        this.typeface = AppHelper.getTypeFaceBold(context)
+    }
     if(!text.isNullOrEmpty()){
         this.text = text
     }
+
 }
 
 

@@ -2,12 +2,17 @@
 <resources>
     <dimen name="normal_margin">8dp</dimen>
     <dimen name="medium_margin">12dp</dimen>
+    <dimen name="card_new_margin">6dp</dimen>
+    <dimen name="medium_2">14dp</dimen>
+    <dimen name="push_card">-14dp</dimen>
+    <dimen name="diff_margin">9dp</dimen>
     <dimen name="margin_start_end">16dp</dimen>
     <dimen name="big_margin">20dp</dimen>
     <dimen name="big_margin_2">25dp</dimen>
     <dimen name="normal_font">13sp</dimen>
     <dimen name="big_font">15sp</dimen>
     <dimen name="header_font">17sp</dimen>
+    <dimen name="replace_margin">11dp</dimen>
     <dimen name="message_height">135dp</dimen>
     <dimen name="spinner_width">100dp</dimen>
     <dimen name="small_font">12sp</dimen>
@@ -22,6 +27,7 @@
     <dimen name="small_icon">14dp</dimen>
     <dimen name="push_text">-6dp</dimen>
     <dimen name="push_less_text">-4dp</dimen>
+    <dimen name="margin_start_new">22dp</dimen>
     <dimen name="normal_icon">18dp</dimen>
     <dimen name="icon">20dp</dimen>
     <dimen name="icon_2">25dp</dimen>
@@ -63,7 +69,7 @@
     <dimen name="big_margin_3">40dp</dimen>
     <dimen name="bigger_image">70dp</dimen>
     <dimen name="first_margin">15dp</dimen>
-    <dimen name="medium_push">-40dp</dimen>
+    <dimen name="medium_push">-50dp</dimen>
     <dimen name="radio_push">-17dp</dimen>
     <dimen name="bigger_push">-65dp</dimen>
     <dimen name="vertical_dim">0.75dip</dimen>
@@ -89,4 +95,5 @@
 
     <dimen name="card_corner_radius">24dp</dimen>
     <dimen name="tab_rounded_size">50dp</dimen>
+    <dimen name="card_margin">21dp</dimen>
 </resources>

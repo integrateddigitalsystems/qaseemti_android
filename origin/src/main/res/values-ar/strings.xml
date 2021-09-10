@@ -195,4 +195,7 @@
     <string name="regsiter_or_login">Regsiter or Login</string>
     <string name="share">Share</string>
     <string name="my_addresses">My Addresses</string>
+    <string name="inApp">In App</string>
+    <string name="viewRelatedOrders">View Related Orders</string>
+    <string name="relatedOrdersOf">Related Orders of settlement </string>
 </resources>

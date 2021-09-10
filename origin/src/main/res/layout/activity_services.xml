@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/llHomeCurve"
-            android:layout_marginTop="-25dp"
+            android:layout_marginTop="@dimen/medium_push"
             android:fillViewport="true">
 
             <LinearLayout
@@ -40,24 +40,23 @@
                     android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_start_end"
-                    android:layout_marginEnd="@dimen/margin_start_end" />
+                    android:layout_marginStart="@dimen/card_new_margin"
+                    android:layout_marginEnd="@dimen/card_new_margin" />
 
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="@dimen/margin_start_end"
-                    app:tint="@color/white"
-                    android:layout_gravity="end"
-                    android:id="@+id/btAdd"
-                    android:gravity="center"
-                    app:rippleColor="@color/button_blue"
-                    app:backgroundTint="@color/button_blue"
-                    android:src="@drawable/ic_plus"
                     android:layout_alignParentEnd="true"
-                    />
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="end"
+                    android:layout_margin="@dimen/margin_start_end"
+                    android:gravity="center"
+                    android:src="@drawable/ic_plus"
+                    app:backgroundTint="@color/button_blue"
+                    app:rippleColor="@color/button_blue"
+                    app:tint="@color/white" />
 
 
                 <LinearLayout

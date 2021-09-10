@@ -17,6 +17,7 @@ import java.util.ArrayList
 class AdapterRelatedOrder(val items: ArrayList<RelatedOrder>, private val itemClickListener: RVOnItemClickListener, context: Context) :
     RecyclerView.Adapter<AdapterRelatedOrder.VHItem>() {
 
+    var done : Boolean ?= false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
         return VHItem(
             LayoutInflater.from(parent.context).inflate(R.layout.item_related_order, parent, false)
@@ -29,9 +30,10 @@ class AdapterRelatedOrder(val items: ArrayList<RelatedOrder>, private val itemCl
         holder.date.text = items.get(position).orderDate
         holder.due.text = items.get(position).orderDue
         holder.earning.text = items.get(position).orderEarning
-        if(position==items.size-1){
+        /*if(position==items.size-1&&done==false){
             holder.line.hide()
-        }
+            done = true
+        }*/
 
 
     }

@@ -32,6 +32,7 @@
 
 
         <RadioGroup
+            android:layout_marginStart="@dimen/mini_margin"
             style="@style/MyRadioButton"
             android:background="@color/transparent"
             android:layout_marginTop="@dimen/normal_margin"
@@ -44,6 +45,7 @@
             >
 
             <RadioButton
+                android:layout_marginStart="-13dp"
                 android:scaleX="0.9"
                 android:scaleY="0.9"
                 style="@style/MyRadioButton"
@@ -218,7 +220,7 @@
 
 
     <LinearLayout
-        android:paddingBottom="@dimen/big_margin"
+        android:paddingBottom="@dimen/big_margin_2"
         android:gravity="end"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -232,6 +234,8 @@
             app:tint="@color/white"
             android:layout_gravity="center"
             android:id="@+id/btClose"
+            android:layout_marginBottom="@dimen/margin_start_end"
+            android:layout_marginTop="@dimen/margin_start_end"
             app:fabCustomSize="40dp"
             android:layout_marginStart="@dimen/normal_margin"
             app:rippleColor="@color/button_blue"

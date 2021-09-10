@@ -12,6 +12,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderData
 import com.ids.qasemti.utils.AppConstants
+import com.ids.qasemti.utils.hide
 import java.util.ArrayList
 
 class AdapterOrderData(val items: ArrayList<OrderData>, private val itemClickListener: RVOnItemClickListener, context: Context) :
@@ -25,6 +26,10 @@ class AdapterOrderData(val items: ArrayList<OrderData>, private val itemClickLis
 
         holder.title.text = items.get(position).title
         holder.value.text = items.get(position).value
+        if(position==items.size-1){
+            holder.line.hide()
+        }
+
 
 
     }
@@ -36,6 +41,7 @@ class AdapterOrderData(val items: ArrayList<OrderData>, private val itemClickLis
     inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var title = itemView.findViewById<TextView>(R.id.tvDataName)
         var value = itemView.findViewById<TextView>(R.id.tvDataValue)
+        var line = itemView.findViewById<LinearLayout>(R.id.llLine)
 
         init {
             itemView.setOnClickListener(this)

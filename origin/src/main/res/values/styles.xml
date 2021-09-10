@@ -51,20 +51,21 @@
         <item name="textAllCaps">false</item>
     </style>
 
-<style name="MyRadioButton" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">@color/new_blue</item>
-        <item name="colorControlActivated">@color/white</item>
+    <style name="MyRadioButton" parent="Theme.AppCompat.Light">
+        <item name="android:state_selected">true</item>
     </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="MyBottomSheetDialog"
-        parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="MyBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 

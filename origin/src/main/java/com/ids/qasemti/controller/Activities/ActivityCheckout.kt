@@ -71,9 +71,14 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
             rlFromTime.setOnClickListener {
 
             }
+
+            AppHelper.setTextColor(this,etFromDate,R.color.gray_font_light)
+            AppHelper.setTextColor(this,etFromTime,R.color.gray_font_light)
         }
         rbSpecify.setOnClickListener {
 
+            AppHelper.setTextColor(this,etFromDate,R.color.gray_font)
+            AppHelper.setTextColor(this,etFromTime,R.color.gray_font)
             rlFromDate.setOnClickListener {
                 var mcurrentDate = Calendar.getInstance()
                 var mYear = 0

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -9,19 +10,18 @@
         android:id="@+id/linearProfileInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
-        android:background="@drawable/rounded_white_background"
+        android:layout_marginTop="-8dp"
+        app:cardElevation="@dimen/normal_margin"
         android:elevation="@dimen/normal_margin"
+        card_view:contentPadding="0dp"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="@dimen/normal_radius"
+        android:background="@drawable/rounded_white_background"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/big_margin"
-        android:paddingEnd="@dimen/big_margin"
-        app:cardCornerRadius="@dimen/normal_radius">
+        android:orientation="horizontal">
     <RelativeLayout
         android:background="@drawable/rounded_white_background"
         android:id="@+id/llCurrentLocation"
-        android:layout_marginStart="@dimen/margin_start_end"
-        android:layout_marginEnd="@dimen/margin_start_end"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <LinearLayout
@@ -130,11 +130,12 @@
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                        <com.ids.qasemti.custom.CustomTextViewMedium
+                        <me.grantland.widget.AutofitTextView
+                            android:maxLines="1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/dumy_text_underline"
-
+                            android:id="@+id/tvLocationOrderDeatils"
                             android:textColor="@color/primary"
                             android:textSize="@dimen/normal_font"
 
@@ -168,19 +169,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
+                android:paddingTop="@dimen/normal_margin"
+                android:paddingBottom="@dimen/normal_margin"
                 android:id="@+id/llCall"
-                android:layout_marginTop="@dimen/mini_margin"
-                android:layout_marginBottom="@dimen/mini_margin"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
-                    android:padding="@dimen/mini_margin"
                     android:src="@drawable/icon_phone"
                     android:tint="@color/redPrimary"
-                    android:layout_width="@dimen/icon_2"
-                    android:layout_height="@dimen/icon_2"/>
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"/>
 
             </LinearLayout>
 
@@ -193,16 +193,16 @@
 
             <LinearLayout
                 android:id="@+id/llMessage"
-                android:layout_marginTop="@dimen/mini_margin"
-                android:layout_marginBottom="@dimen/mini_margin"
+                android:paddingTop="@dimen/normal_margin"
+                android:paddingBottom="@dimen/normal_margin"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:src="@drawable/icon_chat"
-                    android:layout_width="@dimen/normal_icon_size"
-                    android:layout_height="@dimen/normal_icon_size"/>
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"/>
             </LinearLayout>
 
         </LinearLayout>

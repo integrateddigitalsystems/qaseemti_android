@@ -87,7 +87,8 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
 
         if(view.id==R.id.llLocation){
-            startActivity(Intent(requireActivity(),ActivityMap::class.java))
+            startActivity(Intent(requireActivity(),ActivityMap::class.java)
+                .putExtra("mapTitle",getString(R.string.view_address)))
         }else if(view.id==R.id.llViewOrderDetails){
             startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
         }

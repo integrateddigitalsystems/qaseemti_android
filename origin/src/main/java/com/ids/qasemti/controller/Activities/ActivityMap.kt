@@ -1,5 +1,6 @@
 package com.ids.qasemti.controller.Activities
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -10,6 +11,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.hide
+import com.ids.qasemti.utils.setColorTypeface
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -44,11 +46,11 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback{
         btBackTool.setOnClickListener {
             onBackPressed()
         }
+
+        var title = intent.getStringExtra("mapTitle")
         AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
-        tvPageTitle.text = getString(R.string.view_address)
-        AppHelper.setTextColor(this,tvPageTitle,R.color.redPrimary)
-        tvPageTitle.typeface = AppHelper.getTypeFace(this)
-        tvPageTitle.show()
+        tvPageTitle.setColorTypeface(this,R.color.redPrimary,title!!,false)
+
 
     }
 

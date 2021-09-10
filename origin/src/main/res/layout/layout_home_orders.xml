@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="@dimen/margin_start_end"
     android:id="@+id/rootLayoutOrders"
     android:background="@color/gray_bg"
-    android:paddingEnd="@dimen/margin_start_end"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
         android:gravity="center_vertical|end"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height_small">
@@ -34,6 +34,8 @@
 
 
     <LinearLayout
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
         android:orientation="horizontal"
@@ -85,12 +87,13 @@
 
 
     <LinearLayout
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/big_margin"
-        android:paddingRight="@dimen/margin_start_end"
-        android:paddingLeft="@dimen/margin_start_end"
+        android:paddingRight="@dimen/normal_icon_size"
+        android:paddingLeft="@dimen/normal_icon_size"
 
         >
 
@@ -297,7 +300,10 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/medium_margin"
         android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/card_new_margin"
+        android:layout_marginEnd="@dimen/card_new_margin"
         android:layout_height="match_parent"
         android:id="@+id/rvOrders"
         android:background="@color/gray_bg"

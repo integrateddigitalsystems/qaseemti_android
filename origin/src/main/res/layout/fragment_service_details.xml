@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:id="@+id/rootLayoutServiceDetails"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
 
 
 
@@ -35,17 +36,21 @@
 
 
                 <androidx.cardview.widget.CardView
+                    android:layout_marginStart="@dimen/card_new_margin"
+                    android:layout_marginEnd="@dimen/card_new_margin"
                     android:id="@+id/linearProfileInfo"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/big_button_width"
-                    app:cardUseCompatPadding="true"
-                    android:background="@drawable/rounded_white_background"
+                    android:layout_height="@dimen/button_width"
+                    app:cardElevation="@dimen/normal_margin"
                     android:elevation="@dimen/normal_margin"
+                    card_view:contentPadding="0dp"
+                    app:cardUseCompatPadding="true"
+                    app:cardCornerRadius="@dimen/normal_radius"
+                    android:background="@drawable/rounded_white_background"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:layout_marginStart="@dimen/margin_start_end"
-                    android:layout_marginEnd="@dimen/margin_start_end"
-                    app:cardCornerRadius="@dimen/normal_radius">
+                    android:paddingStart="@dimen/margin_start_end"
+                    android:paddingEnd="@dimen/margin_start_end">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -68,14 +73,14 @@
                             <LinearLayout
                                 android:layout_marginStart="@dimen/normal_margin"
                                 android:padding="@dimen/mini_margin"
-                                android:gravity="center_vertical"
+                                android:gravity="center"
                                 android:background="@drawable/white_circle"
                                 android:layout_width="@dimen/normal_icon_size"
                                 android:layout_height="@dimen/normal_icon_size">
                                 <com.ids.qasemti.custom.CustomTextViewMedium
                                     android:textColor="@color/new_blue"
-                                    android:text="KWD"
-                                    android:textSize="@dimen/small_font_3"
+                                    android:text="K.D."
+                                    android:textSize="@dimen/small_font_2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     />
@@ -121,8 +126,8 @@
                 <LinearLayout
                     android:layout_marginTop="@dimen/normal_margin"
                     android:id="@+id/llSpinnerServices"
-                    android:layout_marginStart="@dimen/normal_margin"
-                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:layout_marginStart="@dimen/margin_start_end"
+                    android:layout_marginEnd="@dimen/margin_start_end"
                     android:layout_below="@id/tbMedias"
                     android:orientation="horizontal"
                     android:weightSum="2"
@@ -130,8 +135,6 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:layout_marginStart="@dimen/normal_margin"
-                        android:layout_marginEnd="@dimen/normal_margin"
                         android:orientation="vertical"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
@@ -180,7 +183,6 @@
 
                     <LinearLayout
                         android:layout_marginStart="@dimen/margin_start_end"
-                        android:layout_marginEnd="@dimen/normal_margin"
                         android:orientation="vertical"
                         android:layout_weight="1"
                         android:layout_width="match_parent"

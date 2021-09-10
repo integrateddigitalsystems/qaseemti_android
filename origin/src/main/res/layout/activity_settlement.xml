@@ -249,26 +249,25 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/margin_start_end"
-        android:layout_marginEnd="@dimen/margin_start_end"
         android:layout_marginTop="@dimen/first_margin"
         >
         <androidx.recyclerview.widget.RecyclerView
-
+            android:layout_marginStart="@dimen/card_new_margin"
+            android:layout_marginEnd="@dimen/card_new_margin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/rvSettlements"/>
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
+            android:layout_height="@dimen/height_35"
             android:background="@drawable/blue_rounded"
             android:textColor="@color/white"
             android:id="@+id/btRequestSettlements"
             android:textSize="@dimen/normal_font"
             android:text="@string/request_settlements"
-            android:layout_marginStart="@dimen/medium_margin"
-            android:layout_marginEnd="@dimen/medium_margin"
+            android:layout_marginStart="@dimen/normal_icon_size"
+            android:layout_marginEnd="@dimen/normal_icon_size"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/big_margin"
             />

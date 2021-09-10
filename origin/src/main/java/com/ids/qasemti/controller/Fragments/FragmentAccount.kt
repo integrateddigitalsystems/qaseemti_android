@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityAddresses
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityServices
 import com.ids.qasemti.controller.Activities.ActivitySettlements
@@ -56,6 +58,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             btSettelments.hide()
             llLastSeperator.show()
             llLastSeperator2.show()
+            llSepTop.hide()
 
         }else{
             btShareApp.hide()
@@ -69,6 +72,11 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
     }
 
     fun listeners(){
+
+        btMyAddresses.setOnClickListener {
+            startActivity(Intent(requireContext(),ActivityAddresses::class.java)
+                .putExtra("mapTitle",getString(R.string.address)))
+        }
         btMyServices.setOnClickListener{
             startActivity(Intent(requireActivity(),ActivityServices::class.java))
         }
@@ -84,6 +92,10 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         btLanguage.setOnClickListener{
             val bottom_fragment = FragmentBottomSeetLanguage()
             bottom_fragment.show(requireActivity().supportFragmentManager,"fragment_change_language")
+        }
+        btNotifications.setOnClickListener {
+            val bottom_fragment = FragmentBottomSheetPush()
+            bottom_fragment.show(requireActivity().supportFragmentManager,"fragment_push_notifications")
         }
     }
 }

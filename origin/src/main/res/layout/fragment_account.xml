@@ -116,7 +116,12 @@
                     app:tint="@color/button_blue" />
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llSepTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <include layout="@layout/separator_dark"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -501,7 +506,7 @@
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_terms"
+                    android:src="@drawable/icon_account_share"
                     app:tint="@color/redPrimary" />
 
 
@@ -552,7 +557,7 @@
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_terms"
+                    android:src="@drawable/icon_logout"
                     app:tint="@color/redPrimary" />
 
 
