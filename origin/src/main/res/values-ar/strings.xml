@@ -117,19 +117,19 @@
     <string name="KNETPayment">KNET الدفع عبر</string>
     <string name="CreditCard">بطاقة ائتمان</string>
     <string name="CashOnDelivery">دفع عند الوصول</string>
-    <string name="place_order">Place Order</string>
-    <string name="no_available_servce">Unfortunately there are no available service providers at the moment. Please try again later</string>
-    <string name="go_to_services_page">Go to services page</string>
-    <string name="verification_code">Verification Code</string>
-    <string name="verification_code_sent">Verification code has been sent to your mobile number.</string>
-    <string name="services">Services</string>
-    <string name="track_order_C">TRACK ORDER</string>
-    <string name="current_location">Current Location</string>
-    <string name="location_on_map">Location On Map</string>
-    <string name="saved_location">Saved Location</string>
-    <string name="new_address">New Address</string>
+    <string name="PlaceOrder">تقديم الطلب</string>
+    <string name="NoServiceProvider">للأسف لا يوجد مزود خدمة متاح\n في الوقت الحالي ،\n يرجى المحاولة لاحقًا</string>
+    <string name="GoToSerices">الانتقال إلى صفحة الخدمات</string>
+    <string name="verification_code">رمز التحقق</string>
+    <string name="verification_code_sent">تم إرسال رمز التحقق إلى رقم هاتفك المحمول.</string>
+    <string name="Services">خدمات</string>
+    <string name="track_order">متابعة الطلبية</string>
+    <string name="CurrentLocation">الموقع الحالي</string>
+    <string name="LocationOnMap">الموقع على الخريطة</string>
+    <string name="SavedLocation">الموقع المحفوظ</string>
+    <string name="NewAddress">عنوان جديد</string>
     <string name="continue_">Continue</string>
-    <string name="add_new_address">Add New Address</string>
+    <string name="AddNewAddress">أضف عنوان جديد</string>
     <string name="address_name">Address Name</string>
     <string name="street">Street</string>
     <string name="save_to_my_address">SAVE TO MY ADDRESS</string>
@@ -189,7 +189,6 @@
     <string name="upload_images">Upload Images</string>
 
     <string name="permission_denied">Permission Denied</string>
-    <string name="testStringS">TEST STRING ANDROID</string>
     <string name="renew_order">Renew Order</string>
     <string name="order_type">Order Type</string>
     <string name="regsiter_or_login">Regsiter or Login</string>
@@ -198,4 +197,5 @@
     <string name="inApp">In App</string>
     <string name="viewRelatedOrders">View Related Orders</string>
     <string name="relatedOrdersOf">Related Orders of settlement </string>
+    <string name="not_available">Not Available</string>
 </resources>

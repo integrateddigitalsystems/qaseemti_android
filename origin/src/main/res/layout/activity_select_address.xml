@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
     xmlns:card_view="http://schemas.android.com/tools"
     android:background="@color/gray_bg"
     android:layout_height="match_parent">
@@ -90,7 +91,7 @@
                 android:tag="current_location"
                 android:id="@+id/tvCurrentLocation"
                 android:layout_marginStart="@dimen/big_margin"
-                android:text="@string/current_location"
+                android:text="@string/CurrentLocation"
                 android:layout_height="wrap_content"/>
 
 
@@ -151,7 +152,7 @@
                 android:tag="location_on_map"
                 android:id="@+id/tvLocationOnMap"
                 android:layout_marginStart="@dimen/big_margin"
-                android:text="@string/location_on_map"
+                android:text="@string/LocationOnMap"
                 android:layout_height="wrap_content"/>
 
 
@@ -209,7 +210,7 @@
                 android:layout_weight="1"
                 android:id="@+id/tvSavedLocation"
                 android:layout_marginStart="@dimen/big_margin"
-                android:text="@string/saved_location"
+                android:text="@string/SavedLocation"
                 android:tag="saved_location"
                 android:layout_height="wrap_content"/>
 
@@ -269,7 +270,7 @@
                 android:layout_weight="1"
                 android:id="@+id/tvNewLocation"
                 android:layout_marginStart="@dimen/big_margin"
-                android:text="@string/new_address"
+                android:text="@string/NewAddress"
                 android:tag="new_address"
                 android:layout_height="wrap_content"/>
 

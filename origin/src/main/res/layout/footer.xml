@@ -3,17 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/footer_height"
-    android:background="@color/white"
-    android:orientation="horizontal"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="vertical"
     >
 
 
+
+
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+
+        android:layout_height="@dimen/footer_height">
+    <LinearLayout
+        android:background="@color/white"
         android:visibility="gone"
         android:id="@+id/llFooterCart"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_gravity="center"
         android:gravity="center"
@@ -21,6 +29,7 @@
 
 
         <ImageView
+
             android:id="@+id/ivCartFooter"
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
@@ -36,15 +45,16 @@
             android:textColor="@color/gray_font"
             android:layout_marginTop="@dimen/mini_margin"
             android:layout_gravity="center"
-            android:tag="products"
+            android:tag="Cart"
             />
 
     </LinearLayout>
 
     <LinearLayout
+        android:background="@color/white"
         android:id="@+id/llFooterProducts"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_gravity="center"
         android:gravity="center"
@@ -75,9 +85,10 @@
 
 
     <LinearLayout
+        android:background="@color/white"
         android:id="@+id/llFooterOrders"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_gravity="center"
         android:gravity="center"
@@ -107,9 +118,10 @@
 
 
     <LinearLayout
+        android:background="@color/white"
         android:id="@+id/llFooterHome"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_gravity="center"
         android:gravity="center"
@@ -138,9 +150,10 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="@color/white"
         android:id="@+id/llFooterNotifications"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_gravity="center"
         android:gravity="center"
@@ -169,9 +182,10 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="@color/white"
         android:id="@+id/llFooterAccount"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_gravity="center"
         android:gravity="center"
@@ -194,8 +208,10 @@
             android:textColor="@color/gray_font"
             android:layout_marginTop="@dimen/mini_margin"
             android:layout_gravity="center"
-            android:tag="@string/Account"
+            android:tag="Account"
             />
+
+    </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

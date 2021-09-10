@@ -7,7 +7,9 @@ import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.setColorTypeface
 import com.ids.qasemti.utils.show
+import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.activity_select_address.*
+import kotlinx.android.synthetic.main.activity_select_address.rootLayout
 import kotlinx.android.synthetic.main.toolbar.*
 
 class ActivitySelectAddress: AppCompactBase() {
@@ -15,6 +17,7 @@ class ActivitySelectAddress: AppCompactBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_address)
+        AppHelper.setAllTexts(rootLayout,this)
         init()
         setListeners()
     }
@@ -34,15 +37,15 @@ class ActivitySelectAddress: AppCompactBase() {
         }
         llLocationMap .setOnClickListener {
             startActivity(Intent(this,ActivityMap::class.java)
-                .putExtra("mapTitle",getString(R.string.location_on_map)))
+                .putExtra("mapTitle",getString(R.string.LocationOnMap)))
         }
         llSavedLocation.setOnClickListener {
             startActivity(Intent(this,ActivityAddresses::class.java)
-                .putExtra("mapTitle",getString(R.string.saved_location)))
+                .putExtra("mapTitle",getString(R.string.SavedLocation)))
         }
         llNewAddress.setOnClickListener {
             startActivity(Intent(this,ActivityAddNewAddress::class.java)
-                .putExtra("mapTitle",getString(R.string.new_address)))
+                .putExtra("mapTitle",getString(R.string.NewAddress)))
         }
     }
 }

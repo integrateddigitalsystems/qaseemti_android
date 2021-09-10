@@ -2,11 +2,7 @@ package com.ids.qasemti.controller.Activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterAddress
@@ -44,7 +40,7 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
     private fun listeners(){
         btAddNew.setOnClickListener{
             startActivityForResult(Intent(this,ActivityAddNewAddress::class.java)
-                .putExtra("mapTitle",getString(R.string.new_address)),1)
+                .putExtra("mapTitle",getString(R.string.NewAddress)),1)
         }
     }
 

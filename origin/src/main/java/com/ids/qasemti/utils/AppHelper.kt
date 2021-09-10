@@ -17,6 +17,7 @@ import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -35,10 +36,8 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.tabs.TabLayout
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
-
 import com.ids.qasemti.controller.MyApplication
 import me.grantland.widget.AutofitHelper
-import org.w3c.dom.Text
 import java.io.File
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -237,8 +236,22 @@ class AppHelper {
 
         }
 
+        fun clearTabs(tablayout: TabLayout,context: Context){
+            //repeat(5) { tablayout.addTab(tablayout.newTab()) }
+            val tabStrip = tablayout.getChildAt(0) as LinearLayout
+            for (i in 0 until tabStrip.childCount) {
+                tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
+                val tab = tabStrip.getChildAt(i)
+                val layoutParams = tab.layoutParams as LinearLayout.LayoutParams
+                layoutParams.marginEnd = 8.toPx()
+                layoutParams.marginStart = 8.toPx()
+                layoutParams.width = 12.toPx()
+                tab.layoutParams = layoutParams
+                tablayout.requestLayout()
+            }
+        }
 
-       fun setTabs(tablayout: TabLayout){
+       fun setTabs(tablayout: TabLayout,context: Context){
             repeat(5) { tablayout.addTab(tablayout.newTab()) }
             val tabStrip = tablayout.getChildAt(0) as LinearLayout
             for (i in 0 until tabStrip.childCount) {
@@ -250,6 +263,13 @@ class AppHelper {
                 layoutParams.width = 12.toPx()
                 tab.layoutParams = layoutParams
                 tablayout.requestLayout()
+                /*val v: View = LayoutInflater.from(context).inflate(R.layout.footer_top, null)
+                v.layoutParams =
+                    ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                tablayout.getTabAt(i)!!.setCustomView(v)*/
             }
         }
 

@@ -10,7 +10,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
+import com.ids.qasemti.utils.AppHelper
 import kotlinx.android.synthetic.main.bottom_sheet_language.*
+import kotlinx.android.synthetic.main.bottom_sheet_language.rootLayout
+import kotlinx.android.synthetic.main.fragment_account.*
 
 class FragmentBottomSheetPush : BottomSheetDialogFragment() {
 
@@ -31,6 +34,7 @@ class FragmentBottomSheetPush : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AppHelper.setAllTexts(rootLayout,requireContext())
 
     }
 }

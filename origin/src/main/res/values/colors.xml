@@ -24,7 +24,9 @@
     <color name="gray_line">#e0e0e0</color>
     <color name="gray_font">#848484</color>
     <color name="gray_bg">#f2f2f2</color>
+    <color name="gray_bg_trans">#FFf2f2f2</color>
     <color name="gray_font_light">#b5b5b5</color>
+    <color name="trans">#4D000000</color>
     <color name="gray_font_title">#606060</color>
 
     <color name="gray_progress">#e6e6e6</color>

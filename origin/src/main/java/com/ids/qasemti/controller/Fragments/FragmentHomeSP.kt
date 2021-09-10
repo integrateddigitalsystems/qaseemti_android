@@ -59,10 +59,12 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             if(swAvailable.isChecked){
                 rvOrders.show()
+                swAvailable.text = getString(R.string.available)
                 llNodata.hide()
             }else{
                 rvOrders.hide()
                 llNodata.show()
+                swAvailable.text = getString(R.string.not_available)
             }
         }
 

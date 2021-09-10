@@ -716,7 +716,7 @@
                         android:layout_marginEnd="@dimen/small_margin"
                         android:gravity="center_vertical"
                         android:tag="track_order_C"
-                        android:text="@string/track_order_C"
+                        android:text="@string/track_order"
                         android:textColor="@color/redPrimary"
                         android:textSize="@dimen/normal_font" />
 

@@ -17,7 +17,9 @@ import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.hide
 import com.ids.qasemti.utils.show
+import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.fragment_account.rootLayout
 import kotlinx.android.synthetic.main.layout_profile.*
 
 
@@ -37,6 +39,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AppHelper.setAllTexts(rootLayout,requireContext())
         init()
         listeners()
     }

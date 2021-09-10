@@ -25,6 +25,8 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
+        AppHelper.setAllTexts(rootLayout,this)
+
 
         var mapViewBundle: Bundle? = null
         if (savedInstanceState != null) {

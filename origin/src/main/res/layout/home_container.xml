@@ -13,7 +13,13 @@
         android:layout_height="match_parent"
 
         android:id="@+id/homeContainer"/>
-
+    <LinearLayout
+        android:layout_above="@id/llFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/layout_footer_shadow" />
+    </LinearLayout>
     <include
         layout="@layout/toolbar" />
 
@@ -24,10 +30,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+       <!-- <include
+            layout="@layout/footer_top" />-->
         <LinearLayout
             android:id="@+id/llGeneralFooter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+
         <include
             layout="@layout/footer" />
         </LinearLayout>
@@ -43,6 +53,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/linearFooterSelection"
@@ -73,9 +84,12 @@
             app:tabGravity="fill"
             app:tabMode="fixed"
             android:background="@android:color/transparent"
-            android:layout_alignParentBottom="true"
-            app:tabBackground="@drawable/tab_color_selector"/>
+            android:layout_alignParentBottom="true" />
 
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vpPagerTab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
 
     </RelativeLayout>
 

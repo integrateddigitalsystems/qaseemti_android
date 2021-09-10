@@ -194,6 +194,13 @@ fun View.show() {
     }
 }
 
+fun View.invisible() {
+    try {
+        visibility = View.INVISIBLE
+    } catch (e: Exception) {
+    }
+}
+
 fun View.hide() {
     try {
         visibility = View.GONE

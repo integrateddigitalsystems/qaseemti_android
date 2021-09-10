@@ -9,11 +9,8 @@ import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
-import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.isNumeric
-import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.text.SimpleDateFormat
@@ -211,10 +208,8 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
     }
     fun init(){
         setTintLogo(R.color.redPrimary)
-        tvPageTitle.text = getString(R.string.Checkout)
-        tvPageTitle.typeface = AppHelper.getTypeFace(this)
-        tvPageTitle.show()
-        AppHelper.setTextColor(this,tvPageTitle,R.color.redPrimary)
+        tvPageTitle.textRemote("Checkout",this)
+        tvPageTitle.setColorTypeface(this,R.color.redPrimary,"",true)
         etFromDate.setFocusable(false);
         etFromTime.setFocusable(false);
 

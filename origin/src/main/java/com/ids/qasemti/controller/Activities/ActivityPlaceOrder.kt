@@ -17,7 +17,9 @@ import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderData
 import com.ids.qasemti.utils.*
+import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.activity_place_order.*
+import kotlinx.android.synthetic.main.activity_place_order.rootLayout
 import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.home_container.*
 import kotlinx.android.synthetic.main.layout_border_data.*
@@ -37,6 +39,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_place_order)
         init()
+        AppHelper.setAllTexts(rootLayout,this)
         getSupportActionBar()!!.hide();
 
 
@@ -140,7 +143,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
         tvLocationPlaceOrder.setColorTypeface(this,R.color.redPrimary,"",false)
         tvPageTitle.show()
-        tvPageTitle.setColorTypeface(this,R.color.redPrimary,getString(R.string.place_order),true)
+        tvPageTitle.textRemote("place_order",this)
+        tvPageTitle.setColorTypeface(this,R.color.redPrimary,"",true)
         btBackTool.show()
         btBackTool.setOnClickListener {
             super.onBackPressed()

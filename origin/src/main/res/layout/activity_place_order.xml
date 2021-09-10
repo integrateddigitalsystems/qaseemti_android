@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/rootLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     android:background="@color/gray_bg"
@@ -512,7 +513,7 @@
                         android:layout_marginTop="@dimen/big_margin"
                         android:layout_marginBottom="@dimen/first_margin"
                         android:background="@drawable/blue_rounded"
-                        android:text="@string/place_order"
+                        android:text="@string/PlaceOrder"
                         android:textColor="@color/white" />
 
 
@@ -553,7 +554,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:tag="no_available_servce"
-                android:text="@string/no_available_servce"/>
+                android:text="@string/NoServiceProvider"/>
 
             <Button
 
@@ -562,7 +563,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:background="@drawable/rounded_red_background"
-                android:text="@string/go_to_services_page"/>
+                android:text="@string/GoToSerices"/>
 
         </LinearLayout>
 

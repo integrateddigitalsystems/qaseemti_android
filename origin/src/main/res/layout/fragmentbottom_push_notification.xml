@@ -5,6 +5,7 @@
     android:background="@drawable/rounded_white_background"
     android:orientation="vertical"
     android:paddingStart="@dimen/margin_start_end"
+    android:id="@+id/rootLayout"
     android:paddingBottom="@dimen/block_hight"
     android:paddingEnd="@dimen/margin_start_end"
     android:layout_height="wrap_content">

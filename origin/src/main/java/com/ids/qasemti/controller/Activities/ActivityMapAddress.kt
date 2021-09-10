@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.hide
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_map.*
@@ -23,6 +24,7 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
+        AppHelper.setAllTexts(rootLayout,this)
 
         var mapViewBundle: Bundle? = null
         if (savedInstanceState != null) {

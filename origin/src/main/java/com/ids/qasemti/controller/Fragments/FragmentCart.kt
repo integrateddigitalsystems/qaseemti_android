@@ -10,6 +10,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 
 import com.ids.qasemti.model.Address
 import com.ids.qasemti.utils.AppHelper
+import kotlinx.android.synthetic.main.fragment_account.*
 
 class FragmentCart : Fragment() , RVOnItemClickListener {
 
@@ -26,6 +27,7 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AppHelper.setAllTexts(rootLayout,requireContext())
 
     }
 

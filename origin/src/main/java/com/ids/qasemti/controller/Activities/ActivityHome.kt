@@ -1,19 +1,26 @@
 package com.ids.qasemti.controller.Activities
+
 import android.content.Intent
 import android.os.Bundle
+import android.text.Layout
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.navigation.NavigationView
-
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.Adapters.SampleFragmentPagerAdapter
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
@@ -26,6 +33,7 @@ import com.ids.qasemti.utils.AppHelper.Companion.getFragmentCount
 import com.ids.qasemti.utils.AppHelper.Companion.resetIcons
 import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.home_container.*
+import kotlinx.android.synthetic.main.layout_footer_shadow.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 
@@ -33,6 +41,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     RVOnItemClickListener {
     private lateinit var fragMang: FragmentManager
     private lateinit var drawerLayout: DrawerLayout
+    var selectedPos = 2
     private var ordersArray: ArrayList<String> = arrayListOf()
     var isClose = false
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,29 +51,60 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     }
 
-    fun showTitle(show:Boolean){
-        if(show)
+    fun setCurve(position: Int) {
+        ivCurveCartProd.invisible()
+        ivCurveAccount.invisible()
+        ivCurveHome.invisible()
+        ivCurveNotification.invisible()
+        ivCurveOrder.invisible()
+
+        if (position == 0) {
+            ivCurveCartProd.show()
+        } else if (position == 1) {
+            ivCurveOrder.show()
+        } else if (position == 2) {
+            ivCurveHome.show()
+        } else if (position == 3) {
+            ivCurveNotification.show()
+        } else if (position == 4) {
+            ivCurveAccount.show()
+        }
+    }
+
+    fun showTitle(show: Boolean) {
+        if (show)
             tvPageTitle.show()
         else
             tvPageTitle.hide()
     }
 
-    fun showBack(show:Boolean){
-        if(show)
+    fun showBack(show: Boolean) {
+        if (show)
             btBackTool.show()
         else
             btBackTool.hide()
     }
 
-    fun showLogout(show:Boolean){
-        if(show)
+    fun showLogout(show: Boolean) {
+        if (show)
             btLogout.show()
         else
             btLogout.hide()
     }
-    private fun init() {
 
-        if(MyApplication.isSignedIn)
+    private fun init() {
+        /*val pagerAdapter = SampleFragmentPagerAdapter(
+            supportFragmentManager, this
+        )
+        vpPagerTab.adapter = pagerAdapter
+        tablayout.setupWithViewPager(vpPagerTab)
+        for (i in 0 until tablayout.tabCount) {
+            val tab = tablayout.getTabAt(i)
+            tab!!.setCustomView(pagerAdapter.getTabView(i))
+        }*/
+
+
+        if (MyApplication.isSignedIn)
             btLogout.show()
         btDrawer.hide()
         setMenu()
@@ -82,24 +122,30 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         MyApplication.fromFooterOrder = false
     }
 
-    fun drawColor(){
+    fun drawColor() {
         AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
     }
 
-    fun setTintLogo(color:Int){
+    fun setTintLogo(color: Int) {
         AppHelper.setLogoTint(btDrawer, this, color)
-        AppHelper.setTextColor(this,tvPageTitle,color)
-        AppHelper.setLogoTint(btBackTool,this,color)
-        AppHelper.setLogoTint(btLogout,this,color)
+        AppHelper.setTextColor(this, tvPageTitle, color)
+        AppHelper.setLogoTint(btBackTool, this, color)
+        AppHelper.setLogoTint(btLogout, this, color)
     }
 
-    fun setTitleAc(title:String){
+    fun setTitleAc(title: String) {
         tvPageTitle.show()
         tvPageTitle.text = title
     }
 
     fun defaultFragment() {
-       setSelectedTab(MyApplication.selectedPos,MyApplication.selectedFragment!!,MyApplication.selectedFragmentTag!!,ivFooterHome,MyApplication.tintColor)
+        setSelectedTab(
+            MyApplication.selectedPos,
+            MyApplication.selectedFragment!!,
+            MyApplication.selectedFragmentTag!!,
+            ivFooterHome,
+            MyApplication.tintColor
+        )
     }
 
 
@@ -140,118 +186,205 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
 
-    private fun setSelectedTab(index: Int,fragment:Fragment,tag:String,selectedIcon:ImageView,drawerColor: Int){
-        replaceFragment(R.id.homeContainer,fragMang,fragment, tag)
+    private fun setSelectedTab(
+        index: Int,
+        fragment: Fragment,
+        tag: String,
+        selectedIcon: ImageView,
+        drawerColor: Int
+    ) {
+        replaceFragment(R.id.homeContainer, fragMang, fragment, tag)
         hideBack()
         tvPageTitle.hide()
         tablayout.getTabAt(index)!!.select()
         MyApplication.selectedPos = index
-        resetIcons(this,ivCartFooter,ivProductFooter,ivFooterOrder,ivFooterHome,ivFooterNotifications,ivFooterAccount)
-        selectedIcon.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt())
+        resetIcons(
+            this,
+            ivCartFooter,
+            ivProductFooter,
+            ivFooterOrder,
+            ivFooterHome,
+            ivFooterNotifications,
+            ivFooterAccount
+        )
+        selectedIcon.layoutParams = LinearLayout.LayoutParams(
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                30f,
+                resources.displayMetrics
+            ).toInt(),
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics)
+                .toInt()
+        )
         AppHelper.setLogoTint(btDrawer, this, drawerColor)
         setTintLogo(drawerColor)
+        setCurve(index)
         AppHelper.setUpFooter(this, MyApplication.selectedFragmentTag!!)
     }
 
 
-    private fun goRegistration(position: Int,tag: String,fragment: Fragment,color: Int){
-        MyApplication.selectedPos =position
+    private fun goRegistration(position: Int, tag: String, fragment: Fragment, color: Int) {
+        MyApplication.selectedPos = position
         MyApplication.selectedFragmentTag = tag
         MyApplication.selectedFragment = fragment
         MyApplication.tintColor = color
         startActivity(Intent(this, ActivityMobileRegistration::class.java))
     }
 
+
     fun setListners() {
 
-        AppHelper.setTabs(tablayout)
+        AppHelper.setTabs(tablayout, this)
 
         //common tabs
 
-        btBackTool.setOnClickListener {
+        tablayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                /*AppHelper.clearTabs(tablayout, this@ActivityHome)
+                for (i in 0 until 5)
+                    if (tablayout.getTabAt(i) == tab)
+                        selectedPos = i
+
+
+                val v: View =
+                    LayoutInflater.from(this@ActivityHome).inflate(R.layout.footer_top, null)
+                v.layoutParams =
+                    ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                tablayout.getTabAt(selectedPos)!!.setCustomView(v)*/
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+        })
+        btBackTool!!.setOnClickListener {
             getSupportFragmentManager()
-                .beginTransaction().
-                remove(getSupportFragmentManager().findFragmentById(R.id.container)!!).commit();
+                .beginTransaction()
+                .remove(getSupportFragmentManager().findFragmentById(R.id.container)!!).commit();
         }
         llFooterOrders.setOnClickListener {
             MyApplication.fromFooterOrder = true
             if (MyApplication.selectedFragmentTag != FRAGMENT_ORDER && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
-                setSelectedTab(1,FragmentOrders(), FRAGMENT_ORDER,ivFooterOrder,R.color.redPrimary)
-            else if(!MyApplication.isSignedIn && MyApplication.isClient)
-            goRegistration(1,FRAGMENT_ORDER,FragmentOrders(),R.color.redPrimary)
+                setSelectedTab(
+                    1,
+                    FragmentOrders(),
+                    FRAGMENT_ORDER,
+                    ivFooterOrder,
+                    R.color.redPrimary
+                )
+            else if (!MyApplication.isSignedIn && MyApplication.isClient)
+                goRegistration(1, FRAGMENT_ORDER, FragmentOrders(), R.color.redPrimary)
         }
 
         llFooterNotifications.setOnClickListener {
             if (MyApplication.selectedFragmentTag != FRAGMENT_NOTFICATIONS && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
-                setSelectedTab(3,FragmentNotifications(), FRAGMENT_NOTFICATIONS,ivFooterNotifications,R.color.white)
-            else if(!MyApplication.isSignedIn && MyApplication.isClient)
-                goRegistration(3,FRAGMENT_NOTFICATIONS,FragmentNotifications(),R.color.white)
+                setSelectedTab(
+                    3,
+                    FragmentNotifications(),
+                    FRAGMENT_NOTFICATIONS,
+                    ivFooterNotifications,
+                    R.color.white
+                )
+            else if (!MyApplication.isSignedIn && MyApplication.isClient)
+                goRegistration(3, FRAGMENT_NOTFICATIONS, FragmentNotifications(), R.color.white)
         }
 
         llFooterAccount.setOnClickListener {
             if (MyApplication.selectedFragmentTag != FRAGMENT_ACCOUNT && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
-                setSelectedTab(4,FragmentAccount(), FRAGMENT_ACCOUNT,ivFooterAccount,R.color.white)
-            else if(!MyApplication.isSignedIn && MyApplication.isClient)
-                goRegistration(4,FRAGMENT_ACCOUNT,FragmentAccount(),R.color.white)
+                setSelectedTab(
+                    4,
+                    FragmentAccount(),
+                    FRAGMENT_ACCOUNT,
+                    ivFooterAccount,
+                    R.color.white
+                )
+            else if (!MyApplication.isSignedIn && MyApplication.isClient)
+                goRegistration(4, FRAGMENT_ACCOUNT, FragmentAccount(), R.color.white)
         }
 
         //other tabs
         llFooterCart.setOnClickListener {
             if (MyApplication.selectedFragmentTag != FRAGMENT_CART && MyApplication.isSignedIn)
-                setSelectedTab(0,FragmentCart(), FRAGMENT_CART,ivCartFooter,R.color.redPrimary)
-            else if(!MyApplication.isSignedIn)
-                goRegistration(0,FRAGMENT_CART,FragmentCart(),R.color.redPrimary)
+                setSelectedTab(0, FragmentCart(), FRAGMENT_CART, ivCartFooter, R.color.redPrimary)
+            else if (!MyApplication.isSignedIn)
+                goRegistration(0, FRAGMENT_CART, FragmentCart(), R.color.redPrimary)
         }
 
 
         llFooterHome.setOnClickListener {
-            if(MyApplication.isClient){
+            if (MyApplication.isClient) {
                 if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_HOME_CLIENT)
-                    setSelectedTab(2,FragmentHomeClient(), AppConstants.FRAGMENT_HOME_CLIENT,ivFooterHome,R.color.white)
-            }else{
+                    setSelectedTab(
+                        2,
+                        FragmentHomeClient(),
+                        AppConstants.FRAGMENT_HOME_CLIENT,
+                        ivFooterHome,
+                        R.color.white
+                    )
+            } else {
                 if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_HOME_SP)
-                    setSelectedTab(2,FragmentHomeSP(), AppConstants.FRAGMENT_HOME_SP,ivFooterHome,R.color.white)
+                    setSelectedTab(
+                        2,
+                        FragmentHomeSP(),
+                        AppConstants.FRAGMENT_HOME_SP,
+                        ivFooterHome,
+                        R.color.white
+                    )
             }
         }
 
 
         llFooterProducts.setOnClickListener {
             if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_PROD)
-                setSelectedTab(0,FragmentProducts(), AppConstants.FRAGMENT_PROD,ivProductFooter,R.color.white)
+                setSelectedTab(
+                    0,
+                    FragmentProducts(),
+                    AppConstants.FRAGMENT_PROD,
+                    ivProductFooter,
+                    R.color.white
+                )
         }
 
         defaultFragment()
 
-        btBackTool.setOnClickListener{
+        btBackTool.setOnClickListener {
             checkBack()
             super.onBackPressed()
         }
     }
 
 
-    fun addFrag(fragment: Fragment,tag: String){
-        addFragment(R.id.homeContainer,fragMang,fragment, tag)
+    fun addFrag(fragment: Fragment, tag: String) {
+        addFragment(R.id.homeContainer, fragMang, fragment, tag)
     }
 
-    fun hideBack(){
+    fun hideBack() {
         btBackTool.hide()
     }
 
-    fun showBack(color: Int){
+    fun showBack(color: Int) {
         btBackTool.show()
         AppHelper.setLogoTint(btBackTool, this, color)
     }
 
 
-    fun checkBack(){
-        if(getFragmentCount(fragMang)<=1){
+    fun checkBack() {
+        if (getFragmentCount(fragMang) <= 1) {
             btBackTool.hide()
             tvPageTitle.hide()
-        }
-        else
+        } else
             btBackTool.show()
-
     }
 
 }
+
 

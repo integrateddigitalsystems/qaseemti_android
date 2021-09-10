@@ -96,4 +96,5 @@
     <dimen name="card_corner_radius">24dp</dimen>
     <dimen name="tab_rounded_size">50dp</dimen>
     <dimen name="card_margin">21dp</dimen>
+    <dimen name="footer_dim">82dp</dimen>
 </resources>
