@@ -92,7 +92,7 @@
                 android:textAllCaps="false"
                 android:layout_marginEnd="@dimen/margin_start_end"
                 android:textColor="@color/redPrimary"
-                android:text="@string/cancel_order"
+                android:text="@string/CancelOrder"
                 android:tag="cancel_order"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"

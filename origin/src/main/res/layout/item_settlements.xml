@@ -179,7 +179,7 @@
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/my_dues"
+                android:text="@string/MyDues"
                 android:tag="my_dues"
                 android:textColor="@color/gray_font_title" />
 

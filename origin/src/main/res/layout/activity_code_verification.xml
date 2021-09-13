@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:gravity="center"
             android:padding="@dimen/normal_margin"
-            android:textSize="@dimen/title_font"
+            android:textSize="@dimen/main_title_font"
             android:tag="verification"
             android:textColor="@color/redPrimary"
             android:layout_height="60dp"
@@ -50,11 +50,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/height_35"
-            android:tag="enter_the_4_digit_code_sent_to_you_from_qasemati"
+            android:tag="verification_code_sent"
             android:layout_marginBottom="@dimen/big_margin_2"
             android:gravity="center"
             android:textSize="@dimen/header_font"
-            android:text="@string/enter_the_4_digit_code_sent_to_you_from_qasemati"/>
+            android:text="@string/verification_code_sent"/>
 
 
         <com.ids.qasemti.custom.CustomTextViewBold
@@ -63,9 +63,9 @@
             android:id="@+id/tvSubTitleVerf"
             android:layout_width="match_parent"
             android:layout_marginBottom="@dimen/height_35"
-            android:tag="verification_code"
+            android:tag="enter_verification_code"
             android:layout_height="wrap_content"
-            android:text="@string/verification_code"/>
+            android:text="@string/enter_verification_code"/>
 
 
         <com.chaos.view.PinView

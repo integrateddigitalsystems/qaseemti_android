@@ -60,7 +60,7 @@
                     android:textDirection="locale"
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/my_addresses"
+                    android:text="@string/MyAddresses"
                     android:tag="my_addresses"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"

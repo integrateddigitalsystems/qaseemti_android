@@ -30,7 +30,7 @@
             android:tag="registration"
             android:textColor="@color/redPrimary"
             android:layout_height="60dp"
-            android:text="@string/registration"
+            android:text="@string/Registration"
             android:background="@drawable/rounded_white_background"/>
     </RelativeLayout>
 

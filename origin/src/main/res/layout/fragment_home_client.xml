@@ -108,7 +108,7 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:background="@drawable/blue_rounded"
                 android:textColor="@color/white"
-                android:text="@string/regsiter_or_login"/>
+                android:text="@string/Register_login"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="@dimen/edit_text_height"

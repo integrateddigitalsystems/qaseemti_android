@@ -165,7 +165,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/normal_margin"
-                        android:text="@string/suggest_new_delivery_time"
+                        android:text="@string/Suggest_Delvr"
                         android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/normal_font" />
 
@@ -271,7 +271,7 @@
                     android:layout_marginEnd="@dimen/margin_start_end"
                     android:layout_marginBottom="@dimen/first_margin"
                     android:background="@drawable/rounded_blue"
-                    android:text="@string/send_request"
+                    android:text="@string/SendRequest"
                     android:textColor="@color/white" />
 
             </LinearLayout>
@@ -311,7 +311,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="actual_delivery"
-                        android:text="@string/actual_delivery"
+                        android:text="@string/Actual_delivery"
                         android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/normal_font" />
 
