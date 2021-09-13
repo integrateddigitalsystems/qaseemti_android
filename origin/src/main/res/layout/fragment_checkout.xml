@@ -42,8 +42,8 @@
                 android:paddingBottom="@dimen/normal_margin">
 
                 <ImageView
-                    android:layout_width="@dimen/normal_icon"
-                    android:layout_height="@dimen/normal_icon"
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
                     android:layout_marginStart="@dimen/first_margin"
                     android:src="@drawable/placeholder"
                     app:tint="@color/redPrimary" />
@@ -52,6 +52,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/big_margin"
+                    android:textColor="@color/gray_font_title"
+                    android:textSize="@dimen/medium_font"
                     android:layout_marginEnd="@dimen/big_margin"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
@@ -89,8 +91,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/normal_icon"
-                        android:layout_height="@dimen/normal_icon"
+                        android:layout_width="@dimen/icon"
+                        android:layout_height="@dimen/icon"
                         android:layout_marginStart="@dimen/first_margin"
                         android:src="@drawable/wall_clock"
                         app:tint="@color/redPrimary" />
@@ -101,6 +103,8 @@
                         android:layout_marginStart="@dimen/big_margin"
                         android:layout_marginEnd="@dimen/big_margin"
                         android:layout_weight="1"
+                        android:textColor="@color/gray_font_title"
+                        android:textSize="@dimen/medium_font"
                         android:gravity="center_vertical"
                         android:tag="select_time_and_delivery_date"
                         android:text="@string/select_time_date" />
@@ -386,6 +390,7 @@
 
 
             <com.ids.qasemti.custom.CustomTextViewBold
+                android:paddingStart="@dimen/mini_margin"
                 android:layout_marginStart="@dimen/margin_start_end"
                 android:layout_marginEnd="@dimen/margin_start_end"
                 android:layout_width="match_parent"
@@ -398,12 +403,13 @@
 
 
             <androidx.cardview.widget.CardView
+
                 android:layout_marginStart="@dimen/card_new_margin"
                 android:layout_marginEnd="@dimen/card_new_margin"
                 android:id="@+id/linearProfileInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-8dp"
+                android:layout_marginTop="@dimen/push_less"
                 app:cardElevation="@dimen/normal_margin"
                 android:elevation="@dimen/normal_margin"
                 card_view:contentPadding="0dp"
@@ -468,7 +474,7 @@
                             android:layout_height="wrap_content"
                             android:text="200 gallons"
                             android:textColor="@color/gray_font"
-                            android:textSize="@dimen/header_font" />
+                            android:textSize="@dimen/medium_font" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -478,7 +484,7 @@
                     android:layout_height="0.5dp"
                     android:layout_marginTop="@dimen/normal_margin"
                     android:layout_marginBottom="@dimen/normal_margin"
-                    android:background="@color/gray_serperator" />
+                    android:background="@color/gray_font_light" />
 
                 <LinearLayout
 
@@ -771,11 +777,12 @@
 
 
             <com.ids.qasemti.custom.CustomTextViewBold
+                android:paddingStart="@dimen/mini_margin"
                 android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginTop="@dimen/small_margin"
                 android:layout_marginEnd="@dimen/margin_start_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/first_margin"
                 android:tag="do_you_have_a_coupon"
                 android:text="@string/haveCoupon"
                 android:textSize="@dimen/header_font" />

@@ -36,7 +36,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             super.onBackPressed()
         }
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
-        tvPageTitle.typeface = AppHelper.getTypeFace(this)
+        tvPageTitle.typeface = AppHelper.getTypeFaceBold(this)
         tvPageTitle.show()
         if(MyApplication.typeSelected==0) {
             tvPageTitle.textRemote("active_order_det",this)

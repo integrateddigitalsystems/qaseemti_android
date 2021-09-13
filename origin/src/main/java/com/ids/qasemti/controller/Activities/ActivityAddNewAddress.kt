@@ -33,7 +33,7 @@ class ActivityAddNewAddress : ActivityBase() {
     private fun listeners(){
         btBackTool.setOnClickListener{super.onBackPressed()}
         var title = intent.getStringExtra("mapTitle")
-        tvPageTitle.setColorTypeface(this,R.color.redPrimary,title!!,false)
+        tvPageTitle.setColorTypeface(this,R.color.redPrimary,title!!,true)
         btMapAddress.setOnClickListener{startActivity(Intent(this,ActivityMapAddress::class.java))}
     }
 }

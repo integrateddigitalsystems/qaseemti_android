@@ -29,7 +29,7 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     fun init(){
         var title = intent.getStringExtra("mapTitle")
-        tvPageTitle.setColorTypeface(this,R.color.white,title!!,false)
+        tvPageTitle.setColorTypeface(this,R.color.white,title!!,true)
         btBackTool.setOnClickListener {
             super.onBackPressed()
         }

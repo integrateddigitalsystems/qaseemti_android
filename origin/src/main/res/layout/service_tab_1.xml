@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/big_font"
         android:textColor="@color/gray_font_title"
-        android:text="@string/category"
+        android:text="@string/description"
         android:layout_marginTop="@dimen/normal_margin"
         android:tag="description"
         />
@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/big_font"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/medium_margin"
         android:textColor="@color/gray_font_title"
         android:text="@string/service"
         android:tag="type"
@@ -96,7 +96,7 @@
         android:textSize="@dimen/big_font"
         android:textColor="@color/gray_font_title"
         android:text="@string/description"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/medium_margin"
         android:tag="description"
         />
 
@@ -113,7 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/big_font"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/medium_margin"
         android:textColor="@color/gray_font_title"
         android:text="@string/type"
         android:tag="type"
@@ -152,7 +152,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/big_font"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/medium_margin"
         android:textColor="@color/gray_font_title"
         android:text="@string/SizeCapacity"
         android:tag="size_capacity"
@@ -190,7 +190,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/big_font"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/medium_margin"
         android:textColor="@color/gray_font_title"
         android:text="@string/stock_available"
         android:tag="stock_available"
@@ -231,7 +231,7 @@
         android:textSize="@dimen/big_font"
         android:textColor="@color/gray_font_title"
         android:text="@string/upload_images"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/medium_margin"
         android:tag="description"
         />
 

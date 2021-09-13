@@ -143,7 +143,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
         tvLocationPlaceOrder.setColorTypeface(this,R.color.redPrimary,"",false)
         tvPageTitle.show()
-        tvPageTitle.textRemote("place_order",this)
+        tvPageTitle.textRemote("PlaceOrder",this)
         tvPageTitle.setColorTypeface(this,R.color.redPrimary,"",true)
         btBackTool.show()
         btBackTool.setOnClickListener {

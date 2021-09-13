@@ -1,104 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:id="@+id/rootLayoutRegistration"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/gray_background"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
-    <include
-        layout="@layout/white_logo_layout" />
-
-    <androidx.core.widget.NestedScrollView
-        android:fillViewport="true"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <LinearLayout
-        android:gravity="center_horizontal"
-        android:layout_marginStart="@dimen/margin_start_end"
-        android:layout_marginEnd="@dimen/margin_start_end"
-        android:layout_marginTop="@dimen/margin_top"
-        android:orientation="vertical"
+    <RelativeLayout
+        android:id="@+id/rlNoLogo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <com.ids.qasemti.custom.CustomTextViewMedium
+        <LinearLayout
+            android:id="@+id/llNoLogo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="register"
-            android:textSize="@dimen/title_font"
+            android:layout_height="wrap_content">
+        <include
+            layout="@layout/no_logo_layout" />
+        </LinearLayout>
+        <com.ids.qasemti.custom.CustomTextViewBold
+            android:layout_below="@id/llNoLogo"
+            android:layout_marginTop="@dimen/push_normal"
+            android:layout_marginStart="75dp"
+            android:layout_marginEnd="75dp"
+            android:layout_width="match_parent"
             android:gravity="center"
-            android:text="@string/register"
-            android:textColor="@color/redPrimary"/>
+            android:padding="@dimen/normal_margin"
+            android:textSize="@dimen/main_title_font"
+            android:tag="registration"
+            android:textColor="@color/redPrimary"
+            android:layout_height="60dp"
+            android:text="@string/registration"
+            android:background="@drawable/rounded_white_background"/>
+    </RelativeLayout>
 
-        <com.ids.qasemti.custom.CustomTextViewMedium
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normal_margin"
-            android:tag="please_fill_the_below_fields_to_register"
-            android:textSize="@dimen/header_font"
-            android:gravity="center"
-            android:text="@string/please_fill_the_below_fields_to_register" />
+    <LinearLayout
+        android:id="@+id/llTopService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/etFirstName"
-            android:layout_marginTop="@dimen/margin_top"
-            android:textColorHint="@color/gray_medium_2"
-            android:paddingStart="@dimen/normal_margin"
-            android:paddingEnd="@dimen/normal_margin"
-            android:tag="@string/FName"
-            android:hint="@string/FName"
-            android:text="aaa"
-            android:background="@drawable/rounded_white_background"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_text_height"/>
-
-        <EditText
-            android:id="@+id/etLastName"
-            android:layout_marginTop="@dimen/normal_margin"
-            android:textColorHint="@color/gray_medium_2"
-            android:paddingStart="@dimen/normal_margin"
-            android:paddingEnd="@dimen/normal_margin"
-            android:tag="@string/LName"
-            android:hint="@string/LName"
-            android:text="bbb"
-            android:background="@drawable/rounded_white_background"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_text_height"/>
-
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_marginTop="@dimen/normal_margin"
-            android:textColorHint="@color/gray_medium_2"
-            android:paddingStart="@dimen/normal_margin"
-            android:paddingEnd="@dimen/normal_margin"
-            android:inputType="textEmailAddress"
-            android:hint="@string/email"
-            android:tag="@string/email"
-            android:text="aa@bb.cc"
-            android:background="@drawable/rounded_white_background"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_text_height"/>
-
-
-        <Button
-            android:textColor="@color/white"
-            android:text="@string/register"
-            android:tag="register"
-            android:layout_marginTop="@dimen/normal_margin"
-            android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/normal_margin"
-            android:layout_height="@dimen/button_height"
-            android:id="@+id/btRegister"
-            android:background="@drawable/blue_rounded"/>
-
-
-
-
+        <include layout="@layout/white_logo_layout" />
 
     </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginTop="@dimen/margin_top"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/tvRegisterTitle"
+                android:tag="register"
+                android:text="@string/register"
+                android:textColor="@color/redPrimary"
+                android:textSize="@dimen/title_font" />
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:gravity="center"
+                android:tag="please_fill_the_below_fields_to_register"
+                android:text="@string/please_fill_the_below_fields_to_register"
+                android:textSize="@dimen/header_font" />
+
+            <EditText
+                android:id="@+id/etFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_marginTop="@dimen/margin_top"
+                android:background="@drawable/rounded_white_background"
+                android:hint="@string/FName"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:tag="@string/FName"
+                android:text="aaa"
+                android:textColorHint="@color/gray_medium_2" />
+
+            <EditText
+                android:id="@+id/etLastName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:background="@drawable/rounded_white_background"
+                android:hint="@string/LName"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:tag="@string/LName"
+                android:text="bbb"
+                android:textColorHint="@color/gray_medium_2" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:background="@drawable/rounded_white_background"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:tag="@string/email"
+                android:text="aa@bb.cc"
+                android:textColorHint="@color/gray_medium_2" />
+
+
+            <Button
+                android:id="@+id/btRegister"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/normal_margin"
+                android:background="@drawable/blue_rounded"
+                android:tag="register"
+                android:text="@string/register"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 

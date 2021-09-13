@@ -13,96 +13,99 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/llCurve"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <include layout="@layout/curve_layout_home"/>
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
-            android:layout_marginStart="@dimen/card_new_margin"
-            android:layout_marginEnd="@dimen/card_new_margin"
+            android:layout_marginTop="@dimen/bigger_push"
+            android:layout_below="@id/llCurve"
             android:id="@+id/linearProfileInfo"
-            android:layout_marginTop="75dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="@dimen/normal_margin"
-            android:elevation="@dimen/normal_margin"
-            card_view:contentPadding="0dp"
-            app:cardUseCompatPadding="true"
-            app:cardCornerRadius="@dimen/normal_radius"
+            android:layout_marginEnd="@dimen/card_new_margin"
             android:background="@drawable/rounded_white_background"
+            android:elevation="@dimen/normal_margin"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/msg_edit_text"
-
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/big_margin"
-            android:paddingEnd="@dimen/big_margin"
-            >
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/profile_placeholder"
-                />
+            app:cardCornerRadius="@dimen/normal_radius"
+            app:cardElevation="@dimen/normal_margin"
+            app:cardUseCompatPadding="true"
+            card_view:contentPadding="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/medium_margin"
-                android:paddingEnd="@dimen/medium_margin"
-                android:orientation="vertical">
+                android:layout_height="@dimen/msg_edit_text"
 
-                <com.ids.qasemti.custom.CustomTextViewBold
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kamal Hamdan"
-                    android:paddingStart="@dimen/small_margin"
-                    android:textSize="@dimen/big_font"
-                    android:textColor="@color/gray_font_title"/>
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/big_margin"
+                android:paddingEnd="@dimen/big_margin">
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/profile_placeholder" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:orientation="horizontal"
-                    android:layout_marginEnd="@dimen/big_margin"
-                    android:layout_marginTop="@dimen/small_margin"
-                    android:background="@drawable/rounded_gray_corner">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/medium_margin"
+                    android:paddingEnd="@dimen/medium_margin">
+
+                    <com.ids.qasemti.custom.CustomTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/small_margin"
+                        android:text="Kamal Hamdan"
+                        android:textColor="@color/gray_font_title"
+                        android:textSize="@dimen/header_font" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:orientation="horizontal"
-                        android:background="@drawable/rounded_corner_green"
-                        android:id="@+id/pbComplete"
-                        />
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal"
-                        android:background="@color/transparent"
-                        android:id="@+id/pbNotComplete"
-                        />
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:layout_marginEnd="@dimen/big_margin"
+                        android:background="@drawable/rounded_gray_corner"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/pbComplete"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:background="@drawable/rounded_corner_green"
+                            android:orientation="horizontal" />
+
+                        <LinearLayout
+                            android:id="@+id/pbNotComplete"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/transparent"
+                            android:orientation="horizontal" />
+                    </LinearLayout>
+
+                    <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/small_margin"
+                        android:text="75% Completed"
+                        android:textColor="@color/gray_font"
+                        android:textSize="@dimen/small_font" />
+
+
                 </LinearLayout>
 
-                <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/gray_font_light"
-                    android:textSize="@dimen/small_font"
-                    android:text="75% Completed"
-                    android:paddingStart="@dimen/small_margin"
-                    />
-
-
             </LinearLayout>
-
-        </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -118,6 +121,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:layout_marginTop="@dimen/push_less_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="@dimen/margin_start_end"
@@ -133,7 +137,7 @@
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/big_font"
+                android:textSize="@dimen/header_font"
                 android:textColor="@color/gray_font_title"
                 android:text="@string/PersonalInformation"
                 android:layout_marginStart="@dimen/normal_margin"
@@ -149,8 +153,8 @@
                 android:maxLines="1"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:paddingStart="@dimen/margin_start_end"
-                android:paddingEnd="@dimen/margin_start_end"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/FName"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="FName"
@@ -164,8 +168,8 @@
                 android:textColor="@color/gray_font"
                 android:maxLines="1"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:paddingStart="@dimen/margin_start_end"
-                android:paddingEnd="@dimen/margin_start_end"
+                android:paddingStart="@dimen/medium_margin"
+                android:paddingEnd="@dimen/medium_margin"
                 android:hint="@string/middle_name"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="middle_name"
@@ -179,9 +183,9 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:paddingStart="@dimen/margin_start_end"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:maxLines="1"
-                android:paddingEnd="@dimen/margin_start_end"
                 android:hint="@string/LName"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="LName"
@@ -194,8 +198,8 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:orientation="vertical"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:paddingStart="@dimen/margin_start_end"
-                android:paddingEnd="@dimen/margin_start_end"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:background="@drawable/rounded_white_background"
                 >
 
@@ -226,8 +230,8 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:orientation="vertical"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:paddingStart="@dimen/margin_start_end"
-                android:paddingEnd="@dimen/margin_start_end"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:background="@drawable/rounded_white_background"
                 >
 
@@ -274,8 +278,8 @@
                     android:layout_weight="1"
                     android:layout_height="@dimen/edit_text_height"
                     android:textColor="@color/gray_font"
-                    android:paddingStart="@dimen/margin_start_end"
-                    android:paddingEnd="@dimen/margin_start_end"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
                     android:maxLines="1"
                     android:textColorHint="@color/gray_medium_2"
                     android:textSize="@dimen/normal_font"
@@ -301,8 +305,8 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:orientation="vertical"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:paddingStart="@dimen/margin_start_end"
-                android:paddingEnd="@dimen/margin_start_end"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:background="@drawable/rounded_white_background"
@@ -350,9 +354,9 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:paddingStart="@dimen/margin_start_end"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:maxLines="1"
-                android:paddingEnd="@dimen/margin_start_end"
                 android:hint="@string/date_of_birth"
                 android:textColorHint="@color/gray_medium_2"
                 android:textSize="@dimen/normal_font"
@@ -367,8 +371,8 @@
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:maxLines="1"
-                android:paddingStart="@dimen/margin_start_end"
-                android:paddingEnd="@dimen/margin_start_end"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/alternate_contact_number"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="alternate_contact_number"
@@ -392,8 +396,8 @@
                     android:layout_weight="1"
                     android:layout_height="@dimen/edit_text_height"
                     android:textColor="@color/gray_font"
-                    android:paddingStart="@dimen/margin_start_end"
-                    android:paddingEnd="@dimen/margin_start_end"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
                     android:textColorHint="@color/gray_medium_2"
                     android:textSize="@dimen/normal_font"
                     android:background="@drawable/rounded_white_background"
@@ -420,9 +424,8 @@
                 android:layout_height="@dimen/msg_edit_text"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:paddingStart="@dimen/margin_start_end"
                 android:gravity="start"
-                android:padding="@dimen/margin_start_end"
+                android:padding="@dimen/normal_margin"
                 android:hint="@string/description"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="description"
@@ -436,7 +439,7 @@
                 android:layout_marginBottom="@dimen/normal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/big_font"
+                android:textSize="@dimen/header_font"
                 android:textColor="@color/gray_font_title"
                 android:text="@string/bank_account_information"
                 android:layout_marginStart="@dimen/normal_margin"
@@ -450,8 +453,8 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
                 android:maxLines="1"
-                android:paddingStart="@dimen/margin_start_end"
-                android:paddingEnd="@dimen/margin_start_end"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/AccNumber"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="account_number"
@@ -465,8 +468,8 @@
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:maxLines="1"
-                android:paddingStart="@dimen/margin_start_end"
-                android:paddingEnd="@dimen/margin_start_end"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/BankName"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="bank_name"
@@ -480,8 +483,8 @@
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:maxLines="1"
-                android:paddingStart="@dimen/margin_start_end"
-                android:paddingEnd="@dimen/margin_start_end"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/branch_name"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="branch_name"
@@ -495,8 +498,8 @@
                 android:maxLines="1"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:paddingStart="@dimen/margin_start_end"
-                android:paddingEnd="@dimen/margin_start_end"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/iban"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="iban"

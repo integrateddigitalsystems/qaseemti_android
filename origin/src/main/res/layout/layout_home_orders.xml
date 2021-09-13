@@ -300,7 +300,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/big_margin"
         android:layout_width="match_parent"
         android:layout_marginStart="@dimen/card_new_margin"
         android:layout_marginEnd="@dimen/card_new_margin"

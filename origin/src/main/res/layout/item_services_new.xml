@@ -84,7 +84,7 @@
                 android:layout_marginStart="@dimen/normal_margin"
                 android:maxLines="1"
                 android:tag="price"
-                android:text="@string/price"
+                android:text="@string/Price"
                 android:textColor="@color/gray_font_title"
                 android:textSize="@dimen/normal_font" />
 
@@ -111,7 +111,7 @@
                 android:layout_marginStart="@dimen/normal_margin"
                 android:maxLines="1"
                 android:tag="earning"
-                android:text="@string/earning"
+                android:text="@string/Earning"
                 android:textColor="@color/gray_font_title"
                 android:textSize="@dimen/normal_font" />
 

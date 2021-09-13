@@ -8,7 +8,6 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterMyServices
-import com.ids.qasemti.controller.Adapters.AdapterServices
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.model.ServiceItem
@@ -41,7 +40,7 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
 
     private fun setData(){
 
-        tvPageTitle.setColorTypeface(this,R.color.white,getString(R.string.my_services),false)
+        tvPageTitle.setColorTypeface(this,R.color.white,getString(R.string.MyServices),true)
         btBackTool.show()
         btBackTool.setOnClickListener {
             super.onBackPressed()
