@@ -9,15 +9,14 @@ import android.view.View
 import android.widget.TimePicker
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Adapters.AdapterOrderData
 import com.ids.qasemti.controller.Adapters.AdapterOtherOrderData
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderData
-import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.layout_border_data.*
 import kotlinx.android.synthetic.main.layout_order_contact_tab.*
@@ -38,8 +37,9 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         }
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.typeface = AppHelper.getTypeFace(this)
+        tvPageTitle.show()
         if(MyApplication.typeSelected==0) {
-            tvPageTitle.text = getString(R.string.active_order_det)
+            tvPageTitle.textRemote("active_order_det",this)
             if(!MyApplication.isClient){
                 llEditOrderTime.show()
             }else{
@@ -48,7 +48,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             }
             llActualDelivery.hide()
         }else{
-            tvPageTitle.text = getString(R.string.completed_order_details)
+            tvPageTitle.textRemote("completed_order_details",this)
             llRatingOrder.visibility=View.VISIBLE
             llEditOrderTime.hide()
             llActualDelivery.show()
@@ -57,6 +57,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             if(MyApplication.isClient)
                 btRenewOrder.show()
         }
+
+        tvLocationOrderDeatils.setColorTypeface(this,R.color.redPrimary,"",false)
 
         setListeners()
         var array:ArrayList<OrderData> = arrayListOf()
@@ -67,7 +69,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         array.add(OrderData("Quantity","1 Trip"))
 
         rvDataBorder.layoutManager = LinearLayoutManager(this)
-        rvDataBorder.adapter = AdapterOtherOrderData(array,this,this)
+        rvDataBorder.adapter = AdapterOrderData(array,this,this)
 
     }
 

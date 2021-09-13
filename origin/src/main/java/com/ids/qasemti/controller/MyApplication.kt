@@ -22,6 +22,7 @@ import java.util.*
 
 class MyApplication : Application() {
     companion object {
+        var upcoming: Boolean ?=false
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
         var selectedFragmentTag : String ?=""
@@ -38,6 +39,7 @@ class MyApplication : Application() {
         var selectedService : ServiceItem ?=null
         var showLogs: Boolean = true
         var isClient : Boolean = false
+        var fromFooterOrder : Boolean = true
         var localizeArray: FirebaseLocalizeArray ?= null
         var BASE_URL = ""
         lateinit var sharedPreferences : SharedPreferences

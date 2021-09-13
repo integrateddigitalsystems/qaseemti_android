@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLayoutServices"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,19 +20,22 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_below="@id/llHomeCurve"
             android:layout_marginTop="-25dp"
             android:id="@+id/linearProfileInfo"
             android:layout_width="match_parent"
             android:layout_height="90dp"
+            app:cardElevation="@dimen/mini_margin"
+            android:elevation="@dimen/mini_margin"
+            app:cardCornerRadius="@dimen/normal_radius"
             android:layout_marginStart="@dimen/margin_start_end"
             android:layout_marginEnd="@dimen/margin_start_end"
             android:background="@drawable/rounded_white_background"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/big_margin"
-            android:paddingEnd="@dimen/big_margin">
+            android:paddingStart="@dimen/margin_start_end"
+            android:paddingEnd="@dimen/margin_start_end">
 
 
             <com.ids.qasemti.custom.CustomTextViewBold
@@ -41,40 +45,32 @@
                 android:text="@string/ads_place"
                 android:textSize="@dimen/big_font" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/llShadow"
+        </androidx.cardview.widget.CardView>
+
+
+       <!-- <androidx.core.widget.NestedScrollView
             android:layout_below="@id/linearProfileInfo"
-            android:layout_marginStart="@dimen/big_margin"
-            android:layout_marginEnd="@dimen/big_margin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shadow"/>
-        <androidx.core.widget.NestedScrollView
-            android:layout_below="@id/llShadow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
 
-            android:fillViewport="true">
+            android:fillViewport="true">-->
 
             <LinearLayout
+                android:layout_below="@id/linearProfileInfo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
 
-
-
                 <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginStart="@dimen/card_new_margin"
+                    android:layout_marginEnd="@dimen/card_new_margin"
+
                     android:id="@+id/rvServices"
-                    android:visibility="visible"
-                    android:layout_marginBottom="@dimen/big_margin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/margin_start_end"
-                    android:layout_marginEnd="@dimen/margin_start_end" />
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:visibility="gone"
@@ -93,33 +89,47 @@
             </LinearLayout>
 
 
-        </androidx.core.widget.NestedScrollView>
+      <!--  </androidx.core.widget.NestedScrollView>-->
 
 
 
-        <LinearLayout
-            android:paddingBottom="@dimen/big_margin"
-            android:paddingEnd="@dimen/big_margin"
-            android:gravity="end"
-            android:layout_alignParentEnd="true"
+
+        <RelativeLayout
+            android:background="@color/transparent"
+            android:layout_margin="@dimen/margin_start_end"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="120dp">
+            <Button
+                android:layout_centerInParent="true"
+                android:id="@+id/btRegisterLogin"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@drawable/blue_rounded"
+                android:textColor="@color/white"
+                android:text="@string/regsiter_or_login"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/llFilter"
-                app:maxImageSize="@dimen/big_icon"
-                android:scaleType="center"
+                android:layout_width="@dimen/edit_text_height"
+                android:layout_height="@dimen/edit_text_height"
+                app:tint="@color/white"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/mini_margin"
+                android:id="@+id/btFilter"
+                app:fabCustomSize="40dp"
+                android:layout_marginStart="@dimen/normal_margin"
+                app:rippleColor="@color/button_blue"
+                app:backgroundTint="@color/button_blue"
                 android:src="@drawable/icon_floating"
-                app:backgroundTint="@color/new_blue"
-                app:borderWidth="0dp"
-                app:elevation="@dimen/normal_margin"
-                app:fabSize="normal" />
+                android:layout_alignParentEnd="true"
+                />
 
-        </LinearLayout>
+
+        </RelativeLayout>
+
+
+
 
         <!--
                 <androidx.cardview.widget.CardView

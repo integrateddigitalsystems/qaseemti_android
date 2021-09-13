@@ -17,8 +17,8 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginStart="@dimen/margin_start_end"
-        android:layout_marginEnd="@dimen/margin_start_end"
+        android:layout_marginStart="@dimen/card_new_margin"
+        android:layout_marginEnd="@dimen/card_new_margin"
         android:layout_below="@id/llCurve"
         android:layout_marginTop="@dimen/medium_push"
         android:layout_width="match_parent"

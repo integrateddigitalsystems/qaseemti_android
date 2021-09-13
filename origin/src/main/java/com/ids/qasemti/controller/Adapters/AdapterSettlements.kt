@@ -5,9 +5,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.MyApplication
 import java.util.ArrayList
 
 class AdapterSettlements(
@@ -26,7 +28,11 @@ class AdapterSettlements(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-       // holder.title.text = items.get(position).title
+      if(!MyApplication.upcoming!!){
+          holder.details.text = con.getString(R.string.view_order_details)
+      }else{
+          holder.details.text = con.getString(R.string.viewRelatedOrders)
+      }
     }
 
     override fun getItemCount(): Int {
@@ -34,10 +40,11 @@ class AdapterSettlements(
     }
 
     inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-      //  var title = itemView.findViewById<TextView>(R.id.tvServiceTitle)
+        var details = itemView.findViewById<TextView>(R.id.tvViewDetails)
 
 
         init {
+            details.setOnClickListener(this)
             itemView.setOnClickListener(this)
         }
 

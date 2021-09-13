@@ -6,7 +6,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/first_margin"
         android:background="@drawable/rounded_white_border"
         android:orientation="vertical">
 

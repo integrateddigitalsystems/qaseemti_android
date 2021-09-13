@@ -17,7 +17,9 @@ import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderData
 import com.ids.qasemti.utils.*
+import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.activity_place_order.*
+import kotlinx.android.synthetic.main.activity_place_order.rootLayout
 import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.home_container.*
 import kotlinx.android.synthetic.main.layout_border_data.*
@@ -37,146 +39,13 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_place_order)
         init()
+        AppHelper.setAllTexts(rootLayout,this)
         getSupportActionBar()!!.hide();
-        btClose.show()
 
-        btClose.setOnClickListener {
-            super.onBackPressed()
-        }
-        tvPageTitle.text = getString(R.string.place_order)
-        tvPageTitle.typeface = AppHelper.getTypeFace(this)
-        btPLaceOrder.typeface = AppHelper.getTypeFace(this)
-        btDrawer.hide()
-        AppHelper.setTextColor(this, tvPageTitle, R.color.redPrimary)
 
 
     }
-
-    private fun setSelectedTab(
-        index: Int,
-        fragment: Fragment,
-        tag: String,
-        selectedIcon: ImageView,
-        drawerColor: Int
-    ) {
-        replaceFragment(R.id.homeContainer, supportFragmentManager, fragment, tag)
-        tablayout.getTabAt(index)!!.select()
-        MyApplication.selectedPos = index
-        AppHelper.resetIcons(
-            this,
-            ivCartFooter,
-            ivProductFooter,
-            ivFooterOrder,
-            ivFooterHome,
-            ivFooterNotifications,
-            ivFooterAccount
-        )
-        selectedIcon.layoutParams = LinearLayout.LayoutParams(
-            TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                30f,
-                resources.displayMetrics
-            ).toInt(),
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics)
-                .toInt()
-        )
-        AppHelper.setLogoTint(btDrawer, this, drawerColor)
-        setTintLogo(drawerColor)
-        AppHelper.setUpFooter(this, MyApplication.selectedFragmentTag!!)
-    }
-
-
-    fun setTintLogo(color: Int) {
-        AppHelper.setLogoTint(btDrawer, this, color)
-        AppHelper.setTextColor(this, tvPageTitle, color)
-    }
-
-    fun setListners() {
-
-
-        llFooterOrders.setOnClickListener {
-            if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_ORDER && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
-                setSelectedTab(
-                    1,
-                    FragmentOrders(),
-                    AppConstants.FRAGMENT_ORDER,
-                    ivFooterOrder,
-                    R.color.redPrimary
-                )
-        }
-
-        llFooterNotifications.setOnClickListener {
-            if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_NOTFICATIONS && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
-                setSelectedTab(
-                    3,
-                    FragmentNotifications(),
-                    AppConstants.FRAGMENT_NOTFICATIONS, ivFooterNotifications, R.color.white
-                )
-        }
-
-        llFooterAccount.setOnClickListener {
-            if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_ACCOUNT && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
-                setSelectedTab(
-                    4,
-                    FragmentAccount(),
-                    AppConstants.FRAGMENT_ACCOUNT,
-                    ivFooterAccount,
-                    R.color.white
-                )
-        }
-
-        //other tabs
-        llFooterCart.setOnClickListener {
-            if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_CART && MyApplication.isSignedIn)
-                setSelectedTab(
-                    0,
-                    FragmentCart(),
-                    AppConstants.FRAGMENT_CART,
-                    ivCartFooter,
-                    R.color.redPrimary
-                )
-        }
-
-
-        llFooterHome.setOnClickListener {
-            if (MyApplication.isClient) {
-                if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_HOME_CLIENT)
-                    setSelectedTab(
-                        2,
-                        FragmentHomeClient(),
-                        AppConstants.FRAGMENT_HOME_CLIENT,
-                        ivFooterHome,
-                        R.color.white
-                    )
-            } else {
-                if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_HOME_SP)
-                    setSelectedTab(
-                        2,
-                        FragmentHomeSP(),
-                        AppConstants.FRAGMENT_HOME_SP,
-                        ivFooterHome,
-                        R.color.white
-                    )
-            }
-        }
-
-
-        llFooterProducts.setOnClickListener {
-            if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_PROD)
-                setSelectedTab(
-                    0,
-                    FragmentProducts(),
-                    AppConstants.FRAGMENT_PROD,
-                    ivProductFooter,
-                    R.color.white
-                )
-        }
-
-    }
-
-
-    fun init() {
-
+    fun setData(){
         fragMang = supportFragmentManager
 
 
@@ -195,14 +64,9 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         array2.add(OrderData("Total Amount","12 KWD"))
         rvOtherData.layoutManager = LinearLayoutManager(this)
         rvOtherData.adapter = AdapterOtherOrderData(array2,this,this)
+    }
 
-        if(MyApplication.position==1) {
-            rlNotService.show()
-            llMain.hide()
-        }else{
-            rlNotService.hide()
-            llMain.show()
-        }
+    fun setListeners(){
         rbCash.setOnClickListener {
             if (selected != 0) {
                 ivCash.setImageDrawable(
@@ -273,6 +137,30 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                 selected = 2
             }
         }
+    }
+    fun init() {
+
+
+        tvLocationPlaceOrder.setColorTypeface(this,R.color.redPrimary,"",false)
+        tvPageTitle.show()
+        tvPageTitle.textRemote("place_order",this)
+        tvPageTitle.setColorTypeface(this,R.color.redPrimary,"",true)
+        btBackTool.show()
+        btBackTool.setOnClickListener {
+            super.onBackPressed()
+        }
+        btPLaceOrder.typeface = AppHelper.getTypeFace(this)
+        btClose.hide()
+        AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
+
+        if(MyApplication.position==1) {
+            rlNotService.show()
+            llMain.hide()
+        }else{
+            rlNotService.hide()
+            llMain.show()
+        }
+
 
         if (MyApplication.isClient) {
             llFooterProducts.hide()
@@ -282,9 +170,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
             llFooterCart.hide()
 
         }
-
-        setListners()
-
+        setListeners()
+        setData()
         AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
     }
 }

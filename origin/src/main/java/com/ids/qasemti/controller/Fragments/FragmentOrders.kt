@@ -55,7 +55,10 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         ordersArray.add("3")
         mainArray.addAll(ordersArray)
         (activity as ActivityHome?)!!.drawColor()
-        if(!MyApplication.isClient){
+        (activity as ActivityHome?)!!.setTitleAc(getString(R.string.order_type))
+        (activity as ActivityHome)!!.showTitle(true)
+        (activity as ActivityHome)!!.setTintLogo(R.color.redPrimary)
+        if(!MyApplication.fromFooterOrder){
             (activity as ActivityHome)!!.showBack(true)
         }
 
@@ -104,7 +107,8 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
 
     override fun onItemClicked(view: View, position: Int) {
         if(view.id==R.id.llLocation){
-            startActivity(Intent(requireActivity(), ActivityMap::class.java))
+            startActivity(Intent(requireActivity(), ActivityMap::class.java)
+                .putExtra("mapTitle",getString(R.string.view_address)))
         }else if(view.id==R.id.llViewOrderDetails){
             startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
         }else if(view.id==R.id.ivOrderCall){

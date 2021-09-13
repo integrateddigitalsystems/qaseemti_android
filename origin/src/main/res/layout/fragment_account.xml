@@ -8,9 +8,10 @@
     android:background="@color/gray_bg"
     >
 
+
     <com.ids.qasemti.custom.CustomTextViewBold
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/bigger_edit_text"
         android:textSize="@dimen/big_font"
         android:text="@string/my_account"
         android:textColor="@color/redPrimary"
@@ -31,6 +32,48 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btMyAddresses"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/placeholder"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="start"
+                    android:textDirection="locale"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/my_addresses"
+                    android:tag="my_addresses"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/account_section_height"
@@ -73,7 +116,12 @@
                     app:tint="@color/button_blue" />
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llSepTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <include layout="@layout/separator_dark"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -410,7 +458,7 @@
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_terms"
+                    android:src="@drawable/icon_star"
                     app:tint="@color/redPrimary" />
 
 
@@ -443,6 +491,7 @@
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/account_section_height"
                 android:orientation="horizontal"
@@ -457,7 +506,7 @@
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_terms"
+                    android:src="@drawable/icon_account_share"
                     app:tint="@color/redPrimary" />
 
 
@@ -469,9 +518,9 @@
                     android:gravity="center_vertical"
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/share_app"
+                    android:text="@string/share"
                     android:textDirection="locale"
-                    android:tag="share_app"
+                    android:tag="share"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -484,10 +533,16 @@
                     app:tint="@color/button_blue" />
 
             </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llLastSeperator2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <include layout="@layout/separator_dark"/>
+        </LinearLayout>
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/account_section_height"
                 android:orientation="horizontal"
@@ -502,7 +557,7 @@
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_terms"
+                    android:src="@drawable/icon_logout"
                     app:tint="@color/redPrimary" />
 
 
@@ -529,7 +584,12 @@
                     app:tint="@color/button_blue" />
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llLastSeperator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <include layout="@layout/separator_dark"/>
+            </LinearLayout>
 
 
 

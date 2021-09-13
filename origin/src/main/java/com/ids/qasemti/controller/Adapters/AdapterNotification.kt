@@ -27,7 +27,9 @@ class AdapterNotification(
     RecyclerView.Adapter<AdapterNotification.VHItem>() {
 
     var con = context
-    var open = false
+    var up = 90
+    var down = -90
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
         return VHItem(
             LayoutInflater.from(parent.context).inflate(R.layout.item_notifications, parent, false)
@@ -36,33 +38,27 @@ class AdapterNotification(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-        if(!items.get(position).image.isNullOrEmpty())
+        if(!items.get(position).image.isNullOrEmpty()) {
             Glide.with(con).load(items.get(position).image).into(holder.image);
-        else
+        }else {
             holder.image.hide()
+        }
         holder.title.text = items.get(position).title
         if(!items.get(position).details.isNullOrEmpty())
             holder.details.text = items.get(position).details
         else
             holder.details.hide()
-        holder.linear.setOnClickListener {
-            var up = 90
-            var down = -90
+
+
             if(items.get(position).open){
-                holder.arrow.animate().rotation(up.toFloat()).setDuration(300)
-               /* var anim = AnimationUtils.loadAnimation(con, R.anim.slide_to_up)
-                holder.more.startAnimation(anim)*/
-                holder.more.hide()
-            }else {
-               holder.arrow.animate().rotation(down.toFloat()).setDuration(300)
-              /*  var anim = AnimationUtils.loadAnimation(con, R.anim.slide_to_down)
-                holder.more.startAnimation(anim)*/
+                holder.arrow.rotation = up.toFloat()
                 holder.more.show()
+            }else {
+                holder.arrow.rotation = down.toFloat()
+                holder.more.hide()
             }
 
-            items.get(position).open = !items.get(position).open
 
-        }
     }
 
     override fun getItemCount(): Int {

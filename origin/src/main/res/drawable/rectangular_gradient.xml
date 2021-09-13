@@ -6,8 +6,8 @@
 
             <corners android:radius="@dimen/normal_radius"/>
 
-            <gradient android:angle="0" android:startColor="@color/start_color"
-                android:endColor="@color/end_color"  />
+            <solid
+                android:color="@color/redPrimary" />
         </shape>
     </item>
     <item android:state_focused="true">
@@ -23,7 +23,9 @@
         <shape android:shape="rectangle"  >
             <corners android:radius="@dimen/normal_radius"/>
 
-            <gradient android:angle="0" android:startColor="@color/start_color" android:endColor="@color/end_color" />
+
+            <solid
+                android:color="@color/redPrimary" />
         </shape>
     </item>
 </selector>

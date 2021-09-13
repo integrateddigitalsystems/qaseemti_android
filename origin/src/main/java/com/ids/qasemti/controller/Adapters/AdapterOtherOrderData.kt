@@ -14,11 +14,13 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderData
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.hide
 import java.util.ArrayList
 
 class AdapterOtherOrderData(val items: ArrayList<OrderData>, private val itemClickListener: RVOnItemClickListener, context: Context) :
     RecyclerView.Adapter<AdapterOtherOrderData.VHItem>() {
 
+    var con = context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
         return VHItem(LayoutInflater.from(parent.context).inflate(R.layout.item_other_data, parent, false))
     }
@@ -27,6 +29,9 @@ class AdapterOtherOrderData(val items: ArrayList<OrderData>, private val itemCli
 
         holder.title.text = items.get(position).title
         holder.value.text = items.get(position).value
+        if(position==items.size-1){
+            holder.line.hide()
+        }
 
 
 
@@ -39,6 +44,7 @@ class AdapterOtherOrderData(val items: ArrayList<OrderData>, private val itemCli
     inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var title = itemView.findViewById<TextView>(R.id.tvTitleOther)
         var value = itemView.findViewById<TextView>(R.id.tvOtherValue)
+        var line = itemView.findViewById<LinearLayout>(R.id.llLine)
 
         init {
             itemView.setOnClickListener(this)

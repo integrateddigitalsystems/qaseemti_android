@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@color/gray_bg"
+    android:id="@+id/rootLayout"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -44,12 +45,15 @@
 
                 <ImageView
                     android:tint="@color/redPrimary"
-                    android:layout_marginEnd="@dimen/mini_margin"
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:src="@drawable/footer_orders"/>
 
-                <com.ids.qasemti.custom.CustomTextViewBold
+                <me.grantland.widget.AutofitTextView
+                    android:maxLines="1"
+                    android:layout_marginStart="@dimen/mini_margin"
+                    android:layout_marginEnd="@dimen/mini_margin"
+                    android:id="@+id/tvTitleOrders"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/icon"
                     android:text="@string/order"/>
@@ -71,12 +75,15 @@
 
 
                 <ImageView
-                    android:layout_marginEnd="@dimen/mini_margin"
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:src="@drawable/icon_myearning"/>
 
-                <com.ids.qasemti.custom.CustomTextViewBold
+                <me.grantland.widget.AutofitTextView
+                    android:layout_marginStart="@dimen/mini_margin"
+                    android:layout_marginEnd="@dimen/mini_margin"
+                    android:maxLines="1"
+                    android:id="@+id/tvTitleEarnings"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/icon"
                     android:text="@string/my_earnings"/>
@@ -100,12 +107,15 @@
 
 
                 <ImageView
-                    android:layout_marginEnd="@dimen/mini_margin"
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:src="@drawable/icon_mydues"/>
 
-                <com.ids.qasemti.custom.CustomTextViewBold
+                <me.grantland.widget.AutofitTextView
+                    android:maxLines="1"
+                    android:layout_marginStart="@dimen/mini_margin"
+                    android:layout_marginEnd="@dimen/mini_margin"
+                    android:id="@+id/tvTitleDues"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/icon"
                     android:text="@string/my_dues"/>
@@ -117,11 +127,11 @@
 
         </LinearLayout>
 
-        <LinearLayout
+       <!-- <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray_serperator"/>
-
+-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRelatedOrders"
             android:layout_width="match_parent"

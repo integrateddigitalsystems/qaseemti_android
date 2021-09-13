@@ -1,6 +1,7 @@
 package com.ids.qasemti.controller.Fragments
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
+import com.ids.qasemti.controller.Activities.ActivityMobileRegistration
 import com.ids.qasemti.controller.Adapters.AdapterServices
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
@@ -45,14 +47,22 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
     fun init() {
 
 
-        if (MyApplication.isSignedIn)
-            (activity as ActivityHome?)!!.showLogout(true)
-        else
+        if (MyApplication.isSignedIn) {
             (activity as ActivityHome?)!!.showLogout(false)
+            btRegisterLogin.hide()
+        }else{
+            btRegisterLogin.show()
+            (activity as ActivityHome?)!!.showLogout(false)
+        }
+
+        btRegisterLogin.setOnClickListener {
+            startActivity(Intent(requireActivity(),ActivityMobileRegistration::class.java))
+        }
+
 
         (activity as ActivityHome?)!!.showBack(false)
 
-        llFilter.setOnClickListener {
+        btFilter.setOnClickListener {
             showPopupSocialMedia()
         }
 
@@ -73,7 +83,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
         if (array.size == 0) {
             rvServices.hide()
-            llFilter.hide()
+            btFilter.hide()
             llNodata.show()
         }
 
@@ -83,7 +93,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
     private fun showPopupSocialMedia() {
 
 
-        dialog = Dialog(requireContext(), R.style.dialogWithoutTitle)
+        dialog = Dialog(requireContext(), R.style.Base_ThemeOverlay_AppCompat_Dialog)
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog!!.setCanceledOnTouchOutside(true)
         dialog!!.setContentView(R.layout.dialog_service)
@@ -92,17 +102,17 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
 
         dialog!!.setOnCancelListener {
-            llFilter.show()
+            btFilter.show()
             dialog!!.cancel()
         }
         dialog!!.setOnDismissListener {
-            llFilter.show()
+            btFilter.show()
             dialog!!.cancel()
         }
-        llFilter.hide()
+        btFilter.hide()
         var close = dialog!!.findViewById<ImageView>(R.id.btClose)
         close.setOnClickListener {
-            llFilter.show()
+            btFilter.show()
             dialog!!.cancel()
         }
         //btCancell!!.setOnClickListener { dialog!!.dismiss() }

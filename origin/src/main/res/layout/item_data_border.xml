@@ -13,6 +13,7 @@
         <com.ids.qasemti.custom.CustomTextViewBold
             android:paddingStart="@dimen/first_margin"
             android:layout_width="match_parent"
+            android:textColor="@color/gray_font_title"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/tvDataName"
@@ -36,6 +37,8 @@
 
     </LinearLayout>
     <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/llLine"
         android:layout_width="match_parent"
         android:layout_height="@dimen/stroke"
         android:background="@color/white" />

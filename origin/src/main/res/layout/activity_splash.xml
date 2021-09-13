@@ -3,14 +3,8 @@
     android:layout_width="match_parent"
     android:id="@+id/rootLayout"
     android:gravity="center"
-    android:background="@drawable/splach_bg"
+    android:background="@drawable/bg_splash"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"/>
 
 
-    <ImageView
-        android:layout_width="@dimen/splash_logo"
-        android:layout_height="@dimen/splash_logo"
-        android:src="@drawable/logo"/>
-
-    </LinearLayout>

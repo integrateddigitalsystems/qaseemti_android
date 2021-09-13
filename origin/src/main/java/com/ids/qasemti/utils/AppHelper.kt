@@ -17,6 +17,7 @@ import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -35,10 +36,8 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.tabs.TabLayout
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
-
 import com.ids.qasemti.controller.MyApplication
 import me.grantland.widget.AutofitHelper
-import org.w3c.dom.Text
 import java.io.File
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -129,7 +128,7 @@ class AppHelper {
                       else
                           Typeface.createFromAsset(
                               context.applicationContext.assets,
-                              "fonts/MYRIADPRO_COND.OTF"
+                              "fonts/Raleway-Regular.ttf"
                           )//"fonts/NeoTech-Medium.otf"
 
            // return Typeface.DEFAULT
@@ -180,12 +179,12 @@ class AppHelper {
                 )//fonts/NeoTech-Bold.otf
 
             else
-                Typeface.createFromAsset(
-                    context.applicationContext.assets,
-                    "fonts/MYRIADPRO_BOLDCOND.OTF"
-                )//fonts/NeoTech-Bold.otf
+               Typeface.createFromAsset(
+                   context.applicationContext.assets,
+                       "fonts/Raleway-Bold.ttf"
+               )//fonts/NeoTech-Bold.otf
 
-         //   return Typeface.DEFAULT_BOLD
+           // return Typeface.DEFAULT_BOLD
         }
 
 
@@ -205,13 +204,30 @@ class AppHelper {
                 else if (v is Button) {
                     v.textRemote(v.tag.toString(),context)
                 } else if(v is EditText){
-                    v.hint = v.tag.toString()
+                   setHintTag(v,v.tag.toString(),context)
                 }
             } catch (e: java.lang.Exception) {
                 e.printStackTrace()
             }}
         }
 
+
+        fun setHintTag(view: View,tag:String,context: Context){
+            var edit = view as EditText
+            if (MyApplication.localizeArray != null) {
+                try {
+                    edit.hint= MyApplication.localizeArray!!.messages!!.find { it.localize_Key == tag }!!
+                        .getMessage()
+                } catch (e: Exception) {
+                    try {
+                        val resId = context.resources.getIdentifier(tag, "string", context.packageName)
+                        edit.hint = context.resources.getString(resId)
+                    } catch (e: Exception) {
+                    }
+                }
+
+            }
+        }
 
 
         fun getIdFromUserId(Id: Int){
@@ -220,8 +236,22 @@ class AppHelper {
 
         }
 
+        fun clearTabs(tablayout: TabLayout,context: Context){
+            //repeat(5) { tablayout.addTab(tablayout.newTab()) }
+            val tabStrip = tablayout.getChildAt(0) as LinearLayout
+            for (i in 0 until tabStrip.childCount) {
+                tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
+                val tab = tabStrip.getChildAt(i)
+                val layoutParams = tab.layoutParams as LinearLayout.LayoutParams
+                layoutParams.marginEnd = 8.toPx()
+                layoutParams.marginStart = 8.toPx()
+                layoutParams.width = 12.toPx()
+                tab.layoutParams = layoutParams
+                tablayout.requestLayout()
+            }
+        }
 
-       fun setTabs(tablayout: TabLayout){
+       fun setTabs(tablayout: TabLayout,context: Context){
             repeat(5) { tablayout.addTab(tablayout.newTab()) }
             val tabStrip = tablayout.getChildAt(0) as LinearLayout
             for (i in 0 until tabStrip.childCount) {
@@ -233,6 +263,13 @@ class AppHelper {
                 layoutParams.width = 12.toPx()
                 tab.layoutParams = layoutParams
                 tablayout.requestLayout()
+                /*val v: View = LayoutInflater.from(context).inflate(R.layout.footer_top, null)
+                v.layoutParams =
+                    ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                tablayout.getTabAt(i)!!.setCustomView(v)*/
             }
         }
 
@@ -298,6 +335,14 @@ class AppHelper {
         }
 
         fun setTextColor(context: Context, view: TextView, color: Int) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                view.setTextColor(ContextCompat.getColor(context, color))
+            } else {
+                view.setTextColor(context.resources.getColor(color))
+            }
+        }
+        fun setTextColor(context: Context, view: EditText, color: Int) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 view.setTextColor(ContextCompat.getColor(context, color))

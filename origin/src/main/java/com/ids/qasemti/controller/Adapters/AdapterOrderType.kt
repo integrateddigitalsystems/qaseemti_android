@@ -39,6 +39,7 @@ class AdapterOrderType(
         } else {
             holder.title.text = "Sami Suleiman" + ": " + "Purchase"
         }
+        holder.title.typeface = AppHelper.getTypeFace(con)
 
 
         if (MyApplication.isClient && MyApplication.typeSelected == 0) {
@@ -80,6 +81,7 @@ class AdapterOrderType(
         }
 
         holder.expected.typeface = AppHelper.getTypeFaceBold(con)
+        holder.cancelReasonDetails.typeface = AppHelper.getTypeFace(con)
     }
 
     override fun getItemCount(): Int {
@@ -106,6 +108,7 @@ class AdapterOrderType(
         var credit = itemView.findViewById<LinearLayout>(R.id.llCredit)
         var call = itemView.findViewById<ImageView>(R.id.ivOrderCall)
         var message = itemView.findViewById<ImageView>(R.id.ivOrderMessage)
+        var cancelReasonDetails = itemView.findViewById<TextView>(R.id.tvCancelReasonDetails)
 
         init {
             itemView.setOnClickListener(this)

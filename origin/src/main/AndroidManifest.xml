@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission android:name="android.permission.INTERNET" />
 
 
@@ -25,6 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         tools:replace="android:allowBackup"
+        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true" >
@@ -58,89 +60,95 @@
 
         <activity
             android:name=".controller.Activities.ActivityChooseLanguage"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".controller.Activities.ActivityAddNewAddress"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".controller.Activities.ActivityMobileRegistration"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".controller.Activities.ActivityRegistration"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
 
         <activity
             android:name=".controller.Activities.ActivityAddresses"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
        <!-- <activity
             android:name="com.ids.qasemti.controller.Activities.Activ"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>-->
 
 
        <!-- <activity android:name=".controller.Activities.ActivityMap"
-            android:screenOrientation="fullSensor"/>-->
+            android:screenOrientation="portrait"/>-->
         <activity
             android:name=".controller.Activities.ActivityAccountStatus"
-            android:screenOrientation="fullSensor"/>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".controller.Activities.ActivityMap"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".controller.Activities.ActivityServices"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".controller.Activities.ActivityServiceInformation"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".controller.Activities.ActivitySettlements"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
        <!-- <activity
             android:name=".controller.Activities.ActivityRelatedOrders"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 -->
         <activity
             android:name=".controller.Activities.ActivityMapAddress"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".controller.Activities.ActivitySelectAddress"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".controller.Activities.ActivityPlaceOrder"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".controller.Activities.ActivityCodeVerification"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".controller.Activities.ActivityHome"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".controller.Activities.ActivityOrderDetails"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".controller.Activities.ActivityRelatedOrders"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".controller.Activities.ActivityCheckout"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
@@ -157,7 +165,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_api_key" />
+            android:value="AIzaSyCKeZJUtvoCxtgf5Pjm3kQy_5yScjUst5U" />
 
         <meta-data
             android:name="com.google.android.gms.version"

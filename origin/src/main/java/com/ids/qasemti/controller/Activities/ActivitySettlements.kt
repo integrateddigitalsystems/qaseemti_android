@@ -46,21 +46,32 @@ class ActivitySettlements : ActivityBase(),RVOnItemClickListener {
     }
 
     private fun setData(position: Int){
+
+        if(position==0) {
+            btRequestSettlements.show()
+            MyApplication.upcoming = false
+        } else {
+            btRequestSettlements.hide()
+            MyApplication.upcoming = true
+        }
+
         var adapter = AdapterSettlements(array,this,this)
         rvSettlements.layoutManager = LinearLayoutManager(this)
         rvSettlements.adapter = adapter
         rvSettlements.isNestedScrollingEnabled = false
 
-        if(position==0)
-            btRequestSettlements.show()
-        else
-            btRequestSettlements.hide()
+
 
 
     }
 
     override fun onItemClicked(view: View, position: Int) {
-
+        if(view.id==R.id.tvViewDetails){
+            if(MyApplication.upcoming!!){
+                startActivity(Intent(this,ActivityRelatedOrders::class.java)
+                    .putExtra("settelmentId","#70007070"))
+            }
+        }
     }
 
     private fun setTabs(){

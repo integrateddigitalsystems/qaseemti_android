@@ -6,14 +6,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
-import com.ids.qasemti.controller.Adapters.AdapterServices
 import com.ids.qasemti.controller.Adapters.AdapterServicesData
+import com.ids.qasemti.controller.Adapters.SampleFragmentPagerAdapter
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.model.ServiceItem
@@ -25,7 +24,6 @@ import com.jaiselrahman.filepicker.config.Configurations
 import com.jaiselrahman.filepicker.model.MediaFile
 import kotlinx.android.synthetic.main.actiivity_service_information.*
 import kotlinx.android.synthetic.main.activity_services.rootLayout
-import kotlinx.android.synthetic.main.fragment_home_client.*
 import kotlinx.android.synthetic.main.no_logo_layout.btBck
 import kotlinx.android.synthetic.main.service_tab_1.*
 import kotlinx.android.synthetic.main.service_tab_2.*

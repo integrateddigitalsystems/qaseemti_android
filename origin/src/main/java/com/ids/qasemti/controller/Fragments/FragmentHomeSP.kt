@@ -42,14 +42,16 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
         (activity as ActivityHome?)!!.showLogout(false)
         (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
         rlActive.setOnClickListener {
+            MyApplication.fromFooterOrder = false
             MyApplication.selectedFragment = FragmentOrders()
-            (requireActivity() as ActivityHome?)!!.addFrag(FragmentOrders(),AppConstants.FRAGMENT_ORDER)
+            (requireActivity() as ActivityHome?)!!.addFrag(FragmentOrders(),AppConstants.FRAGMENT_ORDER_FROM)
             MyApplication.typeSelected = 0
 
         }
         rlUpcoming.setOnClickListener {
+            MyApplication.fromFooterOrder = false
             MyApplication.selectedFragment = FragmentOrders()
-            (requireActivity() as ActivityHome?)!!.addFrag(FragmentOrders(),AppConstants.FRAGMENT_ORDER)
+            (requireActivity() as ActivityHome?)!!.addFrag(FragmentOrders(),AppConstants.FRAGMENT_ORDER_FROM)
             MyApplication.typeSelected = 1
         }
         setOrders()
@@ -57,10 +59,12 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             if(swAvailable.isChecked){
                 rvOrders.show()
+                swAvailable.text = getString(R.string.available)
                 llNodata.hide()
             }else{
                 rvOrders.hide()
                 llNodata.show()
+                swAvailable.text = getString(R.string.not_available)
             }
         }
 
@@ -85,7 +89,8 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
 
         if(view.id==R.id.llLocation){
-            startActivity(Intent(requireActivity(),ActivityMap::class.java))
+            startActivity(Intent(requireActivity(),ActivityMap::class.java)
+                .putExtra("mapTitle",getString(R.string.view_address)))
         }else if(view.id==R.id.llViewOrderDetails){
             startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
         }
