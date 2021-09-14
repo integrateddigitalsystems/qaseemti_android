@@ -103,6 +103,11 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             tab!!.setCustomView(pagerAdapter.getTabView(i))
         }*/
 
+        if(MyApplication.isClient){
+            tvFooterHome.textRemote("Services",this)
+        }else{
+            tvFooterHome.textRemote("Home",this)
+        }
 
         if (MyApplication.isSignedIn)
             btLogout.show()
@@ -210,12 +215,13 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         selectedIcon.layoutParams = LinearLayout.LayoutParams(
             TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                30f,
+                35f,
                 resources.displayMetrics
             ).toInt(),
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics)
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35f, resources.displayMetrics)
                 .toInt()
         )
+        selectedIcon.setPadding(0,-10,0,0)
         AppHelper.setLogoTint(btDrawer, this, drawerColor)
         setTintLogo(drawerColor)
         setCurve(index)

@@ -51,7 +51,7 @@
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/big_margin"
+                    android:layout_marginStart="@dimen/small_margin"
                     android:textColor="@color/gray_font_title"
                     android:textSize="@dimen/medium_font"
                     android:layout_marginEnd="@dimen/big_margin"
@@ -100,7 +100,7 @@
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/big_margin"
+                        android:layout_marginStart="@dimen/small_margin"
                         android:layout_marginEnd="@dimen/big_margin"
                         android:layout_weight="1"
                         android:textColor="@color/gray_font_title"
@@ -414,7 +414,7 @@
                 android:elevation="@dimen/normal_margin"
                 card_view:contentPadding="0dp"
                 app:cardUseCompatPadding="true"
-                app:cardCornerRadius="@dimen/normal_radius"
+                app:cardCornerRadius="@dimen/bigger_radius"
                 android:background="@drawable/rounded_white_background"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"

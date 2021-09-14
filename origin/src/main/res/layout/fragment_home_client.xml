@@ -22,13 +22,13 @@
 
         <androidx.cardview.widget.CardView
             android:layout_below="@id/llHomeCurve"
-            android:layout_marginTop="@dimen/medium_push"
+            android:layout_marginTop="@dimen/medium_push_2"
             android:id="@+id/linearProfileInfo"
             android:layout_width="match_parent"
             android:layout_height="90dp"
             app:cardElevation="@dimen/mini_margin"
             android:elevation="@dimen/mini_margin"
-            app:cardCornerRadius="@dimen/normal_radius"
+            app:cardCornerRadius="@dimen/bigger_radius"
             android:layout_marginStart="@dimen/margin_start_end"
             android:layout_marginEnd="@dimen/margin_start_end"
             android:background="@drawable/rounded_white_background"
@@ -97,32 +97,38 @@
 
 
         <RelativeLayout
+
             android:background="@color/transparent"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="120dp">
             <Button
-                android:layout_centerInParent="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:id="@+id/btRegisterLogin"
                 android:layout_width="@dimen/button_width"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_marginBottom="@dimen/margin_start_end"
+                android:layout_height="@dimen/bigger_edit_text"
                 android:background="@drawable/blue_rounded"
                 android:textColor="@color/white"
                 android:text="@string/Register_login"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_width="@dimen/edit_text_height"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_width="@dimen/bigger_edit_text"
+                android:layout_height="@dimen/bigger_edit_text"
                 app:tint="@color/white"
                 android:layout_marginEnd="@dimen/margin_start_end"
+                android:layout_marginBottom="@dimen/margin_start_end"
                 android:layout_centerVertical="true"
-                android:layout_gravity="center"
+                android:layout_gravity="end|bottom"
                 android:id="@+id/btFilter"
+                android:scaleType="center"
                 app:fabCustomSize="40dp"
                 app:rippleColor="@color/button_blue"
                 app:backgroundTint="@color/button_blue"
                 android:src="@drawable/icon_floating"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
                 />
 
 

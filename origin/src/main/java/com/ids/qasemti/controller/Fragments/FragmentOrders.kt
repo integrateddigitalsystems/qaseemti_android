@@ -57,6 +57,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         (activity as ActivityHome?)!!.drawColor()
         (activity as ActivityHome?)!!.setTitleAc(getString(R.string.order_type))
         (activity as ActivityHome)!!.showTitle(true)
+        (activity as ActivityHome)!!.showLogout(false)
         (activity as ActivityHome)!!.setTintLogo(R.color.redPrimary)
         if(!MyApplication.fromFooterOrder){
             (activity as ActivityHome)!!.showBack(true)

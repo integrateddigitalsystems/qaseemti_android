@@ -22,7 +22,7 @@
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
-            android:layout_marginTop="@dimen/bigger_push"
+            android:layout_marginTop="@dimen/medium_push_3"
             android:layout_below="@id/llCurve"
             android:id="@+id/linearProfileInfo"
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:elevation="@dimen/normal_margin"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:cardCornerRadius="@dimen/normal_radius"
+            app:cardCornerRadius="@dimen/bigger_radius"
             app:cardElevation="@dimen/normal_margin"
             app:cardUseCompatPadding="true"
             card_view:contentPadding="0dp">
@@ -405,10 +405,12 @@
                     android:tag="address"
                     />
 
-                <ImageButton
+                <ImageView
                     android:layout_marginStart="@dimen/mini_margin"
                     android:layout_marginEnd="@dimen/mini_margin"
                     android:layout_width="@dimen/normal_icon_size"
+                    android:id="@+id/ivMapButton"
+                    android:tint="@color/new_blue"
                     android:layout_height="@dimen/normal_icon_size"
                     android:background="@drawable/icon_pin_blue"
                     android:layout_gravity="center"

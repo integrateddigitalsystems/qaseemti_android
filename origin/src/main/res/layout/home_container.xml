@@ -13,15 +13,6 @@
         android:layout_height="match_parent"
 
         android:id="@+id/homeContainer"/>
-    <LinearLayout
-        android:layout_above="@id/llFooter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <include
-            layout="@layout/layout_footer_shadow" />
-    </LinearLayout>
-    <include
-        layout="@layout/toolbar" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -30,16 +21,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-       <!-- <include
-            layout="@layout/footer_top" />-->
+        <!-- <include
+             layout="@layout/footer_top" />-->
         <LinearLayout
             android:id="@+id/llGeneralFooter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
 
-        <include
-            layout="@layout/footer" />
+            <include
+                layout="@layout/footer" />
         </LinearLayout>
         <LinearLayout
             android:visibility="gone"
@@ -51,6 +42,17 @@
         </LinearLayout>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_above="@id/llFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/layout_footer_shadow" />
+    </LinearLayout>
+    <include
+        layout="@layout/toolbar" />
+
+
 
     <RelativeLayout
         android:visibility="gone"

@@ -19,7 +19,7 @@
         android:orientation="horizontal"
         android:paddingStart="@dimen/margin_start_end"
         android:paddingEnd="@dimen/margin_start_end"
-        app:cardCornerRadius="@dimen/normal_radius"
+        app:cardCornerRadius="@dimen/bigger_radius"
         app:cardElevation="@dimen/normal_margin"
         app:cardUseCompatPadding="true"
         card_view:contentPadding="0dp">
@@ -63,6 +63,7 @@
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/normal_icon"
+                        android:gravity="center_vertical"
                         android:text="10 KWD"
                         android:textColor="@color/redPrimary" />
 
@@ -100,7 +101,9 @@
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="match_parent"
+                        android:gravity="center_vertical"
                         android:layout_height="@dimen/normal_icon"
+                        android:textSize="@dimen/small_font_2"
                         android:text="Cash on delivery" />
 
                 </LinearLayout>

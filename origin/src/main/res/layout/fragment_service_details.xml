@@ -25,7 +25,7 @@
 
         <ScrollView
             android:scrollbars="none"
-            android:layout_marginTop="@dimen/medium_push_2"
+            android:layout_marginTop="@dimen/medium_push"
             android:layout_below="@id/llToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -46,7 +46,7 @@
                     android:elevation="@dimen/normal_margin"
                     card_view:contentPadding="0dp"
                     app:cardUseCompatPadding="true"
-                    app:cardCornerRadius="@dimen/normal_radius"
+                    app:cardCornerRadius="@dimen/bigger_radius"
                     android:background="@drawable/rounded_white_background"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -114,11 +114,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     app:tabIndicator="@null"
+                    android:layout_marginTop="@dimen/push_text"
                     android:textAlignment="center"
                     app:tabIndicatorHeight="0dp"
                     app:tabGravity="center"
-                    app:tabPaddingEnd="-12dp"
-                    app:tabPaddingStart="-12dp"
+                    app:tabPaddingEnd="-13dp"
+                    app:tabPaddingStart="-13dp"
                     android:id="@+id/tbMedias"/>
 
 

@@ -3,7 +3,7 @@
     android:width="15dp"
     android:height="15dp">
     <solid
-        android:color="@color/gray_medium_2"/>
+        android:color="@color/gray_not_selected"/>
 </shape>
 
 

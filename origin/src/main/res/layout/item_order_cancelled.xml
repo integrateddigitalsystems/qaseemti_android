@@ -20,7 +20,7 @@
         android:orientation="horizontal"
         android:paddingStart="@dimen/big_margin"
         android:paddingEnd="@dimen/big_margin"
-        app:cardCornerRadius="@dimen/normal_radius">
+        app:cardCornerRadius="@dimen/bigger_radius">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

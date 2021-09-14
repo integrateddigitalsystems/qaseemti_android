@@ -28,13 +28,13 @@ class ActivityMobileRegistration: ActivityBase(){
         AppHelper.setLogoTint(logo_main,this,R.color.white)
 
 
-      /*  if(MyApplication.isClient){
+        if(MyApplication.isClient){
             btLogin.hide()
             llNewMember.show()
         }else{
             btLogin.show()
             llNewMember.hide()
-        }*/
+        }
 
         tvRegisterNewMember.setOnClickListener {
             startActivity(Intent(this,ActivityRegistration::class.java))
@@ -78,8 +78,6 @@ class ActivityMobileRegistration: ActivityBase(){
             if(etPhone.text.isNullOrEmpty()){
                 AppHelper.createDialog(this,getString(R.string.fill_all_field))
             }else {
-                /*MyApplication.selectedFragment = FragmentHomeClient()
-                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT*/
                 MyApplication.isSignedIn = true
                 startActivity(Intent(this, ActivityHome::class.java))
             }

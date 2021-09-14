@@ -17,7 +17,7 @@
         android:elevation="@dimen/normal_margin"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        app:cardCornerRadius="@dimen/normal_radius"
+        app:cardCornerRadius="@dimen/bigger_radius"
         app:cardElevation="@dimen/normal_margin"
         app:cardUseCompatPadding="true"
         card_view:contentPadding="0dp">
@@ -277,16 +277,16 @@
             </LinearLayout>
 
             <LinearLayout
+                android:paddingStart="@dimen/normal_margin"
                 android:id="@+id/llActualDelivery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/margin_start_end"
                 android:layout_marginEnd="@dimen/margin_start_end"
                 android:layout_marginBottom="@dimen/first_margin"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:layout_width="@dimen/small_icon"

@@ -4,18 +4,18 @@
     android:background="@color/transparent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:paddingBottom="@dimen/footer_height"
+    android:layout_marginBottom="@dimen/footer_height"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
-        android:layout_margin="@dimen/margin_start_end"
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_marginTop="@dimen/push_less"
         android:layout_gravity="center"
         android:background="@drawable/rounded_white_background"
         android:padding="@dimen/first_margin"
@@ -222,25 +222,22 @@
 
     <LinearLayout
         android:layout_marginStart="@dimen/margin_start_end"
-        android:layout_marginEnd="@dimen/margin_start_end"
-        android:paddingBottom="@dimen/big_margin_2"
-        android:gravity="end"
+        android:gravity="bottom|end"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="100dp">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="@dimen/edit_text_height"
             android:layout_height="@dimen/edit_text_height"
             android:layout_alignParentBottom="true"
-            app:tint="@color/white"
-            android:layout_gravity="center"
-            android:id="@+id/btClose"
             android:layout_marginBottom="@dimen/margin_start_end"
-            android:layout_marginTop="@dimen/margin_start_end"
+            app:tint="@color/white"
+            android:id="@+id/btClose"
             app:fabCustomSize="40dp"
             android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/margin_start_end"
             app:rippleColor="@color/button_blue"
             app:backgroundTint="@color/button_blue"
             android:src="@drawable/icon_close"
