@@ -28,8 +28,7 @@
                 android:textColor="@color/gray_font_title"
                 android:text="@string/NewAddress"
                 android:layout_marginStart="@dimen/normal_margin"
-
-                android:tag="new_address"
+                android:tag="NewAddress"
 
                 />
 
@@ -45,7 +44,7 @@
                 android:layout_marginTop="@dimen/margin_start_end"
                 android:hint="@string/AddressName"
                 android:textColorHint="@color/gray_medium_2"
-                android:tag="address_name"
+                android:tag="AddressName"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
@@ -78,7 +77,7 @@
                 android:gravity="center_vertical"
                 android:background="@color/transparent"
                 android:textColor="@color/gray_font_light"
-                android:tag="mark_your_address"
+                android:tag="MarkYourAddress"
                 android:text="@string/MarkYourAddress"
                 android:textSize="@dimen/normal_font"/>
 
@@ -93,7 +92,7 @@
                 android:hint="@string/Street"
                 android:id="@+id/etStreet"
                 android:textColorHint="@color/gray_medium_2"
-                android:tag="street"
+                android:tag="Street"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
@@ -109,7 +108,7 @@
                 android:hint="@string/Building"
                 android:id="@+id/etBuilding"
                 android:textColorHint="@color/gray_medium_2"
-                android:tag="building"
+                android:tag="Building"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
@@ -124,7 +123,7 @@
                 android:hint="@string/Floor"
                 android:id="@+id/etFloor"
                 android:textColorHint="@color/gray_medium_2"
-                android:tag="street"
+                android:tag="Floor"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
@@ -147,7 +146,7 @@
                 android:padding="@dimen/margin_start_end"
                 android:hint="@string/MoreDetails"
                 android:textColorHint="@color/gray_medium_2"
-                android:tag="more_details"
+                android:tag="MoreDetails"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
@@ -161,7 +160,7 @@
                 android:layout_width="match_parent"
                 android:text="@string/SaveMyAddress"
                 android:textColor="@color/white"
-                android:tag="save_to_my_address"
+                android:tag="SaveMyAddress"
                 android:layout_height="@dimen/edit_text_height"
                 android:background="@drawable/blue_rounded"/>
 
@@ -170,7 +169,7 @@
                 android:layout_width="match_parent"
                 android:text="@string/UseOnce"
                 android:textColor="@color/redPrimary"
-                android:tag="use_only_this_time"
+                android:tag="UseOnce"
                 android:layout_height="@dimen/edit_text_height"
                 android:background="@color/transparent"/>
 

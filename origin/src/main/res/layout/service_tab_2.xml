@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/medium_margin"
-        android:tag="description"
+        android:tag="driving_license"
         android:text="@string/driving_license"
         android:textColor="@color/gray_font_title"
         android:textSize="@dimen/big_font" />

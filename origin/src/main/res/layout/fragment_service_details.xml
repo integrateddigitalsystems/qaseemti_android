@@ -194,7 +194,7 @@
                             android:textColor="@color/redPrimary"
                             android:text="@string/Size"
                             android:textSize="@dimen/header_font"
-                            android:tag="size"
+                            android:tag="Size"
                             />
 
 
@@ -257,7 +257,7 @@ nisl ut aliquip ex ea commodo consequat. Duis
                     android:layout_below="@id/tvDescription"
                     android:textColor="@color/white"
                     android:text="@string/Checkout"
-                    android:tag="checkout"
+                    android:tag="Checkout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
                     android:background="@drawable/blue_rounded"/>

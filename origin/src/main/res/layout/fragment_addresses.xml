@@ -69,7 +69,7 @@
                         android:textSize="@dimen/big_font"
                         android:textColor="@color/white"
                         android:text="@string/AddNewAddress"
-                        android:tag="add_new_address"
+                        android:tag="AddNewAddress"
                         />
 
                     <ImageView

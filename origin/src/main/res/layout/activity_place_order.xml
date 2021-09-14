@@ -402,7 +402,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/big_margin"
-                    android:tag="payment_method"
+                    android:tag="PaymentMethod"
                     android:text="@string/PaymentMethod"
                     android:textColor="@color/redPrimary" />
 
@@ -435,7 +435,7 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:tag="knet_payment"
+                            android:tag="KNETPayment"
                             android:textSize="@dimen/medium_font"
                             android:textColor="@color/gray_font_title"
                             android:text="@string/KNETPayment" />
@@ -467,7 +467,7 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:tag="credit_card"
+                            android:tag="CreditCard"
                             android:textSize="@dimen/medium_font"
                             android:textColor="@color/gray_font_title"
                             android:text="@string/CreditCard" />
@@ -503,7 +503,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/medium_font"
                             android:textColor="@color/gray_font_title"
-                            android:tag="cash_on_delivery"
+                            android:tag="CashOnDelivery"
                             android:text="@string/CashOnDelivery" />
 
 
@@ -557,12 +557,12 @@
                 android:layout_marginBottom="@dimen/big_margin_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:tag="no_available_servce"
+                android:tag="NoServiceProvider"
                 android:text="@string/NoServiceProvider"/>
 
             <Button
 
-                android:tag="go_to_services_page"
+                android:tag="GoToSerices"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
