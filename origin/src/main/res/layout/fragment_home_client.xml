@@ -22,7 +22,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_below="@id/llHomeCurve"
-            android:layout_marginTop="-25dp"
+            android:layout_marginTop="@dimen/medium_push"
             android:id="@+id/linearProfileInfo"
             android:layout_width="match_parent"
             android:layout_height="90dp"
@@ -42,6 +42,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/gray_font_title"
                 android:text="@string/ads_place"
                 android:textSize="@dimen/big_font" />
 
@@ -96,7 +98,6 @@
 
         <RelativeLayout
             android:background="@color/transparent"
-            android:layout_margin="@dimen/margin_start_end"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="120dp">
@@ -107,18 +108,17 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:background="@drawable/blue_rounded"
                 android:textColor="@color/white"
-                android:text="@string/regsiter_or_login"/>
+                android:text="@string/Register_login"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="@dimen/edit_text_height"
                 android:layout_height="@dimen/edit_text_height"
                 app:tint="@color/white"
+                android:layout_marginEnd="@dimen/margin_start_end"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/mini_margin"
                 android:id="@+id/btFilter"
                 app:fabCustomSize="40dp"
-                android:layout_marginStart="@dimen/normal_margin"
                 app:rippleColor="@color/button_blue"
                 app:backgroundTint="@color/button_blue"
                 android:src="@drawable/icon_floating"

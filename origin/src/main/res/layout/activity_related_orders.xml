@@ -86,7 +86,8 @@
                     android:id="@+id/tvTitleEarnings"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/icon"
-                    android:text="@string/my_earnings"/>
+                    android:tag="MyEarning"
+                    android:text="@string/MyEarning"/>
 
 
 
@@ -118,7 +119,7 @@
                     android:id="@+id/tvTitleDues"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/icon"
-                    android:text="@string/my_dues"/>
+                    android:text="@string/MyDues"/>
 
 
 
@@ -140,16 +141,6 @@
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:id="@+id/llFooter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <include
-            layout="@layout/footer" />
-
-    </LinearLayout>
 
 
 </RelativeLayout>

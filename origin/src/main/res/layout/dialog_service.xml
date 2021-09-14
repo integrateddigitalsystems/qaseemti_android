@@ -9,13 +9,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
-        android:layout_marginTop="@dimen/push_text"
-        android:layout_marginBottom="@dimen/footer_height"
+        android:layout_margin="@dimen/margin_start_end"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
     <LinearLayout
+        android:layout_marginTop="@dimen/push_less"
+        android:layout_gravity="center"
         android:background="@drawable/rounded_white_background"
         android:padding="@dimen/first_margin"
         android:orientation="vertical"
@@ -188,7 +189,7 @@
             android:layout_marginTop="@dimen/big_margin_2"
             android:orientation="horizontal"
             android:weightSum="1"
-            android:layout_marginBottom="@dimen/big_margin_2"
+            android:layout_marginBottom="@dimen/height_35"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -220,6 +221,8 @@
 
 
     <LinearLayout
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
         android:paddingBottom="@dimen/big_margin_2"
         android:gravity="end"
         android:layout_alignParentEnd="true"

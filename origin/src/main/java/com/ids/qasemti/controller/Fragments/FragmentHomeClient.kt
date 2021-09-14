@@ -1,7 +1,7 @@
 package com.ids.qasemti.controller.Fragments
 
+import android.app.ActionBar
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
-import com.ids.qasemti.controller.Activities.ActivityMobileRegistration
 import com.ids.qasemti.controller.Adapters.AdapterServices
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
@@ -56,7 +55,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         }
 
         btRegisterLogin.setOnClickListener {
-            startActivity(Intent(requireActivity(),ActivityMobileRegistration::class.java))
+            (activity as ActivityHome)!!.goRegistration(2,AppConstants.FRAGMENT_HOME_CLIENT,FragmentHomeClient(),R.color.white)
         }
 
 
@@ -65,6 +64,8 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         btFilter.setOnClickListener {
             showPopupSocialMedia()
         }
+
+
 
         AppHelper.setTitle(requireActivity(), getString(R.string.our_services), "services")
 
@@ -98,6 +99,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         dialog!!.setCanceledOnTouchOutside(true)
         dialog!!.setContentView(R.layout.dialog_service)
         dialog!!.window!!.setBackgroundDrawableResource(R.color.transparent)
+        dialog!!.window!!.setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
         dialog!!.setCancelable(true)
 
 

@@ -43,7 +43,7 @@
             android:layout_weight="1"
             android:textSize="@dimen/normal_font"
             android:tag="tvToBeSettled"
-            android:text="@string/to_be_settled"/>
+            android:text="@string/ToBeSettled"/>
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:textColor="@color/redPrimary"
             android:layout_marginStart="@dimen/small_margin"
@@ -265,7 +265,7 @@
             android:textColor="@color/white"
             android:id="@+id/btRequestSettlements"
             android:textSize="@dimen/normal_font"
-            android:text="@string/request_settlements"
+            android:text="@string/RequestSettlement"
             android:layout_marginStart="@dimen/normal_icon_size"
             android:layout_marginEnd="@dimen/normal_icon_size"
             android:layout_alignParentBottom="true"

@@ -46,7 +46,6 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayoutCheckout,requireContext())
         init()
-        tvPageTitle.typeface=AppHelper.getTypeFace(requireContext())
         AppHelper.setTextColor(requireContext(),tvPageTitle,R.color.redPrimary)
         tvPageTitle.show()
 

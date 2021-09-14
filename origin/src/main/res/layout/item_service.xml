@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         app:cardElevation="@dimen/normal_margin"
         android:elevation="@dimen/normal_margin"
-        android:layout_marginTop="-14dp"
+        android:layout_marginTop="@dimen/push_card"
         card_view:contentPadding="0dp"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="@dimen/normal_radius"
@@ -27,8 +27,8 @@
     <LinearLayout
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/big_margin"
-        android:paddingEnd="@dimen/big_margin"
+        android:paddingStart="@dimen/margin_start_end"
+        android:paddingEnd="@dimen/margin_start_end"
         android:layout_height="90dp"
         android:layout_width="match_parent"
        >
@@ -49,6 +49,8 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:id="@+id/tvServiceTitle"
+        android:textSize="@dimen/medium_font"
+        android:textColor="@color/gray_font_title"
         android:layout_marginStart="@dimen/big_margin"
         android:text="Gravel Truck"
         android:layout_height="wrap_content"/>

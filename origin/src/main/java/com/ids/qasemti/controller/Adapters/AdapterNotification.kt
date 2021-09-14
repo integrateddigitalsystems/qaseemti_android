@@ -38,25 +38,29 @@ class AdapterNotification(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-        if(!items.get(position).image.isNullOrEmpty()) {
-            Glide.with(con).load(items.get(position).image).into(holder.image);
-        }else {
-            holder.image.hide()
-        }
         holder.title.text = items.get(position).title
-        if(!items.get(position).details.isNullOrEmpty())
+        if (!items.get(position).image.isNullOrEmpty())
+            Glide.with(con).load(items.get(position).image).into(holder.image);
+        if (!items.get(position).details.isNullOrEmpty())
             holder.details.text = items.get(position).details
-        else
+
+        if (items.get(position).open) {
+            if (!items.get(position).image.isNullOrEmpty())
+                holder.image.show()
+            else
+                holder.image.hide()
+
+            if (!items.get(position).details.isNullOrEmpty())
+                holder.details.show()
+            else
+                holder.details.hide()
+
+            holder.arrow.rotation = up.toFloat()
+        } else {
             holder.details.hide()
-
-
-            if(items.get(position).open){
-                holder.arrow.rotation = up.toFloat()
-                holder.more.show()
-            }else {
-                holder.arrow.rotation = down.toFloat()
-                holder.more.hide()
-            }
+            holder.image.hide()
+            holder.arrow.rotation = down.toFloat()
+        }
 
 
     }
@@ -70,7 +74,6 @@ class AdapterNotification(
         var image = itemView.findViewById<ImageView>(R.id.ivNotificationImage)
         var arrow = itemView.findViewById<ImageView>(R.id.ivArrowNotf)
         var linear = itemView.findViewById<LinearLayout>(R.id.llNotificationTitle)
-        var more = itemView.findViewById<LinearLayout>(R.id.llNotificationMore)
         var details = itemView.findViewById<TextView>(R.id.tvNotificationDetails)
 
         init {

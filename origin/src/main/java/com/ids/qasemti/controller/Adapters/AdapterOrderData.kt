@@ -25,6 +25,7 @@ class AdapterOrderData(val items: ArrayList<OrderData>, private val itemClickLis
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
         holder.title.text = items.get(position).title
+
         holder.value.text = items.get(position).value
         if(position==items.size-1){
             holder.line.hide()

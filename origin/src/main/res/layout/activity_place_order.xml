@@ -63,8 +63,8 @@
                 android:paddingEnd="@dimen/big_margin_2">
 
                 <ImageView
-                    android:layout_width="@dimen/normal_icon"
-                    android:layout_height="@dimen/normal_icon"
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
                     android:src="@drawable/placeholder"
                     android:tint="@color/redPrimary" />
 
@@ -116,10 +116,9 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/small_icon"
-                        android:layout_height="@dimen/small_icon"
+                        android:layout_width="@dimen/normal_icon"
+                        android:layout_height="@dimen/normal_icon"
                         android:layout_gravity="top"
-                        android:layout_marginTop="@dimen/mini_margin"
                         android:src="@drawable/wall_clock"
                         android:tint="@color/redPrimary"
 
@@ -145,7 +144,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="20 Jun,2021 16:00"
-                            android:textColor="@color/gray_font"
+                            android:textColor="@color/gray_font_title"
                             android:textSize="@dimen/small_font_3" />
 
                     </LinearLayout>
@@ -160,10 +159,9 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/small_icon"
-                        android:layout_height="@dimen/small_icon"
+                        android:layout_width="@dimen/normal_icon"
+                        android:layout_height="@dimen/normal_icon"
                         android:layout_gravity="top"
-                        android:layout_marginTop="@dimen/mini_margin"
                         android:src="@drawable/wall_clock"
                         android:tint="@color/redPrimary"
 
@@ -191,7 +189,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="20 Jun,2021 16:00"
-                            android:textColor="@color/gray_font"
+                            android:textColor="@color/gray_font_title"
                             android:textSize="@dimen/small_font_3" />
 
                     </LinearLayout>
@@ -438,6 +436,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:tag="knet_payment"
+                            android:textSize="@dimen/medium_font"
+                            android:textColor="@color/gray_font_title"
                             android:text="@string/KNETPayment" />
 
 
@@ -468,6 +468,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:tag="credit_card"
+                            android:textSize="@dimen/medium_font"
+                            android:textColor="@color/gray_font_title"
                             android:text="@string/CreditCard" />
 
 
@@ -499,6 +501,8 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/medium_font"
+                            android:textColor="@color/gray_font_title"
                             android:tag="cash_on_delivery"
                             android:text="@string/CashOnDelivery" />
 

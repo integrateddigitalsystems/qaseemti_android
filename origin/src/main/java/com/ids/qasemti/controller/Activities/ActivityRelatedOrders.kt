@@ -46,7 +46,7 @@ class ActivityRelatedOrders : AppCompatActivity() , RVOnItemClickListener  {
         rvRelatedOrders.adapter = AdapterRelatedOrder(array,this,this)
         var title = intent.getStringExtra("settelmentId")
         tvPageTitle.textRemote("relatedOrdersOf",this)
-        tvPageTitle.setColorTypeface(this,R.color.white,tvPageTitle.text.toString()+title,false)
+        tvPageTitle.setColorTypeface(this,R.color.white,tvPageTitle.text.toString()+title,true)
         btBackTool.show()
         btBackTool.setOnClickListener {
             super.onBackPressed()

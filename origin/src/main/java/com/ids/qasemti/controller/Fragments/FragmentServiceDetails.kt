@@ -307,9 +307,9 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
             Bitmap.createScaledBitmap(convertToBitmap(not_selected_circle)!!, 20, 20, true)
         )
 
-        arrayItems.add(SliderItem("https://freepikpsd.com/media/2019/10/dollar-logo-png-6-Transparent-Images.png",1,""))
-        arrayItems.add(SliderItem("https://www.drupal.org/files/issues/sample_6.jpg",1,""))
-        arrayItems.add(SliderItem("https://live.staticflickr.com/2912/13981352255_fc59cfdba2_b.jpg",1,""))
+        arrayItems.add(SliderItem("http://sc04.alicdn.com/kf/He4dba8a9ab794fc0b22a7ae23c246fd4G.jpg",1,""))
+        arrayItems.add(SliderItem("https://sc04.alicdn.com/kf/HTB1jpkfl_nI8KJjSszgq6A8ApXaC.jpg",1,""))
+        arrayItems.add(SliderItem("https://img.bidorbuy.co.za/image/upload/user_images/999/369999_100819205424_Tank-Sigi.jpg",1,""))
 
         setUpMediaPager()
 

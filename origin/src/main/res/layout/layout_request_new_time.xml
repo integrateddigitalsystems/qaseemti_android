@@ -11,22 +11,24 @@
         android:id="@+id/linearProfileInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/normal_margin"
         android:layout_marginTop="-8dp"
         android:background="@drawable/rounded_white_background"
         android:elevation="@dimen/normal_margin"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/margin_start_end"
-        android:paddingEnd="@dimen/margin_start_end"
         app:cardCornerRadius="@dimen/normal_radius"
         app:cardElevation="@dimen/normal_margin"
         app:cardUseCompatPadding="true"
         card_view:contentPadding="0dp">
 
         <LinearLayout
-            android:padding="@dimen/normal_margin"
+            android:paddingBottom="@dimen/medium_margin"
+            android:paddingTop="@dimen/medium_margin"
+            android:paddingStart="@dimen/normal_margin"
+            android:paddingEnd="@dimen/normal_margin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -35,14 +37,14 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingStart="@dimen/margin_start_end"
-                android:paddingEnd="@dimen/margin_start_end">
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin">
 
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center_vertical|start"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -77,7 +79,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="20 Jun,2021 16:00"
-                            android:textColor="@color/gray_font"
+                            android:textColor="@color/gray_font_title"
                             android:textSize="@dimen/small_font_3" />
 
                     </LinearLayout>
@@ -124,7 +126,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="20 Jun,2021 16:00"
-                            android:textColor="@color/gray_font"
+                            android:textColor="@color/gray_font_title"
                             android:textSize="@dimen/small_font_3" />
 
                     </LinearLayout>
@@ -163,7 +165,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/normal_margin"
-                        android:text="@string/suggest_new_delivery_time"
+                        android:text="@string/Suggest_Delvr"
                         android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/normal_font" />
 
@@ -269,7 +271,7 @@
                     android:layout_marginEnd="@dimen/margin_start_end"
                     android:layout_marginBottom="@dimen/first_margin"
                     android:background="@drawable/rounded_blue"
-                    android:text="@string/send_request"
+                    android:text="@string/SendRequest"
                     android:textColor="@color/white" />
 
             </LinearLayout>
@@ -309,7 +311,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="actual_delivery"
-                        android:text="@string/actual_delivery"
+                        android:text="@string/Actual_delivery"
                         android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/normal_font" />
 

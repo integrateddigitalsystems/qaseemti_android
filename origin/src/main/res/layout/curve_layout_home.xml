@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:background="@color/transparent"
-    android:layout_height="@dimen/curve_height">
+    android:layout_height="@dimen/no_logo_height">
 
     <LinearLayout
         android:paddingTop="@dimen/big_margin"

@@ -23,7 +23,7 @@ class ActivitySelectAddress: AppCompactBase() {
     }
 
     fun init(){
-        tvPageTitle.setColorTypeface(this,R.color.white,getString(R.string.select_delivery_address),false)
+        tvPageTitle.setColorTypeface(this,R.color.white,getString(R.string.select_delivery_address),true)
         AppHelper.setLogoTint(btBackTool,this,R.color.white)
         btBackTool.show()
     }

@@ -26,6 +26,6 @@ class CustomTextViewBold : AppCompatTextView {
         if (!isInEditMode)
             typeface = AppHelper.getTypeFaceBold(context)
 
-            setTypeface(typeface, Typeface.BOLD)
+            //setTypeface(typeface, Typeface.BOLD)
     }
 }

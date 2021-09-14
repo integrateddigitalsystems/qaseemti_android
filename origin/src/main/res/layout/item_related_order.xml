@@ -67,7 +67,8 @@
                 android:textColor="@color/gray_font"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/my_earnings"/>
+                android:tag="MyEarning"
+                android:text="@string/MyEarning"/>
 
 
 
@@ -93,7 +94,8 @@
                 android:textColor="@color/gray_font"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/my_earnings"/>
+                android:tag="MyEarning"
+                android:text="@string/MyEarning"/>
 
 
 

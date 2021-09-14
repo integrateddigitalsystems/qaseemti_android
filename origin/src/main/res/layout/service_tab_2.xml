@@ -3,26 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearService2"
     android:orientation="vertical"
-    android:visibility="gone"
+    android:visibility="visible"
     android:layout_height="match_parent">
-
 
 
     <com.ids.qasemti.custom.CustomTextViewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/big_font"
-        android:textColor="@color/gray_font_title"
-        android:text="@string/driving_license"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/medium_margin"
         android:tag="description"
-        />
+        android:text="@string/driving_license"
+        android:textColor="@color/gray_font_title"
+        android:textSize="@dimen/big_font" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         >
 
         <Button
@@ -61,7 +59,7 @@
         android:paddingStart="@dimen/small_margin"
         android:paddingEnd="@dimen/small_margin"
         android:maxLines="1"
-        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         android:textColorHint="@color/gray_font_light"
         android:textSize="@dimen/normal_font"
         android:textColor="@color/gray_font_title"
@@ -76,7 +74,7 @@
         android:textSize="@dimen/big_font"
         android:textColor="@color/gray_font_title"
         android:text="@string/work_license"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/medium_margin"
         android:tag="work_license"
         />
 
@@ -84,7 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         >
 
         <Button
@@ -123,7 +121,7 @@
         android:paddingStart="@dimen/small_margin"
         android:paddingEnd="@dimen/small_margin"
         android:maxLines="1"
-        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         android:textColorHint="@color/gray_font_light"
         android:textSize="@dimen/normal_font"
         android:textColor="@color/gray_font_title"
@@ -137,7 +135,7 @@
         android:textSize="@dimen/big_font"
         android:textColor="@color/gray_font_title"
         android:text="@string/vehicle_license"
-        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/medium_margin"
         android:tag="vehicle_license"
         />
 
@@ -145,7 +143,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         >
 
         <Button
@@ -184,7 +182,7 @@
         android:paddingStart="@dimen/small_margin"
         android:paddingEnd="@dimen/small_margin"
         android:maxLines="1"
-        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         android:textColorHint="@color/gray_font_light"
         android:textSize="@dimen/normal_font"
         android:textColor="@color/gray_font_title"
@@ -195,7 +193,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/big_margin"
+        android:layout_marginTop="@dimen/big_margin_2"
         android:orientation="horizontal">
         <Button
             android:layout_width="0dp"

@@ -28,13 +28,13 @@ class ActivityMobileRegistration: ActivityBase(){
         AppHelper.setLogoTint(logo_main,this,R.color.white)
 
 
-        if(MyApplication.isClient){
+      /*  if(MyApplication.isClient){
             btLogin.hide()
             llNewMember.show()
         }else{
             btLogin.show()
             llNewMember.hide()
-        }
+        }*/
 
         tvRegisterNewMember.setOnClickListener {
             startActivity(Intent(this,ActivityRegistration::class.java))
@@ -46,6 +46,8 @@ class ActivityMobileRegistration: ActivityBase(){
         items.add(ItemSpinner(0, "965", ""))
         items.add(ItemSpinner(0, "1", ""))
         items.add(ItemSpinner(0, "31", ""))
+
+
         val adapterMobileCode = AdapterGeneralSpinner(
             this,
             R.layout.spinner_layout,

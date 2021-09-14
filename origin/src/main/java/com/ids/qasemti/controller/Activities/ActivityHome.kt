@@ -109,7 +109,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         btDrawer.hide()
         setMenu()
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        tvPageTitle.typeface = AppHelper.getTypeFace(this)
+        tvPageTitle.typeface = AppHelper.getTypeFaceBold(this)
         fragMang = supportFragmentManager
         llFooterProducts.hide()
         llFooterCart.show()
@@ -223,7 +223,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
 
-    private fun goRegistration(position: Int, tag: String, fragment: Fragment, color: Int) {
+    fun goRegistration(position: Int, tag: String, fragment: Fragment, color: Int) {
         MyApplication.selectedPos = position
         MyApplication.selectedFragmentTag = tag
         MyApplication.selectedFragment = fragment

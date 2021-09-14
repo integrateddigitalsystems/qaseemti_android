@@ -31,7 +31,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/bigger_edit_text"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -71,13 +71,13 @@
                         android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/normal_font" />
 
-                    <com.ids.qasemti.custom.CustomTextViewBold
+                    <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="top"
                         android:text="#000777"
-                        android:textColor="@color/gray_font"
+                        android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/small_font" />
 
                 </LinearLayout>
@@ -176,7 +176,7 @@
             <LinearLayout
                 android:id="@+id/llDates"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/bigger_edit_text"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -280,7 +280,7 @@
             <LinearLayout
                 android:id="@+id/llCancelReason"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/bigger_edit_text"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -344,7 +344,7 @@
             <LinearLayout
                 android:id="@+id/llPersonCancel"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/bigger_edit_text"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -383,7 +383,7 @@
             <LinearLayout
                 android:id="@+id/llLocation"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/bigger_edit_text"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -434,7 +434,7 @@
             <LinearLayout
                 android:id="@+id/llRatings"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/bigger_edit_text"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -467,6 +467,7 @@
 
                     <androidx.appcompat.widget.AppCompatRatingBar
                         style="?attr/ratingBarStyleSmall"
+                        android:rating="2.5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -479,7 +480,7 @@
             <LinearLayout
                 android:id="@+id/llCredit"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/bigger_edit_text"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -499,7 +500,7 @@
                     android:layout_marginStart="@dimen/normal_margin"
                     android:tag="pending_cash_on_delivery"
                     android:text="@string/pending_cash_delivery"
-                    android:textColor="@color/gray_font_light"
+                    android:textColor="@color/gray_font"
                     android:textSize="@dimen/normal_font" />
 
 
@@ -510,7 +511,7 @@
                 android:layout_marginEnd="@dimen/medium_2"
                 android:id="@+id/llSwitches"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/bigger_edit_text"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -518,21 +519,28 @@
 
 
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:gravity="start"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
                     android:gravity="start">
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="on_track"
+                        android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/small_font_2"
                         android:text="@string/OnTrack" />
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
+                        android:layout_marginStart="-50dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:scaleX="0.7"
@@ -541,10 +549,18 @@
 
                 </LinearLayout>
 
+                </LinearLayout>
+
+
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <LinearLayout
+                    android:padding="@dimen/mini_margin"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
                     android:gravity="center">
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
@@ -552,11 +568,14 @@
                         android:layout_height="wrap_content"
                         android:tag="delivered"
                         android:text="@string/Delivery"
-                        android:textSize="@dimen/small_font_3" />
+                        android:textColor="@color/gray_font_title"
+                        android:textSize="@dimen/small_font_2" />
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="-50dp"
                         android:gravity="center"
                         android:scaleX="0.7"
                         android:scaleY="0.7"
@@ -564,27 +583,37 @@
 
                 </LinearLayout>
 
+                </LinearLayout>
+
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:gravity="end"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
                     android:gravity="end">
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tag="paid"
+                        android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/small_font_2"
                         android:text="@string/Paid" />
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
+                        android:layout_marginStart="-50dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:scaleX="0.7"
                         android:scaleY="0.7"
                         android:theme="@style/Theme.MyTheme" />
 
+
+                </LinearLayout>
 
                 </LinearLayout>
 
@@ -601,7 +630,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/bigger_edit_text"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -645,7 +674,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/bigger_edit_text"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/margin_start_end"
@@ -661,8 +690,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/small_icon"
-                        android:layout_height="@dimen/small_icon"
+                        android:layout_width="@dimen/icon"
+                        android:layout_height="@dimen/icon"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/view"
                         app:tint="@color/button_blue" />
@@ -702,8 +731,8 @@
                     android:visibility="gone">
 
                     <ImageView
-                        android:layout_width="@dimen/small_icon"
-                        android:layout_height="@dimen/small_icon"
+                        android:layout_width="@dimen/icon"
+                        android:layout_height="@dimen/icon"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/icon_track_order"
                         app:tint="@color/redPrimary" />
@@ -718,7 +747,7 @@
                         android:tag="track_order_C"
                         android:text="@string/track_order"
                         android:textColor="@color/redPrimary"
-                        android:textSize="@dimen/normal_font" />
+                        android:textSize="@dimen/small_font" />
 
 
                 </LinearLayout>

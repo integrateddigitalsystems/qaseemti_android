@@ -35,7 +35,7 @@
                 android:gravity="center_vertical"
                 android:tag="push_notifications"
                 android:textColor="@color/gray_font_title"
-                android:text="@string/push_notifications"/>
+                android:text="@string/PushNotifications"/>
 
 
         </LinearLayout>

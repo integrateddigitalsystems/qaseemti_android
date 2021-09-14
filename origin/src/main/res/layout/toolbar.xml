@@ -59,9 +59,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="@dimen/height_35"
         android:layout_marginEnd="@dimen/height_35"
-        android:maxLines="2"
+        android:maxLines="1"
         android:textColor="@color/white"
-        android:textSize="@dimen/header_font" />
+        android:textSize="@dimen/title_font" />
 
 
     <ImageView

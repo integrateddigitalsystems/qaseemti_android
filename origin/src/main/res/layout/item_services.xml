@@ -52,11 +52,12 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical">
             <LinearLayout
+                android:layout_marginEnd="@dimen/normal_margin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|end"
                 android:orientation="vertical">
                 <com.ids.qasemti.custom.CustomTextViewBold
                     android:layout_width="wrap_content"
@@ -75,7 +76,7 @@
                     android:layout_marginStart="@dimen/big_margin"
                     android:text="Gravel Truck"
                     android:textSize="@dimen/small_font"
-                    android:textColor="@color/gray_font_light"
+                    android:textColor="@color/gray_font_title"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
             <LinearLayout
@@ -90,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingEnd="@dimen/small_margin"
+                android:layout_marginStart="@dimen/normal_margin"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
@@ -101,7 +103,7 @@
                     <com.ids.qasemti.custom.CustomTextViewBold
                         android:layout_width="wrap_content"
                         android:layout_marginStart="@dimen/normal_margin"
-                        android:text="@string/price"
+                        android:text="@string/Price"
                         android:tag="price"
                         android:textSize="@dimen/normal_font"
                         android:textColor="@color/gray_font_title"
@@ -128,7 +130,7 @@
                         android:layout_width="wrap_content"
                         android:maxLines="1"
                         android:layout_marginStart="@dimen/normal_margin"
-                        android:text="@string/earning"
+                        android:text="@string/Earning"
                         android:tag="earning"
                         android:textSize="@dimen/normal_font"
                         android:textColor="@color/gray_font_title"

@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/linearProfileInfo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/order_card"
         android:padding="@dimen/normal_margin"
         android:layout_marginTop="-8dp"
         android:background="@drawable/rounded_white_background"
@@ -25,6 +25,7 @@
         card_view:contentPadding="0dp">
 
         <LinearLayout
+            android:layout_gravity="center_vertical"
             android:padding="@dimen/normal_margin"
             android:weightSum="2"
             android:layout_width="match_parent"
@@ -40,8 +41,8 @@
 
                 <ImageView
 
-                    android:layout_width="@dimen/normal_icon"
-                    android:layout_height="@dimen/normal_icon"
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
                     android:src="@drawable/icon_dollar" />
 
 
@@ -53,7 +54,8 @@
 
                     <com.ids.qasemti.custom.CustomTextViewBold
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/normal_icon"
+                        android:textSize="@dimen/medium_font"
+                        android:layout_height="@dimen/icon"
                         android:gravity="top"
                         android:tag="order_amount"
                         android:text="@string/OrderAmount" />
@@ -77,8 +79,8 @@
 
                 <ImageView
 
-                    android:layout_width="@dimen/normal_icon"
-                    android:layout_height="@dimen/normal_icon"
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
                     android:src="@drawable/icon_payment" />
 
 
@@ -90,9 +92,10 @@
 
                     <com.ids.qasemti.custom.CustomTextViewBold
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/normal_icon"
+                        android:layout_height="@dimen/icon"
                         android:gravity="center_vertical"
                         android:tag="payment_method"
+                        android:textSize="@dimen/medium_font"
                         android:text="@string/PaymentMethod" />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium

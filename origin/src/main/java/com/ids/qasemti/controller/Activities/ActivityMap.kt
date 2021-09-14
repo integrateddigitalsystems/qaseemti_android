@@ -51,7 +51,7 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback{
 
         var title = intent.getStringExtra("mapTitle")
         AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
-        tvPageTitle.setColorTypeface(this,R.color.redPrimary,title!!,false)
+        tvPageTitle.setColorTypeface(this,R.color.redPrimary,title!!,true)
 
 
     }

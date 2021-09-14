@@ -64,7 +64,7 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
             }else{
                 rvOrders.hide()
                 llNodata.show()
-                swAvailable.text = getString(R.string.not_available)
+                swAvailable.text = getString(R.string.unavailable)
             }
         }
 
