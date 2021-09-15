@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.home_container.*
 import kotlinx.android.synthetic.main.layout_footer_shadow.*
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlin.system.exitProcess
 
 
 class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedListener,
@@ -50,6 +51,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         init()
 
     }
+
 
     fun setCurve(position: Int) {
         ivCurveCartProd.invisible()
@@ -144,11 +146,14 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
     fun defaultFragment() {
+        if(MyApplication.defaultIcon==null){
+            MyApplication.defaultIcon = ivFooterHome
+        }
         setSelectedTab(
             MyApplication.selectedPos,
             MyApplication.selectedFragment!!,
             MyApplication.selectedFragmentTag!!,
-            ivFooterHome,
+            MyApplication.defaultIcon!!,
             MyApplication.tintColor
         )
     }
@@ -174,12 +179,17 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        AppHelper.createYesNoDialog(this,getString(R.string.exit),getString(R.string.cancel),getString(
+                    R.string.sureExit)){
+            finishAffinity()
+            exitProcess(0)
+        }
+        /*if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             closeDrawer(drawerLayout, true)
         } else {
             checkBack()
             super.onBackPressed()
-        }
+        }*/
     }
 
     private fun closeDrawer(drawerLayout: DrawerLayout, animation: Boolean) {
@@ -190,7 +200,32 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     }
 
-
+    fun setIconBig(selectedIcon: ImageView){
+        selectedIcon.layoutParams = LinearLayout.LayoutParams(
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                35f,
+                resources.displayMetrics
+            ).toInt(),
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35f, resources.displayMetrics)
+                .toInt()
+        )
+        selectedIcon.setPadding(0,-10,0,0)
+    }
+    fun bigIcon(selectedPosition:Int){
+        if (selectedPosition == 0) {
+            setIconBig(ivCartFooter)
+            setIconBig(ivProductFooter)
+        } else if (selectedPosition == 1) {
+            setIconBig(ivFooterOrder)
+        } else if (selectedPosition == 2) {
+           setIconBig(ivFooterHome)
+        } else if (selectedPosition == 3) {
+            setIconBig(ivFooterNotifications)
+        } else if (selectedPosition == 4) {
+            setIconBig(ivFooterAccount)
+        }
+    }
     private fun setSelectedTab(
         index: Int,
         fragment: Fragment,
@@ -212,16 +247,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             ivFooterNotifications,
             ivFooterAccount
         )
-        selectedIcon.layoutParams = LinearLayout.LayoutParams(
-            TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                35f,
-                resources.displayMetrics
-            ).toInt(),
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35f, resources.displayMetrics)
-                .toInt()
-        )
-        selectedIcon.setPadding(0,-10,0,0)
+        bigIcon(index)
         AppHelper.setLogoTint(btDrawer, this, drawerColor)
         setTintLogo(drawerColor)
         setCurve(index)
@@ -279,6 +305,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         }
         llFooterOrders.setOnClickListener {
             MyApplication.fromFooterOrder = true
+            MyApplication.defaultIcon = ivFooterOrder
             if (MyApplication.selectedFragmentTag != FRAGMENT_ORDER && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
                 setSelectedTab(
                     1,
@@ -287,11 +314,13 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                     ivFooterOrder,
                     R.color.redPrimary
                 )
-            else if (!MyApplication.isSignedIn && MyApplication.isClient)
+            else if (!MyApplication.isSignedIn && MyApplication.isClient) {
                 goRegistration(1, FRAGMENT_ORDER, FragmentOrders(), R.color.redPrimary)
+            }
         }
 
         llFooterNotifications.setOnClickListener {
+            MyApplication.defaultIcon = ivFooterNotifications
             if (MyApplication.selectedFragmentTag != FRAGMENT_NOTFICATIONS && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
                 setSelectedTab(
                     3,
@@ -305,6 +334,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         }
 
         llFooterAccount.setOnClickListener {
+            MyApplication.defaultIcon = ivFooterAccount
             if (MyApplication.selectedFragmentTag != FRAGMENT_ACCOUNT && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
                 setSelectedTab(
                     4,
@@ -319,6 +349,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
         //other tabs
         llFooterCart.setOnClickListener {
+            MyApplication.defaultIcon = ivCartFooter
             if (MyApplication.selectedFragmentTag != FRAGMENT_CART && MyApplication.isSignedIn)
                 setSelectedTab(0, FragmentCart(), FRAGMENT_CART, ivCartFooter, R.color.redPrimary)
             else if (!MyApplication.isSignedIn)
@@ -350,6 +381,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
 
         llFooterProducts.setOnClickListener {
+            MyApplication.defaultIcon = ivProductFooter
             if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_PROD)
                 setSelectedTab(
                     0,

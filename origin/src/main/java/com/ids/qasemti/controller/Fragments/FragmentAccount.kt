@@ -98,9 +98,13 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             bottom_fragment.show(requireActivity().supportFragmentManager,"fragment_push_notifications")
         }
         btLogoutAccount.setOnClickListener {
-            MyApplication.isSignedIn = false
-            requireActivity().finish()
-            startActivity(Intent(requireContext(),ActivityMobileRegistration::class.java))
+            AppHelper.createYesNoDialog(requireActivity(),getString(R.string.logout),getString(R.string.cancel),getString(
+                            R.string.sureLogout)){
+                MyApplication.isSignedIn = false
+                requireActivity().finish()
+                startActivity(Intent(requireContext(),ActivityMobileRegistration::class.java).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
+            }
+
         }
     }
 }

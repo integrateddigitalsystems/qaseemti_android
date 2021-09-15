@@ -431,6 +431,24 @@ class AppHelper {
 
         }
 
+        fun createYesNoDialog(c: Activity, positiveButton :String , negativeButton : String ,message: String, doAction: () -> Unit) {
+
+
+
+            val builder = AlertDialog.Builder(c)
+            builder
+                .setMessage(message)
+                .setCancelable(true)
+                .setNegativeButton(negativeButton) { dialog, _ ->
+                    dialog.cancel()
+                }
+                .setPositiveButton(positiveButton) { dialog, _ ->
+                    doAction()
+                }
+            val alert = builder.create()
+            alert.show()
+
+        }
         fun setLogoTint(img: ImageView, con: Context, color: Int) {
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

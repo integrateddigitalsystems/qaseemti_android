@@ -23,7 +23,6 @@
         card_view:contentPadding="0dp">
 
         <LinearLayout
-            android:paddingBottom="@dimen/medium_margin"
             android:paddingTop="@dimen/medium_margin"
             android:paddingStart="@dimen/normal_margin"
             android:paddingEnd="@dimen/normal_margin"
@@ -32,6 +31,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_marginBottom="@dimen/normal_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -136,6 +136,8 @@
 
 
             <LinearLayout
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:visibility="gone"
                 android:id="@+id/llEditOrderTime"
                 android:layout_width="match_parent"
@@ -143,18 +145,16 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/normal_margin"
                     android:orientation="horizontal"
-                    android:paddingStart="@dimen/margin_start_end"
-                    android:paddingEnd="@dimen/margin_start_end">
+                    >
 
                     <ImageView
                         android:layout_width="@dimen/small_icon"
                         android:layout_height="@dimen/small_icon"
-                        android:layout_gravity="top"
-                        android:layout_marginTop="@dimen/mini_margin"
                         android:src="@drawable/wall_clock"
                         android:tint="@color/redPrimary"
 
@@ -282,11 +282,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/normal_margin"
                 android:layout_marginBottom="@dimen/first_margin"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/small_icon"

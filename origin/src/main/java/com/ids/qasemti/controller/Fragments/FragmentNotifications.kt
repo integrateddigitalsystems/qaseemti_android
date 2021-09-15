@@ -43,7 +43,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
     }
 
     fun init() {
-
+        array.clear()
         (activity as ActivityHome).showLogout(false)
         AppHelper.setTitle(requireActivity(), getString(R.string.notifications), "notifications")
 

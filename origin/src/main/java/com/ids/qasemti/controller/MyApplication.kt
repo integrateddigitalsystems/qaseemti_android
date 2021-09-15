@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Build
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.ids.qasemti.R
@@ -28,6 +29,7 @@ class MyApplication : Application() {
         var selectedFragmentTag : String ?=""
         var typeSelected = 0
         var settlementTabSelected =0
+        var defaultIcon : ImageView ?=null
         var selectedFragment  : Fragment ?=null
         var selectedPos : Int = 2
         var position : Int =0
