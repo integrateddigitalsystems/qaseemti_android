@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.utils.AppHelper
 import java.util.ArrayList
 
 class AdapterSettlements(
@@ -29,9 +30,10 @@ class AdapterSettlements(
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
       if(!MyApplication.upcoming!!){
-          holder.details.text = con.getString(R.string.view_order_details)
+
+          holder.details.text = AppHelper.getRemoteString("view_order_details",con)
       }else{
-          holder.details.text = con.getString(R.string.viewRelatedOrders)
+          holder.details.text = AppHelper.getRemoteString("viewRelatedOrders",con)
       }
     }
 

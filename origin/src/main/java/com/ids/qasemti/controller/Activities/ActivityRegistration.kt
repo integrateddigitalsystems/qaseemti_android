@@ -7,6 +7,7 @@ import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.hide
+import com.ids.qasemti.utils.onOneClick
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_mobile_registration.*
 import kotlinx.android.synthetic.main.activity_register.*
@@ -30,11 +31,11 @@ class ActivityRegistration : ActivityBase() {
             tvRegisterTitle.show()
         }
 
-        btRegister.setOnClickListener {
+        btRegister.onOneClick {
             if(etFirstName.text.isNullOrEmpty() || etLastName.text.isNullOrEmpty() || etEmail.text.isNullOrEmpty()){
-                AppHelper.createDialog(this,getString(R.string.fill_all_field))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
             }else if(!AppHelper.isEmailValid(etEmail.text.toString()) ){
-                AppHelper.createDialog(this,getString(R.string.email_valid_error))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("email_valid_error",this))
             }else{
                 startActivity(Intent(this,ActivityCodeVerification::class.java))
             }

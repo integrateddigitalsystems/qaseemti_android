@@ -37,6 +37,7 @@ class MyApplication : Application() {
         var tintColor : Int = R.color.white
         var selectedImage:String ?=""
         var selectedVideo :String ?=""
+        var clickable : Boolean ?= true
         var isSignedIn : Boolean = false
         var firstImage : Boolean ?=false
         var selectedService : ServiceItem ?=null

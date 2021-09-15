@@ -10,6 +10,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.hide
+import com.ids.qasemti.utils.onOneClick
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_map.*
 
@@ -43,7 +44,7 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
 
         btDrawer.hide()
         btBackTool.show()
-        btBackTool.setOnClickListener {
+        btBackTool.onOneClick {
             onBackPressed()
         }
 

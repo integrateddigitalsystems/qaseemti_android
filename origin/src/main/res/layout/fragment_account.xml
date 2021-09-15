@@ -14,6 +14,7 @@
         android:layout_height="@dimen/bigger_edit_text"
         android:textSize="@dimen/big_font"
         android:text="@string/myAccount"
+        android:tag="myAccount"
         android:textColor="@color/redPrimary"
         android:layout_gravity="center"
         android:gravity="center"
@@ -61,7 +62,7 @@
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
                     android:text="@string/MyAddresses"
-                    android:tag="my_addresses"
+                    android:tag="MyAddresses"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -103,7 +104,7 @@
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
                     android:text="@string/MyServices"
-                    android:tag="my_services"
+                    android:tag="MyServices"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -197,7 +198,7 @@
                     android:textDirection="locale"
                     android:textColor="@color/gray_font_title"
                     android:text="@string/MyProfile"
-                    android:tag="my_profile"
+                    android:tag="MyProfile"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -242,7 +243,7 @@
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
                     android:text="@string/langSetting"
-                    android:tag="language"
+                    android:tag="langSetting"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -287,7 +288,7 @@
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
                     android:text="@string/PushNotifications"
-                    android:tag="push_notifications"
+                    android:tag="PushNotifications"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -337,7 +338,7 @@
                     android:textDirection="locale"
                     android:textColor="@color/gray_font_title"
                     android:text="@string/ContactAdministrator"
-                    android:tag="contact_administrator"
+                    android:tag="ContactAdministrator"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -382,7 +383,7 @@
                     android:textDirection="locale"
                     android:textColor="@color/gray_font_title"
                     android:text="@string/PrivacyPolicy"
-                    android:tag="privacy_policy"
+                    android:tag="PrivacyPolicy"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -427,7 +428,7 @@
                     android:textDirection="locale"
                     android:textColor="@color/gray_font_title"
                     android:text="@string/TermsAndConditions"
-                    android:tag="terms_and_conditions"
+                    android:tag="TermsAndConditions"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -472,7 +473,7 @@
                     android:textDirection="locale"
                     android:textColor="@color/gray_font_title"
                     android:text="@string/RateUs"
-                    android:tag="rate_us"
+                    android:tag="RateUs"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />

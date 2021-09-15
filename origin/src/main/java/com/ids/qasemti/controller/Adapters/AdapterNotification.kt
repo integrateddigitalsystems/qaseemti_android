@@ -55,11 +55,11 @@ class AdapterNotification(
             else
                 holder.details.hide()
 
-            holder.arrow.rotation = down.toFloat()
+            holder.arrow.animate().rotation(down.toFloat())
         } else {
             holder.details.hide()
             holder.image.hide()
-            holder.arrow.rotation = up.toFloat()
+            holder.arrow.animate().rotation(up.toFloat())
         }
 
 

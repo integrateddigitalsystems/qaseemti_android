@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/service_information"
+    android:tag="service_information"
     android:textColor="@color/gray_font_light"
     android:textSize="@dimen/big_font"
     android:id="@+id/tvSpinnerItem"

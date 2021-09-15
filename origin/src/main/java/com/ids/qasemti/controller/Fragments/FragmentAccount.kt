@@ -10,10 +10,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.*
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.utils.AppConstants
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_account.rootLayout
@@ -73,33 +70,32 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
 
     fun listeners(){
 
-        btMyAddresses.setOnClickListener {
+        btMyAddresses.onOneClick {
             startActivity(Intent(requireContext(),ActivityAddresses::class.java)
-                .putExtra("mapTitle",getString(R.string.address)))
+                .putExtra("mapTitle",AppHelper.getRemoteString("address",requireContext())))
         }
-        btMyServices.setOnClickListener{
+        btMyServices.onOneClick{
             startActivity(Intent(requireActivity(),ActivityServices::class.java))
         }
 
-        btSettelments.setOnClickListener{
+        btSettelments.onOneClick{
             startActivity(Intent(requireActivity(),ActivitySettlements::class.java))
         }
 
-        btMyProfile.setOnClickListener{
+        btMyProfile.onOneClick{
             (requireActivity() as ActivityHome?)!!.addFrag(FragmentProfile(),AppConstants.FRAGMENT_PROFILE)
         }
 
-        btLanguage.setOnClickListener{
+        btLanguage.onOneClick{
             val bottom_fragment = FragmentBottomSeetLanguage()
             bottom_fragment.show(requireActivity().supportFragmentManager,"fragment_change_language")
         }
-        btNotifications.setOnClickListener {
+        btNotifications.onOneClick {
             val bottom_fragment = FragmentBottomSheetPush()
             bottom_fragment.show(requireActivity().supportFragmentManager,"fragment_push_notifications")
         }
-        btLogoutAccount.setOnClickListener {
-            AppHelper.createYesNoDialog(requireActivity(),getString(R.string.logout),getString(R.string.cancel),getString(
-                            R.string.sureLogout)){
+        btLogoutAccount.onOneClick {
+            AppHelper.createYesNoDialog(requireActivity(),  AppHelper.getRemoteString("logout",requireContext()),AppHelper.getRemoteString("cancel",requireContext()),AppHelper.getRemoteString("sureLogout",requireContext())){
                 MyApplication.isSignedIn = false
                 MyApplication.fromLogout = true
                 requireActivity().finishAffinity()

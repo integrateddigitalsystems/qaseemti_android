@@ -7,6 +7,7 @@ import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.hide
+import com.ids.qasemti.utils.onOneClick
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_code_verification.*
 
@@ -24,14 +25,14 @@ class ActivityCodeVerification : ActivityBase() {
             btVerifyCode.hide()
             llClientVerfCode.show()
 
-            btRegisterVerf.setOnClickListener {
+            btRegisterVerf.onOneClick {
                 startActivity(Intent(this,ActivityAccountStatus::class.java))
             }
         }else{
             btVerifyCode.show()
             llClientVerfCode.hide()
 
-            btVerifyCode.setOnClickListener {
+            btVerifyCode.onOneClick {
                 startActivity(Intent(this,ActivityAccountStatus::class.java))
             }
 

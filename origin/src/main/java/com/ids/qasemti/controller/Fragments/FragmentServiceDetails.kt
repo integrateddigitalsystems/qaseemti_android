@@ -36,10 +36,7 @@ import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.SliderItem
-import com.ids.qasemti.utils.AppConstants
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.utils.*
 import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.fragment_service_details.*
 
@@ -137,7 +134,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
                     .fitCenter()
                     .into(iv)
 
-                iv.setOnClickListener {
+                iv.onOneClick {
                     turnOffVideos()
                     MyApplication.firstImage = true
                     MyApplication.selectedImage = item.url
@@ -168,7 +165,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
                 videoLayout.show()
                 iv.hide()
                 full.show()
-                full.setOnClickListener {
+                full.onOneClick {
                     turnOffVideos()
                     MyApplication.selectedImage = "-"
                     MyApplication.selectedVideo = item.url
@@ -279,7 +276,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
 
         btServiceCheckout.typeface=AppHelper.getTypeFace(requireContext())
-        btServiceCheckout.setOnClickListener {
+        btServiceCheckout.onOneClick {
             /*MyApplication.selectedFragment = FragmentCheckout()
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.homeContainer, FragmentCheckout(), AppConstants.CHECKOUT)

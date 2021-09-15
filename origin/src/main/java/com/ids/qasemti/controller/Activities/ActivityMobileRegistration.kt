@@ -4,15 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import com.ids.qasemti.R
 
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.utils.AppConstants
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.utils.*
 import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.activity_mobile_registration.*
 import kotlinx.android.synthetic.main.white_logo_layout.*
@@ -25,15 +23,17 @@ class ActivityMobileRegistration: ActivityBase(){
     override fun onBackPressed() {
         if(MyApplication.fromLogout) {
             AppHelper.createYesNoDialog(
-                this, getString(R.string.exit), getString(R.string.cancel), getString(
-                    R.string.sureExit
-                )
+                this,  AppHelper.getRemoteString("exit",this), AppHelper.getRemoteString("cancel",this), AppHelper.getRemoteString("sureExit",this)
             ) {
                 finishAffinity()
                 exitProcess(0)
             }
         }else{
             super.onBackPressed()
+        }
+
+        logo_main.onOneClick {
+            Toast.makeText(this,"Howdy Gov",Toast.LENGTH_SHORT).show()
         }
         /*if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             closeDrawer(drawerLayout, true)
@@ -58,7 +58,7 @@ class ActivityMobileRegistration: ActivityBase(){
             llNewMember.hide()
         }
 
-        tvRegisterNewMember.setOnClickListener {
+        tvRegisterNewMember.onOneClick {
             startActivity(Intent(this,ActivityRegistration::class.java))
         }
 
@@ -96,9 +96,9 @@ class ActivityMobileRegistration: ActivityBase(){
 
         }
 
-        btLoginClient.setOnClickListener {
+        btLoginClient.onOneClick {
             if(etPhone.text.isNullOrEmpty()){
-                AppHelper.createDialog(this,getString(R.string.fill_all_field))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
             }else {
                 MyApplication.isSignedIn = true
                 startActivity(Intent(this, ActivityHome::class.java))
@@ -106,9 +106,9 @@ class ActivityMobileRegistration: ActivityBase(){
 
         }
 
-        btLogin.setOnClickListener {
+        btLogin.onOneClick {
             if(etPhone.text.isNullOrEmpty()){
-                AppHelper.createDialog(this,getString(R.string.fill_all_field))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
             }else {
                 MyApplication.isSignedIn = true
                 startActivity(Intent(this,ActivityRegistration::class.java))

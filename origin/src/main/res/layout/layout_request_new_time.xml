@@ -71,6 +71,7 @@
                         <com.ids.qasemti.custom.CustomTextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:tag="order_date"
                             android:text="@string/order_date"
                             android:textColor="@color/gray_font_title"
                             android:textSize="@dimen/normal_font" />
@@ -164,6 +165,7 @@
                     <com.ids.qasemti.custom.CustomTextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:tag="Suggest_Delvr"
                         android:layout_marginStart="@dimen/normal_margin"
                         android:text="@string/Suggest_Delvr"
                         android:textColor="@color/gray_font_title"
@@ -310,7 +312,7 @@
                     <com.ids.qasemti.custom.CustomTextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:tag="actual_delivery"
+                        android:tag="Actual_delivery"
                         android:text="@string/Actual_delivery"
                         android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/normal_font" />

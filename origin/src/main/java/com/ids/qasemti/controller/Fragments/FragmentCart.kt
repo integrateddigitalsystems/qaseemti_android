@@ -32,7 +32,8 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
     }
 
     fun init(){
-         AppHelper.setTitle(requireActivity(),getString(R.string.Cart),"cart")
+        AppHelper.getRemoteString("Cart",requireContext())
+         AppHelper.setTitle(requireActivity(), AppHelper.getRemoteString("Cart",requireContext()),"Cart")
 
     }
 

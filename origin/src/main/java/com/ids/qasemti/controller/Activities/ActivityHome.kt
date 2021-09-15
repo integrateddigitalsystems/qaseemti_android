@@ -179,8 +179,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
     override fun onBackPressed() {
-        AppHelper.createYesNoDialog(this,getString(R.string.exit),getString(R.string.cancel),getString(
-                    R.string.sureExit)){
+        AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("exit",this), AppHelper.getRemoteString("cancel",this),AppHelper.getRemoteString("sureExit",this)){
             finishAffinity()
             exitProcess(0)
         }
@@ -298,12 +297,12 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             }
 
         })
-        btBackTool!!.setOnClickListener {
+        btBackTool!!.onOneClick {
             getSupportFragmentManager()
                 .beginTransaction()
                 .remove(getSupportFragmentManager().findFragmentById(R.id.container)!!).commit();
         }
-        llFooterOrders.setOnClickListener {
+        llFooterOrders.onOneClick {
             MyApplication.fromFooterOrder = true
             MyApplication.defaultIcon = ivFooterOrder
             if (MyApplication.selectedFragmentTag != FRAGMENT_ORDER && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
@@ -319,7 +318,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             }
         }
 
-        llFooterNotifications.setOnClickListener {
+        llFooterNotifications.onOneClick {
             MyApplication.defaultIcon = ivFooterNotifications
             if (MyApplication.selectedFragmentTag != FRAGMENT_NOTFICATIONS && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
                 setSelectedTab(
@@ -333,7 +332,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 goRegistration(3, FRAGMENT_NOTFICATIONS, FragmentNotifications(), R.color.white)
         }
 
-        llFooterAccount.setOnClickListener {
+        llFooterAccount.onOneClick {
             MyApplication.defaultIcon = ivFooterAccount
             if (MyApplication.selectedFragmentTag != FRAGMENT_ACCOUNT && ((MyApplication.isClient && MyApplication.isSignedIn) || !MyApplication.isClient))
                 setSelectedTab(
@@ -348,7 +347,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         }
 
         //other tabs
-        llFooterCart.setOnClickListener {
+        llFooterCart.onOneClick {
             MyApplication.defaultIcon = ivCartFooter
             if (MyApplication.selectedFragmentTag != FRAGMENT_CART && MyApplication.isSignedIn)
                 setSelectedTab(0, FragmentCart(), FRAGMENT_CART, ivCartFooter, R.color.redPrimary)
@@ -357,7 +356,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         }
 
 
-        llFooterHome.setOnClickListener {
+        llFooterHome.onOneClick {
             if (MyApplication.isClient) {
                 if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_HOME_CLIENT)
                     setSelectedTab(
@@ -380,7 +379,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         }
 
 
-        llFooterProducts.setOnClickListener {
+        llFooterProducts.onOneClick {
             MyApplication.defaultIcon = ivProductFooter
             if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_PROD)
                 setSelectedTab(
@@ -394,7 +393,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
         defaultFragment()
 
-        btBackTool.setOnClickListener {
+        btBackTool.onOneClick {
             checkBack()
             super.onBackPressed()
         }

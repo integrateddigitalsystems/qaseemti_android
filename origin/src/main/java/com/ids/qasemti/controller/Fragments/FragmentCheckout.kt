@@ -14,11 +14,8 @@ import com.ids.qasemti.controller.Activities.ActivityAddresses
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityPlaceOrder
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
-import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.isNumeric
-import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.text.SimpleDateFormat
@@ -66,7 +63,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
 
     fun init(){
         (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
-        AppHelper.setTitle(requireActivity(),getString(R.string.Checkout),"checkout")
+        AppHelper.setTitle(requireActivity(),AppHelper.getRemoteString("checkout",requireContext()),"checkout")
         etFromTime.setFocusable(false);
         etFromDate.setFocusable(false);
         etToDate.setFocusable(false)
@@ -77,22 +74,22 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
         (activity as ActivityHome?)!!.showBack(true)
 
         btPlaceOrder.typeface = AppHelper.getTypeFace(requireContext())
-        btPlaceOrder.setOnClickListener {
+        btPlaceOrder.onOneClick {
             startActivity(Intent(requireContext(),ActivityPlaceOrder::class.java))
         }
        setUpCurr()
-        rbNow.setOnClickListener {
+        rbNow.onOneClick {
             setUpCurr()
-            rlFromDate.setOnClickListener {
+            rlFromDate.onOneClick {
 
             }
-            rlFromTime.setOnClickListener {
+            rlFromTime.onOneClick {
 
             }
         }
-        rbSpecify.setOnClickListener {
+        rbSpecify.onOneClick {
 
-            rlFromDate.setOnClickListener {
+            rlFromDate.onOneClick {
                 var mcurrentDate = Calendar.getInstance()
                 var mYear = 0
                 var mMonth = 0
@@ -118,7 +115,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
                 )
                 mDatePicker.show()
             }
-            rlFromTime.setOnClickListener {
+            rlFromTime.onOneClick {
                 // TODO Auto-generated method stub
                 val mcurrentTime = Calendar.getInstance()
                 val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
@@ -139,7 +136,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
             }
         }
 
-        rlFromDate.setOnClickListener {
+        rlFromDate.onOneClick {
             var mcurrentDate = Calendar.getInstance()
             var mYear = 0
             var mMonth = 0
@@ -166,7 +163,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
             )
             mDatePicker.show()
         }
-        rlToDate.setOnClickListener {
+        rlToDate.onOneClick {
             var mcurrentDate = Calendar.getInstance()
             var mYear = 0
             var mMonth = 0
@@ -195,7 +192,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
 
 
 
-        btPlus.setOnClickListener {
+        btPlus.onOneClick {
             var quant = tvQuant.text.toString()
             if(quant.isNumeric()){
                 var value = quant.toInt()
@@ -203,7 +200,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
                 tvQuant.text = value.toString()
             }
         }
-        btMinus.setOnClickListener {
+        btMinus.onOneClick {
             var quant = tvQuant.text.toString()
             if(quant.isNumeric()){
                 var value = quant.toInt()
@@ -214,7 +211,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
 
 
 
-        ivOpenDateTime.setOnClickListener {
+        ivOpenDateTime.onOneClick {
             var up = -90
             var down = 90
             if(open){

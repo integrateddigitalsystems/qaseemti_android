@@ -8,6 +8,7 @@ import androidx.core.widget.ImageViewCompat
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.onOneClick
 import kotlinx.android.synthetic.main.activity_account_status.*
 
 class ActivityAccountStatus : ActivityBase() {
@@ -17,15 +18,16 @@ class ActivityAccountStatus : ActivityBase() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_status)
         AppHelper.setAllTexts(rootLayoutAccountStatus,this)
-        btSave.setOnClickListener {
+        btSave.onOneClick {
             if(notfSelected==-1){
-                AppHelper.createDialog(this,getString(R.string.select_get_notified))
+                var msg = AppHelper.getRemoteString("select_get_notified",this)
+                AppHelper.createDialog(this,msg)
             }else{
                AppHelper.goHome(this)
             }
         }
 
-        llNotificationStatus.setOnClickListener {
+        llNotificationStatus.onOneClick {
             if(notfSelected==0 || notfSelected==-1){
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     ImageViewCompat.setImageTintList(
@@ -55,7 +57,7 @@ class ActivityAccountStatus : ActivityBase() {
             notfSelected = 1
         }
 
-        llMessageStatus.setOnClickListener {
+        llMessageStatus.onOneClick {
             if(notfSelected==1 || notfSelected==-1){
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

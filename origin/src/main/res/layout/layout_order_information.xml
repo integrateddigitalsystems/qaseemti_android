@@ -56,14 +56,16 @@
                         android:layout_width="match_parent"
                         android:textSize="@dimen/medium_font"
                         android:layout_height="@dimen/icon"
+                        android:textColor="@color/gray_font_title"
                         android:gravity="top"
-                        android:tag="order_amount"
+                        android:tag="OrderAmount"
                         android:text="@string/OrderAmount" />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/normal_icon"
                         android:gravity="center_vertical"
+                        android:textSize="@dimen/normal_font"
                         android:text="10 KWD"
                         android:textColor="@color/redPrimary" />
 
@@ -95,7 +97,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/icon"
                         android:gravity="center_vertical"
-                        android:tag="payment_method"
+                        android:textColor="@color/gray_font_title"
+                        android:tag="PaymentMethod"
                         android:textSize="@dimen/medium_font"
                         android:text="@string/PaymentMethod" />
 
@@ -104,6 +107,7 @@
                         android:gravity="center_vertical"
                         android:layout_height="@dimen/normal_icon"
                         android:textSize="@dimen/small_font_2"
+                        android:textColor="@color/gray_font_title"
                         android:text="Cash on delivery" />
 
                 </LinearLayout>

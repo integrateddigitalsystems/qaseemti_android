@@ -5,10 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.setColorTypeface
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_new_address.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -31,9 +28,9 @@ class ActivityAddNewAddress : ActivityBase() {
     }
 
     private fun listeners(){
-        btBackTool.setOnClickListener{super.onBackPressed()}
+        btBackTool.onOneClick{super.onBackPressed()}
         var title = intent.getStringExtra("mapTitle")
         tvPageTitle.setColorTypeface(this,R.color.redPrimary,title!!,true)
-        btMapAddress.setOnClickListener{startActivity(Intent(this,ActivityMapAddress::class.java))}
+        btMapAddress.onOneClick{startActivity(Intent(this,ActivityMapAddress::class.java))}
     }
 }

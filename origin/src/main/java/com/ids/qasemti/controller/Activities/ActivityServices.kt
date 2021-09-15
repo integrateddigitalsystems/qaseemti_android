@@ -35,14 +35,14 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
 
     private fun listeners(){
       //  btBck.setOnClickListener{super.onBackPressed()}
-        btAdd.setOnClickListener{startActivity(Intent(this,ActivityServiceInformation::class.java))}
+        btAdd.onOneClick{startActivity(Intent(this,ActivityServiceInformation::class.java))}
     }
 
     private fun setData(){
 
-        tvPageTitle.setColorTypeface(this,R.color.white,getString(R.string.MyServices),true)
+        tvPageTitle.setColorTypeface(this,R.color.white, AppHelper.getRemoteString("MyServices",this),true)
         btBackTool.show()
-        btBackTool.setOnClickListener {
+        btBackTool.onOneClick {
             super.onBackPressed()
         }
 

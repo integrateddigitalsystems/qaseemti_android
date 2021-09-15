@@ -11,6 +11,7 @@ import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityMapLocation
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.onOneClick
 import kotlinx.android.synthetic.main.curve_layout_home.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -40,11 +41,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
     fun init(){
         //tvToolbarCurveTitle.setText(getString(R.string.profile))
         (activity as ActivityHome?)!!.showBack(R.color.white)
-         AppHelper.setTitle(requireActivity(),getString(R.string.Profile),"profile")
+         AppHelper.setTitle(requireActivity(),AppHelper.getRemoteString("Profile",requireContext()),"profile")
 
        // (activity as ActivityHome?)!!.showLogout(false)
         tvToolbarCurveTitle.visibility = View.GONE
-        ivMapButton.setOnClickListener {
+        ivMapButton.onOneClick {
             startActivity(Intent(requireContext(),ActivityMapLocation::class.java))
         }
 

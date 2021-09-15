@@ -35,7 +35,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         btDrawer.hide()
         btBackTool.show()
-        btBackTool.setOnClickListener {
+        btBackTool.onOneClick {
             super.onBackPressed()
         }
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
@@ -77,17 +77,17 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
     }
 
     fun setListeners(){
-        llCall.setOnClickListener {
+        llCall.onOneClick {
             val intent = Intent(Intent.ACTION_DIAL)
             startActivity(intent)
         }
-        llMessage.setOnClickListener {
+        llMessage.onOneClick {
             val uri = Uri.parse("smsto:12346556")
             val it = Intent(Intent.ACTION_SENDTO, uri)
             it.putExtra("sms_body", "Here you can set the SMS text to be sent")
             startActivity(it)
         }
-        rlCheckoutDate.setOnClickListener {
+        rlCheckoutDate.onOneClick {
             var mcurrentDate = Calendar.getInstance()
             var mYear = 0
             var mMonth = 0
@@ -113,7 +113,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             )
             mDatePicker.show()
         }
-        rlCheckoutTime.setOnClickListener {
+        rlCheckoutTime.onOneClick {
             // TODO Auto-generated method stub
             val mcurrentTime = Calendar.getInstance()
             val hour = mcurrentTime[Calendar.HOUR_OF_DAY]

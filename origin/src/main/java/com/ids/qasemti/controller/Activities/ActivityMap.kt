@@ -9,10 +9,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.setColorTypeface
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -45,7 +42,7 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback{
 
         btDrawer.hide()
         btBackTool.show()
-        btBackTool.setOnClickListener {
+        btBackTool.onOneClick {
             onBackPressed()
         }
 

@@ -13,6 +13,8 @@ import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
@@ -431,6 +433,27 @@ class AppHelper {
 
         }
 
+        fun getRemoteString(key:String , con : Context):String {
+            if (MyApplication.localizeArray != null) {
+                try {
+                    return MyApplication.localizeArray!!.messages!!.find { it.localize_Key == key }!!.getMessage()!!
+                } catch (e: Exception) {
+                    try {
+                        val resId = con.resources.getIdentifier(key, "string", con.packageName)
+                        return con.resources.getString(resId)
+                    } catch (e: Exception) {
+                        return ""
+                    }
+                }
+
+            }else{
+                val resId = con.resources.getIdentifier(key, "string", con.packageName)
+                return con.resources.getString(resId)
+            }
+
+
+        }
+
         fun createYesNoDialog(c: Activity, positiveButton :String , negativeButton : String ,message: String, doAction: () -> Unit) {
 
 
@@ -470,6 +493,16 @@ class AppHelper {
 
         fun goHome(context: Context) {
             context.startActivity(Intent(context, ActivityHome::class.java))
+        }
+
+        fun onOneClick(doAction: () -> Unit){
+            if(MyApplication.clickable!!){
+                MyApplication.clickable = false
+                doAction()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    MyApplication.clickable = true
+                }, 500)
+            }
         }
 
 
@@ -711,7 +744,8 @@ class AppHelper {
 
         fun createDialog(c: Activity, message: String) {
 
-            var ok = c.getString(R.string.ok)
+
+            var ok = getRemoteString("ok",c)
 
             val builder = AlertDialog.Builder(c)
             builder

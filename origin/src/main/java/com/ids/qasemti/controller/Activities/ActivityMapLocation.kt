@@ -40,7 +40,7 @@ class ActivityMapLocation : ActivityBase(), OnMapReadyCallback {
 
         btDrawer.hide()
         btBackTool.show()
-        btBackTool.setOnClickListener {
+        btBackTool.onOneClick {
             onBackPressed()
         }
 

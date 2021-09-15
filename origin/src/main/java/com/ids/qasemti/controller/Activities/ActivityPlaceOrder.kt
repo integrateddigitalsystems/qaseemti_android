@@ -67,7 +67,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
     }
 
     fun setListeners(){
-        rbCash.setOnClickListener {
+        rbCash.onOneClick {
             if (selected != 0) {
                 ivCash.setImageDrawable(
                     getResources().getDrawable(
@@ -91,7 +91,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                 selected = 0
             }
         }
-        rbKnet.setOnClickListener {
+        rbKnet.onOneClick {
             if (selected != 1) {
                 ivCash.setImageDrawable(
                     getResources().getDrawable(
@@ -114,7 +114,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                 selected = 1
             }
         }
-        rbVisa.setOnClickListener {
+        rbVisa.onOneClick {
             if (selected != 2) {
                 ivCash.setImageDrawable(
                     getResources().getDrawable(
@@ -146,7 +146,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         tvPageTitle.textRemote("PlaceOrder",this)
         tvPageTitle.setColorTypeface(this,R.color.redPrimary,"",true)
         btBackTool.show()
-        btBackTool.setOnClickListener {
+        btBackTool.onOneClick {
             super.onBackPressed()
         }
         btPLaceOrder.typeface = AppHelper.getTypeFace(this)

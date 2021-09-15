@@ -45,7 +45,12 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
     fun init() {
         array.clear()
         (activity as ActivityHome).showLogout(false)
-        AppHelper.setTitle(requireActivity(), getString(R.string.notifications), "notifications")
+
+        AppHelper.setTitle(
+            requireActivity(),
+            AppHelper.getRemoteString("notifications", requireContext()),
+            "notifications"
+        )
 
 
         array.add(
@@ -83,9 +88,9 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
 
     override fun onItemClicked(view: View, position: Int) {
 
-        array.get(position).open = !array.get(position).open
-
-
-        adapter!!.notifyDataSetChanged()
+        AppHelper.onOneClick {
+            array.get(position).open = !array.get(position).open
+            adapter!!.notifyDataSetChanged()
+        }
     }
 }

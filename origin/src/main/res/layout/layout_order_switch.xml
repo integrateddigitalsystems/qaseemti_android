@@ -26,8 +26,10 @@
             android:layout_height="match_parent">
 
             <com.ids.qasemti.custom.CustomTextViewMedium
+                android:textColor="@color/gray_font_title"
+                android:textSize="@dimen/normal_font"
                 android:layout_width="wrap_content"
-                android:tag="on_track"
+                android:tag="OnTrack"
                 android:layout_height="wrap_content"
                 android:text="@string/OnTrack" />
 
@@ -50,7 +52,7 @@
             android:layout_height="match_parent">
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:text="@string/Delivery"
-                android:tag="delivered"
+                android:tag="Delivery"
                 android:textSize="@dimen/small_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -72,7 +74,7 @@
 
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:text="@string/Paid"
-                android:tag="paid"
+                android:tag="Paid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <androidx.appcompat.widget.SwitchCompat
