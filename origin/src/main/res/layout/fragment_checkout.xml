@@ -791,23 +791,28 @@
                 android:layout_marginStart="@dimen/margin_start_end"
                 android:layout_marginEnd="@dimen/margin_start_end"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/height_35"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_white_background">
 
-                <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:id="@+id/tvApply"
-                    android:layout_width="@dimen/toolbar_height"
-                    android:layout_height="match_parent"
+                <LinearLayout
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/rounded_blue"
+                    android:id="@+id/tvApply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/height_35">
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="@dimen/toolbar_height"
+                    android:layout_height="match_parent"
+
                     android:gravity="center"
                     android:tag="apply"
                     android:text="@string/apply"
                     android:textColor="@color/white"
                     android:textSize="@dimen/big_font" />
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/etCoupon"

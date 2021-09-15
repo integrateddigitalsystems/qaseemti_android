@@ -101,6 +101,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             AppHelper.createYesNoDialog(requireActivity(),getString(R.string.logout),getString(R.string.cancel),getString(
                             R.string.sureLogout)){
                 MyApplication.isSignedIn = false
+                MyApplication.fromLogout = true
                 requireActivity().finishAffinity()
                 startActivity(Intent(requireContext(),ActivityMobileRegistration::class.java).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
             }

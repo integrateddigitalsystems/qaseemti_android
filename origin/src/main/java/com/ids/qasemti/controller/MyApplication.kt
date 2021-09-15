@@ -28,6 +28,7 @@ class MyApplication : Application() {
         var isDebug: Boolean = true
         var selectedFragmentTag : String ?=""
         var typeSelected = 0
+        var fromLogout = false
         var settlementTabSelected =0
         var defaultIcon : ImageView ?=null
         var selectedFragment  : Fragment ?=null
