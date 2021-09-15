@@ -23,11 +23,24 @@ class ActivityMobileRegistration: ActivityBase(){
 
 
     override fun onBackPressed() {
-        AppHelper.createYesNoDialog(this,getString(R.string.exit),getString(R.string.cancel),getString(
-            R.string.sureExit)){
-            finishAffinity()
-            exitProcess(0)
+        if(MyApplication.fromLogout) {
+            AppHelper.createYesNoDialog(
+                this, getString(R.string.exit), getString(R.string.cancel), getString(
+                    R.string.sureExit
+                )
+            ) {
+                finishAffinity()
+                exitProcess(0)
+            }
+        }else{
+            super.onBackPressed()
         }
+        /*if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            closeDrawer(drawerLayout, true)
+        } else {
+            checkBack()
+            super.onBackPressed()
+        }*/
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
