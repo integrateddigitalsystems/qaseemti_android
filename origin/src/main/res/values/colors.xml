@@ -11,10 +11,13 @@
     <color name="gray_medium_2">#dadada </color>
     <color name="gray_background">#f2f2f2</color>
     <color name="gray_serperator">#e6e6e6</color>
+    <color name="gray_selected">#cccccc</color>
+    <color name="gray_not_selected">#DFDFDF</color>
+
 
     <color name="transparent">#00000000</color>
     <color name="new_blue">#0080ff</color>
-    <color name="button_blue">#009bfc</color>
+    <color name="button_blue">#0080ff</color>
     <color name="white">#ffffff</color>
     <color name="gradient_red">#ff516b</color>
     <color name="pink_bg">#ffe7ea</color>

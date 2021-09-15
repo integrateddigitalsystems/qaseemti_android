@@ -27,7 +27,7 @@
             android:gravity="center"
             android:padding="@dimen/normal_margin"
             android:textSize="@dimen/main_title_font"
-            android:tag="registration"
+            android:tag="Registration"
             android:textColor="@color/redPrimary"
             android:layout_height="60dp"
             android:text="@string/Registration"

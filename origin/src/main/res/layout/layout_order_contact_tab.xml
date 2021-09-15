@@ -15,12 +15,11 @@
         android:elevation="@dimen/normal_margin"
         card_view:contentPadding="0dp"
         app:cardUseCompatPadding="true"
-        app:cardCornerRadius="@dimen/normal_radius"
+        app:cardCornerRadius="@dimen/bigger_radius"
         android:background="@drawable/rounded_white_background"
         android:gravity="center_vertical"
         android:orientation="horizontal">
     <RelativeLayout
-        android:background="@drawable/rounded_white_background"
         android:id="@+id/llCurrentLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -211,11 +210,12 @@
     </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/llRatingOrder"
-            android:padding="@dimen/mini_margin"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical"
+            android:paddingTop="@dimen/normal_margin"
+            android:paddingBottom="@dimen/normal_margin"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_width="wrap_content"
@@ -224,18 +224,19 @@
 
             <ImageView
                 android:tint="@color/white"
-                android:layout_width="@dimen/normal_icon"
-                android:layout_height="@dimen/normal_icon"
+                android:layout_width="@dimen/small_icon"
+                android:layout_height="@dimen/small_icon"
                 android:src="@drawable/icon_star"/>
 
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/mini_margin"
-                android:layout_marginEnd="@dimen/mini_margin"
-                android:textSize="@dimen/small_font_2"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:tag="rate"
+                android:textSize="@dimen/small_font_3"
                 android:textColor="@color/white"
-                android:text="@string/RateUs"/>
+                android:text="@string/rate"/>
 
         </LinearLayout>
 

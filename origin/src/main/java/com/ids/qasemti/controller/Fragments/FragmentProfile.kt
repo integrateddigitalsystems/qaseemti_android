@@ -1,5 +1,6 @@
 package com.ids.qasemti.controller.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
+import com.ids.qasemti.controller.Activities.ActivityMapLocation
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.utils.AppHelper
 import kotlinx.android.synthetic.main.curve_layout_home.*
@@ -42,6 +44,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
 
        // (activity as ActivityHome?)!!.showLogout(false)
         tvToolbarCurveTitle.visibility = View.GONE
+        ivMapButton.setOnClickListener {
+            startActivity(Intent(requireContext(),ActivityMapLocation::class.java))
+        }
 
 
     }

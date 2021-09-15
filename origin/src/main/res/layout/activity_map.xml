@@ -31,7 +31,7 @@
         android:textColor="@color/gray_font"
         android:textSize="@dimen/normal_font"
         android:text="@string/MoveMapAndDrop"
-        android:tag="move_the_map"
+        android:tag="MoveMapAndDrop"
         />
     <RelativeLayout
         android:layout_width="match_parent"

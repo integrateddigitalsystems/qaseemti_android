@@ -36,10 +36,10 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             super.onBackPressed()
         }
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
-        tvPageTitle.typeface = AppHelper.getTypeFaceBold(this)
         tvPageTitle.show()
+        tvPageTitle.setColorTypeface(this,R.color.white,"",true)
         if(MyApplication.typeSelected==0) {
-            tvPageTitle.textRemote("active_order_det",this)
+            tvPageTitle.textRemote("ActiveOrderDetails",this)
             if(!MyApplication.isClient){
                 llEditOrderTime.show()
             }else{
@@ -48,7 +48,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             }
             llActualDelivery.hide()
         }else{
-            tvPageTitle.textRemote("completed_order_details",this)
+            tvPageTitle.textRemote("CompletedOrderDetails",this)
             llRatingOrder.visibility=View.VISIBLE
             llEditOrderTime.hide()
             llActualDelivery.show()

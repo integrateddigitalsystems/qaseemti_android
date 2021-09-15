@@ -17,7 +17,7 @@
         android:layout_marginTop="@dimen/push_card"
         card_view:contentPadding="0dp"
         app:cardUseCompatPadding="true"
-        app:cardCornerRadius="@dimen/normal_radius"
+        app:cardCornerRadius="@dimen/bigger_radius"
         android:background="@drawable/rounded_white_background"
         android:gravity="center_vertical"
         android:orientation="horizontal"

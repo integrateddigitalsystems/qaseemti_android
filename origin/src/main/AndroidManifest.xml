@@ -135,6 +135,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
+            android:name=".controller.Activities.ActivityMapLocation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".controller.Activities.ActivityOrderDetails"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"

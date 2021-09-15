@@ -4,9 +4,9 @@
 <shape android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <corners
-        android:bottomLeftRadius="@dimen/normal_radius"
-        android:bottomRightRadius="@dimen/normal_radius"
-        android:topLeftRadius="@dimen/normal_radius"
+        android:bottomLeftRadius="@dimen/big_radius"
+        android:bottomRightRadius="@dimen/big_radius"
+        android:topLeftRadius="@dimen/big_radius"
         android:topRightRadius="0dp"
 
         />

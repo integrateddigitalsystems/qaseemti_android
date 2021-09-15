@@ -51,7 +51,7 @@
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/big_margin"
+                    android:layout_marginStart="@dimen/small_margin"
                     android:textColor="@color/gray_font_title"
                     android:textSize="@dimen/medium_font"
                     android:layout_marginEnd="@dimen/big_margin"
@@ -100,13 +100,13 @@
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/big_margin"
+                        android:layout_marginStart="@dimen/small_margin"
                         android:layout_marginEnd="@dimen/big_margin"
                         android:layout_weight="1"
                         android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/medium_font"
                         android:gravity="center_vertical"
-                        android:tag="select_time_and_delivery_date"
+                        android:tag="select_time_date"
                         android:text="@string/select_time_date" />
 
                     <ImageView
@@ -164,7 +164,7 @@
                             android:layout_weight="1"
                             android:backgroundTint="@color/button_blue"
                             android:buttonTint="@color/button_blue"
-                            android:tag="now"
+                            android:tag="Now"
                             android:text="@string/Now"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/normal_font" />
@@ -176,7 +176,7 @@
                             android:layout_weight="1"
                             android:backgroundTint="@color/button_blue"
                             android:buttonTint="@color/button_blue"
-                            android:tag="specify"
+                            android:tag="Specify"
                             android:text="@string/Specify"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/normal_font" />
@@ -397,7 +397,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/first_margin"
                 android:layout_marginBottom="@dimen/first_margin"
-                android:tag="order_summary"
+                android:tag="OrderSummary"
                 android:text="@string/OrderSummary"
                 android:textSize="@dimen/header_font" />
 
@@ -414,7 +414,7 @@
                 android:elevation="@dimen/normal_margin"
                 card_view:contentPadding="0dp"
                 app:cardUseCompatPadding="true"
-                app:cardCornerRadius="@dimen/normal_radius"
+                app:cardCornerRadius="@dimen/bigger_radius"
                 android:background="@drawable/rounded_white_background"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -628,7 +628,7 @@
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:gravity="center"
-                    android:tag="quantity"
+                    android:tag="Quantity"
                     android:text="@string/Quantity"
                     android:textSize="@dimen/header_font" />
 
@@ -783,7 +783,7 @@
                 android:layout_marginEnd="@dimen/margin_start_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:tag="do_you_have_a_coupon"
+                android:tag="haveCoupon"
                 android:text="@string/haveCoupon"
                 android:textSize="@dimen/header_font" />
 
@@ -835,7 +835,7 @@
                 android:layout_marginBottom="@dimen/normal_margin"
                 android:layout_marginTop="@dimen/big_margin"
                 android:background="@drawable/blue_rounded"
-                android:tag="find_server_provider"
+                android:tag="FindService"
                 android:text="@string/FindService"
                 android:textColor="@color/white" />
 

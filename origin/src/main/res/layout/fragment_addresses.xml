@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/llHomeCurve"
-            android:layout_marginTop="@dimen/medium_push"
+            android:layout_marginTop="@dimen/medium_push_2"
             android:fillViewport="true">
 
             <LinearLayout
@@ -69,7 +69,7 @@
                         android:textSize="@dimen/big_font"
                         android:textColor="@color/white"
                         android:text="@string/AddNewAddress"
-                        android:tag="add_new_address"
+                        android:tag="AddNewAddress"
                         />
 
                     <ImageView

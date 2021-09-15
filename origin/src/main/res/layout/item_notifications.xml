@@ -17,7 +17,7 @@
         android:orientation="horizontal"
         android:paddingStart="@dimen/margin_start_end"
         android:paddingEnd="@dimen/margin_start_end"
-        app:cardCornerRadius="@dimen/normal_radius"
+        app:cardCornerRadius="@dimen/bigger_radius"
         app:cardElevation="@dimen/normal_margin"
         app:cardUseCompatPadding="true">
 

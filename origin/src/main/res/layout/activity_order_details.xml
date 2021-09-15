@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/llToolBar"
-        android:layout_marginTop="@dimen/medium_push">
+        android:layout_marginTop="@dimen/medium_push_3">
 
         <include layout="@layout/layout_order_contact_tab" />
     </LinearLayout>
@@ -87,7 +87,7 @@
                 android:layout_marginBottom="@dimen/big_margin"
                 android:layout_below="@+id/llOrderSwitches"
                 android:id="@+id/btCancelOrder"
-                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/big_margin"
                 android:layout_marginStart="@dimen/margin_start_end"
                 android:textAllCaps="false"
                 android:layout_marginEnd="@dimen/margin_start_end"

@@ -17,7 +17,7 @@
         android:elevation="@dimen/normal_margin"
         card_view:contentPadding="0dp"
         app:cardUseCompatPadding="true"
-        app:cardCornerRadius="@dimen/normal_radius"
+        app:cardCornerRadius="@dimen/bigger_radius"
         android:background="@drawable/rounded_white_background"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -442,7 +442,9 @@
                 android:paddingEnd="@dimen/medium_2"
                 android:visibility="visible">
 
+
                 <ImageView
+                    android:padding="3dp"
                     android:layout_width="@dimen/normal_icon"
                     android:layout_height="@dimen/normal_icon"
                     android:src="@drawable/icon_star"
@@ -489,6 +491,7 @@
                 android:visibility="visible">
 
                 <ImageView
+                    android:padding="1dp"
                     android:layout_width="@dimen/normal_icon"
                     android:layout_height="@dimen/normal_icon"
                     android:src="@drawable/icon_credit" />
@@ -554,34 +557,33 @@
 
                 <LinearLayout
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="end"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                <LinearLayout
-                    android:padding="@dimen/mini_margin"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-                    <com.ids.qasemti.custom.CustomTextViewMedium
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:tag="delivered"
-                        android:text="@string/Delivery"
-                        android:textColor="@color/gray_font_title"
-                        android:textSize="@dimen/small_font_2" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:layout_width="100dp"
+                    <LinearLayout
+                        android:layout_width="120dp"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="-50dp"
-                        android:gravity="center"
-                        android:scaleX="0.7"
-                        android:scaleY="0.7"
-                        android:theme="@style/Theme.MyTheme" />
+                        android:gravity="end|center_vertical">
 
-                </LinearLayout>
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:tag="Delivery"
+                            android:textColor="@color/gray_font_title"
+                            android:textSize="@dimen/small_font_3"
+                            android:text="@string/Delivery" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:layout_width="100dp"
+                            android:layout_marginStart="-52dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:theme="@style/Theme.MyTheme" />
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

@@ -300,11 +300,11 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
         // Scale it to 50 x 50
         selectedC = BitmapDrawable(
             resources,
-            Bitmap.createScaledBitmap(convertToBitmap(selected_circle)!!, 20, 20, true)
+            Bitmap.createScaledBitmap(convertToBitmap(selected_circle)!!, 25, 25, true)
         )
         notSelectedC = BitmapDrawable(
             resources,
-            Bitmap.createScaledBitmap(convertToBitmap(not_selected_circle)!!, 20, 20, true)
+            Bitmap.createScaledBitmap(convertToBitmap(not_selected_circle)!!, 25, 25, true)
         )
 
         arrayItems.add(SliderItem("http://sc04.alicdn.com/kf/He4dba8a9ab794fc0b22a7ae23c246fd4G.jpg",1,""))

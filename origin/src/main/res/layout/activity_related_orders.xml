@@ -23,7 +23,7 @@
         android:layout_marginBottom="@dimen/big_margin"
         android:layout_marginStart="@dimen/margin_start_end"
         android:layout_marginEnd="@dimen/margin_start_end"
-        android:layout_marginTop="@dimen/medium_push"
+        android:layout_marginTop="@dimen/medium_push_2"
         android:layout_below="@id/toplayout"
         android:layout_above="@id/llFooter"
         android:background="@drawable/rounded_white_background"

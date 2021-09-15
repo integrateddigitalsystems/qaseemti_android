@@ -86,6 +86,6 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
         array.get(position).open = !array.get(position).open
 
 
-        adapter!!.notifyItemChanged(position)
+        adapter!!.notifyDataSetChanged()
     }
 }

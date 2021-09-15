@@ -7,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Activities.ActivityAddresses
-import com.ids.qasemti.controller.Activities.ActivityHome
-import com.ids.qasemti.controller.Activities.ActivityServices
-import com.ids.qasemti.controller.Activities.ActivitySettlements
+import com.ids.qasemti.controller.Activities.*
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
@@ -99,6 +96,11 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         btNotifications.setOnClickListener {
             val bottom_fragment = FragmentBottomSheetPush()
             bottom_fragment.show(requireActivity().supportFragmentManager,"fragment_push_notifications")
+        }
+        btLogoutAccount.setOnClickListener {
+            MyApplication.isSignedIn = false
+            requireActivity().finish()
+            startActivity(Intent(requireContext(),ActivityMobileRegistration::class.java))
         }
     }
 }
