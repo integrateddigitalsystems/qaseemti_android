@@ -200,4 +200,7 @@
     <string name="not_available">Not Available</string>
     <string name="Registration">Registration</string>
     <string name="unavailable">Unavailable</string>
+    <string name="exit">Exit</string>
+    <string name="sureExit">Are you sure you want to exit ?</string>
+    <string name="sureLogout">Are you sure you want to logout ?</string>
 </resources>

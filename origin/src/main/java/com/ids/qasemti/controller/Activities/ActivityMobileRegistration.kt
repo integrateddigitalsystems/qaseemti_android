@@ -17,9 +17,18 @@ import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.activity_mobile_registration.*
 import kotlinx.android.synthetic.main.white_logo_layout.*
 import kotlin.collections.ArrayList
+import kotlin.system.exitProcess
 
 class ActivityMobileRegistration: ActivityBase(){
 
+
+    override fun onBackPressed() {
+        AppHelper.createYesNoDialog(this,getString(R.string.exit),getString(R.string.cancel),getString(
+            R.string.sureExit)){
+            finishAffinity()
+            exitProcess(0)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

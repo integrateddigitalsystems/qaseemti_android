@@ -199,4 +199,7 @@
     <string name="not_available">غير متوفر</string>
     <string name="Registration">التسجيل</string>
     <string name="unavailable">غير متوفر</string>
+    <string name="exit">خروج</string>
+    <string name="sureExit">هل انت متأكد من الخروج ؟</string>
+    <string name="sureLogout">هل انت متأكد من تسجيل خروج ؟</string>
 </resources>

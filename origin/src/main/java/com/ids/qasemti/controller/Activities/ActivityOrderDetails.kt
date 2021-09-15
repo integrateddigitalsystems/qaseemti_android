@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.TimePicker
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
@@ -30,6 +31,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_details)
+        getWindow().setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         btDrawer.hide()
         btBackTool.show()
         btBackTool.setOnClickListener {
