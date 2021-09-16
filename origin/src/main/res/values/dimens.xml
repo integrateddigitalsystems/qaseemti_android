@@ -81,7 +81,7 @@
     <dimen name="vertical_dim">0.75dip</dimen>
     <dimen name="bigger_icon">60dp</dimen>
     <dimen name="home_data_height">130dp</dimen>
-    <dimen name="splash_logo">275dp</dimen>
+    <dimen name="splash_logo">220dp</dimen>
     <dimen name="inside_logo">200dp</dimen>
     <dimen name="margin_logo">200dp</dimen>
     <dimen name="button_width">200dp</dimen>

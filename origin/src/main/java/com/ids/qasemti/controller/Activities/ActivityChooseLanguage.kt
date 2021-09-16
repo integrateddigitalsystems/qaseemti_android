@@ -30,10 +30,10 @@ class ActivityChooseLanguage : ActivityBase() {
         }
 
 
-        logoClient.onOneClick {
+       /* logoClient.onOneClick {
             startActivity(Intent(this,ActivityHome::class.java))
         }
-
+*/
 
     }
 

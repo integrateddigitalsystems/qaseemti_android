@@ -73,6 +73,7 @@
                         />
 
                     <ImageView
+                        android:padding="@dimen/mini_margin"
                         android:layout_width="@dimen/icon_2"
                         android:layout_height="@dimen/icon_2"
                         android:layout_gravity="center_vertical"
