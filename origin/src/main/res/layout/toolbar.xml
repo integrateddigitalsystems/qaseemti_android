@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height"
     android:paddingLeft="@dimen/medium_margin"
+    android:id="@+id/rlToolBar"
     android:paddingRight="@dimen/medium_margin"
     android:background="@color/transparent"
 
@@ -53,14 +54,15 @@
         android:id="@+id/tvPageTitle"
         android:layout_width="match_parent"
         android:gravity="center"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:text="@string/email"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="@dimen/height_35"
         android:layout_marginEnd="@dimen/height_35"
         android:maxLines="1"
-        android:textColor="@color/white"
+        android:textColor="@color/redPrimary"
         android:textSize="@dimen/title_font" />
 
 

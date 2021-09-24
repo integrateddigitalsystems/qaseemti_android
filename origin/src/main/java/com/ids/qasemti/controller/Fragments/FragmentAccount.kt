@@ -94,6 +94,9 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             val bottom_fragment = FragmentBottomSheetPush()
             bottom_fragment.show(requireActivity().supportFragmentManager,"fragment_push_notifications")
         }
+        btContactAdministrator.setOnClickListener {
+            startActivity(Intent(requireActivity(),ActivityContactUs::class.java))
+        }
         btLogoutAccount.onOneClick {
             AppHelper.createYesNoDialog(requireActivity(),  AppHelper.getRemoteString("logout",requireContext()),AppHelper.getRemoteString("cancel",requireContext()),AppHelper.getRemoteString("sureLogout",requireContext())){
                 MyApplication.isSignedIn = false
@@ -102,6 +105,10 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
                 startActivity(Intent(requireContext(),ActivityMobileRegistration::class.java).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
             }
 
+        }
+        btPrivacy.setOnClickListener {
+            startActivity(Intent(requireContext(),ActivityWeb::class.java)
+                .putExtra("webTitle","Privacy Policy"))
         }
     }
 }

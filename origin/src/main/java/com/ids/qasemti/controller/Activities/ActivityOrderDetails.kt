@@ -15,19 +15,25 @@ import com.ids.qasemti.controller.Adapters.AdapterOtherOrderData
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.OrderData
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
+import kotlinx.android.synthetic.main.activity_contact_us.*
 import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.layout_border_data.*
 import kotlinx.android.synthetic.main.layout_order_contact_tab.*
 import kotlinx.android.synthetic.main.layout_request_new_time.*
+import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
+    var orderId = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_details)
@@ -38,6 +44,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         btBackTool.onOneClick {
             super.onBackPressed()
         }
+       orderId = intent.getIntExtra("orderId",1)
+
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.show()
         tvPageTitle.setColorTypeface(this,R.color.white,"",true)
@@ -59,6 +67,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             btCancelOrder.hide()
             if(MyApplication.isClient)
                 btRenewOrder.show()
+
+
         }
 
         tvLocationOrderDeatils.setColorTypeface(this,R.color.redPrimary,"",false)
@@ -132,6 +142,34 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             ) //Yes 24 hour time
             timePickerDialog.show()
         }
+
+        btCancelOrder.onOneClick {
+            loading.show()
+            var newReq = RequestCancelOrder(orderId,1,"12-12-2020","not accepted yet")
+            RetrofitClient.client?.create(RetrofitInterface::class.java)
+                ?.cancelOrder(
+                    newReq
+                )?.enqueue(object : Callback<ResponseCancel> {
+                    override fun onResponse(call: Call<ResponseCancel>, response: Response<ResponseCancel>) {
+                        try{
+                            resultCancel(response.body()!!.result!!)
+                        }catch (E: java.lang.Exception){
+                           resultCancel(false)
+                        }
+                    }
+                    override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
+                        resultCancel(false)
+                    }
+                })
+        }
+    }
+    fun resultCancel(req:Boolean){
+        if(req){
+            AppHelper.createDialog(this,AppHelper.getRemoteString("success",this))
+        }else{
+            AppHelper.createDialog(this,AppHelper.getRemoteString("failure",this))
+        }
+        loading.hide()
     }
 
     override fun onItemClicked(view: View, position: Int) {

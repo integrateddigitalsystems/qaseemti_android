@@ -5,11 +5,16 @@ import android.os.Bundle
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.onOneClick
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.model.RequestOTP
+import com.ids.qasemti.model.RequestVerifyOTP
+import com.ids.qasemti.model.ResponseUpdate
+import com.ids.qasemti.model.ResponseVerification
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_code_verification.*
+import kotlinx.android.synthetic.main.loading.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ActivityCodeVerification : ActivityBase() {
 
@@ -26,17 +31,48 @@ class ActivityCodeVerification : ActivityBase() {
             llClientVerfCode.show()
 
             btRegisterVerf.onOneClick {
-                startActivity(Intent(this,ActivityAccountStatus::class.java))
+                verifyOTP()
+                //startActivity(Intent(this,ActivityAccountStatus::class.java))
             }
         }else{
             btVerifyCode.show()
             llClientVerfCode.hide()
 
             btVerifyCode.onOneClick {
-                startActivity(Intent(this,ActivityAccountStatus::class.java))
+                verifyOTP()
+                //startActivity(Intent(this,ActivityAccountStatus::class.java))
             }
 
 
         }
+    }
+
+    fun requestSucc(code:String){
+       /* if(code.equals("1")){
+            startActivity(Intent(this,ActivityAccountStatus::class.java))
+        }else{
+            AppHelper.createDialog(this,"Incorrect Code")
+        }*/
+        startActivity(Intent(this,ActivityAccountStatus::class.java))
+        loading.hide()
+    }
+
+    fun verifyOTP(){
+        loading.show()
+        var req = RequestVerifyOTP(pvCode.text.toString(),MyApplication.deviceId)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.verifyOTP(
+                req
+            )?.enqueue(object : Callback<ResponseVerification> {
+                override fun onResponse(call: Call<ResponseVerification>, response: Response<ResponseVerification>) {
+                    try{
+                        requestSucc(response.body()!!.result!!)
+                    }catch (E: java.lang.Exception){
+                    }
+                }
+                override fun onFailure(call: Call<ResponseVerification>, throwable: Throwable) {
+                    requestSucc("0")
+                }
+            })
     }
 }

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -15,6 +16,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
@@ -39,8 +41,15 @@ import com.google.android.material.tabs.TabLayout
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.RequestUpdate
+import com.ids.qasemti.model.ResponseUpdate
+import kotlinx.android.synthetic.main.fragment_checkout.*
 import me.grantland.widget.AutofitHelper
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
+import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
@@ -285,6 +294,79 @@ class AppHelper {
                     ).toInt()
                 )
             }
+
+        }
+
+        fun getVersionNumber(): Int {
+
+            val pInfo: PackageInfo
+            var version = -1
+            try {
+                pInfo = MyApplication.instance.packageManager
+                    .getPackageInfo(MyApplication.instance.packageName, 0)
+                version = pInfo.versionCode
+            } catch (e: PackageManager.NameNotFoundException) {
+                // TODO Auto-generated catch block
+                e.printStackTrace()
+            }
+
+            return version
+        }
+
+
+        fun formatDate(date:String , format : String,toFormat : String):String{
+
+            var sdf =
+                SimpleDateFormat(format, Locale.ENGLISH)
+            var date = sdf.parse(date)
+            var sdf2 = SimpleDateFormat(toFormat , Locale.US)
+
+            return sdf2.format(date)
+        }
+
+        fun updateDevice(context: Context){
+
+            val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
+            val cal = Calendar.getInstance()
+
+            val model = AppHelper.getDeviceName()
+            val osVersion = AppHelper.getAndroidVersion()
+
+            val deviceToken = ""
+            val deviceTypeId = "2"
+            var android_id = Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
+            val imei = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+
+            val registrationDate = dateFormat.format(cal.time)
+            val appVersion = getVersionNumber()
+
+            val generalNotification = 1
+            val isProduction = 1
+
+
+            val lang = MyApplication.languageCode
+            var isService = 1
+            if(MyApplication.isClient)
+                isService =0
+
+            var newReq = RequestUpdate(MyApplication.deviceId,"03/123123",model,osVersion,deviceToken,2,imei,generalNotification,appVersion.toString(),0,lang,1,isService)
+
+
+            RetrofitClient.client?.create(RetrofitInterface::class.java)
+                ?.updateDevice(
+                   newReq
+                )?.enqueue(object : Callback<ResponseUpdate> {
+                    override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
+                        try{
+                            MyApplication.deviceId =123
+                        }catch (E: java.lang.Exception){
+                        }
+                    }
+                    override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                    }
+                })
 
         }
 

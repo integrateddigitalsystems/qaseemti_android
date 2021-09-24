@@ -14,8 +14,15 @@ import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.RequestAvailability
+import com.ids.qasemti.model.RequestNotifications
+import com.ids.qasemti.model.ResponseCancel
+import com.ids.qasemti.model.ResponseConfiguration
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
@@ -38,6 +45,21 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         AppHelper.setAllTexts(rootLayoutOrders, requireContext())
         init()
 
+    }
+
+    fun setAvailability(available : Int ){
+        var newReq = RequestAvailability(6,available)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.updateAvailability(newReq)?.enqueue(object : Callback<ResponseCancel> {
+                override fun onResponse(call: Call<ResponseCancel>, response: Response<ResponseCancel>) {
+                    try{
+                        var x = 1
+                    }catch (E: java.lang.Exception){
+                    }
+                }
+                override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
+                }
+            })
     }
 
     fun init() {
@@ -67,11 +89,13 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             if (swAvailable.isChecked) {
                 rvOrders.show()
+                setAvailability(1)
                 swAvailable.text = AppHelper.getRemoteString("available", requireContext())
                 llNodata.hide()
             } else {
                 rvOrders.hide()
                 llNodata.show()
+                setAvailability(0)
                 swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
             }
         }
@@ -109,6 +133,10 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         } else if (view.id == R.id.llViewOrderDetails) {
             AppHelper.onOneClick {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
+            }
+        }else if(view.id == R.id.btAcceptOrder){
+            if(MyApplication.userStatus!!.online==1){
+                //accept action
             }
         }
     }

@@ -10,6 +10,7 @@ import android.content.res.Resources
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.text.Html
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -138,7 +139,13 @@ fun View.onOneClick(doAction: () -> Unit){
     }
 
 }
-
+fun TextView.setHTML(html:String){
+    this.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT)
+    } else {
+        Html.fromHtml(html)
+    }
+}
 fun TextView.textRemote(key: String, con:Context) {
     if (MyApplication.localizeArray != null) {
         try {

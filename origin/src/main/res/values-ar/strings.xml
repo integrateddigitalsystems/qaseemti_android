@@ -202,4 +202,10 @@
     <string name="exit">خروج</string>
     <string name="sureExit">هل انت متأكد من الخروج ؟</string>
     <string name="sureLogout">هل انت متأكد من تسجيل خروج ؟</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="full_name">Full Name</string>
+    <string name="subject">Subject</string>
+    <string name="message">Message</string>
+    <string name="success">Success</string>
+    <string name="failure">Failure</string>
 </resources>

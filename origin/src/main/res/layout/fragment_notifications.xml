@@ -26,4 +26,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/rvNotifications"/>
 
+    <include
+        layout="@layout/loading" />
+
 </RelativeLayout>

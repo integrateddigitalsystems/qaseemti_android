@@ -12,15 +12,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.Notification
+import com.ids.qasemti.model.ResponseNotification
 import com.ids.qasemti.model.ServiceItem
+import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.hide
+import com.ids.qasemti.utils.setHTML
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import java.util.ArrayList
 
 class AdapterNotification(
-    val items: ArrayList<Notification>,
+    val items: ArrayList<ResponseNotification>,
     private val itemClickListener: RVOnItemClickListener,
     context: Context
 ) :
@@ -38,19 +42,31 @@ class AdapterNotification(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-        holder.title.text = items.get(position).title
-        if (!items.get(position).image.isNullOrEmpty())
-            Glide.with(con).load(items.get(position).image).into(holder.image);
-        if (!items.get(position).details.isNullOrEmpty())
-            holder.details.text = items.get(position).details
+        var title = items.get(position).title_ar
+        var body = items.get(position).body_ar
+        if(MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
+            title = items.get(position).title_en
+            body = items.get(position).body_en
+        }
+            holder.date.text = items.get(position).date
+            holder.title.text = title
+            /*if (!items.get(position).image.isNullOrEmpty())
+            Glide.with(con).load(items.get(position).image).into(holder.image);*/
+            if (!body.isNullOrEmpty())
+                holder.details.setHTML(body)
+
+
+        if(items.get(position).isViewed.equals("1")){
+            holder.viewed.setImageDrawable(con.getDrawable(R.drawable.circle_gray))
+        }
 
         if (items.get(position).open) {
-            if (!items.get(position).image.isNullOrEmpty())
+          /*  if (!items.get(position).image.isNullOrEmpty())
                 holder.image.show()
             else
-                holder.image.hide()
+                holder.image.hide()*/
 
-            if (!items.get(position).details.isNullOrEmpty())
+            if (!body.isNullOrEmpty())
                 holder.details.show()
             else
                 holder.details.hide()
@@ -73,7 +89,9 @@ class AdapterNotification(
         var title = itemView.findViewById<TextView>(R.id.tvNotificationTitle)
         var image = itemView.findViewById<ImageView>(R.id.ivNotificationImage)
         var arrow = itemView.findViewById<ImageView>(R.id.ivArrowNotf)
+        var date = itemView.findViewById<TextView>(R.id.tvNotificationDate)
         var linear = itemView.findViewById<LinearLayout>(R.id.llNotificationTitle)
+        var viewed = itemView.findViewById<ImageView>(R.id.ivViewed)
         var details = itemView.findViewById<TextView>(R.id.tvNotificationDetails)
 
         init {

@@ -121,5 +121,7 @@
         layout="@layout/toolbar" />
 
 
+    <include
+        layout="@layout/loading" />
 
 </RelativeLayout>

@@ -45,10 +45,12 @@ class AdapterOrders(val items: ArrayList<String>, private val itemClickListener:
         var location = itemView.findViewById<LinearLayout>(R.id.llLocation)
         var tvLocation = itemView.findViewById<TextView>(R.id.tvLocationOrder)
         var layoutOrder = itemView.findViewById<LinearLayout>(R.id.llViewOrderDetails)
+        var acceptOrder = itemView.findViewById<LinearLayout>(R.id.btAcceptOrder)
         init {
             itemView.setOnClickListener(this)
             location.setOnClickListener(this)
             layoutOrder.setOnClickListener(this)
+            acceptOrder.setOnClickListener(this)
          }
 
         override fun onClick(v: View) {

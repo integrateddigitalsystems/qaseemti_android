@@ -23,6 +23,12 @@
 
         <LinearLayout
             android:layout_marginTop="@dimen/mini_margin"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/mini_margin"
             android:layout_marginBottom="@dimen/mini_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,16 +43,48 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
+                <ImageView
+                    android:id="@+id/ivViewed"
+                    android:layout_marginStart="@dimen/mini_margin"
+                    android:layout_width="@dimen/small_icon"
+                    android:layout_height="@dimen/small_icon"
+                    android:src="@drawable/rounded_red_background"/>
+
+                <LinearLayout
+                    android:weightSum="3"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/tab_rounded_size">
                 <com.ids.qasemti.custom.CustomTextViewBold
                     android:id="@+id/tvNotificationTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/tab_rounded_size"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/normal_margin"
                     android:layout_marginEnd="@dimen/normal_margin"
-                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="Notification 1"
                     android:textColor="@color/gray_font_title" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent" />
+
+
+                    <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:id="@+id/tvNotificationDate"
+                        android:layout_width="match_parent"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/normal_margin"
+                        android:layout_marginEnd="@dimen/normal_margin"
+                        android:gravity="bottom"
+                        android:text="Notification 1"
+                        android:textColor="@color/gray_font" />
+
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/ivArrowNotf"
@@ -61,23 +99,30 @@
 
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_marginTop="@dimen/margin_start_end"
                     android:id="@+id/tvNotificationDetails"
                     android:visibility="gone"
+                    android:layout_marginStart="@dimen/notification_dimen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/normal_margin"
                     android:textColor="@color/gray_font" />
 
                 <ImageView
+                    android:layout_marginStart="@dimen/notification_dimen"
                     android:visibility="gone"
                     android:id="@+id/ivNotificationImage"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/logo_height"
-                    android:layout_margin="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginBottom="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
                     android:scaleType="centerCrop" />
 
 
 
+
+
+        </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

@@ -34,6 +34,7 @@
     <dimen name="normal_icon">18dp</dimen>
     <dimen name="less_big_margin">18dp</dimen>
     <dimen name="icon">20dp</dimen>
+    <dimen name="icon_1">22dp</dimen>
     <dimen name="icon_2">25dp</dimen>
     <dimen name="normal_icon_size">30dp</dimen>
     <dimen name="big_icon_size">35dp</dimen>
@@ -105,4 +106,5 @@
     <dimen name="footer_dim">82dp</dimen>
     <dimen name="main_title_font">23sp</dimen>
     <dimen name="order_card">100dp</dimen>
+    <dimen name="notification_dimen">26dp</dimen>
 </resources>

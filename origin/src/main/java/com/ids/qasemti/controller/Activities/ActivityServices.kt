@@ -10,6 +10,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterMyServices
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ServiceItem
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_services.*
@@ -35,7 +36,12 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
 
     private fun listeners(){
       //  btBck.setOnClickListener{super.onBackPressed()}
-        btAdd.onOneClick{startActivity(Intent(this,ActivityServiceInformation::class.java))}
+        btAdd.onOneClick{
+            if(MyApplication.userStatus!!.online==1){
+                startActivity(Intent(this,ActivityServiceInformation::class.java))
+            }
+
+        }
     }
 
     private fun setData(){

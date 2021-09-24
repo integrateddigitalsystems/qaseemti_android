@@ -11,6 +11,6 @@
     <ImageView
         android:layout_width="@dimen/splash_logo"
         android:layout_height="@dimen/splash_logo"
-        android:src="@drawable/logo"/>
+        android:src="@drawable/icon_splash"/>
 
 </LinearLayout>
