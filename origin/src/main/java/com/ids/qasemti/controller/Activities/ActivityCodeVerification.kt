@@ -48,11 +48,11 @@ class ActivityCodeVerification : ActivityBase() {
     }
 
     fun requestSucc(code:String){
-       /* if(code.equals("1")){
-            startActivity(Intent(this,ActivityAccountStatus::class.java))
+        if(code.equals("1")){
+            AppHelper.createDialog(this,"Correct Code")
         }else{
             AppHelper.createDialog(this,"Incorrect Code")
-        }*/
+        }
         startActivity(Intent(this,ActivityAccountStatus::class.java))
         loading.hide()
     }

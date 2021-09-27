@@ -128,13 +128,13 @@ class ActivityMobileRegistration: ActivityBase(){
         }
     }
     fun nextStep(){
-        if(MyApplication.userStatus!!.enabled==1)
+      if(MyApplication.userStatus!!.enabled==1)
             startActivity(Intent(this,ActivityRegistration::class.java))
     }
 
     fun getUserStatus(){
         loading.show()
-        var newReq = RequestUserStatus(1)
+        var newReq = RequestUserStatus(6)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getUserStatus(
                 newReq

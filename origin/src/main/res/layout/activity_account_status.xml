@@ -40,6 +40,8 @@
 
 
         <com.ids.qasemti.custom.CustomTextViewBold
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
             android:layout_marginTop="@dimen/big_margin"
             android:layout_marginBottom="@dimen/big_margin"
             android:layout_width="match_parent"
@@ -53,9 +55,11 @@
 
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:gravity="start"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
             android:tag="updated_status"
             android:text="@string/updated_status"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/big_font"
             android:textColor="@color/gray_font_title" />

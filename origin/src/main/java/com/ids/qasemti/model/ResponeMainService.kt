@@ -10,7 +10,11 @@ class ResponeMainService(
 
     @SerializedName("service")
     @Expose
-    var responseService : ResponseService ?=null
+    var responseService : ResponseService ?=null ,
+
+    @SerializedName("count")
+    @Expose
+    var count : Int ?=0
 ){
 
 }

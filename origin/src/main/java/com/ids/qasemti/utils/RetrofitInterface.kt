@@ -98,6 +98,11 @@ interface RetrofitInterface {
     fun getServicesProduct(
         @Body param:RequestService
     ): Call<ResponeMainService>
+    @POST("sp_get_services")
+    fun getServices(
+        @Body param:RequestService
+    ): Call<ResponeMainService>
+
 
 
 }
