@@ -108,7 +108,7 @@ class OrderCustomer(
 
     @SerializedName("user_id")
     @Expose
-    var user_id : Int ?=0 ,
+    var user_id : String ?="" ,
 
     @SerializedName("account_number")
     @Expose

@@ -78,14 +78,18 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         }
 
         btSaveProfile.onOneClick {
-            updateProfile()
-           /* if(etFirstNameProfile.text.isNullOrEmpty()||etMiddleNameProfile.text.isNullOrEmpty()||etLastNameProfile.text.isNullOrEmpty()||etEmailProfile.text.isNullOrEmpty()||etMobileProfile.text.isNullOrEmpty()||etCivilIdNbProfile.text.isNullOrEmpty()||etDateOfBirthProfile.text.isNullOrEmpty()||etAltContactNumberProfile.text.isNullOrEmpty()||etAddressProfile.text.isNullOrEmpty()||etDescriptionProfile.text.isNullOrEmpty()||etAccountNumberProfile.text.isNullOrEmpty()||etBankNameProfile.text.isNullOrEmpty()||etBranchNameProfile.text.isNullOrEmpty()||etIBANProfile.text.isNullOrEmpty()){
+
+            if(etFirstNameProfile.text.isNullOrEmpty()||etMiddleNameProfile.text.isNullOrEmpty()||etLastNameProfile.text.isNullOrEmpty()||etEmailProfile.text.isNullOrEmpty()||etMobileProfile.text.isNullOrEmpty()||etCivilIdNbProfile.text.isNullOrEmpty()||etDateOfBirthProfile.text.isNullOrEmpty()||etAltContactNumberProfile.text.isNullOrEmpty()||etAddressProfile.text.isNullOrEmpty()||etDescriptionProfile.text.isNullOrEmpty()||etAccountNumberProfile.text.isNullOrEmpty()||etBankNameProfile.text.isNullOrEmpty()||etBranchNameProfile.text.isNullOrEmpty()||etIBANProfile.text.isNullOrEmpty()){
                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("fill_all_field",requireContext()))
             }else if(!AppHelper.isEmailValid(etEmailProfile.text.toString())){
                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("email_valid_error",requireContext()))
-            }else{
-
-            }*/
+            }else if(selectedFile==null) {
+                var str ="No File Selected"
+                AppHelper.createDialog(requireActivity(),str)
+            }else
+            {
+                updateProfile()
+            }
         }
         rbMaleProfile.onOneClick {
             gender= "male"

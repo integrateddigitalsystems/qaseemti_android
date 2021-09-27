@@ -9,7 +9,7 @@ class ResponseMainServices (
         @Expose
         var result : Int ,
 
-        @SerializedName("service")
+        @SerializedName("services")
         @Expose
         var responseService : ArrayList<ResponseService> ?=null ,
 
