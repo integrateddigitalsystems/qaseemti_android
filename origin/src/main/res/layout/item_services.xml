@@ -65,7 +65,7 @@
                     android:id="@+id/tvServiceTitle"
                     android:maxLines="1"
                     android:layout_marginStart="@dimen/big_margin"
-                    android:text="Gravel Truck"
+                    android:text=""
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
                     android:layout_height="wrap_content"/>
@@ -75,7 +75,7 @@
                     android:id="@+id/tvQty"
                     android:maxLines="1"
                     android:layout_marginStart="@dimen/big_margin"
-                    android:text="Gravel Truck"
+                    android:text=""
                     android:textSize="@dimen/small_font"
                     android:textColor="@color/gray_font_title"
                     android:layout_height="wrap_content"/>
@@ -115,7 +115,7 @@
                         android:id="@+id/tvPriceQt"
                         android:maxLines="1"
                         android:layout_marginStart="@dimen/normal_margin"
-                        android:text="10 KWD"
+                        android:text=""
                         android:textSize="@dimen/normal_font"
                         android:textColor="@color/redPrimary"
                         android:layout_height="wrap_content"/>
@@ -136,12 +136,11 @@
                         android:textSize="@dimen/normal_font"
                         android:textColor="@color/gray_font_title"
                         android:layout_height="wrap_content"/>
-
                     <me.grantland.widget.AutofitTextView
                         android:layout_width="wrap_content"
                         android:maxLines="1"
                         android:layout_marginStart="@dimen/normal_margin"
-                        android:text="7 KWD"
+                        android:text=""
                         android:gravity="center_vertical"
                         android:id="@+id/tvEarnQt"
                         android:textSize="@dimen/small_font_2"

@@ -57,7 +57,7 @@ class ActivityCodeVerification : ActivityBase() {
         }
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this,ActivityAccountStatus::class.java))
-        }, 500)
+        }, 1000)
 
         loading.hide()
     }
