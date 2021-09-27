@@ -3,19 +3,17 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:id="@+id/rootLayoutChooseLogin"
-    android:background="@drawable/bg_splash"
+    android:background="@drawable/splach_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <ImageView
-        android:visibility="gone"
         android:id="@+id/logoClient"
         android:layout_centerInParent="true"
-        android:layout_width="@dimen/inside_logo"
-        android:layout_height="@dimen/inside_logo"
-        android:src="@drawable/logo"/>
-
+        android:layout_width="@dimen/splash_logo"
+        android:layout_height="@dimen/splash_logo"
+        android:src="@drawable/icon_splash"/>
 
     <LinearLayout
         android:layout_marginBottom="@dimen/big_margin_2"
@@ -33,12 +31,16 @@
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:tag="lang_ar"
+            android:textColor="@color/gray_font_title"
+            android:textSize="@dimen/normal_font"
             android:layout_marginBottom="@dimen/normal_margin"
             android:text="@string/lang_ar"/>
 
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:gravity="center"
             android:id="@+id/btToEnglish"
+            android:textColor="@color/gray_font_title"
+            android:textSize="@dimen/normal_font"
             android:background="@drawable/rounded_white_red_border"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"

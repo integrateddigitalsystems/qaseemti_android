@@ -12,15 +12,20 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.AdapterNotification
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
-import com.ids.qasemti.model.Notification
-import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.*
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.fragment_notifications.*
+import kotlinx.android.synthetic.main.loading.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class FragmentNotifications : Fragment(), RVOnItemClickListener {
 
-    var array: ArrayList<Notification> = arrayListOf()
+    var array: ArrayList<ResponseNotification> = arrayListOf()
     var adapter: AdapterNotification? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,50 +47,83 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
         init()
     }
 
+    fun setData(){
+        rvNotifications.layoutManager = LinearLayoutManager(context)
+        adapter = AdapterNotification(array, this, requireContext())
+        rvNotifications.adapter = adapter
+        loading.hide()
+    }
+
+    fun getData(){
+        loading.show()
+        var newReq = RequestNotifications(MyApplication.languageCode,1,MyApplication.deviceId,0,10,1)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getNotifications(
+                newReq
+            )?.enqueue(object : Callback<ArrayList<ResponseNotification>> {
+                override fun onResponse(call: Call<ArrayList<ResponseNotification>>, response: Response<ArrayList<ResponseNotification>>) {
+                    try{
+                        array.clear()
+                        array.addAll(response.body()!!)
+                        setData()
+                    }catch (E: java.lang.Exception){
+                        loading.hide()
+                    }
+                }
+                override fun onFailure(call: Call<ArrayList<ResponseNotification>>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
+
     fun init() {
         array.clear()
         (activity as ActivityHome).showLogout(false)
-        AppHelper.setTitle(requireActivity(), getString(R.string.notifications), "notifications")
 
+        AppHelper.setTitle(
+            requireActivity(),
+            AppHelper.getRemoteString("notifications", requireContext()),
+            "notifications"
+        )
 
-        array.add(
-            Notification(
-                "Notification 1",
-                "",
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"
-            )
-        )
-        array.add(
-            Notification(
-                "Notification 2 ",
-                "This is your lates Notification",
-                "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg"
-            )
-        )
-        array.add(
-            Notification(
-                "Notification 3 ",
-                "This notification is here for you to test whether or not you receive a notificaiton , please contact use if you receive this notificaiton , Thank you!",
-                ""
-            )
-        )
+        getData()
 
         val animator: DefaultItemAnimator = object : DefaultItemAnimator() {
             override fun canReuseUpdatedViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean {
                 return true
             }
         }
-        //  rvNotifications.setItemAnimator(animator)
-        rvNotifications.layoutManager = LinearLayoutManager(context)
-        adapter = AdapterNotification(array, this, requireContext())
-        rvNotifications.adapter = adapter
+
+
     }
 
+    fun markNotification(notfId : Int ){
+        var newReq = MarkNotification(MyApplication.deviceId,1,notfId)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.markNotification(
+                newReq
+            )?.enqueue(object : Callback<ResponseUpdate> {
+                override fun onResponse(
+                    call: Call<ResponseUpdate>,
+                    response: Response<ResponseUpdate>
+                ) {
+                }
+
+                override fun onFailure(call: Call<ResponseUpdate>, t: Throwable) {
+
+                }
+
+            })
+    }
     override fun onItemClicked(view: View, position: Int) {
 
-        array.get(position).open = !array.get(position).open
-
-
-        adapter!!.notifyDataSetChanged()
+        AppHelper.onOneClick {
+            array.get(position).open = !array.get(position).open
+            if(array.get(position).isViewed.equals("0")){
+                markNotification(array.get(position).id!!.toInt())
+                array.get(position).isViewed = "1"
+            }
+            adapter!!.notifyDataSetChanged()
+        }
     }
 }

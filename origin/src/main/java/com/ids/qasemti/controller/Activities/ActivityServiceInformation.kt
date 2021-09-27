@@ -59,7 +59,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun init(){
-        selectedCategoryName=getString(R.string.purchase)
+        selectedCategoryName= AppHelper.getRemoteString("purchase",this)
         btBck.show()
         setTabs()
         setServiceSpinner()
@@ -70,16 +70,16 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun listeners(){
-        btBck.setOnClickListener{super.onBackPressed()}
-        btPickImage.setOnClickListener{pickFile(CODE_IMAGE)}
-        btPickDrivingLicense.setOnClickListener{pickFile(CODE_DRIVING_LICENSE)}
-        btPickWorkLisence.setOnClickListener{pickFile(CODE_WORK_LICENSE)}
-        btPickVehicle.setOnClickListener{pickFile(CODE_VEHICLE_LICENSE)}
-        btSave.setOnClickListener{setTab2()}
-        btPreViews1.setOnClickListener{setTab1()}
-        btNext1.setOnClickListener{setTab3()}
-        btPreviews2.setOnClickListener{setTab2()}
-        btNext2.setOnClickListener{
+        btBck.onOneClick{super.onBackPressed()}
+        btPickImage.onOneClick{pickFile(CODE_IMAGE)}
+        btPickDrivingLicense.onOneClick{pickFile(CODE_DRIVING_LICENSE)}
+        btPickWorkLisence.onOneClick{pickFile(CODE_WORK_LICENSE)}
+        btPickVehicle.onOneClick{pickFile(CODE_VEHICLE_LICENSE)}
+        btSave.onOneClick{setTab2()}
+        btPreViews1.onOneClick{setTab1()}
+        btNext1.onOneClick{setTab3()}
+        btPreviews2.onOneClick{setTab2()}
+        btNext2.onOneClick{
             toast("sending data")
         }
         rgCategory.setOnCheckedChangeListener { group, checkedId ->
@@ -97,16 +97,16 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun setTabs(){
-        btTab1.setOnClickListener{
+        btTab1.onOneClick{
           setTab1()
         }
 
-        btTab2.setOnClickListener{
+        btTab2.onOneClick{
           setTab2()
         }
 
 
-        btTab3.setOnClickListener{
+        btTab3.onOneClick{
           setTab3()
         }
 
@@ -285,7 +285,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                     pickFile(CODE_IMAGE)
                 }
                 else{
-                    Toast.makeText(this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, AppHelper.getRemoteString("permission_denied",this), Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -305,7 +305,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         ivTab2.setColorFilter(ContextCompat.getColor(this, R.color.gray_font), android.graphics.PorterDuff.Mode.SRC_IN)
         ivTab3.setColorFilter(ContextCompat.getColor(this, R.color.gray_font), android.graphics.PorterDuff.Mode.SRC_IN)
 
-        tvTabTitle.text = getString(R.string.service_information)
+        tvTabTitle.text = AppHelper.getRemoteString("service_information",this)
     }
 
     private fun setTab2(){
@@ -320,7 +320,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
         ivTab2.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
         ivTab3.setColorFilter(ContextCompat.getColor(this, R.color.gray_font), android.graphics.PorterDuff.Mode.SRC_IN)
-        tvTabTitle.text = getString(R.string.ownership_proof)
+        tvTabTitle.text =AppHelper.getRemoteString("ownership_proof",this)
     }
 
     private fun setTab3(){
@@ -335,8 +335,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
         ivTab2.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
         ivTab3.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
-
-        tvTabTitle.text = getString(R.string.price_earning)
+        tvTabTitle.text =  AppHelper.getRemoteString("price_earning",this)
 
         setDataPicked()
     }

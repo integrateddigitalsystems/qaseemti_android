@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.onOneClick
 import com.ids.qasemti.utils.setColorTypeface
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_place_order.*
@@ -23,29 +24,29 @@ class ActivitySelectAddress: AppCompactBase() {
     }
 
     fun init(){
-        tvPageTitle.setColorTypeface(this,R.color.white,getString(R.string.select_delivery_address),true)
+        tvPageTitle.setColorTypeface(this,R.color.white,AppHelper.getRemoteString("select_delivery_address",this),true)
         AppHelper.setLogoTint(btBackTool,this,R.color.white)
         btBackTool.show()
     }
     fun setListeners(){
 
 
-        btBackTool.setOnClickListener {
+        btBackTool.onOneClick {
             super.onBackPressed()
         }
-        llCurrentLocation.setOnClickListener {
+        llCurrentLocation.onOneClick {
         }
-        llLocationMap .setOnClickListener {
+        llLocationMap .onOneClick {
             startActivity(Intent(this,ActivityMap::class.java)
-                .putExtra("mapTitle",getString(R.string.LocationOnMap)))
+                .putExtra("mapTitle",AppHelper.getRemoteString("LocationOnMap",this)))
         }
-        llSavedLocation.setOnClickListener {
+        llSavedLocation.onOneClick {
             startActivity(Intent(this,ActivityAddresses::class.java)
-                .putExtra("mapTitle",getString(R.string.SavedLocation)))
+                .putExtra("mapTitle",AppHelper.getRemoteString("SavedLocation",this)))
         }
-        llNewAddress.setOnClickListener {
+        llNewAddress.onOneClick {
             startActivity(Intent(this,ActivityAddNewAddress::class.java)
-                .putExtra("mapTitle",getString(R.string.NewAddress)))
+                .putExtra("mapTitle",AppHelper.getRemoteString("NewAddress",this)))
         }
     }
 }

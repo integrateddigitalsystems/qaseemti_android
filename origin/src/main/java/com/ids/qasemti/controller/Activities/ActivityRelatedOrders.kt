@@ -8,10 +8,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterRelatedOrder
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.model.RelatedOrder
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.setColorTypeface
-import com.ids.qasemti.utils.show
-import com.ids.qasemti.utils.textRemote
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.activity_related_orders.*
 import kotlinx.android.synthetic.main.activity_related_orders.rootLayout
@@ -48,7 +45,7 @@ class ActivityRelatedOrders : AppCompatActivity() , RVOnItemClickListener  {
         tvPageTitle.textRemote("relatedOrdersOf",this)
         tvPageTitle.setColorTypeface(this,R.color.white,tvPageTitle.text.toString()+title,true)
         btBackTool.show()
-        btBackTool.setOnClickListener {
+        btBackTool.onOneClick {
             super.onBackPressed()
         }
         tvTitleDues.setColorTypeface(this,R.color.gray_font_title,"",true)

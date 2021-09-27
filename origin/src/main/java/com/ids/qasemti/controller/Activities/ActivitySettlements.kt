@@ -15,6 +15,7 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ServiceItem
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.hide
+import com.ids.qasemti.utils.onOneClick
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_settlement.*
 import kotlinx.android.synthetic.main.activity_settlement.linearTabs
@@ -42,7 +43,7 @@ class ActivitySettlements : ActivityBase(),RVOnItemClickListener {
     }
 
     private fun listeners(){
-        btBck.setOnClickListener{super.onBackPressed()}
+        btBck.onOneClick{super.onBackPressed()}
     }
 
     private fun setData(position: Int){
@@ -67,16 +68,18 @@ class ActivitySettlements : ActivityBase(),RVOnItemClickListener {
 
     override fun onItemClicked(view: View, position: Int) {
         if(view.id==R.id.tvViewDetails){
-            if(MyApplication.upcoming!!){
-                startActivity(Intent(this,ActivityRelatedOrders::class.java)
-                    .putExtra("settelmentId","#70007070"))
+            AppHelper.onOneClick {
+                if(MyApplication.upcoming!!){
+                    startActivity(Intent(this,ActivityRelatedOrders::class.java)
+                        .putExtra("settelmentId","#70007070"))
+                }
             }
         }
     }
 
     private fun setTabs(){
         for (i in 0 until linearTabs.childCount){
-            linearTabs.getChildAt(i).setOnClickListener{
+            linearTabs.getChildAt(i).onOneClick{
                 if(MyApplication.settlementTabSelected !=i){
                     var tv=linearTabs.getChildAt(i) as TextView
                     setTabLayout(i,tv)

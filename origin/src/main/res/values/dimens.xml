@@ -34,6 +34,7 @@
     <dimen name="normal_icon">18dp</dimen>
     <dimen name="less_big_margin">18dp</dimen>
     <dimen name="icon">20dp</dimen>
+    <dimen name="icon_1">22dp</dimen>
     <dimen name="icon_2">25dp</dimen>
     <dimen name="normal_icon_size">30dp</dimen>
     <dimen name="big_icon_size">35dp</dimen>
@@ -81,7 +82,7 @@
     <dimen name="vertical_dim">0.75dip</dimen>
     <dimen name="bigger_icon">60dp</dimen>
     <dimen name="home_data_height">130dp</dimen>
-    <dimen name="splash_logo">275dp</dimen>
+    <dimen name="splash_logo">220dp</dimen>
     <dimen name="inside_logo">200dp</dimen>
     <dimen name="margin_logo">200dp</dimen>
     <dimen name="button_width">200dp</dimen>
@@ -105,4 +106,5 @@
     <dimen name="footer_dim">82dp</dimen>
     <dimen name="main_title_font">23sp</dimen>
     <dimen name="order_card">100dp</dimen>
+    <dimen name="notification_dimen">26dp</dimen>
 </resources>

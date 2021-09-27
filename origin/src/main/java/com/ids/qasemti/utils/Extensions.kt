@@ -4,9 +4,13 @@ import android.R
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.text.Html
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -17,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.common.reflect.Reflection.getPackageName
+import com.ids.qasemti.controller.Activities.ActivityChooseLanguage
 import com.ids.qasemti.controller.MyApplication
 
 
@@ -122,6 +127,25 @@ fun Any.logw(key: String, value: String) {
     }
 }
 
+fun View.onOneClick(doAction: () -> Unit){
+    this.setOnClickListener {
+        if(MyApplication.clickable!!){
+            MyApplication.clickable = false
+            doAction()
+            Handler(Looper.getMainLooper()).postDelayed({
+                MyApplication.clickable = true
+            }, 500)
+        }
+    }
+
+}
+fun TextView.setHTML(html:String){
+    this.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT)
+    } else {
+        Html.fromHtml(html)
+    }
+}
 fun TextView.textRemote(key: String, con:Context) {
     if (MyApplication.localizeArray != null) {
         try {

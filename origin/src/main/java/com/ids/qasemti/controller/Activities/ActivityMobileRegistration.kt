@@ -4,36 +4,45 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import com.ids.qasemti.R
 
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.utils.AppConstants
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.model.RequestOrders
+import com.ids.qasemti.model.RequestUserStatus
+import com.ids.qasemti.model.ResponseMainOrder
+import com.ids.qasemti.model.ResponseUserStatus
+import com.ids.qasemti.utils.*
 import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.activity_mobile_registration.*
+import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.white_logo_layout.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
 class ActivityMobileRegistration: ActivityBase(){
 
+    var selectedCode = ""
 
     override fun onBackPressed() {
         if(MyApplication.fromLogout) {
             AppHelper.createYesNoDialog(
-                this, getString(R.string.exit), getString(R.string.cancel), getString(
-                    R.string.sureExit
-                )
+                this,  AppHelper.getRemoteString("exit",this), AppHelper.getRemoteString("cancel",this), AppHelper.getRemoteString("sureExit",this)
             ) {
                 finishAffinity()
                 exitProcess(0)
             }
         }else{
             super.onBackPressed()
+        }
+
+        logo_main.onOneClick {
+            Toast.makeText(this,"Howdy Gov",Toast.LENGTH_SHORT).show()
         }
         /*if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             closeDrawer(drawerLayout, true)
@@ -58,7 +67,7 @@ class ActivityMobileRegistration: ActivityBase(){
             llNewMember.hide()
         }
 
-        tvRegisterNewMember.setOnClickListener {
+        tvRegisterNewMember.onOneClick {
             startActivity(Intent(this,ActivityRegistration::class.java))
         }
 
@@ -86,7 +95,7 @@ class ActivityMobileRegistration: ActivityBase(){
                 position: Int,
                 id: Long
             ) {
-
+                selectedCode = items.get(position).name!!
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -96,9 +105,9 @@ class ActivityMobileRegistration: ActivityBase(){
 
         }
 
-        btLoginClient.setOnClickListener {
+        btLoginClient.onOneClick {
             if(etPhone.text.isNullOrEmpty()){
-                AppHelper.createDialog(this,getString(R.string.fill_all_field))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
             }else {
                 MyApplication.isSignedIn = true
                 startActivity(Intent(this, ActivityHome::class.java))
@@ -106,14 +115,42 @@ class ActivityMobileRegistration: ActivityBase(){
 
         }
 
-        btLogin.setOnClickListener {
+        btLogin.onOneClick {
             if(etPhone.text.isNullOrEmpty()){
-                AppHelper.createDialog(this,getString(R.string.fill_all_field))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
             }else {
                 MyApplication.isSignedIn = true
-                startActivity(Intent(this,ActivityRegistration::class.java))
+                getUserStatus()
+                MyApplication.selectedPhone = etPhone.text.toString()
+
             }
 
         }
+    }
+    fun nextStep(){
+        if(MyApplication.userStatus!!.enabled==1)
+            startActivity(Intent(this,ActivityRegistration::class.java))
+    }
+
+    fun getUserStatus(){
+        loading.show()
+        var newReq = RequestUserStatus(1)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getUserStatus(
+                newReq
+            )?.enqueue(object : Callback<ResponseUserStatus> {
+                override fun onResponse(call: Call<ResponseUserStatus>, response: Response<ResponseUserStatus>) {
+                    try{
+                        MyApplication.userStatus = response.body()
+                        loading.hide()
+                        nextStep()
+                    }catch (E: java.lang.Exception){
+                        loading.hide()
+                    }
+                }
+                override fun onFailure(call: Call<ResponseUserStatus>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
     }
 }

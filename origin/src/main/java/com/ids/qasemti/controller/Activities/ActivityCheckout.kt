@@ -50,33 +50,33 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         AppHelper.setTextColor(this,tvPageTitle,color)
         AppHelper.setLogoTint(btBackTool,this,color)
         AppHelper.setLogoTint(btLogout,this,color)
-        btBackTool.setOnClickListener {
+        btBackTool.onOneClick {
             super.onBackPressed()
         }
     }
 
     fun setListeners(){
-        btPlaceOrder.setOnClickListener {
+        btPlaceOrder.onOneClick {
             startActivity(Intent(this,ActivityPlaceOrder::class.java))
         }
 
-        rbNow.setOnClickListener {
+        rbNow.onOneClick {
             setUpCurr()
-            rlFromDate.setOnClickListener {
+            rlFromDate.onOneClick {
 
             }
-            rlFromTime.setOnClickListener {
+            rlFromTime.onOneClick {
 
             }
 
             AppHelper.setTextColor(this,etFromDate,R.color.gray_font_light)
             AppHelper.setTextColor(this,etFromTime,R.color.gray_font_light)
         }
-        rbSpecify.setOnClickListener {
+        rbSpecify.onOneClick {
 
             AppHelper.setTextColor(this,etFromDate,R.color.gray_font)
             AppHelper.setTextColor(this,etFromTime,R.color.gray_font)
-            rlFromDate.setOnClickListener {
+            rlFromDate.onOneClick {
                 var mcurrentDate = Calendar.getInstance()
                 var mYear = 0
                 var mMonth = 0
@@ -102,7 +102,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
                 )
                 mDatePicker.show()
             }
-            rlFromTime.setOnClickListener {
+            rlFromTime.onOneClick {
                 // TODO Auto-generated method stub
                 val mcurrentTime = Calendar.getInstance()
                 val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
@@ -124,7 +124,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         }
 
 
-        rlToTime.setOnClickListener {
+        rlToTime.onOneClick {
             // TODO Auto-generated method stub
             val mcurrentTime = Calendar.getInstance()
             val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
@@ -143,7 +143,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
             ) //Yes 24 hour time
             timePickerDialog.show()
         }
-        rlToDate.setOnClickListener {
+        rlToDate.onOneClick {
             var mcurrentDate = Calendar.getInstance()
             var mYear = 0
             var mMonth = 0
@@ -170,11 +170,11 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
             mDatePicker.show()
         }
 
-        llAddresses.setOnClickListener {
+        llAddresses.onOneClick {
             startActivity(Intent(this,ActivitySelectAddress::class.java))
         }
 
-        btPlus.setOnClickListener {
+        btPlus.onOneClick {
             var quant = tvQuant.text.toString()
             if(quant.isNumeric()){
                 var value = quant.toInt()
@@ -182,7 +182,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
                 tvQuant.text = value.toString()
             }
         }
-        btMinus.setOnClickListener {
+        btMinus.onOneClick {
             var quant = tvQuant.text.toString()
             if(quant.isNumeric()){
                 var value = quant.toInt()
@@ -191,7 +191,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
             }
         }
 
-        llSetDateTime.setOnClickListener {
+        llSetDateTime.onOneClick {
             var up = -90
             var down = 90
             if(open){

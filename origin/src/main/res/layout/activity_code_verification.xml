@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:cursorVisible="true"
-            android:text="----"
+            android:text="------"
             android:inputType="number"
             android:itemBackground="@drawable/rounded_white_background"
             android:textColor="@color/black"
@@ -83,10 +83,10 @@
             android:textStyle="bold"
             app:cursorColor="@color/white"
             app:cursorWidth="1dp"
-            app:itemCount="4"
+            app:itemCount="6"
             app:hideLineWhenFilled="false"
-            app:itemHeight="55dp"
-            app:itemWidth="55dp"
+            app:itemHeight="45dp"
+            app:itemWidth="45dp"
             app:itemRadius="16dp"
             app:itemSpacing="18dp"
             app:lineColor="@android:color/transparent"
@@ -146,6 +146,8 @@
 
 
 
+    <include
+        layout="@layout/loading" />
 
 
 

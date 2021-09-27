@@ -30,7 +30,7 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
     fun init(){
         var title = intent.getStringExtra("mapTitle")
         tvPageTitle.setColorTypeface(this,R.color.white,title!!,true)
-        btBackTool.setOnClickListener {
+        btBackTool.onOneClick {
             super.onBackPressed()
         }
         btBackTool.show()
@@ -38,7 +38,7 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
      }
 
     private fun listeners(){
-        btAddNew.setOnClickListener{
+        btAddNew.onOneClick{
             startActivityForResult(Intent(this,ActivityAddNewAddress::class.java)
                 .putExtra("mapTitle",getString(R.string.NewAddress)),1)
         }

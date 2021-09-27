@@ -54,20 +54,20 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
             (activity as ActivityHome?)!!.showLogout(false)
         }
 
-        btRegisterLogin.setOnClickListener {
+        btRegisterLogin.onOneClick {
             (activity as ActivityHome)!!.goRegistration(2,AppConstants.FRAGMENT_HOME_CLIENT,FragmentHomeClient(),R.color.white)
         }
 
 
         (activity as ActivityHome?)!!.showBack(false)
 
-        btFilter.setOnClickListener {
+        btFilter.onOneClick {
             showPopupSocialMedia()
         }
 
 
 
-        AppHelper.setTitle(requireActivity(), getString(R.string.our_services), "services")
+        AppHelper.setTitle(requireActivity(), AppHelper.getRemoteString("our_services",requireContext()), "services")
 
         array.add(ServiceItem("Gravel Truck", "", R.drawable.icon_truck))
         array.add(ServiceItem("Water Tank", "", R.drawable.icon_water))
@@ -113,7 +113,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         }
         btFilter.hide()
         var close = dialog!!.findViewById<ImageView>(R.id.btClose)
-        close.setOnClickListener {
+        close.onOneClick {
             btFilter.show()
             dialog!!.cancel()
         }
@@ -125,11 +125,16 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
 
         if (view.id == R.id.linearService) {
-            MyApplication.selectedFragment = FragmentServiceDetails()
-            MyApplication.selectedService = array.get(position)
-            MyApplication.position = position
-            (requireActivity() as ActivityHome?)!!.addFrag(FragmentServiceDetails(),AppConstants.FRAGMENT_SERVICE_DETAILS)
 
+            AppHelper.onOneClick {
+                MyApplication.selectedFragment = FragmentServiceDetails()
+                MyApplication.selectedService = array.get(position)
+                MyApplication.position = position
+                (requireActivity() as ActivityHome?)!!.addFrag(
+                    FragmentServiceDetails(),
+                    AppConstants.FRAGMENT_SERVICE_DETAILS
+                )
+            }
         }
 
     }

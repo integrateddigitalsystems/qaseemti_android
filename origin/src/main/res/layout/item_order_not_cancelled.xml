@@ -61,7 +61,7 @@
                     android:weightSum="1">
 
                     <me.grantland.widget.AutofitTextView
-                        android:id="@+id/tvCategoryOrder"
+                        android:id="@+id/tvNameOrder"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
@@ -76,6 +76,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:gravity="top"
+                        android:id="@+id/tvOrderId"
                         android:text="#000777"
                         android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/small_font" />
@@ -220,6 +221,7 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/tvOrderDate"
                             android:text="20 Jun,2021 16:00"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/small_font_3" />
@@ -267,6 +269,7 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/tvExpectedDate"
                             android:text="20 Jun,2021 16:00"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/small_font_3" />
@@ -402,11 +405,12 @@
                     android:layout_marginStart="@dimen/normal_margin"
                     android:orientation="vertical">
 
-                    <com.ids.qasemti.custom.CustomTextViewMedium
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dumy_text_underline"
-
+                        android:id="@+id/tvOrderLocation"
                         android:textColor="@color/primary"
                         android:textSize="@dimen/normal_font"
 
@@ -468,12 +472,13 @@
                     android:gravity="start">
 
                     <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/ratingOrder"
                         style="?attr/ratingBarStyleSmall"
-                        android:rating="2.5"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_gravity="end"
                         android:progressTint="@color/button_blue"
+                        android:rating="4"
                         android:stepSize="1" />
                 </LinearLayout>
             </LinearLayout>
@@ -501,6 +506,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/normal_margin"
+                    android:id="@+id/tvPaymentMethod"
                     android:tag="pending_cash_on_delivery"
                     android:text="@string/pending_cash_delivery"
                     android:textColor="@color/gray_font"
@@ -665,6 +671,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/normal_margin"
                         android:text="10 KWD"
+                        android:id="@+id/tvOrderPrice"
                         android:textColor="@color/redPrimary"
                         android:textSize="@dimen/normal_font" />
                 </LinearLayout>

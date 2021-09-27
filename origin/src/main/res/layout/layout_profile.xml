@@ -9,6 +9,8 @@
 
     android:layout_height="match_parent">
 
+    <include
+        layout="@layout/loading" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -148,6 +150,7 @@
 
 
             <EditText
+                android:id="@+id/etFirstNameProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:maxLines="1"
@@ -163,6 +166,7 @@
                 />
 
             <EditText
+                android:id="@+id/etMiddleNameProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -179,6 +183,7 @@
 
 
             <EditText
+                android:id="@+id/etLastNameProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -213,6 +218,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/etEmailProfile"
                     android:background="@color/transparent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -247,6 +253,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/etMobileProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
@@ -274,6 +281,7 @@
 
 
                 <EditText
+                    android:id="@+id/etCivilIdNbProfile"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="@dimen/edit_text_height"
@@ -289,6 +297,7 @@
                     />
 
                 <ImageButton
+                    android:id="@+id/ibUploadFile"
                     android:layout_width="@dimen/edit_text_height"
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/icon_attach"
@@ -321,6 +330,7 @@
                     >
 
                     <RadioButton
+                        android:id="@+id/rbMaleProfile"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
@@ -332,6 +342,7 @@
                         android:text="@string/male"/>
 
                     <RadioButton
+                        android:id="@+id/rbFemaleProfile"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
@@ -350,6 +361,7 @@
 
 
             <EditText
+                android:id="@+id/etDateOfBirthProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -366,6 +378,7 @@
 
 
             <EditText
+                android:id="@+id/etAltContactNumberProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -392,6 +405,7 @@
 
 
                 <EditText
+                    android:id="@+id/etAddressProfile"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="@dimen/edit_text_height"
@@ -412,7 +426,7 @@
                     android:id="@+id/ivMapButton"
                     android:tint="@color/new_blue"
                     android:layout_height="@dimen/normal_icon_size"
-                    android:background="@drawable/icon_pin_blue"
+                    android:src="@drawable/icon_pin_blue"
                     android:layout_gravity="center"
 
                     />
@@ -422,6 +436,7 @@
 
 
             <EditText
+                android:id="@+id/etDescriptionProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/msg_edit_text"
                 android:textColor="@color/gray_font"
@@ -451,6 +466,7 @@
                 />
 
             <EditText
+                android:id="@+id/etAccountNumberProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -465,6 +481,7 @@
                 />
 
             <EditText
+                android:id="@+id/etBankNameProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -480,6 +497,7 @@
                 />
 
             <EditText
+                android:id="@+id/etBranchNameProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -495,6 +513,7 @@
                 />
 
             <EditText
+                android:id="@+id/etIBANProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:maxLines="1"
@@ -510,6 +529,7 @@
                 />
 
             <Button
+                android:id="@+id/btSaveProfile"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:layout_width="match_parent"
                 android:text="@string/save"

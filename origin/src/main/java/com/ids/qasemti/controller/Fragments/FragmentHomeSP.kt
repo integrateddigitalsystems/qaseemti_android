@@ -14,10 +14,15 @@ import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
+import kotlinx.android.synthetic.main.loading.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class FragmentHomeSP : Fragment() , RVOnItemClickListener {
+class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     private var ordersArray: ArrayList<String> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,49 +30,97 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
     }
 
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View =
         inflater.inflate(R.layout.layout_home_orders, container, false)
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutOrders,requireContext())
+        AppHelper.setAllTexts(rootLayoutOrders, requireContext())
         init()
 
     }
 
-    fun init(){
+    fun setAvailability(available : Int ){
+        var newReq = RequestAvailability(6,available)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.updateAvailability(newReq)?.enqueue(object : Callback<ResponseCancel> {
+                override fun onResponse(call: Call<ResponseCancel>, response: Response<ResponseCancel>) {
+                    try{
+                    }catch (E: java.lang.Exception){
+                    }
+                }
+                override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
+                }
+            })
+    }
+
+    fun init() {
         (activity as ActivityHome?)!!.showLogout(false)
         (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
-        rlActive.setOnClickListener {
+
+        setOrders()
+        setListeners()
+        getData()
+
+
+
+    }
+
+    fun getData(){
+        loading.show()
+        var newReq = RequestUserStatus(6)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getOrdersCount(newReq)?.enqueue(object : Callback<ResponeOrderCount> {
+                override fun onResponse(call: Call<ResponeOrderCount>, response: Response<ResponeOrderCount>) {
+                    try{
+                        tvActiveOrdersNbr.text = response.body()!!.activeOrders.toString()
+                        tvUpcomingOrderNumber.text = response.body()!!.upcomingOrders.toString()
+                        loading.hide()
+                    }catch (E: java.lang.Exception){
+                    }
+                }
+                override fun onFailure(call: Call<ResponeOrderCount>, throwable: Throwable) {
+                }
+            })
+    }
+    fun setListeners(){
+        rlActive.onOneClick {
             MyApplication.fromFooterOrder = false
             MyApplication.selectedFragment = FragmentOrders()
-            (requireActivity() as ActivityHome?)!!.addFrag(FragmentOrders(),AppConstants.FRAGMENT_ORDER_FROM)
+            (requireActivity() as ActivityHome?)!!.addFrag(
+                FragmentOrders(),
+                AppConstants.FRAGMENT_ORDER_FROM
+            )
             MyApplication.typeSelected = 0
 
         }
-        rlUpcoming.setOnClickListener {
+        rlUpcoming.onOneClick {
             MyApplication.fromFooterOrder = false
             MyApplication.selectedFragment = FragmentOrders()
-            (requireActivity() as ActivityHome?)!!.addFrag(FragmentOrders(),AppConstants.FRAGMENT_ORDER_FROM)
+            (requireActivity() as ActivityHome?)!!.addFrag(
+                FragmentOrders(),
+                AppConstants.FRAGMENT_ORDER_FROM
+            )
             MyApplication.typeSelected = 1
         }
-        setOrders()
-
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
-            if(swAvailable.isChecked){
+            if (swAvailable.isChecked) {
                 rvOrders.show()
-                swAvailable.text = getString(R.string.available)
+                setAvailability(1)
+                swAvailable.text = AppHelper.getRemoteString("available", requireContext())
                 llNodata.hide()
-            }else{
+            } else {
                 rvOrders.hide()
                 llNodata.show()
-                swAvailable.text = getString(R.string.unavailable)
+                setAvailability(0)
+                swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
             }
         }
-
     }
 
     private fun setOrders() {
@@ -80,7 +133,7 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
         var glm2 = GridLayoutManager(requireContext(), 1)
         rvOrders.layoutManager = glm2
 
-        if(ordersArray.size==0){
+        if (ordersArray.size == 0) {
             rvOrders.hide()
             llNodata.show()
         }
@@ -88,11 +141,24 @@ class FragmentHomeSP : Fragment() , RVOnItemClickListener {
 
     override fun onItemClicked(view: View, position: Int) {
 
-        if(view.id==R.id.llLocation){
-            startActivity(Intent(requireActivity(),ActivityMap::class.java)
-                .putExtra("mapTitle",getString(R.string.view_address)))
-        }else if(view.id==R.id.llViewOrderDetails){
-            startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
+        if (view.id == R.id.llLocation) {
+            AppHelper.onOneClick {
+                startActivity(
+                    Intent(requireActivity(), ActivityMap::class.java)
+                        .putExtra(
+                            "mapTitle",
+                            AppHelper.getRemoteString("view_address", requireContext())
+                        )
+                )
+            }
+        } else if (view.id == R.id.llViewOrderDetails) {
+            AppHelper.onOneClick {
+                startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
+            }
+        }else if(view.id == R.id.btAcceptOrder){
+            if(MyApplication.userStatus!!.online==1){
+                //accept action
+            }
         }
     }
 }

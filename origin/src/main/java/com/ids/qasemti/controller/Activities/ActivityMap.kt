@@ -1,33 +1,56 @@
 package com.ids.qasemti.controller.Activities
 
-import android.content.Intent
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.ktx.toObject
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.setColorTypeface
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.OrderLocation
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 
-class ActivityMap : ActivityBase(), OnMapReadyCallback{
+class ActivityMap : ActivityBase(), OnMapReadyCallback, LocationListener {
 
 
-    var gmap : GoogleMap? = null
+    var gmap: GoogleMap? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val REQUEST_CHECK_SETTINGS = 2
+    var doc : DocumentReference ?=null
+
+    // in onCreate() initialize FusedLocationProviderClient
+
+
+    // globally declare LocationRequest
+    private lateinit var locationRequest: LocationRequest
+    var locationUpdateState = false
+    // globally declare LocationCallback
+    private lateinit var locationCallback: LocationCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
-        AppHelper.setAllTexts(rootLayout,this)
+        AppHelper.setAllTexts(rootLayout, this)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
 
+
+
+        doc = MyApplication.db!!.collection("table_order").document("125")
         var mapViewBundle: Bundle? = null
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(getString(R.string.googleKey))
@@ -40,18 +63,20 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback{
 
     }
 
-    fun init(){
+
+
+    fun init() {
         mvLocation.getMapAsync(this);
 
         btDrawer.hide()
         btBackTool.show()
-        btBackTool.setOnClickListener {
+        btBackTool.onOneClick {
             onBackPressed()
         }
 
         var title = intent.getStringExtra("mapTitle")
-        AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
-        tvPageTitle.setColorTypeface(this,R.color.redPrimary,title!!,true)
+        AppHelper.setLogoTint(btBackTool, this, R.color.redPrimary)
+        tvPageTitle.setColorTypeface(this, R.color.redPrimary, title!!, true)
 
 
     }
@@ -68,10 +93,6 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback{
         mvLocation!!.onSaveInstanceState(mapViewBundle)
     }
 
-    override fun onResume() {
-        super.onResume()
-        mvLocation!!.onResume()
-    }
 
     override fun onStart() {
         super.onStart()
@@ -83,10 +104,6 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback{
         mvLocation!!.onStop()
     }
 
-    override fun onPause() {
-        mvLocation!!.onPause()
-        super.onPause()
-    }
 
     override fun onDestroy() {
         mvLocation!!.onDestroy()
@@ -98,13 +115,47 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback{
         mvLocation!!.onLowMemory()
     }
 
+
+
+
+    // stop receiving location update when activity not visible/foreground
+    override fun onPause() {
+        super.onPause()
+        mvLocation!!.onPause()
+    }
+
+    // start receiving location update when activity  visible/foreground
+    override fun onResume() {
+        super.onResume()
+        mvLocation!!.onResume()
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         gmap = googleMap
         gmap!!.setMinZoomPreference(12f)
-        val ny = LatLng(33.8658486, 35.5483189)
-        gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
-        val markerOptions = MarkerOptions()
-        markerOptions.position(ny)
-        gmap!!.addMarker(markerOptions)
+
+        var lan: Int = 0
+        var long: Int = 1
+
+
+        doc!!.get().addOnSuccessListener { documentSnapshot ->
+            val orderLoc = documentSnapshot.toObject<OrderLocation>()
+
+            val ny = LatLng(
+                orderLoc!!.order_laltitude!!.toDouble(),
+                orderLoc!!.order_longitude!!.toDouble()
+            )
+            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
+            val markerOptions = MarkerOptions()
+            markerOptions.position(ny)
+            gmap!!.addMarker(markerOptions)
+        }
+
+
+    }
+
+    override fun onLocationChanged(loc: Location) {
+        AppHelper.createDialog(this, loc.latitude.toString() + "LONG" + loc.longitude.toString())
+
     }
 }

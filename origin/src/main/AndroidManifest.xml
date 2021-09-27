@@ -81,6 +81,14 @@
             android:name=".controller.Activities.ActivityAddresses"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".controller.Activities.ActivityTrackOrder"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".controller.Activities.ActivityContactUs"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
        <!-- <activity
             android:name="com.ids.qasemti.controller.Activities.Activ"
             android:screenOrientation="portrait"
@@ -110,10 +118,18 @@
             android:name=".controller.Activities.ActivitySettlements"
             android:screenOrientation="portrait" />
 
-       <!-- <activity
-            android:name=".controller.Activities.ActivityRelatedOrders"
+        <activity
+            android:name=".controller.Activities.ActivityCurrentLocation"
             android:screenOrientation="portrait" />
--->
+        <activity
+            android:name=".controller.Activities.ActivityWeb"
+            android:screenOrientation="portrait" />
+
+
+        <!-- <activity
+             android:name=".controller.Activities.ActivityRelatedOrders"
+             android:screenOrientation="portrait" />
+ -->
         <activity
             android:name=".controller.Activities.ActivityMapAddress"
             android:configChanges="orientation|keyboardHidden"

@@ -45,6 +45,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/gray_font_title"
                 android:text="@string/ads_place"
+                android:tag="ads_place"
                 android:textSize="@dimen/big_font" />
 
         </androidx.cardview.widget.CardView>

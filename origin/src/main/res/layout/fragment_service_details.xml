@@ -291,6 +291,7 @@ nisl ut aliquip ex ea commodo consequat. Duis
                         android:id="@+id/tvItalicNote"
                         android:layout_marginEnd="@dimen/normal_margin"
                         android:textStyle="italic"
+                        android:tag="price_effect"
                         android:text="@string/price_effect"/>
 
 

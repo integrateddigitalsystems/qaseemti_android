@@ -45,6 +45,7 @@
             android:layout_width="match_parent"
             android:gravity="center"
             android:tag="account_pending"
+            android:textColor="@color/gray_font_title"
             android:textSize="@dimen/title_font"
             android:layout_height="wrap_content"
             android:text="@string/account_pending"/>
@@ -52,11 +53,12 @@
 
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:gravity="start"
-            android:tag="updated_how_notified"
+            android:tag="updated_status"
             android:text="@string/updated_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/big_font"/>
+            android:textSize="@dimen/big_font"
+            android:textColor="@color/gray_font_title" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -91,6 +93,8 @@
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_marginTop="@dimen/mini_margin"
                     android:layout_width="wrap_content"
+                    android:textColor="@color/gray_font_title"
+                    android:textSize="@dimen/normal_font"
                     android:layout_height="wrap_content"
                     android:text="@string/notifications"
                     android:tag="notifications"
@@ -124,6 +128,8 @@
                      android:layout_marginTop="@dimen/mini_margin"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
+                     android:textColor="@color/gray_font_title"
+                     android:textSize="@dimen/normal_font"
                      android:text="@string/sms"
                      android:tag="sms"
                      />
@@ -136,7 +142,8 @@
 
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:gravity="center"
-            android:tag="update_in_email"
+            android:tag="find_your_updates"
+            android:textColor="@color/gray_font_title"
             android:text="@string/find_your_updates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
