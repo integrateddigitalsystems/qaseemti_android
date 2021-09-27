@@ -14,12 +14,10 @@ import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestAvailability
-import com.ids.qasemti.model.RequestNotifications
-import com.ids.qasemti.model.ResponseCancel
-import com.ids.qasemti.model.ResponseConfiguration
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
+import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,7 +51,6 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             ?.updateAvailability(newReq)?.enqueue(object : Callback<ResponseCancel> {
                 override fun onResponse(call: Call<ResponseCancel>, response: Response<ResponseCancel>) {
                     try{
-                        var x = 1
                     }catch (E: java.lang.Exception){
                     }
                 }
@@ -65,6 +62,33 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     fun init() {
         (activity as ActivityHome?)!!.showLogout(false)
         (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
+
+        setOrders()
+        setListeners()
+        getData()
+
+
+
+    }
+
+    fun getData(){
+        loading.show()
+        var newReq = RequestUserStatus(6)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getOrdersCount(newReq)?.enqueue(object : Callback<ResponeOrderCount> {
+                override fun onResponse(call: Call<ResponeOrderCount>, response: Response<ResponeOrderCount>) {
+                    try{
+                        tvActiveOrdersNbr.text = response.body()!!.activeOrders.toString()
+                        tvUpcomingOrderNumber.text = response.body()!!.upcomingOrders.toString()
+                        loading.hide()
+                    }catch (E: java.lang.Exception){
+                    }
+                }
+                override fun onFailure(call: Call<ResponeOrderCount>, throwable: Throwable) {
+                }
+            })
+    }
+    fun setListeners(){
         rlActive.onOneClick {
             MyApplication.fromFooterOrder = false
             MyApplication.selectedFragment = FragmentOrders()
@@ -84,8 +108,6 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             )
             MyApplication.typeSelected = 1
         }
-        setOrders()
-
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             if (swAvailable.isChecked) {
                 rvOrders.show()
@@ -99,7 +121,6 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
             }
         }
-
     }
 
     private fun setOrders() {

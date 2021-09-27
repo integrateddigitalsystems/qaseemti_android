@@ -21,7 +21,9 @@ import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import kotlinx.android.synthetic.main.activity_contact_us.*
 import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.layout_border_data.*
+import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.layout_order_contact_tab.*
+import kotlinx.android.synthetic.main.layout_order_switch.*
 import kotlinx.android.synthetic.main.layout_request_new_time.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -34,6 +36,9 @@ import java.util.*
 class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
     var orderId = 1
+    var onTrack : Int ?=0
+    var delivered : Int ?=0
+    var paid : Int ?=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_details)
@@ -162,7 +167,47 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                     }
                 })
         }
+
+        swOnTrack.setOnCheckedChangeListener { compoundButton, b ->
+
+            if(swOnTrack.isChecked){
+                onTrack = 1
+            }else{
+                onTrack = 0
+            }
+            setStatus()
+        }
+        swPaid.setOnCheckedChangeListener { compoundButton, b ->
+            if(swOnTrack.isChecked){
+                paid = 1
+            }else{
+                paid = 0
+            }
+            setStatus()
+        }
+        swDelivered.setOnCheckedChangeListener { compoundButton, b ->
+            if(swOnTrack.isChecked){
+                delivered = 1
+            }else{
+                delivered = 0
+            }
+            setStatus()
+        }
     }
+    fun setStatus(){
+        var newReq = RequestUpdateOrder(1690 ,onTrack,delivered,paid)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
+                override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
+                    try{
+                    }catch (E: java.lang.Exception){
+                    }
+                }
+                override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                }
+            })
+    }
+
     fun resultCancel(req:Boolean){
         if(req){
             AppHelper.createDialog(this,AppHelper.getRemoteString("success",this))

@@ -36,8 +36,9 @@
             <androidx.appcompat.widget.SwitchCompat
                 android:gravity="center"
                 android:scaleX="0.75"
+                android:id="@+id/swOnTrack"
                 android:theme="@style/Theme.MyTheme"
-                android:checked="true"
+                android:checked="false"
                 android:buttonTint="@color/green_switch"
                 android:scaleY="0.75"
                 android:layout_width="wrap_content"
@@ -59,6 +60,7 @@
             <androidx.appcompat.widget.SwitchCompat
                 android:gravity="center"
                 android:scaleX="0.75"
+                android:id="@+id/swDelivered"
                 android:theme="@style/Theme.MyTheme"
                 android:scaleY="0.75"
                 android:layout_width="wrap_content"
@@ -79,6 +81,7 @@
                 android:layout_height="wrap_content"/>
             <androidx.appcompat.widget.SwitchCompat
                 android:gravity="center"
+                android:id="@+id/swPaid"
                 android:scaleX="0.75"
                 android:theme="@style/Theme.MyTheme"
                 android:scaleY="0.75"
