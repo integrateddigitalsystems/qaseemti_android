@@ -128,7 +128,7 @@ class ActivityMobileRegistration: ActivityBase(){
         }
     }
     fun nextStep(){
-      if(MyApplication.userStatus!!.enabled==1)
+      if(MyApplication.userStatus!!.enabled!=0)
             startActivity(Intent(this,ActivityRegistration::class.java))
     }
 

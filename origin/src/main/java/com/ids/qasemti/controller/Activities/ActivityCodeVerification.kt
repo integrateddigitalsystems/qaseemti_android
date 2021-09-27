@@ -2,6 +2,8 @@ package com.ids.qasemti.controller.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
@@ -53,7 +55,10 @@ class ActivityCodeVerification : ActivityBase() {
         }else{
             AppHelper.createDialog(this,"Incorrect Code")
         }
-        startActivity(Intent(this,ActivityAccountStatus::class.java))
+        Handler(Looper.getMainLooper()).postDelayed({
+            startActivity(Intent(this,ActivityAccountStatus::class.java))
+        }, 500)
+
         loading.hide()
     }
 

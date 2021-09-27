@@ -82,9 +82,11 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                         tvUpcomingOrderNumber.text = response.body()!!.upcomingOrders.toString()
                         loading.hide()
                     }catch (E: java.lang.Exception){
+                        loading.hide()
                     }
                 }
                 override fun onFailure(call: Call<ResponeOrderCount>, throwable: Throwable) {
+                    loading.hide()
                 }
             })
     }
