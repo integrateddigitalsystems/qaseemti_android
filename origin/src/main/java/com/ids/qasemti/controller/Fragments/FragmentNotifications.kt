@@ -56,7 +56,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
 
     fun getData(){
         loading.show()
-        var newReq = RequestNotifications(MyApplication.languageCode,1,MyApplication.deviceId,0,10,1)
+        var newReq = RequestNotifications("ar",1,MyApplication.deviceId,0,10,1)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getNotifications(
                 newReq
@@ -123,7 +123,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
                 markNotification(array.get(position).id!!.toInt())
                 array.get(position).isViewed = "1"
             }
-            adapter!!.notifyDataSetChanged()
+            adapter!!.notifyItemChanged(position)
         }
     }
 }

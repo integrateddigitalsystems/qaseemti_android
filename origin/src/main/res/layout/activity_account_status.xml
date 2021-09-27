@@ -40,6 +40,8 @@
 
 
         <com.ids.qasemti.custom.CustomTextViewBold
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
             android:layout_marginTop="@dimen/big_margin"
             android:layout_marginBottom="@dimen/big_margin"
             android:layout_width="match_parent"
@@ -53,6 +55,8 @@
 
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:gravity="start"
+            android:layout_marginStart="@dimen/huge_margin"
+            android:layout_marginEnd="@dimen/huge_margin"
             android:tag="updated_status"
             android:text="@string/updated_status"
             android:layout_width="wrap_content"
@@ -142,10 +146,12 @@
 
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:gravity="center"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
             android:tag="find_your_updates"
             android:textColor="@color/gray_font_title"
             android:text="@string/find_your_updates"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/big_font"/>
 

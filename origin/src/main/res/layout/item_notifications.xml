@@ -45,7 +45,8 @@
 
                 <ImageView
                     android:id="@+id/ivViewed"
-                    android:layout_marginStart="@dimen/mini_margin"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
                     android:layout_width="@dimen/small_icon"
                     android:layout_height="@dimen/small_icon"
                     android:src="@drawable/rounded_red_background"/>
