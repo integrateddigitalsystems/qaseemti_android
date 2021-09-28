@@ -92,6 +92,7 @@ class AdapterOrderType(
             holder.rating.show()
             holder.cancelorder.show()
             holder.switch.hide()
+            holder.titelOrderDate.text = AppHelper.getRemoteString("Actual_delivery",con)
         }else{
             holder.phoneChat.hide()
             holder.dates.hide()
