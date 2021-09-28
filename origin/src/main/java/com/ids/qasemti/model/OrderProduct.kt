@@ -72,7 +72,7 @@ class OrderProduct(
 
     @SerializedName("types")
     @Expose
-    var types : ArrayList<String> = arrayListOf(),
+    var types : String = "",
 
     @SerializedName("variation_id")
     @Expose

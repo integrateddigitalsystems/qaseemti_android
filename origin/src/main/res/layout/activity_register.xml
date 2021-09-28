@@ -63,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:id="@+id/tvRegisterTitle"
-                android:tag="register"
-                android:text="@string/register"
+                android:tag="Registration"
+                android:text="@string/Registration"
                 android:textColor="@color/redPrimary"
                 android:textSize="@dimen/title_font" />
 

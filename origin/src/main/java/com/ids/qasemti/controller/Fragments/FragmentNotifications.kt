@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 
 class FragmentNotifications : Fragment(), RVOnItemClickListener {
@@ -51,12 +52,24 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
         rvNotifications.layoutManager = LinearLayoutManager(context)
         adapter = AdapterNotification(array, this, requireContext())
         rvNotifications.adapter = adapter
-        loading.hide()
+        try {
+            loading.hide()
+        }catch (ex: Exception){
+
+        }
     }
 
     fun getData(){
-        loading.show()
-        var newReq = RequestNotifications("ar",1,MyApplication.deviceId,0,10,1)
+        try {
+            try {
+                loading.show()
+            }catch (ex: Exception){
+
+            }
+        }catch (ex:Exception){
+
+        }
+        var newReq = RequestNotifications(MyApplication.languageCode,MyApplication.userId,MyApplication.deviceId,0,10,1)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getNotifications(
                 newReq
@@ -67,11 +80,23 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
                         array.addAll(response.body()!!)
                         setData()
                     }catch (E: java.lang.Exception){
-                        loading.hide()
+                       try {
+                           try {
+                               loading.hide()
+                           }catch (ex: Exception){
+
+                           }
+                       }catch (ex:Exception){
+
+                       }
                     }
                 }
                 override fun onFailure(call: Call<ArrayList<ResponseNotification>>, throwable: Throwable) {
-                    loading.hide()
+                    try {
+                        loading.hide()
+                    }catch (ex: Exception){
+
+                    }
                 }
             })
     }
@@ -98,7 +123,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
     }
 
     fun markNotification(notfId : Int ){
-        var newReq = MarkNotification(MyApplication.deviceId,1,notfId)
+        var newReq = MarkNotification(MyApplication.deviceId,MyApplication.userId,notfId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.markNotification(
                 newReq

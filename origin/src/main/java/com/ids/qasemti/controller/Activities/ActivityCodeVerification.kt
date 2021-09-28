@@ -2,14 +2,13 @@ package com.ids.qasemti.controller.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestOTP
 import com.ids.qasemti.model.RequestVerifyOTP
-import com.ids.qasemti.model.ResponseUpdate
 import com.ids.qasemti.model.ResponseVerification
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_code_verification.*
@@ -18,8 +17,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class ActivityCodeVerification : ActivityBase() {
 
+    var time = 30
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_code_verification)
@@ -47,6 +48,17 @@ class ActivityCodeVerification : ActivityBase() {
 
 
         }
+
+        object : CountDownTimer(30000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                tvTimer.setText("0:" + checkDigit(time))
+                time--
+            }
+
+            override fun onFinish() {
+                tvTimer.setText("try again")
+            }
+        }.start()
     }
 
     fun requestSucc(code:String){
@@ -59,11 +71,22 @@ class ActivityCodeVerification : ActivityBase() {
             startActivity(Intent(this,ActivityAccountStatus::class.java))
         }, 1000)
 
-        loading.hide()
+        try {
+            loading.hide()
+        }catch (ex: Exception){
+
+        }
     }
 
+    fun checkDigit(number: Int): String? {
+        return if (number <= 9) "0$number" else number.toString()
+    }
     fun verifyOTP(){
-        loading.show()
+        try {
+            loading.show()
+        }catch (ex: Exception){
+
+        }
         var req = RequestVerifyOTP(pvCode.text.toString(),MyApplication.deviceId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.verifyOTP(

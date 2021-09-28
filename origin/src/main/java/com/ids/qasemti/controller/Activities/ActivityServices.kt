@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 
 class ActivityServices : ActivityBase(),RVOnItemClickListener {
@@ -35,8 +36,12 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
 
 
     fun getServices(){
-        loading.show()
-        var newReq = RequestServices(1,MyApplication.languageCode)
+        try {
+            loading.show()
+        }catch (ex: Exception){
+
+        }
+        var newReq = RequestServices(MyApplication.userId,MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getServices(
                 newReq
@@ -89,7 +94,11 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
         rvServices.layoutManager = LinearLayoutManager(this)
         rvServices.adapter = adapter
         rvServices.isNestedScrollingEnabled = false
-        loading.hide()
+        try {
+            loading.hide()
+        }catch (ex: Exception){
+
+        }
     }
 
     override fun onItemClicked(view: View, position: Int) {

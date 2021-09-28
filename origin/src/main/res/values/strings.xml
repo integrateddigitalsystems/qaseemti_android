@@ -41,7 +41,7 @@
     <string name="verify">VERIFY</string>
     <string name="account_status">Account Status</string>
     <string name="account_pending">Your account is pending approval</string>
-    <string name="updated_status">We will let you know by the updated status.\nHow would you like to get notified?</string>
+    <string name="updated_status">We will let you know by the updated status.\n How would you like to get notified?</string>
     <string name="sms">SMS</string>
     <string name="find_your_updates">You can always find your updates in your email</string>
     <string name="save">Save</string>

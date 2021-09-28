@@ -313,6 +313,11 @@ class AppHelper {
             return version
         }
 
+        fun formatDate(date:Date,toFormat: String):String{
+            var sdf2 = SimpleDateFormat(toFormat , Locale.US)
+
+            return sdf2.format(date)
+        }
 
         fun formatDate(date:String , format : String,toFormat : String):String{
 
@@ -351,7 +356,7 @@ class AppHelper {
             if(MyApplication.isClient)
                 isService =0
 
-            var newReq = RequestUpdate(MyApplication.deviceId,"03/123123",model,osVersion,deviceToken,2,imei,generalNotification,appVersion.toString(),0,lang,1,isService)
+            var newReq = RequestUpdate(MyApplication.deviceId,MyApplication.selectedPhone,model,osVersion,deviceToken,2,imei,generalNotification,appVersion.toString(),0,lang,MyApplication.userId,isService)
 
 
             RetrofitClient.client?.create(RetrofitInterface::class.java)

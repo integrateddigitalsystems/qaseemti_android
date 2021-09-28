@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
@@ -46,7 +47,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     }
 
     fun setAvailability(available : Int ){
-        var newReq = RequestAvailability(6,available)
+        var newReq = RequestAvailability(MyApplication.userId,available)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updateAvailability(newReq)?.enqueue(object : Callback<ResponseCancel> {
                 override fun onResponse(call: Call<ResponseCancel>, response: Response<ResponseCancel>) {
@@ -72,21 +73,37 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     }
 
     fun getData(){
-        loading.show()
-        var newReq = RequestUserStatus(6)
+        try {
+            loading.show()
+        }catch (ex: Exception){
+
+        }
+        var newReq = RequestUserStatus(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrdersCount(newReq)?.enqueue(object : Callback<ResponeOrderCount> {
                 override fun onResponse(call: Call<ResponeOrderCount>, response: Response<ResponeOrderCount>) {
                     try{
                         tvActiveOrdersNbr.text = response.body()!!.activeOrders.toString()
                         tvUpcomingOrderNumber.text = response.body()!!.upcomingOrders.toString()
-                        loading.hide()
+                        try {
+                            loading.hide()
+                        }catch (ex: Exception){
+
+                        }
                     }catch (E: java.lang.Exception){
-                        loading.hide()
+                        try {
+                            loading.hide()
+                        }catch (ex: Exception){
+
+                        }
                     }
                 }
                 override fun onFailure(call: Call<ResponeOrderCount>, throwable: Throwable) {
-                    loading.hide()
+                    try {
+                        loading.hide()
+                    }catch (ex: Exception){
+
+                    }
                 }
             })
     }

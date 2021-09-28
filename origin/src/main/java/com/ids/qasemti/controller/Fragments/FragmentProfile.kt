@@ -151,7 +151,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
     }
 
     fun updateProfile(){
-        loading.show()
+        try {
+            loading.show()
+        }catch (ex: java.lang.Exception){
+
+        }
         var userId = "1"
         var rolev = "vendor"
         var latt = "33.5618345"

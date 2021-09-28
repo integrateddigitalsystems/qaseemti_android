@@ -59,6 +59,12 @@ class AdapterOrderType(
         }catch (ex:Exception){ holder.orderCost.text =""}
 
 
+
+        holder.cancelPerson.hide()
+        holder.cancelReason.hide()
+        holder.cancelorder.hide()
+        holder.cancelBord.hide()
+        holder.dates.show()
         if (MyApplication.isClient && MyApplication.typeSelected == 0) {
             holder.credit.show()
             holder.switch.hide()
@@ -84,6 +90,7 @@ class AdapterOrderType(
             holder.phoneChat.hide()
             holder.credit.hide()
             holder.rating.show()
+            holder.cancelorder.show()
             holder.switch.hide()
         }else{
             holder.phoneChat.hide()
@@ -118,6 +125,7 @@ class AdapterOrderType(
         var cancelorder = itemView.findViewById<LinearLayout>(R.id.llCancelOrderDate)
         var orderDate = itemView.findViewById<TextView>(R.id.tvOrderDate)
         var expectedDate = itemView.findViewById<TextView>(R.id.tvExpectedDate)
+        var titelOrderDate = itemView.findViewById<TextView>(R.id.tvOrderDateTitle)
         var dates = itemView.findViewById<LinearLayout>(R.id.llDates)
         var details = itemView.findViewById<LinearLayout>(R.id.llViewOrderDetails)
         var cancelBord = itemView.findViewById<LinearLayout>(R.id.llCancelBorder)
