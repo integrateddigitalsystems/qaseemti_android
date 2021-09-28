@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 class ActivityContactUs: ActivityBase() {
 
@@ -52,7 +53,11 @@ class ActivityContactUs: ActivityBase() {
         }else{
             AppHelper.createDialog(this,AppHelper.getRemoteString("failure",this))
         }
-        loading.hide()
+        try {
+            loading.hide()
+        }catch (ex: Exception){
+
+        }
         etFullNameContact.text.clear()
         etEmailContact.text.clear()
         etMessageContact.text.clear()
@@ -60,7 +65,11 @@ class ActivityContactUs: ActivityBase() {
         etSubjectContact.text.clear()
     }
     fun sendContact(){
-        loading.show()
+        try {
+            loading.show()
+        }catch (ex: Exception){
+
+        }
         var newReq = RequestContactUs(etFullNameContact.text.toString(),etPhoneContact.text.toString(),etEmailContact.text.toString(),etSubjectContact.text.toString(),etMessageContact.text.toString())
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.contactUs(

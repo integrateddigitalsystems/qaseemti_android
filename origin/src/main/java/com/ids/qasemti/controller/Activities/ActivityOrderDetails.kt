@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -149,8 +150,14 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         }
 
         btCancelOrder.onOneClick {
-            loading.show()
-            var newReq = RequestCancelOrder(orderId,1,"12-12-2020","not accepted yet")
+            try {
+                loading.show()
+            }catch (ex: Exception){
+
+            }
+            var cal = Calendar.getInstance()
+            var dateNow = AppHelper.formatDate(cal.time!!,"dd-MM-yyyy")
+            var newReq = RequestCancelOrder(orderId,MyApplication.userId,dateNow,"not accepted yet")
             RetrofitClient.client?.create(RetrofitInterface::class.java)
                 ?.cancelOrder(
                     newReq
@@ -159,11 +166,11 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                         try{
                             resultCancel(response.body()!!.result!!)
                         }catch (E: java.lang.Exception){
-                           resultCancel(false)
+                           resultCancel(0)
                         }
                     }
                     override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
-                        resultCancel(false)
+                        resultCancel(0)
                     }
                 })
         }
@@ -195,7 +202,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         }
     }
     fun setStatus(){
-        var newReq = RequestUpdateOrder(1690 ,onTrack,delivered,paid)
+        var newReq = RequestUpdateOrder(orderId ,onTrack,delivered,paid)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
                 override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
@@ -208,13 +215,17 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             })
     }
 
-    fun resultCancel(req:Boolean){
-        if(req){
+    fun resultCancel(req:Int){
+        if(req==1){
             AppHelper.createDialog(this,AppHelper.getRemoteString("success",this))
         }else{
             AppHelper.createDialog(this,AppHelper.getRemoteString("failure",this))
         }
-        loading.hide()
+        try {
+            loading.hide()
+        }catch (ex: Exception){
+
+        }
     }
 
     override fun onItemClicked(view: View, position: Int) {

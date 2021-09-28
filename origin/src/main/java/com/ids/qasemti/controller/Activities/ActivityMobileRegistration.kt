@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.white_logo_layout.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
@@ -41,9 +42,9 @@ class ActivityMobileRegistration: ActivityBase(){
             super.onBackPressed()
         }
 
-        logo_main.onOneClick {
+        /*logo_main.onOneClick {
             Toast.makeText(this,"Howdy Gov",Toast.LENGTH_SHORT).show()
-        }
+        }*/
         /*if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             closeDrawer(drawerLayout, true)
         } else {
@@ -133,8 +134,12 @@ class ActivityMobileRegistration: ActivityBase(){
     }
 
     fun getUserStatus(){
-        loading.show()
-        var newReq = RequestUserStatus(6)
+        try {
+            loading.show()
+        }catch (ex: Exception){
+
+        }
+        var newReq = RequestUserStatus(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getUserStatus(
                 newReq
@@ -145,11 +150,19 @@ class ActivityMobileRegistration: ActivityBase(){
                         loading.hide()
                         nextStep()
                     }catch (E: java.lang.Exception){
-                        loading.hide()
+                        try {
+                            loading.hide()
+                        }catch (ex: Exception){
+
+                        }
                     }
                 }
                 override fun onFailure(call: Call<ResponseUserStatus>, throwable: Throwable) {
-                    loading.hide()
+                    try {
+                        loading.hide()
+                    }catch (ex: Exception){
+
+                    }
                 }
             })
     }

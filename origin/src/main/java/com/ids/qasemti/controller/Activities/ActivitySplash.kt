@@ -195,7 +195,7 @@ class ActivitySplash : ActivityBase() {
     }
 
     fun getMobileConfig(){
-        var newReq = RequestNotifications(MyApplication.languageCode,1,110,0,10,1)
+        var newReq = RequestNotifications(MyApplication.languageCode,MyApplication.userId,MyApplication.deviceId,0,10,1)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getMobileConfiguration(
             )?.enqueue(object : Callback<ArrayList<ResponseConfiguration>> {

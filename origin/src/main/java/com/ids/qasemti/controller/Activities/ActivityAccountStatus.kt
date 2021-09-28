@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.core.widget.ImageViewCompat
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestAvailability
 import com.ids.qasemti.model.RequestNotificationUpdate
 import com.ids.qasemti.model.ResponseCancel
@@ -101,7 +102,7 @@ class ActivityAccountStatus : ActivityBase() {
     }
 
     fun setNotificationType(available : Int ){
-        var newReq = RequestNotificationUpdate(6,available)
+        var newReq = RequestNotificationUpdate(MyApplication.userId,available)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updateNotification(newReq)?.enqueue(object : Callback<ResponseCancel> {
                 override fun onResponse(call: Call<ResponseCancel>, response: Response<ResponseCancel>) {

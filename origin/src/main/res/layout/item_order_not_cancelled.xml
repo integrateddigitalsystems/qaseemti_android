@@ -45,10 +45,11 @@
                     android:background="@drawable/pink_background_circle">
 
                     <ImageView
-                        android:layout_width="@dimen/normal_icon_size"
-                        android:layout_height="@dimen/normal_icon_size"
+                        android:layout_margin="@dimen/mini_margin"
+                        android:layout_width="@dimen/normal_icon"
+                        android:layout_height="@dimen/normal_icon"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/icon_box_product" />
+                        android:src="@drawable/footer_orders" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -215,6 +216,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/order_date"
+                            android:tag="@string/order_date"
+                            android:id="@+id/tvOrderDateTitle"
                             android:textColor="@color/gray_font_title"
                             android:textSize="@dimen/normal_font" />
 

@@ -43,9 +43,11 @@ class MyApplication : Application() {
         var BASE_URL = "http://dev.qasemti.com/wp-json/api/v1/"
         var selectedImage:String ?=""
         var selectedVideo :String ?=""
-        var selectedPhone : String ?=""
+        var selectedPhone : String ?="03/123123"
         var clickable : Boolean ?= true
         var isSignedIn : Boolean = false
+        var userId : Int ?=6
+
         var firstImage : Boolean ?=false
         var selectedService : ServiceItem ?=null
         var showLogs: Boolean = true

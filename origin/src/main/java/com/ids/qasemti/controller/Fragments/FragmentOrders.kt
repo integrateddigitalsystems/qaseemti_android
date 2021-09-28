@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 
 class FragmentOrders : Fragment() , RVOnItemClickListener {
@@ -58,8 +59,12 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
     }
 
     fun getOrders(){
-        loading.show()
-        var newReq = RequestOrders(1,"ar",orderType)
+        try {
+            loading.show()
+        }catch (ex: Exception){
+
+        }
+        var newReq = RequestOrders(MyApplication.userId,MyApplication.languageCode,orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrders(
                 newReq
@@ -156,6 +161,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
             }
         }else if(view.id==R.id.llViewOrderDetails){
             AppHelper.onOneClick {
+                mainArray
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java)
                     .putExtra("orderId",ordersArray.get(position).orderId))
             }
@@ -228,11 +234,19 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
             adapter!!.notifyDataSetChanged()
             adapter!!.notifyDataSetChanged()
         }else {
-            adapter = AdapterOrderType(ordersArray, this, requireContext())
-            rvOrderDetails.adapter = adapter
-            var glm2 = GridLayoutManager(requireContext(), 1)
-            rvOrderDetails.layoutManager = glm2
+            try {
+                adapter = AdapterOrderType(ordersArray, this, requireActivity())
+                rvOrderDetails.adapter = adapter
+                var glm2 = GridLayoutManager(requireContext(), 1)
+                rvOrderDetails.layoutManager = glm2
+            }catch (ex:Exception){
+
+            }
         }
-        loading.hide()
+        try {
+            loading.hide()
+        }catch (ex: Exception){
+
+        }
     }
 }
