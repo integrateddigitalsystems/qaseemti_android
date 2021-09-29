@@ -1,6 +1,5 @@
 package com.ids.qasemti.controller.Activities
 
-import android.app.ActionBar
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
@@ -62,6 +61,9 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         btBackTool.show()
         shake =  AnimationUtils.loadAnimation(this, R.anim.shake)
         orderId = intent.getIntExtra("orderId",1)
+
+        shake =  AnimationUtils.loadAnimation(this, R.anim.shake)
+        orderId = intent.getIntExtra("orderId",1)
         btBackTool.onOneClick {
             super.onBackPressed()
         }
@@ -73,6 +75,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         }else{
             llDetailsCallMessage.hide()
         }
+
+
 
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.show()
@@ -88,7 +92,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             llActualDelivery.hide()
         }else{
             tvPageTitle.textRemote("CompletedOrderDetails",this)
-            llRatingOrder.visibility=View.VISIBLE
+            llRatingOrder.show()
             llEditOrderTime.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
@@ -280,7 +284,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         dialog!!.setCanceledOnTouchOutside(true)
         dialog!!.setContentView(R.layout.dialog_rating)
         dialog!!.window!!.setBackgroundDrawableResource(R.color.transparent)
-        dialog!!.window!!.setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
+        dialog!!.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
         dialog!!.setCancelable(true)
         var close = dialog!!.findViewById<ImageView>(R.id.btClose)
         var tvTitleRate = dialog!!.findViewById<TextView>(R.id.tvTitleRate)

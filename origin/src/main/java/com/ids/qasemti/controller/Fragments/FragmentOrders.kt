@@ -104,10 +104,6 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         if(!MyApplication.fromFooterOrder){
             (activity as ActivityHome)!!.showBack(true)
         }
-        tvActive.typeface = AppHelper.getTypeFaceBold(requireContext())
-        tvCancelled.typeface = AppHelper.getTypeFaceBold(requireContext())
-        tvCompleted.typeface = AppHelper.getTypeFaceBold(requireContext())
-        tvUpcoming.typeface = AppHelper.getTypeFaceBold(requireContext())
 
         etSearchOrders.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -165,12 +161,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
             }
         }else if(view.id==R.id.llViewOrderDetails){
             AppHelper.onOneClick {
-                MyApplication.selectedOrder=ordersArray[position]
-                if(position==1){
-                    MyApplication.rental = true
-                }else{
-                    MyApplication.rental = false
-                }
+                MyApplication.rental = position==1
                 mainArray
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java)
                     .putExtra("orderId",ordersArray.get(position).orderId)

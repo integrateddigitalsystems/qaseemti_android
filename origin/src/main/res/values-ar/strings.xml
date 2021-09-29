@@ -209,6 +209,11 @@
     <string name="success">Success</string>
     <string name="failure">Failure</string>
     <string name="submit_review">Submit Review</string>
+    <string name="cancelDate">Cancellation date</string>
     <string name="previous_settlements">Previous Settlements</string>
-    <string name="settlement_request_number">Settlement Request Number</string>
+    <string name="settlement_request_number">Settlement request number</string>
+    <string name="settlement_date">Settlement date</string>
+    <string name="settlement_amount">Settlement amount</string>
+    <string name="earnings">Earnings</string>
+    <string name="select_address">Select Address</string>
 </resources>
