@@ -41,13 +41,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height">
 
-        <com.ids.qasemti.custom.CustomTextViewBold
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/tvActive"
             android:background="@drawable/rounded_red_background"
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
-            android:textSize="@dimen/small_font"
+            android:textSize="@dimen/small_font_3"
             android:gravity="center"
+            android:maxLines="1"
             android:padding="@dimen/mini_margin"
             android:textColor="@color/white"
             android:layout_width="match_parent"
@@ -55,40 +56,43 @@
             android:layout_weight="1"
             android:tag="active"
             android:text="@string/active"/>
-        <com.ids.qasemti.custom.CustomTextViewBold
+        <me.grantland.widget.AutofitTextView
             android:textColor="@color/redPrimary"
             android:layout_marginStart="@dimen/small_margin"
             android:id="@+id/tvUpcoming"
             android:tag="upcoming"
+            android:maxLines="1"
             android:padding="@dimen/mini_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:gravity="center"
-            android:textSize="@dimen/small_font"
+            android:textSize="@dimen/small_font_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/upcoming"/>
-        <com.ids.qasemti.custom.CustomTextViewBold
+        <me.grantland.widget.AutofitTextView
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:id="@+id/tvCompleted"
             android:padding="@dimen/mini_margin"
             android:tag="completed"
             android:textColor="@color/redPrimary"
             android:gravity="center"
-            android:textSize="@dimen/small_font"
+            android:textSize="@dimen/small_font_3"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/completed"/>
-        <com.ids.qasemti.custom.CustomTextViewBold
+        <me.grantland.widget.AutofitTextView
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
+            android:maxLines="1"
             android:textColor="@color/redPrimary"
             android:padding="@dimen/mini_margin"
             android:id="@+id/tvCancelled"
             android:tag="cancelled"
-            android:textSize="@dimen/small_font"
+            android:textSize="@dimen/small_font_3"
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_height="match_parent"

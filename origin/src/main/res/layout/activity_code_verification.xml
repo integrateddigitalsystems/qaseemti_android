@@ -73,8 +73,6 @@
             android:textCursorDrawable="@color/black"
             style="@style/PinWidget.PinView"
             android:layout_width="wrap_content"
-            android:layout_marginStart="@dimen/margin_start_end"
-            android:layout_marginEnd="@dimen/margin_start_end"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:cursorVisible="true"

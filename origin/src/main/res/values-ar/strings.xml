@@ -209,4 +209,6 @@
     <string name="success">Success</string>
     <string name="failure">Failure</string>
     <string name="submit_review">Submit Review</string>
+    <string name="previous_settlements">Previous Settlements</string>
+    <string name="settlement_request_number">Settlement Request Number</string>
 </resources>

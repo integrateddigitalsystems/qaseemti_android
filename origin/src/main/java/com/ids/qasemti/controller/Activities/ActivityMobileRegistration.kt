@@ -130,7 +130,7 @@ class ActivityMobileRegistration: ActivityBase(){
     }
     fun nextStep(){
       //if(MyApplication.userStatus!!.enabled!=0)
-            startActivity(Intent(this,ActivityRegistration::class.java))
+            startActivity(Intent(this,ActivityCodeVerification::class.java))
     }
 
     fun getUserStatus(){

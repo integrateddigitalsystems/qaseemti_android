@@ -34,6 +34,7 @@
     <ScrollView
         android:id="@+id/svScroll"
         android:layout_below="@id/llContactOrder"
+        android:layout_above="@id/btCancelOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -83,37 +84,34 @@
             </LinearLayout>
 
 
-
             <RelativeLayout
-                android:visibility="gone"
-                android:layout_marginStart="@dimen/margin_start_end"
-                android:layout_marginEnd="@dimen/margin_start_end"
-                android:layout_below="@id/btCancelOrder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/rounded_white_background">
+                android:layout_below="@id/btCancelOrder"
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:background="@drawable/rounded_white_background"
+                android:visibility="gone">
 
                 <Spinner
                     android:id="@+id/spServices"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_35"
-                    android:background="@color/transparent"
-                    />
+                    android:background="@color/transparent" />
 
                 <ImageView
-                    android:layout_marginEnd="@dimen/first_margin"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
                     android:layout_width="@dimen/small_icon"
                     android:layout_height="@dimen/small_icon"
-                    android:src="@drawable/arrow_right"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="@dimen/first_margin"
                     android:rotation="90"
-                    android:tint="@color/button_blue"/>
+                    android:src="@drawable/arrow_right"
+                    android:tint="@color/button_blue" />
 
             </RelativeLayout>
 
             <Button
-                android:layout_marginBottom="@dimen/big_margin"
                 android:layout_below="@+id/llOrderSwitches"
                 android:id="@+id/btRenewOrder"
                 android:layout_marginTop="@dimen/normal_margin"
@@ -134,8 +132,8 @@
 
 
     <Button
-        android:layout_marginBottom="@dimen/medium_margin"
-        android:layout_below="@+id/svScroll"
+        android:layout_marginBottom="@dimen/bigger_edit_text"
+        android:layout_alignParentBottom="true"
         android:id="@+id/btCancelOrder"
         android:layout_marginTop="@dimen/margin_start_end"
         android:layout_marginStart="@dimen/margin_start_end"

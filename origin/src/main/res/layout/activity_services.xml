@@ -44,19 +44,7 @@
                     android:layout_marginEnd="@dimen/card_new_margin" />
 
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/btAdd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="end"
-                    android:layout_margin="@dimen/margin_start_end"
-                    android:gravity="center"
-                    android:src="@drawable/ic_plus"
-                    app:backgroundTint="@color/button_blue"
-                    app:rippleColor="@color/button_blue"
-                    app:tint="@color/white" />
+
 
 
                 <LinearLayout
@@ -80,6 +68,32 @@
 
         <include
             layout="@layout/loading" />
+
+
+    <RelativeLayout
+        android:layout_marginBottom="@dimen/footer_height"
+        android:background="@color/transparent"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+            android:id="@+id/btAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="end"
+            android:layout_margin="@dimen/margin_start_end"
+            android:gravity="center"
+            android:src="@drawable/ic_plus"
+            app:backgroundTint="@color/button_blue"
+            app:rippleColor="@color/button_blue"
+            app:tint="@color/white" />
+
+    </RelativeLayout>
 
 
 
