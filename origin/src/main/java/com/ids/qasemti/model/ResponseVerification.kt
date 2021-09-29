@@ -8,13 +8,9 @@ class ResponseVerification(
     @Expose
     var result : String ?="" ,
 
-    @SerializedName("user_basic")
+    @SerializedName("user")
     @Expose
-    var basicUser : VerificationUserBasic ?=null ,
-
-    @SerializedName("user_meta_data")
-    @Expose
-    var MetaDataUser : VerificationUserMeta ?=null
+    var user : User ?=null ,
 
 
 ) {

@@ -36,6 +36,10 @@ class OrderVendor(
     @Expose
     var firstName : String ?="",
 
+    @SerializedName("last_name")
+    @Expose
+    var lastName : String ?="",
+
     @SerializedName("gender")
     @Expose
     var gender : String ?="",
@@ -66,7 +70,7 @@ class OrderVendor(
 
     @SerializedName("rate")
     @Expose
-    var rate : Double ?=0.0,
+    var rate : String ?="",
 
     @SerializedName("state")
     @Expose

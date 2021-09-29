@@ -143,7 +143,7 @@
     <string name="settlements">Settlements</string>
     <string name="ContactAdministrator">Contact Administrator</string>
     <string name="PrivacyPolicy">Privacy Policy</string>
-    <string name="TermsAndConditions">Terms&amp;Conditions</string>
+    <string name="TermsAndConditions">Terms and conditions</string>
     <string name="RateUs">Rate Us</string>
     <string name="MyProfile">My Profile</string>
     <string name="langSetting">Language</string>
@@ -209,11 +209,5 @@
     <string name="message">Message</string>
     <string name="success">Success</string>
     <string name="failure">Failure</string>
-    <string name="cancelDate">Cancellation date</string>
-    <string name="previous_settlements">Previous Settlements</string>
-    <string name="settlement_request_number">Settlement request number</string>
-    <string name="settlement_date">Settlement date</string>
-    <string name="settlement_amount">Settlement amount</string>
-    <string name="earnings">Earnings</string>
-    <string name="select_address">Select Address</string>
+    <string name="submit_review">Submit Review</string>
 </resources>
