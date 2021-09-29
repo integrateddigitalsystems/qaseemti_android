@@ -1,13 +1,18 @@
 package com.ids.qasemti.controller.Activities
 
+import android.app.ActionBar
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
-import android.widget.TimePicker
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterOrderData
@@ -17,9 +22,11 @@ import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
+import com.ids.qasemti.utils.AppHelper.Companion.createDialog
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import kotlinx.android.synthetic.main.activity_contact_us.*
 import kotlinx.android.synthetic.main.activity_order_details.*
+import kotlinx.android.synthetic.main.fragment_home_client.*
 import kotlinx.android.synthetic.main.layout_border_data.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.layout_order_contact_tab.*
@@ -36,21 +43,25 @@ import java.util.*
 
 class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
+    var dialog: Dialog? = null
     var orderId = 1
     var onTrack : Int ?=0
     var delivered : Int ?=0
     var paid : Int ?=0
+    lateinit var  shake: Animation
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_details)
-        getWindow().setSoftInputMode(
-            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        init()
+        setListeners()
+    }
+
+    fun init(){
+        window.setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         btDrawer.hide()
         btBackTool.show()
-        btBackTool.onOneClick {
-            super.onBackPressed()
-        }
-       orderId = intent.getIntExtra("orderId",1)
+        shake =  AnimationUtils.loadAnimation(this, R.anim.shake)
+        orderId = intent.getIntExtra("orderId",1)
 
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.show()
@@ -74,12 +85,12 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             if(MyApplication.isClient)
                 btRenewOrder.show()
 
-
         }
-
         tvLocationOrderDeatils.setColorTypeface(this,R.color.redPrimary,"",false)
+        setOrderData()
+    }
 
-        setListeners()
+    private fun setOrderData(){
         var array:ArrayList<OrderData> = arrayListOf()
         array.add(OrderData("Category","Purchase"))
         array.add(OrderData("Service","Water Tank"))
@@ -89,10 +100,13 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
         rvDataBorder.layoutManager = LinearLayoutManager(this)
         rvDataBorder.adapter = AdapterOrderData(array,this,this)
-
     }
 
     fun setListeners(){
+        btBackTool.onOneClick {
+            super.onBackPressed()
+        }
+
         llCall.onOneClick {
             val intent = Intent(Intent.ACTION_DIAL)
             startActivity(intent)
@@ -200,6 +214,11 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             }
             setStatus()
         }
+
+
+        llRatingOrder.setOnClickListener{
+            showRatingDialog()
+        }
     }
     fun setStatus(){
         var newReq = RequestUpdateOrder(orderId ,onTrack,delivered,paid)
@@ -231,5 +250,76 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
 
 
+    }
+
+
+
+    private fun showRatingDialog() {
+        dialog = Dialog(this, R.style.Base_ThemeOverlay_AppCompat_Dialog)
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setCanceledOnTouchOutside(true)
+        dialog!!.setContentView(R.layout.dialog_rating)
+        dialog!!.window!!.setBackgroundDrawableResource(R.color.transparent)
+        dialog!!.window!!.setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
+        dialog!!.setCancelable(true)
+        var close = dialog!!.findViewById<ImageView>(R.id.btClose)
+        var tvTitleRate = dialog!!.findViewById<TextView>(R.id.tvTitleRate)
+        var loading = dialog!!.findViewById<LinearLayout>(R.id.loading)
+        var etRatingText = dialog!!.findViewById<EditText>(R.id.etRatingText)
+        var rbOrder = dialog!!.findViewById<RatingBar>(R.id.rbOrder)
+        var btSubmit = dialog!!.findViewById<Button>(R.id.btSubmit)
+        var vendorName=""
+        try{
+        if(MyApplication.selectedOrder!=null){
+            vendorName=MyApplication.selectedOrder!!.vendor!!.firstName!!+" "+MyApplication.selectedOrder!!.vendor!!.lastName!!
+        }}catch (e:Exception){}
+        tvTitleRate.text=AppHelper.getRemoteString("rate",this)+" "+vendorName
+
+
+        btSubmit.setOnClickListener{
+            if(etRatingText.text.toString().isEmpty()){
+               etRatingText.startAnimation(shake)
+            }else if(rbOrder.rating == 0f)
+                rbOrder.startAnimation(shake)
+            else
+                setRating(loading,etRatingText.text.toString(),rbOrder.rating.toInt())
+        }
+
+        close.onOneClick {
+            dialog!!.cancel()
+        }
+        dialog!!.show()
+
+    }
+
+
+    fun setRating(loading:LinearLayout,description:String,rating:Int){
+        loading.show()
+        var newReq = RequestRating(
+            MyApplication.selectedOrder!!.vendor!!.userId!!.toInt(),
+            MyApplication.userId!!,
+            "auth name",//get from user object
+            "auth email",//get from user object
+            "",//get from user object
+            description,
+            rating
+            )
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.setRating(newReq)?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
+                    try{
+                        loading.hide()
+                        if(response.body()!!.result == 1)
+                            dialog!!.dismiss()
+                        else{
+                            createDialog(this@ActivityOrderDetails,response.body()!!.message!!)
+                        }
+                    }catch (E: java.lang.Exception){
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
     }
 }

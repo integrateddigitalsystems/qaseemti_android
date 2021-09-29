@@ -23,16 +23,16 @@
             android:layout_height="wrap_content">
 
             <com.ids.qasemti.custom.CustomTextViewBold
+                android:id="@+id/tvTitleRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/rate"
-                android:tag="rate"
-                android:textSize="@dimen/normal_font"
-                android:textColor="@color/redPrimary"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_marginTop="@dimen/normal_margin"
-                />
+                android:gravity="center"
+                android:tag="rate"
+                android:text="@string/rate"
+                android:textColor="@color/redPrimary"
+                android:textSize="@dimen/big_font" />
 
 
 
@@ -55,6 +55,7 @@
                 android:tag="@string/description"
                 android:layout_gravity="top"
                 android:gravity="top"
+                android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_gray_corner"
                 android:id="@+id/etRatingText"/>
 
@@ -63,6 +64,7 @@
                 android:tag="submit_review"
                 android:layout_marginTop="@dimen/medium_margin"
                 android:layout_width="match_parent"
+                android:id="@+id/btSubmit"
                 android:layout_height="@dimen/button_height"
                 android:background="@drawable/blue_rounded"
                 android:textColor="@color/white"/>
@@ -70,7 +72,7 @@
 
         </LinearLayout>
 
-
+       <include layout="@layout/loading_trans"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="@dimen/edit_text_height"

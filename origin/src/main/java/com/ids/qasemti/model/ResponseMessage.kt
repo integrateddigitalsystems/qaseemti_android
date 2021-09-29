@@ -1,17 +1,16 @@
 package com.ids.qasemti.model
 
+
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class ResponseVerification(
+class ResponseMessage {
     @SerializedName("result")
     @Expose
-    var result : String ?="" ,
+    var result: Int? = 0
 
-    @SerializedName("user")
+    @SerializedName("message")
     @Expose
-    var user : User ?=null ,
+    var message: String? = ""
 
-
-) {
 }

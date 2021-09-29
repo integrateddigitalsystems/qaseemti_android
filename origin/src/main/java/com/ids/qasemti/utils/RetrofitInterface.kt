@@ -104,5 +104,8 @@ interface RetrofitInterface {
     ): Call<ResponseMainServices>
 
 
-
+    @POST("sp_post_ratings")
+    fun setRating(
+        @Body param:RequestRating
+    ): Call<ResponseMessage>
 }

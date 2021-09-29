@@ -161,9 +161,10 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
             }
         }else if(view.id==R.id.llViewOrderDetails){
             AppHelper.onOneClick {
-                mainArray
+                MyApplication.selectedOrder=ordersArray[position]
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java)
-                    .putExtra("orderId",ordersArray.get(position).orderId))
+                    .putExtra("orderId", ordersArray[position].orderId))
+
             }
         }else if(view.id==R.id.ivOrderCall){
             AppHelper.onOneClick {

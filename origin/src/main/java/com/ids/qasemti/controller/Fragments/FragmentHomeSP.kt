@@ -175,9 +175,9 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
         }else if(view.id == R.id.btAcceptOrder){
-            if(MyApplication.userStatus!!.online==1){
+           /* if(MyApplication.userStatus!!.online==1){
                 //accept action
-            }
+            }*/
         }
     }
 }

@@ -17,10 +17,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.MyApplication.Companion.isClient
-import com.ids.qasemti.model.FirebaseLocalizeArray
-import com.ids.qasemti.model.RequestUpdate
-import com.ids.qasemti.model.ResponseUserStatus
-import com.ids.qasemti.model.ServiceItem
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.AppConstants
 import java.util.*
 
@@ -50,6 +47,8 @@ class MyApplication : Application() {
 
         var firstImage : Boolean ?=false
         var selectedService : ServiceItem ?=null
+        var selectedOrder : ResponseOrders?=null
+
         var showLogs: Boolean = true
         var isClient : Boolean = false
         var fromFooterOrder : Boolean = true
