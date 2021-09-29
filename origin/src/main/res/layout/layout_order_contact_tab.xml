@@ -167,6 +167,8 @@
             android:background="@color/gray_serperator"/>
 
         <LinearLayout
+            android:id="@+id/llDetailsCallMessage"
+            android:visibility="gone"
             android:gravity="center_vertical"
             android:weightSum="2"
             android:layout_width="match_parent"

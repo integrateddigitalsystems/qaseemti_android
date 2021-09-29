@@ -129,6 +129,11 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
             AppHelper.onOneClick {
                 MyApplication.selectedFragment = FragmentServiceDetails()
                 MyApplication.selectedService = array.get(position)
+                if(position==2){
+                    MyApplication.rental= true
+                }else{
+                    MyApplication.rental = false
+                }
                 MyApplication.position = position
                 (requireActivity() as ActivityHome?)!!.addFrag(
                     FragmentServiceDetails(),

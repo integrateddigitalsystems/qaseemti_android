@@ -101,6 +101,14 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             AppHelper.createYesNoDialog(requireActivity(),  AppHelper.getRemoteString("logout",requireContext()),AppHelper.getRemoteString("cancel",requireContext()),AppHelper.getRemoteString("sureLogout",requireContext())){
                 MyApplication.isSignedIn = false
                 MyApplication.fromLogout = true
+                if(MyApplication.isClient){
+                    MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+                    MyApplication.selectedFragment = FragmentHomeClient()
+                }else{
+                    MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+                    MyApplication.selectedFragment = FragmentHomeSP()
+                }
+                MyApplication.selectedPos = 2
                 requireActivity().finishAffinity()
                 startActivity(Intent(requireContext(),ActivityMobileRegistration::class.java).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
             }

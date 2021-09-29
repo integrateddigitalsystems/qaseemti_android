@@ -174,6 +174,21 @@ class AppHelper {
                 })
         }*/
 
+        fun getTypeFaceItalic(context: Context) : Typeface{
+            return if (Locale.getDefault().language == "ar")
+                Typeface.createFromAsset(
+                    context.applicationContext.assets,
+                    "fonts/DroidKufi-Bold.ttf"
+                )//fonts/NeoTech-Bold.otf
+
+            else
+                Typeface.createFromAsset(
+                    context.applicationContext.assets,
+                    "fonts/Raleway-Italic-VariableFont_wght.ttf"
+                )//fonts/NeoTech-Bold.otf
+
+            // return Typeface.DEFAULT_BOLD
+        }
         fun getTypeFaceBold(context: Context): Typeface {
             return if (Locale.getDefault().language == "ar")
                 Typeface.createFromAsset(

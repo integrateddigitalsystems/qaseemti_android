@@ -66,7 +66,7 @@ class OrderVendor(
 
     @SerializedName("rate")
     @Expose
-    var rate : Int ?=0,
+    var rate : Double ?=0.0,
 
     @SerializedName("state")
     @Expose

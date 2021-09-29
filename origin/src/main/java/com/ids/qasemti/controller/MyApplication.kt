@@ -31,6 +31,7 @@ class MyApplication : Application() {
         var isDebug: Boolean = true
         var selectedFragmentTag : String ?=""
         var typeSelected = 0
+        var rental : Boolean ?=false
         var userStatus : ResponseUserStatus ?=null
         var fromLogout = false
         var settlementTabSelected =0

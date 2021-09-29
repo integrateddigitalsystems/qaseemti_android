@@ -61,7 +61,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="@dimen/height_35"
         android:layout_marginEnd="@dimen/height_35"
-        android:maxLines="1"
+        android:maxLines="2"
         android:textColor="@color/redPrimary"
         android:textSize="@dimen/title_font" />
 

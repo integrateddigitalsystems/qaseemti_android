@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/big_font"
         android:textColor="@color/gray_font_title"
-        android:text="@string/description"
+        android:text="@string/category"
         android:layout_marginTop="@dimen/normal_margin"
-        android:tag="description"
+        android:tag="category"
         />
 
     <RadioGroup

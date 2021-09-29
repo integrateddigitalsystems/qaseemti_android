@@ -12,7 +12,7 @@
         android:layout_marginStart="@dimen/margin_start_new"
         android:layout_marginEnd="@dimen/margin_start_new"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bigger_edit_text"
+        android:layout_height="@dimen/edit_text_height"
         android:orientation="horizontal"
         android:padding="@dimen/normal_margin"
         android:background="@drawable/rounded_white_red_border"
@@ -39,7 +39,7 @@
         android:layout_marginTop="@dimen/first_margin"
         android:background="@drawable/normal_white_background"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bigger_edit_text">
+        android:layout_height="@dimen/edit_text_height">
 
         <com.ids.qasemti.custom.CustomTextViewBold
             android:id="@+id/tvActive"

@@ -7,75 +7,48 @@ class ResponseService(
 
     @SerializedName("id")
     @Expose
-    var id : Int ,
+    var id : String ?="" ,
 
     @SerializedName("type")
     @Expose
     var type : String ?="",
 
-    @SerializedName("regular_price")
-    @Expose
-    var regularPrice : ArrayList<String> = arrayListOf() ,
-
-    @SerializedName("stock_status")
-    @Expose
-    var stockStatus : ArrayList<String> = arrayListOf() ,
-
-    @SerializedName("price")
-    @Expose
-    var price : ArrayList<String> = arrayListOf() ,
-
     @SerializedName("booking_min")
     @Expose
-    var bookingMin : ArrayList<String> = arrayListOf() ,
+    var bookingMin : String ?="" ,
 
     @SerializedName("booking_max")
     @Expose
-    var bookingMax : ArrayList<String> = arrayListOf() ,
+    var bookingMax : String ?="" ,
 
-    @SerializedName("views")
+    /*@SerializedName("gallery_of_images")
     @Expose
-    var views : ArrayList<String> = arrayListOf() ,
+    var gallery : ArrayList<String> = arrayListOf() ,*/
 
-    @SerializedName("gallery_of_images")
-    @Expose
-    var gallery : ArrayList<String> = arrayListOf() ,
-
-    @SerializedName("commission")
-    @Expose
-    var commission : ArrayList<ServiceCommission> = arrayListOf() ,
-
-    @SerializedName("types")
-    @Expose
-    var types : ArrayList<String> ?= arrayListOf() ,
-
-    @SerializedName("size-capacity")
-    @Expose
-    var sizeCapacity : ArrayList<String>?= arrayListOf() ,
 
     @SerializedName("eta")
     @Expose
-    var eta : ArrayList<String> = arrayListOf() ,
+    var eta : String ?="" ,
 
     @SerializedName("_additional_price_if_distance__10km")
     @Expose
-    var additionalPrice10 : ArrayList<String> = arrayListOf() ,
+    var additionalPrice10 : String ?="" ,
 
     @SerializedName("_additional_price_if_distance__20km")
     @Expose
-    var additionalPrice20 : ArrayList<String> = arrayListOf() ,
+    var additionalPrice20 : String ?="" ,
 
     @SerializedName("_additional_price_if_distance__30km")
     @Expose
-    var additionalPrice30 : ArrayList<String> = arrayListOf() ,
+    var additionalPrice30 : String ?="" ,
 
     @SerializedName("_additional_price_if_distance__40km")
     @Expose
-    var additionalPrice40 : ArrayList<String> = arrayListOf() ,
+    var additionalPrice40 : String ?="" ,
 
     @SerializedName("_additional_price_if_distance__50km")
     @Expose
-    var additionalPrice50 : ArrayList<String> = arrayListOf() ,
+    var additionalPrice50 : String ?="" ,
 
     @SerializedName("description")
     @Expose
@@ -85,9 +58,9 @@ class ResponseService(
     @Expose
     var name : String ?="" ,
 
-    @SerializedName("date")
+    @SerializedName("variations")
     @Expose
-    var date : String ?=""
+    var variations : ArrayList<ServiceVariation> = arrayListOf()
 
 
 

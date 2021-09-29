@@ -74,10 +74,10 @@ class ActivityMobileRegistration: ActivityBase(){
 
 
         var items: ArrayList<ItemSpinner> = arrayListOf()
-        items.add(ItemSpinner(0, "961", ""))
-        items.add(ItemSpinner(0, "965", ""))
-        items.add(ItemSpinner(0, "1", ""))
-        items.add(ItemSpinner(0, "31", ""))
+        items.add(ItemSpinner(0, "+961", ""))
+        items.add(ItemSpinner(0, "+965", ""))
+        items.add(ItemSpinner(0, "+1", ""))
+        items.add(ItemSpinner(0, "+31", ""))
 
 
         val adapterMobileCode = AdapterGeneralSpinner(

@@ -39,8 +39,8 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     private fun listeners(){
         btAddNew.onOneClick{
-            startActivityForResult(Intent(this,ActivityAddNewAddress::class.java)
-                .putExtra("mapTitle",getString(R.string.NewAddress)),1)
+            startActivity(Intent(this,ActivityAddNewAddress::class.java)
+                .putExtra("mapTitle",AppHelper.getRemoteString("address",this)))
         }
     }
 

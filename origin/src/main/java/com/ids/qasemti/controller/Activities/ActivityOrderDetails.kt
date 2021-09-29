@@ -51,6 +51,13 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             super.onBackPressed()
         }
        orderId = intent.getIntExtra("orderId",1)
+        var type = intent.getIntExtra("type",1)
+
+        if(type==0){
+            llDetailsCallMessage.show()
+        }else{
+            llDetailsCallMessage.hide()
+        }
 
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.show()
@@ -66,7 +73,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             llActualDelivery.hide()
         }else{
             tvPageTitle.textRemote("CompletedOrderDetails",this)
-            llRatingOrder.visibility=View.VISIBLE
+            llRatingOrder.show()
             llEditOrderTime.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
@@ -76,6 +83,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
 
         }
+        if(MyApplication.isClient)
+            llRatingOrder.hide()
 
         tvLocationOrderDeatils.setColorTypeface(this,R.color.redPrimary,"",false)
 
@@ -86,6 +95,10 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         array.add(OrderData("Type","Fresh"))
         array.add(OrderData("Size/Capacity","200 Gallons"))
         array.add(OrderData("Quantity","1 Trip"))
+        if(MyApplication.rental!!){
+            array.add(OrderData("Period","From 1/1/2021\n" +
+                    "Till 1/5/2021"))
+        }
 
         rvDataBorder.layoutManager = LinearLayoutManager(this)
         rvDataBorder.adapter = AdapterOrderData(array,this,this)
