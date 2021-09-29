@@ -97,7 +97,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         ordersArray.add("3")
         mainArray.addAll(ordersArray)*/
         (activity as ActivityHome?)!!.drawColor()
-        (activity as ActivityHome?)!!.setTitleAc(AppHelper.getRemoteString("orders",requireContext()))
+        (activity as ActivityHome?)!!.setTitleAc(AppHelper.getRemoteString("order_type",requireContext()))
         (activity as ActivityHome)!!.showTitle(true)
         (activity as ActivityHome)!!.showLogout(false)
         (activity as ActivityHome)!!.setTintLogo(R.color.redPrimary)
@@ -161,9 +161,12 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
             }
         }else if(view.id==R.id.llViewOrderDetails){
             AppHelper.onOneClick {
+                MyApplication.rental = position==1
                 mainArray
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java)
-                    .putExtra("orderId",ordersArray.get(position).orderId))
+                    .putExtra("orderId",ordersArray.get(position).orderId)
+                    .putExtra("type", typeSelected))
+
             }
         }else if(view.id==R.id.ivOrderCall){
             AppHelper.onOneClick {

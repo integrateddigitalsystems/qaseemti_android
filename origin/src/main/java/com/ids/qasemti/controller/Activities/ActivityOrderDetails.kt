@@ -278,7 +278,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         dialog!!.setCanceledOnTouchOutside(true)
         dialog!!.setContentView(R.layout.dialog_rating)
         dialog!!.window!!.setBackgroundDrawableResource(R.color.transparent)
-        dialog!!.window!!.setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
+        dialog!!.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
         dialog!!.setCancelable(true)
         var close = dialog!!.findViewById<ImageView>(R.id.btClose)
         var tvTitleRate = dialog!!.findViewById<TextView>(R.id.tvTitleRate)
