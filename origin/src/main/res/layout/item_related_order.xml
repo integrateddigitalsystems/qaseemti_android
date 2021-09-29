@@ -39,7 +39,9 @@
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:text="10 KWD"
                 android:id="@+id/tvOrderValue"
-                android:gravity="center"
+                android:gravity="start"
+                android:layout_marginStart="@dimen/less_big_margin"
+                android:layout_marginEnd="@dimen/less_big_margin"
                 android:layout_weight="0.5"
                 android:textColor="@color/gray_font"
                 android:layout_width="match_parent"

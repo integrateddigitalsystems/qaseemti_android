@@ -24,7 +24,7 @@ class ActivitySelectAddress: AppCompactBase() {
     }
 
     fun init(){
-        tvPageTitle.setColorTypeface(this,R.color.white,AppHelper.getRemoteString("select_delivery_address",this),true)
+        tvPageTitle.setColorTypeface(this,R.color.white,AppHelper.getRemoteString("select_address",this),true)
         AppHelper.setLogoTint(btBackTool,this,R.color.white)
         btBackTool.show()
     }
@@ -46,7 +46,7 @@ class ActivitySelectAddress: AppCompactBase() {
         }
         llNewAddress.onOneClick {
             startActivity(Intent(this,ActivityAddNewAddress::class.java)
-                .putExtra("mapTitle",AppHelper.getRemoteString("NewAddress",this)))
+                .putExtra("mapTitle",AppHelper.getRemoteString("address",this)))
         }
     }
 }

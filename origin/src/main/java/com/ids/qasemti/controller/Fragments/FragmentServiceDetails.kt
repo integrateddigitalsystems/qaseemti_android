@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -39,8 +40,8 @@ import com.ids.qasemti.model.SliderItem
 import com.ids.qasemti.utils.*
 import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.fragment_service_details.*
+import java.util.*
 
-import java.util.ArrayList
 
 class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Player.EventListener {
 
@@ -274,6 +275,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
         (activity as ActivityHome?)!!.showBack(true)
         (activity as ActivityHome?)!!.showLogout(false)
 
+        tvItalicNote.setTypeface(AppHelper.getTypeFaceItalic(requireContext()))
 
         btServiceCheckout.typeface=AppHelper.getTypeFace(requireContext())
         btServiceCheckout.onOneClick {

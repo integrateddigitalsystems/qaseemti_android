@@ -36,18 +36,31 @@
             android:paddingStart="@dimen/margin_start_end"
             android:paddingEnd="@dimen/margin_start_end">
 
+            <ImageView
+                android:layout_width="@dimen/icon"
+                android:layout_height="@dimen/icon"
+                android:src="@drawable/icon_hashtag"
+                app:tint="@color/redPrimary" />
 
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:id="@+id/tvIdSettlementTitle"
 
-
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settlement_request_number"
+                android:textSize="@dimen/normal_font"
+                android:tag="settlement_request_number"
+                android:textColor="@color/gray_font_title" />
 
             <com.ids.qasemti.custom.CustomTextViewMedium
+                android:id="@+id/tvSettlementId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="# 0707072020"
-                android:maxLines="1"
+                android:text="123654"
                 android:textColor="@color/redPrimary"
-                android:id="@+id/tvSettlementId"
-                android:textSize="@dimen/normal_font" />
+                android:textSize="@dimen/small_font" />
 
 
         </LinearLayout>
@@ -70,6 +83,7 @@
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_marginStart="@dimen/normal_margin"
+                android:id="@+id/tvDateTitle"
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,6 +119,7 @@
                 app:tint="@color/redPrimary" />
 
             <com.ids.qasemti.custom.CustomTextViewBold
+                android:id="@+id/tvAmountTitle"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:layout_width="wrap_content"
@@ -142,6 +157,7 @@
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_marginStart="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/normal_margin"
+                android:id="@+id/tvEarningsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/MyEarning"
@@ -160,6 +176,7 @@
         <include layout="@layout/separator" />
 
         <LinearLayout
+            android:id="@+id/llMyDues"
             android:layout_width="match_parent"
             android:layout_height="@dimen/settlement_inside_item_hight"
             android:layout_gravity="center_vertical"

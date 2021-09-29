@@ -8,7 +8,9 @@ import android.os.Looper
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.RequestOTP
 import com.ids.qasemti.model.RequestVerifyOTP
+import com.ids.qasemti.model.ResponseUpdate
 import com.ids.qasemti.model.ResponseVerification
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_code_verification.*
@@ -20,14 +22,17 @@ import retrofit2.Response
 
 class ActivityCodeVerification : ActivityBase() {
 
-    var time = 30
+    var firstTime = true
+    var time = 60
+    var first = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_code_verification)
         AppHelper.setAllTexts(rootlayoutCodeVerification,this)
-        pvCode.setOnFocusChangeListener { view, b ->
+       /* pvCode.setOnFocusChangeListener { view, b ->
             pvCode.text!!.clear()
-        }
+        }*/
+        pvCode.requestFocus()
 
         if(MyApplication.isClient){
             btVerifyCode.hide()
@@ -49,18 +54,55 @@ class ActivityCodeVerification : ActivityBase() {
 
         }
 
-        object : CountDownTimer(30000, 1000) {
+       var timer = object : CountDownTimer(60000, 1015) {
             override fun onTick(millisUntilFinished: Long) {
-                tvTimer.setText("0:" + checkDigit(time))
+                if(first){
+                    tvTimer.setText("1:00")
+                    first = false
+                }else {
+                    tvTimer.setText("0:" + checkDigit(time))
+
+                }
+
                 time--
+
+                if(time ==0){
+                    this.onFinish()
+                }
             }
 
             override fun onFinish() {
+                first = true
                 tvTimer.setText("try again")
+                tvTimer.onOneClick {
+                    if(first) {
+                        time = 59
+                        this.start()
+                        sendOTP()
+                    }
+                }
             }
         }.start()
+
+        timer.start()
     }
 
+    fun sendOTP(){
+        var req = RequestOTP(MyApplication.selectedPhone,MyApplication.deviceId)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.sendOTP(
+                req
+            )?.enqueue(object : Callback<ResponseUpdate> {
+                override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
+                    try{
+
+                    }catch (E: java.lang.Exception){
+                    }
+                }
+                override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                }
+            })
+    }
     fun requestSucc(code:String){
         if(code.equals("1")){
             AppHelper.createDialog(this,"Correct Code")

@@ -95,7 +95,7 @@ class ActivitySettlements : ActivityBase(),RVOnItemClickListener {
             if (linearTabs.getChildAt(i) is TextView){
                 var tv=linearTabs.getChildAt(i) as TextView
                 tv.setBackgroundResource(R.color.transparent)
-                AppHelper.setTextColor(this,tv,R.color.redPrimary)
+                AppHelper.setTextColor(this,tv,R.color.gray_font_title)
             }
         }
         tvSelected.setBackgroundResource(R.drawable.rounded_red_background)

@@ -45,10 +45,10 @@
             android:tag="ToBeSettled"
             android:text="@string/ToBeSettled"/>
         <com.ids.qasemti.custom.CustomTextViewMedium
-            android:textColor="@color/redPrimary"
+            android:textColor="@color/gray_font_title"
             android:layout_marginStart="@dimen/small_margin"
             android:id="@+id/tvPreviews"
-            android:tag="previews_settlements"
+            android:tag="previous_settlements"
             android:gravity="center"
             android:paddingStart="@dimen/mini_margin"
             android:paddingEnd="@dimen/mini_margin"
@@ -56,7 +56,7 @@
             android:layout_height="match_parent"
             android:textSize="@dimen/normal_font"
             android:layout_weight="1"
-            android:text="@string/previews_settlements"/>
+            android:text="@string/previous_settlements"/>
 
 
 
@@ -221,7 +221,7 @@
                     <ImageView
                         android:layout_width="@dimen/normal_icon_size"
                         android:layout_height="@dimen/normal_icon_size"
-                        android:src="@drawable/icon_list"
+                        android:src="@drawable/icon_settlement"
                         app:tint="@color/white"
                         />
                     <com.ids.qasemti.custom.CustomTextViewMedium

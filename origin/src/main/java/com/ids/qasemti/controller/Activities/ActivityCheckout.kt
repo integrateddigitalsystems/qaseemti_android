@@ -9,6 +9,7 @@ import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import kotlinx.android.synthetic.main.fragment_checkout.*
@@ -218,6 +219,16 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         btBackTool.show()
 
         btPlaceOrder.typeface = AppHelper.getTypeFace(this)
+
+        if(MyApplication.rental!!){
+            tvFromTitle.show()
+            tvToTitle.show()
+            llToLayout.show()
+        }else{
+            tvFromTitle.hide()
+            tvToTitle.hide()
+            llToLayout.hide()
+        }
 
         setUpCurr()
         setListeners()

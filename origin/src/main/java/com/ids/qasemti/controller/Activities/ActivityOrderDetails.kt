@@ -1,6 +1,5 @@
 package com.ids.qasemti.controller.Activities
 
-import android.app.ActionBar
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
@@ -63,6 +62,16 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         shake =  AnimationUtils.loadAnimation(this, R.anim.shake)
         orderId = intent.getIntExtra("orderId",1)
 
+        var type = intent.getIntExtra("type",1)
+
+        if(type==0){
+            llDetailsCallMessage.show()
+        }else{
+            llDetailsCallMessage.hide()
+        }
+
+
+
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.show()
         tvPageTitle.setColorTypeface(this,R.color.white,"",true)
@@ -77,7 +86,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             llActualDelivery.hide()
         }else{
             tvPageTitle.textRemote("CompletedOrderDetails",this)
-            llRatingOrder.visibility=View.VISIBLE
+            llRatingOrder.show()
             llEditOrderTime.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
@@ -85,7 +94,11 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             if(MyApplication.isClient)
                 btRenewOrder.show()
 
+
         }
+        if(MyApplication.isClient)
+            llRatingOrder.hide()
+
         tvLocationOrderDeatils.setColorTypeface(this,R.color.redPrimary,"",false)
         setOrderData()
     }
@@ -97,9 +110,14 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         array.add(OrderData("Type","Fresh"))
         array.add(OrderData("Size/Capacity","200 Gallons"))
         array.add(OrderData("Quantity","1 Trip"))
+        if(MyApplication.rental!!){
+            array.add(OrderData("Period","From 1/1/2021\n" +
+                    "Till 1/5/2021"))
+        }
 
         rvDataBorder.layoutManager = LinearLayoutManager(this)
         rvDataBorder.adapter = AdapterOrderData(array,this,this)
+
     }
 
     fun setListeners(){

@@ -32,10 +32,10 @@
 
 
     <ScrollView
-
+        android:id="@+id/svScroll"
         android:layout_below="@id/llContactOrder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -62,7 +62,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="-12dp"
+                android:layout_marginTop="-18dp"
                 android:layout_marginStart="@dimen/card_new_margin"
                 android:layout_marginEnd="@dimen/card_new_margin"
                 android:id="@+id/llOrderInfo"
@@ -83,20 +83,6 @@
             </LinearLayout>
 
 
-            <Button
-                android:layout_marginBottom="@dimen/medium_margin"
-                android:layout_below="@+id/llOrderSwitches"
-                android:id="@+id/btCancelOrder"
-                android:layout_marginTop="@dimen/big_margin"
-                android:layout_marginStart="@dimen/margin_start_end"
-                android:textAllCaps="false"
-                android:layout_marginEnd="@dimen/margin_start_end"
-                android:textColor="@color/redPrimary"
-                android:text="@string/CancelOrder"
-                android:tag="cancel_order"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
-                android:background="@drawable/rounded_white_red_border"/>
 
             <RelativeLayout
                 android:visibility="gone"
@@ -145,6 +131,23 @@
         </RelativeLayout>
 
     </ScrollView>
+
+
+    <Button
+        android:layout_marginBottom="@dimen/medium_margin"
+        android:layout_below="@+id/svScroll"
+        android:id="@+id/btCancelOrder"
+        android:layout_marginTop="@dimen/margin_start_end"
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:textAllCaps="false"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:textColor="@color/redPrimary"
+        android:text="@string/CancelOrder"
+        android:tag="cancel_order"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_red_border"/>
+
     <include
         layout="@layout/toolbar" />
 

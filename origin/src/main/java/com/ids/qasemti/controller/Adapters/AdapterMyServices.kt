@@ -38,7 +38,11 @@ class AdapterMyServices(
        // holder.image.setBackgroundResource(items.get(position).testCode!!)
         holder.title.text = items.get(position).name
         holder.qtPrice.typeface = AppHelper.getTypeFace(con)
-        holder.qtPrice.text = items.get(position).price.get(0) + "KWD"
+        try {
+            holder.qtPrice.text = items.get(position).variations.get(0).price.toString()!! + " KWD"
+        }catch (ex:Exception){
+            holder.qtPrice.text = ""
+        }
         holder.qtEarn.typeface = AppHelper.getTypeFace(con)
     }
 

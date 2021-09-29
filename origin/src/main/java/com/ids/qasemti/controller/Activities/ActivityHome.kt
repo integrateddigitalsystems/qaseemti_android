@@ -105,15 +105,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             tab!!.setCustomView(pagerAdapter.getTabView(i))
         }*/
 
-        if(MyApplication.isClient){
-            llFooterProducts.hide()
-            llFooterCart.show()
-            tvFooterHome.textRemote("Services",this)
-        }else{
-            llFooterProducts.show()
-            llFooterCart.hide()
-            tvFooterHome.textRemote("Home",this)
-        }
+
 
         if (MyApplication.isSignedIn)
             btLogout.show()
@@ -400,6 +392,16 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         btBackTool.onOneClick {
             checkBack()
             super.onBackPressed()
+        }
+
+        if(MyApplication.isClient){
+            llFooterProducts.hide()
+            llFooterCart.show()
+            tvFooterHome.textRemote("Services",this)
+        }else{
+            llFooterProducts.show()
+            llFooterCart.hide()
+            tvFooterHome.textRemote("Home",this)
         }
     }
 

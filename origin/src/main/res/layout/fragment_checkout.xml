@@ -137,6 +137,7 @@
                     <com.ids.qasemti.custom.CustomTextViewBold
                         android:layout_marginStart="@dimen/first_margin"
                         android:layout_width="match_parent"
+                        android:id="@+id/tvFromTitle"
                         android:layout_height="wrap_content"
                         android:textColor="@color/gray_font_title"
                         android:layout_marginTop="@dimen/first_margin"
@@ -283,6 +284,7 @@
                     <com.ids.qasemti.custom.CustomTextViewBold
                         android:layout_marginStart="@dimen/first_margin"
                         android:layout_width="match_parent"
+                        android:id="@+id/tvToTitle"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/first_margin"
                         android:tag="To"
@@ -292,7 +294,7 @@
 
 
                     <LinearLayout
-
+                        android:id="@+id/llToLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/first_margin"

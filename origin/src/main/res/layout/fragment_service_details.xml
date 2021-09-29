@@ -289,8 +289,8 @@ nisl ut aliquip ex ea commodo consequat. Duis
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tvItalicNote"
+                        android:textColor="@color/black"
                         android:layout_marginEnd="@dimen/normal_margin"
-                        android:textStyle="italic"
                         android:tag="price_effect"
                         android:text="@string/price_effect"/>
 
