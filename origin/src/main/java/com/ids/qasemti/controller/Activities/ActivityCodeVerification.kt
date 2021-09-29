@@ -23,7 +23,7 @@ import retrofit2.Response
 class ActivityCodeVerification : ActivityBase() {
 
     var firstTime = true
-    var time = 59
+    var time = 60
     var first = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,15 +54,17 @@ class ActivityCodeVerification : ActivityBase() {
 
         }
 
-       var timer = object : CountDownTimer(59000, 1000) {
+       var timer = object : CountDownTimer(60000, 1015) {
             override fun onTick(millisUntilFinished: Long) {
                 if(first){
                     tvTimer.setText("1:00")
                     first = false
                 }else {
                     tvTimer.setText("0:" + checkDigit(time))
-                    time--
+
                 }
+
+                time--
 
                 if(time ==0){
                     this.onFinish()
