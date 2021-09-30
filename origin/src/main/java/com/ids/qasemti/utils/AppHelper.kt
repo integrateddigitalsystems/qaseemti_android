@@ -9,19 +9,21 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.provider.OpenableColumns
 import android.provider.Settings
 import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -49,6 +51,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -1051,6 +1056,50 @@ class AppHelper {
 
         fun autofitText(vararg texts: TextView?) {
             for (element in texts) AutofitHelper.create(element)
+        }
+
+
+        @Throws(IOException::class)
+        fun getFile(context: Context, uri: Uri): File {
+            val destinationFilename =
+                File(context.filesDir.path + File.separatorChar + queryName(context, uri))
+            try {
+                context.contentResolver.openInputStream(uri).use { ins ->
+                    createFileFromStream(
+                        ins!!,
+                        destinationFilename
+                    )
+                }
+            } catch (ex: java.lang.Exception) {
+                Log.e("Save File", ex.message!!)
+                ex.printStackTrace()
+            }
+            return destinationFilename
+        }
+
+        fun createFileFromStream(ins: InputStream, destination: File?) {
+            try {
+                FileOutputStream(destination).use { os ->
+                    val buffer = ByteArray(4096)
+                    var length: Int
+                    while (ins.read(buffer).also { length = it } > 0) {
+                        os.write(buffer, 0, length)
+                    }
+                    os.flush()
+                }
+            } catch (ex: java.lang.Exception) {
+                Log.e("Save File", ex.message!!)
+                ex.printStackTrace()
+            }
+        }
+
+        private fun queryName(context: Context, uri: Uri): String {
+            val returnCursor: Cursor = context.contentResolver.query(uri, null, null, null, null)!!
+            val nameIndex: Int = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            returnCursor.moveToFirst()
+            val name: String = returnCursor.getString(nameIndex)
+            returnCursor.close()
+            return name
         }
 
     }

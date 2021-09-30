@@ -106,8 +106,8 @@
         android:textSize="@dimen/normal_font"
         android:textColor="@color/gray_font"
         android:layout_marginTop="@dimen/small_margin"
-        android:text="lorem ipsum is simply dummy text of the printing lorem ipsum is simply dummy text of the printing"
-        />
+        android:id="@+id/tvDescription"
+         />
 
     <com.ids.qasemti.custom.CustomTextViewBold
         android:layout_width="wrap_content"

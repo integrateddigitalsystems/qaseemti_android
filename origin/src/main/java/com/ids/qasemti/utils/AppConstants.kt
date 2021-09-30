@@ -48,6 +48,7 @@ object AppConstants {
     const val CHECKOUT = "checkout"
 
 
-
+    const val TYPE_PURCHASE = "purchase"
+    const val TYPE_RENTAL = "rental"
 
 }
