@@ -12,7 +12,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="@dimen/margin_start_end"
         android:fillViewport="true"
         android:scrollbars="none"
@@ -180,6 +181,7 @@
         android:layout_marginEnd="@dimen/margin_start_end"
         android:layout_width="match_parent"
         android:text="@string/UseOnce"
+        android:layout_marginBottom="@dimen/big_margin"
         android:textColor="@color/redPrimary"
         android:tag="UseOnce"
         android:layout_height="@dimen/edit_text_height"
