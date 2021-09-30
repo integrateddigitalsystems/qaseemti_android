@@ -1,165 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:id="@+id/rootLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@color/gray_bg"
-    android:padding="@dimen/margin_start_end"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageButton
-        android:layout_width="@dimen/icon_2"
-        android:layout_height="@dimen/icon_2"
-        android:id="@+id/btBck"
-        android:tint="@color/redPrimary"
-        android:backgroundTint="@color/redPrimary"
-
-        android:background="@drawable/ic_back"
-      />
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/big_margin"
-        >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="12dp"
-            android:layout_centerVertical="true"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="12dp"
-                android:id="@+id/linearProgress1"
-                android:orientation="horizontal"
-                android:background="@color/gray_progress"
-                />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="12dp"
-                android:id="@+id/linearProgress2"
-                android:orientation="horizontal"
-                android:background="@color/gray_progress"
-                />
-
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:layout_width="@dimen/tab_rounded_size"
-            android:layout_height="@dimen/tab_rounded_size"
-            android:gravity="center"
-            android:id="@+id/btTab1"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/primary_circle"
-            android:orientation="vertical"
-            >
-
-            <ImageView
-                android:layout_width="@dimen/normal_icon_size"
-                android:layout_height="@dimen/normal_icon_size"
-                android:layout_gravity="center"
-                android:id="@+id/ivTab1"
-                android:src="@drawable/icon_servicinformation"
-                android:tint="@color/white"
-                app:tint="@color/white"
-                tools:ignore="UseAppTint" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="@dimen/tab_rounded_size"
-            android:layout_height="@dimen/tab_rounded_size"
-            android:gravity="center"
-            android:id="@+id/btTab2"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/circle_gray"
-            android:orientation="vertical"
-            >
-
-            <ImageView
-                android:layout_width="@dimen/normal_icon_size"
-                android:layout_height="@dimen/normal_icon_size"
-                android:layout_gravity="center"
-                android:id="@+id/ivTab2"
-                android:tint="@color/gray_font"
-                app:tint="@color/gray_font"
-                android:src="@drawable/icon_ownershirppoof"
-                tools:ignore="UseAppTint" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="@dimen/tab_rounded_size"
-            android:layout_height="@dimen/tab_rounded_size"
-            android:gravity="center"
-            android:id="@+id/btTab3"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/circle_gray"
-            android:orientation="vertical"
-            >
-
-            <ImageView
-                android:layout_width="@dimen/normal_icon_size"
-                android:layout_height="@dimen/normal_icon_size"
-                android:layout_gravity="center"
-                android:id="@+id/ivTab3"
-                android:tint="@color/gray_font"
-                app:tint="@color/gray_font"
-                tools:ignore="UseAppTint"
-                android:src="@drawable/icon_priceearing"
-                />
-
-        </LinearLayout>
-    </RelativeLayout>
-
-    <com.ids.qasemti.custom.CustomTextViewBold
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/service_information"
-        android:textColor="@color/primary"
-        android:textSize="@dimen/big_font"
-        android:id="@+id/tvTabTitle"
-        android:tag="service_information"
-        android:layout_marginTop="@dimen/medium_margin"
-        />
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            >
-            <LinearLayout
+            android:padding="@dimen/margin_start_end"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:layout_width="@dimen/icon_2"
+                android:layout_height="@dimen/icon_2"
+                android:id="@+id/btBck"
+                android:tint="@color/redPrimary"
+                android:backgroundTint="@color/redPrimary"
+
+                android:background="@drawable/ic_back"
+                />
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-
+                android:layout_marginTop="@dimen/big_margin"
                 >
 
-                <include layout="@layout/service_tab_1"/>
-                <include layout="@layout/service_tab_2"/>
-                <include layout="@layout/service_tab_3"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="12dp"
+                        android:id="@+id/linearProgress1"
+                        android:orientation="horizontal"
+                        android:background="@color/gray_progress"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="12dp"
+                        android:id="@+id/linearProgress2"
+                        android:orientation="horizontal"
+                        android:background="@color/gray_progress"
+                        />
+
+                </LinearLayout>
 
 
-            </LinearLayout>
-        </ScrollView>
+
+                <LinearLayout
+                    android:layout_width="@dimen/tab_rounded_size"
+                    android:layout_height="@dimen/tab_rounded_size"
+                    android:gravity="center"
+                    android:id="@+id/btTab1"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/primary_circle"
+                    android:orientation="vertical"
+                    >
+
+                    <ImageView
+                        android:layout_width="@dimen/normal_icon_size"
+                        android:layout_height="@dimen/normal_icon_size"
+                        android:layout_gravity="center"
+                        android:id="@+id/ivTab1"
+                        android:src="@drawable/icon_servicinformation"
+                        android:tint="@color/white"
+                        app:tint="@color/white"
+                        tools:ignore="UseAppTint" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/tab_rounded_size"
+                    android:layout_height="@dimen/tab_rounded_size"
+                    android:gravity="center"
+                    android:id="@+id/btTab2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/circle_gray"
+                    android:orientation="vertical"
+                    >
+
+                    <ImageView
+                        android:layout_width="@dimen/normal_icon_size"
+                        android:layout_height="@dimen/normal_icon_size"
+                        android:layout_gravity="center"
+                        android:id="@+id/ivTab2"
+                        android:tint="@color/gray_font"
+                        app:tint="@color/gray_font"
+                        android:src="@drawable/icon_ownershirppoof"
+                        tools:ignore="UseAppTint" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/tab_rounded_size"
+                    android:layout_height="@dimen/tab_rounded_size"
+                    android:gravity="center"
+                    android:id="@+id/btTab3"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/circle_gray"
+                    android:orientation="vertical"
+                    >
+
+                    <ImageView
+                        android:layout_width="@dimen/normal_icon_size"
+                        android:layout_height="@dimen/normal_icon_size"
+                        android:layout_gravity="center"
+                        android:id="@+id/ivTab3"
+                        android:tint="@color/gray_font"
+                        app:tint="@color/gray_font"
+                        tools:ignore="UseAppTint"
+                        android:src="@drawable/icon_priceearing"
+                        />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/service_information"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/big_font"
+                android:id="@+id/tvTabTitle"
+                android:tag="service_information"
+                android:layout_marginTop="@dimen/medium_margin"
+                />
+
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+
+                    >
+
+                    <include layout="@layout/service_tab_1"/>
+                    <include layout="@layout/service_tab_2"/>
+                    <include layout="@layout/service_tab_3"/>
+
+
+                </LinearLayout>
+            </ScrollView>
+
+
+        </LinearLayout>
         <include layout="@layout/loading_trans"/>
-    </RelativeLayout>
 
 
-
-
-</LinearLayout>
+</RelativeLayout>

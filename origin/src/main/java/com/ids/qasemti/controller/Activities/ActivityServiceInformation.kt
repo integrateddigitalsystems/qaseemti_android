@@ -24,7 +24,7 @@ import com.jaiselrahman.filepicker.activity.FilePickerActivity
 import com.jaiselrahman.filepicker.config.Configurations
 import com.jaiselrahman.filepicker.model.MediaFile
 import kotlinx.android.synthetic.main.actiivity_service_information.*
-import kotlinx.android.synthetic.main.activity_services.rootLayout
+
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.no_logo_layout.btBck
 import kotlinx.android.synthetic.main.service_tab_1.*
@@ -449,8 +449,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                 override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
                     try{
                         loading.hide()
-                       if(response.body()!!.result==1)
-                           toast("success")
+                       if(response.body()!!.result==1){
+                           this@ActivityServiceInformation.onBackPressed()
+                       }
+
                         else
                             toast("failed 1")
                     }catch (E: java.lang.Exception){
