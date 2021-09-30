@@ -161,6 +161,8 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
             }
         }else if(view.id==R.id.llViewOrderDetails){
             AppHelper.onOneClick {
+                MyApplication.selectedOrder=ordersArray[position]
+                MyApplication.rental = position==1
                 MyApplication.rental = position==1
                 mainArray
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java)
