@@ -42,7 +42,7 @@ interface RetrofitInterface {
     @POST("cancel_order")
     fun cancelOrder(@Body param: RequestCancelOrder): Call<ResponseCancel>
 
-    @POST("get_user_status")
+    @POST("sp_get_user_status")
     fun getUserStatus(@Body param: RequestUserStatus): Call<ResponseUserStatus>
 
     @Multipart

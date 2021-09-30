@@ -103,7 +103,7 @@ class ActivityCodeVerification : ActivityBase() {
             })
     }
     fun requestSucc(respone:ResponseVerification){
-        if(respone.result.equals("1")){
+       /* if(respone.result.equals("1")){
             AppHelper.createDialog(this,"Correct Code")
             if(respone.user!=null) {
                 MyApplication.isSignedIn = true
@@ -125,8 +125,11 @@ class ActivityCodeVerification : ActivityBase() {
                 }
             }
             //startActivity(Intent(this, ActivityRegistration::class.java))
-        }
+        }*/
 
+        MyApplication.isSignedIn = true
+        MyApplication.userIdCash = respone.user!!.userId!!.toInt()
+        startActivity(Intent(this, ActivityHome::class.java))
 
         try {
             loading.hide()

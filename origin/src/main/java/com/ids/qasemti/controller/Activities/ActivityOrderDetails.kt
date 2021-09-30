@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -15,7 +16,6 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterOrderData
-import com.ids.qasemti.controller.Adapters.AdapterOtherOrderData
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
@@ -36,9 +36,9 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
@@ -109,6 +109,17 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         setOrderData()
     }
 
+
+    fun getAddress(lat:Double , long : Double): String {
+        val myLocation = Geocoder(this, Locale.getDefault())
+        val myList = myLocation.getFromLocation(lat,long, 1)
+        val address = myList[0]
+        var addressStr: String? = ""
+        addressStr += address.getAddressLine(0).toString()
+
+        return addressStr!!
+    }
+
     private fun setOrderData(){
         var array:ArrayList<OrderData> = arrayListOf()
         array.add(OrderData("Category","Purchase"))
@@ -121,8 +132,15 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                     "Till 1/5/2021"))
         }
 
+
         rvDataBorder.layoutManager = LinearLayoutManager(this)
         rvDataBorder.adapter = AdapterOrderData(array,this,this)
+
+        tvLocationOrderDeatils.text = getAddress(MyApplication.selectedOrder!!.customerLat!!.toDouble(),MyApplication.selectedOrder!!.customerLong!!.toDouble())
+        tvOrderCustomerName.text = MyApplication.selectedOrder!!.customer!!.first_name+" "+MyApplication.selectedOrder!!.customer!!.last_name
+        tvOrderDeetId.text = MyApplication.selectedOrder!!.orderId.toString()
+        tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","D Month Yr")
+        tvExpectedOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.deliveryDate!!,"yyyy-MM-dd","D Month Yr")
 
     }
 
@@ -204,11 +222,11 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                         try{
                             resultCancel(response.body()!!.result!!)
                         }catch (E: java.lang.Exception){
-                           resultCancel(0)
+                           resultCancel(false)
                         }
                     }
                     override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
-                        resultCancel(0)
+                        resultCancel(false)
                     }
                 })
         }
@@ -258,8 +276,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             })
     }
 
-    fun resultCancel(req:Int){
-        if(req==1){
+    fun resultCancel(req:Boolean){
+        if(req){
             AppHelper.createDialog(this,AppHelper.getRemoteString("success",this))
         }else{
             AppHelper.createDialog(this,AppHelper.getRemoteString("failure",this))

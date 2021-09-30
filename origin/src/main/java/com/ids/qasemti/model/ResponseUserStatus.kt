@@ -9,11 +9,11 @@ class ResponseUserStatus(
     @Expose
     var result : Int ?=1 ,
 
-    @SerializedName("User Status Enable ")
+    @SerializedName("suspended")
     @Expose
     var enabled : Int ?= 3 ,
 
-    @SerializedName("User Status Online ")
+    @SerializedName("active")
     @Expose
     var online : Int ?=3
  ) {

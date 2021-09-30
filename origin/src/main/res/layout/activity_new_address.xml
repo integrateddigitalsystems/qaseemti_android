@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="@dimen/margin_start_end"
+        android:paddingStart="@dimen/margin_start_end"
+        android:paddingEnd="@dimen/margin_start_end"
         android:fillViewport="true"
         android:scrollbars="none"
         >
@@ -167,7 +168,7 @@
     <Button
         android:layout_marginStart="@dimen/margin_start_end"
         android:layout_marginEnd="@dimen/margin_start_end"
-        android:layout_marginTop="@dimen/big_margin_2"
+        android:layout_marginTop="@dimen/medium_margin"
         android:layout_width="match_parent"
         android:text="@string/SaveMyAddress"
         android:textColor="@color/white"
@@ -181,7 +182,7 @@
         android:layout_marginEnd="@dimen/margin_start_end"
         android:layout_width="match_parent"
         android:text="@string/UseOnce"
-        android:layout_marginBottom="@dimen/big_margin"
+        android:layout_marginBottom="@dimen/medium_margin"
         android:textColor="@color/redPrimary"
         android:tag="UseOnce"
         android:layout_height="@dimen/edit_text_height"

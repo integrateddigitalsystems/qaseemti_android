@@ -44,11 +44,11 @@ class ResponseOrders(
     @Expose
     var customerLocation : String ?="" ,
 
-    @SerializedName("customer_latitude")
+    @SerializedName("delivery_latitude")
     @Expose
     var customerLat : String ?="" ,
 
-    @SerializedName("customer_longtitude")
+    @SerializedName("delivery_longitude")
     @Expose
     var customerLong : String ?="" ,
 
