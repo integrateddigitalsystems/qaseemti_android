@@ -69,6 +69,16 @@ interface RetrofitInterface {
         @Part(ApiParameters.IBAN) iban: RequestBody
     ): Call<String>
 
+
+    @Multipart
+    @POST("sp_update_profile")
+    fun updateProfileRegister(
+        @Part(ApiParameters.USER_ID) userId: RequestBody,
+        @Part(ApiParameters.FIRST_NAME) firstName: RequestBody,
+        @Part(ApiParameters.LAST_NAME) lastName: RequestBody,
+        @Part(ApiParameters.EMAIL) email: RequestBody,
+    ): Call<String>
+
     @POST("sp_update_availability")
     fun updateAvailability(
         @Body param: RequestAvailability

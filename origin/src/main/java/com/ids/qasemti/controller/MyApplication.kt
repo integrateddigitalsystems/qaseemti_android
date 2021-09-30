@@ -31,6 +31,7 @@ class MyApplication : Application() {
         var rental : Boolean ?=false
         var userStatus : ResponseUserStatus ?=null
         var fromLogout = false
+        var register = false
         var settlementTabSelected =0
         var defaultIcon : ImageView ?=null
         var selectedFragment  : Fragment ?=null
@@ -43,9 +44,11 @@ class MyApplication : Application() {
         var selectedVideo :String ?=""
         var selectedPhone : String ?="03/123123"
         var clickable : Boolean ?= true
-        var isSignedIn : Boolean = false
+        var isSignedIn : Boolean
+            get() = sharedPreferences.getBoolean(AppConstants.SIGNED_IN,false)!!
+            set(value) { sharedPreferencesEditor.putBoolean(AppConstants.SIGNED_IN, value).apply() }
         var userId : Int ?=6
-
+        var selectedUser : User ?=null
         var firstImage : Boolean ?=false
         var selectedService : ServiceItem ?=null
         var selectedOrder : ResponseOrders?=null
@@ -65,7 +68,10 @@ class MyApplication : Application() {
         var UNIQUE_REQUEST_CODE = 0
         var firstTime : Boolean
             get() = sharedPreferences.getBoolean(AppConstants.FIRST_TIME,true)!!
-            set(value) { sharedPreferencesEditor.putBoolean(AppConstants.DEVICE_ID, value).apply() }
+            set(value) { sharedPreferencesEditor.putBoolean(AppConstants.FIRST_TIME, value).apply() }
+        var userIdCash : Int
+            get() = sharedPreferences.getInt(AppConstants.USER_ID,0)!!
+            set(value) { sharedPreferencesEditor.putInt(AppConstants.USER_ID, value).apply() }
 
     }
 

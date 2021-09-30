@@ -42,12 +42,9 @@ class AdapterNotification(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-        var title = items.get(position).title_ar
-        var body = items.get(position).body_ar
-        if(MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
-            title = items.get(position).title_en
-            body = items.get(position).body_en
-        }
+        var title = items.get(position).title
+        var body = items.get(position).body
+
             holder.date.text = items.get(position).date
             holder.title.text = title
             /*if (!items.get(position).image.isNullOrEmpty())

@@ -21,6 +21,8 @@ import com.google.gson.Gson
 import com.ids.qasemti.BuildConfig
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Fragments.FragmentHomeClient
+import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.FirebaseLocalizeArray
 import com.ids.qasemti.model.RequestNotifications
@@ -211,9 +213,29 @@ class ActivitySplash : ActivityBase() {
     }
 
     fun nextStep() {
+        MyApplication.isSignedIn = true
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, ActivityChooseLanguage::class.java))
-            finish()
+            if(MyApplication.firstTime) {
+                MyApplication.firstTime = false
+                startActivity(Intent(this, ActivityChooseLanguage::class.java))
+                finish()
+            }else{
+                if(MyApplication.isSignedIn) {
+                    if (MyApplication.isClient) {
+                        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+                        MyApplication.selectedFragment = FragmentHomeClient()
+                    } else {
+                        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+                        MyApplication.selectedFragment = FragmentHomeSP()
+                    }
+                    MyApplication.isSignedIn = true
+                    startActivity(Intent(this, ActivityHome::class.java))
+                    finish()
+                }else{
+                    startActivity(Intent(this, ActivityMobileRegistration::class.java))
+                    finish()
+                }
+            }
         }, 500)
     }
 

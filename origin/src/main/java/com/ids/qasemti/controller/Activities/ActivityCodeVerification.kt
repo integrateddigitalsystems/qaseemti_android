@@ -25,6 +25,7 @@ class ActivityCodeVerification : ActivityBase() {
     var firstTime = true
     var time = 60
     var first = true
+    var timer : CountDownTimer ?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_code_verification)
@@ -53,8 +54,7 @@ class ActivityCodeVerification : ActivityBase() {
 
 
         }
-
-       var timer = object : CountDownTimer(60000, 1015) {
+        timer = object : CountDownTimer(60000, 1015) {
             override fun onTick(millisUntilFinished: Long) {
                 if(first){
                     tvTimer.setText("1:00")
@@ -84,7 +84,6 @@ class ActivityCodeVerification : ActivityBase() {
             }
         }.start()
 
-        timer.start()
     }
 
     fun sendOTP(){
@@ -103,15 +102,31 @@ class ActivityCodeVerification : ActivityBase() {
                 }
             })
     }
-    fun requestSucc(code:String){
-        if(code.equals("1")){
+    fun requestSucc(respone:ResponseVerification){
+        if(respone.result.equals("1")){
             AppHelper.createDialog(this,"Correct Code")
+            if(respone.user!=null) {
+                MyApplication.isSignedIn = true
+                MyApplication.userIdCash = respone.user!!.userId!!.toInt()
+                startActivity(Intent(this, ActivityHome::class.java))
+            }else{
+                MyApplication.isSignedIn = false
+                startActivity(Intent(this, ActivityRegistration::class.java))
+            }
         }else{
             AppHelper.createDialog(this,"Incorrect Code")
+            first = true
+            tvTimer.setText("try again")
+            tvTimer.onOneClick {
+                if(first) {
+                    time = 59
+                    timer!!.start()
+                    sendOTP()
+                }
+            }
+            //startActivity(Intent(this, ActivityRegistration::class.java))
         }
-        Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this,ActivityAccountStatus::class.java))
-        }, 1000)
+
 
         try {
             loading.hide()
@@ -136,12 +151,12 @@ class ActivityCodeVerification : ActivityBase() {
             )?.enqueue(object : Callback<ResponseVerification> {
                 override fun onResponse(call: Call<ResponseVerification>, response: Response<ResponseVerification>) {
                     try{
-                        requestSucc(response.body()!!.result!!)
+                        requestSucc(response.body()!!)
                     }catch (E: java.lang.Exception){
                     }
                 }
                 override fun onFailure(call: Call<ResponseVerification>, throwable: Throwable) {
-                    requestSucc("0")
+                    requestSucc(ResponseVerification("0"))
                 }
             })
     }
