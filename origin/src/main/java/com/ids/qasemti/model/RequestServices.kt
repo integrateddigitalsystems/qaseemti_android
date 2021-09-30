@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 class RequestServices(
 
-    @SerializedName("user_id")
+    @SerializedName("vendor_id")
     @Expose
-    var userId : Int ?=0 ,
+    var vendorId : Int ?=0 ,
 
     @SerializedName("language")
     @Expose

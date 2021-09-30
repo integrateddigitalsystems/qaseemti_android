@@ -19,6 +19,14 @@ object ApiParameters {
     const val BANK_NAME ="bank_name"
     const val BANK_BRANCH = "bank_branch"
     const val IBAN = "iban"
+    const val CATEGORY = "category"
 
-
+    const val PRODUCT_NAME = "product_name"
+    const val SIZE_CAPACITY = "size-capacity"
+    const val TYPE = "type"
+    const val STOCK_STATUS = "stock_status"
+    const val PRODUCT_DESC = "product_desc"
+    const val GALLERY = "gallery[]"
+    const val PRODUCT_ID = "product_id"
+    const val LANGUAGE = "language"
 }
