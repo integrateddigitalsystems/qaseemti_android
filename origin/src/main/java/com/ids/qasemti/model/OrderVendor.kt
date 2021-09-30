@@ -82,6 +82,10 @@ class OrderVendor(
 
     @SerializedName("user_id")
     @Expose
-    var userId : String ?=""
+    var userId : String ?="",
+
+    @SerializedName("type")
+    @Expose
+    var type : String ?=""
 ) {
 }

@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_home_client.*
 import kotlinx.android.synthetic.main.layout_border_data.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.layout_order_contact_tab.*
+import kotlinx.android.synthetic.main.layout_order_information.*
 import kotlinx.android.synthetic.main.layout_order_switch.*
 import kotlinx.android.synthetic.main.layout_request_new_time.*
 import kotlinx.android.synthetic.main.loading.*
@@ -139,8 +140,9 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         tvLocationOrderDeatils.text = getAddress(MyApplication.selectedOrder!!.customerLat!!.toDouble(),MyApplication.selectedOrder!!.customerLong!!.toDouble())
         tvOrderCustomerName.text = MyApplication.selectedOrder!!.customer!!.first_name+" "+MyApplication.selectedOrder!!.customer!!.last_name
         tvOrderDeetId.text = MyApplication.selectedOrder!!.orderId.toString()
-        tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","D Month Yr")
-        tvExpectedOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.deliveryDate!!,"yyyy-MM-dd","D Month Yr")
+        tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy")
+        tvExpectedOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.deliveryDate!!,"yyyy-MM-dd","dd MMMM yyyy")
+        tvOrderAmountDeet.text = MyApplication.selectedOrder!!.total!!.toString()+" "+MyApplication.selectedOrder!!.currency
 
     }
 

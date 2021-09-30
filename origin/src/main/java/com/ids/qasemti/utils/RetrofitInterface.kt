@@ -120,6 +120,15 @@ interface RetrofitInterface {
     ): Call<ResponseMessage>
 
 
+    @POST("sp_orders_to_be_settled")
+    fun getToBeSettled(
+        @Body param : RequestUserStatus
+    ): Call<ResponseMainOrder>
+
+    @POST("sp_get_settlements")
+    fun getSettlements(
+        @Body param : RequestServices
+    ): Call<ResponseMainSettlement>
 
     @Multipart
     @POST("sp_post_services")
@@ -136,4 +145,6 @@ interface RetrofitInterface {
         @Part(ApiParameters.PRODUCT_ID) product_id: RequestBody
 
     ): Call<ResponseMessage>
+
+
 }
