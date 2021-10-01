@@ -132,7 +132,7 @@
 
 
     <Button
-        android:layout_marginBottom="@dimen/bigger_edit_text"
+        android:layout_marginBottom="@dimen/medium_margin"
         android:layout_alignParentBottom="true"
         android:id="@+id/btCancelOrder"
         android:layout_marginTop="@dimen/margin_start_end"

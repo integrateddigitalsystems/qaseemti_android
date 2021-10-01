@@ -80,6 +80,7 @@
                         android:layout_width="wrap_content"
                         android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/normal_font"
+                        android:id="@+id/tvOrderCustomerName"
                         android:gravity="center_vertical"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/normal_margin"
@@ -105,6 +106,7 @@
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
                         android:gravity="center_vertical"
+                        android:id="@+id/tvOrderDeetId"
                         android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/normal_font"
                         android:layout_height="match_parent"

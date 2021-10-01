@@ -28,10 +28,13 @@ class ActivityAccountStatus : ActivityBase() {
         setContentView(R.layout.activity_account_status)
         AppHelper.setAllTexts(rootLayoutAccountStatus,this)
         btSave.onOneClick {
+
             if(notfSelected==-1){
                 var msg = AppHelper.getRemoteString("select_get_notified",this)
                 AppHelper.createDialog(this,msg)
             }else{
+                MyApplication.isSignedIn = true
+                MyApplication.firstTime = false
                AppHelper.goHome(this)
             }
         }

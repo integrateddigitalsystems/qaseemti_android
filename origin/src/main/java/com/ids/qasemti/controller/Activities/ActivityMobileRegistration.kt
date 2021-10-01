@@ -10,10 +10,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestOrders
-import com.ids.qasemti.model.RequestUserStatus
-import com.ids.qasemti.model.ResponseMainOrder
-import com.ids.qasemti.model.ResponseUserStatus
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.activity_mobile_registration.*
@@ -26,19 +23,22 @@ import java.lang.Exception
 import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
-class ActivityMobileRegistration: ActivityBase(){
+class ActivityMobileRegistration : ActivityBase() {
 
     var selectedCode = ""
 
     override fun onBackPressed() {
-        if(MyApplication.fromLogout) {
+        if (MyApplication.fromLogout) {
             AppHelper.createYesNoDialog(
-                this,  AppHelper.getRemoteString("exit",this), AppHelper.getRemoteString("cancel",this), AppHelper.getRemoteString("sureExit",this)
+                this,
+                AppHelper.getRemoteString("exit", this),
+                AppHelper.getRemoteString("cancel", this),
+                AppHelper.getRemoteString("sureExit", this)
             ) {
                 finishAffinity()
                 exitProcess(0)
             }
-        }else{
+        } else {
             super.onBackPressed()
         }
 
@@ -56,20 +56,20 @@ class ActivityMobileRegistration: ActivityBase(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mobile_registration)
-        AppHelper.setAllTexts(rootLayoutMobileRegister,this)
-        AppHelper.setLogoTint(logo_main,this,R.color.white)
+        AppHelper.setAllTexts(rootLayoutMobileRegister, this)
+        AppHelper.setLogoTint(logo_main, this, R.color.white)
 
 
-        if(MyApplication.isClient){
+        if (MyApplication.isClient) {
             btLogin.hide()
             llNewMember.show()
-        }else{
+        } else {
             btLogin.show()
             llNewMember.hide()
         }
 
         tvRegisterNewMember.onOneClick {
-            startActivity(Intent(this,ActivityRegistration::class.java))
+            startActivity(Intent(this, ActivityRegistration::class.java))
         }
 
 
@@ -107,19 +107,20 @@ class ActivityMobileRegistration: ActivityBase(){
         }
 
         btLoginClient.onOneClick {
-            if(etPhone.text.isNullOrEmpty()){
-                AppHelper.createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
-            }else {
-                MyApplication.isSignedIn = true
-                startActivity(Intent(this, ActivityHome::class.java))
+            if (etPhone.text.isNullOrEmpty()) {
+                AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
+            } else {
+                //  MyApplication.isSignedIn = true
+                    sendOTP()
+                startActivity(Intent(this, ActivityCodeVerification::class.java))
             }
 
         }
 
         btLogin.onOneClick {
-            if(etPhone.text.isNullOrEmpty()){
-                AppHelper.createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
-            }else {
+            if (etPhone.text.isNullOrEmpty()) {
+                AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
+            } else {
                 MyApplication.isSignedIn = true
                 getUserStatus()
                 MyApplication.selectedPhone = etPhone.text.toString()
@@ -128,15 +129,39 @@ class ActivityMobileRegistration: ActivityBase(){
 
         }
     }
-    fun nextStep(){
-      //if(MyApplication.userStatus!!.enabled!=0)
-            startActivity(Intent(this,ActivityCodeVerification::class.java))
+
+
+    fun sendOTP() {
+        var req = RequestOTP(etPhone.text.toString(), MyApplication.deviceId)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.sendOTP(
+                req
+            )?.enqueue(object : Callback<ResponseUpdate> {
+                override fun onResponse(
+                    call: Call<ResponseUpdate>,
+                    response: Response<ResponseUpdate>
+                ) {
+                    try {
+                        var x = 1
+                    } catch (E: java.lang.Exception) {
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                }
+            })
     }
 
-    fun getUserStatus(){
+    fun nextStep() {
+        sendOTP()
+        //if(MyApplication.userStatus!!.enabled!=0)
+        startActivity(Intent(this, ActivityCodeVerification::class.java))
+    }
+
+    fun getUserStatus() {
         try {
             loading.show()
-        }catch (ex: Exception){
+        } catch (ex: Exception) {
 
         }
         var newReq = RequestUserStatus(MyApplication.userId)
@@ -144,23 +169,27 @@ class ActivityMobileRegistration: ActivityBase(){
             ?.getUserStatus(
                 newReq
             )?.enqueue(object : Callback<ResponseUserStatus> {
-                override fun onResponse(call: Call<ResponseUserStatus>, response: Response<ResponseUserStatus>) {
-                    try{
+                override fun onResponse(
+                    call: Call<ResponseUserStatus>,
+                    response: Response<ResponseUserStatus>
+                ) {
+                    try {
                         MyApplication.userStatus = response.body()
                         loading.hide()
                         nextStep()
-                    }catch (E: java.lang.Exception){
+                    } catch (E: java.lang.Exception) {
                         try {
                             loading.hide()
-                        }catch (ex: Exception){
+                        } catch (ex: Exception) {
 
                         }
                     }
                 }
+
                 override fun onFailure(call: Call<ResponseUserStatus>, throwable: Throwable) {
                     try {
                         loading.hide()
-                    }catch (ex: Exception){
+                    } catch (ex: Exception) {
 
                     }
                 }

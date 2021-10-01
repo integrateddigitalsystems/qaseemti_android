@@ -12,21 +12,13 @@ class ResponseNotification(
     @Expose
     var date : String ?="",
 
-    @SerializedName("title_ar")
+    @SerializedName("title")
     @Expose
-    var title_ar : String ?="" ,
+    var title : String ?="" ,
 
-    @SerializedName("body_ar")
+    @SerializedName("body")
     @Expose
-    var body_ar : String ?="",
-
-    @SerializedName("title_en")
-    @Expose
-    var title_en : String ?="" ,
-
-    @SerializedName("body_en")
-    @Expose
-    var body_en : String ?="",
+    var body : String ?="",
 
     @SerializedName("data_fields")
     @Expose

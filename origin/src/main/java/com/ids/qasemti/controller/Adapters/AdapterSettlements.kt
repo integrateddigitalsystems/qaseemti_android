@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.hide
 import com.ids.qasemti.utils.show
@@ -18,7 +19,7 @@ import com.ids.qasemti.utils.textRemote
 import java.util.ArrayList
 
 class AdapterSettlements(
-    val items: ArrayList<String>,
+    val items: ArrayList<ResponseOrders>,
     private val itemClickListener: RVOnItemClickListener,
     context: Context
 ) :
@@ -34,19 +35,14 @@ class AdapterSettlements(
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
 
-        holder.details.text = AppHelper.getRemoteString("view_order_details",con)
+        holder.details.text = AppHelper.getRemoteString("view_order_details", con)
+        holder.idTitle.hide()
+        holder.id.text = items.get(position).orderId.toString()
+        holder.date.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy hh:mm")
+        holder.amount.text = items.get(position).total+" "+items.get(position).currency
+        holder.earn.text = items.get(position).earnings + " "+ items.get(position).currency
 
-      if(!MyApplication.upcoming!!){
-          holder.idTitle.hide()
 
-      }else{
-          //holder.details.text = AppHelper.getRemoteString("viewRelatedOrders",con)
-          holder.idTitle.show()
-          holder.dateTitle.textRemote("settlement_date",con)
-          holder.amountTitle.textRemote("settlement_amount",con)
-          holder.earningsTitle.textRemote("earnings",con)
-          holder.dues.hide()
-      }
     }
 
     override fun getItemCount(): Int {
@@ -60,6 +56,11 @@ class AdapterSettlements(
         var dues = itemView.findViewById<LinearLayout>(R.id.llMyDues)
         var amountTitle = itemView.findViewById<TextView>(R.id.tvAmountTitle)
         var earningsTitle = itemView.findViewById<TextView>(R.id.tvEarningsTitle)
+        var id = itemView.findViewById<TextView>(R.id.tvSettlementId)
+        var date = itemView.findViewById<TextView>(R.id.tvOrderDateSett)
+        var amount = itemView.findViewById<TextView>(R.id.tvSettAmount)
+        var earn = itemView.findViewById<TextView>(R.id.tvEarnSett)
+        var duesText = itemView.findViewById<TextView>(R.id.tvSettDues)
 
 
         init {

@@ -59,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="123654"
+                android:layout_marginEnd="@dimen/big_margin"
                 android:textColor="@color/redPrimary"
                 android:textSize="@dimen/small_font" />
 
@@ -96,6 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="20 Jun 2021 16:00"
+                android:id="@+id/tvOrderDateSett"
                 android:textColor="@color/gray_font_title"
                 android:textSize="@dimen/small_font" />
 
@@ -132,6 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="10 KWD"
+                android:id="@+id/tvSettAmount"
                 android:textColor="@color/redPrimary"
                 android:textSize="@dimen/normal_font" />
 
@@ -168,6 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="10 KWD"
+                android:id="@+id/tvEarnSett"
                 android:textColor="@color/redPrimary"
                 android:textSize="@dimen/normal_font" />
 
@@ -204,6 +208,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="10 KWD"
+                android:id="@+id/tvSettDues"
                 android:textColor="@color/redPrimary"
                 android:textSize="@dimen/normal_font" />
 

@@ -42,7 +42,7 @@ interface RetrofitInterface {
     @POST("cancel_order")
     fun cancelOrder(@Body param: RequestCancelOrder): Call<ResponseCancel>
 
-    @POST("get_user_status")
+    @POST("sp_get_user_status")
     fun getUserStatus(@Body param: RequestUserStatus): Call<ResponseUserStatus>
 
     @Multipart
@@ -67,6 +67,16 @@ interface RetrofitInterface {
         @Part(ApiParameters.BANK_NAME) bankName: RequestBody,
         @Part(ApiParameters.BANK_BRANCH) bankBranch: RequestBody,
         @Part(ApiParameters.IBAN) iban: RequestBody
+    ): Call<String>
+
+
+    @Multipart
+    @POST("sp_update_profile")
+    fun updateProfileRegister(
+        @Part(ApiParameters.USER_ID) userId: RequestBody,
+        @Part(ApiParameters.FIRST_NAME) firstName: RequestBody,
+        @Part(ApiParameters.LAST_NAME) lastName: RequestBody,
+        @Part(ApiParameters.EMAIL) email: RequestBody,
     ): Call<String>
 
     @POST("sp_update_availability")
@@ -112,6 +122,15 @@ interface RetrofitInterface {
     ): Call<ResponseMessage>
 
 
+    @POST("sp_orders_to_be_settled")
+    fun getToBeSettled(
+        @Body param : RequestUserStatus
+    ): Call<ResponseMainOrder>
+
+    @POST("sp_get_settlements")
+    fun getSettlements(
+        @Body param : RequestServices
+    ): Call<ResponseMainSettlement>
 
     @Multipart
     @POST("sp_post_services")

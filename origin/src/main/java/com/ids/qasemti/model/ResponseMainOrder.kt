@@ -12,6 +12,14 @@ class ResponseMainOrder(
 
     @SerializedName("orders")
     @Expose
-    var orders : ArrayList<ResponseOrders> = arrayListOf()
+    var orders : ArrayList<ResponseOrders> = arrayListOf() ,
+
+    @SerializedName("settlement_amount")
+    @Expose
+    var settlementAmount : Int ?=0 ,
+
+    @SerializedName("orders_count")
+    @Expose
+    var ordersCount : Int ?=0
  ) {
 }

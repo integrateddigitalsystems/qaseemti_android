@@ -26,28 +26,38 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View =
         inflater.inflate(com.ids.qasemti.R.layout.fragment_account, container, false)
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayout,requireContext())
+        AppHelper.setAllTexts(rootLayout, requireContext())
         init()
         listeners()
     }
 
-    fun init(){
+    fun init() {
         (activity as ActivityHome).showBack(false)
         (activity as ActivityHome).showLogout(false)
         (activity as ActivityHome).showTitle(false)
         showData()
+        if (MyApplication.register) {
+            MyApplication.register = false
+            (requireActivity() as ActivityHome?)!!.addFrag(
+                FragmentProfile(),
+                AppConstants.FRAGMENT_PROFILE
+            )
+        }
 
     }
 
-    fun showData(){
-        if(MyApplication.isClient){
+    fun showData() {
+        if (MyApplication.isClient) {
             btShareApp.show()
             btLogoutAccount.show()
             btMyAddresses.show()
@@ -57,7 +67,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             llLastSeperator2.show()
             llSepTop.hide()
 
-        }else{
+        } else {
             btShareApp.hide()
             btLogoutAccount.hide()
             btMyAddresses.hide()
@@ -68,55 +78,79 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         }
     }
 
-    fun listeners(){
+    fun listeners() {
 
         btMyAddresses.onOneClick {
-            startActivity(Intent(requireContext(),ActivityAddresses::class.java)
-                .putExtra("mapTitle",AppHelper.getRemoteString("address",requireContext())))
+            startActivity(
+                Intent(requireContext(), ActivityAddresses::class.java)
+                    .putExtra("mapTitle", AppHelper.getRemoteString("address", requireContext()))
+            )
         }
-        btMyServices.onOneClick{
-            startActivity(Intent(requireActivity(),ActivityServices::class.java))
-        }
-
-        btSettelments.onOneClick{
-            startActivity(Intent(requireActivity(),ActivitySettlements::class.java))
+        btMyServices.onOneClick {
+            startActivity(Intent(requireActivity(), ActivityServices::class.java))
         }
 
-        btMyProfile.onOneClick{
-            (requireActivity() as ActivityHome?)!!.addFrag(FragmentProfile(),AppConstants.FRAGMENT_PROFILE)
+        btSettelments.onOneClick {
+            startActivity(Intent(requireActivity(), ActivitySettlements::class.java))
         }
 
-        btLanguage.onOneClick{
+        btMyProfile.onOneClick {
+            (requireActivity() as ActivityHome?)!!.addFrag(
+                FragmentProfile(),
+                AppConstants.FRAGMENT_PROFILE
+            )
+        }
+
+        btLanguage.onOneClick {
             val bottom_fragment = FragmentBottomSeetLanguage()
-            bottom_fragment.show(requireActivity().supportFragmentManager,"fragment_change_language")
+            bottom_fragment.show(
+                requireActivity().supportFragmentManager,
+                "fragment_change_language"
+            )
         }
         btNotifications.onOneClick {
             val bottom_fragment = FragmentBottomSheetPush()
-            bottom_fragment.show(requireActivity().supportFragmentManager,"fragment_push_notifications")
+            bottom_fragment.show(
+                requireActivity().supportFragmentManager,
+                "fragment_push_notifications"
+            )
         }
         btContactAdministrator.setOnClickListener {
-            startActivity(Intent(requireActivity(),ActivityContactUs::class.java))
+            startActivity(Intent(requireActivity(), ActivityContactUs::class.java))
         }
         btLogoutAccount.onOneClick {
-            AppHelper.createYesNoDialog(requireActivity(),  AppHelper.getRemoteString("logout",requireContext()),AppHelper.getRemoteString("cancel",requireContext()),AppHelper.getRemoteString("sureLogout",requireContext())){
+            AppHelper.createYesNoDialog(
+                requireActivity(),
+                AppHelper.getRemoteString("logout", requireContext()),
+                AppHelper.getRemoteString("cancel", requireContext()),
+                AppHelper.getRemoteString("sureLogout", requireContext())
+            ) {
                 MyApplication.isSignedIn = false
                 MyApplication.fromLogout = true
-                if(MyApplication.isClient){
+                MyApplication.userId = 0
+                if (MyApplication.isClient) {
                     MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
                     MyApplication.selectedFragment = FragmentHomeClient()
-                }else{
+                } else {
                     MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
                     MyApplication.selectedFragment = FragmentHomeSP()
                 }
                 MyApplication.selectedPos = 2
                 requireActivity().finishAffinity()
-                startActivity(Intent(requireContext(),ActivityMobileRegistration::class.java).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
+                startActivity(
+                    Intent(
+                        requireContext(),
+                        ActivityMobileRegistration::class.java
+                    ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
             }
 
         }
         btPrivacy.setOnClickListener {
-            startActivity(Intent(requireContext(),ActivityWeb::class.java)
-                .putExtra("webTitle","Privacy Policy"))
+            startActivity(
+                Intent(requireContext(), ActivityWeb::class.java)
+                    .putExtra("webTitle", "Privacy Policy")
+            )
         }
     }
 }
