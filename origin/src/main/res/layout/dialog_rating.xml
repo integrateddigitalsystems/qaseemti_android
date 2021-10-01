@@ -72,7 +72,7 @@
 
         </LinearLayout>
 
-       <include layout="@layout/loading_trans"/>
+       <include layout="@layout/loading"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="@dimen/edit_text_height"

@@ -279,7 +279,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         tvPickedImage.text = files[0].name
                         var file = getFile(this,files[0].uri)
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        selectedFileImage =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name, req)
+                        selectedFileImage =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
                       } catch (e: Exception) {
                     }
                 }
@@ -289,7 +289,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         tvPickedDrivingLicense.text = files[0].name
                         var file = getFile(this,files[0].uri)
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        selectedFileDrivingLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name, req)
+                        selectedFileDrivingLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
                      } catch (e: Exception) {
                     }
                 }
@@ -299,7 +299,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         tvPickedWorkLicense.text = files[0].name
                         var file = getFile(this,files[0].uri)
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        selectedFileWorkLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name, req)
+                        selectedFileWorkLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
                     } catch (e: Exception) {
                     }
                 }
@@ -309,7 +309,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         tvPickedVehicle.text = files[0].name
                         var file = getFile(this,files[0].uri)
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        selectedFileVehicleLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name, req)
+                        selectedFileVehicleLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
                     } catch (e: Exception) {
                     }
                 }

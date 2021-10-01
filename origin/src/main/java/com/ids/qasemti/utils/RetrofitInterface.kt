@@ -104,6 +104,8 @@ interface RetrofitInterface {
     ): Call<ResponseMainServices>
 
 
+
+
     @POST("sp_post_ratings")
     fun setRating(
         @Body param:RequestRating
@@ -126,4 +128,10 @@ interface RetrofitInterface {
         @Part(ApiParameters.PRODUCT_ID) product_id: RequestBody
 
     ): Call<ResponseMessage>
+
+
+    @POST("cl_get_services")
+    fun getClServices(
+        @Body param:RequestServices
+    ): Call<ResponseMainServices>
 }

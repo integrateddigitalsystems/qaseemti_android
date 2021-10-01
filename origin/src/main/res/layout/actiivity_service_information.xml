@@ -163,7 +163,7 @@
 
 
         </LinearLayout>
-        <include layout="@layout/loading_trans"/>
+        <include layout="@layout/loading"/>
 
 
 </RelativeLayout>

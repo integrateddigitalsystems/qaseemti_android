@@ -285,8 +285,8 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
                 .commit()*/
             startActivity(Intent(requireContext(),ActivityCheckout::class.java))
         }
-        if(!MyApplication.selectedService!!.title.isNullOrEmpty()) {
-            AppHelper.setTitle(requireActivity(), MyApplication.selectedService!!.title!!, "")
+        if(!MyApplication.selectedService!!.name.isNullOrEmpty()) {
+            AppHelper.setTitle(requireActivity(), MyApplication.selectedService!!.name!!, "")
         }
         tbMedias.setTabTextColors(
             AppHelper.getColor(requireContext(), R.color.transparent),

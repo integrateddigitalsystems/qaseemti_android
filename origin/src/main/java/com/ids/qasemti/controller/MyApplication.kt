@@ -47,7 +47,7 @@ class MyApplication : Application() {
         var userId : Int ?=6
 
         var firstImage : Boolean ?=false
-        var selectedService : ServiceItem ?=null
+        var selectedService : ResponseService ?=null
         var selectedOrder : ResponseOrders?=null
 
         var showLogs: Boolean = true

@@ -160,6 +160,7 @@
 
 
 
+        <include layout="@layout/loading"/>
     </RelativeLayout>
 
 

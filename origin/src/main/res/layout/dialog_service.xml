@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:weightSum="2"
+            android:id="@+id/rgCategory"
             android:gravity="center"
             android:orientation="horizontal"
             >
@@ -55,6 +56,8 @@
                 android:layout_height="wrap_content"
                 android:tag="purchase"
                 android:padding="@dimen/normal_margin"
+                android:id="@+id/rbPurchase"
+                android:checked="true"
                 android:textSize="@dimen/normal_font"
                 android:buttonTint="@color/button_blue"
                 android:textColor="@color/gray_font"
@@ -69,6 +72,7 @@
                 android:padding="@dimen/normal_margin"
                 android:layout_height="wrap_content"
                 android:tag="rental"
+                android:id="@+id/rbRental"
                 android:buttonTint="@color/button_blue"
                 android:textSize="@dimen/normal_font"
                 android:textColor="@color/gray_font"
@@ -199,6 +203,7 @@
                 android:layout_marginEnd="@dimen/mini_margin"
                 android:background="@drawable/rounded_blue"
                 android:layout_weight="0.5"
+                android:id="@+id/btApplyFilter"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"/>
 
@@ -208,6 +213,7 @@
                 android:layout_marginStart="@dimen/mini_margin"
                 android:background="@drawable/smaller_whire_red"
                 android:layout_weight="0.5"
+                android:id="@+id/btResetFilter"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"/>
 
