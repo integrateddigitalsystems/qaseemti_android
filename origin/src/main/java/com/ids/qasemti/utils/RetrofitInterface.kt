@@ -153,4 +153,10 @@ interface RetrofitInterface {
     fun getClServices(
         @Body param:RequestServices
     ): Call<ResponseMainServices>
+
+
+    @POST("cl_add_address")
+    fun addClAddress(
+        @Body param:RequestAddAddress
+    ): Call<ResponseMessage>
 }

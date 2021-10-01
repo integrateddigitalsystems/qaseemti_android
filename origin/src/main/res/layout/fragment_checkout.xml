@@ -460,7 +460,7 @@
                         <com.ids.qasemti.custom.CustomTextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Water Tank"
+                            android:id="@+id/tvServiceName"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/header_font" />
 
@@ -474,7 +474,7 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="200 gallons"
+                            android:id="@+id/tvSizeCapacity"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/medium_font" />
 
@@ -520,7 +520,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/normal_margin"
-                                android:text="10 KWD" />
+                                android:id="@+id/tvPrice"/>
 
 
                         </LinearLayout>
@@ -543,7 +543,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/normal_margin"
-                                android:text="Fresh" />
+                                android:id="@+id/tvVariationType" />
 
                         </LinearLayout>
 
@@ -576,7 +576,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/normal_margin"
-                                android:text="Purchase" />
+                                android:id="@+id/tvServiceType"/>
 
                         </LinearLayout>
 
@@ -599,7 +599,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/normal_margin"
                                 android:gravity="center_vertical"
-                                android:text="20 litres" />
+                                android:id="@+id/tvSize" />
 
                         </LinearLayout>
 

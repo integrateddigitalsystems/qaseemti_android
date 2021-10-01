@@ -13,4 +13,7 @@ class ResponseMessage {
     @Expose
     var message: String? = ""
 
+    @SerializedName("address_id")
+    @Expose
+    var address_id: String? = ""
 }

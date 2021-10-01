@@ -53,6 +53,10 @@ class MyApplication : Application() {
         var selectedService : ResponseService ?=null
         var selectedOrder : ResponseOrders?=null
 
+        var selectedSize = ""
+        var selectedPrice = ""
+        var selectedVariationType = ""
+
         var showLogs: Boolean = true
         var isClient : Boolean = false
         var fromFooterOrder : Boolean = true

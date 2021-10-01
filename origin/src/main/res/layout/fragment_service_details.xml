@@ -58,7 +58,7 @@
                         android:layout_height="match_parent">
                         <androidx.viewpager.widget.ViewPager
                             android:layout_above="@id/llCostData"
-                            android:id="@+id/vpServiceDetails"
+                            android:id="@+id/vpMedia"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/image_news" />
 
@@ -92,7 +92,8 @@
                                 android:layout_marginStart="@dimen/normal_margin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="15 KWD"
+
+                                android:id="@+id/tvPrice"
                                 android:textSize="@dimen/header_font"
                                 android:textColor="@color/white"/>
 
@@ -106,29 +107,26 @@
 
                 </androidx.cardview.widget.CardView>
 
+
                 <com.google.android.material.tabs.TabLayout
-                    android:layout_below="@id/linearProfileInfo"
+                    android:id="@+id/tbMedia"
                     android:layout_centerHorizontal="true"
-                    android:layoutDirection="ltr"
-                    android:background="@color/transparent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    app:tabIndicator="@null"
-                    android:layout_marginTop="@dimen/push_text"
-                    android:textAlignment="center"
-                    app:tabIndicatorHeight="0dp"
+                    android:layout_below="@id/linearProfileInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
                     app:tabGravity="center"
-                    app:tabPaddingEnd="-13dp"
-                    app:tabPaddingStart="-13dp"
-                    android:id="@+id/tbMedias"/>
-
-
+                    app:tabIndicatorHeight="0dp"
+                    android:layout_marginTop="-4dp"
+                    app:tabMaxWidth="12dp"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    app:tabBackground="@drawable/selector_tab_image"
+                    app:tabRippleColor="@null" />
 
                 <LinearLayout
                     android:id="@+id/llSpinnerServices"
                     android:layout_marginStart="@dimen/margin_start_end"
                     android:layout_marginEnd="@dimen/margin_start_end"
-                    android:layout_below="@id/tbMedias"
+                    android:layout_below="@id/tbMedia"
                     android:orientation="horizontal"
                     android:weightSum="2"
                     android:layout_width="match_parent"
@@ -238,13 +236,7 @@
                     android:layout_below="@id/llSpinnerServices"
                     android:textSize="@dimen/header_font"
                     android:textColor="@color/gray_font"
-                    android:text="Lorem ipsum dolor sit amet, consectetuer
-adipiscing elit, sed diam nonummy nibheuismod
-tincidunt ut laoreet dolore magna aliquam
-eratvolutpat. Ut wisi enim ad minim veniam, quis
-nostrud exerci tation ullamcorper suscipitlobortis
-nisl ut aliquip ex ea commodo consequat. Duis
-"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />

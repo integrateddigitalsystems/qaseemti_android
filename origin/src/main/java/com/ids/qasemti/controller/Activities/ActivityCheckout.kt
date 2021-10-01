@@ -25,6 +25,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         setContentView(R.layout.fragment_checkout)
         AppHelper.setAllTexts(rootLayoutCheckout,this)
         init()
+        setListeners()
     }
 
 
@@ -211,8 +212,8 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         setTintLogo(R.color.redPrimary)
         tvPageTitle.textRemote("Checkout",this)
         tvPageTitle.setColorTypeface(this,R.color.redPrimary,"",true)
-        etFromDate.setFocusable(false);
-        etFromTime.setFocusable(false);
+        etFromDate.isFocusable = false;
+        etFromTime.isFocusable = false;
 
         rbNow.isChecked = true
         rbSpecify.isChecked = false
@@ -231,11 +232,16 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         }
 
         setUpCurr()
-        setListeners()
+        setOrderSummary()
 
+    }
 
-
-
-
+    private fun setOrderSummary(){
+        try{tvServiceName.text=MyApplication.selectedService!!.name!!}catch (e:Exception){}
+        try{tvServiceType.text=MyApplication.selectedService!!.type!!}catch (e:Exception){}
+        try{tvSizeCapacity.text=MyApplication.selectedSize}catch (e:Exception){}
+        try{tvPrice.text=MyApplication.selectedPrice+" KWD"}catch (e:Exception){}
+        try{tvVariationType.text=MyApplication.selectedVariationType}catch (e:Exception){}
+        try{tvSize.text=MyApplication.selectedSize}catch (e:Exception){}
     }
 }

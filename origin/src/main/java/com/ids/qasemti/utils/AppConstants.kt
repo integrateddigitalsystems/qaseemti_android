@@ -51,4 +51,7 @@ object AppConstants {
     const val TYPE_PURCHASE = "purchase"
     const val TYPE_RENTAL = "rental"
 
+    const val MEDIA_TYPE_IMAGE = 1
+    const val MEDIA_TYPE_YOUTUBE = 2
+
 }
