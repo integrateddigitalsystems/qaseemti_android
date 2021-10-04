@@ -15,8 +15,12 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
+import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.LocaleUtils
+import com.ids.qasemti.utils.onOneClick
 import kotlinx.android.synthetic.main.bottom_sheet_language.*
+import kotlinx.android.synthetic.main.bottom_sheet_language.rootLayout
+import kotlinx.android.synthetic.main.fragment_account.*
 
 import java.util.*
 
@@ -36,11 +40,12 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tvEnglish.setOnClickListener{
+        AppHelper.setAllTexts(rootLayout,requireContext())
+        tvEnglish.onOneClick{
             if(MyApplication.languageCode == AppConstants.LANG_ARABIC)
                 setEnglish()
         }
-        tvArabic.setOnClickListener{
+        tvArabic.onOneClick{
             if(MyApplication.languageCode == AppConstants.LANG_ENGLISH)
                 setArabic()
         }

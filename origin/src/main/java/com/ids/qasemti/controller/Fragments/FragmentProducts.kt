@@ -28,7 +28,7 @@ class FragmentProducts : Fragment() , RVOnItemClickListener {
     }
 
     fun init(){
-        AppHelper.setTitle(requireActivity(),getString(R.string.products),"products")
+        AppHelper.setTitle(requireActivity(),AppHelper.getRemoteString("products",requireContext()),"products")
     }
 
 

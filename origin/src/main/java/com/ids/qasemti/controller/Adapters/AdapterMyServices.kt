@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.model.ResponseService
 import com.ids.qasemti.model.ServiceItem
+import com.ids.qasemti.utils.AppHelper
 import java.util.ArrayList
 
 class AdapterMyServices(
-    val items: ArrayList<ServiceItem>,
+    val items: ArrayList<ResponseService>,
     private val itemClickListener: RVOnItemClickListener,
     context: Context
 ) :
@@ -31,10 +33,17 @@ class AdapterMyServices(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-        Glide.with(con).load(items.get(position).testCode).into(holder.image);
+        //Glide.with(con).load(items.get(position).testCode).into(holder.image);
 
-        holder.image.setBackgroundResource(items.get(position).testCode!!)
-        holder.title.text = items.get(position).title
+       // holder.image.setBackgroundResource(items.get(position).testCode!!)
+        holder.title.text = items.get(position).name
+        holder.qtPrice.typeface = AppHelper.getTypeFace(con)
+        try {
+            holder.qtPrice.text = items.get(position).variations.get(0).price.toString()!! + " KWD"
+        }catch (ex:Exception){
+            holder.qtPrice.text = ""
+        }
+        holder.qtEarn.typeface = AppHelper.getTypeFace(con)
     }
 
     override fun getItemCount(): Int {
@@ -44,6 +53,8 @@ class AdapterMyServices(
     inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var title = itemView.findViewById<TextView>(R.id.tvServiceTitle)
         var image = itemView.findViewById<ImageView>(R.id.ivServiceLogo)
+        var qtPrice = itemView.findViewById<TextView>(R.id.tvPriceQt)
+        var qtEarn = itemView.findViewById<TextView>(R.id.tvEarnQt)
 
         init {
             itemView.setOnClickListener(this)

@@ -16,15 +16,15 @@
     </LinearLayout>
 
     <LinearLayout
-        android:gravity="center_horizontal"
         android:layout_marginTop="-40dp"
         android:layout_below="@id/llLogo"
         android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-    <com.ids.qasemti.custom.CustomTextViewMedium
+    <com.ids.qasemti.custom.CustomTextViewBold
 
         android:layout_marginStart="75dp"
         android:layout_marginEnd="75dp"
@@ -40,11 +40,14 @@
 
 
         <com.ids.qasemti.custom.CustomTextViewBold
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
             android:layout_marginTop="@dimen/big_margin"
             android:layout_marginBottom="@dimen/big_margin"
-            android:layout_width="wrap_content"
-            android:gravity="start"
+            android:layout_width="match_parent"
+            android:gravity="center"
             android:tag="account_pending"
+            android:textColor="@color/gray_font_title"
             android:textSize="@dimen/title_font"
             android:layout_height="wrap_content"
             android:text="@string/account_pending"/>
@@ -52,12 +55,14 @@
 
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:gravity="start"
-            android:tag="updated_how_notified"
-            android:lineSpacingExtra="-10dp"
-            android:text="@string/updated_how_notified"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:tag="updated_status"
+            android:text="@string/updated_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/big_font"/>
+            android:textSize="@dimen/big_font"
+            android:textColor="@color/gray_font_title" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -83,15 +88,17 @@
 
                 <ImageView
                     android:id="@+id/ivNotificationStatus"
-                    android:layout_width="@dimen/bigger_icon"
-                    android:layout_height="@dimen/bigger_icon"
-                    android:src="@drawable/icon_notification"/>
+                    android:layout_width="@dimen/big_icon"
+                    android:layout_height="@dimen/big_icon"
+                    android:src="@drawable/icon_status_notification"/>
 
             </LinearLayout>
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_marginTop="@dimen/mini_margin"
                     android:layout_width="wrap_content"
+                    android:textColor="@color/gray_font_title"
+                    android:textSize="@dimen/normal_font"
                     android:layout_height="wrap_content"
                     android:text="@string/notifications"
                     android:tag="notifications"
@@ -115,8 +122,8 @@
 
                 <ImageView
                     android:id="@+id/ivMessageStatus"
-                    android:layout_width="@dimen/bigger_icon"
-                    android:layout_height="@dimen/bigger_icon"
+                    android:layout_width="@dimen/big_icon"
+                    android:layout_height="@dimen/big_icon"
                     android:src="@drawable/icon_message"/>
 
             </LinearLayout>
@@ -125,6 +132,8 @@
                      android:layout_marginTop="@dimen/mini_margin"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
+                     android:textColor="@color/gray_font_title"
+                     android:textSize="@dimen/normal_font"
                      android:text="@string/sms"
                      android:tag="sms"
                      />
@@ -136,10 +145,13 @@
 
 
         <com.ids.qasemti.custom.CustomTextViewMedium
-            android:gravity="start"
-            android:tag="update_in_email"
-            android:text="@string/update_in_email"
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:tag="find_your_updates"
+            android:textColor="@color/gray_font_title"
+            android:text="@string/find_your_updates"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/big_font"/>
 
@@ -148,9 +160,11 @@
             android:layout_marginTop="@dimen/big_margin"
             android:text="@string/save"
             android:tag="save"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
             android:id="@+id/btSave"
             android:textColor="@color/white"
-            android:layout_width="@dimen/button_width"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:background="@drawable/blue_rounded"/>
 

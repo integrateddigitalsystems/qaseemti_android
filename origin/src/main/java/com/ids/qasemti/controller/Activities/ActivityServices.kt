@@ -8,49 +8,97 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterMyServices
-import com.ids.qasemti.controller.Adapters.AdapterServices
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
-import com.ids.qasemti.model.ServiceItem
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.*
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_services.*
+import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.no_logo_layout.*
+import kotlinx.android.synthetic.main.toolbar.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.lang.Exception
 
 
 class ActivityServices : ActivityBase(),RVOnItemClickListener {
-    var array : ArrayList<ServiceItem> = arrayListOf()
+    var array : ArrayList<ResponseService> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_services)
-        AppHelper.setAllTexts(rootLayout)
+        AppHelper.setAllTexts(rootLayout,this)
         init()
-        listeners()
-        setData()
 
+
+    }
+
+
+    fun getServices(){
+        try {
+            loading.show()
+        }catch (ex: Exception){
+
+        }
+        var newReq = RequestServices(MyApplication.userId,MyApplication.languageCode)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getServices(
+                newReq
+            )?.enqueue(object : Callback<ResponseMainServices> {
+                override fun onResponse(call: Call<ResponseMainServices>, response: Response<ResponseMainServices>) {
+                    try{
+                       array.clear()
+                        array.addAll(response.body()!!.responseService!!)
+                        setData()
+                    }catch (E: java.lang.Exception){
+                        array.clear()
+                        setData()
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMainServices>, throwable: Throwable) {
+                    array.clear()
+                    setData()
+                }
+            })
     }
 
     private fun init(){
-        btBck.show()
+       // btBck.show()
+        tvPageTitle.setColorTypeface(this,R.color.white, AppHelper.getRemoteString("MyServices",this),true)
+        btBackTool.show()
+        btBackTool.onOneClick {
+            super.onBackPressed()
+        }
+        getServices()
+        listeners()
     }
 
     private fun listeners(){
-        btBck.setOnClickListener{super.onBackPressed()}
-        btAdd.setOnClickListener{startActivity(Intent(this,ActivityServiceInformation::class.java))}
+      //  btBck.setOnClickListener{super.onBackPressed()}
+        btAdd.onOneClick{
+          //  if(MyApplication.userStatus!!.online!=0){
+                startActivity(Intent(this,ActivityServiceInformation::class.java))
+          //  }
+
+        }
     }
 
     private fun setData(){
 
-        array.add(ServiceItem("Water Tank","", R.drawable.icon_water))
-        array.add(ServiceItem("Sand Truck","", R.drawable.icon_truck))
-        array.add(ServiceItem("Rubble Truck for Long Term","", R.drawable.icon_rubble_truck))
+
+
 
 
         var adapter = AdapterMyServices(array,this,this)
         rvServices.layoutManager = LinearLayoutManager(this)
         rvServices.adapter = adapter
         rvServices.isNestedScrollingEnabled = false
+        try {
+            loading.hide()
+        }catch (ex: Exception){
+
+        }
     }
 
     override fun onItemClicked(view: View, position: Int) {

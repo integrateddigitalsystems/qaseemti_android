@@ -10,10 +10,14 @@
     <color name="gray_tint">#818181</color>
     <color name="gray_medium_2">#dadada </color>
     <color name="gray_background">#f2f2f2</color>
+    <color name="gray_serperator">#e6e6e6</color>
+    <color name="gray_selected">#cccccc</color>
+    <color name="gray_not_selected">#DFDFDF</color>
+
 
     <color name="transparent">#00000000</color>
-    <color name="new_blue">#0088ff</color>
-    <color name="button_blue">#009bfc</color>
+    <color name="new_blue">#0080ff</color>
+    <color name="button_blue">#0080ff</color>
     <color name="white">#ffffff</color>
     <color name="gradient_red">#ff516b</color>
     <color name="pink_bg">#ffe7ea</color>
@@ -23,7 +27,9 @@
     <color name="gray_line">#e0e0e0</color>
     <color name="gray_font">#848484</color>
     <color name="gray_bg">#f2f2f2</color>
+    <color name="gray_bg_trans">#FFf2f2f2</color>
     <color name="gray_font_light">#b5b5b5</color>
+    <color name="trans">#4D000000</color>
     <color name="gray_font_title">#606060</color>
 
     <color name="gray_progress">#e6e6e6</color>
@@ -38,4 +44,5 @@
 
     <color name="gray_block">#fbfbfb</color>
     <color name="gray_block_border">#f5f5f5</color>
+    <color name="gray_shadow">#50CCCCCC</color>
 </resources>

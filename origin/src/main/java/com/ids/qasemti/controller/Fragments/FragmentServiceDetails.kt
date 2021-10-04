@@ -1,8 +1,10 @@
 package com.ids.qasemti.controller.Fragments
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -30,17 +32,16 @@ import com.google.android.exoplayer2.util.Util
 import com.google.android.material.tabs.TabLayout
 import com.ids.makhateer.controller.Adapters.PageAdapterSrvice
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityCheckout
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.SliderItem
-import com.ids.qasemti.utils.AppConstants
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.utils.*
 import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.fragment_service_details.*
-import java.util.ArrayList
+import java.util.*
+
 
 class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Player.EventListener {
 
@@ -69,7 +70,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutServiceDetails)
+        AppHelper.setAllTexts(rootLayoutServiceDetails,requireContext())
         init()
 
 
@@ -134,7 +135,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
                     .fitCenter()
                     .into(iv)
 
-                iv.setOnClickListener {
+                iv.onOneClick {
                     turnOffVideos()
                     MyApplication.firstImage = true
                     MyApplication.selectedImage = item.url
@@ -165,7 +166,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
                 videoLayout.show()
                 iv.hide()
                 full.show()
-                full.setOnClickListener {
+                full.onOneClick {
                     turnOffVideos()
                     MyApplication.selectedImage = "-"
                     MyApplication.selectedVideo = item.url
@@ -271,14 +272,22 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
 
     fun init(){
+        (activity as ActivityHome?)!!.showBack(true)
+        (activity as ActivityHome?)!!.showLogout(false)
 
+        tvItalicNote.setTypeface(AppHelper.getTypeFaceItalic(requireContext()))
 
-        btServiceCheckout.setOnClickListener {
+        btServiceCheckout.typeface=AppHelper.getTypeFace(requireContext())
+        btServiceCheckout.onOneClick {
+            /*MyApplication.selectedFragment = FragmentCheckout()
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.homeContainer, FragmentCheckout(), AppConstants.CHECKOUT)
-                .commit()
+                .commit()*/
+            startActivity(Intent(requireContext(),ActivityCheckout::class.java))
         }
-        AppHelper.setTitle(requireActivity(),MyApplication.selectedService!!.title!!,"")
+        if(!MyApplication.selectedService!!.title.isNullOrEmpty()) {
+            AppHelper.setTitle(requireActivity(), MyApplication.selectedService!!.title!!, "")
+        }
         tbMedias.setTabTextColors(
             AppHelper.getColor(requireContext(), R.color.transparent),
             AppHelper.getColor(requireContext(), R.color.transparent)
@@ -290,16 +299,16 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
         // Scale it to 50 x 50
         selectedC = BitmapDrawable(
             resources,
-            Bitmap.createScaledBitmap(convertToBitmap(selected_circle)!!, 20, 20, true)
+            Bitmap.createScaledBitmap(convertToBitmap(selected_circle)!!, 25, 25, true)
         )
         notSelectedC = BitmapDrawable(
             resources,
-            Bitmap.createScaledBitmap(convertToBitmap(not_selected_circle)!!, 20, 20, true)
+            Bitmap.createScaledBitmap(convertToBitmap(not_selected_circle)!!, 25, 25, true)
         )
 
-        arrayItems.add(SliderItem("https://freepikpsd.com/media/2019/10/dollar-logo-png-6-Transparent-Images.png",1,""))
-        arrayItems.add(SliderItem("https://www.drupal.org/files/issues/sample_6.jpg",1,""))
-        arrayItems.add(SliderItem("https://live.staticflickr.com/2912/13981352255_fc59cfdba2_b.jpg",1,""))
+        arrayItems.add(SliderItem("http://sc04.alicdn.com/kf/He4dba8a9ab794fc0b22a7ae23c246fd4G.jpg",1,""))
+        arrayItems.add(SliderItem("https://sc04.alicdn.com/kf/HTB1jpkfl_nI8KJjSszgq6A8ApXaC.jpg",1,""))
+        arrayItems.add(SliderItem("https://img.bidorbuy.co.za/image/upload/user_images/999/369999_100819205424_Tank-Sigi.jpg",1,""))
 
         setUpMediaPager()
 

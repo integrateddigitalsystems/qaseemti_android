@@ -12,6 +12,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.setColorTypeface
 
 import java.util.ArrayList
 
@@ -31,6 +32,7 @@ class AdapterOrders(val items: ArrayList<String>, private val itemClickListener:
         }
 
         holder.expected.typeface = AppHelper.getTypeFaceBold(con)
+        holder.tvLocation.setColorTypeface(con,R.color.redPrimary,"",false)
     }
 
     override fun getItemCount(): Int {
@@ -41,9 +43,14 @@ class AdapterOrders(val items: ArrayList<String>, private val itemClickListener:
         var title = itemView.findViewById<TextView>(R.id.tvCategoryOrder)
         var expected = itemView.findViewById<TextView>(R.id.tvDateExpected)
         var location = itemView.findViewById<LinearLayout>(R.id.llLocation)
+        var tvLocation = itemView.findViewById<TextView>(R.id.tvLocationOrder)
+        var layoutOrder = itemView.findViewById<LinearLayout>(R.id.llViewOrderDetails)
+        var acceptOrder = itemView.findViewById<LinearLayout>(R.id.btAcceptOrder)
         init {
             itemView.setOnClickListener(this)
             location.setOnClickListener(this)
+            layoutOrder.setOnClickListener(this)
+            acceptOrder.setOnClickListener(this)
          }
 
         override fun onClick(v: View) {

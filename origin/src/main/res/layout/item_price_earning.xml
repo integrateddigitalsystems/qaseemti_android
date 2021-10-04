@@ -24,7 +24,8 @@
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:background="@drawable/rounded_white_background"
-        android:textColor="@color/gray_font"
+        android:paddingStart="@dimen/normal_margin"
+        android:textColor="@color/redPrimary"
         android:layout_marginStart="@dimen/normal_margin"
         android:textSize="@dimen/normal_font"
         android:id="@+id/tvValue"/>

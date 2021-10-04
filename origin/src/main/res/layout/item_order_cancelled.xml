@@ -3,17 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="300dp"
-    android:layout_marginTop="@dimen/big_margin_2"
+    android:layout_marginBottom="@dimen/normal_margin"
     android:orientation="vertical"
     android:padding="@dimen/mini_margin"
 
     >
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/linearProfileInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        android:background="@drawable/rounded_white_background"
+        android:elevation="@dimen/normal_margin"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/big_margin"
+        android:paddingEnd="@dimen/big_margin"
+        app:cardCornerRadius="@dimen/bigger_radius">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/rounded_white_background"
         android:orientation="vertical">
 
         <LinearLayout
@@ -58,7 +69,6 @@
                 <com.ids.qasemti.custom.CustomTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/push_text"
                     android:text="#000777"
                     android:textColor="@color/gray_font"
                     android:textSize="@dimen/small_font" />
@@ -103,7 +113,6 @@
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/push_text"
                         android:text="20 Jun,2021 16:00"
                         android:textColor="@color/gray_font"
                         android:textSize="@dimen/small_font_3" />
@@ -117,6 +126,7 @@
         <include layout="@layout/separator" />
 
         <LinearLayout
+            android:id="@+id/llCancelReason"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_vertical"
@@ -218,7 +228,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llSwitches"
+            android:id="@+id/llPersonCancel"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_vertical"
@@ -239,7 +249,7 @@
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/cancelled_by"
+                android:text="@string/CanceledBy"
                 android:tag="cancelled_by"
                 android:textColor="@color/gray_font_title" />
 
@@ -334,7 +344,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:tag="order_amount"
-                    android:text="@string/order_amount"
+                    android:text="@string/OrderAmount"
                     android:textColor="@color/gray_font_title"
                     android:textSize="@dimen/normal_font" />
 
@@ -394,8 +404,5 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:background="@drawable/shadow" />
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

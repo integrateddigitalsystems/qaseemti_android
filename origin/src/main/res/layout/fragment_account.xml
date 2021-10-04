@@ -8,11 +8,13 @@
     android:background="@color/gray_bg"
     >
 
+
     <com.ids.qasemti.custom.CustomTextViewBold
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/bigger_edit_text"
         android:textSize="@dimen/big_font"
-        android:text="@string/my_account"
+        android:text="@string/myAccount"
+        android:tag="myAccount"
         android:textColor="@color/redPrimary"
         android:layout_gravity="center"
         android:gravity="center"
@@ -31,6 +33,48 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/account_section_height"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/btMyAddresses"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/placeholder"
+                    app:tint="@color/redPrimary" />
+
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="start"
+                    android:textDirection="locale"
+                    android:textSize="@dimen/normal_font"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/MyAddresses"
+                    android:tag="MyAddresses"
+                    android:paddingStart="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/normal_margin"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/arrow_right"
+                    app:tint="@color/button_blue" />
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/account_section_height"
@@ -59,8 +103,8 @@
                     android:textDirection="locale"
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/my_services"
-                    android:tag="my_services"
+                    android:text="@string/MyServices"
+                    android:tag="MyServices"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -73,7 +117,12 @@
                     app:tint="@color/button_blue" />
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llSepTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <include layout="@layout/separator_dark"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -148,8 +197,8 @@
                     android:textSize="@dimen/normal_font"
                     android:textDirection="locale"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/my_profile"
-                    android:tag="my_profile"
+                    android:text="@string/MyProfile"
+                    android:tag="MyProfile"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -193,8 +242,8 @@
                     android:textDirection="locale"
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/language"
-                    android:tag="language"
+                    android:text="@string/langSetting"
+                    android:tag="langSetting"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -238,8 +287,8 @@
                     android:textDirection="locale"
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/push_notifications"
-                    android:tag="push_notifications"
+                    android:text="@string/PushNotifications"
+                    android:tag="PushNotifications"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -288,8 +337,8 @@
                     android:textSize="@dimen/normal_font"
                     android:textDirection="locale"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/contact_administrator"
-                    android:tag="contact_administrator"
+                    android:text="@string/ContactAdministrator"
+                    android:tag="ContactAdministrator"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -333,8 +382,8 @@
                     android:textSize="@dimen/normal_font"
                     android:textDirection="locale"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/privacy_policy"
-                    android:tag="privacy_policy"
+                    android:text="@string/PrivacyPolicy"
+                    android:tag="PrivacyPolicy"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -378,8 +427,8 @@
                     android:textSize="@dimen/normal_font"
                     android:textDirection="locale"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/terms_and_conditions"
-                    android:tag="terms_and_conditions"
+                    android:text="@string/TermsAndConditions"
+                    android:tag="TermsAndConditions"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -410,7 +459,7 @@
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_terms"
+                    android:src="@drawable/icon_star"
                     app:tint="@color/redPrimary" />
 
 
@@ -423,8 +472,8 @@
                     android:textSize="@dimen/normal_font"
                     android:textDirection="locale"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/rate_us"
-                    android:tag="rate_us"
+                    android:text="@string/RateUs"
+                    android:tag="RateUs"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -443,6 +492,7 @@
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/account_section_height"
                 android:orientation="horizontal"
@@ -457,7 +507,7 @@
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_terms"
+                    android:src="@drawable/icon_account_share"
                     app:tint="@color/redPrimary" />
 
 
@@ -469,9 +519,9 @@
                     android:gravity="center_vertical"
                     android:textSize="@dimen/normal_font"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/share_app"
+                    android:text="@string/share"
                     android:textDirection="locale"
-                    android:tag="share_app"
+                    android:tag="share"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />
@@ -484,17 +534,23 @@
                     app:tint="@color/button_blue" />
 
             </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llLastSeperator2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <include layout="@layout/separator_dark"/>
+        </LinearLayout>
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/account_section_height"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
                 android:layout_gravity="center_vertical"
-                android:id="@+id/btLogout"
+                android:id="@+id/btLogoutAccount"
                 android:gravity="center_vertical"
                 >
 
@@ -502,7 +558,7 @@
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_terms"
+                    android:src="@drawable/icon_logout"
                     app:tint="@color/redPrimary" />
 
 
@@ -529,7 +585,12 @@
                     app:tint="@color/button_blue" />
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llLastSeperator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <include layout="@layout/separator_dark"/>
+            </LinearLayout>
 
 
 

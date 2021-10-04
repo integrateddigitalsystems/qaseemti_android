@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/gray_bg"
+    android:id="@+id/rootLayout"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/toplayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/no_logo_layout" />
+    </LinearLayout>
+
+    <include
+        layout="@layout/toolbar" />
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/big_margin"
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:layout_marginTop="@dimen/medium_push_2"
+        android:layout_below="@id/toplayout"
+        android:layout_above="@id/llFooter"
+        android:background="@drawable/rounded_white_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:tint="@color/redPrimary"
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:src="@drawable/footer_orders"/>
+
+                <me.grantland.widget.AutofitTextView
+                    android:maxLines="1"
+                    android:layout_marginStart="@dimen/mini_margin"
+                    android:layout_marginEnd="@dimen/mini_margin"
+                    android:id="@+id/tvTitleOrders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/icon"
+                    android:text="@string/order"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_serperator"/>
+
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:src="@drawable/icon_myearning"/>
+
+                <me.grantland.widget.AutofitTextView
+                    android:layout_marginStart="@dimen/mini_margin"
+                    android:layout_marginEnd="@dimen/mini_margin"
+                    android:maxLines="1"
+                    android:id="@+id/tvTitleEarnings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/icon"
+                    android:tag="MyEarning"
+                    android:text="@string/MyEarning"/>
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_serperator"/>
+
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:src="@drawable/icon_mydues"/>
+
+                <me.grantland.widget.AutofitTextView
+                    android:maxLines="1"
+                    android:layout_marginStart="@dimen/mini_margin"
+                    android:layout_marginEnd="@dimen/mini_margin"
+                    android:id="@+id/tvTitleDues"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/icon"
+                    android:text="@string/MyDues"/>
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+       <!-- <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_serperator"/>
+-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRelatedOrders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     android:orientation="vertical"
     android:background="@color/transparent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-
-    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/footer_height"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     <LinearLayout
+        android:layout_gravity="center"
         android:background="@drawable/rounded_white_background"
         android:padding="@dimen/first_margin"
         android:orientation="vertical"
@@ -29,33 +33,44 @@
 
 
         <RadioGroup
-            android:background="@color/white"
-            android:layout_marginTop="@dimen/first_margin"
+            android:layout_marginStart="@dimen/mini_margin"
+            style="@style/MyRadioButton"
+            android:background="@color/transparent"
+            android:layout_marginTop="@dimen/normal_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:weightSum="2"
             android:gravity="center"
             android:orientation="horizontal"
             >
 
             <RadioButton
-                android:layout_width="0dp"
+                android:layout_marginStart="-13dp"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                style="@style/MyRadioButton"
+                android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:tag="purchase"
+                android:padding="@dimen/normal_margin"
                 android:textSize="@dimen/normal_font"
                 android:buttonTint="@color/button_blue"
                 android:textColor="@color/gray_font"
                 android:text="@string/purchase"/>
 
             <RadioButton
-                android:layout_width="0dp"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                style="@style/MyRadioButton"
+                android:layout_width="match_parent"
                 android:layout_weight="1"
+                android:padding="@dimen/normal_margin"
                 android:layout_height="wrap_content"
                 android:tag="rental"
                 android:buttonTint="@color/button_blue"
                 android:textSize="@dimen/normal_font"
-                style=""
                 android:textColor="@color/gray_font"
                 android:text="@string/rental"/>
 
@@ -174,6 +189,7 @@
             android:layout_marginTop="@dimen/big_margin_2"
             android:orientation="horizontal"
             android:weightSum="1"
+            android:layout_marginBottom="@dimen/height_35"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -181,19 +197,19 @@
                 android:text="@string/apply_filters"
                 android:textColor="@color/white"
                 android:layout_marginEnd="@dimen/mini_margin"
-                android:background="@drawable/blue_rounded"
+                android:background="@drawable/rounded_blue"
                 android:layout_weight="0.5"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"/>
+                android:layout_height="@dimen/button_height"/>
 
             <Button
                 android:textColor="@color/redPrimary"
                 android:text="@string/reset"
                 android:layout_marginStart="@dimen/mini_margin"
-                android:background="@drawable/rounded_white_red_border"
+                android:background="@drawable/smaller_whire_red"
                 android:layout_weight="0.5"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"/>
+                android:layout_height="@dimen/button_height"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -205,6 +221,32 @@
 
 
     <LinearLayout
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:gravity="bottom|end"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="@dimen/edit_text_height"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_start_end"
+            app:tint="@color/white"
+            android:id="@+id/btClose"
+            app:fabCustomSize="40dp"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            app:rippleColor="@color/button_blue"
+            app:backgroundTint="@color/button_blue"
+            android:src="@drawable/icon_close"
+            android:layout_alignParentEnd="true"
+            />
+
+    </LinearLayout>
+
+    <!--<LinearLayout
         android:layout_marginTop="@dimen/big_margin_2"
         android:gravity="end"
         android:layout_width="match_parent"
@@ -225,9 +267,9 @@
                 android:layout_height="@dimen/big_icon"
                 android:background="@drawable/blue_circle"
                 android:padding="@dimen/small_margin"
-                android:src="@drawable/icon_close" />
+                 />
 
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 
-</LinearLayout>
+</RelativeLayout>

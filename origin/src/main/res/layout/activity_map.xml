@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:id="@+id/rootLayout"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <include  layout="@layout/toolbar" />
@@ -29,15 +30,31 @@
         android:layout_marginTop="@dimen/normal_margin"
         android:textColor="@color/gray_font"
         android:textSize="@dimen/normal_font"
-        android:text="@string/move_the_map"
-        android:tag="move_the_map"
+        android:text="@string/MoveMapAndDrop"
+        android:tag="MoveMapAndDrop"
         />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
      <com.google.android.gms.maps.MapView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
              android:layout_marginTop="@dimen/normal_margin"
             android:id="@+id/mvLocation"/>
 
+        <Button
+            android:layout_marginBottom="@dimen/normal_icon_size"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:layout_height="@dimen/edit_text_height"
+            android:background="@drawable/blue_rounded"
+            android:textColor="@color/white"
+            android:text="@string/save"
+            android:tag="save"/>
+
+    </RelativeLayout>
 
 
 

@@ -7,7 +7,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <include layout="@layout/white_logo_layout" />
 
     <LinearLayout
@@ -23,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/header_font"
-            android:text="@string/enterNumber"
+            android:text="@string/enter_mobile_number"
             android:tag="enter_mobile_number"
             />
 
@@ -74,6 +81,7 @@
         <Button
             android:textColor="@color/white"
             android:text="@string/login"
+            android:visibility="visible"
             android:tag="login"
             android:layout_marginTop="@dimen/big_margin_2"
             android:layout_width="@dimen/button_width"
@@ -81,15 +89,30 @@
             android:id="@+id/btLogin"
             android:background="@drawable/blue_rounded"/>
 
-        <LinearLayout
-            android:gravity="bottom"
+        <RelativeLayout
+            android:visibility="gone"
+            android:orientation="vertical"
             android:id="@+id/llNewMember"
             android:layout_marginBottom="@dimen/big_margin"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
+            <Button
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:textColor="@color/white"
+                android:text="@string/login"
+                android:tag="login"
+                android:layout_marginTop="@dimen/big_margin_2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:id="@+id/btLoginClient"
+                android:background="@drawable/blue_rounded"/>
+
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:id="@+id/tvRegisterNewMember"
+                android:layout_alignParentBottom="true"
                 android:textColor="@color/redPrimary"
                 android:tag="new_member_register"
                 android:text="@string/new_member_register"
@@ -97,12 +120,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"/>
-        </LinearLayout>
+        </RelativeLayout>
 
 
 
 
     </LinearLayout>
+    </LinearLayout>
+
+        <include
+            layout="@layout/loading" />
+    </RelativeLayout>
+
 
 
 </LinearLayout>

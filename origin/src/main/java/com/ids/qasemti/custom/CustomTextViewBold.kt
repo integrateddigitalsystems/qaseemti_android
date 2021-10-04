@@ -2,9 +2,11 @@ package com.ids.qasemti.custom
 
 
 import android.content.Context
+import android.graphics.Typeface
 import androidx.appcompat.widget.AppCompatTextView
 import android.util.AttributeSet
 import com.ids.qasemti.utils.AppHelper
+import java.util.*
 
 
 class CustomTextViewBold : AppCompatTextView {
@@ -24,7 +26,6 @@ class CustomTextViewBold : AppCompatTextView {
         if (!isInEditMode)
             typeface = AppHelper.getTypeFaceBold(context)
 
-/*        if (Locale.getDefault().language == "fa")
-            setTypeface(typeface, Typeface.BOLD)*/
+            //setTypeface(typeface, Typeface.BOLD)
     }
 }

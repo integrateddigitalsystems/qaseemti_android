@@ -9,9 +9,7 @@ import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.utils.AppConstants
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.LocaleUtils
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_choose_language.*
 import java.util.*
 
@@ -20,17 +18,21 @@ class ActivityChooseLanguage : ActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_language)
-        AppHelper.setAllTexts(rootLayoutChooseLogin)
+        AppHelper.setAllTexts(rootLayoutChooseLogin,this)
 
-        btToArabic.setOnClickListener {
+        btToArabic.onOneClick {
             changeLanguage(AppConstants.LANG_ARABIC)
 
         }
 
-        btToEnglish.setOnClickListener {
+        btToEnglish.onOneClick {
             changeLanguage(AppConstants.LANG_ENGLISH)
         }
 
+
+        logoClient.onOneClick {
+            startActivity(Intent(this,ActivityHome::class.java))
+        }
 
     }
 

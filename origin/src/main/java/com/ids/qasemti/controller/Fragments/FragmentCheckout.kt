@@ -10,14 +10,14 @@ import android.view.ViewGroup
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityAddresses
+import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityPlaceOrder
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
-import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.isNumeric
-import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.fragment_checkout.*
+import kotlinx.android.synthetic.main.toolbar.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,8 +41,12 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutCheckout)
+        AppHelper.setAllTexts(rootLayoutCheckout,requireContext())
         init()
+        AppHelper.setTextColor(requireContext(),tvPageTitle,R.color.redPrimary)
+        tvPageTitle.show()
+
+
 
     }
 
@@ -52,37 +56,40 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
         var sdf =
             SimpleDateFormat(myFormat, Locale.ENGLISH)
         var date = sdf.format(cal.time)
-        etCheckoutDate.text = date.toEditable()
+        etFromDate.text = date.toEditable()
         var time = cal.get(Calendar.HOUR_OF_DAY).toString()+" : "+cal.get(Calendar.MINUTE)
-        etCheckoutTime.text = time.toEditable()
+        etFromTime.text = time.toEditable()
     }
 
     fun init(){
-        //(activity as ActivityHomeClient?)!!.setTintLogo(R.color.redPrimary)
-        AppHelper.setTitle(requireActivity(),getString(R.string.checkout),"checkout")
-        etCheckoutTime.setFocusable(false);
-        etCheckoutDate.setFocusable(false);
+        (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
+        AppHelper.setTitle(requireActivity(),AppHelper.getRemoteString("checkout",requireContext()),"checkout")
+        etFromTime.setFocusable(false);
+        etFromDate.setFocusable(false);
         etToDate.setFocusable(false)
         etFromDate.setFocusable(false)
+
         rbNow.isChecked = true
         rbSpecify.isChecked = false
+        (activity as ActivityHome?)!!.showBack(true)
 
-        btPlaceOrder.setOnClickListener {
+        btPlaceOrder.typeface = AppHelper.getTypeFace(requireContext())
+        btPlaceOrder.onOneClick {
             startActivity(Intent(requireContext(),ActivityPlaceOrder::class.java))
         }
        setUpCurr()
-        rbNow.setOnClickListener {
+        rbNow.onOneClick {
             setUpCurr()
-            rlCheckoutTime.setOnClickListener {
+            rlFromDate.onOneClick {
 
             }
-            rlCheckoutDate.setOnClickListener {
+            rlFromTime.onOneClick {
 
             }
         }
-        rbSpecify.setOnClickListener {
+        rbSpecify.onOneClick {
 
-            rlCheckoutDate.setOnClickListener {
+            rlFromDate.onOneClick {
                 var mcurrentDate = Calendar.getInstance()
                 var mYear = 0
                 var mMonth = 0
@@ -103,12 +110,12 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
                         var sdf =
                             SimpleDateFormat(myFormat, Locale.ENGLISH)
                         var date = sdf.format(myCalendar.time)
-                        etCheckoutDate.text = date.toEditable()
+                        etFromDate.text = (String.format("%02d", selectedday) + "/"+String.format("%02d", selectedmonth)+"/"+String.format("%02d", selectedyear)).toEditable()
                     }, mYear, mMonth, mDay
                 )
                 mDatePicker.show()
             }
-            rlCheckoutTime.setOnClickListener {
+            rlFromTime.onOneClick {
                 // TODO Auto-generated method stub
                 val mcurrentTime = Calendar.getInstance()
                 val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
@@ -122,14 +129,14 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
                     { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
                         var time = String.format("%02d", selectedHour)+" : "+ String.format("%02d", selectedMinute)
-                        etCheckoutTime.text = time.toEditable()
+                        etFromTime.text = time.toEditable()
                     }, hour, minute, false
                 ) //Yes 24 hour time
                 timePickerDialog.show()
             }
         }
 
-        rlFromDate.setOnClickListener {
+        rlFromDate.onOneClick {
             var mcurrentDate = Calendar.getInstance()
             var mYear = 0
             var mMonth = 0
@@ -150,12 +157,13 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
                     var sdf =
                         SimpleDateFormat(myFormat, Locale.ENGLISH)
                     var date = sdf.format(myCalendar.time)
-                    etFromDate.text = date.toEditable()
+                    //etFromDate.text = date.toEditable()
+                    etFromDate.text = (String.format("%02d", selectedday) + "/"+String.format("%02d", selectedmonth)+"/"+String.format("%02d", selectedyear)).toEditable()
                 }, mYear, mMonth, mDay
             )
             mDatePicker.show()
         }
-        rlToDate.setOnClickListener {
+        rlToDate.onOneClick {
             var mcurrentDate = Calendar.getInstance()
             var mYear = 0
             var mMonth = 0
@@ -176,7 +184,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
                     var sdf =
                         SimpleDateFormat(myFormat, Locale.ENGLISH)
                     var date = sdf.format(myCalendar.time)
-                    etToDate.text = date.toEditable()
+                    etToDate.text = (String.format("%02d", selectedday) + "/"+String.format("%02d", selectedmonth)+"/"+String.format("%02d", selectedyear)).toEditable()
                 }, mYear, mMonth, mDay
             )
             mDatePicker.show()
@@ -184,7 +192,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
 
 
 
-        btPlus.setOnClickListener {
+        btPlus.onOneClick {
             var quant = tvQuant.text.toString()
             if(quant.isNumeric()){
                 var value = quant.toInt()
@@ -192,7 +200,7 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
                 tvQuant.text = value.toString()
             }
         }
-        btMinus.setOnClickListener {
+        btMinus.onOneClick {
             var quant = tvQuant.text.toString()
             if(quant.isNumeric()){
                 var value = quant.toInt()
@@ -201,7 +209,9 @@ class FragmentCheckout : Fragment() , RVOnItemClickListener {
             }
         }
 
-        ivOpenDateTime.setOnClickListener {
+
+
+        ivOpenDateTime.onOneClick {
             var up = -90
             var down = 90
             if(open){

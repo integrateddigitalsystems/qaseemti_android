@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rootLayoutOrderDetails"
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
+
+
+
+
+    <LinearLayout
+        android:id="@+id/llToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/no_logo_layout" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/card_new_margin"
+        android:layout_marginEnd="@dimen/card_new_margin"
+        android:id="@+id/llContactOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llToolBar"
+        android:layout_marginTop="@dimen/medium_push_3">
+
+        <include layout="@layout/layout_order_contact_tab" />
+    </LinearLayout>
+
+
+    <ScrollView
+        android:id="@+id/svScroll"
+        android:layout_below="@id/llContactOrder"
+        android:layout_above="@id/btCancelOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:id="@+id/llBorderData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <include layout="@layout/layout_border_data" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginStart="@dimen/card_new_margin"
+                android:layout_marginEnd="@dimen/card_new_margin"
+                android:id="@+id/llRequestNewTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/llBorderData">
+
+                <include layout="@layout/layout_request_new_time" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="-18dp"
+                android:layout_marginStart="@dimen/card_new_margin"
+                android:layout_marginEnd="@dimen/card_new_margin"
+                android:id="@+id/llOrderInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/llRequestNewTime">
+
+                <include layout="@layout/layout_order_information" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llOrderSwitches"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/llOrderInfo">
+
+                <include layout="@layout/layout_order_switch" />
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/btCancelOrder"
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:background="@drawable/rounded_white_background"
+                android:visibility="gone">
+
+                <Spinner
+                    android:id="@+id/spServices"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_35"
+                    android:background="@color/transparent" />
+
+                <ImageView
+                    android:layout_width="@dimen/small_icon"
+                    android:layout_height="@dimen/small_icon"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="@dimen/first_margin"
+                    android:rotation="90"
+                    android:src="@drawable/arrow_right"
+                    android:tint="@color/button_blue" />
+
+            </RelativeLayout>
+
+            <Button
+                android:layout_below="@+id/llOrderSwitches"
+                android:id="@+id/btRenewOrder"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:text="@string/renew_order"
+                android:tag="renew_order"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@drawable/rounded_blue"
+                />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+    <Button
+        android:layout_marginBottom="@dimen/medium_margin"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btCancelOrder"
+        android:layout_marginTop="@dimen/margin_start_end"
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:textAllCaps="false"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:textColor="@color/redPrimary"
+        android:text="@string/CancelOrder"
+        android:tag="cancel_order"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_red_border"/>
+
+    <include
+        layout="@layout/toolbar" />
+
+
+    <include
+        layout="@layout/loading" />
+
+</RelativeLayout>

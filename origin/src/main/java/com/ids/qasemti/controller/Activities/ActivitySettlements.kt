@@ -7,68 +7,147 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterMyServices
+import com.ids.qasemti.controller.Adapters.AdapterPreviousSettlements
 import com.ids.qasemti.controller.Adapters.AdapterServices
 import com.ids.qasemti.controller.Adapters.AdapterSettlements
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.ServiceItem
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.model.*
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_settlement.*
 import kotlinx.android.synthetic.main.activity_settlement.linearTabs
 import kotlinx.android.synthetic.main.fragment_orders.*
+import kotlinx.android.synthetic.main.loading.*
+import kotlinx.android.synthetic.main.toolbar.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.lang.Exception
 
 
 class ActivitySettlements : ActivityBase(),RVOnItemClickListener {
-    var array : ArrayList<String> = arrayListOf()
+    var array : ArrayList<ResponseOrders> = arrayListOf()
+    var arraySett : ArrayList<ResponseSettlement> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settlement)
-        AppHelper.setAllTexts(rootLayout)
+        AppHelper.setAllTexts(rootLayout,this)
         init()
         listeners()
     }
 
     private fun init(){
-        array.clear()
-        repeat(3){array.add("1")}
+     //   array.clear()
+       // repeat(3){array.add("1")}
         btBck.show()
         setTabs()
         setTabLayout(MyApplication.settlementTabSelected,tvToBeSettled)
-        setData(MyApplication.settlementTabSelected)
+        getOrders(MyApplication.settlementTabSelected)
     }
 
     private fun listeners(){
-        btBck.setOnClickListener{super.onBackPressed()}
+        btBck.onOneClick{super.onBackPressed()}
     }
 
-    private fun setData(position: Int){
-        var adapter = AdapterSettlements(array,this,this)
-        rvSettlements.layoutManager = LinearLayoutManager(this)
-        rvSettlements.adapter = adapter
-        rvSettlements.isNestedScrollingEnabled = false
+    fun getOrders(position: Int){
+        try {
+            loading.show()
+        }catch (ex: Exception){
 
-        if(position==0)
+        }
+        var newReq = RequestUserStatus(MyApplication.userId)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getToBeSettled(
+                newReq
+            )?.enqueue(object : Callback<ResponseMainOrder> {
+                override fun onResponse(call: Call<ResponseMainOrder>, response: Response<ResponseMainOrder>) {
+                    try{
+                        array.clear()
+                        array.addAll(response.body()!!.orders)
+                        setData(position)
+                    }catch (E: java.lang.Exception){
+
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
+
+                }
+            })
+    }
+
+    fun getSettlements(position: Int){
+        try {
+            loading.show()
+        }catch (ex: Exception){
+
+        }
+        var newReq = RequestServices(MyApplication.userId,MyApplication.languageCode)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getSettlements(
+                newReq
+            )?.enqueue(object : Callback<ResponseMainSettlement> {
+                override fun onResponse(call: Call<ResponseMainSettlement>, response: Response<ResponseMainSettlement>) {
+                    try{
+                        arraySett.clear()
+                        arraySett.addAll(response.body()!!.settlements)
+                        setData(position)
+                    }catch (E: java.lang.Exception){
+
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMainSettlement>, throwable: Throwable) {
+
+                }
+            })
+    }
+    private fun setData(position: Int){
+
+        if(position==0) {
             btRequestSettlements.show()
-        else
+            MyApplication.upcoming = false
+            var adapter = AdapterSettlements(array,this,this)
+            rvSettlements.layoutManager = LinearLayoutManager(this)
+            rvSettlements.adapter = adapter
+            rvSettlements.isNestedScrollingEnabled = false
+        } else {
             btRequestSettlements.hide()
+            MyApplication.upcoming = true
+            var adapter = AdapterPreviousSettlements(arraySett,this,this)
+            rvSettlements.layoutManager = LinearLayoutManager(this)
+            rvSettlements.adapter = adapter
+            rvSettlements.isNestedScrollingEnabled = false
+        }
+
+
+        loading.hide()
+
 
 
     }
 
     override fun onItemClicked(view: View, position: Int) {
-
+        if(view.id==R.id.tvViewDetails){
+            AppHelper.onOneClick {
+                if(MyApplication.upcoming!!){
+                    startActivity(Intent(this,ActivityRelatedOrders::class.java)
+                        .putExtra("settelmentId","#70007070"))
+                }
+            }
+        }
     }
 
     private fun setTabs(){
         for (i in 0 until linearTabs.childCount){
-            linearTabs.getChildAt(i).setOnClickListener{
+            linearTabs.getChildAt(i).onOneClick{
                 if(MyApplication.settlementTabSelected !=i){
                     var tv=linearTabs.getChildAt(i) as TextView
                     setTabLayout(i,tv)
-                    setData(i)
+                   // setData(i)
+                    if(i==0)
+                        getOrders(i)
+                    else
+                        getSettlements(i)
                 }
             }
         }
@@ -80,7 +159,7 @@ class ActivitySettlements : ActivityBase(),RVOnItemClickListener {
             if (linearTabs.getChildAt(i) is TextView){
                 var tv=linearTabs.getChildAt(i) as TextView
                 tv.setBackgroundResource(R.color.transparent)
-                AppHelper.setTextColor(this,tv,R.color.redPrimary)
+                AppHelper.setTextColor(this,tv,R.color.gray_font_title)
             }
         }
         tvSelected.setBackgroundResource(R.drawable.rounded_red_background)

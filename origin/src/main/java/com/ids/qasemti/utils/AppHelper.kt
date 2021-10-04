@@ -5,14 +5,21 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.provider.OpenableColumns
+import android.provider.Settings
 import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
@@ -35,11 +42,19 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.tabs.TabLayout
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
-
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.RequestUpdate
+import com.ids.qasemti.model.ResponseUpdate
+import kotlinx.android.synthetic.main.fragment_checkout.*
 import me.grantland.widget.AutofitHelper
-import org.w3c.dom.Text
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
@@ -53,7 +68,6 @@ import java.util.regex.Pattern
  */
 
 class AppHelper {
-
 
 
     fun setRoundImageResize(context: Context, img: ImageView, ImgUrl: String, isLocal: Boolean) {
@@ -72,8 +86,6 @@ class AppHelper {
                 })
 
 
-
-
         } else {
             Glide.with(context).asBitmap().load(ImgUrl).centerCrop().dontAnimate().override(
                 500,
@@ -89,14 +101,8 @@ class AppHelper {
                 })
 
 
-
         }
     }
-
-
-
-
-
 
 
     fun setbackgroundImage(context: Context, view: View, ImgUrl: String) {
@@ -121,20 +127,21 @@ class AppHelper {
         var fragmentAvailable: Int? = null
 
         fun getTypeFace(context: Context): Typeface {
-                      return if (Locale.getDefault().language == "ar")
-                          Typeface.createFromAsset(
-                              context.applicationContext.assets,
-                              "fonts/Cairo-Regular.ttf"
-                          )//"fonts/NeoTech-Medium.otf"
-                      else
-                          Typeface.createFromAsset(
-                              context.applicationContext.assets,
-                              "fonts/Cairo-Regular.ttf"
-                          )//"fonts/NeoTech-Medium.otf"
+            return if (Locale.getDefault().language == "ar")
+                Typeface.createFromAsset(
+                    context.applicationContext.assets,
+                    "fonts/DroidKufiRegular.ttf"
+                )//"fonts/NeoTech-Medium.otf"
+            else
+                Typeface.createFromAsset(
+                    context.applicationContext.assets,
+                    "fonts/Raleway-Regular.ttf"
+                )//"fonts/NeoTech-Medium.otf"
 
-           // return Typeface.DEFAULT
+            // return Typeface.DEFAULT
 
         }
+
         fun getAndroidVersion(): String {
 
             val release = Build.VERSION.RELEASE
@@ -172,55 +179,89 @@ class AppHelper {
                 })
         }*/
 
-        fun getTypeFaceBold(context: Context): Typeface {
+        fun getTypeFaceItalic(context: Context) : Typeface{
             return if (Locale.getDefault().language == "ar")
                 Typeface.createFromAsset(
                     context.applicationContext.assets,
-                    "fonts/Cairo-Bold.ttf"
+                    "fonts/DroidKufi-Bold.ttf"
                 )//fonts/NeoTech-Bold.otf
 
             else
                 Typeface.createFromAsset(
                     context.applicationContext.assets,
-                    "fonts/Cairo-Bold.ttf"
+                    "fonts/Raleway-Italic-VariableFont_wght.ttf"
                 )//fonts/NeoTech-Bold.otf
 
-         //   return Typeface.DEFAULT_BOLD
+            // return Typeface.DEFAULT_BOLD
+        }
+        fun getTypeFaceBold(context: Context): Typeface {
+            return if (Locale.getDefault().language == "ar")
+                Typeface.createFromAsset(
+                    context.applicationContext.assets,
+                    "fonts/DroidKufi-Bold.ttf"
+                )//fonts/NeoTech-Bold.otf
+
+            else
+                Typeface.createFromAsset(
+                    context.applicationContext.assets,
+                    "fonts/Raleway-Bold.ttf"
+                )//fonts/NeoTech-Bold.otf
+
+            // return Typeface.DEFAULT_BOLD
         }
 
 
-        fun setAllTexts(v:View){
-            if(MyApplication.localizeArray != null){
-            try {
-                if (v is ViewGroup) {
-                    val vg = v as ViewGroup
-                    for (i in 0 until vg.childCount) {
-                        val child = vg.getChildAt(i)
-                        // recursively call this method
-                        setAllTexts(child)
+        fun setAllTexts(v: View, context: Context) {
+            if (MyApplication.localizeArray != null) {
+                try {
+                    if (v is ViewGroup) {
+                        val vg = v as ViewGroup
+                        for (i in 0 until vg.childCount) {
+                            val child = vg.getChildAt(i)
+                            // recursively call this method
+                            setAllTexts(child, context)
+                        }
+                    } else if (v is TextView && v !is EditText) {
+                        v.textRemote(v.tag.toString(), context)
+                    } else if (v is Button) {
+                        v.textRemote(v.tag.toString(), context)
+                    } else if (v is EditText) {
+                        setHintTag(v, v.tag.toString(), context)
                     }
-                } else if (v is TextView) {
-                    v.textRemote(v.tag.toString())
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
                 }
-                else if (v is Button) {
-                    v.textRemote(v.tag.toString())
-                }
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-            }}
+            }
         }
 
 
+        fun setHintTag(view: View, tag: String, context: Context) {
+            var edit = view as EditText
+            if (MyApplication.localizeArray != null) {
+                try {
+                    edit.hint =
+                        MyApplication.localizeArray!!.messages!!.find { it.localize_Key == tag }!!
+                            .getMessage()
+                } catch (e: Exception) {
+                    try {
+                        val resId =
+                            context.resources.getIdentifier(tag, "string", context.packageName)
+                        edit.hint = context.resources.getString(resId)
+                    } catch (e: Exception) {
+                    }
+                }
 
-        fun getIdFromUserId(Id: Int){
+            }
+        }
 
+
+        fun getIdFromUserId(Id: Int) {
 
 
         }
 
-
-       fun setTabs(tablayout: TabLayout){
-            repeat(5) { tablayout.addTab(tablayout.newTab()) }
+        fun clearTabs(tablayout: TabLayout, context: Context) {
+            //repeat(5) { tablayout.addTab(tablayout.newTab()) }
             val tabStrip = tablayout.getChildAt(0) as LinearLayout
             for (i in 0 until tabStrip.childCount) {
                 tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
@@ -234,30 +275,152 @@ class AppHelper {
             }
         }
 
-
-
-
-        fun resetIcons(context: Context,vararg images: ImageView?){
-            for (element in images)
-                   element!!.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, context.resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, context.resources.displayMetrics).toInt())
-           }
-
-        fun setImageHeight(context: Context,icon: ImageView){
-            icon.layoutParams = LinearLayout.LayoutParams(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, context.resources.displayMetrics).toInt(),   TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, context.resources.displayMetrics).toInt())
+        fun setTabs(tablayout: TabLayout, context: Context) {
+            repeat(5) { tablayout.addTab(tablayout.newTab()) }
+            val tabStrip = tablayout.getChildAt(0) as LinearLayout
+            for (i in 0 until tabStrip.childCount) {
+                tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
+                val tab = tabStrip.getChildAt(i)
+                val layoutParams = tab.layoutParams as LinearLayout.LayoutParams
+                layoutParams.marginEnd = 8.toPx()
+                layoutParams.marginStart = 8.toPx()
+                layoutParams.width = 12.toPx()
+                tab.layoutParams = layoutParams
+                tablayout.requestLayout()
+                /*val v: View = LayoutInflater.from(context).inflate(R.layout.footer_top, null)
+                v.layoutParams =
+                    ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                tablayout.getTabAt(i)!!.setCustomView(v)*/
+            }
         }
 
+
+        fun resetIcons(context: Context, vararg images: ImageView?) {
+            for (element in images) {
+                element!!.setPadding(0,0,0,0)
+                element!!.layoutParams = LinearLayout.LayoutParams(
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        20f,
+                        context.resources.displayMetrics
+                    ).toInt(),
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        20f,
+                        context.resources.displayMetrics
+                    ).toInt()
+                )
+            }
+
+        }
+
+        fun getVersionNumber(): Int {
+
+            val pInfo: PackageInfo
+            var version = -1
+            try {
+                pInfo = MyApplication.instance.packageManager
+                    .getPackageInfo(MyApplication.instance.packageName, 0)
+                version = pInfo.versionCode
+            } catch (e: PackageManager.NameNotFoundException) {
+                // TODO Auto-generated catch block
+                e.printStackTrace()
+            }
+
+            return version
+        }
+
+        fun formatDate(date:Date,toFormat: String):String{
+            var sdf2 = SimpleDateFormat(toFormat , Locale.US)
+
+            return sdf2.format(date)
+        }
+
+        fun formatDate(date:String , format : String,toFormat : String):String{
+
+            var sdf =
+                SimpleDateFormat(format, Locale.ENGLISH)
+            var date = sdf.parse(date)
+            var sdf2 = SimpleDateFormat(toFormat , Locale.US)
+
+            return sdf2.format(date)
+        }
+
+        fun updateDevice(context: Context){
+
+            val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
+            val cal = Calendar.getInstance()
+
+            val model = AppHelper.getDeviceName()
+            val osVersion = AppHelper.getAndroidVersion()
+
+            val deviceToken = ""
+            val deviceTypeId = "2"
+            var android_id = Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
+            val imei = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+
+            val registrationDate = dateFormat.format(cal.time)
+            val appVersion = getVersionNumber()
+
+            val generalNotification = 1
+            val isProduction = 1
+
+
+            val lang = MyApplication.languageCode
+            var isService = 1
+            if(MyApplication.isClient)
+                isService =0
+
+            var newReq = RequestUpdate(MyApplication.deviceId,MyApplication.selectedPhone,model,osVersion,deviceToken,2,imei,generalNotification,appVersion.toString(),0,lang,MyApplication.userId,isService)
+
+
+            RetrofitClient.client?.create(RetrofitInterface::class.java)
+                ?.updateDevice(
+                   newReq
+                )?.enqueue(object : Callback<ResponseUpdate> {
+                    override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
+                        try{
+                            MyApplication.deviceId =123
+                        }catch (E: java.lang.Exception){
+                        }
+                    }
+                    override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                    }
+                })
+
+        }
+
+        fun setImageHeight(context: Context, icon: ImageView) {
+            icon.layoutParams = LinearLayout.LayoutParams(
+                TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    30f,
+                    context.resources.displayMetrics
+                ).toInt(),
+                TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    30f,
+                    context.resources.displayMetrics
+                ).toInt()
+            )
+        }
 
 
         fun handleCrashes(context: Activity) {
-            if (!MyApplication.isDebug)
-                Thread.setDefaultUncaughtExceptionHandler(MyExceptionHandler(context))
+            //   if (!MyApplication.isDebug)
+            Thread.setDefaultUncaughtExceptionHandler(MyExceptionHandler(context))
         }
 
 
-        fun getDrawable(context: Context, id: Int):Drawable{
+        fun getDrawable(context: Context, id: Int): Drawable {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                return  context.getDrawable(id)!!
-            }else{
+                return context.getDrawable(id)!!
+            } else {
                 return context.resources.getDrawable(id)
             }
         }
@@ -273,7 +436,7 @@ class AppHelper {
             try {
                 val formatter = DecimalFormat(format, setInEnglish())
                 return formatter.format(num)
-            }catch (ex:Exception){
+            } catch (ex: Exception) {
 
                 return ""
             }
@@ -286,8 +449,12 @@ class AppHelper {
         }
 
 
-
-        fun formatDate(c: Context, dateString: String, oldDateFormat: String, newDateFormat: String):String?{
+        fun formatDate(
+            c: Context,
+            dateString: String,
+            oldDateFormat: String,
+            newDateFormat: String
+        ): String? {
             var format = SimpleDateFormat(oldDateFormat, Locale.US)
             val newDate = format.parse(dateString)
             format = SimpleDateFormat(newDateFormat, Locale.US)
@@ -304,8 +471,17 @@ class AppHelper {
             }
         }
 
+        fun setTextColor(context: Context, view: EditText, color: Int) {
 
-        fun setUpFooter(context: Activity,selected:String){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                view.setTextColor(ContextCompat.getColor(context, color))
+            } else {
+                view.setTextColor(context.resources.getColor(color))
+            }
+        }
+
+
+        fun setUpFooter(context: Activity, selected: String) {
             var imgPro = context.findViewById<ImageView>(R.id.ivProductFooter)
             var tvPro = context.findViewById<TextView>(R.id.tvProductFooter)
             var imgOrd = context.findViewById<ImageView>(R.id.ivFooterOrder)
@@ -319,63 +495,121 @@ class AppHelper {
             var imgCart = context.findViewById<ImageView>(R.id.ivCartFooter)
             var tvCart = context.findViewById<TextView>(R.id.tvCartFooter)
 
-            setLogoTint(imgPro,context,R.color.gray_font)
-            setLogoTint(imgHom,context,R.color.gray_font)
-            setLogoTint(imgNot,context,R.color.gray_font)
-            setLogoTint(imgOrd,context,R.color.gray_font)
-            setLogoTint(imgAcc,context,R.color.gray_font)
-            setLogoTint(imgCart,context,R.color.gray_font)
-            setTextColor(context,tvPro,R.color.gray_font)
-            setTextColor(context,tvOrd,R.color.gray_font)
-            setTextColor(context,tvHom,R.color.gray_font)
-            setTextColor(context,tvNot,R.color.gray_font)
-            setTextColor(context,tvAcc,R.color.gray_font)
-            setTextColor(context,tvCart,R.color.gray_font)
+            setLogoTint(imgPro, context, R.color.gray_font)
+            setLogoTint(imgHom, context, R.color.gray_font)
+            setLogoTint(imgNot, context, R.color.gray_font)
+            setLogoTint(imgOrd, context, R.color.gray_font)
+            setLogoTint(imgAcc, context, R.color.gray_font)
+            setLogoTint(imgCart, context, R.color.gray_font)
+            setTextColor(context, tvPro, R.color.gray_font)
+            setTextColor(context, tvOrd, R.color.gray_font)
+            setTextColor(context, tvHom, R.color.gray_font)
+            setTextColor(context, tvNot, R.color.gray_font)
+            setTextColor(context, tvAcc, R.color.gray_font)
+            setTextColor(context, tvCart, R.color.gray_font)
 
 
 
 
             when (selected) {
                 AppConstants.FRAGMENT_ACCOUNT -> {
-                    setLogoTint(imgAcc,context,R.color.redPrimary)
-                    setTextColor(context,tvAcc,R.color.redPrimary)
+                    setLogoTint(imgAcc, context, R.color.redPrimary)
+                    setTextColor(context, tvAcc, R.color.redPrimary)
                 }
-                AppConstants.FRAGMENT_HOME_CLIENT,AppConstants.FRAGMENT_HOME_SP -> {
-                    setLogoTint(imgHom,context,R.color.redPrimary)
-                    setTextColor(context,tvHom,R.color.redPrimary)
+                AppConstants.FRAGMENT_HOME_CLIENT, AppConstants.FRAGMENT_HOME_SP -> {
+                    setLogoTint(imgHom, context, R.color.redPrimary)
+                    setTextColor(context, tvHom, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_ORDER -> {
-                    setLogoTint(imgOrd,context,R.color.redPrimary)
-                    setTextColor(context,tvOrd,R.color.redPrimary)
+                    setLogoTint(imgOrd, context, R.color.redPrimary)
+                    setTextColor(context, tvOrd, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_NOTFICATIONS -> {
-                    setLogoTint(imgNot,context,R.color.redPrimary)
-                    setTextColor(context,tvNot,R.color.redPrimary)
+                    setLogoTint(imgNot, context, R.color.redPrimary)
+                    setTextColor(context, tvNot, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_PROD -> {
-                    setLogoTint(imgPro,context,R.color.redPrimary)
-                    setTextColor(context,tvPro,R.color.redPrimary)
+                    setLogoTint(imgPro, context, R.color.redPrimary)
+                    setTextColor(context, tvPro, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_CART -> {
-                    setLogoTint(imgCart,context,R.color.redPrimary)
-                    setTextColor(context,tvCart,R.color.redPrimary)
+                    setLogoTint(imgCart, context, R.color.redPrimary)
+                    setTextColor(context, tvCart, R.color.redPrimary)
                 }
             }
 
         }
-        fun setLogoTint(img:ImageView,con:Context,color:Int){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ImageViewCompat.setImageTintList(img,
-                    ColorStateList.valueOf(con.getResources().getColor(color, con.getTheme())))
-            }else {
-                ImageViewCompat.setImageTintList(img,
-                    ColorStateList.valueOf(
-                        con.getResources().getColor(color)))
+
+        fun getRemoteString(key:String , con : Context):String {
+            if (MyApplication.localizeArray != null) {
+                try {
+                    return MyApplication.localizeArray!!.messages!!.find { it.localize_Key == key }!!.getMessage()!!
+                } catch (e: Exception) {
+                    try {
+                        val resId = con.resources.getIdentifier(key, "string", con.packageName)
+                        return con.resources.getString(resId)
+                    } catch (e: Exception) {
+                        return ""
+                    }
+                }
+
+            }else{
+                val resId = con.resources.getIdentifier(key, "string", con.packageName)
+                return con.resources.getString(resId)
+            }
+
+
+        }
+
+        fun createYesNoDialog(c: Activity, positiveButton :String , negativeButton : String ,message: String, doAction: () -> Unit) {
+
+
+
+            val builder = AlertDialog.Builder(c)
+            builder
+                .setMessage(message)
+                .setCancelable(true)
+                .setNegativeButton(negativeButton) { dialog, _ ->
+                    dialog.cancel()
+                }
+                .setPositiveButton(positiveButton) { dialog, _ ->
+                    doAction()
+                }
+            val alert = builder.create()
+            alert.show()
+
+        }
+        fun setLogoTint(img: ImageView, con: Context, color: Int) {
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    ImageViewCompat.setImageTintList(
+                        img,
+                        ColorStateList.valueOf(con.getResources().getColor(color, con.getTheme()))
+                    )
+                } else {
+                    ImageViewCompat.setImageTintList(
+                        img,
+                        ColorStateList.valueOf(
+                            con.getResources().getColor(color)
+                        )
+                    )
+                }
+            } catch (e: Exception) {
             }
         }
 
-        fun goHome(context: Context){
-              context.startActivity(Intent(context, ActivityHome::class.java))
+        fun goHome(context: Context) {
+            context.startActivity(Intent(context, ActivityHome::class.java))
+        }
+
+        fun onOneClick(doAction: () -> Unit){
+            if(MyApplication.clickable!!){
+                MyApplication.clickable = false
+                doAction()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    MyApplication.clickable = true
+                }, 500)
+            }
         }
 
 
@@ -413,9 +647,15 @@ class AppHelper {
         }
 
 
-        fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
+        fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 
-        fun AddFragment(fragmentManager: FragmentManager, selectedFragment:Int, myFragment: Fragment, myTag:String, id:Int){
+        fun AddFragment(
+            fragmentManager: FragmentManager,
+            selectedFragment: Int,
+            myFragment: Fragment,
+            myTag: String,
+            id: Int
+        ) {
             fragmentAvailable = selectedFragment
             fragmentManager.beginTransaction()
                 .add(id, myFragment, myTag)
@@ -425,22 +665,27 @@ class AppHelper {
 
         fun setLocal(context: Context) {
             if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
-               LocaleUtils.setLocale(Locale("en"))
+                LocaleUtils.setLocale(Locale("en"))
             } else if (MyApplication.languageCode == AppConstants.LANG_ARABIC) {
                 LocaleUtils.setLocale(Locale("ar", "LB"))
             }
 
         }
 
-        fun setTitle(context: Context,text: String,tag:String){
-            if(tag.isNotEmpty()){
-             try{
-                    (context as ActivityHome?)!!.setTitleAc(MyApplication.localizeArray!!.messages!!.find { it.localize_Key==tag}!!.getMessage()!!)
-                }catch (e: java.lang.Exception){
+
+        fun setTitle(context: Context, text: String, tag: String) {
+            if (tag.isNotEmpty()) {
+                try {
+                    (context as ActivityHome?)!!.setTitleAc(
+                        MyApplication.localizeArray!!.messages!!.find { it.localize_Key == tag }!!
+                            .getMessage()!!
+                    )
+                } catch (e: java.lang.Exception) {
                     (context as ActivityHome?)!!.setTitleAc(text)
-                }}else{
-                (context as ActivityHome?)!!.setTitleAc(text)
                 }
+            } else {
+                (context as ActivityHome?)!!.setTitleAc(text)
+            }
         }
 
         fun isEmailValid(email: String?): Boolean {
@@ -463,14 +708,17 @@ class AppHelper {
         fun hasPermissions(context: Context?, vararg permissions: String): Boolean {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
                 for (permission in permissions) {
-                    if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(
+                            context,
+                            permission
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) {
                         return false
                     }
                 }
             }
             return true
         }
-
 
 
         fun isProbablyArabic(s: String): Boolean {
@@ -495,15 +743,15 @@ class AppHelper {
         }
 
 
-   /*     fun AddFragment(
-            fragmentManager: FragmentManager,
-            selectedFragment: Int,
-            myFragment: Fragment,
-            myTag: String
-        ){
-            fragmentAvailable = selectedFragment
-            fragmentManager.beginTransaction()
-*//*                .setCustomAnimations(
+        /*     fun AddFragment(
+                 fragmentManager: FragmentManager,
+                 selectedFragment: Int,
+                 myFragment: Fragment,
+                 myTag: String
+             ){
+                 fragmentAvailable = selectedFragment
+                 fragmentManager.beginTransaction()
+     *//*                .setCustomAnimations(
                     com.ids.qasemti.R.anim.enter_from_right,
                     com.ids.qasemti.R.anim.exit_to_left,
                     com.ids.qasemti.R.anim.enter_from_left,
@@ -566,7 +814,14 @@ class AppHelper {
         }
 
 
-        fun setPaddings(context: Context, view: View, left: Int, top: Int, right: Int, bottom: Int) {
+        fun setPaddings(
+            context: Context,
+            view: View,
+            left: Int,
+            top: Int,
+            right: Int,
+            bottom: Int
+        ) {
             if (view.layoutParams is ViewGroup.MarginLayoutParams) {
                 val leftInDp = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, left.toFloat(), context.resources
@@ -594,11 +849,10 @@ class AppHelper {
         }
 
 
-
-
         fun createDialog(c: Activity, message: String) {
 
-            var ok = c.getString(R.string.ok)
+
+            var ok = getRemoteString("ok",c)
 
             val builder = AlertDialog.Builder(c)
             builder
@@ -620,8 +874,6 @@ class AppHelper {
                 else -> return AppConstants.XXXHDPI
             }
         }
-
-
 
 
         private fun capitalize(model: String): String {
@@ -648,15 +900,13 @@ class AppHelper {
         }
 
 
-
-
         fun setImageResize(
             context: Context,
             img: ImageView,
             ImgUrl: String,
             height: Int,
             width: Int
-        ){
+        ) {
 
 
             Glide
@@ -669,7 +919,7 @@ class AppHelper {
 
         }
 
-        fun getColor(context: Context, color: Int):Int {
+        fun getColor(context: Context, color: Int): Int {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 return ContextCompat.getColor(context, color)
             } else {
@@ -677,7 +927,12 @@ class AppHelper {
             }
         }
 
-        fun setRoundImageResize(context: Context, img: ImageView, ImgUrl: String, isLocal: Boolean) {
+        fun setRoundImageResize(
+            context: Context,
+            img: ImageView,
+            ImgUrl: String,
+            isLocal: Boolean
+        ) {
             Log.wtf("image_rounded", ImgUrl)
             if (isLocal) {
                 Glide.with(context).asBitmap().load(File(ImgUrl)).centerCrop()
@@ -693,8 +948,6 @@ class AppHelper {
                     })
 
 
-
-
             } else {
                 Glide.with(context).asBitmap().load(ImgUrl).centerCrop().dontAnimate().override(
                     500,
@@ -708,7 +961,6 @@ class AppHelper {
                             img.setImageDrawable(circularBitmapDrawable)
                         }
                     })
-
 
 
             }
@@ -727,7 +979,6 @@ class AppHelper {
                 .into(img);
 
         }
-
 
 
         fun setImage(context: Context, img: ImageView, ImgUrl: String, isLocal: Boolean) {
@@ -758,13 +1009,15 @@ class AppHelper {
 
         }
 
-        fun getFragmentCount(fragmentManager: FragmentManager):Int{
-            var count=0
-            try{
+        fun getFragmentCount(fragmentManager: FragmentManager): Int {
+            var count = 0
+            try {
                 for (entry in 0 until fragmentManager.getBackStackEntryCount()) {
                     count++
-                }}catch (e:java.lang.Exception){}
-            Log.wtf("count_frag",count.toString()+"aaa")
+                }
+            } catch (e: java.lang.Exception) {
+            }
+            Log.wtf("count_frag", count.toString() + "aaa")
             return count
         }
 
@@ -784,8 +1037,6 @@ class AppHelper {
                     })
 
 
-
-
             } else {
                 Glide.with(context).asBitmap().load(ImgUrl).centerCrop().dontAnimate()
                     .into(object : BitmapImageViewTarget(img) {
@@ -799,20 +1050,59 @@ class AppHelper {
                     })
 
 
-
             }
         }
-
 
 
         fun autofitText(vararg texts: TextView?) {
             for (element in texts) AutofitHelper.create(element)
         }
 
+
+        @Throws(IOException::class)
+        fun getFile(context: Context, uri: Uri): File {
+            val destinationFilename =
+                File(context.filesDir.path + File.separatorChar + queryName(context, uri))
+            try {
+                context.contentResolver.openInputStream(uri).use { ins ->
+                    createFileFromStream(
+                        ins!!,
+                        destinationFilename
+                    )
+                }
+            } catch (ex: java.lang.Exception) {
+                Log.e("Save File", ex.message!!)
+                ex.printStackTrace()
+            }
+            return destinationFilename
+        }
+
+        fun createFileFromStream(ins: InputStream, destination: File?) {
+            try {
+                FileOutputStream(destination).use { os ->
+                    val buffer = ByteArray(4096)
+                    var length: Int
+                    while (ins.read(buffer).also { length = it } > 0) {
+                        os.write(buffer, 0, length)
+                    }
+                    os.flush()
+                }
+            } catch (ex: java.lang.Exception) {
+                Log.e("Save File", ex.message!!)
+                ex.printStackTrace()
+            }
+        }
+
+        private fun queryName(context: Context, uri: Uri): String {
+            val returnCursor: Cursor = context.contentResolver.query(uri, null, null, null, null)!!
+            val nameIndex: Int = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            returnCursor.moveToFirst()
+            val name: String = returnCursor.getString(nameIndex)
+            returnCursor.close()
+            return name
+        }
+
     }
-
-
-
 
 
 }

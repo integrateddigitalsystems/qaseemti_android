@@ -15,6 +15,21 @@
         <item name="colorAccent">@color/redPrimary</item>
     </style>
 
+    <style name="Theme.MyTheme" parent="Theme.AppCompat.Light">
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/white</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/white</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated,
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/green_switch</item>
+
+        <!-- You can also set colorControlNormal, colorControlActivated
+             colorControlHighlight, and colorSwitchThumbNormal. -->
+
+    </style>
 
     <style name="dialogWithoutTitle" parent="android:style/Theme.Dialog">
         <item name="android:windowNoTitle">true</item>
@@ -25,16 +40,32 @@
     </style>
 
 
+    <style name="AppTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
+    </style>
+
+    <!-- for text -->
+    <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:visibility">gone</item>
+        <item name="android:textColor">@color/redPrimary</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="MyRadioButton" parent="Theme.AppCompat.Light">
+        <item name="android:state_selected">true</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="MyBottomSheetDialog"
-        parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="MyBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 

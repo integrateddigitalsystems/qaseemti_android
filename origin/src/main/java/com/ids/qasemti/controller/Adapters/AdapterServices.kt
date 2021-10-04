@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.model.ServiceItem
+import com.ids.qasemti.utils.AppHelper
 import java.util.ArrayList
 
 class AdapterServices(
@@ -32,8 +33,15 @@ class AdapterServices(
 
         Glide.with(con).load(items.get(position).testCode).into(holder.image);
 
-        holder.image.setBackgroundResource(items.get(position).testCode!!)
+       // holder.image.setBackgroundResource(items.get(position).testCode!!)
         holder.title.text = items.get(position).title
+        if(position==0){
+            AppHelper.setPaddings(con,holder.linear,0,14,0,0)
+        } else if(position == items.size-1){
+            AppHelper.setPaddings(con,holder.linear,0,0,0,70)
+        }else{
+            AppHelper.setPaddings(con,holder.linear,0,0,0,0)
+        }
     }
 
     override fun getItemCount(): Int {

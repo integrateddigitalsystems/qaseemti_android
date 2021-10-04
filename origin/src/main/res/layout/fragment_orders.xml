@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     android:orientation="vertical"
-    android:padding="@dimen/normal_margin"
     android:id="@+id/rootLayoutOrderType"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -10,8 +9,8 @@
 
     <LinearLayout
 
-        android:layout_marginStart="@dimen/normal_margin"
-        android:layout_marginEnd="@dimen/normal_margin"
+        android:layout_marginStart="@dimen/margin_start_new"
+        android:layout_marginEnd="@dimen/margin_start_new"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
         android:orientation="horizontal"
@@ -20,9 +19,10 @@
         android:layout_marginTop="@dimen/toolbar_height"
         >
         <EditText
+            android:id="@+id/etSearchOrders"
             android:background="@color/transparent"
-            android:textSize="@dimen/normal_font"
-            android:hint="@string/search_by_client_name_product_order"
+            android:textSize="@dimen/header_font"
+            android:hint="@string/search_by"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
@@ -31,56 +31,68 @@
 
 
     <LinearLayout
-        android:layout_marginStart="@dimen/normal_margin"
-        android:layout_marginEnd="@dimen/normal_margin"
+        android:layout_marginStart="@dimen/margin_start_new"
+        android:layout_marginEnd="@dimen/margin_start_new"
         android:padding="@dimen/small_margin"
         android:id="@+id/linearTabs"
         android:weightSum="4"
         android:layout_marginTop="@dimen/first_margin"
-        android:background="@drawable/rounded_white_background"
+        android:background="@drawable/normal_white_background"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height">
 
-        <com.ids.qasemti.custom.CustomTextViewMedium
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/tvActive"
             android:background="@drawable/rounded_red_background"
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
+            android:textSize="@dimen/small_font_3"
             android:gravity="center"
+            android:maxLines="1"
+            android:padding="@dimen/mini_margin"
             android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:tag="active"
             android:text="@string/active"/>
-        <com.ids.qasemti.custom.CustomTextViewMedium
+        <me.grantland.widget.AutofitTextView
             android:textColor="@color/redPrimary"
             android:layout_marginStart="@dimen/small_margin"
             android:id="@+id/tvUpcoming"
             android:tag="upcoming"
+            android:maxLines="1"
+            android:padding="@dimen/mini_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:gravity="center"
+            android:textSize="@dimen/small_font_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/upcoming"/>
-        <com.ids.qasemti.custom.CustomTextViewMedium
+        <me.grantland.widget.AutofitTextView
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:id="@+id/tvCompleted"
+            android:padding="@dimen/mini_margin"
             android:tag="completed"
             android:textColor="@color/redPrimary"
             android:gravity="center"
+            android:textSize="@dimen/small_font_3"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/completed"/>
-        <com.ids.qasemti.custom.CustomTextViewMedium
+        <me.grantland.widget.AutofitTextView
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
+            android:maxLines="1"
             android:textColor="@color/redPrimary"
+            android:padding="@dimen/mini_margin"
             android:id="@+id/tvCancelled"
             android:tag="cancelled"
+            android:textSize="@dimen/small_font_3"
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_height="match_parent"
@@ -90,13 +102,21 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginStart="@dimen/normal_margin"
-        android:layout_marginEnd="@dimen/normal_margin"
-        android:layout_marginTop="@dimen/first_margin"
+        android:layout_marginTop="@dimen/medium_2"
+        android:layout_marginStart="@dimen/card_new_margin"
+        android:layout_marginEnd="@dimen/card_new_margin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rvOrderDetails"/>
+
+
+        <include
+            layout="@layout/loading" />
+    </RelativeLayout>
 
 </LinearLayout>

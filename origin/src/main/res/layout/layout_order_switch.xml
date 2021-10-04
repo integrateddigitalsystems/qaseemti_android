@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/first_margin"
+    android:layout_marginStart="@dimen/margin_start_end"
+    android:layout_marginEnd="@dimen/margin_start_end"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/llSwitches"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:weightSum="3"
+        android:paddingStart="@dimen/mini_margin"
+        android:paddingEnd="@dimen/mini_margin"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:gravity="start|center_vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:textColor="@color/gray_font_title"
+                android:textSize="@dimen/normal_font"
+                android:layout_width="wrap_content"
+                android:tag="OnTrack"
+                android:layout_height="wrap_content"
+                android:text="@string/OnTrack" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:gravity="center"
+                android:scaleX="0.75"
+                android:id="@+id/swOnTrack"
+                android:theme="@style/Theme.MyTheme"
+                android:checked="false"
+                android:buttonTint="@color/green_switch"
+                android:scaleY="0.75"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:text="@string/Delivery"
+                android:tag="Delivery"
+                android:textSize="@dimen/small_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <androidx.appcompat.widget.SwitchCompat
+                android:gravity="center"
+                android:scaleX="0.75"
+                android:id="@+id/swDelivered"
+                android:theme="@style/Theme.MyTheme"
+                android:scaleY="0.75"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="end|center_vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:text="@string/Paid"
+                android:tag="Paid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <androidx.appcompat.widget.SwitchCompat
+                android:gravity="center"
+                android:id="@+id/swPaid"
+                android:scaleX="0.75"
+                android:theme="@style/Theme.MyTheme"
+                android:scaleY="0.75"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

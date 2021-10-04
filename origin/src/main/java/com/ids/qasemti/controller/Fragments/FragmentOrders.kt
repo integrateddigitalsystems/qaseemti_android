@@ -1,28 +1,43 @@
 package com.ids.qasemti.controller.Fragments
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.TypedValue
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityMap
-import com.ids.qasemti.controller.Adapters.AdapterOrderCancelled
+import com.ids.qasemti.controller.Activities.ActivityOrderDetails
+import com.ids.qasemti.controller.Activities.ActivityTrackOrder
 import com.ids.qasemti.controller.Adapters.AdapterOrderType
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.controller.MyApplication.Companion.typeSelected
-import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.model.*
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.fragment_orders.*
+import kotlinx.android.synthetic.main.layout_order_contact_tab.*
+import kotlinx.android.synthetic.main.loading.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.lang.Exception
+
 
 class FragmentOrders : Fragment() , RVOnItemClickListener {
 
-    var ordersArray : ArrayList<String> = arrayListOf()
+    var ordersArray : ArrayList<ResponseOrders> = arrayListOf()
+    var adapter : AdapterOrderType ?=null
+    var mainArray : ArrayList<ResponseOrders> = arrayListOf()
+    var orderType : String ?= ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -33,28 +48,101 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayoutOrderType)
+        AppHelper.setAllTexts(rootLayoutOrderType,requireContext())
+        requireActivity().getWindow().setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         init()
         setTabs()
-        setTabLayout(0,tvActive)
-        setData(true)
+        setTabLayout(typeSelected)
+     //  setData(true)
 
     }
 
+    fun getOrders(){
+        try {
+            loading.show()
+        }catch (ex: Exception){
+
+        }
+        var newReq = RequestOrders(MyApplication.userId,MyApplication.languageCode,orderType)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getOrders(
+                newReq
+            )?.enqueue(object : Callback<ResponseMainOrder> {
+                override fun onResponse(call: Call<ResponseMainOrder>, response: Response<ResponseMainOrder>) {
+                    try{
+                        mainArray.clear()
+                        mainArray.addAll(response.body()!!.orders)
+                        ordersArray.clear()
+                        ordersArray.addAll(response.body()!!.orders)
+                        setData(true)
+                    }catch (E: java.lang.Exception){
+                        mainArray.clear()
+                        ordersArray.clear()
+                        setData(true)
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
+                    mainArray.clear()
+                    ordersArray.clear()
+                    setData(true)
+                }
+            })
+    }
     fun init(){
-        ordersArray.clear()
-        repeat(3) { ordersArray.add("1") }
+        /*ordersArray.clear()
+        ordersArray.add("1")
+        ordersArray.add("2")
+        ordersArray.add("1")
+        ordersArray.add("3")
+        mainArray.addAll(ordersArray)*/
         (activity as ActivityHome?)!!.drawColor()
+        (activity as ActivityHome?)!!.setTitleAc(AppHelper.getRemoteString("order_type",requireContext()))
+        (activity as ActivityHome)!!.showTitle(true)
+        (activity as ActivityHome)!!.showLogout(false)
+        (activity as ActivityHome)!!.setTintLogo(R.color.redPrimary)
+        if(!MyApplication.fromFooterOrder){
+            (activity as ActivityHome)!!.showBack(true)
+        }
+
+        etSearchOrders.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                if(s.length>0) {
+                    ordersArray.clear()
+                    for (item in mainArray) {
+                        if (item.customer!!.first_name!!.contains(s)) {
+                            ordersArray.add(item)
+                        }
+                    }
+                    adapter!!.notifyDataSetChanged()
+                }else{
+                    ordersArray.clear()
+                    ordersArray.addAll(mainArray)
+                    adapter!!.notifyDataSetChanged()
+                }
+
+            }
+        })
 
     }
 
     private fun setTabs(){
         for (i in 0 until linearTabs.childCount){
-            linearTabs.getChildAt(i).setOnClickListener{
+            linearTabs.getChildAt(i).onOneClick{
                 if(typeSelected!=i){
                     var tv=linearTabs.getChildAt(i) as TextView
-                    setTabLayout(i,tv)
-                    setData(true)
+                    setTabLayout(i)
+                   // setData(true)
                 }
             }
         }
@@ -62,11 +150,77 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
 
     override fun onItemClicked(view: View, position: Int) {
         if(view.id==R.id.llLocation){
-            startActivity(Intent(requireActivity(), ActivityMap::class.java))
+            AppHelper.onOneClick {
+                startActivity(
+                    Intent(requireActivity(), ActivityMap::class.java)
+                        .putExtra(
+                            "mapTitle",
+                            AppHelper.getRemoteString("view_address", requireContext())
+                        )
+                )
+            }
+        }else if(view.id==R.id.llViewOrderDetails){
+            AppHelper.onOneClick {
+                MyApplication.selectedOrder=ordersArray[position]
+                MyApplication.rental = position==1
+                MyApplication.rental = position==1
+                mainArray
+                startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java)
+                    .putExtra("orderId",ordersArray.get(position).orderId)
+                    .putExtra("type", typeSelected))
+
+            }
+        }else if(view.id==R.id.ivOrderCall){
+            AppHelper.onOneClick {
+                val intent = Intent(Intent.ACTION_DIAL)
+                startActivity(intent)
+            }
+
+        }else if(view.id==R.id.ivOrderMessage){
+            AppHelper.onOneClick {
+                val uri = Uri.parse("smsto:12346556")
+                val it = Intent(Intent.ACTION_SENDTO, uri)
+                it.putExtra("sms_body", "Here you can set the SMS text to be sent")
+                startActivity(it)
+            }
+        }else if(view.id==R.id.llTrackOrder){
+            startActivity(Intent(requireActivity(), ActivityTrackOrder::class.java))
         }
     }
 
-    fun setTabLayout(position: Int,tvSelected:TextView){
+    fun setSelected(position: Int){
+
+        when (position) {
+            0 ->{
+                tvActive.setBackgroundResource(R.drawable.rounded_red_background)
+                AppHelper.setTextColor(requireContext(),tvActive,R.color.white)
+                orderType = AppConstants.ORDER_TYPE_ACTIVE
+                getOrders()
+            }
+            1 ->{
+                tvUpcoming.setBackgroundResource(R.drawable.rounded_red_background)
+                AppHelper.setTextColor(requireContext(),tvUpcoming,R.color.white)
+                orderType = AppConstants.ORDER_TYPE_UPCOMING
+                getOrders()
+            }
+            2 -> {
+                tvCompleted.setBackgroundResource(R.drawable.rounded_red_background)
+                AppHelper.setTextColor(requireContext(),tvCompleted,R.color.white)
+                orderType = AppConstants.ORDER_TYPE_COMPLETED
+                getOrders()
+            }
+            3 -> {
+                tvCancelled.setBackgroundResource(R.drawable.rounded_red_background)
+                AppHelper.setTextColor(requireContext(),tvCancelled,R.color.white)
+                orderType = AppConstants.ORDER_TYPE_CANCELED
+                getOrders()
+            }
+            else -> {
+
+            }
+        }
+    }
+    fun setTabLayout(position: Int){
         typeSelected=position
         for (i in 0 until linearTabs.childCount){
             if (linearTabs.getChildAt(i) is TextView){
@@ -75,15 +229,29 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
                 AppHelper.setTextColor(requireContext(),tv,R.color.redPrimary)
             }
         }
-        tvSelected.setBackgroundResource(R.drawable.rounded_red_background)
-        AppHelper.setTextColor(requireContext(),tvSelected,R.color.white)
+
+        setSelected(position)
 
     }
 
     private fun setData(type:Boolean){
-        var adapter = AdapterOrderType(ordersArray, this, requireContext(),type)
-        rvOrderDetails.adapter = adapter
-        var glm2 = GridLayoutManager(requireContext(), 1)
-        rvOrderDetails.layoutManager = glm2
+        if(adapter!=null){
+            adapter!!.notifyDataSetChanged()
+            adapter!!.notifyDataSetChanged()
+        }else {
+            try {
+                adapter = AdapterOrderType(ordersArray, this, requireActivity())
+                rvOrderDetails.adapter = adapter
+                var glm2 = GridLayoutManager(requireContext(), 1)
+                rvOrderDetails.layoutManager = glm2
+            }catch (ex:Exception){
+
+            }
+        }
+        try {
+            loading.hide()
+        }catch (ex: Exception){
+
+        }
     }
 }
