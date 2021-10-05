@@ -1,5 +1,6 @@
 package com.ids.qasemti.controller.Activities
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -13,13 +14,13 @@ import com.ids.qasemti.utils.hide
 import com.ids.qasemti.utils.onOneClick
 import com.ids.qasemti.utils.show
 import kotlinx.android.synthetic.main.activity_map.*
-
 import kotlinx.android.synthetic.main.toolbar.*
 
 
 class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
 
 
+    var latLng : LatLng ?=null
     var gmap : GoogleMap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +48,18 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
         btBackTool.onOneClick {
             onBackPressed()
         }
+        AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
+        listeners()
+    }
 
+    fun listeners (){
+        btSavePosition.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra("lat",latLng!!.latitude)
+            intent.putExtra("long",latLng!!.longitude)
+            setResult(RESULT_OK, intent)
+            finish()
+        }
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {
@@ -100,5 +112,15 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
         val markerOptions = MarkerOptions()
         markerOptions.position(ny)
         gmap!!.addMarker(markerOptions)
+
+        gmap!!.setOnMapClickListener {
+            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(it))
+            val marker = MarkerOptions()
+            marker.position(it)
+            gmap!!.clear()
+            gmap!!.addMarker(marker)
+            latLng = it
+        }
+
     }
 }

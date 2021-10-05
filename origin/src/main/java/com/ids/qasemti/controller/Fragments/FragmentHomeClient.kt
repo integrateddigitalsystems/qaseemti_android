@@ -303,17 +303,21 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
     }
 
     private fun setData(){
-        if (arrayFiltered.size == 0) {
-            rvServices.hide()
-            btFilter.hide()
-            llNodata.show()
+        try {
+            if (arrayFiltered.size == 0) {
+                rvServices.hide()
+                btFilter.hide()
+                llNodata.show()
 
 
-        }else{
-            var adapter = AdapterServices(arrayFiltered, this, requireContext())
-            rvServices.layoutManager = LinearLayoutManager(requireContext())
-            rvServices.adapter = adapter
-            rvServices.isNestedScrollingEnabled = false
+            } else {
+                var adapter = AdapterServices(arrayFiltered, this, requireContext())
+                rvServices.layoutManager = LinearLayoutManager(requireContext())
+                rvServices.adapter = adapter
+                rvServices.isNestedScrollingEnabled = false
+            }
+        }catch (ex:Exception){
+
         }
     }
 

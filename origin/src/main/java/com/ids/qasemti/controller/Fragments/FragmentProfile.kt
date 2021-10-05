@@ -1,25 +1,33 @@
 package com.ids.qasemti.controller.Fragments
 
+import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
+import com.ids.qasemti.controller.Activities.ActivityMap
+import com.ids.qasemti.controller.Activities.ActivityMapAddress
 import com.ids.qasemti.controller.Activities.ActivityMapLocation
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.model.ResponseUpdate
 import com.ids.qasemti.utils.*
+import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import com.jaiselrahman.filepicker.activity.FilePickerActivity
 import com.jaiselrahman.filepicker.config.Configurations
 import com.jaiselrahman.filepicker.model.MediaFile
 import kotlinx.android.synthetic.main.activity_contact_us.*
+import kotlinx.android.synthetic.main.activity_new_address.*
 import kotlinx.android.synthetic.main.curve_layout_home.*
+import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.service_tab_1.*
@@ -36,11 +44,16 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentProfile : Fragment(), RVOnItemClickListener {
     var selectedFile : MultipartBody.Part ?=null
     var gender = "female"
+    var lat : Double?= 0.0
+    var long : Double?= 0.0
     override fun onItemClicked(view: View, position: Int) {
 
     }
@@ -72,10 +85,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
 
     }
 
+
     fun listeners(){
-        ivMapButton.onOneClick {
-            startActivity(Intent(requireContext(),ActivityMapLocation::class.java))
-        }
+
 
         btSaveProfile.onOneClick {
 
@@ -98,10 +110,42 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             gender="female"
         }
 
+        llAddressProfile.setOnClickListener {
+            startActivityForResult(Intent(requireContext(),ActivityMapAddress::class.java),1000)
+        }
         ibUploadFile.setOnClickListener {
             pickFile(1)
         }
+
+        etDateOfBirthProfile.onOneClick {
+            var mcurrentDate = Calendar.getInstance()
+            var mYear = 0
+            var mMonth = 0
+            var mDay = 0
+            mYear = mcurrentDate!![Calendar.YEAR]
+            mMonth = mcurrentDate!![Calendar.MONTH]
+            mDay = mcurrentDate!![Calendar.DAY_OF_MONTH]
+
+            mcurrentDate.set(mYear, mMonth, mDay)
+            val mDatePicker = DatePickerDialog(
+                requireContext(),
+                DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
+                    val myCalendar = Calendar.getInstance()
+                    myCalendar[Calendar.YEAR] = selectedyear
+                    myCalendar[Calendar.MONTH] = selectedmonth
+                    myCalendar[Calendar.DAY_OF_MONTH] = selectedday
+                    val myFormat = "dd/MM/yyyy" //Change as you need
+                    var sdf =
+                        SimpleDateFormat(myFormat, Locale.ENGLISH)
+                    var date = sdf.format(myCalendar.time)
+                    etDateOfBirthProfile.text = (String.format("%02d", selectedday) + "/"+String.format("%02d", selectedmonth)+"/"+String.format("%02d", selectedyear)).toEditable()
+                }, mYear, mMonth, mDay
+            )
+            mDatePicker.show()
+        }
     }
+
+
 
     fun getPath(uri: Uri?): String? {
         println("IM IN getPath")
@@ -115,22 +159,38 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        try {
-            val files: ArrayList<MediaFile> =data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!
-         //   var path = getPath(files.get(0).uri)
-            var file = File(files.get(0).path)
-            var yes = file.exists()
-            var body1 : MultipartBody.Part?=null
-          var req =  RequestBody.create("multipart/form-data".toMediaType(),file)
-            try {
-                body1 = MultipartBody.Part.createFormData("file", file.name, req)
-            }catch (ex:Exception){
-                body1 = MultipartBody.Part.createFormData("file", "Upload",req)
+
+
+        if (requestCode == 1000) {
+            if (resultCode == Activity.RESULT_OK) {
+                val extras = data!!.extras
+                if (extras != null){
+                    lat = extras.getDouble("lat")
+                    long = extras.getDouble("long")
+                    etAddressProfile.text = Editable.Factory.getInstance().newEditable(AppHelper.getAddress(lat!!,long!!,requireContext()))
+                }
+
             }
-            selectedFile = body1
+        }else {
+            try {
+                val files: ArrayList<MediaFile> =
+                    data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!
+                //   var path = getPath(files.get(0).uri)
+                var file = File(files.get(0).path)
+                var yes = file.exists()
+                var body1: MultipartBody.Part? = null
+                var req = RequestBody.create("multipart/form-data".toMediaType(), file)
+                try {
+                    body1 = MultipartBody.Part.createFormData("file", file.name, req)
+                } catch (ex: Exception) {
+                    body1 = MultipartBody.Part.createFormData("file", "Upload", req)
+                }
+                selectedFile = body1
 
 
-        }catch (e: Exception){}
+            } catch (e: Exception) {
+            }
+        }
     }
     private fun pickFile(pickCode:Int){
 
@@ -158,8 +218,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         }
         var userId = "1"
         var rolev = "vendor"
-        var latt = "33.5618345"
-        var longg = "35.3780338"
+        var latt = lat.toString()
+        var longg = long.toString()
         var add = "Sidon, Sidon District, South Governorate, 1600, Lebanon"
         var gender = "female"
         if(rbMaleProfile.isSelected){

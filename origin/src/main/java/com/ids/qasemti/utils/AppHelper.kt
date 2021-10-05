@@ -11,9 +11,11 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.Outline
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
@@ -26,6 +28,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -612,6 +615,36 @@ class AppHelper {
             }
         }
 
+        fun setUpCornerRadius(image : ImageView, context: Context) {
+
+            val curveRadius = context.resources.getDimensionPixelSize(R.dimen.big_radius).toFloat()
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val provider: ViewOutlineProvider = object : ViewOutlineProvider() {
+                    override fun getOutline(view: View, outline: Outline) {
+                        outline.setRoundRect(
+                            0,
+                            0,
+                            view.width,
+                            view.height,
+                            curveRadius.toFloat()
+                        )
+                    }
+                }
+                image.setOutlineProvider(provider)
+                image.setClipToOutline(true)
+            }
+        }
+
+        fun getAddress(lat:Double , long : Double,con:Context): String {
+            val myLocation = Geocoder(con, Locale.getDefault())
+            val myList = myLocation.getFromLocation(lat,long, 1)
+            val address = myList[0]
+            var addressStr: String? = ""
+            addressStr += address.getAddressLine(0).toString()
+
+            return addressStr!!
+        }
 
         fun changeLanguage(context: Context, language: String) {
 
