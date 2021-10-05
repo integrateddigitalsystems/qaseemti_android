@@ -170,4 +170,12 @@ interface RetrofitInterface {
     fun updateLanguage(
         @Body param:RequestUpdateLanguage
     ): Call<ResponseMessage>
+
+
+    @POST("get_user")
+    fun getUser(
+        @Body param:RequestUpdateLanguage
+    ): Call<ResponseUser>
+
+
 }

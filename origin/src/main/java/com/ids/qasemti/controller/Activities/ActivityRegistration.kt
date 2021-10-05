@@ -72,6 +72,7 @@ class ActivityRegistration : ActivityBase() {
             MyApplication.selectedPos=4
             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
             MyApplication.selectedFragment = FragmentAccount()
+            AppHelper.getUserInfo()
             startActivity(Intent(this, ActivityHome::class.java))
         }
     }

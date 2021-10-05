@@ -129,9 +129,11 @@ class ActivityCodeVerification : ActivityBase() {
 
         MyApplication.isSignedIn = true
         try{
-        MyApplication.userIdCash = respone.user!!.userId!!.toInt()}catch (e:Exception){
-            MyApplication.userIdCash=1
+        MyApplication.userId=respone.user!!.userId!!.toInt()
+        }catch (e:Exception){
+            MyApplication.userId=6
         }
+        AppHelper.getUserInfo()
         startActivity(Intent(this, ActivityHome::class.java))
 
     }

@@ -46,8 +46,7 @@ import com.google.android.material.tabs.TabLayout
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestUpdate
-import com.ids.qasemti.model.ResponseUpdate
+import com.ids.qasemti.model.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import me.grantland.widget.AutofitHelper
 import retrofit2.Call
@@ -1052,6 +1051,21 @@ class AppHelper {
             }
             Log.wtf("count_frag", count.toString() + "aaa")
             return count
+        }
+
+
+        fun getUserInfo(){
+            var newReq = RequestUpdateLanguage(MyApplication.userId,MyApplication.languageCode)
+            RetrofitClient.client?.create(RetrofitInterface::class.java)
+                ?.getUser(newReq
+                )?.enqueue(object : Callback<ResponseUser> {
+                    override fun onResponse(call: Call<ResponseUser>, response: Response<ResponseUser>) {
+                        try{
+                        MyApplication.selectedUser=response.body()!!.user}catch (e:Exception){}
+                    }
+                    override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                    }
+                })
         }
 
 
