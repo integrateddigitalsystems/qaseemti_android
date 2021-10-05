@@ -28,7 +28,7 @@ class AdapterRelatedOrder(val items: ArrayList<RelatedOrder>, private val itemCl
 
         holder.value.text = items.get(position).total
         holder.date.text = items.get(position).orderDate
-        holder.due.text = items.get(position).paid
+        holder.due.text = items.get(position).deliveryDate
         holder.earning.text = items.get(position).orderEarning
         /*if(position==items.size-1&&done==false){
             holder.line.hide()

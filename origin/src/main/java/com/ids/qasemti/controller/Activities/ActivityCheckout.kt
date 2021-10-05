@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.RequestPlaceOrder
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import kotlinx.android.synthetic.main.fragment_checkout.*
@@ -38,8 +39,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
     fun setUpCurr(){
         var cal = Calendar.getInstance()
         val myFormat = "dd/MM/yyyy" //Change as you need
-        var sdf =
-            SimpleDateFormat(myFormat, Locale.ENGLISH)
+        var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
         var date = sdf.format(cal.time)
         etFromDate.text = date.toEditable()
         var time = String.format("%02d", cal.get(Calendar.HOUR_OF_DAY))+" : "+ String.format("%02d", cal.get(Calendar.MINUTE))
@@ -127,7 +127,6 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
 
 
         rlToTime.onOneClick {
-            // TODO Auto-generated method stub
             val mcurrentTime = Calendar.getInstance()
             val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
             val minute = mcurrentTime[Calendar.MINUTE]
@@ -173,6 +172,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         }
 
         llAddresses.onOneClick {
+            setPlacedOrder()
             startActivity(Intent(this,ActivitySelectAddress::class.java))
         }
 
@@ -221,7 +221,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
 
         btPlaceOrder.typeface = AppHelper.getTypeFace(this)
 
-        if(MyApplication.rental!!){
+        if(MyApplication.selectedService!!.type!!.trim().lowercase()=="rental"){
             tvFromTitle.show()
             tvToTitle.show()
             llToLayout.show()
@@ -243,5 +243,29 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         try{tvPrice.text=MyApplication.selectedPrice+" KWD"}catch (e:Exception){}
         try{tvVariationType.text=MyApplication.selectedVariationType}catch (e:Exception){}
         try{tvSize.text=MyApplication.selectedSize}catch (e:Exception){}
+    }
+
+    private fun setPlacedOrder(){
+        MyApplication.selectedPlaceOrder= RequestPlaceOrder(
+            MyApplication.userId!!,
+            MyApplication.selectedService!!.type!!,
+            MyApplication.selectedService!!.id!!.toInt(),
+            MyApplication.selectedVariationType,
+            MyApplication.selectedSize,
+            "10/10/2021",
+            "address name",
+            "10.12303",
+            "20.20305",
+            "street name",
+            "address building",
+            "address floor",
+            "address description",
+            "name",
+            "last name",
+            "company",
+            "email@email.com",
+            "phone"
+
+        )
     }
 }

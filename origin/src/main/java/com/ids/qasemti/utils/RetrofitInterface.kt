@@ -159,4 +159,15 @@ interface RetrofitInterface {
     fun addClAddress(
         @Body param:RequestAddAddress
     ): Call<ResponseMessage>
+
+    @POST("cl_place_order")
+    fun placeOrder(
+        @Body param:RequestPlaceOrder
+    ): Call<ResponseMessage>
+
+
+    @POST("update_language")
+    fun updateLanguage(
+        @Body param:RequestUpdateLanguage
+    ): Call<ResponseMessage>
 }
