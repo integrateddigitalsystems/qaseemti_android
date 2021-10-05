@@ -128,29 +128,20 @@ class ActivityCodeVerification : ActivityBase() {
         }*/
 
         MyApplication.isSignedIn = true
-        try {
-            MyApplication.userIdCash = respone.user!!.userId!!.toInt()
-        }catch (ex:Exception){
-            MyApplication.userIdCash =6
+        try{
+        MyApplication.userIdCash = respone.user!!.userId!!.toInt()}catch (e:Exception){
+            MyApplication.userIdCash=1
         }
         startActivity(Intent(this, ActivityHome::class.java))
 
-        try {
-            loading.hide()
-        }catch (ex: Exception){
-
-        }
     }
 
     fun checkDigit(number: Int): String? {
         return if (number <= 9) "0$number" else number.toString()
     }
     fun verifyOTP(){
-        try {
-            loading.show()
-        }catch (ex: Exception){
 
-        }
+        loading.show()
         var req = RequestVerifyOTP(pvCode.text.toString(),MyApplication.deviceId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.verifyOTP(
@@ -158,12 +149,14 @@ class ActivityCodeVerification : ActivityBase() {
             )?.enqueue(object : Callback<ResponseVerification> {
                 override fun onResponse(call: Call<ResponseVerification>, response: Response<ResponseVerification>) {
                     try{
+                        loading.hide()
                         requestSucc(response.body()!!)
                     }catch (E: java.lang.Exception){
-                        requestSucc(ResponseVerification())
+                        requestSucc(ResponseVerification("0"))
                     }
                 }
                 override fun onFailure(call: Call<ResponseVerification>, throwable: Throwable) {
+                    loading.hide()
                     requestSucc(ResponseVerification("0"))
                 }
             })

@@ -52,6 +52,7 @@ class MyApplication : Application() {
         var firstImage : Boolean ?=false
         var selectedService : ResponseService ?=null
         var selectedOrder : ResponseOrders?=null
+        var selectedPlaceOrder : RequestPlaceOrder ?=null
 
         var selectedSize = ""
         var selectedPrice = ""
