@@ -40,6 +40,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,8 +52,10 @@ import kotlin.collections.ArrayList
 
 class FragmentProfile : Fragment(), RVOnItemClickListener {
     var selectedFile : MultipartBody.Part ?=null
+    var selectedProfilePic : MultipartBody.Part?=null
     var gender = "female"
     var lat : Double?= 0.0
+    var fromProfile : Boolean ?= false
     var long : Double?= 0.0
     override fun onItemClicked(view: View, position: Int) {
 
@@ -95,7 +98,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("fill_all_field",requireContext()))
             }else if(!AppHelper.isEmailValid(etEmailProfile.text.toString())){
                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("email_valid_error",requireContext()))
-            }else if(selectedFile==null) {
+            }else if(selectedFile==null || selectedProfilePic==null ) {
                 var str ="No File Selected"
                 AppHelper.createDialog(requireActivity(),str)
             }else
@@ -114,7 +117,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             startActivityForResult(Intent(requireContext(),ActivityMapAddress::class.java),1000)
         }
         ibUploadFile.setOnClickListener {
-            pickFile(1)
+            pickFile(1,false)
+        }
+        ivProfile.setOnClickListener {
+            pickFile(1,true)
         }
 
         etDateOfBirthProfile.onOneClick {
@@ -176,23 +182,18 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 val files: ArrayList<MediaFile> =
                     data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!
                 //   var path = getPath(files.get(0).uri)
-                var file = File(files.get(0).path)
-                var yes = file.exists()
-                var body1: MultipartBody.Part? = null
-                var req = RequestBody.create("multipart/form-data".toMediaType(), file)
-                try {
-                    body1 = MultipartBody.Part.createFormData("file", file.name, req)
-                } catch (ex: Exception) {
-                    body1 = MultipartBody.Part.createFormData("file", "Upload", req)
-                }
-                selectedFile = body1
-
+                var file = AppHelper.getFile(requireContext(), files[0].uri)
+                var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                if(!fromProfile!!)
+                    selectedFile =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
+                else
+                    selectedProfilePic =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
 
             } catch (e: Exception) {
             }
         }
     }
-    private fun pickFile(pickCode:Int){
+    private fun pickFile(pickCode:Int,from:Boolean){
 
         val intent = Intent(requireContext(), FilePickerActivity::class.java)
         intent.putExtra(
@@ -206,6 +207,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 .setShowFiles(true)
                 .build()
         )
+        fromProfile = from
         startActivityForResult(intent,pickCode)
 
     }
@@ -225,23 +227,23 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         if(rbMaleProfile.isSelected){
             gender="male"
         }
-        val user = RequestBody.create("text/plain".toMediaTypeOrNull(),userId)
-        val first = RequestBody.create("text/plain".toMediaTypeOrNull(),etFirstNameProfile.text.toString())
-        val middle = RequestBody.create("text/plain".toMediaTypeOrNull(),etMiddleNameProfile.text.toString())
-        val last = RequestBody.create("text/plain".toMediaTypeOrNull(),etLastNameProfile.text.toString())
-        val email = RequestBody.create("text/plain".toMediaTypeOrNull(),etEmailProfile.text.toString())
-        val phone = RequestBody.create("text/plain".toMediaTypeOrNull(),etMobileProfile.text.toString())
-        val civilId = RequestBody.create("text/plain".toMediaTypeOrNull(),etCivilIdNbProfile.text.toString())
-        val genderr = RequestBody.create("text/plain".toMediaTypeOrNull(),gender)
-        val dob = RequestBody.create("text/plain".toMediaTypeOrNull(),etDateOfBirthProfile.text.toString())
-        val role = RequestBody.create("text/plain".toMediaTypeOrNull(),rolev)
-        val address = RequestBody.create("text/plain".toMediaTypeOrNull(),etAddressProfile.text.toString())
-        val lat = RequestBody.create("text/plain".toMediaTypeOrNull(),latt)
-        val long = RequestBody.create("text/plain".toMediaTypeOrNull(),longg)
-        val accNum = RequestBody.create("text/plain".toMediaTypeOrNull(),etAccountNumberProfile.text.toString())
-        val bankname = RequestBody.create("text/plain".toMediaTypeOrNull(),etBankNameProfile.text.toString())
-        val bankBranch = RequestBody.create("text/plain".toMediaTypeOrNull(),etBranchNameProfile.text.toString())
-        val iban = RequestBody.create("text/plain".toMediaTypeOrNull(),etIBANProfile.text.toString())
+        val user =  userId.toRequestBody("text/plain".toMediaTypeOrNull())
+        val first =  etFirstNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val middle =  etMiddleNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val last =  etLastNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val email =  etEmailProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val phone =  etMobileProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val civilId =  etCivilIdNbProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val genderr = gender.toRequestBody("text/plain".toMediaTypeOrNull())
+        val dob =  etDateOfBirthProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val role = rolev.toRequestBody("text/plain".toMediaTypeOrNull())
+        val address = etAddressProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val lat = latt.toRequestBody("text/plain".toMediaTypeOrNull())
+        val long = longg.toRequestBody("text/plain".toMediaTypeOrNull())
+        val accNum =  etAccountNumberProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val bankname = etBankNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val bankBranch = etBranchNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val iban =  etIBANProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
 
         RetrofitClient.client?.create(RetrofitInterface::class.java)

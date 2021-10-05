@@ -46,31 +46,42 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     }
 
-    fun setAvailability(available : Int ){
-        var newReq = RequestAvailability(MyApplication.userId,available)
+    fun setAvailability(available: Int) {
+        var newReq = RequestAvailability(MyApplication.userId, available)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updateAvailability(newReq)?.enqueue(object : Callback<ResponseCancel> {
-                override fun onResponse(call: Call<ResponseCancel>, response: Response<ResponseCancel>) {
-                    try{
-                        rbMainUser
-                    }catch (E: java.lang.Exception){
-                    }
+                override fun onResponse(
+                    call: Call<ResponseCancel>,
+                    response: Response<ResponseCancel>
+                ) {
+
                 }
+
                 override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
                 }
             })
     }
 
-    fun getData(available : Int ){
+    fun getRating() {
+        loading.show()
         var newReq = RequestUserStatus(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getRatings(newReq)?.enqueue(object : Callback<ResponseRatings> {
-                override fun onResponse(call: Call<ResponseRatings>, response: Response<ResponseRatings>) {
-                    try{
-                    }catch (E: java.lang.Exception){
+                override fun onResponse(
+                    call: Call<ResponseRatings>,
+                    response: Response<ResponseRatings>
+                ) {
+                    try {
+                        rbMainUser.rating = response.body()!!.rate!!.toFloat()
+                    } catch (E: java.lang.Exception) {
+                        rbMainUser.rating = 0f
                     }
+                    loading.hide()
                 }
+
                 override fun onFailure(call: Call<ResponseRatings>, throwable: Throwable) {
+                    rbMainUser.rating = 0f
+                    loading.hide()
                 }
             })
     }
@@ -81,48 +92,53 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
         setOrders()
         setListeners()
+        getRating()
         getData()
-
 
 
     }
 
-    fun getData(){
+    fun getData() {
         try {
             loading.show()
-        }catch (ex: Exception){
+        } catch (ex: Exception) {
 
         }
         var newReq = RequestUserStatus(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrdersCount(newReq)?.enqueue(object : Callback<ResponeOrderCount> {
-                override fun onResponse(call: Call<ResponeOrderCount>, response: Response<ResponeOrderCount>) {
-                    try{
+                override fun onResponse(
+                    call: Call<ResponeOrderCount>,
+                    response: Response<ResponeOrderCount>
+                ) {
+                    try {
                         tvActiveOrdersNbr.text = response.body()!!.activeOrders.toString()
                         tvUpcomingOrderNumber.text = response.body()!!.upcomingOrders.toString()
                         try {
                             loading.hide()
-                        }catch (ex: Exception){
+                        } catch (ex: Exception) {
 
                         }
-                    }catch (E: java.lang.Exception){
+                    } catch (E: java.lang.Exception) {
                         try {
                             loading.hide()
-                        }catch (ex: Exception){
+                        } catch (ex: Exception) {
 
                         }
                     }
                 }
+
                 override fun onFailure(call: Call<ResponeOrderCount>, throwable: Throwable) {
                     try {
                         loading.hide()
-                    }catch (ex: Exception){
+                    } catch (ex: Exception) {
 
                     }
                 }
             })
     }
-    fun setListeners(){
+
+    fun setListeners() {
         rlActive.onOneClick {
             MyApplication.fromFooterOrder = false
             MyApplication.selectedFragment = FragmentOrders()
@@ -189,10 +205,10 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             AppHelper.onOneClick {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
-        }else if(view.id == R.id.btAcceptOrder){
-           /* if(MyApplication.userStatus!!.online==1){
-                //accept action
-            }*/
+        } else if (view.id == R.id.btAcceptOrder) {
+            /* if(MyApplication.userStatus!!.online==1){
+                 //accept action
+             }*/
         }
     }
 }
