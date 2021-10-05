@@ -18,6 +18,7 @@ import com.ids.qasemti.controller.Activities.ActivityMap
 import com.ids.qasemti.controller.Activities.ActivityMapAddress
 import com.ids.qasemti.controller.Activities.ActivityMapLocation
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ResponseUpdate
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
@@ -88,6 +89,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
 
     }
 
+    fun updateClient(){
+
+    }
+
 
     fun listeners(){
 
@@ -103,7 +108,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 AppHelper.createDialog(requireActivity(),str)
             }else
             {
-                updateProfile()
+                if(!MyApplication.isClient)
+                    updateProfile()
+                else
+                    updateClient()
             }
         }
         rbMaleProfile.onOneClick {

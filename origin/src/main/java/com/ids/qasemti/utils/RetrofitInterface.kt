@@ -71,6 +71,20 @@ interface RetrofitInterface {
 
 
     @Multipart
+    @POST("cl_update_profile")
+    fun updateClientProfile(
+        @Part(ApiParameters.USER_ID) userId: RequestBody,
+        @Part(ApiParameters.MOBILE_NUMBER) mobileNumber: RequestBody,
+        @Part(ApiParameters.FIRST_NAME) firstname: RequestBody,
+        @Part(ApiParameters.LAST_NAME) lastName: RequestBody,
+        @Part(ApiParameters.EMAIL) email: RequestBody,
+        @Part profile_pic: MultipartBody.Part,
+        @Part(ApiParameters.TYPE) type: RequestBody
+
+    ): Call<String>
+
+
+    @Multipart
     @POST("sp_update_profile")
     fun updateProfileRegister(
         @Part(ApiParameters.USER_ID) userId: RequestBody,

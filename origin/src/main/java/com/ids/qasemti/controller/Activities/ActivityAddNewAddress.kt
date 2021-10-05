@@ -51,9 +51,11 @@ class ActivityAddNewAddress : ActivityBase() {
                         }catch (E: java.lang.Exception){
 
                         }
+
+                        loading.hide()
                     }
                     override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
-
+                        loading.hide()
                     }
                 })
 
