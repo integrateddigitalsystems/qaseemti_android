@@ -89,10 +89,10 @@ interface RetrofitInterface {
         @Body param: RequestNotificationUpdate
     ): Call<ResponseCancel>
 
-   /* @POST("sp_get_ratings")
+    @POST("sp_get_ratings")
     fun getRatings(
         @Body param : RequestUserStatus
-    ): Call<ResponeOrderCount>*/
+    ): Call<ResponseRatings>
 
     @POST("sp_get_orders_count")
     fun getOrdersCount(

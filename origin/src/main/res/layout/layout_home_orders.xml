@@ -83,6 +83,7 @@
 
                 <androidx.appcompat.widget.AppCompatRatingBar
                     style="?attr/ratingBarStyleSmall"
+                    android:id="@+id/rbMainUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"

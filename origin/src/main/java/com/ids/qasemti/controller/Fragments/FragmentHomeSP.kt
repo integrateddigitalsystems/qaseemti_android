@@ -52,10 +52,25 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             ?.updateAvailability(newReq)?.enqueue(object : Callback<ResponseCancel> {
                 override fun onResponse(call: Call<ResponseCancel>, response: Response<ResponseCancel>) {
                     try{
+                        rbMainUser
                     }catch (E: java.lang.Exception){
                     }
                 }
                 override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
+                }
+            })
+    }
+
+    fun getData(available : Int ){
+        var newReq = RequestUserStatus(MyApplication.userId)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getRatings(newReq)?.enqueue(object : Callback<ResponseRatings> {
+                override fun onResponse(call: Call<ResponseRatings>, response: Response<ResponseRatings>) {
+                    try{
+                    }catch (E: java.lang.Exception){
+                    }
+                }
+                override fun onFailure(call: Call<ResponseRatings>, throwable: Throwable) {
                 }
             })
     }
