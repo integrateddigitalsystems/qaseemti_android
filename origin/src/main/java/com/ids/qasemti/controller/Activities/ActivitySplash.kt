@@ -24,10 +24,7 @@ import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.FirebaseLocalizeArray
-import com.ids.qasemti.model.RequestNotifications
-import com.ids.qasemti.model.ResponseConfiguration
-import com.ids.qasemti.model.ResponseNotification
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 
 import com.ids.qasemti.utils.AppConstants.FIREBASE_FORCE_UPDATE
@@ -212,6 +209,8 @@ class ActivitySplash : ActivityBase() {
             })
     }
 
+
+
     fun nextStep() {
         MyApplication.isSignedIn = true
         Handler(Looper.getMainLooper()).postDelayed({
@@ -221,6 +220,7 @@ class ActivitySplash : ActivityBase() {
                 finish()
             }else{
                 if(MyApplication.isSignedIn) {
+                    AppHelper.getUserInfo()
                     if (MyApplication.isClient) {
                         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
                         MyApplication.selectedFragment = FragmentHomeClient()

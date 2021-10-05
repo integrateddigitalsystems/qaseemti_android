@@ -47,7 +47,7 @@ class MyApplication : Application() {
         var isSignedIn : Boolean
             get() = sharedPreferences.getBoolean(AppConstants.SIGNED_IN,false)!!
             set(value) { sharedPreferencesEditor.putBoolean(AppConstants.SIGNED_IN, value).apply() }
-        var userId : Int ?=6
+
         var selectedUser : User ?=null
         var firstImage : Boolean ?=false
         var selectedService : ResponseService ?=null
@@ -65,17 +65,17 @@ class MyApplication : Application() {
         lateinit var sharedPreferences : SharedPreferences
         lateinit var sharedPreferencesEditor : SharedPreferences.Editor
         var deviceId : Int
-            get() = sharedPreferences.getInt(AppConstants.DEVICE_ID,0)!!
+            get() = sharedPreferences.getInt(AppConstants.DEVICE_ID,0)
             set(value) { sharedPreferencesEditor.putInt(AppConstants.DEVICE_ID, value).apply() }
         var languageCode : String
             get() = sharedPreferences.getString(AppConstants.SELECTED_LANGUAGE, AppConstants.LANG_ENGLISH)!!
             set(value) { sharedPreferencesEditor.putString(AppConstants.SELECTED_LANGUAGE, value).apply() }
         var UNIQUE_REQUEST_CODE = 0
         var firstTime : Boolean
-            get() = sharedPreferences.getBoolean(AppConstants.FIRST_TIME,true)!!
+            get() = sharedPreferences.getBoolean(AppConstants.FIRST_TIME,true)
             set(value) { sharedPreferencesEditor.putBoolean(AppConstants.FIRST_TIME, value).apply() }
-        var userIdCash : Int
-            get() = sharedPreferences.getInt(AppConstants.USER_ID,0)!!
+        var userId : Int
+            get() = sharedPreferences.getInt(AppConstants.USER_ID,6)
             set(value) { sharedPreferencesEditor.putInt(AppConstants.USER_ID, value).apply() }
 
     }
