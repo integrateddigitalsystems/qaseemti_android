@@ -111,15 +111,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
     }
 
 
-    fun getAddress(lat:Double , long : Double): String {
-        val myLocation = Geocoder(this, Locale.getDefault())
-        val myList = myLocation.getFromLocation(lat,long, 1)
-        val address = myList[0]
-        var addressStr: String? = ""
-        addressStr += address.getAddressLine(0).toString()
 
-        return addressStr!!
-    }
 
     private fun setOrderData(){
         var array:ArrayList<OrderData> = arrayListOf()
@@ -137,7 +129,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         rvDataBorder.layoutManager = LinearLayoutManager(this)
         rvDataBorder.adapter = AdapterOrderData(array,this,this)
 
-        tvLocationOrderDeatils.text = getAddress(MyApplication.selectedOrder!!.customerLat!!.toDouble(),MyApplication.selectedOrder!!.customerLong!!.toDouble())
+        tvLocationOrderDeatils.text = AppHelper.getAddress(MyApplication.selectedOrder!!.customerLat!!.toDouble(),MyApplication.selectedOrder!!.customerLong!!.toDouble(),this)
         tvOrderCustomerName.text = MyApplication.selectedOrder!!.customer!!.first_name+" "+MyApplication.selectedOrder!!.customer!!.last_name
         tvOrderDeetId.text = MyApplication.selectedOrder!!.orderId.toString()
         tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy")

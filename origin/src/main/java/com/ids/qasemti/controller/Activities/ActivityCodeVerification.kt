@@ -128,7 +128,11 @@ class ActivityCodeVerification : ActivityBase() {
         }*/
 
         MyApplication.isSignedIn = true
-        MyApplication.userIdCash = respone.user!!.userId!!.toInt()
+        try {
+            MyApplication.userIdCash = respone.user!!.userId!!.toInt()
+        }catch (ex:Exception){
+            MyApplication.userIdCash =6
+        }
         startActivity(Intent(this, ActivityHome::class.java))
 
         try {
@@ -156,6 +160,7 @@ class ActivityCodeVerification : ActivityBase() {
                     try{
                         requestSucc(response.body()!!)
                     }catch (E: java.lang.Exception){
+                        requestSucc(ResponseVerification())
                     }
                 }
                 override fun onFailure(call: Call<ResponseVerification>, throwable: Throwable) {

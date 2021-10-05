@@ -10,11 +10,11 @@ class RequestAddAddress {
 
     @SerializedName("latitude")
     @Expose
-    var latitude: Int? = 0
+    var latitude: Double? = 0.0
 
     @SerializedName("longitude")
     @Expose
-    var longitude: Int? = 0
+    var longitude: Double? = 0.0
 
     @SerializedName("address_id")
     @Expose
@@ -42,8 +42,8 @@ class RequestAddAddress {
 
     constructor(
         userId: Int?,
-        latitude: Int?,
-        longitude: Int?,
+        latitude: Double?,
+        longitude: Double?,
         addressId: Int?,
         addressName: String?,
         street: String?,
