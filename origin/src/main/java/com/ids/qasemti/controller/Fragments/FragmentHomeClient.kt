@@ -2,12 +2,15 @@ package com.ids.qasemti.controller.Fragments
 
 import android.app.ActionBar
 import android.app.Dialog
+import android.content.Context
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
@@ -16,21 +19,17 @@ import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Adapters.AdapterServices
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestServices
-import com.ids.qasemti.model.ResponseMainServices
-import com.ids.qasemti.model.ResponseService
-import com.ids.qasemti.model.ServiceItem
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.fragment_home_client.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.service_tab_1.*
-
 import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
+
 
 class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
@@ -72,6 +71,8 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayoutServices,requireContext())
         init()
+
+
 
     }
 
@@ -274,7 +275,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
     fun getServices(){
         loading.show()
-        var newReq = RequestServices(0,MyApplication.languageCode)
+        var newReq = RequestLanguage(MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getClServices(
                 newReq

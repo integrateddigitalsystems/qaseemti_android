@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.model.Address
+import com.ids.qasemti.model.ResponseAddress
 
 import java.util.ArrayList
 
 class AdapterAddress(
-    val items: ArrayList<Address>,
+    val items: ArrayList<ResponseAddress>,
     private val itemClickListener: RVOnItemClickListener,
     context: Context
 ) :
@@ -27,8 +28,8 @@ class AdapterAddress(
     }
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
-        holder.tvAddressTitle.text = items[position].title
-        holder.tvAddressBody.text = items[position].addressDetails
+        holder.tvAddressTitle.text = items[position].addressName
+        holder.tvAddressBody.text = items[position].desc + " ,"+ items[position].street + " ,"+ items[position].bldg + " ,"+items[position].floor
     }
 
     override fun getItemCount(): Int {
