@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+<!--    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />-->
 
     <permission
         android:name="com.example.permission.MAPS_RECEIVE"
@@ -31,11 +31,11 @@
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true" >
 
-        <service
+ <!--       <service
             android:name=".utils.LocationUpdatesService"
             android:enabled="true"
             android:exported="true"
-            android:foregroundServiceType="location" />
+            android:foregroundServiceType="location" />-->
 
         <provider
             android:name="androidx.core.content.FileProvider"
