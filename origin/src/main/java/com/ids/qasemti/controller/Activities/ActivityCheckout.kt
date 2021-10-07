@@ -24,6 +24,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
 
     var open = false
     var REQUEST_LOCATION = 5
+    var selectedDate : String ?=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_checkout)
@@ -44,6 +45,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         val myFormat = "dd/MM/yyyy" //Change as you need
         var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
         var date = sdf.format(cal.time)
+        selectedDate = date
         etFromDate.text = date.toEditable()
         var time = String.format("%02d", cal.get(Calendar.HOUR_OF_DAY))+" : "+ String.format("%02d", cal.get(Calendar.MINUTE))
         etFromTime.text = time.toEditable()
@@ -61,6 +63,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
     }
 
     fun setListeners(){
+        setUpCurr()
         btPlaceOrder.onOneClick {
             startActivity(Intent(this,ActivityPlaceOrder::class.java))
         }
@@ -231,7 +234,6 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         tvPageTitle.setColorTypeface(this,R.color.redPrimary,"",true)
         etFromDate.isFocusable = false;
         etFromTime.isFocusable = false;
-
         rbNow.isChecked = true
         rbSpecify.isChecked = false
         btBackTool.show()
@@ -269,7 +271,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
             MyApplication.selectedService!!.id!!.toInt(),
             MyApplication.selectedVariationType,
             MyApplication.selectedSize,
-            "10/10/2021",
+            selectedDate,
             "address name",
             "10.12303",
             "20.20305",

@@ -98,11 +98,11 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         mainArray.addAll(ordersArray)*/
         (activity as ActivityHome?)!!.drawColor()
         (activity as ActivityHome?)!!.setTitleAc(AppHelper.getRemoteString("order_type",requireContext()))
-        (activity as ActivityHome)!!.showTitle(true)
-        (activity as ActivityHome)!!.showLogout(false)
-        (activity as ActivityHome)!!.setTintLogo(R.color.redPrimary)
+        (activity as ActivityHome).showTitle(true)
+        (activity as ActivityHome).showLogout(false)
+        (activity as ActivityHome).setTintLogo(R.color.redPrimary)
         if(!MyApplication.fromFooterOrder){
-            (activity as ActivityHome)!!.showBack(true)
+            (activity as ActivityHome).showBack(true)
         }
 
         etSearchOrders.addTextChangedListener(object : TextWatcher {

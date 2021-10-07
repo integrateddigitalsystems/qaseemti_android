@@ -175,16 +175,24 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
     override fun onBackPressed() {
-        AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("exit",this), AppHelper.getRemoteString("cancel",this),AppHelper.getRemoteString("sureExit",this)){
-            finishAffinity()
-            exitProcess(0)
-        }
-        /*if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             closeDrawer(drawerLayout, true)
         } else {
             checkBack()
-            super.onBackPressed()
-        }*/
+            if (getFragmentCount(fragMang) <= 1) {
+                AppHelper.createYesNoDialog(
+                    this,
+                    AppHelper.getRemoteString("exit", this),
+                    AppHelper.getRemoteString("cancel", this),
+                    AppHelper.getRemoteString("sureExit", this)
+                ) {
+                    finishAffinity()
+                    exitProcess(0)
+                }
+            } else
+                super.onBackPressed()
+        }
     }
 
     private fun closeDrawer(drawerLayout: DrawerLayout, animation: Boolean) {

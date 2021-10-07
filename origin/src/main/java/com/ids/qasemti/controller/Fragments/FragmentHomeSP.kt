@@ -229,6 +229,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     fun accepted(res:Int){
         if(res==1){
             AppHelper.createDialog(requireActivity(),getString(R.string.order_accept_succ))
+            getOrders()
         }else{
             AppHelper.createDialog(requireActivity(),getString(R.string.error_acc_order))
         }
