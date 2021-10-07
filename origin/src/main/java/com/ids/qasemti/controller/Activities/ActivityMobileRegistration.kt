@@ -121,7 +121,6 @@ class ActivityMobileRegistration : ActivityBase() {
             if (etPhone.text.isNullOrEmpty()) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
-                MyApplication.isSignedIn = true
                 getUserStatus()
                 MyApplication.selectedPhone = etPhone.text.toString()
 
@@ -142,7 +141,7 @@ class ActivityMobileRegistration : ActivityBase() {
                     response: Response<ResponseUpdate>
                 ) {
                     try {
-                        var x = 1
+
                     } catch (E: java.lang.Exception) {
                     }
                 }
@@ -154,8 +153,8 @@ class ActivityMobileRegistration : ActivityBase() {
 
     fun nextStep() {
         sendOTP()
-        //if(MyApplication.userStatus!!.enabled!=0)
-        startActivity(Intent(this, ActivityCodeVerification::class.java))
+        if(MyApplication.userStatus!!.enabled!=0)
+            startActivity(Intent(this, ActivityCodeVerification::class.java))
     }
 
     fun getUserStatus() {

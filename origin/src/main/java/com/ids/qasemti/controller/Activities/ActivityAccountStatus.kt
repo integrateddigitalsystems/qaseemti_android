@@ -114,7 +114,7 @@ class ActivityAccountStatus : ActivityBase() {
                     }
                 }
                 override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
-                    var x = 1
+
                 }
             })
     }

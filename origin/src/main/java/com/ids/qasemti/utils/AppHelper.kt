@@ -1,6 +1,7 @@
 package com.ids.qasemti.utils
 
 
+import android.R.attr.data
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -15,6 +16,7 @@ import android.graphics.Outline
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
@@ -22,6 +24,8 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.OpenableColumns
 import android.provider.Settings
+import android.provider.Settings.Global.getString
+import android.provider.Settings.System.getString
 import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
@@ -36,6 +40,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.BitmapImageViewTarget
@@ -43,6 +48,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
@@ -61,8 +67,10 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.prefs.PreferencesFactory
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 
 
 /**
@@ -635,6 +643,30 @@ class AppHelper {
             }
         }
 
+        fun getAddressLoc(lat:Double , long : Double,con:Context): Address {
+            val myLocation = Geocoder(con, Locale.getDefault())
+            val myList = myLocation.getFromLocation(lat,long, 1)
+            val address = myList[0]
+
+            return address!!
+        }
+
+        fun fromGSon():ArrayList<RequestPlaceOrder>{
+            val gson = Gson()
+            val array = gson.fromJson(
+                MyApplication.cartItems,
+                ArrayList<RequestPlaceOrder>().javaClass
+            )
+
+            return array
+
+        }
+
+        fun toGSOn(array:ArrayList<RequestPlaceOrder>){
+            val gson = Gson()
+            val jsonText = gson.toJson(array)
+            MyApplication.cartItems = jsonText
+        }
         fun getAddress(lat:Double , long : Double,con:Context): String {
             val myLocation = Geocoder(con, Locale.getDefault())
             val myList = myLocation.getFromLocation(lat,long, 1)

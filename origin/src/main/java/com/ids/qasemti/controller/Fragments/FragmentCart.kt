@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 class FragmentCart : Fragment() , RVOnItemClickListener {
 
     var array : ArrayList<Int> = arrayListOf()
+    var adapter : AdapterCart ?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -56,7 +57,7 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
         array.add(1)
         array.add(1)
 
-        var adapter = AdapterCart(array, this, requireContext())
+        adapter = AdapterCart(array, this, requireContext())
         rvCart.layoutManager = LinearLayoutManager(requireContext())
         rvCart.adapter = adapter
         rvCart.isNestedScrollingEnabled = false
@@ -68,6 +69,12 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
     }
 
     override fun onItemClicked(view: View, position: Int) {
-
+        if(view.id == R.id.ivDeleteItem){
+            AppHelper.createYesNoDialog(requireActivity(),getString(R.string.yes),AppHelper.getRemoteString("cancel",requireContext()),getString(
+                            R.string.are_you_sure_delete)) {
+                array.removeAt(position)
+                adapter!!.notifyItemRemoved(position)
+            }
+        }
     }
 }

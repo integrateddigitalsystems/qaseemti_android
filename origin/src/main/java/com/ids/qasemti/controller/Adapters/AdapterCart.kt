@@ -39,9 +39,11 @@ class AdapterCart(
 
     inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
+        var delete = itemView.findViewById<ImageView>(R.id.ivDeleteItem)
 
         init {
             itemView.setOnClickListener(this)
+            delete.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {

@@ -91,7 +91,7 @@
             app:itemHeight="45dp"
             app:itemWidth="45dp"
             app:itemRadius="16dp"
-            app:itemSpacing="18dp"
+            app:itemSpacing="@dimen/medium_margin"
             app:lineColor="@android:color/transparent"
             app:lineWidth="2dp"
             app:viewType="rectangle" />

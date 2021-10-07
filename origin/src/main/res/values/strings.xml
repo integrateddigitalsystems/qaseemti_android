@@ -219,4 +219,7 @@
     <string name="select_address">Select Address</string>
     <string name="order_accept_succ">Order Accepted Successfully</string>
     <string name="error_acc_order">Error in accepting order</string>
+    <string name="yes">Yes</string>
+    <string name="are_you_sure_delete">Are you sure you want to delete item?</string>
+    <string name="please_select_location">Please Select Location</string>
 </resources>

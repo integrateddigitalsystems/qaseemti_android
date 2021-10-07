@@ -74,6 +74,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/ivDeleteItem"
             android:layout_gravity="center_vertical"
             android:layout_width="@dimen/normal_icon_size"
             android:layout_height="@dimen/normal_icon_size"

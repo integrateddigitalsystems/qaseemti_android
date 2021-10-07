@@ -31,6 +31,7 @@ object AppConstants {
     const val FIREBASE_URLS = "urls"
     const val USER_ID = "user_id"
     const val SIGNED_IN ="signed_in"
+    const val ARRAY_CARTS ="array_carts"
     const val FIREBASE_FORCE_UPDATE = "android_force_update"
     const val FIREBASE_VERSION_CODE = "android_version_code"
     const val FIREBASE_LOCALIZE = "localize_msg"

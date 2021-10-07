@@ -543,10 +543,10 @@
                                 app:tint="@color/redPrimary" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
+                                android:id="@+id/tvVariationType"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/normal_margin"
-                                android:id="@+id/tvVariationType" />
+                                android:layout_marginStart="@dimen/normal_margin" />
 
                         </LinearLayout>
 

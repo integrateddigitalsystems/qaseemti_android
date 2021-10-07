@@ -78,7 +78,11 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
     fun init() {
 
-
+        try {
+            MyApplication.arrayCart = AppHelper.fromGSon()
+        }catch (ex:Exception){
+        }
+        var x = MyApplication.arrayCart
         if (MyApplication.isSignedIn) {
             (activity as ActivityHome?)!!.showLogout(false)
             btRegisterLogin.hide()

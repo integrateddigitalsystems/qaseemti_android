@@ -20,6 +20,7 @@ import com.ids.qasemti.controller.MyApplication.Companion.isClient
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.AppConstants
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MyApplication : Application() {
     companion object {
@@ -36,6 +37,7 @@ class MyApplication : Application() {
         var defaultIcon : ImageView ?=null
         var selectedFragment  : Fragment ?=null
         var selectedPos : Int = 2
+        var fromProfile : Boolean ?= false
         var position : Int =0
         var db : FirebaseFirestore?=null
         var tintColor : Int = R.color.white
@@ -53,7 +55,7 @@ class MyApplication : Application() {
         var selectedService : ResponseService ?=null
         var selectedOrder : ResponseOrders?=null
         var selectedPlaceOrder : RequestPlaceOrder ?=null
-
+        var selectedAddress : ResponseAddress ?=null
         var selectedSize = ""
         var selectedPrice = ""
         var selectedVariationType = ""
@@ -62,6 +64,7 @@ class MyApplication : Application() {
         var isClient : Boolean = false
         var fromFooterOrder : Boolean = true
         var localizeArray: FirebaseLocalizeArray ?= null
+        var arrayCart : ArrayList<RequestPlaceOrder> = arrayListOf()
         lateinit var sharedPreferences : SharedPreferences
         lateinit var sharedPreferencesEditor : SharedPreferences.Editor
         var deviceId : Int
@@ -77,6 +80,9 @@ class MyApplication : Application() {
         var userId : Int
             get() = sharedPreferences.getInt(AppConstants.USER_ID,6)
             set(value) { sharedPreferencesEditor.putInt(AppConstants.USER_ID, value).apply() }
+        var cartItems : String?
+            get() = sharedPreferences.getString(AppConstants.ARRAY_CARTS,"")
+            set(value) { sharedPreferencesEditor.putString(AppConstants.ARRAY_CARTS, value).apply() }
 
     }
 

@@ -206,5 +206,14 @@ interface RetrofitInterface {
         @Body param:RequestUserStatus
     ):Call<ResponseMainAddress>
 
+    @POST("cl_get_orders")
+    fun getClientOrders(@Body param: RequestOrders): Call<ResponseMainOrder>
+
+    @GET("json")
+    fun getLocationLatLng(
+        @Query("latlng") latLng : String ,
+        @Query("key") key : String
+    ):Call<Any>
+
 
 }

@@ -62,7 +62,7 @@ class FragmentLogin : Fragment() , RVOnItemClickListener {
                 }
 
                 override fun onFailure(call: Call<ResponseLoginNew>, t: Throwable) {
-                    var x = 1
+
                 }
 
             })
