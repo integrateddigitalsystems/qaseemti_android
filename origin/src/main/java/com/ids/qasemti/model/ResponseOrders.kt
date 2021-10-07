@@ -10,7 +10,7 @@ class ResponseOrders(
 
     @SerializedName("order_id")
     @Expose
-    var orderId : Int ?=0 ,
+    var orderId : String ?="" ,
 
     @SerializedName("order_status")
     @Expose
@@ -30,7 +30,7 @@ class ResponseOrders(
 
     @SerializedName("customer_id")
     @Expose
-    var customerid : Int ?= 0 ,
+    var customerid : String ?= "" ,
 
     @SerializedName("payment_method")
     @Expose
@@ -62,19 +62,19 @@ class ResponseOrders(
 
     @SerializedName("admin_fees")
     @Expose
-    var adminFees : Int ?=0 ,
+    var adminFees : String ?="" ,
 
     @SerializedName("paid")
     @Expose
-    var paid : Int ?=0 ,
+    var paid : String ?="" ,
 
     @SerializedName("on_track")
     @Expose
-    var onTrack : Int ?=0 ,
+    var onTrack : String ?="" ,
 
     @SerializedName("delivered")
     @Expose
-    var delivered : Int ?=0 ,
+    var delivered : String ?="" ,
 
     @SerializedName("product")
     @Expose
@@ -87,6 +87,14 @@ class ResponseOrders(
 
     @SerializedName("customer")
     @Expose
-    var customer : OrderCustomer ?=null
+    var customer : OrderCustomer ?=null ,
+
+    @SerializedName("user_latitude")
+    @Expose
+    var userLat : String ?="" ,
+
+    @SerializedName("user_longitude")
+    @Expose
+    var userLong : String ?=""
 ) {
 }

@@ -217,4 +217,6 @@
     <string name="settlement_amount">Settlement amount</string>
     <string name="earnings">Earnings</string>
     <string name="select_address">Select Address</string>
+    <string name="order_accept_succ">Order Accepted Successfully</string>
+    <string name="error_acc_order">Error in accepting order</string>
 </resources>

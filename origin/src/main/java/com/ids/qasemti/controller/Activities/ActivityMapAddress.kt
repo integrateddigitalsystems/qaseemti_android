@@ -57,6 +57,10 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
             val intent = Intent()
             intent.putExtra("lat",latLng!!.latitude)
             intent.putExtra("long",latLng!!.longitude)
+            intent.putExtra(
+                "address",
+                AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
+            )
             setResult(RESULT_OK, intent)
             finish()
         }

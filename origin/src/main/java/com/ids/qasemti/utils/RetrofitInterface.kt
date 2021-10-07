@@ -165,7 +165,7 @@ interface RetrofitInterface {
 
     @POST("cl_get_services")
     fun getClServices(
-        @Body param:RequestServices
+        @Body param:RequestLanguage
     ): Call<ResponseMainServices>
 
 
@@ -191,6 +191,20 @@ interface RetrofitInterface {
         @Body param:RequestUpdateLanguage
     ): Call<ResponseUser>
 
+    @POST("sp_get_broadcasted_orders")
+    fun getBroadcastedOrders(
+        @Body param: RequestServices
+    ): Call<ResponseMainOrder>
+
+    @POST("sp_accept_broadcasted_orders")
+    fun acceptBroadcast(
+        @Body param:RequestAcceptBroadccast
+    ):Call<ResponseUser>
+
+    @POST("cl_get_addresses")
+    fun getAddresses(
+        @Body param:RequestUserStatus
+    ):Call<ResponseMainAddress>
 
 
 }

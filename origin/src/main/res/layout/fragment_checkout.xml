@@ -56,6 +56,7 @@
                     android:textSize="@dimen/medium_font"
                     android:layout_marginEnd="@dimen/big_margin"
                     android:layout_weight="1"
+                    android:id="@+id/tvSelectedAddressCheck"
                     android:gravity="center_vertical"
                     android:tag="select_delivery_address"
                     android:text="@string/select_delivery_address" />

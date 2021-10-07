@@ -1,6 +1,7 @@
 package com.ids.qasemti.controller.Activities
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -83,6 +84,14 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 return
+            }
+            try {
+                val locationManager =
+                  getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                var gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                var network_loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
             currLocation = fusedLocationClient.lastLocation.result
             mLocationManager.requestLocationUpdates(

@@ -70,6 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/normal_font"
+                    android:id="@+id/tvOrderTitle"
                     android:textColor="@color/gray_font_title"
                     android:text="@string/water_tank"
                     />
@@ -79,6 +80,7 @@
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/tvOrderId"
                 android:layout_gravity="center_vertical"
                 android:gravity="end"
                 android:text="# 030303"
@@ -137,6 +139,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/small_font_3"
+                        android:id="@+id/tvOrderDate"
                         android:textColor="@color/gray_font"
                         android:text="20 Jun,2021 16:00"
                         />
@@ -187,6 +190,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/small_font_3"
+                        android:id="@+id/tvExpectedDate"
                         android:textColor="@color/gray_font"
                         android:text="20 Jun,2021 16:00"
                         />

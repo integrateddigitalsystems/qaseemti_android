@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestPlaceOrder
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
+import kotlinx.android.synthetic.main.activity_new_address.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.text.SimpleDateFormat
@@ -21,6 +23,7 @@ import java.util.*
 class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
 
     var open = false
+    var REQUEST_LOCATION = 5
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_checkout)
@@ -173,7 +176,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
 
         llAddresses.onOneClick {
             setPlacedOrder()
-            startActivity(Intent(this,ActivitySelectAddress::class.java))
+            startActivityForResult(Intent(this,ActivitySelectAddress::class.java),REQUEST_LOCATION)
         }
 
         btPlus.onOneClick {
@@ -205,6 +208,20 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
             }
 
             open = !open
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK) {
+            val extras = data!!.extras
+            if (extras != null){
+              var address = extras.getString("address")
+                tvSelectedAddressCheck.text = address
+            }
+
         }
 
     }

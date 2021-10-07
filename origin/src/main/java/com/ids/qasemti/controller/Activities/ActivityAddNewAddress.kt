@@ -35,6 +35,18 @@ class ActivityAddNewAddress : ActivityBase() {
 
     }
 
+    fun setData(){
+      //  intent.putExtra("lat",array.get(position).lat)
+      //  intent.putExtra("long",array.get(position).long)
+     //   var latLng = com.google.android.gms.maps.model.LatLng(array.get(position).lat!!.toDouble(), array.get(position).long!!.toDouble())
+        intent.putExtra(
+            "address",
+            etAddressBody.text.toString() + " ,"+etStreet.text.toString() + " ,"+ etBuilding.text.toString() + " ,"+etFloor.text.toString()
+        )
+        setResult(RESULT_OK, intent)
+        finish()
+    }
+
     fun addAddress(){
             try {
                 loading.show()
@@ -48,6 +60,7 @@ class ActivityAddNewAddress : ActivityBase() {
                 )?.enqueue(object : Callback<ResponseMessage> {
                     override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
                         try{
+                            setData()
                         }catch (E: java.lang.Exception){
 
                         }
@@ -95,6 +108,13 @@ class ActivityAddNewAddress : ActivityBase() {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             }else {
                 addAddress()
+            }
+        }
+        btOnlyOnce.onOneClick {
+            if(etAddressName.text.isNullOrEmpty()||etAddressBody.text.isNullOrEmpty()||etBuilding.text.toString().isNullOrEmpty()||etFloor.text.toString().isNullOrEmpty()||etStreet.text.isNullOrEmpty()||etMoreDetails.text.isNullOrEmpty()){
+                AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
+            }else {
+               setData()
             }
         }
     }
