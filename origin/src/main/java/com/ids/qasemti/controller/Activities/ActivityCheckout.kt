@@ -221,11 +221,16 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
 
         btPlaceOrder.typeface = AppHelper.getTypeFace(this)
 
+        try{
         if(MyApplication.selectedService!!.type!!.trim().lowercase()=="rental"){
             tvFromTitle.show()
             tvToTitle.show()
             llToLayout.show()
         }else{
+            tvFromTitle.hide()
+            tvToTitle.hide()
+            llToLayout.hide()
+        }}catch (e:Exception){
             tvFromTitle.hide()
             tvToTitle.hide()
             llToLayout.hide()

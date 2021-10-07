@@ -1,19 +1,28 @@
 package com.ids.qasemti.controller.Activities
 
+import android.Manifest
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.util.Log
+import android.view.View
+import androidx.core.app.ActivityCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.android.material.snackbar.Snackbar
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.AppCompactBase
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.onOneClick
-import com.ids.qasemti.utils.setColorTypeface
-import com.ids.qasemti.utils.show
-import kotlinx.android.synthetic.main.activity_place_order.*
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_select_address.*
-import kotlinx.android.synthetic.main.activity_select_address.rootLayout
+import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 
+
 class ActivitySelectAddress: AppCompactBase() {
+
+
+    private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +44,7 @@ class ActivitySelectAddress: AppCompactBase() {
             super.onBackPressed()
         }
         llCurrentLocation.onOneClick {
+            getCurrentLocation()
         }
         llLocationMap .onOneClick {
             startActivity(Intent(this,ActivityMap::class.java)
@@ -49,4 +59,14 @@ class ActivitySelectAddress: AppCompactBase() {
                 .putExtra("mapTitle",AppHelper.getRemoteString("address",this)))
         }
     }
+
+
+    private fun getCurrentLocation(){
+        loading.show()
+
+
+    }
+
+
+
 }
