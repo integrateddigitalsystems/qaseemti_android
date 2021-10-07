@@ -39,7 +39,7 @@ class ActivitySelectAddress : AppCompactBase() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_LOCATION) {
             if (resultCode == RESULT_OK) {
-                val extras = intent.extras
+                val extras = data!!.extras
                 if (extras != null) {
                   //  var lat = extras.getDouble("lat")
                   //  var long = extras.getDouble("long")
