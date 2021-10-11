@@ -1,5 +1,7 @@
 package com.ids.qasemti.controller.Activities
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -55,7 +57,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
     }
     fun setData(){
-        tvLocationPlaceOrder.text = MyApplication.selectedAddress!!.desc + " ,"+  MyApplication.selectedAddress!!.street + " ,"+ MyApplication.selectedAddress!!.bldg + " ,"+MyApplication.selectedAddress!!.floor
+            tvLocationPlaceOrder.text =
+                MyApplication.selectedPlaceOrder!!.addressDescription + " ," +  MyApplication.selectedPlaceOrder!!.addressStreet + " ," +  MyApplication.selectedPlaceOrder!!.addressBuilding + " ," +  MyApplication.selectedPlaceOrder!!.addressFloor
         tvOrderDate.text = MyApplication.selectedPlaceOrder!!.deliveryDate
         fragMang = supportFragmentManager
         var array:ArrayList<OrderData> = arrayListOf()
@@ -154,6 +157,24 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
     fun nextStep(res:ResponseMessage){
 
+        var ok = AppHelper.getRemoteString("ok", this)
+
+        val builder = AlertDialog.Builder(this)
+        builder
+            .setMessage(res.message)
+            .setCancelable(true)
+            .setNegativeButton(ok) { dialog, _ ->
+                finishAffinity()
+                MyApplication.selectedPos = 1
+                MyApplication.arrayCart.remove(MyApplication.selectedPlaceOrder)
+                AppHelper.toGSOn(MyApplication.arrayCart)
+                MyApplication.selectedFragment = FragmentOrders()
+                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                startActivity(Intent(this,ActivityHome::class.java))
+            }
+        val alert = builder.create()
+        alert.show()
+        loading.hide()
     }
     fun placeOrder(){
         try {

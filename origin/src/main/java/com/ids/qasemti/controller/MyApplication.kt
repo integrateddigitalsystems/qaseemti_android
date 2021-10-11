@@ -65,6 +65,7 @@ class MyApplication : Application() {
         var fromFooterOrder : Boolean = true
         var localizeArray: FirebaseLocalizeArray ?= null
         var arrayCart : ArrayList<RequestPlaceOrder> = arrayListOf()
+        var seletedPosCart = 0
         lateinit var sharedPreferences : SharedPreferences
         lateinit var sharedPreferencesEditor : SharedPreferences.Editor
         var deviceId : Int

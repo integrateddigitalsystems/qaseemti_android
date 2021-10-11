@@ -59,6 +59,7 @@
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/tvCartTitle"
                 android:textColor="@color/gray_font_title"
                 android:textSize="@dimen/small_font"
                 android:text="Water Tank"/>
@@ -66,6 +67,7 @@
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/tvItemCost"
                 android:textColor="@color/redPrimary"
                 android:textSize="@dimen/small_font"
                 android:text="10 KWD"/>

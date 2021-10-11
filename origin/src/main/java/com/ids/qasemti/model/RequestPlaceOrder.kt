@@ -79,6 +79,9 @@ class RequestPlaceOrder {
     var title : String ?=""
     var price : String ?=""
 
+    constructor(){
+
+    }
 
     constructor(
         userId: Int?,

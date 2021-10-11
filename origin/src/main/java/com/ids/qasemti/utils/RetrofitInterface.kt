@@ -215,5 +215,10 @@ interface RetrofitInterface {
         @Query("key") key : String
     ):Call<Any>
 
+    @POST("sp_request_settlement")
+    fun postSettlement(
+        @Body param : RequestUserStatus
+    ):Call<ResponseMessage>
+
 
 }

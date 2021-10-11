@@ -588,5 +588,7 @@
         <include layout="@layout/footer" />
     </LinearLayout>
 
+    <include
+        layout="@layout/loading" />
 
 </RelativeLayout>

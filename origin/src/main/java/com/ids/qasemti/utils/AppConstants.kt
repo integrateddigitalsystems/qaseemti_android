@@ -21,6 +21,7 @@ object AppConstants {
     const val CENTER_WHITE = 2
     const val LEFT_BLACK = 4
     const val SERVICES = 10
+    const val FAILURE_REQUEST = 0
 
 
     const val LANG_ENGLISH = "en"

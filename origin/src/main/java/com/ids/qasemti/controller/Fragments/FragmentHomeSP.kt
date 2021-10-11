@@ -236,10 +236,10 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         loading.hide()
     }
 
-    fun acceptOrder(orderId : Int ) {
+    fun acceptOrder(orderId : Int , additional:Int) {
         loading.show()
 
-        var newReq = RequestAcceptBroadccast(MyApplication.userId,orderId,50)
+        var newReq = RequestAcceptBroadccast(MyApplication.userId,orderId,additional)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.acceptBroadcast(newReq)?.enqueue(object : Callback<ResponseUser> {
                 override fun onResponse(
@@ -288,7 +288,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
         } else if (view.id == R.id.btAcceptOrder) {
-            acceptOrder(ordersArray.get(position).orderId!!.toInt())
+            acceptOrder(ordersArray.get(position).orderId!!.toInt(),ordersArray.get(position).total!!.toInt()+ordersArray.get(position).shippingTotal!!.toInt())
         }
     }
 }

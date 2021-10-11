@@ -86,7 +86,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                 startActivity(Intent(this, ActivityPlaceOrder::class.java))
 
             } else {
-                AppHelper.createDialog(this, getString(R.string.please_select_location))
+                AppHelper.createDialog(this, AppHelper.getRemoteString("please_select_location",this))
             }
         }
 
@@ -381,6 +381,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
         }else{
             MyApplication.arrayCart.add(MyApplication.selectedPlaceOrder!!)
         }
+        MyApplication.seletedPosCart = MyApplication.arrayCart.size - 1
 
         AppHelper.toGSOn(MyApplication.arrayCart)
 
