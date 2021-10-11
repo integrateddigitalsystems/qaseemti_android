@@ -194,16 +194,19 @@ class ActivityAddNewAddress : ActivityBase() {
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
+                MyApplication.useOnce = true
                 addAddress()
             }
         }
         btOnlyOnce.onOneClick {
+
             if (etAddressName.text.isNullOrEmpty() || etAddressBody.text.isNullOrEmpty() || etBuilding.text.toString()
                     .isNullOrEmpty() || etFloor.text.toString()
                     .isNullOrEmpty() || etStreet.text.isNullOrEmpty() || etMoreDetails.text.isNullOrEmpty()
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
+                MyApplication.useOnce = true
                 setData()
             }
         }

@@ -29,6 +29,7 @@ class MyApplication : Application() {
         var isDebug: Boolean = true
         var selectedFragmentTag : String ?=""
         var typeSelected = 0
+        var useOnce : Boolean ?= false
         var rental : Boolean ?=false
         var userStatus : ResponseUserStatus ?=null
         var fromLogout = false

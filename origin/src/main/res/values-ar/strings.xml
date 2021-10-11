@@ -221,4 +221,5 @@
     <string name="yes">Yes</string>
     <string name="are_you_sure_delete">هل أنت متأكد أنك تريد الحذف ؟</string>
     <string name="please_select_location">يرجى تحديد الموقع</string>
+    <string name="you_can_find_updates">You can always find your updates in your email</string>
 </resources>

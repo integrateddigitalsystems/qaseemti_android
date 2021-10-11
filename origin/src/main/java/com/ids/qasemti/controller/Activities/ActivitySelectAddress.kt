@@ -52,6 +52,8 @@ class ActivitySelectAddress : AppCompactBase() {
                     }
 
                     addressName = extras.getString("address")
+
+                    Toast.makeText(this,addressName,Toast.LENGTH_SHORT).show()
                 }
 
             }

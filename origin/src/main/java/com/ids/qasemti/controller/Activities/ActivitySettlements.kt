@@ -49,6 +49,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
     fun nextStep(res: Int) {
         if (res == 1) {
             AppHelper.createDialog(this, AppHelper.getRemoteString("success", this))
+            getOrders(MyApplication.settlementTabSelected)
         } else {
             AppHelper.createDialog(this, AppHelper.getRemoteString("failure", this))
         }
@@ -158,6 +159,9 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
             rvSettlements.layoutManager = LinearLayoutManager(this)
             rvSettlements.adapter = adapter
             rvSettlements.isNestedScrollingEnabled = false
+            if(array.size>0){
+                btRequestSettlements.hide()
+            }
         } else {
             btRequestSettlements.hide()
             MyApplication.upcoming = true

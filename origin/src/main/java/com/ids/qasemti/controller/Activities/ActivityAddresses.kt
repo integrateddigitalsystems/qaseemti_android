@@ -37,7 +37,24 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        getAddresses()
+        if(!MyApplication.useOnce!!) {
+            getAddresses()
+        }else{
+            val intent = Intent()
+            intent.putExtra("lat", MyApplication.selectedAddress!!.lat)
+            intent.putExtra("long",  MyApplication.selectedAddress!!.long)
+            /*var latLng = com.google.android.gms.maps.model.LatLng(
+                array.get(position).lat!!.toDouble(),
+                array.get(position).long!!.toDouble()
+            )*/
+         //   MyApplication.selectedAddress = array.get(position)
+            intent.putExtra(
+                "address",
+                MyApplication.selectedAddress!!.desc + " ," + MyApplication.selectedAddress!!.street + " ," +  MyApplication.selectedAddress!!.bldg + " ," +  MyApplication.selectedAddress!!.floor
+            )
+            setResult(RESULT_OK, intent)
+            finish()
+        }
     }
     fun init(){
        // var title = intent.getStringExtra("mapTitle")
