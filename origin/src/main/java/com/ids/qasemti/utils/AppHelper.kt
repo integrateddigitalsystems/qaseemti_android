@@ -1190,6 +1190,31 @@ class AppHelper {
         }
 
 
+
+        private fun isLocationPermissionGranted(context: Activity,requestcode:Int): Boolean {
+            return if (ActivityCompat.checkSelfPermission(
+                    context,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    context,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    context,
+                    arrayOf(
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    ),
+                    requestcode
+                )
+                false
+            } else {
+                true
+            }
+        }
+
+
         fun setRoundImage(context: Context, img: ImageView, ImgUrl: String, isLocal: Boolean) {
             Log.wtf("image_rounded", ImgUrl)
             if (isLocal) {

@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
@@ -13,15 +14,13 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ResponseAddress
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.onOneClick
-import com.ids.qasemti.utils.setColorTypeface
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.activity_new_address.*
 import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.activity_select_address.*
 import kotlinx.android.synthetic.main.activity_select_address.rootLayout
+import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class ActivitySelectAddress : AppCompactBase() {
@@ -109,8 +108,8 @@ class ActivitySelectAddress : AppCompactBase() {
             super.onBackPressed()
         }
         llCurrentLocation.onOneClick {
-
-            if (ActivityCompat.checkSelfPermission(
+            getCurrentLocation()
+      /*      if (ActivityCompat.checkSelfPermission(
                     this,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
@@ -130,7 +129,7 @@ class ActivitySelectAddress : AppCompactBase() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(this, "Error getting current Location", Toast.LENGTH_SHORT).show()
-            }
+            }*/
         }
         llLocationMap.onOneClick {
             startActivityForResult(
@@ -153,5 +152,44 @@ class ActivitySelectAddress : AppCompactBase() {
                 REQUEST_LOCATION
             )
         }
+    }
+
+
+    private fun getCurrentLocation(){
+        loading.show()
+        val locationResult = object : MyLocation.LocationResult() {
+            override fun gotLocation(location: Location?) {
+                if(location!=null){
+                val lat = location!!.latitude
+                val lon = location.longitude
+                toast("$lat --SLocRes-- $lon")
+                latLng = LatLng(lat, lon)
+                addressName = AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this@ActivitySelectAddress)
+
+                }else{
+                    toast("cannot detect location")
+                }
+                loading.hide()
+            }
+
+        }
+
+        val myLocation = MyLocation()
+        myLocation.getLocation(this, locationResult)
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        if (grantResults.isNotEmpty() && grantResults[0] ==
+            PackageManager.PERMISSION_GRANTED){
+            getCurrentLocation()
+        }else{
+            toast("Please accept requested permission in order to detect your current location")
+            loading.hide()
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
     }
 }
