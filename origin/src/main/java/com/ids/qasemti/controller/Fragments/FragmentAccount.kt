@@ -69,7 +69,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
 
         } else {
             btShareApp.hide()
-            btLogoutAccount.hide()
+            btLogoutAccount.show()
             btMyAddresses.hide()
             btMyServices.show()
             btSettelments.show()
@@ -80,6 +80,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
 
     fun listeners() {
 
+        MyApplication.fromProfile = true
         btMyAddresses.onOneClick {
             startActivity(
                 Intent(requireContext(), ActivityAddresses::class.java)

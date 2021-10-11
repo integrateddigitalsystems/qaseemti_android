@@ -21,6 +21,7 @@ object AppConstants {
     const val CENTER_WHITE = 2
     const val LEFT_BLACK = 4
     const val SERVICES = 10
+    const val FAILURE_REQUEST = 0
 
 
     const val LANG_ENGLISH = "en"
@@ -31,6 +32,7 @@ object AppConstants {
     const val FIREBASE_URLS = "urls"
     const val USER_ID = "user_id"
     const val SIGNED_IN ="signed_in"
+    const val ARRAY_CARTS ="array_carts"
     const val FIREBASE_FORCE_UPDATE = "android_force_update"
     const val FIREBASE_VERSION_CODE = "android_version_code"
     const val FIREBASE_LOCALIZE = "localize_msg"

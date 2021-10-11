@@ -35,6 +35,10 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        getAddresses()
+    }
     fun init(){
        // var title = intent.getStringExtra("mapTitle")
      //   tvPageTitle.setColorTypeface(this,R.color.white,title!!,true)
@@ -97,15 +101,21 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
 
     override fun onItemClicked(view: View, position: Int) {
-        val intent = Intent()
-        intent.putExtra("lat",array.get(position).lat)
-        intent.putExtra("long",array.get(position).long)
-        var latLng = com.google.android.gms.maps.model.LatLng(array.get(position).lat!!.toDouble(), array.get(position).long!!.toDouble())
-        intent.putExtra(
-            "address",
-            array[position].desc + " ,"+ array[position].street + " ,"+ array[position].bldg + " ,"+array[position].floor
-        )
-        setResult(RESULT_OK, intent)
-        finish()
+        if(!MyApplication.fromProfile!!) {
+            val intent = Intent()
+            intent.putExtra("lat", array.get(position).lat)
+            intent.putExtra("long", array.get(position).long)
+            var latLng = com.google.android.gms.maps.model.LatLng(
+                array.get(position).lat!!.toDouble(),
+                array.get(position).long!!.toDouble()
+            )
+            MyApplication.selectedAddress = array.get(position)
+            intent.putExtra(
+                "address",
+                array[position].desc + " ," + array[position].street + " ," + array[position].bldg + " ," + array[position].floor
+            )
+            setResult(RESULT_OK, intent)
+            finish()
+        }
     }
 }

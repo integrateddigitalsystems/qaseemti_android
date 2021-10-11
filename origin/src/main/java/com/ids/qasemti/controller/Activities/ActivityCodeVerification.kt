@@ -103,11 +103,11 @@ class ActivityCodeVerification : ActivityBase() {
             })
     }
     fun requestSucc(respone:ResponseVerification){
-       /* if(respone.result.equals("1")){
+        if(respone.result.equals("1")){
             AppHelper.createDialog(this,"Correct Code")
             if(respone.user!=null) {
                 MyApplication.isSignedIn = true
-                MyApplication.userIdCash = respone.user!!.userId!!.toInt()
+                MyApplication.userId = respone.user!!.userId!!.toInt()
                 startActivity(Intent(this, ActivityHome::class.java))
             }else{
                 MyApplication.isSignedIn = false
@@ -125,16 +125,16 @@ class ActivityCodeVerification : ActivityBase() {
                 }
             }
             //startActivity(Intent(this, ActivityRegistration::class.java))
-        }*/
+        }
 
-        MyApplication.isSignedIn = true
+       /* MyApplication.isSignedIn = true
         try{
         MyApplication.userId=respone.user!!.userId!!.toInt()
         }catch (e:Exception){
             MyApplication.userId=6
         }
         AppHelper.getUserInfo()
-        startActivity(Intent(this, ActivityHome::class.java))
+        startActivity(Intent(this, ActivityHome::class.java))*/
 
     }
 

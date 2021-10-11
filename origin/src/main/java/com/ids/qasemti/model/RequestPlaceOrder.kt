@@ -76,6 +76,12 @@ class RequestPlaceOrder {
     @Expose
     var phone: String? = null
 
+    var title : String ?=""
+    var price : String ?=""
+
+    constructor(){
+
+    }
 
     constructor(
         userId: Int?,
@@ -95,7 +101,9 @@ class RequestPlaceOrder {
         lastName: String?,
         company: String?,
         email: String?,
-        phone: String?
+        phone: String?,
+        title : String ?,
+        price : String ?
     ) {
         this.userId = userId
         this.productCategory = productCategory
@@ -115,5 +123,7 @@ class RequestPlaceOrder {
         this.company = company
         this.email = email
         this.phone = phone
+        this.title = title
+        this.price = price
     }
 }

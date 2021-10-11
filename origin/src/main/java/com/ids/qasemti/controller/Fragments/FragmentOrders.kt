@@ -58,6 +58,38 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
 
     }
 
+    fun getClientOrders(){
+        try {
+            loading.show()
+        }catch (ex: Exception){
+
+        }
+        var newReq = RequestOrders(MyApplication.userId,MyApplication.languageCode,orderType)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getClientOrders(
+                newReq
+            )?.enqueue(object : Callback<ResponseMainOrder> {
+                override fun onResponse(call: Call<ResponseMainOrder>, response: Response<ResponseMainOrder>) {
+                    try{
+                        mainArray.clear()
+                        mainArray.addAll(response.body()!!.orders)
+                        ordersArray.clear()
+                        ordersArray.addAll(response.body()!!.orders)
+                        setData(true)
+                    }catch (E: java.lang.Exception){
+                        mainArray.clear()
+                        ordersArray.clear()
+                        setData(true)
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
+                    mainArray.clear()
+                    ordersArray.clear()
+                    setData(true)
+                }
+            })
+    }
+
     fun getOrders(){
         try {
             loading.show()
@@ -98,11 +130,11 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         mainArray.addAll(ordersArray)*/
         (activity as ActivityHome?)!!.drawColor()
         (activity as ActivityHome?)!!.setTitleAc(AppHelper.getRemoteString("order_type",requireContext()))
-        (activity as ActivityHome)!!.showTitle(true)
-        (activity as ActivityHome)!!.showLogout(false)
-        (activity as ActivityHome)!!.setTintLogo(R.color.redPrimary)
+        (activity as ActivityHome).showTitle(true)
+        (activity as ActivityHome).showLogout(false)
+        (activity as ActivityHome).setTintLogo(R.color.redPrimary)
         if(!MyApplication.fromFooterOrder){
-            (activity as ActivityHome)!!.showBack(true)
+            (activity as ActivityHome).showBack(true)
         }
 
         etSearchOrders.addTextChangedListener(object : TextWatcher {
@@ -195,25 +227,37 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
                 tvActive.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(),tvActive,R.color.white)
                 orderType = AppConstants.ORDER_TYPE_ACTIVE
-                getOrders()
+                if(!MyApplication.isClient)
+                    getOrders()
+                else
+                    getClientOrders()
             }
             1 ->{
                 tvUpcoming.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(),tvUpcoming,R.color.white)
                 orderType = AppConstants.ORDER_TYPE_UPCOMING
-                getOrders()
+                if(!MyApplication.isClient)
+                    getOrders()
+                else
+                    getClientOrders()
             }
             2 -> {
                 tvCompleted.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(),tvCompleted,R.color.white)
                 orderType = AppConstants.ORDER_TYPE_COMPLETED
-                getOrders()
+                if(!MyApplication.isClient)
+                    getOrders()
+                else
+                    getClientOrders()
             }
             3 -> {
                 tvCancelled.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(),tvCancelled,R.color.white)
                 orderType = AppConstants.ORDER_TYPE_CANCELED
-                getOrders()
+                if(!MyApplication.isClient)
+                    getOrders()
+                else
+                    getClientOrders()
             }
             else -> {
 

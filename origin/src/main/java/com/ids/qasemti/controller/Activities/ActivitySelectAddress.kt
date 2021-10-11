@@ -11,6 +11,8 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.AppCompactBase
+import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.ResponseAddress
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.onOneClick
 import com.ids.qasemti.utils.setColorTypeface
@@ -41,10 +43,15 @@ class ActivitySelectAddress : AppCompactBase() {
             if (resultCode == RESULT_OK) {
                 val extras = data!!.extras
                 if (extras != null) {
-                  //  var lat = extras.getDouble("lat")
-                  //  var long = extras.getDouble("long")
+
+                    try {
+                        var lat = extras.getDouble("lat")
+                        var long = extras.getDouble("long")
+                        latLng = LatLng(lat,long)
+                    }catch (ex:Exception){
+                    }
+
                     addressName = extras.getString("address")
-                    //latLng = LatLng(lat, long)
                 }
 
             }
@@ -64,6 +71,7 @@ class ActivitySelectAddress : AppCompactBase() {
 
     fun setListeners() {
 
+        MyApplication.fromProfile = false
         btContinueAddress.setOnClickListener {
 
 
@@ -75,6 +83,16 @@ class ActivitySelectAddress : AppCompactBase() {
                     "address",
                     addressName
                 )
+                if(latLng!=null){
+                    extras.putDouble(
+                        "lat",
+                        latLng!!.latitude
+                    )
+                    extras.putDouble(
+                        "long",
+                        latLng!!.longitude
+                    )
+                }
                 intent.putExtras(extras)
 
                 

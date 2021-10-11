@@ -1,7 +1,13 @@
 package com.ids.qasemti.controller.Activities
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -9,12 +15,15 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.onOneClick
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.RequestNotificationUpdate
+import com.ids.qasemti.model.ResponseCancel
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.toolbar.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
@@ -38,6 +47,11 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
         init()
 
 
+    }
+
+    override fun onBackPressed() {
+        setResult(RESULT_CANCELED, intent)
+        super.onBackPressed()
     }
 
     fun init(){
@@ -65,6 +79,7 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
             finish()
         }
     }
+
 
     public override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -111,10 +126,31 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
     override fun onMapReady(googleMap: GoogleMap) {
         gmap = googleMap
         gmap!!.setMinZoomPreference(12f)
-        val ny = LatLng(33.8658486, 35.5483189)
-        gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+        }
+        try {
+            val locationManager =
+                getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            var gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            latLng = LatLng(gps_loc!!.latitude, gps_loc!!.longitude)
+         //   addressName = AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
+        } catch (e: Exception) {
+            latLng = LatLng(33.8658486, 35.5483189)
+            e.printStackTrace()
+        }
+
+        gmap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
         val markerOptions = MarkerOptions()
-        markerOptions.position(ny)
+        markerOptions.position(latLng)
         gmap!!.addMarker(markerOptions)
 
         gmap!!.setOnMapClickListener {

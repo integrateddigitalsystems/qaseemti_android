@@ -49,6 +49,7 @@ class ActivitySplash : ActivityBase() {
         getFirebasePrefs()
         AppHelper.updateDevice(this)
         getMobileConfig()
+       //getAddress()
     }
 
     private fun showDialogUpdate(activity: Activity) {
@@ -193,6 +194,20 @@ class ActivitySplash : ActivityBase() {
 
     }
 
+    fun getAddress(){
+        RetroFitMap.client?.create(RetrofitInterface::class.java)
+            ?.getLocationLatLng("32.879087766 , 12.1231233",getString(R.string.googleKey))?.enqueue(object : Callback<Any> {
+                override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                    try{
+                    }catch (E: java.lang.Exception){
+                    }
+                }
+                override fun onFailure(call: Call<Any>, throwable: Throwable) {
+
+                }
+            })
+    }
+
     fun getMobileConfig(){
         var newReq = RequestNotifications(MyApplication.languageCode,MyApplication.userId,MyApplication.deviceId,0,10,1)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -200,7 +215,6 @@ class ActivitySplash : ActivityBase() {
             )?.enqueue(object : Callback<ArrayList<ResponseConfiguration>> {
                 override fun onResponse(call: Call<ArrayList<ResponseConfiguration>>, response: Response<ArrayList<ResponseConfiguration>>) {
                     try{
-                        var x = 1
                     }catch (E: java.lang.Exception){
                     }
                 }
@@ -212,7 +226,6 @@ class ActivitySplash : ActivityBase() {
 
 
     fun nextStep() {
-        MyApplication.isSignedIn = true
         Handler(Looper.getMainLooper()).postDelayed({
             if(MyApplication.firstTime) {
                 MyApplication.firstTime = false
@@ -232,8 +245,18 @@ class ActivitySplash : ActivityBase() {
                     startActivity(Intent(this, ActivityHome::class.java))
                     finish()
                 }else{
-                    startActivity(Intent(this, ActivityMobileRegistration::class.java))
-                    finish()
+                    if(MyApplication.isClient){
+                        MyApplication.isSignedIn = true
+                        MyApplication.userId = 6
+                        AppHelper.getUserInfo()
+                        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+                        MyApplication.selectedFragment = FragmentHomeClient()
+                        startActivity(Intent(this, ActivityHome::class.java))
+                    }
+                    else {
+                        startActivity(Intent(this, ActivityMobileRegistration::class.java))
+                        finish()
+                    }
                 }
             }
         }, 500)
