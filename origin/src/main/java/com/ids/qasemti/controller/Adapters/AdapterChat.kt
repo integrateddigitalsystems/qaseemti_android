@@ -56,8 +56,10 @@ class AdapterChat(
 
         if(chat.loading!!){
             holder.loading.show()
+            holder.messageDate.hide()
         }else{
             holder.loading.hide()
+            holder.messageDate.show()
         }
 
 

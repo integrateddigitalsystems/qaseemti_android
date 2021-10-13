@@ -5,6 +5,7 @@
     <dimen name="card_new_margin">6dp</dimen>
     <dimen name="medium_2">14dp</dimen>
     <dimen name="push_card">-14dp</dimen>
+    <dimen name="push_date">-10dp</dimen>
     <dimen name="push_less">-20dp</dimen>
     <dimen name="diff_margin">9dp</dimen>
     <dimen name="margin_start_end">16dp</dimen>
