@@ -115,7 +115,7 @@ class ActivityMobileRegistration : ActivityBase() {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
                 //  MyApplication.isSignedIn = true
-                    sendOTP()
+                  updateDevice()
                 startActivity(Intent(this, ActivityCodeVerification::class.java))
             }
 
@@ -189,6 +189,7 @@ class ActivityMobileRegistration : ActivityBase() {
                 ) {
                     try {
                         MyApplication.deviceId = response.body()!!.deviceId!!
+                        sendOTP()
                     } catch (E: java.lang.Exception) {
                     }
                 }
@@ -221,7 +222,7 @@ class ActivityMobileRegistration : ActivityBase() {
     }
 
     fun nextStep() {
-        sendOTP()
+       updateDevice()
         if(MyApplication.userStatus!!.enabled!=0)
             startActivity(Intent(this, ActivityCodeVerification::class.java))
     }
