@@ -8,13 +8,21 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestNotificationUpdate
 import com.ids.qasemti.model.ResponseCancel
@@ -26,7 +34,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
+class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
 
 
     var latLng : LatLng ?=null
@@ -45,6 +53,7 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
         mvLocation.onCreate(mapViewBundle);
 
         init()
+       // initGooglePlacesApi()
 
 
     }
@@ -172,4 +181,45 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
         }
 
     }
+
+/*    private fun initGooglePlacesApi() {
+        Places.initialize(applicationContext, getString(R.string.google_api_key))
+        val placesClient: PlacesClient = Places.createClient(applicationContext)
+        val autocompleteFragment = supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
+        autocompleteFragment.setHint(getString(R.string.please_select_location))
+        //        autocompleteFragment.setLocationRestriction(RectangularBounds.newInstance(
+//                new LatLng(34.7006096, 19.2477876),
+//                new LatLng(41.7488862, 29.7296986))); //Greece bounds
+        autocompleteFragment.setCountry("gr")
+
+        autocompleteFragment.setPlaceFields(
+            listOf(
+                Place.Field.ADDRESS,
+                Place.Field.ADDRESS_COMPONENTS
+            )
+        )
+        autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS)
+
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                if (place.addressComponents!!.asList()[0].types[0]
+                        .equals("route")
+                ) {
+
+                    toast(place.address!!)
+                    var location = place.address
+                } else { //If user does not choose a specific place.
+
+                    toast("choose address")
+                }
+
+            }
+
+            override fun onError(status: Status) {
+                toast( "An error occurred: $status")
+            }
+        })
+    }*/
 }
