@@ -47,7 +47,7 @@ class ActivitySplash : ActivityBase() {
         //  MyApplication.isLoggedIn = true
 
         getFirebasePrefs()
-        AppHelper.updateDevice(this)
+        AppHelper.updateDevice(this,0,"")
         getMobileConfig()
        //getAddress()
     }

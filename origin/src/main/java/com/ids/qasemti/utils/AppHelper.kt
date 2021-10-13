@@ -412,7 +412,7 @@ class AppHelper {
             MyApplication.arrayCart.addAll(array)
         }
 
-        fun updateDevice(context: Context) {
+        fun updateDevice(context: Context,deviceId :Int , phone : String) {
 
             val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
             val cal = Calendar.getInstance()
@@ -421,7 +421,7 @@ class AppHelper {
             val osVersion = AppHelper.getAndroidVersion()
 
             val deviceToken = ""
-            val deviceTypeId = "2"
+            val deviceTypeId = ""
             var android_id = Settings.Secure.getString(
                 context.getContentResolver(),
                 Settings.Secure.ANDROID_ID
@@ -443,8 +443,8 @@ class AppHelper {
                 isService = 0
 
             var newReq = RequestUpdate(
-                MyApplication.deviceId,
-                MyApplication.selectedPhone,
+               deviceId,
+                phone,
                 model,
                 osVersion,
                 deviceToken,
@@ -468,7 +468,7 @@ class AppHelper {
                         response: Response<ResponseUpdate>
                     ) {
                         try {
-                            MyApplication.deviceId = 123
+                            MyApplication.deviceId = response.body()!!.deviceId!!
                         } catch (E: java.lang.Exception) {
                         }
                     }
