@@ -44,7 +44,6 @@ class ActivitySplash : ActivityBase() {
         //  MyApplication.isLoggedIn = true
 
         getFirebasePrefs()
-        AppHelper.updateDevice(this,0,"")
         getMobileConfig()
        //getAddress()
     }
@@ -220,7 +219,7 @@ class ActivitySplash : ActivityBase() {
 
 
     fun nextStep() {
-        AppHelper.updateDevice(this)
+        AppHelper.updateDevice(this,0,"")
         getMobileConfig()
         Handler(Looper.getMainLooper()).postDelayed({
             if(MyApplication.firstTime) {
