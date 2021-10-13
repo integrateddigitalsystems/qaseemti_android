@@ -38,17 +38,13 @@ import retrofit2.Response
 
 class ActivitySplash : ActivityBase() {
     var mFirebaseRemoteConfig: FirebaseRemoteConfig? = null
-    var upB : String ?=""
-    var upD : String ?=""
-    var upM : String ?=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         //  MyApplication.isLoggedIn = true
 
         getFirebasePrefs()
-        AppHelper.updateDevice(this)
-        getMobileConfig()
+
        //getAddress()
     }
 
@@ -60,14 +56,11 @@ class ActivitySplash : ActivityBase() {
         val textEntryView = inflater.inflate(R.layout.item_dialog, null)
         textView = textEntryView.findViewById(R.id.dialogMsg)
         textView.gravity = Gravity.CENTER
-        textView.text = upM
-        builder.setTitle(upD)
-
-        var can = "Cancel"
-
+        textView.text = AppHelper.getRemoteString("popup_version_message",this)
+        builder.setTitle(AppHelper.getRemoteString("popup_version_title",this))
 
         builder.setView(textEntryView)
-            .setPositiveButton(upB) { dialog, _ ->
+            .setPositiveButton(AppHelper.getRemoteString("popup_version_done",this)) { dialog, _ ->
                 dialog.dismiss()
                 val appPackageName = activity.packageName
                 try {
@@ -91,7 +84,7 @@ class ActivitySplash : ActivityBase() {
 
                 }
             }
-            .setNegativeButton(can) { dialog, _ ->
+            .setNegativeButton(AppHelper.getRemoteString("popup_version_cancel",this)) { dialog, _ ->
                 nextStep()
 
             }
@@ -121,9 +114,7 @@ class ActivitySplash : ActivityBase() {
 
     private fun showDialogForceUpdate(activity: Activity) {
 
-        upM = "New Version , please update"
-        upD = "Update Available"
-        upB = "Update"
+
         val builder = AlertDialog.Builder(activity)
         val textView: TextView
         val inflater = activity.layoutInflater
@@ -131,13 +122,13 @@ class ActivitySplash : ActivityBase() {
         textView = textEntryView.findViewById(R.id.dialogMsg)
         textView.gravity = Gravity.START
 
-        textView.text = upM
-        builder.setTitle(upD)
+        textView.text = AppHelper.getRemoteString("popup_version_message",this)
+        builder.setTitle(AppHelper.getRemoteString("popup_version_title",this))
 
 
 
         builder.setView(textEntryView)
-            .setNegativeButton(upB) { dialog, _ ->
+            .setNegativeButton(AppHelper.getRemoteString("popup_version_done",this)) { dialog, _ ->
                 dialog.dismiss()
                 val appPackageName = activity.packageName
                 try {
@@ -175,18 +166,20 @@ class ActivitySplash : ActivityBase() {
         d.show()
     }
 
-    fun updateAvailable() {
-        val version = mFirebaseRemoteConfig!!.getString("android_version_code")
-        var force = mFirebaseRemoteConfig!!.getBoolean("android_force_update")
+    fun checkForUpdate() {
 
+        var arrayMobileConfiguration = Gson().fromJson(mFirebaseRemoteConfig!!.getString(AppConstants.FIREBASE_MOBILE_CONFIGURATION), FirebaseConfArray::class.java)
+        var version=arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.version!!
+        var force=arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.isForceUpdate!!
         try {
-            if (BuildConfig.VERSION_CODE < version.toInt()) {
-
+            if (BuildConfig.VERSION_NAME.toDouble() > version) {
                 if (force) {
                     showDialogForceUpdate(this)
                 } else {
                     showDialogUpdate(this)
                 }
+            }else{
+                nextStep()
             }
         } catch (ex: Exception) {
 
@@ -226,6 +219,8 @@ class ActivitySplash : ActivityBase() {
 
 
     fun nextStep() {
+        AppHelper.updateDevice(this)
+        getMobileConfig()
         Handler(Looper.getMainLooper()).postDelayed({
             if(MyApplication.firstTime) {
                 MyApplication.firstTime = false
@@ -273,23 +268,21 @@ class ActivitySplash : ActivityBase() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val updated = task.result
-                    MyApplication.localizeArray = Gson().fromJson(
-                        mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE),
-                        FirebaseLocalizeArray::class.java
-                    )
-                    logw(
-                        "firebase_array_size",
-                        "..." + MyApplication.localizeArray!!.messages!!.size
-                    )
-
-                    if(MyApplication.firstTime){
-                        updateAvailable()
-                    }
+                    try{
+                        var BASE_URLS = Gson().fromJson(mFirebaseRemoteConfig!!.getString(BuildConfig.urls), FirebaseBaseUrlsArray::class.java)
+                        if(BASE_URLS!=null && BASE_URLS!!.android!!.size>0){
+                            var myUrl=BASE_URLS!!.android!!.find { it.version == BuildConfig.VERSION_NAME.toDouble() }
+                            if(myUrl!=null){
+                                MyApplication.BASE_URL=myUrl.url!!
+                            }else
+                                MyApplication.BASE_URL=BASE_URLS!!.android!!.maxByOrNull { it.version!! }!!.url!!
+                        }}catch (e:Exception){}
+                    MyApplication.localizeArray = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE), FirebaseLocalizeArray::class.java)
                     AppHelper.setAllTexts(rootLayout, this)
-
+                    checkForUpdate()
                 }
 
-                nextStep()
+
             }
 
     }
