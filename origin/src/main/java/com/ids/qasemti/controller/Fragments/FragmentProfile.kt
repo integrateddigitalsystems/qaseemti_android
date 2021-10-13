@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
-import com.ids.qasemti.controller.Activities.ActivityMap
 import com.ids.qasemti.controller.Activities.ActivityMapAddress
 import com.ids.qasemti.controller.Activities.ActivityMapLocation
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener

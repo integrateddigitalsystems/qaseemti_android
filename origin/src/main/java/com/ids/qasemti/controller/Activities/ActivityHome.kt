@@ -50,6 +50,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         setContentView(R.layout.activity_home)
         init()
 
+
     }
 
 

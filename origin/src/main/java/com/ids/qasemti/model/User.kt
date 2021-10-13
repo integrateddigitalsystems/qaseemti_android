@@ -3,198 +3,200 @@ package com.ids.qasemti.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class User {
+class User (
     @SerializedName("user_id")
     @Expose
-    var userId: String? = ""
+    var userId: String? = "" ,
 
     @SerializedName("middle_name")
     @Expose
-    var middleName: String? = ""
+    var middleName: String? = "" ,
 
     @SerializedName("last_name")
     @Expose
-    var lastName: String? = ""
+    var lastName: String? = "" ,
 
     @SerializedName("gender")
     @Expose
-    var gender: String? = ""
+    var gender: String? = "" ,
 
     @SerializedName("mobile_number")
     @Expose
-    var mobileNumber: String? = ""
+    var mobileNumber: String? = "" ,
 
     @SerializedName("altr_numb")
     @Expose
-    var altrNumb: String? = ""
+    var altrNumb: String? = "" ,
 
     @SerializedName("bank_name")
     @Expose
-    var bankName: String? = ""
+    var bankName: String? = "" ,
 
     @SerializedName("bank_address")
     @Expose
-    var bankAddress: String? = ""
+    var bankAddress: String? = "" ,
 
     @SerializedName("account_name")
     @Expose
-    var accountName: String? = ""
+    var accountName: String? = "" ,
 
     @SerializedName("account_number")
     @Expose
-    var accountNumber: String? = ""
+    var accountNumber: String? = "" ,
 
     @SerializedName("billing_first_name")
     @Expose
-    var billingFirstName: String? = ""
+    var billingFirstName: String? = "" ,
 
     @SerializedName("billing_last_name")
     @Expose
-    var billingLastName: String? = ""
+    var billingLastName: String? = "" ,
 
     @SerializedName("billing_company")
     @Expose
-    var billingCompany: String? = ""
+    var billingCompany: String? = "" ,
 
     @SerializedName("billing_address_1")
     @Expose
-    var billingAddress1: String? = ""
+    var billingAddress1: String? = "" ,
 
     @SerializedName("billing_address_2")
     @Expose
-    var billingAddress2: String? = ""
+    var billingAddress2: String? = "" ,
 
     @SerializedName("billing_city")
     @Expose
-    var billingCity: String? = ""
+    var billingCity: String? = "" ,
 
     @SerializedName("billing_postcode")
     @Expose
-    var billingPostcode: String? = ""
+    var billingPostcode: String? = "" ,
 
     @SerializedName("billing_country")
     @Expose
-    var billingCountry: String? = ""
+    var billingCountry: String? = "" ,
 
     @SerializedName("billing_email")
     @Expose
-    var billingEmail: String? = ""
+    var billingEmail: String? = "" ,
 
     @SerializedName("billing_phone")
     @Expose
-    var billingPhone: String? = ""
+    var billingPhone: String? = "" ,
 
     @SerializedName("shipping_first_name")
     @Expose
-    var shippingFirstName: String? = ""
+    var shippingFirstName: String? = "" ,
 
     @SerializedName("shipping_last_name")
     @Expose
-    var shippingLastName: String? = ""
+    var shippingLastName: String? = "" ,
 
     @SerializedName("shipping_company")
     @Expose
-    var shippingCompany: String? = ""
+    var shippingCompany: String? = "" ,
 
     @SerializedName("shipping_address_1")
     @Expose
-    var shippingAddress1: String? = ""
+    var shippingAddress1: String? = "" ,
 
     @SerializedName("shipping_address_2")
     @Expose
-    var shippingAddress2: String? = ""
+    var shippingAddress2: String? = "" ,
 
     @SerializedName("shipping_city")
     @Expose
-    var shippingCity: String? = ""
+    var shippingCity: String? = "" ,
 
     @SerializedName("shipping_postcode")
     @Expose
-    var shippingPostcode: String? = ""
+    var shippingPostcode: String? = "" ,
 
     @SerializedName("shipping_country")
     @Expose
-    var shippingCountry: String? = ""
+    var shippingCountry: String? = "" ,
 
     @SerializedName("shipping_phone")
     @Expose
-    var shippingPhone: String? = ""
+    var shippingPhone: String? = "" ,
 
 
     @SerializedName("available")
     @Expose
-    var available: String? = ""
+    var available: String? = "" ,
     @SerializedName("birthday")
     @Expose
-    var birthday: String? = ""
+    var birthday: String? = "" ,
     @SerializedName("civil_id")
     @Expose
-    var civil_id: String? = ""
+    var civil_id: String? = "" ,
     @SerializedName("civil_id_attach")
     @Expose
-    var civil_id_attach: String? = ""
+    var civil_id_attach: String? = "" ,
     @SerializedName("country")
     @Expose
-    var country: String? = ""
+    var country: String? = "" ,
 
     
 
     @SerializedName("first_name")
     @Expose
-    var firstName: String? = ""
+    var firstName: String? = "" ,
 
 
 
     @SerializedName("email")
     @Expose
-    var email: String? = ""
+    var email: String? = "" ,
 
     @SerializedName("store_name")
     @Expose
-    var storeName: String? = ""
+    var storeName: String? = "" ,
 
 
     @SerializedName("state")
     @Expose
-    var state: String? = ""
+    var state: String? = "" ,
 
     @SerializedName("latitude")
     @Expose
-    var latitude: String? = ""
+    var latitude: String? = "" ,
 
     @SerializedName("longitude")
     @Expose
-    var longitude: String? = ""
+    var longitude: String? = "" ,
 
     @SerializedName("location")
     @Expose
-    var location: String? = ""
+    var location: String? = "",
 
 
 
     @SerializedName("civil_id ")
     @Expose
-    var civilId: String? = ""
+    var civilId: String? = "" ,
 
     @SerializedName("civil_id_attach ")
     @Expose
-    var civilIdAttach: String? = ""
+    var civilIdAttach: String? = "" ,
 
     @SerializedName("profile_pic_url")
     @Expose
-    var profilePicUrl: String? = ""
+    var profilePicUrl: String? = "" ,
 
     @SerializedName("type")
     @Expose
-    var type: Int? = 0
+    var type: Int? = 0 ,
 
     @SerializedName("files")
     @Expose
-    var files: Files? = null
+    var files: Files? = null ,
 
     @SerializedName("rate")
     @Expose
     var rate: Double? = 0.0
+
+){
     
     
 

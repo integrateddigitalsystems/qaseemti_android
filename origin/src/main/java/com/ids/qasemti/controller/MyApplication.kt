@@ -85,6 +85,9 @@ class MyApplication : Application() {
         var cartItems : String?
             get() = sharedPreferences.getString(AppConstants.ARRAY_CARTS,"")
             set(value) { sharedPreferencesEditor.putString(AppConstants.ARRAY_CARTS, value).apply() }
+        var notfType : Int?
+            get() = sharedPreferences.getInt(AppConstants.ARRAY_CARTS,1)
+            set(value) { sharedPreferencesEditor.putInt(AppConstants.ARRAY_CARTS, value!!).apply() }
 
     }
 

@@ -2,6 +2,7 @@ package com.ids.qasemti.controller.Fragments
 
 import android.app.ActionBar
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.internal.LinkedTreeMap
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityChat
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Adapters.AdapterServices
@@ -20,6 +22,7 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestLanguage
 import com.ids.qasemti.model.ResponseMainServices
 import com.ids.qasemti.model.ResponseService
+import com.ids.qasemti.model.User
 import com.ids.qasemti.utils.*
 import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.fragment_home_client.*
@@ -76,14 +79,16 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
     }
 
     fun init() {
-
+/*
         try {
             MyApplication.arrayCart = AppHelper.fromGSon()
             AppHelper.getArrayCarts()
         }catch (ex:Exception){
+        }*/
+
+        linearProfileInfo.setOnClickListener {
+            startActivity(Intent( requireActivity(),ActivityChat::class.java))
         }
-
-
         if (MyApplication.isSignedIn) {
             (activity as ActivityHome?)!!.showLogout(false)
             btRegisterLogin.hide()

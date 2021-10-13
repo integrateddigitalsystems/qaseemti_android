@@ -123,6 +123,9 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".controller.Activities.ActivityChat"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".controller.Activities.ActivityCurrentLocation"
             android:screenOrientation="portrait" />
         <activity

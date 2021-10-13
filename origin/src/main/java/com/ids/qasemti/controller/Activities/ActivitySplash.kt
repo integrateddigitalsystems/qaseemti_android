@@ -226,6 +226,7 @@ class ActivitySplash : ActivityBase() {
 
 
     fun nextStep() {
+        MyApplication.isSignedIn = true
         Handler(Looper.getMainLooper()).postDelayed({
             if(MyApplication.firstTime) {
                 MyApplication.firstTime = false

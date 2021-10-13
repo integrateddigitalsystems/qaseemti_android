@@ -16,11 +16,13 @@ import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Adapters.AdapterMediaPager
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.ServiceVariation
 import com.ids.qasemti.model.SliderItem
 import com.ids.qasemti.utils.*
 import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.fragment_service_details.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Player.EventListener {
@@ -72,8 +74,10 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
             MyApplication.selectedSize=selectedSizeName
             startActivity(Intent(requireContext(),ActivityCheckout::class.java))
         }
-        if(!MyApplication.selectedService!!.name.isNullOrEmpty()) {
+        try{
             AppHelper.setTitle(requireActivity(), MyApplication.selectedService!!.name!!, "")
+        }catch (ex:Exception){
+
         }
 
         setTypeSpinner()
@@ -131,7 +135,12 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
 
     private fun setTypeSpinner(){
-        var arrayTypes=MyApplication.selectedService!!.variations.distinctBy { it.types  }
+        var arrayTypes : List<ServiceVariation> = arrayListOf()
+        try {
+            arrayTypes = MyApplication.selectedService!!.variations.distinctBy { it.types }
+        }catch (ex:java.lang.Exception){
+
+        }
         arraySpinnerTypes.clear()
         for (i in arrayTypes.indices){
             if(arrayTypes[i].types!=null && arrayTypes[i].types!!.isNotEmpty())
@@ -158,7 +167,13 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
     private fun setSizeCapacitySpinner(){
 
-        var arrayTypes=MyApplication.selectedService!!.variations.distinctBy { it.sizeCapacity }
+        var arrayTypes : List<ServiceVariation> = arrayListOf()
+        try {
+            arrayTypes =
+                MyApplication.selectedService!!.variations.distinctBy { it.sizeCapacity }
+        }catch (ex:Exception){
+
+        }
         arraySpinnerSizes.clear()
         for (i in arrayTypes.indices){
             if(arrayTypes[i].sizeCapacity!=null && arrayTypes[i].sizeCapacity!!.isNotEmpty())

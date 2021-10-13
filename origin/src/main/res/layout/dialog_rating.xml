@@ -46,6 +46,19 @@
                 android:progressTint="@color/button_blue"
                 android:stepSize="1" />
 
+            <!--<EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:padding="@dimen/normal_margin"
+                android:hint="title"
+                android:tag="@string/description"
+                android:layout_gravity="top"
+                android:gravity="top"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_gray_corner"
+                android:id="@+id/etRatingTitle"/>-->
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="150dp"

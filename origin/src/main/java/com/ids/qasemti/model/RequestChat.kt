@@ -3,9 +3,9 @@ package com.ids.qasemti.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class ResponseCancel (
-    @SerializedName("result")
+class RequestChat(
+    @SerializedName("order_id")
     @Expose
-    var result : String ?=""
-        ){
+    var orderID : Int ?=0
+){
 }

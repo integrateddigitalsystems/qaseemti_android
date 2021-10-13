@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/margin_start_end"
+    android:layout_marginEnd="@dimen/margin_start_end"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/llReplyMessage"
+        android:layout_margin="@dimen/small_margin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:background="@drawable/rounded_red_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvReply"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/normal_font"
+                    android:text="Hello There!"
+                    android:padding="@dimen/normal_margin"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/mini_margin"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_font"
+                android:id="@+id/tvReplydate"
+                android:textColor="@color/gray_font"
+                android:text="03/11/2012"/>
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llUserMessage"
+        android:layout_margin="@dimen/small_margin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <LinearLayout
+            android:gravity="end"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:background="@drawable/rounded_red_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:id="@+id/tvMessage"
+                    android:textSize="@dimen/normal_font"
+                    android:text="Hello There!"
+                    android:padding="@dimen/normal_margin"/>
+
+                <ImageView
+                    android:id="@+id/ivLoading"
+                    android:layout_margin="@dimen/small_margin"
+                    android:layout_gravity="bottom"
+                    android:tint="@color/white"
+                    android:layout_width="@dimen/small_icon"
+                    android:layout_height="@dimen/small_icon"
+                    android:src="@drawable/icon_loading_message"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="bottom|end"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_font"
+                android:id="@+id/tvMessageDate"
+                android:textColor="@color/gray_font" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

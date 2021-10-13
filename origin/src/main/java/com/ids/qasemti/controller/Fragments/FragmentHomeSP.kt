@@ -9,7 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
-import com.ids.qasemti.controller.Activities.ActivityMap
+
+import com.ids.qasemti.controller.Activities.ActivityMapAddress
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
@@ -43,6 +44,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayoutOrders, requireContext())
         init()
+
+
 
     }
 
@@ -276,7 +279,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         if (view.id == R.id.llLocation) {
             AppHelper.onOneClick {
                 startActivity(
-                    Intent(requireActivity(), ActivityMap::class.java)
+                    Intent(requireActivity(), ActivityMapAddress::class.java)
                         .putExtra(
                             "mapTitle",
                             AppHelper.getRemoteString("view_address", requireContext())

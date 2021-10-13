@@ -129,6 +129,10 @@ interface RetrofitInterface {
 
 
 
+    @POST("sp_clients_reviews")
+    fun setRatingSer(
+        @Body param : RequestClientReviews
+    ): Call<ResponseMessage>
 
     @POST("sp_post_ratings")
     fun setRating(
@@ -220,5 +224,14 @@ interface RetrofitInterface {
         @Body param : RequestUserStatus
     ):Call<ResponseMessage>
 
+    @POST("get_order_chat")
+    fun getChats(
+        @Body param : RequestChat
+    ):Call<ResponseMainChat>
+
+    @POST("post_order_chat")
+    fun sendChats(
+        @Body param : RequestSendChat
+    ):Call<ResponseMessage>
 
 }

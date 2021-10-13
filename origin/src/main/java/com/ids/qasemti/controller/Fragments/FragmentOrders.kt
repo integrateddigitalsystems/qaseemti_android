@@ -13,10 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Activities.ActivityHome
-import com.ids.qasemti.controller.Activities.ActivityMap
-import com.ids.qasemti.controller.Activities.ActivityOrderDetails
-import com.ids.qasemti.controller.Activities.ActivityTrackOrder
+import com.ids.qasemti.controller.Activities.*
 import com.ids.qasemti.controller.Adapters.AdapterOrderType
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
@@ -64,7 +61,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         }catch (ex: Exception){
 
         }
-        var newReq = RequestOrders(MyApplication.userId,MyApplication.languageCode,orderType)
+        var newReq = RequestOrders(51,MyApplication.languageCode,orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getClientOrders(
                 newReq
@@ -96,7 +93,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         }catch (ex: Exception){
 
         }
-        var newReq = RequestOrders(MyApplication.userId,MyApplication.languageCode,orderType)
+        var newReq = RequestOrders(41,MyApplication.languageCode,orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrders(
                 newReq
@@ -184,7 +181,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         if(view.id==R.id.llLocation){
             AppHelper.onOneClick {
                 startActivity(
-                    Intent(requireActivity(), ActivityMap::class.java)
+                    Intent(requireActivity(), ActivityMapAddress::class.java)
                         .putExtra(
                             "mapTitle",
                             AppHelper.getRemoteString("view_address", requireContext())
@@ -210,10 +207,12 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
 
         }else if(view.id==R.id.ivOrderMessage){
             AppHelper.onOneClick {
-                val uri = Uri.parse("smsto:12346556")
+                /*val uri = Uri.parse("smsto:12346556")
                 val it = Intent(Intent.ACTION_SENDTO, uri)
                 it.putExtra("sms_body", "Here you can set the SMS text to be sent")
-                startActivity(it)
+                startActivity(it)*/
+                MyApplication.selectedOrder=ordersArray[position]
+                startActivity(Intent(requireContext(),ActivityChat::class.java))
             }
         }else if(view.id==R.id.llTrackOrder){
             startActivity(Intent(requireActivity(), ActivityTrackOrder::class.java))
@@ -222,7 +221,14 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
 
     fun setSelected(position: Int){
 
-        when (position) {
+        if(MyApplication.isClient){
+            orderType = "waiting"
+            getClientOrders()
+        }else{
+            orderType = "pending"
+            getOrders()
+        }
+       /* when (position) {
             0 ->{
                 tvActive.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(),tvActive,R.color.white)
@@ -262,7 +268,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
             else -> {
 
             }
-        }
+        }*/
     }
     fun setTabLayout(position: Int){
         typeSelected=position

@@ -45,16 +45,21 @@ class FragmentBottomSheetPush : BottomSheetDialogFragment() {
 
     fun listeners() {
 
+        if(MyApplication.notfType==1){
+            rbNotification.isChecked = true
+        }else{
+            rbSMS.isChecked = true
+        }
 
         rbNotification.setOnClickListener {
-            if(!rbNotification.isSelected){
+            if(MyApplication.notfType!=1){
                 setNotificationType(1)
             }
 
         }
 
         rbSMS.setOnClickListener {
-            if(!rbSMS.isSelected){
+            if(MyApplication.notfType!=2){
                 setNotificationType(2)
             }
         }
@@ -69,12 +74,14 @@ class FragmentBottomSheetPush : BottomSheetDialogFragment() {
                     response: Response<ResponseCancel>
                 ) {
                     try {
+                      MyApplication.notfType = available
                     } catch (E: java.lang.Exception) {
+                        var y = 1
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
-
+                    var z= 1
                 }
             })
     }

@@ -62,7 +62,16 @@ class ActivityMapAddress : ActivityBase(), OnMapReadyCallback{
         btBackTool.onOneClick {
             onBackPressed()
         }
+        var title :String ?=""
         AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
+        try {
+            title = intent.getStringExtra("mapTitle")
+        }
+        catch (ex:java.lang.Exception){
+            title = AppHelper.getRemoteString("LocationOnMap",this)
+        }
+        AppHelper.setLogoTint(btBackTool, this, R.color.redPrimary)
+        tvPageTitle.setColorTypeface(this, R.color.redPrimary, title!!, true)
         listeners()
     }
 
