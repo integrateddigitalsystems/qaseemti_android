@@ -1,6 +1,7 @@
 package com.ids.qasemti.utils
 
 
+import android.R.attr.data
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -11,21 +12,27 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.Outline
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.provider.OpenableColumns
 import android.provider.Settings
+import android.provider.Settings.Global.getString
+import android.provider.Settings.System.getString
 import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -33,6 +40,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.BitmapImageViewTarget
@@ -40,11 +48,12 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestUpdate
-import com.ids.qasemti.model.ResponseUpdate
+import com.ids.qasemti.model.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import me.grantland.widget.AutofitHelper
 import retrofit2.Call
@@ -59,8 +68,10 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.prefs.PreferencesFactory
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 
 
 /**
@@ -179,7 +190,7 @@ class AppHelper {
                 })
         }*/
 
-        fun getTypeFaceItalic(context: Context) : Typeface{
+        fun getTypeFaceItalic(context: Context): Typeface {
             return if (Locale.getDefault().language == "ar")
                 Typeface.createFromAsset(
                     context.applicationContext.assets,
@@ -194,6 +205,7 @@ class AppHelper {
 
             // return Typeface.DEFAULT_BOLD
         }
+
         fun getTypeFaceBold(context: Context): Typeface {
             return if (Locale.getDefault().language == "ar")
                 Typeface.createFromAsset(
@@ -300,7 +312,7 @@ class AppHelper {
 
         fun resetIcons(context: Context, vararg images: ImageView?) {
             for (element in images) {
-                element!!.setPadding(0,0,0,0)
+                element!!.setPadding(0, 0, 0, 0)
                 element!!.layoutParams = LinearLayout.LayoutParams(
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
@@ -333,23 +345,74 @@ class AppHelper {
             return version
         }
 
-        fun formatDate(date:Date,toFormat: String):String{
-            var sdf2 = SimpleDateFormat(toFormat , Locale.US)
+        fun formatDate(date: Date, toFormat: String): String {
+            var sdf2 = SimpleDateFormat(toFormat, Locale.US)
 
             return sdf2.format(date)
         }
 
-        fun formatDate(date:String , format : String,toFormat : String):String{
+        fun formatDate(date: String, format: String, toFormat: String): String {
 
             var sdf =
                 SimpleDateFormat(format, Locale.ENGLISH)
             var date = sdf.parse(date)
-            var sdf2 = SimpleDateFormat(toFormat , Locale.US)
+            var sdf2 = SimpleDateFormat(toFormat, Locale.US)
 
             return sdf2.format(date)
         }
 
-        fun updateDevice(context: Context){
+        fun getArrayCarts() {
+
+            var array: ArrayList<RequestPlaceOrder> = arrayListOf()
+            for (item in MyApplication.arrayCart.indices) {
+                val getrow: Any = MyApplication.arrayCart.get(item)
+                val t: LinkedTreeMap<Any, Any> = getrow as LinkedTreeMap<Any, Any>
+
+                var userId = 0.0
+                var x = t["user_id"].toString()
+                try {
+                    userId = t["user_id"] as Double
+                }catch (ex:Exception){
+                }
+                var prodId = 0.0
+                try {
+                    prodId = t["product_id"] as Double
+                }catch (ex:Exception){
+                }
+                array.add(
+                    RequestPlaceOrder(
+                        userId.toInt(),
+                        t["product_categroy"].toString(),
+                        prodId.toInt(),
+                        t["types"].toString(),
+                        t["size_capacity"].toString(),
+                        t["delivery_date"].toString(),
+                        t["address_name"].toString(),
+                        t["address_latitude"].toString(),
+                        t["address_longitude"].toString(),
+                        t["address_street"].toString(),
+                        t["address_building"].toString(),
+                        t["address_floor"].toString(),
+                        t["address_description"].toString(),
+                        t["first_name"].toString(),
+                        t["last_name"].toString(),
+                        t["company"].toString(),
+                        t["email"].toString(),
+                        t["phone"].toString(),
+                        t["title"].toString(),
+                        t["price"].toString()
+                    )
+                )
+            }
+
+
+
+            var x = array
+            MyApplication.arrayCart.clear()
+            MyApplication.arrayCart.addAll(array)
+        }
+
+        fun updateDevice(context: Context, phone : String) {
 
             val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
             val cal = Calendar.getInstance()
@@ -358,11 +421,14 @@ class AppHelper {
             val osVersion = AppHelper.getAndroidVersion()
 
             val deviceToken = ""
-            val deviceTypeId = "2"
-            var android_id = Settings.Secure.getString(context.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
+            val deviceTypeId = ""
+            var android_id = Settings.Secure.getString(
+                context.getContentResolver(),
+                Settings.Secure.ANDROID_ID
+            );
 
-            val imei = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+            val imei =
+                Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
 
             val registrationDate = dateFormat.format(cal.time)
             val appVersion = getVersionNumber()
@@ -373,22 +439,40 @@ class AppHelper {
 
             val lang = MyApplication.languageCode
             var isService = 1
-            if(MyApplication.isClient)
-                isService =0
+            if (MyApplication.isClient)
+                isService = 0
 
-            var newReq = RequestUpdate(MyApplication.deviceId,MyApplication.selectedPhone,model,osVersion,deviceToken,2,imei,generalNotification,appVersion.toString(),0,lang,MyApplication.userId,isService)
+            var newReq = RequestUpdate(
+               MyApplication.deviceId,
+                phone,
+                model,
+                osVersion,
+                deviceToken,
+                2,
+                imei,
+                generalNotification,
+                appVersion.toString(),
+                0,
+                lang,
+                MyApplication.userId,
+                isService
+            )
 
 
             RetrofitClient.client?.create(RetrofitInterface::class.java)
                 ?.updateDevice(
-                   newReq
+                    newReq
                 )?.enqueue(object : Callback<ResponseUpdate> {
-                    override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
-                        try{
-                            MyApplication.deviceId =123
-                        }catch (E: java.lang.Exception){
+                    override fun onResponse(
+                        call: Call<ResponseUpdate>,
+                        response: Response<ResponseUpdate>
+                    ) {
+                        try {
+                            MyApplication.deviceId = response.body()!!.deviceId!!
+                        } catch (E: java.lang.Exception) {
                         }
                     }
+
                     override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
                     }
                 })
@@ -540,10 +624,11 @@ class AppHelper {
 
         }
 
-        fun getRemoteString(key:String , con : Context):String {
+        fun getRemoteString(key: String, con: Context): String {
             if (MyApplication.localizeArray != null) {
                 try {
-                    return MyApplication.localizeArray!!.messages!!.find { it.localize_Key == key }!!.getMessage()!!
+                    return MyApplication.localizeArray!!.messages!!.find { it.localize_Key == key }!!
+                        .getMessage()!!
                 } catch (e: Exception) {
                     try {
                         val resId = con.resources.getIdentifier(key, "string", con.packageName)
@@ -553,7 +638,7 @@ class AppHelper {
                     }
                 }
 
-            }else{
+            } else {
                 val resId = con.resources.getIdentifier(key, "string", con.packageName)
                 return con.resources.getString(resId)
             }
@@ -561,8 +646,13 @@ class AppHelper {
 
         }
 
-        fun createYesNoDialog(c: Activity, positiveButton :String , negativeButton : String ,message: String, doAction: () -> Unit) {
-
+        fun createYesNoDialog(
+            c: Activity,
+            positiveButton: String,
+            negativeButton: String,
+            message: String,
+            doAction: () -> Unit
+        ) {
 
 
             val builder = AlertDialog.Builder(c)
@@ -579,6 +669,7 @@ class AppHelper {
             alert.show()
 
         }
+
         fun setLogoTint(img: ImageView, con: Context, color: Int) {
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -602,8 +693,8 @@ class AppHelper {
             context.startActivity(Intent(context, ActivityHome::class.java))
         }
 
-        fun onOneClick(doAction: () -> Unit){
-            if(MyApplication.clickable!!){
+        fun onOneClick(doAction: () -> Unit) {
+            if (MyApplication.clickable!!) {
                 MyApplication.clickable = false
                 doAction()
                 Handler(Looper.getMainLooper()).postDelayed({
@@ -612,6 +703,61 @@ class AppHelper {
             }
         }
 
+        fun setUpCornerRadius(image: ImageView, context: Context) {
+
+            val curveRadius = context.resources.getDimensionPixelSize(R.dimen.big_radius).toFloat()
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val provider: ViewOutlineProvider = object : ViewOutlineProvider() {
+                    override fun getOutline(view: View, outline: Outline) {
+                        outline.setRoundRect(
+                            0,
+                            0,
+                            view.width,
+                            view.height,
+                            curveRadius.toFloat()
+                        )
+                    }
+                }
+                image.setOutlineProvider(provider)
+                image.setClipToOutline(true)
+            }
+        }
+
+        fun getAddressLoc(lat: Double, long: Double, con: Context): Address {
+            val myLocation = Geocoder(con, Locale.getDefault())
+            val myList = myLocation.getFromLocation(lat, long, 1)
+            val address = myList[0]
+
+            return address!!
+        }
+
+        fun fromGSon(): ArrayList<RequestPlaceOrder> {
+            val gson = Gson()
+            val array = gson.fromJson(
+                MyApplication.cartItems,
+                ArrayList<RequestPlaceOrder>().javaClass
+            )
+
+            return array
+
+        }
+
+        fun toGSOn(array: ArrayList<RequestPlaceOrder>) {
+            val gson = Gson()
+            val jsonText = gson.toJson(array)
+            MyApplication.cartItems = jsonText
+        }
+
+        fun getAddress(lat: Double, long: Double, con: Context): String {
+            val myLocation = Geocoder(con, Locale.getDefault())
+            val myList = myLocation.getFromLocation(lat, long, 1)
+            val address = myList[0]
+            var addressStr: String? = ""
+            addressStr += address.getAddressLine(0).toString()
+
+            return addressStr!!
+        }
 
         fun changeLanguage(context: Context, language: String) {
 
@@ -852,7 +998,7 @@ class AppHelper {
         fun createDialog(c: Activity, message: String) {
 
 
-            var ok = getRemoteString("ok",c)
+            var ok = getRemoteString("ok", c)
 
             val builder = AlertDialog.Builder(c)
             builder
@@ -1019,6 +1165,53 @@ class AppHelper {
             }
             Log.wtf("count_frag", count.toString() + "aaa")
             return count
+        }
+
+
+        fun getUserInfo() {
+            var newReq = RequestUpdateLanguage(MyApplication.userId, MyApplication.languageCode)
+            RetrofitClient.client?.create(RetrofitInterface::class.java)
+                ?.getUser(
+                    newReq
+                )?.enqueue(object : Callback<ResponseUser> {
+                    override fun onResponse(
+                        call: Call<ResponseUser>,
+                        response: Response<ResponseUser>
+                    ) {
+                        try {
+                            MyApplication.selectedUser = response.body()!!.user
+                        } catch (e: Exception) {
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                    }
+                })
+        }
+
+
+
+        private fun isLocationPermissionGranted(context: Activity,requestcode:Int): Boolean {
+            return if (ActivityCompat.checkSelfPermission(
+                    context,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    context,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    context,
+                    arrayOf(
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    ),
+                    requestcode
+                )
+                false
+            } else {
+                true
+            }
         }
 
 

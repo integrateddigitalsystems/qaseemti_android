@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/llReplyMessage"
+        android:layout_margin="@dimen/small_margin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+          <androidx.cardview.widget.CardView
+                android:id="@+id/linearProfileInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardElevation="@dimen/normal_margin"
+                android:layout_below="@id/llToolBar"
+                android:layout_above="@id/rlMessage"
+                android:elevation="@dimen/normal_margin"
+                card_view:contentPadding="0dp"
+                app:cardUseCompatPadding="true"
+                android:padding="@dimen/normal_margin"
+                app:cardCornerRadius="@dimen/normal_radius"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingEnd="@dimen/margin_start_end">
+
+                <LinearLayout
+                    android:background="@drawable/pink_rounded"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvReply"
+                    android:textColor="@color/redPrimary"
+                    android:textSize="@dimen/normal_font"
+                    android:text="Hello There!"
+                    android:padding="@dimen/normal_margin"/>
+
+            </LinearLayout>
+
+          </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/push_date"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_font"
+                android:id="@+id/tvReplydate"
+                android:textColor="@color/gray_font"
+                android:text="03/11/2012"/>
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llUserMessage"
+        android:layout_margin="@dimen/small_margin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_red_background"
+                    android:orientation="horizontal">
+
+                    <com.ids.qasemti.custom.CustomTextViewBold
+                        android:id="@+id/tvMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/normal_margin"
+                        android:text="Hello There!"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/normal_font" />
+
+                    <ImageView
+                        android:id="@+id/ivLoading"
+                        android:layout_width="@dimen/small_icon"
+                        android:layout_height="@dimen/small_icon"
+                        android:layout_gravity="bottom"
+                        android:layout_margin="@dimen/small_margin"
+                        android:src="@drawable/icon_loading_message"
+                        android:tint="@color/white" />
+
+                </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginEnd="@dimen/mini_margin"
+            android:gravity="bottom|end"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_font"
+                android:id="@+id/tvMessageDate"
+                android:textColor="@color/gray_font" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

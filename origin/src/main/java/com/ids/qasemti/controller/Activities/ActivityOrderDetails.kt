@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -103,23 +102,16 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
 
         }
-        if(MyApplication.isClient)
-            llRatingOrder.hide()
+        /*if(MyApplication.isClient)
+           // llRatingOrder.hide()
+           // llRatingOrder.hide()*/
 
         tvLocationOrderDeatils.setColorTypeface(this,R.color.redPrimary,"",false)
         setOrderData()
     }
 
 
-    fun getAddress(lat:Double , long : Double): String {
-        val myLocation = Geocoder(this, Locale.getDefault())
-        val myList = myLocation.getFromLocation(lat,long, 1)
-        val address = myList[0]
-        var addressStr: String? = ""
-        addressStr += address.getAddressLine(0).toString()
 
-        return addressStr!!
-    }
 
     private fun setOrderData(){
         var array:ArrayList<OrderData> = arrayListOf()
@@ -137,12 +129,12 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         rvDataBorder.layoutManager = LinearLayoutManager(this)
         rvDataBorder.adapter = AdapterOrderData(array,this,this)
 
-        tvLocationOrderDeatils.text = getAddress(MyApplication.selectedOrder!!.customerLat!!.toDouble(),MyApplication.selectedOrder!!.customerLong!!.toDouble())
-        tvOrderCustomerName.text = MyApplication.selectedOrder!!.customer!!.first_name+" "+MyApplication.selectedOrder!!.customer!!.last_name
-        tvOrderDeetId.text = MyApplication.selectedOrder!!.orderId.toString()
-        tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy")
-        tvExpectedOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.deliveryDate!!,"yyyy-MM-dd","dd MMMM yyyy")
-        tvOrderAmountDeet.text = MyApplication.selectedOrder!!.total!!.toString()+" "+MyApplication.selectedOrder!!.currency
+        try{tvLocationOrderDeatils.text = AppHelper.getAddress(MyApplication.selectedOrder!!.customerLat!!.toDouble(),MyApplication.selectedOrder!!.customerLong!!.toDouble(),this)}catch (e:Exception){}
+        try{tvOrderCustomerName.text = MyApplication.selectedOrder!!.customer!!.first_name+" "+MyApplication.selectedOrder!!.customer!!.last_name}catch (e:Exception){}
+        try{tvOrderDeetId.text = MyApplication.selectedOrder!!.orderId.toString()}catch (e:Exception){}
+        try{tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy")}catch (e:Exception){}
+        try{tvExpectedOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.deliveryDate!!,"yyyy-MM-dd","dd MMMM yyyy")}catch (e:Exception){}
+        try{tvOrderAmountDeet.text = MyApplication.selectedOrder!!.total!!.toString()+" "+MyApplication.selectedOrder!!.currency}catch (e:Exception){}
 
     }
 
@@ -156,10 +148,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             startActivity(intent)
         }
         llMessage.onOneClick {
-            val uri = Uri.parse("smsto:12346556")
-            val it = Intent(Intent.ACTION_SENDTO, uri)
-            it.putExtra("sms_body", "Here you can set the SMS text to be sent")
-            startActivity(it)
+            startActivity(Intent(this,ActivityChat::class.java))
         }
         rlCheckoutDate.onOneClick {
             var mcurrentDate = Calendar.getInstance()
@@ -224,11 +213,11 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                         try{
                             resultCancel(response.body()!!.result!!)
                         }catch (E: java.lang.Exception){
-                           resultCancel(false)
+                           resultCancel("0")
                         }
                     }
                     override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
-                        resultCancel(false)
+                        resultCancel("0")
                     }
                 })
         }
@@ -278,8 +267,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             })
     }
 
-    fun resultCancel(req:Boolean){
-        if(req){
+    fun resultCancel(req:String){
+        if(req=="1"){
             AppHelper.createDialog(this,AppHelper.getRemoteString("success",this))
         }else{
             AppHelper.createDialog(this,AppHelper.getRemoteString("failure",this))
@@ -325,8 +314,13 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                etRatingText.startAnimation(shake)
             }else if(rbOrder.rating == 0f)
                 rbOrder.startAnimation(shake)
-            else
-                setRating(loading,etRatingText.text.toString(),rbOrder.rating.toInt())
+            else {
+                if(MyApplication.isClient) {
+                    setClientRating(loading, etRatingText.text.toString(), rbOrder.rating.toInt())
+                }else{
+                    setSerRating(loading,etRatingText.text.toString(),rbOrder.rating.toInt())
+                }
+            }
         }
 
         close.onOneClick {
@@ -336,14 +330,43 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
     }
 
+    fun setSerRating(loading:LinearLayout, description:String, rating:Int){
+        loading.show()
+        var newReq = RequestClientReviews(
+            MyApplication.selectedOrder!!.vendor!!.userId!!.toInt(),
+            MyApplication.userId,
+            "",
+            description,
+            rating
 
-    fun setRating(loading:LinearLayout,description:String,rating:Int){
+        )
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.setRatingSer(newReq)?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
+                    try{
+                        loading.hide()
+                        if(response.body()!!.result == 1)
+                            dialog!!.dismiss()
+                        else{
+                            createDialog(this@ActivityOrderDetails,response.body()!!.message!!)
+                        }
+                    }catch (E: java.lang.Exception){
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
+
+
+    fun setClientRating(loading:LinearLayout, description:String, rating:Int){
         loading.show()
         var newReq = RequestRating(
             MyApplication.selectedOrder!!.vendor!!.userId!!.toInt(),
-            MyApplication.userId!!,
-            "auth name",//get from user object
-            "auth email",//get from user object
+            MyApplication.userId,
+            MyApplication.selectedUser!!.firstName,//get from user object
+            MyApplication.selectedUser!!.email,//get from user object
             "",//get from user object
             description,
             rating

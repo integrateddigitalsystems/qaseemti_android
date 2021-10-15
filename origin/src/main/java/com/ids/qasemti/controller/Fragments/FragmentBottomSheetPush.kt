@@ -4,16 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.annotation.Nullable
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.utils.AppConstants
+import com.ids.qasemti.model.RequestNotificationUpdate
+import com.ids.qasemti.model.ResponseCancel
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.RetrofitClient
+import com.ids.qasemti.utils.RetrofitInterface
 import kotlinx.android.synthetic.main.bottom_sheet_language.*
 import kotlinx.android.synthetic.main.bottom_sheet_language.rootLayout
 import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.fragment_checkout.*
+import kotlinx.android.synthetic.main.fragmentbottom_push_notification.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 
 class FragmentBottomSheetPush : BottomSheetDialogFragment() {
 
@@ -32,9 +43,53 @@ class FragmentBottomSheetPush : BottomSheetDialogFragment() {
 
     }
 
+    fun listeners() {
+
+        if(MyApplication.notfType==1){
+            rbNotification.isChecked = true
+        }else{
+            rbSMS.isChecked = true
+        }
+
+        rbNotification.setOnClickListener {
+            if(MyApplication.notfType!=1){
+                setNotificationType(1)
+            }
+
+        }
+
+        rbSMS.setOnClickListener {
+            if(MyApplication.notfType!=2){
+                setNotificationType(2)
+            }
+        }
+    }
+
+    fun setNotificationType(available: Int) {
+        var newReq = RequestNotificationUpdate(MyApplication.userId, available)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.updateNotification(newReq)?.enqueue(object : Callback<ResponseCancel> {
+                override fun onResponse(
+                    call: Call<ResponseCancel>,
+                    response: Response<ResponseCancel>
+                ) {
+                    try {
+                      MyApplication.notfType = available
+                    } catch (E: java.lang.Exception) {
+                        var y = 1
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
+                    var z= 1
+                }
+            })
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AppHelper.setAllTexts(rootLayout,requireContext())
+        AppHelper.setAllTexts(rootLayout, requireContext())
+        listeners()
 
     }
 }

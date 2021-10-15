@@ -1,70 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/llMain"
-    android:background="@color/black"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <LinearLayout
-        android:visibility="visible"
-        android:id="@+id/llBackgroundImage"
-        android:orientation="horizontal"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <WebView
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/webViewTitle"/>
-        <ImageView
-            android:scaleType="fitCenter"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:id="@+id/theTitleImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <VideoView
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/vvTitle"/>
-
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:id="@+id/ivFile"/>
 
 
-    <RelativeLayout
-        android:visibility="visible"
-        android:id="@+id/llPlayer"
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/youtube_player_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:autoPlay="false"
+        android:visibility="gone"
+        app:showFullScreenButton="false" />
 
-
-
-
-        <com.google.android.exoplayer2.ui.StyledPlayerView
-            android:layout_margin="@dimen/mini_margin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/simpleExoPlayerView4"
-            android:visibility="visible"
-            />
-
-        <ImageView
-
-            android:layout_marginTop="@dimen/mini_margin"
-            android:id="@+id/btFullScreen"
-            android:layout_width="@dimen/normal_icon_size"
-            android:layout_height="@dimen/normal_icon_size"
-            android:layout_gravity="start"
-            android:textColor="@color/white"
-            android:layout_marginRight="@dimen/normal_margin"
-            android:layout_marginBottom="@dimen/big_margin"
-            android:visibility="visible" />
-
-    </RelativeLayout>
-
-
-</LinearLayout>
+</RelativeLayout>

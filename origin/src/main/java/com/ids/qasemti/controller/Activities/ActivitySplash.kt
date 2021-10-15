@@ -24,10 +24,7 @@ import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.FirebaseLocalizeArray
-import com.ids.qasemti.model.RequestNotifications
-import com.ids.qasemti.model.ResponseConfiguration
-import com.ids.qasemti.model.ResponseNotification
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 
 import com.ids.qasemti.utils.AppConstants.FIREBASE_FORCE_UPDATE
@@ -41,17 +38,14 @@ import retrofit2.Response
 
 class ActivitySplash : ActivityBase() {
     var mFirebaseRemoteConfig: FirebaseRemoteConfig? = null
-    var upB : String ?=""
-    var upD : String ?=""
-    var upM : String ?=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         //  MyApplication.isLoggedIn = true
 
         getFirebasePrefs()
-        AppHelper.updateDevice(this)
-        getMobileConfig()
+      //  getMobileConfig()
+       //getAddress()
     }
 
     private fun showDialogUpdate(activity: Activity) {
@@ -62,14 +56,11 @@ class ActivitySplash : ActivityBase() {
         val textEntryView = inflater.inflate(R.layout.item_dialog, null)
         textView = textEntryView.findViewById(R.id.dialogMsg)
         textView.gravity = Gravity.CENTER
-        textView.text = upM
-        builder.setTitle(upD)
-
-        var can = "Cancel"
-
+        textView.text = AppHelper.getRemoteString("popup_version_message",this)
+        builder.setTitle(AppHelper.getRemoteString("popup_version_title",this))
 
         builder.setView(textEntryView)
-            .setPositiveButton(upB) { dialog, _ ->
+            .setPositiveButton(AppHelper.getRemoteString("popup_version_done",this)) { dialog, _ ->
                 dialog.dismiss()
                 val appPackageName = activity.packageName
                 try {
@@ -93,7 +84,7 @@ class ActivitySplash : ActivityBase() {
 
                 }
             }
-            .setNegativeButton(can) { dialog, _ ->
+            .setNegativeButton(AppHelper.getRemoteString("popup_version_cancel",this)) { dialog, _ ->
                 nextStep()
 
             }
@@ -123,9 +114,7 @@ class ActivitySplash : ActivityBase() {
 
     private fun showDialogForceUpdate(activity: Activity) {
 
-        upM = "New Version , please update"
-        upD = "Update Available"
-        upB = "Update"
+
         val builder = AlertDialog.Builder(activity)
         val textView: TextView
         val inflater = activity.layoutInflater
@@ -133,13 +122,13 @@ class ActivitySplash : ActivityBase() {
         textView = textEntryView.findViewById(R.id.dialogMsg)
         textView.gravity = Gravity.START
 
-        textView.text = upM
-        builder.setTitle(upD)
+        textView.text = AppHelper.getRemoteString("popup_version_message",this)
+        builder.setTitle(AppHelper.getRemoteString("popup_version_title",this))
 
 
 
         builder.setView(textEntryView)
-            .setNegativeButton(upB) { dialog, _ ->
+            .setNegativeButton(AppHelper.getRemoteString("popup_version_done",this)) { dialog, _ ->
                 dialog.dismiss()
                 val appPackageName = activity.packageName
                 try {
@@ -177,23 +166,39 @@ class ActivitySplash : ActivityBase() {
         d.show()
     }
 
-    fun updateAvailable() {
-        val version = mFirebaseRemoteConfig!!.getString("android_version_code")
-        var force = mFirebaseRemoteConfig!!.getBoolean("android_force_update")
+    fun checkForUpdate() {
 
+        var arrayMobileConfiguration = Gson().fromJson(mFirebaseRemoteConfig!!.getString(AppConstants.FIREBASE_MOBILE_CONFIGURATION), FirebaseConfArray::class.java)
+        var version=arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.version!!
+        var force=arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.isForceUpdate!!
         try {
-            if (BuildConfig.VERSION_CODE < version.toInt()) {
-
+            /*if (BuildConfig.VERSION_NAME.toDouble() > version) {
                 if (force) {
                     showDialogForceUpdate(this)
                 } else {
                     showDialogUpdate(this)
                 }
-            }
+            }else{*/
+                nextStep()
+           // }
         } catch (ex: Exception) {
 
         }
 
+    }
+
+    fun getAddress(){
+        RetroFitMap.client?.create(RetrofitInterface::class.java)
+            ?.getLocationLatLng("32.879087766 , 12.1231233",getString(R.string.googleKey))?.enqueue(object : Callback<Any> {
+                override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                    try{
+                    }catch (E: java.lang.Exception){
+                    }
+                }
+                override fun onFailure(call: Call<Any>, throwable: Throwable) {
+
+                }
+            })
     }
 
     fun getMobileConfig(){
@@ -203,7 +208,6 @@ class ActivitySplash : ActivityBase() {
             )?.enqueue(object : Callback<ArrayList<ResponseConfiguration>> {
                 override fun onResponse(call: Call<ArrayList<ResponseConfiguration>>, response: Response<ArrayList<ResponseConfiguration>>) {
                     try{
-                        var x = 1
                     }catch (E: java.lang.Exception){
                     }
                 }
@@ -212,15 +216,22 @@ class ActivitySplash : ActivityBase() {
             })
     }
 
+
+
     fun nextStep() {
+        getMobileConfig()
         MyApplication.isSignedIn = true
+        MyApplication.userId = 6
         Handler(Looper.getMainLooper()).postDelayed({
             if(MyApplication.firstTime) {
+                AppHelper.updateDevice(this,"")
                 MyApplication.firstTime = false
                 startActivity(Intent(this, ActivityChooseLanguage::class.java))
                 finish()
             }else{
                 if(MyApplication.isSignedIn) {
+                    AppHelper.updateDevice(this,MyApplication.phoneNumber!!)
+                    AppHelper.getUserInfo()
                     if (MyApplication.isClient) {
                         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
                         MyApplication.selectedFragment = FragmentHomeClient()
@@ -232,8 +243,19 @@ class ActivitySplash : ActivityBase() {
                     startActivity(Intent(this, ActivityHome::class.java))
                     finish()
                 }else{
-                    startActivity(Intent(this, ActivityMobileRegistration::class.java))
-                    finish()
+                    AppHelper.updateDevice(this,"")
+                    if(MyApplication.isClient){
+                        MyApplication.isSignedIn = true
+                        MyApplication.userId = 6
+                        AppHelper.getUserInfo()
+                        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+                        MyApplication.selectedFragment = FragmentHomeClient()
+                        startActivity(Intent(this, ActivityHome::class.java))
+                    }
+                    else {
+                        startActivity(Intent(this, ActivityMobileRegistration::class.java))
+                        finish()
+                    }
                 }
             }
         }, 500)
@@ -250,23 +272,21 @@ class ActivitySplash : ActivityBase() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val updated = task.result
-                    MyApplication.localizeArray = Gson().fromJson(
-                        mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE),
-                        FirebaseLocalizeArray::class.java
-                    )
-                    logw(
-                        "firebase_array_size",
-                        "..." + MyApplication.localizeArray!!.messages!!.size
-                    )
-
-                    if(MyApplication.firstTime){
-                        updateAvailable()
-                    }
+                    try{
+                        var BASE_URLS = Gson().fromJson(mFirebaseRemoteConfig!!.getString(BuildConfig.urls), FirebaseBaseUrlsArray::class.java)
+                        if(BASE_URLS!=null && BASE_URLS!!.android!!.size>0){
+                            var myUrl=BASE_URLS!!.android!!.find { it.version == BuildConfig.VERSION_NAME.toDouble() }
+                            if(myUrl!=null){
+                                MyApplication.BASE_URL=myUrl.url!!
+                            }else
+                                MyApplication.BASE_URL=BASE_URLS!!.android!!.maxByOrNull { it.version!! }!!.url!!
+                        }}catch (e:Exception){}
+                    MyApplication.localizeArray = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE), FirebaseLocalizeArray::class.java)
                     AppHelper.setAllTexts(rootLayout, this)
-
+                    checkForUpdate()
                 }
 
-                nextStep()
+
             }
 
     }

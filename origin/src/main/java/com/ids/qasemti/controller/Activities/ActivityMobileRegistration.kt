@@ -2,6 +2,7 @@ package com.ids.qasemti.controller.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -20,6 +21,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
@@ -111,7 +115,7 @@ class ActivityMobileRegistration : ActivityBase() {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
                 //  MyApplication.isSignedIn = true
-                    sendOTP()
+                  updateDevice()
                 startActivity(Intent(this, ActivityCodeVerification::class.java))
             }
 
@@ -121,7 +125,6 @@ class ActivityMobileRegistration : ActivityBase() {
             if (etPhone.text.isNullOrEmpty()) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
-                MyApplication.isSignedIn = true
                 getUserStatus()
                 MyApplication.selectedPhone = etPhone.text.toString()
 
@@ -130,6 +133,72 @@ class ActivityMobileRegistration : ActivityBase() {
         }
     }
 
+    fun updateDevice(){
+        val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
+        val cal = Calendar.getInstance()
+
+        val model = AppHelper.getDeviceName()
+        val osVersion = AppHelper.getAndroidVersion()
+
+        val deviceToken = ""
+        val deviceTypeId = ""
+        var android_id = Settings.Secure.getString(
+            getContentResolver(),
+            Settings.Secure.ANDROID_ID
+        );
+
+        val imei =
+            Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+
+        val registrationDate = dateFormat.format(cal.time)
+        val appVersion = AppHelper.getVersionNumber()
+
+        val generalNotification = 1
+        val isProduction = 1
+
+
+        val lang = MyApplication.languageCode
+        var isService = 1
+        if (MyApplication.isClient)
+            isService = 0
+
+        var newReq = RequestUpdate(
+            MyApplication.deviceId,
+            etPhone.text.toString(),
+            model,
+            osVersion,
+            deviceToken,
+            2,
+            imei,
+            generalNotification,
+            appVersion.toString(),
+            0,
+            lang,
+            MyApplication.userId,
+            isService
+        )
+
+
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.updateDevice(
+                newReq
+            )?.enqueue(object : Callback<ResponseUpdate> {
+                override fun onResponse(
+                    call: Call<ResponseUpdate>,
+                    response: Response<ResponseUpdate>
+                ) {
+                    try {
+                        MyApplication.deviceId = response.body()!!.deviceId!!
+                        sendOTP()
+                    } catch (E: java.lang.Exception) {
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                }
+            })
+
+    }
 
     fun sendOTP() {
         var req = RequestOTP(etPhone.text.toString(), MyApplication.deviceId)
@@ -142,7 +211,7 @@ class ActivityMobileRegistration : ActivityBase() {
                     response: Response<ResponseUpdate>
                 ) {
                     try {
-                        var x = 1
+
                     } catch (E: java.lang.Exception) {
                     }
                 }
@@ -153,9 +222,9 @@ class ActivityMobileRegistration : ActivityBase() {
     }
 
     fun nextStep() {
-        sendOTP()
-        //if(MyApplication.userStatus!!.enabled!=0)
-        startActivity(Intent(this, ActivityCodeVerification::class.java))
+       updateDevice()
+        if(MyApplication.userStatus!!.enabled!=0)
+            startActivity(Intent(this, ActivityCodeVerification::class.java))
     }
 
     fun getUserStatus() {

@@ -4,27 +4,41 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.RequestPlaceOrder
+import com.ids.qasemti.model.ResponseAddress
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
+import kotlinx.android.synthetic.main.activity_new_address.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
+class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
 
     var open = false
+    var REQUEST_LOCATION = 5
+    var stamp: Long? = 0
+    var update = false
+    var locationSelected = false
+    var latLng: LatLng? = null
+    var selectedDate: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_checkout)
-        AppHelper.setAllTexts(rootLayoutCheckout,this)
+        AppHelper.setAllTexts(rootLayoutCheckout, this)
+        stamp = Calendar.getInstance().timeInMillis
+        MyApplication.selectedPlaceOrder = null
         init()
+        setListeners()
     }
 
 
@@ -33,32 +47,47 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
     }
 
 
-
-    fun setUpCurr(){
+    fun setUpCurr() {
         var cal = Calendar.getInstance()
-        val myFormat = "dd/MM/yyyy" //Change as you need
-        var sdf =
-            SimpleDateFormat(myFormat, Locale.ENGLISH)
+        val myFormat = "dd MMM yyyy" //Change as you need
+        var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
         var date = sdf.format(cal.time)
         etFromDate.text = date.toEditable()
-        var time = String.format("%02d", cal.get(Calendar.HOUR_OF_DAY))+" : "+ String.format("%02d", cal.get(Calendar.MINUTE))
+        var time = String.format("%02d", cal.get(Calendar.HOUR_OF_DAY)) + ":" + String.format(
+            "%02d",
+            cal.get(Calendar.MINUTE)
+        )
         etFromTime.text = time.toEditable()
+        selectedDate = date + " " + time
     }
 
-    fun setTintLogo(color:Int){
+    fun setTintLogo(color: Int) {
         AppHelper.setLogoTint(btDrawer, this, color)
         btDrawer.hide()
-        AppHelper.setTextColor(this,tvPageTitle,color)
-        AppHelper.setLogoTint(btBackTool,this,color)
-        AppHelper.setLogoTint(btLogout,this,color)
+        AppHelper.setTextColor(this, tvPageTitle, color)
+        AppHelper.setLogoTint(btBackTool, this, color)
+        AppHelper.setLogoTint(btLogout, this, color)
         btBackTool.onOneClick {
             super.onBackPressed()
         }
     }
 
-    fun setListeners(){
+    fun setListeners() {
+        setUpCurr()
         btPlaceOrder.onOneClick {
-            startActivity(Intent(this,ActivityPlaceOrder::class.java))
+            if (locationSelected) {
+
+                if(MyApplication.selectedPlaceOrder!=null){
+                    update = true
+                }else{
+                    update = false
+                }
+                setPlacedOrder()
+                startActivity(Intent(this, ActivityPlaceOrder::class.java))
+
+            } else {
+                AppHelper.createDialog(this, AppHelper.getRemoteString("please_select_location",this))
+            }
         }
 
         rbNow.onOneClick {
@@ -70,13 +99,13 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
 
             }
 
-            AppHelper.setTextColor(this,etFromDate,R.color.gray_font_light)
-            AppHelper.setTextColor(this,etFromTime,R.color.gray_font_light)
+            AppHelper.setTextColor(this, etFromDate, R.color.gray_font_light)
+            AppHelper.setTextColor(this, etFromTime, R.color.gray_font_light)
         }
         rbSpecify.onOneClick {
 
-            AppHelper.setTextColor(this,etFromDate,R.color.gray_font)
-            AppHelper.setTextColor(this,etFromTime,R.color.gray_font)
+            AppHelper.setTextColor(this, etFromDate, R.color.gray_font)
+            AppHelper.setTextColor(this, etFromTime, R.color.gray_font)
             rlFromDate.onOneClick {
                 var mcurrentDate = Calendar.getInstance()
                 var mYear = 0
@@ -94,11 +123,14 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
                         myCalendar[Calendar.YEAR] = selectedyear
                         myCalendar[Calendar.MONTH] = selectedmonth
                         myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                        val myFormat = "dd/MM/yyyy" //Change as you need
+                        val myFormat = "dd MMM yyyy" //Change as you need
                         var sdf =
                             SimpleDateFormat(myFormat, Locale.ENGLISH)
                         var date = sdf.format(myCalendar.time)
-                        etFromDate.text = (String.format("%02d", selectedday) + "/"+String.format("%02d", selectedmonth+1)+"/"+String.format("%02d", selectedyear)).toEditable()
+                        etFromDate.text = date.toEditable()
+                        var x = selectedDate
+                        var time = selectedDate!!.split(" ").get(3)
+                        selectedDate = etFromDate.text.toString() + " " + time
                     }, mYear, mMonth, mDay
                 )
                 mDatePicker.show()
@@ -108,7 +140,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
                 val mcurrentTime = Calendar.getInstance()
                 val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
                 val minute = mcurrentTime[Calendar.MINUTE]
-                val myFormat = "dd/MM/yyyy" //Change as you need
+                val myFormat = "dd MMM yyyy" //Change as you need
                 val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
                 val now = mcurrentTime.time
                 val nowDate = sdf.format(now)
@@ -116,8 +148,14 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
                     this, R.style.DatePickerDialog,
                     { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
-                        var time = String.format("%02d", selectedHour)+" : "+ String.format("%02d", selectedMinute)
+                        var time = String.format("%02d", selectedHour) + " : " + String.format(
+                            "%02d",
+                            selectedMinute
+                        )
                         etFromTime.text = time.toEditable()
+                        var date = selectedDate!!.split(" ").get(0) + selectedDate!!.split(" ")
+                            .get(1) + selectedDate!!.split(" ").get(2)
+                        selectedDate = date + " " + time
                     }, hour, minute, true
                 ) //Yes 24 hour time
                 timePickerDialog.show()
@@ -126,7 +164,6 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
 
 
         rlToTime.onOneClick {
-            // TODO Auto-generated method stub
             val mcurrentTime = Calendar.getInstance()
             val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
             val minute = mcurrentTime[Calendar.MINUTE]
@@ -138,7 +175,10 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
                 this, R.style.DatePickerDialog,
                 { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
-                    var time = String.format("%02d", selectedHour)+" : "+ String.format("%02d", selectedMinute)
+                    var time = String.format("%02d", selectedHour) + " : " + String.format(
+                        "%02d",
+                        selectedMinute
+                    )
                     etToTime.text = time.toEditable()
                 }, hour, minute, true
             ) //Yes 24 hour time
@@ -165,19 +205,25 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
                     var sdf =
                         SimpleDateFormat(myFormat, Locale.ENGLISH)
                     var date = sdf.format(myCalendar.time)
-                    etToDate.text = (String.format("%02d", selectedday) + "/"+String.format("%02d", selectedmonth+1)+"/"+String.format("%02d", selectedyear)).toEditable()
+                    etToDate.text = (String.format("%02d", selectedday) + "/" + String.format(
+                        "%02d",
+                        selectedmonth + 1
+                    ) + "/" + String.format("%02d", selectedyear)).toEditable()
                 }, mYear, mMonth, mDay
             )
             mDatePicker.show()
         }
 
         llAddresses.onOneClick {
-            startActivity(Intent(this,ActivitySelectAddress::class.java))
+            startActivityForResult(
+                Intent(this, ActivitySelectAddress::class.java),
+                REQUEST_LOCATION
+            )
         }
 
         btPlus.onOneClick {
             var quant = tvQuant.text.toString()
-            if(quant.isNumeric()){
+            if (quant.isNumeric()) {
                 var value = quant.toInt()
                 value++
                 tvQuant.text = value.toString()
@@ -185,7 +231,7 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         }
         btMinus.onOneClick {
             var quant = tvQuant.text.toString()
-            if(quant.isNumeric()){
+            if (quant.isNumeric()) {
                 var value = quant.toInt()
                 value--
                 tvQuant.text = value.toString()
@@ -195,10 +241,10 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         llSetDateTime.onOneClick {
             var up = -90
             var down = 90
-            if(open){
+            if (open) {
                 ivOpenDateTime.animate().rotation(up.toFloat()).setDuration(400)
                 llTimeDate.hide()
-            }else {
+            } else {
                 ivOpenDateTime.animate().rotation(down.toFloat()).setDuration(400)
                 llTimeDate.show()
             }
@@ -207,35 +253,137 @@ class ActivityCheckout : AppCompatActivity() , RVOnItemClickListener  {
         }
 
     }
-    fun init(){
-        setTintLogo(R.color.redPrimary)
-        tvPageTitle.textRemote("Checkout",this)
-        tvPageTitle.setColorTypeface(this,R.color.redPrimary,"",true)
-        etFromDate.setFocusable(false);
-        etFromTime.setFocusable(false);
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK) {
+            val extras = data!!.extras
+            if (extras != null) {
+                var address = extras.getString("address")
+                tvSelectedAddressCheck.text = address
+                locationSelected = true
+                try {
+                    var lat = extras.getDouble("lat")
+                    var long = extras.getDouble("long")
+                    latLng = LatLng(lat, long)
+                } catch (ex: Exception) {
+                }
+            }
+
+        }
+
+    }
+
+    fun init() {
+        setTintLogo(R.color.redPrimary)
+        tvPageTitle.textRemote("Checkout", this)
+        tvPageTitle.setColorTypeface(this, R.color.redPrimary, "", true)
+        etFromDate.isFocusable = false;
+        etFromTime.isFocusable = false;
         rbNow.isChecked = true
         rbSpecify.isChecked = false
         btBackTool.show()
 
         btPlaceOrder.typeface = AppHelper.getTypeFace(this)
 
-        if(MyApplication.rental!!){
+        if (MyApplication.selectedService!!.type!!.trim().lowercase() == "rental") {
             tvFromTitle.show()
             tvToTitle.show()
             llToLayout.show()
-        }else{
+        } else {
             tvFromTitle.hide()
             tvToTitle.hide()
             llToLayout.hide()
         }
 
         setUpCurr()
-        setListeners()
+        setOrderSummary()
 
+    }
 
+    private fun setOrderSummary() {
+        try {
+            tvServiceName.text = MyApplication.selectedService!!.name!!
+        } catch (e: Exception) {
+        }
+        try {
+            tvServiceType.text = MyApplication.selectedService!!.type!!
+        } catch (e: Exception) {
+        }
+        try {
+            tvSizeCapacity.text = MyApplication.selectedSize
+        } catch (e: Exception) {
+        }
+        try {
+            tvPrice.text = MyApplication.selectedPrice + " KWD"
+        } catch (e: Exception) {
+        }
+        try {
+            tvVariationType.text = MyApplication.selectedVariationType
+        } catch (e: Exception) {
+        }
+        try {
+            tvSize.text = MyApplication.selectedSize
+        } catch (e: Exception) {
+        }
+    }
 
+    private fun setPlacedOrder() {
+        var lat = ""
+        var long = ""
+        try {
+            lat = latLng!!.latitude.toString()
+            long = latLng!!.longitude.toString()
+        } catch (ex: Exception) {
 
+        }
+        if (MyApplication.selectedAddress == null) {
+            var address = AppHelper.getAddressLoc(latLng!!.latitude, latLng!!.longitude, this)
+            MyApplication.selectedAddress = ResponseAddress(
+                "0",
+                address.featureName,
+                address.latitude.toString(),
+                address.longitude.toString(),
+                address.thoroughfare,
+                "",
+                "",
+                address.premises
+            )
+        }
+
+        MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+            MyApplication.userId!!,
+            MyApplication.selectedService!!.type!!,
+            MyApplication.selectedService!!.id!!.toInt(),
+            MyApplication.selectedVariationType,
+            MyApplication.selectedSize,
+            selectedDate,
+            MyApplication.selectedAddress!!.addressName,
+            lat,
+            long,
+            MyApplication.selectedAddress!!.street,
+            MyApplication.selectedAddress!!.bldg,
+            MyApplication.selectedAddress!!.floor,
+            MyApplication.selectedAddress!!.desc,
+            MyApplication.selectedUser!!.firstName,
+            MyApplication.selectedUser!!.lastName,
+            MyApplication.selectedUser!!.billingCompany,
+            MyApplication.selectedUser!!.email,
+            MyApplication.selectedUser!!.mobileNumber,
+            MyApplication.selectedService!!.name,
+            MyApplication.selectedPrice
+
+        )
+        if(update){
+            var i = MyApplication.arrayCart.size-1
+            MyApplication.arrayCart[i] = MyApplication.selectedPlaceOrder!!
+        }else{
+            MyApplication.arrayCart.add(MyApplication.selectedPlaceOrder!!)
+        }
+        MyApplication.seletedPosCart = MyApplication.arrayCart.size - 1
+
+        AppHelper.toGSOn(MyApplication.arrayCart)
 
     }
 }

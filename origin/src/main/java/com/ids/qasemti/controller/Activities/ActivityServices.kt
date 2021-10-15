@@ -70,8 +70,13 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
         btBackTool.onOneClick {
             super.onBackPressed()
         }
-        getServices()
+
         listeners()
+    }
+
+    override fun onResume() {
+        getServices()
+        super.onResume()
     }
 
     private fun listeners(){

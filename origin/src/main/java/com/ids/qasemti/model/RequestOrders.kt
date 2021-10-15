@@ -15,6 +15,7 @@ class RequestOrders(
 
     @SerializedName("order_status")
     @Expose
-    var orderStatus : String  ?=""
+    var orderStatus : String  ?="" ,
+
 ) {
 }

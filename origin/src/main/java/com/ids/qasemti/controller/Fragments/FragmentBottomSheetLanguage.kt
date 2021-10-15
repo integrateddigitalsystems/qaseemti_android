@@ -14,13 +14,18 @@ import androidx.fragment.app.DialogFragment
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.utils.AppConstants
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.LocaleUtils
-import com.ids.qasemti.utils.onOneClick
+import com.ids.qasemti.model.RequestServices
+import com.ids.qasemti.model.RequestUpdateLanguage
+import com.ids.qasemti.model.ResponseMainServices
+import com.ids.qasemti.model.ResponseMessage
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.bottom_sheet_language.*
 import kotlinx.android.synthetic.main.bottom_sheet_language.rootLayout
 import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.loading.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 import java.util.*
 
@@ -57,6 +62,7 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(){
         MyApplication.selectedFragment=FragmentAccount()
         MyApplication.selectedFragmentTag=AppConstants.FRAGMENT_ACCOUNT
         LocaleUtils.setLocale(Locale("ar"))
+        sendUpdateLanguage()
         reloadActivity()
 
     }
@@ -68,6 +74,7 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(){
         MyApplication.selectedFragment=FragmentAccount()
         MyApplication.selectedFragmentTag=AppConstants.FRAGMENT_ACCOUNT
         LocaleUtils.setLocale(Locale("en"))
+        sendUpdateLanguage()
         reloadActivity()
     }
 
@@ -85,6 +92,23 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(){
         requireActivity().finish()
 
 
+    }
+
+
+    fun sendUpdateLanguage(){
+        var newReq = RequestUpdateLanguage(MyApplication.userId,MyApplication.languageCode)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.updateLanguage(newReq)?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
+                    try{
+
+                    }catch (E: java.lang.Exception){
+
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                }
+            })
     }
 
 }

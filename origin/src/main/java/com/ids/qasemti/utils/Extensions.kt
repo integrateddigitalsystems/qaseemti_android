@@ -20,6 +20,8 @@ import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.common.reflect.Reflection.getPackageName
 import com.ids.qasemti.controller.Activities.ActivityChooseLanguage
 import com.ids.qasemti.controller.MyApplication
@@ -68,6 +70,26 @@ fun String.upperCaseFirstLetter(): String {
  */
 fun String.isNumeric(): Boolean {
     return this.matches("\\d+".toRegex())
+}
+
+fun ImageView.loadImagesUrl(url: String) {
+    val options: RequestOptions = RequestOptions()
+        .centerCrop()
+        .placeholder(R.color.darker_gray)
+        .error(R.color.darker_gray)
+    Glide.with(this).load(url).apply(options)
+        .into(this)
+
+}
+fun ImageView.loadImagesUrlResize(url: String) {
+    val options: RequestOptions = RequestOptions()
+        .centerCrop()
+        .placeholder(R.color.darker_gray)
+        .error(R.color.darker_gray)
+        .override(500, 200)
+        Glide.with(this).load(url).apply(options)
+        .into(this)
+
 }
 
 /**

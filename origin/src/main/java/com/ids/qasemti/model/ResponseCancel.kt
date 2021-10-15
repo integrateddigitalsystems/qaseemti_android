@@ -6,6 +6,6 @@ import com.google.gson.annotations.SerializedName
 class ResponseCancel (
     @SerializedName("result")
     @Expose
-    var result : Boolean ?=false
+    var result : String ?=""
         ){
 }

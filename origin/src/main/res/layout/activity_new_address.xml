@@ -6,7 +6,15 @@
     android:id="@+id/rootLayout"
 
     android:layout_height="match_parent">
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <include layout="@layout/toolbar"/>
 
@@ -144,6 +152,7 @@
                 android:layout_height="@dimen/msg_edit_text"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
+                android:id="@+id/etMoreDetails"
                 android:paddingStart="@dimen/margin_start_end"
                 android:gravity="start"
                 android:padding="@dimen/margin_start_end"
@@ -166,6 +175,7 @@
 
 
     <Button
+        android:id="@+id/btSaveAddress"
         android:layout_marginStart="@dimen/margin_start_end"
         android:layout_marginEnd="@dimen/margin_start_end"
         android:layout_marginTop="@dimen/medium_margin"
@@ -178,6 +188,7 @@
 
 
     <Button
+        android:id="@+id/btOnlyOnce"
         android:layout_marginStart="@dimen/margin_start_end"
         android:layout_marginEnd="@dimen/margin_start_end"
         android:layout_width="match_parent"
@@ -188,6 +199,13 @@
         android:layout_height="@dimen/edit_text_height"
         android:background="@color/transparent"/>
 
+
+        </LinearLayout>
+
+
+        <include
+            layout="@layout/loading" />
+    </RelativeLayout>
 
 
 </LinearLayout>

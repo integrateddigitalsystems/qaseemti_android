@@ -24,7 +24,7 @@ import com.jaiselrahman.filepicker.activity.FilePickerActivity
 import com.jaiselrahman.filepicker.config.Configurations
 import com.jaiselrahman.filepicker.model.MediaFile
 import kotlinx.android.synthetic.main.actiivity_service_information.*
-import kotlinx.android.synthetic.main.activity_services.rootLayout
+
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.no_logo_layout.btBck
 import kotlinx.android.synthetic.main.service_tab_1.*
@@ -279,7 +279,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         tvPickedImage.text = files[0].name
                         var file = getFile(this,files[0].uri)
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        selectedFileImage =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name, req)
+                        selectedFileImage =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
                       } catch (e: Exception) {
                     }
                 }
@@ -289,7 +289,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         tvPickedDrivingLicense.text = files[0].name
                         var file = getFile(this,files[0].uri)
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        selectedFileDrivingLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name, req)
+                        selectedFileDrivingLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
                      } catch (e: Exception) {
                     }
                 }
@@ -299,7 +299,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         tvPickedWorkLicense.text = files[0].name
                         var file = getFile(this,files[0].uri)
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        selectedFileWorkLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name, req)
+                        selectedFileWorkLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
                     } catch (e: Exception) {
                     }
                 }
@@ -309,7 +309,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         tvPickedVehicle.text = files[0].name
                         var file = getFile(this,files[0].uri)
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        selectedFileVehicleLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name, req)
+                        selectedFileVehicleLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
                     } catch (e: Exception) {
                     }
                 }
@@ -449,8 +449,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                 override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
                     try{
                         loading.hide()
-                       if(response.body()!!.result==1)
-                           toast("success")
+                       if(response.body()!!.result==1){
+                           this@ActivityServiceInformation.onBackPressed()
+                       }
+
                         else
                             toast("failed 1")
                     }catch (E: java.lang.Exception){

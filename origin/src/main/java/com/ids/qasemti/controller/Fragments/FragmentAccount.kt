@@ -69,7 +69,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
 
         } else {
             btShareApp.hide()
-            btLogoutAccount.hide()
+            btLogoutAccount.show()
             btMyAddresses.hide()
             btMyServices.show()
             btSettelments.show()
@@ -80,9 +80,11 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
 
     fun listeners() {
 
+        MyApplication.fromProfile = true
         btMyAddresses.onOneClick {
+            MyApplication.typeSelected = 1 
             startActivity(
-                Intent(requireContext(), ActivityAddresses::class.java)
+                Intent(requireContext(), ActivityOrderDetails::class.java)
                     .putExtra("mapTitle", AppHelper.getRemoteString("address", requireContext()))
             )
         }
@@ -127,6 +129,8 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             ) {
                 MyApplication.isSignedIn = false
                 MyApplication.fromLogout = true
+                MyApplication.deviceId = 0
+                MyApplication.phoneNumber = ""
                 MyApplication.userId = 0
                 if (MyApplication.isClient) {
                     MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT

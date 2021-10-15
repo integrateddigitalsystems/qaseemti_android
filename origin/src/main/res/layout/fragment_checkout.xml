@@ -56,6 +56,7 @@
                     android:textSize="@dimen/medium_font"
                     android:layout_marginEnd="@dimen/big_margin"
                     android:layout_weight="1"
+                    android:id="@+id/tvSelectedAddressCheck"
                     android:gravity="center_vertical"
                     android:tag="select_delivery_address"
                     android:text="@string/select_delivery_address" />
@@ -460,7 +461,7 @@
                         <com.ids.qasemti.custom.CustomTextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Water Tank"
+                            android:id="@+id/tvServiceName"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/header_font" />
 
@@ -468,13 +469,15 @@
                             android:layout_width="0.5dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/normal_margin"
+                            android:visibility="gone"
                             android:layout_marginEnd="@dimen/normal_margin"
                             android:background="@color/gray_font_title" />
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="200 gallons"
+                            android:id="@+id/tvSizeCapacity"
+                            android:visibility="gone"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/medium_font" />
 
@@ -520,7 +523,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/normal_margin"
-                                android:text="10 KWD" />
+                                android:id="@+id/tvPrice"/>
 
 
                         </LinearLayout>
@@ -540,10 +543,10 @@
                                 app:tint="@color/redPrimary" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
+                                android:id="@+id/tvVariationType"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/normal_margin"
-                                android:text="Fresh" />
+                                android:layout_marginStart="@dimen/normal_margin" />
 
                         </LinearLayout>
 
@@ -576,7 +579,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/normal_margin"
-                                android:text="Purchase" />
+                                android:id="@+id/tvServiceType"/>
 
                         </LinearLayout>
 
@@ -599,7 +602,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/normal_margin"
                                 android:gravity="center_vertical"
-                                android:text="20 litres" />
+                                android:id="@+id/tvSize" />
 
                         </LinearLayout>
 

@@ -103,11 +103,12 @@ class ActivityCodeVerification : ActivityBase() {
             })
     }
     fun requestSucc(respone:ResponseVerification){
-       /* if(respone.result.equals("1")){
+        if(respone.result.equals("1")){
             AppHelper.createDialog(this,"Correct Code")
             if(respone.user!=null) {
+                MyApplication.phoneNumber = MyApplication.selectedPhone
                 MyApplication.isSignedIn = true
-                MyApplication.userIdCash = respone.user!!.userId!!.toInt()
+                MyApplication.userId = respone.user!!.userId!!.toInt()
                 startActivity(Intent(this, ActivityHome::class.java))
             }else{
                 MyApplication.isSignedIn = false
@@ -125,28 +126,25 @@ class ActivityCodeVerification : ActivityBase() {
                 }
             }
             //startActivity(Intent(this, ActivityRegistration::class.java))
-        }*/
-
-        MyApplication.isSignedIn = true
-        MyApplication.userIdCash = respone.user!!.userId!!.toInt()
-        startActivity(Intent(this, ActivityHome::class.java))
-
-        try {
-            loading.hide()
-        }catch (ex: Exception){
-
         }
+
+       /* MyApplication.isSignedIn = true
+        try{
+        MyApplication.userId=respone.user!!.userId!!.toInt()
+        }catch (e:Exception){
+            MyApplication.userId=6
+        }
+        AppHelper.getUserInfo()
+        startActivity(Intent(this, ActivityHome::class.java))*/
+
     }
 
     fun checkDigit(number: Int): String? {
         return if (number <= 9) "0$number" else number.toString()
     }
     fun verifyOTP(){
-        try {
-            loading.show()
-        }catch (ex: Exception){
 
-        }
+        loading.show()
         var req = RequestVerifyOTP(pvCode.text.toString(),MyApplication.deviceId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.verifyOTP(
@@ -154,11 +152,14 @@ class ActivityCodeVerification : ActivityBase() {
             )?.enqueue(object : Callback<ResponseVerification> {
                 override fun onResponse(call: Call<ResponseVerification>, response: Response<ResponseVerification>) {
                     try{
+                        loading.hide()
                         requestSucc(response.body()!!)
                     }catch (E: java.lang.Exception){
+                        requestSucc(ResponseVerification("0"))
                     }
                 }
                 override fun onFailure(call: Call<ResponseVerification>, throwable: Throwable) {
+                    loading.hide()
                     requestSucc(ResponseVerification("0"))
                 }
             })

@@ -49,6 +49,7 @@
                 android:paddingEnd="@dimen/big_margin">
 
                 <ImageView
+                    android:id="@+id/ivProfile"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_vertical"
@@ -270,6 +271,7 @@
 
 
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:orientation="horizontal"
@@ -363,6 +365,7 @@
             <EditText
                 android:id="@+id/etDateOfBirthProfile"
                 android:layout_width="match_parent"
+                android:focusableInTouchMode="false"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
@@ -394,6 +397,7 @@
                 />
 
             <LinearLayout
+                android:id="@+id/llAddressProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:orientation="horizontal"

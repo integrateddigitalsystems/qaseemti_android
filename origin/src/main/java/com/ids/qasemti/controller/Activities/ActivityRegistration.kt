@@ -68,10 +68,12 @@ class ActivityRegistration : ActivityBase() {
             startActivity(Intent(this, ActivityAccountStatus::class.java))
         } else {
             MyApplication.isSignedIn = true
+            MyApplication.phoneNumber = MyApplication.selectedPhone
             MyApplication.register = true
             MyApplication.selectedPos=4
             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
             MyApplication.selectedFragment = FragmentAccount()
+            AppHelper.getUserInfo()
             startActivity(Intent(this, ActivityHome::class.java))
         }
     }

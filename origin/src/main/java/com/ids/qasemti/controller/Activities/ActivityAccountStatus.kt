@@ -33,6 +33,7 @@ class ActivityAccountStatus : ActivityBase() {
                 var msg = AppHelper.getRemoteString("select_get_notified",this)
                 AppHelper.createDialog(this,msg)
             }else{
+                MyApplication.phoneNumber = MyApplication.selectedPhone
                 MyApplication.isSignedIn = true
                 MyApplication.firstTime = false
                AppHelper.goHome(this)
@@ -114,7 +115,7 @@ class ActivityAccountStatus : ActivityBase() {
                     }
                 }
                 override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
-                    var x = 1
+
                 }
             })
     }

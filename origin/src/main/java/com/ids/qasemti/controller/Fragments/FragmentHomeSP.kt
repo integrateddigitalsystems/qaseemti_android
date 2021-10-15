@@ -9,7 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
-import com.ids.qasemti.controller.Activities.ActivityMap
+
+import com.ids.qasemti.controller.Activities.ActivityMapAddress
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
@@ -25,7 +26,7 @@ import java.lang.Exception
 
 class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
-    private var ordersArray: ArrayList<String> = arrayListOf()
+    private var ordersArray: ArrayList<ResponseOrders> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -44,18 +45,62 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         AppHelper.setAllTexts(rootLayoutOrders, requireContext())
         init()
 
+
+
     }
 
-    fun setAvailability(available : Int ){
-        var newReq = RequestAvailability(MyApplication.userId,available)
+    fun getBroadcastedOrders() {
+        var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getBroadcastedOrders(newReq)?.enqueue(object : Callback<ResponseMainOrder> {
+                override fun onResponse(
+                    call: Call<ResponseMainOrder>,
+                    response: Response<ResponseMainOrder>
+                ) {
+
+                }
+
+                override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
+                }
+            })
+    }
+
+    fun setAvailability(available: Int) {
+        var newReq = RequestAvailability(MyApplication.userId, available)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updateAvailability(newReq)?.enqueue(object : Callback<ResponseCancel> {
-                override fun onResponse(call: Call<ResponseCancel>, response: Response<ResponseCancel>) {
-                    try{
-                    }catch (E: java.lang.Exception){
-                    }
+                override fun onResponse(
+                    call: Call<ResponseCancel>,
+                    response: Response<ResponseCancel>
+                ) {
+
                 }
+
                 override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
+                }
+            })
+    }
+
+    fun getRating() {
+        loading.show()
+        var newReq = RequestUserStatus(MyApplication.userId)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getRatings(newReq)?.enqueue(object : Callback<ResponseRatings> {
+                override fun onResponse(
+                    call: Call<ResponseRatings>,
+                    response: Response<ResponseRatings>
+                ) {
+                    try {
+                        rbMainUser.rating = response.body()!!.rate!!.toFloat()
+                    } catch (E: java.lang.Exception) {
+                        rbMainUser.rating = 0f
+                    }
+                    loading.hide()
+                }
+
+                override fun onFailure(call: Call<ResponseRatings>, throwable: Throwable) {
+                    rbMainUser.rating = 0f
+                    loading.hide()
                 }
             })
     }
@@ -64,50 +109,55 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         (activity as ActivityHome?)!!.showLogout(false)
         (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
 
-        setOrders()
         setListeners()
+        getRating()
         getData()
-
+        getOrders()
 
 
     }
 
-    fun getData(){
+    fun getData() {
         try {
             loading.show()
-        }catch (ex: Exception){
+        } catch (ex: Exception) {
 
         }
         var newReq = RequestUserStatus(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrdersCount(newReq)?.enqueue(object : Callback<ResponeOrderCount> {
-                override fun onResponse(call: Call<ResponeOrderCount>, response: Response<ResponeOrderCount>) {
-                    try{
+                override fun onResponse(
+                    call: Call<ResponeOrderCount>,
+                    response: Response<ResponeOrderCount>
+                ) {
+                    try {
                         tvActiveOrdersNbr.text = response.body()!!.activeOrders.toString()
                         tvUpcomingOrderNumber.text = response.body()!!.upcomingOrders.toString()
                         try {
                             loading.hide()
-                        }catch (ex: Exception){
+                        } catch (ex: Exception) {
 
                         }
-                    }catch (E: java.lang.Exception){
+                    } catch (E: java.lang.Exception) {
                         try {
                             loading.hide()
-                        }catch (ex: Exception){
+                        } catch (ex: Exception) {
 
                         }
                     }
                 }
+
                 override fun onFailure(call: Call<ResponeOrderCount>, throwable: Throwable) {
                     try {
                         loading.hide()
-                    }catch (ex: Exception){
+                    } catch (ex: Exception) {
 
                     }
                 }
             })
     }
-    fun setListeners(){
+
+    fun setListeners() {
         rlActive.onOneClick {
             MyApplication.fromFooterOrder = false
             MyApplication.selectedFragment = FragmentOrders()
@@ -142,11 +192,77 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         }
     }
 
+    fun getOrders() {
+        try {
+            loading.show()
+        } catch (ex: Exception) {
+
+        }
+        var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getBroadcastedOrders(newReq)?.enqueue(object : Callback<ResponseMainOrder> {
+                override fun onResponse(
+                    call: Call<ResponseMainOrder>,
+                    response: Response<ResponseMainOrder>
+                ) {
+                    try {
+                        ordersArray.clear()
+                        ordersArray.addAll(response.body()!!.orders)
+                        setOrders()
+                    } catch (E: java.lang.Exception) {
+                        try {
+                            loading.hide()
+                            setOrders()
+                        } catch (ex: Exception) {
+
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
+                    try {
+                        loading.hide()
+                    } catch (ex: Exception) {
+
+                    }
+                }
+            })
+    }
+
+    fun accepted(res:Int){
+        if(res==1){
+            AppHelper.createDialog(requireActivity(),getString(R.string.order_accept_succ))
+            getOrders()
+        }else{
+            AppHelper.createDialog(requireActivity(),getString(R.string.error_acc_order))
+        }
+        loading.hide()
+    }
+
+    fun acceptOrder(orderId : Int , additional:Int) {
+        loading.show()
+
+        var newReq = RequestAcceptBroadccast(MyApplication.userId,orderId,additional)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.acceptBroadcast(newReq)?.enqueue(object : Callback<ResponseUser> {
+                override fun onResponse(
+                    call: Call<ResponseUser>,
+                    response: Response<ResponseUser>
+                ) {
+                    try {
+                        accepted(response.body()!!.result!!)
+                    } catch (E: java.lang.Exception) {
+                        accepted(0)
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                    accepted(0)
+                }
+            })
+    }
+
     private fun setOrders() {
-        ordersArray.clear()
-        ordersArray.add("1")
-        ordersArray.add("1")
-        ordersArray.add("1")
         var adapter = AdapterOrders(ordersArray, this, requireContext())
         rvOrders.adapter = adapter
         var glm2 = GridLayoutManager(requireContext(), 1)
@@ -163,7 +279,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         if (view.id == R.id.llLocation) {
             AppHelper.onOneClick {
                 startActivity(
-                    Intent(requireActivity(), ActivityMap::class.java)
+                    Intent(requireActivity(), ActivityMapAddress::class.java)
                         .putExtra(
                             "mapTitle",
                             AppHelper.getRemoteString("view_address", requireContext())
@@ -174,10 +290,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             AppHelper.onOneClick {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
-        }else if(view.id == R.id.btAcceptOrder){
-           /* if(MyApplication.userStatus!!.online==1){
-                //accept action
-            }*/
+        } else if (view.id == R.id.btAcceptOrder) {
+            acceptOrder(ordersArray.get(position).orderId!!.toInt(),ordersArray.get(position).total!!.toInt()+ordersArray.get(position).shippingTotal!!.toInt())
         }
     }
 }

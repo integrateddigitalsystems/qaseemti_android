@@ -37,7 +37,7 @@ interface RetrofitInterface {
     fun contactUs(@Body param: RequestContactUs): Call<ResponseUpdate>
 
     @POST("sp_get_orders")
-    fun getOrders(@Body param: RequestOrders): Call<ResponseMainOrder>
+    fun getOrders(@Body param: RequestCart): Call<ResponseMainOrder>
 
     @POST("cancel_order")
     fun cancelOrder(@Body param: RequestCancelOrder): Call<ResponseCancel>
@@ -71,6 +71,20 @@ interface RetrofitInterface {
 
 
     @Multipart
+    @POST("cl_update_profile")
+    fun updateClientProfile(
+        @Part(ApiParameters.USER_ID) userId: RequestBody,
+        @Part(ApiParameters.MOBILE_NUMBER) mobileNumber: RequestBody,
+        @Part(ApiParameters.FIRST_NAME) firstname: RequestBody,
+        @Part(ApiParameters.LAST_NAME) lastName: RequestBody,
+        @Part(ApiParameters.EMAIL) email: RequestBody,
+        @Part profile_pic: MultipartBody.Part,
+        @Part(ApiParameters.TYPE) type: RequestBody
+
+    ): Call<String>
+
+
+    @Multipart
     @POST("sp_update_profile")
     fun updateProfileRegister(
         @Part(ApiParameters.USER_ID) userId: RequestBody,
@@ -89,10 +103,10 @@ interface RetrofitInterface {
         @Body param: RequestNotificationUpdate
     ): Call<ResponseCancel>
 
-    /*@POST("sp_get_ratings")
+    @POST("sp_get_ratings")
     fun getRatings(
-        @Body
-    )*/
+        @Body param : RequestUserStatus
+    ): Call<ResponseRatings>
 
     @POST("sp_get_orders_count")
     fun getOrdersCount(
@@ -113,6 +127,12 @@ interface RetrofitInterface {
         @Body param:RequestServices
     ): Call<ResponseMainServices>
 
+
+
+    @POST("sp_clients_reviews")
+    fun setRatingSer(
+        @Body param : RequestClientReviews
+    ): Call<ResponseMessage>
 
     @POST("sp_post_ratings")
     fun setRating(
@@ -146,5 +166,82 @@ interface RetrofitInterface {
 
     ): Call<ResponseMessage>
 
+
+    @POST("cl_get_services")
+    fun getClServices(
+        @Body param:RequestLanguage
+    ): Call<ResponseMainServices>
+
+
+    @POST("add_address")
+    fun addClAddress(
+        @Body param:RequestAddAddress
+    ): Call<ResponseMessage>
+
+    @POST("cl_place_order")
+    fun placeOrder(
+        @Body param:RequestPlaceOrder
+    ): Call<ResponseMessage>
+
+
+    @POST("update_language")
+    fun updateLanguage(
+        @Body param:RequestUpdateLanguage
+    ): Call<ResponseMessage>
+
+
+    @POST("get_user")
+    fun getUser(
+        @Body param:RequestUpdateLanguage
+    ): Call<ResponseUser>
+
+    @POST("sp_get_broadcasted_orders")
+    fun getBroadcastedOrders(
+        @Body param: RequestServices
+    ): Call<ResponseMainOrder>
+
+    @POST("sp_accept_broadcasted_orders")
+    fun acceptBroadcast(
+        @Body param:RequestAcceptBroadccast
+    ):Call<ResponseUser>
+
+    @POST("get_addresses")
+    fun getAddresses(
+        @Body param:RequestUserStatus
+    ):Call<ResponseMainAddress>
+
+    @POST("cl_get_orders")
+    fun getClientOrders(@Body param: RequestCart): Call<ResponseMainOrder>
+
+    @GET("json")
+    fun getLocationLatLng(
+        @Query("latlng") latLng : String ,
+        @Query("key") key : String
+    ):Call<Any>
+
+    @POST("sp_request_settlement")
+    fun postSettlement(
+        @Body param : RequestUserStatus
+    ):Call<ResponseMessage>
+
+    @POST("get_order_chat")
+    fun getChats(
+        @Body param : RequestChat
+    ):Call<ResponseMainChat>
+
+    @POST("post_order_chat")
+    fun sendChats(
+        @Body param : RequestSendChat
+    ):Call<ResponseMessage>
+
+    @POST("cl_get_cart_orders")
+    fun getCarts(
+        @Body param : RequestCart
+    ):Call<ResponseMainOrder>
+
+    @POST("cl_delete_order_from_cart")
+    fun deleteCartItem(
+        @Body param : RequestOrderId
+    ):Call<ResponseMessage>
 
 }

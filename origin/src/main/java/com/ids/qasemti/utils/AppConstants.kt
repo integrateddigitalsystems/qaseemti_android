@@ -14,13 +14,15 @@ object AppConstants {
     const val XXHDPI = "72"
     const val XXXHDPI = "96"
 
-    const val ORDER_TYPE_ACTIVE = "wc-active"
-    const val ORDER_TYPE_COMPLETED ="wc-completted"
-    const val ORDER_TYPE_UPCOMING ="wc-upcoming"
-    const val ORDER_TYPE_CANCELED ="wc-canceled"
+    const val ORDER_TYPE_ACTIVE = "active"
+    const val ORDER_TYPE_COMPLETED ="completted"
+    const val ORDER_TYPE_UPCOMING ="upcoming"
+    const val ORDER_TYPE_CANCELED ="canceled"
+    const val ORDER_TYPE_FAILED="failed"
     const val CENTER_WHITE = 2
     const val LEFT_BLACK = 4
     const val SERVICES = 10
+    const val FAILURE_REQUEST = 0
 
 
     const val LANG_ENGLISH = "en"
@@ -31,9 +33,13 @@ object AppConstants {
     const val FIREBASE_URLS = "urls"
     const val USER_ID = "user_id"
     const val SIGNED_IN ="signed_in"
+    const val ARRAY_CARTS ="array_carts"
+    const val PHONE_NUMBER ="phone_number"
+    const val NOTF_TYPE = "notf_type"
     const val FIREBASE_FORCE_UPDATE = "android_force_update"
     const val FIREBASE_VERSION_CODE = "android_version_code"
     const val FIREBASE_LOCALIZE = "localize_msg"
+    const val FIREBASE_MOBILE_CONFIGURATION = "mobileConfigurations"
     const val FRAGMENT_HOME_CLIENT ="fragmentHomeClient"
     const val FRAGMENT_HOME_SP ="fragmentHomeSP"
     const val FRAGMENT_SERVICE_DETAILS="fragmentServiceDetails"
@@ -50,5 +56,8 @@ object AppConstants {
 
     const val TYPE_PURCHASE = "purchase"
     const val TYPE_RENTAL = "rental"
+
+    const val MEDIA_TYPE_IMAGE = 1
+    const val MEDIA_TYPE_YOUTUBE = 2
 
 }

@@ -2,8 +2,8 @@ package com.ids.qasemti.controller.Activities
 
 import android.location.Location
 import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Bundle
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -13,18 +13,26 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.toObject
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Base.ActivityBase
+
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.util.*
 
 
-class ActivityMap : ActivityBase(), OnMapReadyCallback, LocationListener {
+class ActivityMap : AppCompactBase(), OnMapReadyCallback, LocationListener {
 
 
     var gmap: GoogleMap? = null
@@ -59,6 +67,7 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback, LocationListener {
         mvLocation.onCreate(mapViewBundle)
 
         init()
+       //initGooglePlacesApi()
 
 
     }
@@ -158,4 +167,7 @@ class ActivityMap : ActivityBase(), OnMapReadyCallback, LocationListener {
         AppHelper.createDialog(this, loc.latitude.toString() + "LONG" + loc.longitude.toString())
 
     }
+
+
+
 }

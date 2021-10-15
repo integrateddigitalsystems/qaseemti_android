@@ -116,6 +116,7 @@ class AdapterOrderType(
             holder.orderAmount.hide()
             holder.cancelBord.show()
         }
+        holder.phoneChat.show()
 
         holder.expected.typeface = AppHelper.getTypeFaceBold(con)
         holder.cancelReasonDetails.typeface = AppHelper.getTypeFace(con)

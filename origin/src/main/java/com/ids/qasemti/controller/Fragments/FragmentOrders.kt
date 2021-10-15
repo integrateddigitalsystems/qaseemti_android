@@ -13,10 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Activities.ActivityHome
-import com.ids.qasemti.controller.Activities.ActivityMap
-import com.ids.qasemti.controller.Activities.ActivityOrderDetails
-import com.ids.qasemti.controller.Activities.ActivityTrackOrder
+import com.ids.qasemti.controller.Activities.*
 import com.ids.qasemti.controller.Adapters.AdapterOrderType
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
@@ -58,13 +55,44 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
 
     }
 
+    fun getClientOrders(){
+        try {
+            loading.show()
+        }catch (ex: Exception){
+
+        }
+        var newReq = RequestCart(MyApplication.userId,MyApplication.languageCode)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getClientOrders(
+                newReq
+            )?.enqueue(object : Callback<ResponseMainOrder> {
+                override fun onResponse(call: Call<ResponseMainOrder>, response: Response<ResponseMainOrder>) {
+                    try{
+                        mainArray.clear()
+                        mainArray.addAll(response.body()!!.orders)
+                        ordersArray.clear()
+                        setData(true)
+                    }catch (E: java.lang.Exception){
+                        mainArray.clear()
+                        ordersArray.clear()
+                        setData(true)
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
+                    mainArray.clear()
+                    ordersArray.clear()
+                    setData(true)
+                }
+            })
+    }
+
     fun getOrders(){
         try {
             loading.show()
         }catch (ex: Exception){
 
         }
-        var newReq = RequestOrders(MyApplication.userId,MyApplication.languageCode,orderType)
+        var newReq = RequestCart(MyApplication.userId,MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrders(
                 newReq
@@ -74,7 +102,6 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
                         mainArray.clear()
                         mainArray.addAll(response.body()!!.orders)
                         ordersArray.clear()
-                        ordersArray.addAll(response.body()!!.orders)
                         setData(true)
                     }catch (E: java.lang.Exception){
                         mainArray.clear()
@@ -98,11 +125,11 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         mainArray.addAll(ordersArray)*/
         (activity as ActivityHome?)!!.drawColor()
         (activity as ActivityHome?)!!.setTitleAc(AppHelper.getRemoteString("order_type",requireContext()))
-        (activity as ActivityHome)!!.showTitle(true)
-        (activity as ActivityHome)!!.showLogout(false)
-        (activity as ActivityHome)!!.setTintLogo(R.color.redPrimary)
+        (activity as ActivityHome).showTitle(true)
+        (activity as ActivityHome).showLogout(false)
+        (activity as ActivityHome).setTintLogo(R.color.redPrimary)
         if(!MyApplication.fromFooterOrder){
-            (activity as ActivityHome)!!.showBack(true)
+            (activity as ActivityHome).showBack(true)
         }
 
         etSearchOrders.addTextChangedListener(object : TextWatcher {
@@ -152,7 +179,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         if(view.id==R.id.llLocation){
             AppHelper.onOneClick {
                 startActivity(
-                    Intent(requireActivity(), ActivityMap::class.java)
+                    Intent(requireActivity(), ActivityMapAddress::class.java)
                         .putExtra(
                             "mapTitle",
                             AppHelper.getRemoteString("view_address", requireContext())
@@ -178,10 +205,12 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
 
         }else if(view.id==R.id.ivOrderMessage){
             AppHelper.onOneClick {
-                val uri = Uri.parse("smsto:12346556")
+                /*val uri = Uri.parse("smsto:12346556")
                 val it = Intent(Intent.ACTION_SENDTO, uri)
                 it.putExtra("sms_body", "Here you can set the SMS text to be sent")
-                startActivity(it)
+                startActivity(it)*/
+                MyApplication.selectedOrder=ordersArray[position]
+                startActivity(Intent(requireContext(),ActivityChat::class.java))
             }
         }else if(view.id==R.id.llTrackOrder){
             startActivity(Intent(requireActivity(), ActivityTrackOrder::class.java))
@@ -195,28 +224,46 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
                 tvActive.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(),tvActive,R.color.white)
                 orderType = AppConstants.ORDER_TYPE_ACTIVE
-                getOrders()
+                if(!MyApplication.isClient)
+                    getOrders()
+                else
+                    getClientOrders()
             }
             1 ->{
                 tvUpcoming.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(),tvUpcoming,R.color.white)
                 orderType = AppConstants.ORDER_TYPE_UPCOMING
-                getOrders()
+                if(!MyApplication.isClient)
+                    getOrders()
+                else
+                    getClientOrders()
             }
             2 -> {
                 tvCompleted.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(),tvCompleted,R.color.white)
                 orderType = AppConstants.ORDER_TYPE_COMPLETED
-                getOrders()
+                if(!MyApplication.isClient)
+                    getOrders()
+                else
+                    getClientOrders()
             }
             3 -> {
                 tvCancelled.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(),tvCancelled,R.color.white)
                 orderType = AppConstants.ORDER_TYPE_CANCELED
-                getOrders()
+                if(!MyApplication.isClient)
+                    getOrders()
+                else
+                    getClientOrders()
             }
             else -> {
-
+                tvFailed.setBackgroundResource(R.drawable.rounded_red_background)
+                AppHelper.setTextColor(requireContext(),tvFailed,R.color.white)
+                orderType = AppConstants.ORDER_TYPE_FAILED
+                if(!MyApplication.isClient)
+                    getOrders()
+                else
+                    getClientOrders()
             }
         }
     }
@@ -235,6 +282,11 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
     }
 
     private fun setData(type:Boolean){
+       /* for(item in mainArray){
+            if(item.orderStatus==orderType){
+                ordersArray.add(item)
+            }
+        }*/
         if(adapter!=null){
             adapter!!.notifyDataSetChanged()
             adapter!!.notifyDataSetChanged()

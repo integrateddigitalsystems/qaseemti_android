@@ -33,9 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:tag="push_notifications"
+                android:tag="notifications"
                 android:textColor="@color/gray_font_title"
-                android:text="@string/PushNotifications"/>
+                android:text="@string/notifications"/>
 
 
         </LinearLayout>
@@ -58,43 +58,84 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_marginTop="@dimen/normal_margin"
-        android:orientation="horizontal"
-        android:weightSum="3"
+    <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_background"
+        android:orientation="horizontal"
+        android:id="@+id/rgNotifications"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/small_margin">
 
-        <CheckBox
-            android:gravity="center_vertical"
+        <RadioButton
+            android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:tag="inApp"
-            android:textColor="@color/gray_font"
+            android:textSize="@dimen/normal_font"
             android:buttonTint="@color/button_blue"
-            android:text="@string/inApp"/>
-
-        <CheckBox
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:tag="email"
+            android:checked="true"
+            android:tag="PushNotifications"
+            android:id="@+id/rbNotification"
             android:textColor="@color/gray_font"
-            android:buttonTint="@color/button_blue"
-            android:text="@string/email"/>
+            android:text="@string/PushNotifications"/>
 
-        <CheckBox
+        <RadioButton
+            android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:gravity="center_vertical"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/gray_font"
+            android:id="@+id/rbSMS"
+            android:buttonTint="@color/button_blue"
             android:tag="sms"
-            android:textColor="@color/gray_font"
-            android:buttonTint="@color/button_blue"
             android:text="@string/sms"/>
+    </RadioGroup>
 
-    </LinearLayout>
+    <com.ids.qasemti.custom.CustomTextViewMedium
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/normal_font"
+        android:text="@string/you_can_find_updates"
+        android:textColor="@color/gray_font"/>
+
+    <!-- <LinearLayout
+         android:layout_marginTop="@dimen/normal_margin"
+         android:orientation="horizontal"
+         android:weightSum="3"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+
+         <CheckBox
+             android:gravity="center_vertical"
+             android:layout_weight="1"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:tag="inApp"
+             android:textColor="@color/gray_font"
+             android:buttonTint="@color/button_blue"
+             android:text="@string/inApp"/>
+
+         <CheckBox
+             android:layout_weight="1"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:gravity="center_vertical"
+             android:tag="email"
+             android:textColor="@color/gray_font"
+             android:buttonTint="@color/button_blue"
+             android:text="@string/email"/>
+
+         <CheckBox
+             android:layout_weight="1"
+             android:layout_width="match_parent"
+             android:gravity="center_vertical"
+             android:layout_height="wrap_content"
+             android:tag="sms"
+             android:textColor="@color/gray_font"
+             android:buttonTint="@color/button_blue"
+             android:text="@string/sms"/>
+
+     </LinearLayout>-->
 
 </LinearLayout>
