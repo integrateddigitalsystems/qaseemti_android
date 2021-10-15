@@ -91,15 +91,16 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     response: Response<ResponseRatings>
                 ) {
                     try {
-                        rbMainUser.rating = response.body()!!.rate!!.toFloat()
+                        if(response.body()!!.rate!=null)
+                           rbMainUser.rating = response.body()!!.rate!!.toFloat()
                     } catch (E: java.lang.Exception) {
-                        rbMainUser.rating = 0f
+                       // rbMainUser.rating = 0f
                     }
                     loading.hide()
                 }
 
                 override fun onFailure(call: Call<ResponseRatings>, throwable: Throwable) {
-                    rbMainUser.rating = 0f
+                  //  rbMainUser.rating = 0f
                     loading.hide()
                 }
             })
@@ -291,7 +292,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
         } else if (view.id == R.id.btAcceptOrder) {
-            acceptOrder(ordersArray.get(position).orderId!!.toInt(),ordersArray.get(position).total!!.toInt()+ordersArray.get(position).shippingTotal!!.toInt())
+            acceptOrder(ordersArray.get(position).orderId!!.toDouble().toInt(),ordersArray.get(position).total!!.toDouble().toInt()+ordersArray.get(position).shippingTotal!!.toDouble().toInt())
         }
     }
 }

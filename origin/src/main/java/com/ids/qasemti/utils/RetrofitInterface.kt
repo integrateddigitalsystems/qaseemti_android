@@ -244,4 +244,18 @@ interface RetrofitInterface {
         @Body param : RequestOrderId
     ):Call<ResponseMessage>
 
+
+
+    @Multipart
+    @POST("upload_file")
+    fun uploadFiles(
+        @Part gallery: ArrayList<MultipartBody.Part>
+    ): Call<ResponseMessage>
+
+
+    @POST("get_required_docs")
+    fun get_required_docs(
+        @Body param : RequestProductId
+    ):Call<ResponseRequiredFiles>
+
 }

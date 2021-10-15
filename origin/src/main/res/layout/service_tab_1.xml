@@ -280,6 +280,13 @@
     </LinearLayout>
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:id="@+id/rvSelectedImages"
+        />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
