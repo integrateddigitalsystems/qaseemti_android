@@ -129,6 +129,8 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             ) {
                 MyApplication.isSignedIn = false
                 MyApplication.fromLogout = true
+                MyApplication.deviceId = 0
+                MyApplication.phoneNumber = ""
                 MyApplication.userId = 0
                 if (MyApplication.isClient) {
                     MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT

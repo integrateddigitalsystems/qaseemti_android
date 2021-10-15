@@ -34,7 +34,27 @@ class ResponseAddress (
 
     @SerializedName("building")
     @Expose
-    var bldg : String ?=""
+    var bldg : String ?="",
+
+    @SerializedName("area")
+    @Expose
+    var area : String ?="",
+
+    @SerializedName("avenu")
+    @Expose
+    var avenue : String ?="" ,
+
+    @SerializedName("block")
+    @Expose
+    var block : String ?="" ,
+
+    @SerializedName("city")
+    @Expose
+    var city : String ?="" ,
+
+    @SerializedName("province")
+    @Expose
+    var province : String ?=""
         ){
 
 }

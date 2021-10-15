@@ -95,6 +95,10 @@ class ResponseOrders(
 
     @SerializedName("user_longitude")
     @Expose
-    var userLong : String ?=""
+    var userLong : String ?="" ,
+
+    @SerializedName("cancellation_date")
+    @Expose
+    var cancellationDate : String ?=""
 ) {
 }

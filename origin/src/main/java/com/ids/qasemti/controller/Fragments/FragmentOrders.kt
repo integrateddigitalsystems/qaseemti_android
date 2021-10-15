@@ -61,7 +61,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         }catch (ex: Exception){
 
         }
-        var newReq = RequestOrders(51,MyApplication.languageCode,orderType)
+        var newReq = RequestCart(MyApplication.userId,MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getClientOrders(
                 newReq
@@ -71,7 +71,6 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
                         mainArray.clear()
                         mainArray.addAll(response.body()!!.orders)
                         ordersArray.clear()
-                        ordersArray.addAll(response.body()!!.orders)
                         setData(true)
                     }catch (E: java.lang.Exception){
                         mainArray.clear()
@@ -93,7 +92,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
         }catch (ex: Exception){
 
         }
-        var newReq = RequestOrders(41,MyApplication.languageCode,orderType)
+        var newReq = RequestCart(MyApplication.userId,MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrders(
                 newReq
@@ -103,7 +102,6 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
                         mainArray.clear()
                         mainArray.addAll(response.body()!!.orders)
                         ordersArray.clear()
-                        ordersArray.addAll(response.body()!!.orders)
                         setData(true)
                     }catch (E: java.lang.Exception){
                         mainArray.clear()
@@ -221,14 +219,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
 
     fun setSelected(position: Int){
 
-        if(MyApplication.isClient){
-            orderType = "waiting"
-            getClientOrders()
-        }else{
-            orderType = "pending"
-            getOrders()
-        }
-       /* when (position) {
+        when (position) {
             0 ->{
                 tvActive.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(),tvActive,R.color.white)
@@ -266,9 +257,15 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
                     getClientOrders()
             }
             else -> {
-
+                tvFailed.setBackgroundResource(R.drawable.rounded_red_background)
+                AppHelper.setTextColor(requireContext(),tvFailed,R.color.white)
+                orderType = AppConstants.ORDER_TYPE_FAILED
+                if(!MyApplication.isClient)
+                    getOrders()
+                else
+                    getClientOrders()
             }
-        }*/
+        }
     }
     fun setTabLayout(position: Int){
         typeSelected=position
@@ -285,6 +282,11 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
     }
 
     private fun setData(type:Boolean){
+       /* for(item in mainArray){
+            if(item.orderStatus==orderType){
+                ordersArray.add(item)
+            }
+        }*/
         if(adapter!=null){
             adapter!!.notifyDataSetChanged()
             adapter!!.notifyDataSetChanged()

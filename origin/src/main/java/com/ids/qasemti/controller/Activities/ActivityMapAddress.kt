@@ -6,37 +6,24 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.model.TypeFilter
-import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestNotificationUpdate
-import com.ids.qasemti.model.ResponseCancel
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.toolbar.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
 
 
+    var REQUEST_ADDRESS = 1005
     var latLng : LatLng ?=null
     var gmap : GoogleMap? = null
 
@@ -80,21 +67,29 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
             title = AppHelper.getRemoteString("LocationOnMap",this)
         }
         AppHelper.setLogoTint(btBackTool, this, R.color.redPrimary)
-        tvPageTitle.setColorTypeface(this, R.color.redPrimary, title!!, true)
+//        tvPageTitle.setColorTypeface(this, R.color.redPrimary, title!!, true)
         listeners()
     }
 
     fun listeners (){
         btSavePosition.setOnClickListener {
-            val intent = Intent()
-            intent.putExtra("lat",latLng!!.latitude)
-            intent.putExtra("long",latLng!!.longitude)
-            intent.putExtra(
-                "address",
-                AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
-            )
-            setResult(RESULT_OK, intent)
-            finish()
+
+            var x = latLng
+            if( MyApplication.finish!!){
+                MyApplication.latSelected = latLng!!.latitude
+                MyApplication.longSelected = latLng!!.longitude
+                startActivityForResult(Intent(this,ActivityAddNewAddress::class.java),REQUEST_ADDRESS)
+            }else {
+                val intent = Intent()
+                intent.putExtra("lat", latLng!!.latitude)
+                intent.putExtra("long", latLng!!.longitude)
+                intent.putExtra(
+                    "address",
+                    AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
+                )
+                setResult(RESULT_OK, intent)
+                finish()
+            }
         }
     }
 

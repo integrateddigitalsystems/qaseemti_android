@@ -223,4 +223,5 @@
     <string name="are_you_sure_delete">Are you sure you want to delete item?</string>
     <string name="please_select_location">Please Select Location</string>
     <string name="you_can_find_updates">You can always find your updates in your email</string>
+    <string name="failed">Failed</string>
 </resources>

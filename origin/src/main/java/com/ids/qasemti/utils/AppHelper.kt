@@ -412,7 +412,7 @@ class AppHelper {
             MyApplication.arrayCart.addAll(array)
         }
 
-        fun updateDevice(context: Context,deviceId :Int , phone : String) {
+        fun updateDevice(context: Context, phone : String) {
 
             val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
             val cal = Calendar.getInstance()
@@ -443,7 +443,7 @@ class AppHelper {
                 isService = 0
 
             var newReq = RequestUpdate(
-               deviceId,
+               MyApplication.deviceId,
                 phone,
                 model,
                 osVersion,

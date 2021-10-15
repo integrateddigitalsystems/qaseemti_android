@@ -40,6 +40,26 @@ class RequestAddAddress {
     @Expose
     var description: String? = ""
 
+    @SerializedName("city")
+    @Expose
+    var city : String ?=""
+
+    @SerializedName("province")
+    @Expose
+    var province : String ?=""
+
+    @SerializedName("area")
+    @Expose
+    var area:String ?=""
+
+    @SerializedName("block")
+    @Expose
+    var block :String ?=""
+
+    @SerializedName("avenu")
+    @Expose
+    var avenue : String ?=""
+
     constructor(
         userId: Int?,
         latitude: Double?,
@@ -49,7 +69,11 @@ class RequestAddAddress {
         street: String?,
         building: String?,
         floor: String?,
-        description: String?
+        description: String?,
+        city:String?,
+        province:String?,
+        area:String?,
+        block:String?
     ) {
         this.userId = userId
         this.latitude = latitude
@@ -60,5 +84,10 @@ class RequestAddAddress {
         this.building = building
         this.floor = floor
         this.description = description
+        this.city = city
+        this.province = province
+        this.area = area
+        this.block = block
+        this.avenue = avenue
     }
 }

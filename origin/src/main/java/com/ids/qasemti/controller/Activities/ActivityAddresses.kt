@@ -37,9 +37,10 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        if(!MyApplication.useOnce!!) {
+        if(!MyApplication.fromAdd!!) {
             getAddresses()
         }else{
+            MyApplication.fromAdd = false
             val intent = Intent()
             intent.putExtra("lat", MyApplication.selectedAddress!!.lat)
             intent.putExtra("long",  MyApplication.selectedAddress!!.long)
@@ -96,8 +97,8 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
     }
     private fun listeners(){
         btAddNew.onOneClick{
-            startActivity(Intent(this,ActivityAddNewAddress::class.java)
-                .putExtra("mapTitle",AppHelper.getRemoteString("address",this)))
+            MyApplication.finish = true
+            startActivity(Intent(this,ActivityMapAddress::class.java))
         }
     }
 

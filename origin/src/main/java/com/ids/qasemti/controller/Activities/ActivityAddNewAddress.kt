@@ -1,3 +1,4 @@
+
 package com.ids.qasemti.controller.Activities
 
 import android.content.Intent
@@ -92,7 +93,11 @@ class ActivityAddNewAddress : ActivityBase() {
             etStreet.text.toString(),
             etBuilding.text.toString(),
             etFloor.text.toString(),
-            etMoreDetails.text.toString()
+            etMoreDetails.text.toString(),
+            "",
+            "",
+            "",
+            ""
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.addClAddress(
@@ -118,44 +123,53 @@ class ActivityAddNewAddress : ActivityBase() {
 
     }
 
+    fun setUpData(ll:LatLng){
+        var address: Address? = null
+        try {
+            latlng =ll
+            val myLocation = Geocoder(this, Locale.getDefault())
+            val myList =
+                myLocation.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
+            address = myList[0]
+        } catch (ex: Exception) {
+
+        }
+        try {
+            etStreet.text = address!!.thoroughfare.toEditable()
+        } catch (ex: Exception) {
+            etStreet.text.clear()
+        }
+        try {
+            etBuilding.text = address!!.premises.toEditable()
+        } catch (ex: Exception) {
+            etBuilding.text.clear()
+        }
+        try {
+            etAddressName.text = address!!.featureName.toEditable()
+        } catch (ex: Exception) {
+            etAddressName.text.clear()
+        }
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
         super.onActivityResult(requestCode, resultCode, intent)
         if (resultCode == RESULT_OK) {
+
+
             var address: Address? = null
             val extras = intent.extras
-            if (extras != null) {
-                try {
-                    latlng = LatLng(extras.getDouble("lat"), extras.getDouble("long"))
-                    val myLocation = Geocoder(this, Locale.getDefault())
-                    val myList =
-                        myLocation.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
-                    address = myList[0]
-                } catch (ex: Exception) {
-
-                }
-                try {
-                    etStreet.text = address!!.thoroughfare.toEditable()
-                } catch (ex: Exception) {
-                    etStreet.text.clear()
-                }
-                try {
-                    etBuilding.text = address!!.premises.toEditable()
-                } catch (ex: Exception) {
-                    etBuilding.text.clear()
-                }
-                try {
-                    etAddressName.text = address!!.featureName.toEditable()
-                } catch (ex: Exception) {
-                    etAddressName.text.clear()
-                }
+            latlng = LatLng(extras!!.getDouble("lat"), extras.getDouble("long"))
+            setUpData(latlng!!)
             }
 
 
         }
-    }
+
 
     private fun init() {
+        val lat = MyApplication.latSelected
+        val long = MyApplication.longSelected
         btDrawer.hide()
         btBackTool.show()
         AppHelper.setLogoTint(btBackTool, this, R.color.redPrimary)
@@ -164,13 +178,15 @@ class ActivityAddNewAddress : ActivityBase() {
         else
             btOnlyOnce.show()
 
+        setUpData(LatLng(lat!!.toDouble(),long!!.toDouble()))
+
     }
 
 
     private fun listeners() {
         btBackTool.onOneClick { super.onBackPressed() }
         var title = intent.getStringExtra("mapTitle")
-        tvPageTitle.setColorTypeface(this, R.color.redPrimary, title!!, true)
+    //    tvPageTitle.setColorTypeface(this, R.color.redPrimary, title!!, true)
         btMapAddress.onOneClick {
             startActivityForResult(
                 Intent(
@@ -194,7 +210,7 @@ class ActivityAddNewAddress : ActivityBase() {
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
-                MyApplication.useOnce = true
+                MyApplication.fromAdd = true
                 addAddress()
             }
         }
@@ -206,7 +222,7 @@ class ActivityAddNewAddress : ActivityBase() {
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
-                MyApplication.useOnce = true
+                MyApplication.fromAdd = true
                 setData()
             }
         }

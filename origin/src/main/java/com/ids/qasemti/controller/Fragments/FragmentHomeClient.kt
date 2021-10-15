@@ -15,6 +15,7 @@ import com.google.gson.internal.LinkedTreeMap
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityChat
 import com.ids.qasemti.controller.Activities.ActivityHome
+import com.ids.qasemti.controller.Activities.ActivitySelectAddress
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Adapters.AdapterServices
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
@@ -87,7 +88,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         }*/
 
         linearProfileInfo.setOnClickListener {
-            startActivity(Intent( requireActivity(),ActivityChat::class.java))
+            startActivity(Intent( requireActivity(),ActivitySelectAddress::class.java))
         }
         if (MyApplication.isSignedIn) {
             (activity as ActivityHome?)!!.showLogout(false)

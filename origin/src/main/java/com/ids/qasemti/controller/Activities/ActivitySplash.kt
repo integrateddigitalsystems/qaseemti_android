@@ -44,7 +44,7 @@ class ActivitySplash : ActivityBase() {
         //  MyApplication.isLoggedIn = true
 
         getFirebasePrefs()
-        getMobileConfig()
+      //  getMobileConfig()
        //getAddress()
     }
 
@@ -172,15 +172,15 @@ class ActivitySplash : ActivityBase() {
         var version=arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.version!!
         var force=arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.isForceUpdate!!
         try {
-            if (BuildConfig.VERSION_NAME.toDouble() > version) {
+            /*if (BuildConfig.VERSION_NAME.toDouble() > version) {
                 if (force) {
                     showDialogForceUpdate(this)
                 } else {
                     showDialogUpdate(this)
                 }
-            }else{
+            }else{*/
                 nextStep()
-            }
+           // }
         } catch (ex: Exception) {
 
         }
@@ -219,15 +219,18 @@ class ActivitySplash : ActivityBase() {
 
 
     fun nextStep() {
-        AppHelper.updateDevice(this,0,"")
         getMobileConfig()
+        MyApplication.isSignedIn = true
+        MyApplication.userId = 6
         Handler(Looper.getMainLooper()).postDelayed({
             if(MyApplication.firstTime) {
+                AppHelper.updateDevice(this,"")
                 MyApplication.firstTime = false
                 startActivity(Intent(this, ActivityChooseLanguage::class.java))
                 finish()
             }else{
                 if(MyApplication.isSignedIn) {
+                    AppHelper.updateDevice(this,MyApplication.phoneNumber!!)
                     AppHelper.getUserInfo()
                     if (MyApplication.isClient) {
                         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
@@ -240,6 +243,7 @@ class ActivitySplash : ActivityBase() {
                     startActivity(Intent(this, ActivityHome::class.java))
                     finish()
                 }else{
+                    AppHelper.updateDevice(this,"")
                     if(MyApplication.isClient){
                         MyApplication.isSignedIn = true
                         MyApplication.userId = 6

@@ -146,9 +146,9 @@ class ActivitySelectAddress : AppCompactBase() {
             )
         }
         llNewAddress.onOneClick {
+            MyApplication.finish = true
             startActivityForResult(
-                Intent(this, ActivityAddNewAddress::class.java)
-                    .putExtra("mapTitle", AppHelper.getRemoteString("address", this)),
+                Intent(this,ActivityMapAddress::class.java),
                 REQUEST_LOCATION
             )
         }

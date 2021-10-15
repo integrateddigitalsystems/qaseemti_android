@@ -13,12 +13,13 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.Address
 import com.ids.qasemti.model.RequestPlaceOrder
+import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.AppHelper
 
 import java.util.ArrayList
 
 class AdapterCart(
-    val items: ArrayList<RequestPlaceOrder>,
+    val items: ArrayList<ResponseOrders>,
     private val itemClickListener: RVOnItemClickListener,
     context: Context
 ) :
@@ -32,8 +33,8 @@ class AdapterCart(
     }
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
-        holder.title.text = items.get(position).title
-        holder.cost.text = items.get(position).price
+        holder.title.text = items.get(position).product!!.name
+        holder.cost.text = items.get(position).total+" "+items.get(position).currency
 
 
 

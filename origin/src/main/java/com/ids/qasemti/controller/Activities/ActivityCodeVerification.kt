@@ -106,6 +106,7 @@ class ActivityCodeVerification : ActivityBase() {
         if(respone.result.equals("1")){
             AppHelper.createDialog(this,"Correct Code")
             if(respone.user!=null) {
+                MyApplication.phoneNumber = MyApplication.selectedPhone
                 MyApplication.isSignedIn = true
                 MyApplication.userId = respone.user!!.userId!!.toInt()
                 startActivity(Intent(this, ActivityHome::class.java))

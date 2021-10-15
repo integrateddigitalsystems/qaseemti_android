@@ -55,7 +55,7 @@ class ActivityChooseLanguage : ActivityBase() {
         }
         MyApplication.selectedPos = 2
         Handler(Looper.getMainLooper()).postDelayed({
-            if(MyApplication.isClient) {
+            if(MyApplication.isSignedIn) {
                AppHelper.goHome(this)
             }else{
                 MyApplication.isSignedIn = true

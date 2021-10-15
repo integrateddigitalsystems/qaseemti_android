@@ -32,4 +32,6 @@
         android:layout_height="match_parent"
         android:visibility="visible" />
 
+    <include
+        layout="@layout/loading" />
 </RelativeLayout>

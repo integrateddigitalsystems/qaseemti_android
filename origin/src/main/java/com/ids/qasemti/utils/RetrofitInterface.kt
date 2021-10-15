@@ -37,7 +37,7 @@ interface RetrofitInterface {
     fun contactUs(@Body param: RequestContactUs): Call<ResponseUpdate>
 
     @POST("sp_get_orders")
-    fun getOrders(@Body param: RequestOrders): Call<ResponseMainOrder>
+    fun getOrders(@Body param: RequestCart): Call<ResponseMainOrder>
 
     @POST("cancel_order")
     fun cancelOrder(@Body param: RequestCancelOrder): Call<ResponseCancel>
@@ -173,7 +173,7 @@ interface RetrofitInterface {
     ): Call<ResponseMainServices>
 
 
-    @POST("cl_add_address")
+    @POST("add_address")
     fun addClAddress(
         @Body param:RequestAddAddress
     ): Call<ResponseMessage>
@@ -205,13 +205,13 @@ interface RetrofitInterface {
         @Body param:RequestAcceptBroadccast
     ):Call<ResponseUser>
 
-    @POST("cl_get_addresses")
+    @POST("get_addresses")
     fun getAddresses(
         @Body param:RequestUserStatus
     ):Call<ResponseMainAddress>
 
     @POST("cl_get_orders")
-    fun getClientOrders(@Body param: RequestOrders): Call<ResponseMainOrder>
+    fun getClientOrders(@Body param: RequestCart): Call<ResponseMainOrder>
 
     @GET("json")
     fun getLocationLatLng(
@@ -232,6 +232,16 @@ interface RetrofitInterface {
     @POST("post_order_chat")
     fun sendChats(
         @Body param : RequestSendChat
+    ):Call<ResponseMessage>
+
+    @POST("cl_get_cart_orders")
+    fun getCarts(
+        @Body param : RequestCart
+    ):Call<ResponseMainOrder>
+
+    @POST("cl_delete_order_from_cart")
+    fun deleteCartItem(
+        @Body param : RequestOrderId
     ):Call<ResponseMessage>
 
 }

@@ -29,11 +29,15 @@ class MyApplication : Application() {
         var isDebug: Boolean = true
         var selectedFragmentTag : String ?=""
         var typeSelected = 0
-        var useOnce : Boolean ?= false
+        var fromAdd : Boolean ?= false
         var rental : Boolean ?=false
+        var finish : Boolean ?=false
+        var latSelected : Double ?=0.0
+        var longSelected : Double ?=0.0
         var userStatus : ResponseUserStatus ?=null
         var fromLogout = false
         var register = false
+        var addNewAddress = true 
         var settlementTabSelected =0
         var defaultIcon : ImageView ?=null
         var selectedFragment  : Fragment ?=null
@@ -88,6 +92,9 @@ class MyApplication : Application() {
         var notfType : Int?
             get() = sharedPreferences.getInt(AppConstants.ARRAY_CARTS,1)
             set(value) { sharedPreferencesEditor.putInt(AppConstants.ARRAY_CARTS, value!!).apply() }
+        var phoneNumber : String?
+            get() = sharedPreferences.getString(AppConstants.PHONE_NUMBER,"")
+            set(value) { sharedPreferencesEditor.putString(AppConstants.PHONE_NUMBER, value).apply() }
 
     }
 
