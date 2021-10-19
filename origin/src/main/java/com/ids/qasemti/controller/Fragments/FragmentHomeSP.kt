@@ -292,7 +292,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
         } else if (view.id == R.id.btAcceptOrder) {
-            acceptOrder(ordersArray.get(position).orderId!!.toDouble().toInt(),ordersArray.get(position).total!!.toDouble().toInt()+ordersArray.get(position).shippingTotal!!.toDouble().toInt())
+            acceptOrder(ordersArray.get(position).orderId!!.toInt(),ordersArray.get(position).total!!.toInt()+ordersArray.get(position).shippingTotal!!.toInt())
         }
     }
 }

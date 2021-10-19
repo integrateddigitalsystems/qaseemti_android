@@ -48,7 +48,7 @@ class AdapterPreviousSettlements(
         holder.id.text = items.get(position).reqId
         holder.date.text = AppHelper.formatDate(items.get(position).settlementReqDate!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy hh:mm")
         holder.amount.text = items.get(position).total_amount+ " "+ items.get(position).relatedOrders.get(0).currency
-        holder.earn.text = items.get(position).relatedOrders.get(0).orderEarning+" "+items.get(position).relatedOrders.get(0).currency
+        holder.earn.text = items.get(position).totalEarnings+" "+items.get(position).relatedOrders.get(0).currency
 
 
     }

@@ -287,6 +287,7 @@ class FragmentOrders : Fragment() , RVOnItemClickListener {
                 ordersArray.add(item)
             }
         }*/
+        ordersArray.addAll(mainArray)
         if(adapter!=null){
             adapter!!.notifyDataSetChanged()
             adapter!!.notifyDataSetChanged()

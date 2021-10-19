@@ -17,10 +17,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.OrderData
-import com.ids.qasemti.model.RequestUserStatus
-import com.ids.qasemti.model.ResponseMainAddress
-import com.ids.qasemti.model.ResponseMessage
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.activity_place_order.*
@@ -42,6 +39,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
     var fragMang: FragmentManager? = null
     var selected: Int = 0
+    var selectedPayment : String ?=""
     override fun onItemClicked(view: View, position: Int) {
 
     }
@@ -101,6 +99,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                 )
 
                 selected = 0
+                selectedPayment = "Cash"
             }
         }
         rbKnet.onOneClick {
@@ -124,6 +123,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                     )
                 )
                 selected = 1
+                selectedPayment = "KNET"
             }
         }
         rbVisa.onOneClick {
@@ -147,6 +147,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                     )
                 )
                 selected = 2
+                selectedPayment ="Credit Card"
             }
         }
 
@@ -155,38 +156,19 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         }
     }
 
-    fun nextStep(res:ResponseMessage){
 
-        var ok = AppHelper.getRemoteString("ok", this)
-
-        val builder = AlertDialog.Builder(this)
-        builder
-            .setMessage(res.message)
-            .setCancelable(true)
-            .setNegativeButton(ok) { dialog, _ ->
-                finishAffinity()
-                MyApplication.selectedPos = 1
-                MyApplication.arrayCart.remove(MyApplication.selectedPlaceOrder)
-                AppHelper.toGSOn(MyApplication.arrayCart)
-                MyApplication.selectedFragment = FragmentOrders()
-                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                startActivity(Intent(this,ActivityHome::class.java))
-            }
-        val alert = builder.create()
-        alert.show()
-        loading.hide()
-    }
-    fun placeOrder(){
+    fun updatePayment(orderId : Int ){
         try {
             loading.show()
         } catch (ex: Exception) {
 
         }
+        var request = RequestPaymentOrder(orderId,selectedPayment,selectedPayment)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.placeOrder(MyApplication.selectedPlaceOrder!!)?.enqueue(object : Callback<ResponseMessage> {
+            ?.placeOrder(MyApplication.selectedPlaceOrder!!)?.enqueue(object : Callback<ResponseOrderId> {
                 override fun onResponse(
-                    call: Call<ResponseMessage>,
-                    response: Response<ResponseMessage>
+                    call: Call<ResponseOrderId>,
+                    response: Response<ResponseOrderId>
                 ) {
                     try {
                         nextStep(response.body()!!)
@@ -196,7 +178,56 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                     }
                 }
 
-                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                override fun onFailure(call: Call<ResponseOrderId>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
+    fun nextStep(res:ResponseOrderId){
+
+        if(res.result!!.toInt()==1) {
+            updatePayment(res.orderId!!.toInt())
+            var ok = AppHelper.getRemoteString("ok", this)
+
+            val builder = AlertDialog.Builder(this)
+            builder
+                .setMessage(res.message)
+                .setCancelable(true)
+                .setNegativeButton(ok) { dialog, _ ->
+                    finishAffinity()
+                    MyApplication.selectedPos = 1
+                    MyApplication.arrayCart.remove(MyApplication.selectedPlaceOrder)
+                    AppHelper.toGSOn(MyApplication.arrayCart)
+                    MyApplication.selectedFragment = FragmentOrders()
+                    MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                    startActivity(Intent(this, ActivityHome::class.java))
+                }
+            val alert = builder.create()
+            alert.show()
+        }
+        loading.hide()
+    }
+    fun placeOrder(){
+        try {
+            loading.show()
+        } catch (ex: Exception) {
+
+        }
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.placeOrder(MyApplication.selectedPlaceOrder!!)?.enqueue(object : Callback<ResponseOrderId> {
+                override fun onResponse(
+                    call: Call<ResponseOrderId>,
+                    response: Response<ResponseOrderId>
+                ) {
+                    try {
+                        nextStep(response.body()!!)
+                    } catch (E: java.lang.Exception) {
+
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseOrderId>, throwable: Throwable) {
                     loading.hide()
                 }
             })

@@ -219,7 +219,7 @@ class ActivitySplash : ActivityBase() {
 
 
     fun nextStep() {
-        getMobileConfig()
+       // getMobileConfig()
         MyApplication.isSignedIn = true
         MyApplication.userId = 6
         Handler(Looper.getMainLooper()).postDelayed({

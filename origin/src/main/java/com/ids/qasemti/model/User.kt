@@ -196,6 +196,12 @@ class User (
     @Expose
     var rate: Double? = 0.0
 
+    ,
+
+    @SerializedName("description")
+    @Expose
+    var desc: String? = ""
+
 ){
     
     
