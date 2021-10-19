@@ -34,9 +34,9 @@ class OrderCustomer(
     @Expose
     var billing_country : String ?="",
 
-    @SerializedName("billing_email")
+    @SerializedName("email")
     @Expose
-    var billing_email : String ?="",
+    var email : String ?="",
 
     @SerializedName("billing_first_name")
     @Expose
@@ -120,6 +120,58 @@ class OrderCustomer(
 
     @SerializedName("account_name")
     @Expose
-    var account_name : String ?=""
+    var account_name : String ?="" ,
+
+    @SerializedName("address")
+    @Expose
+    var addresses : ArrayList<ResponseAddress> ,
+
+    @SerializedName("available")
+    @Expose
+    var available : String ?="" ,
+
+    @SerializedName("bank_branch")
+    @Expose
+    var bankBranch : String ?="" ,
+
+    @SerializedName("civil_id")
+    @Expose
+    var civilId : String ?="",
+
+    @SerializedName("civil_id_attach")
+    @Expose
+    var civil_id_attach : String ?="",
+
+    @SerializedName("date_of_birth")
+    @Expose
+    var date_of_birth : String ?="",
+
+    @SerializedName("description")
+    @Expose
+    var description : String ?="",
+
+    @SerializedName("iban")
+    @Expose
+    var iban : String ?="",
+
+    @SerializedName("mobile_number")
+    @Expose
+    var mobile_number : String ?="",
+
+    @SerializedName("profile_pic_url")
+    @Expose
+    var profile_pic_url : String ?=""
+    ,
+
+    @SerializedName("rate")
+    @Expose
+    var rate: String ?="" ,
+
+    @SerializedName("type")
+    @Expose
+    var type: String ?=""
+
+
+
 ) {
 }

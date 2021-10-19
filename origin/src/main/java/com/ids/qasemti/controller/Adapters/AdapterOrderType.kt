@@ -57,6 +57,12 @@ class AdapterOrderType(
         try {
             holder.orderCost.text = items.get(position).total+" "+items.get(position).currency
         }catch (ex:Exception){ holder.orderCost.text =""}
+        try{
+            holder.cancelReasonDetails.text = items.get(position).cancellationDate
+        } catch (ex:Exception){
+                holder.cancelReasonDetails.text =""
+        }
+
 
 
 
@@ -105,6 +111,7 @@ class AdapterOrderType(
             holder.titelOrderDate.text = AppHelper.getRemoteString("Actual_delivery",con)
         }else{
             holder.titelOrderDate.text = AppHelper.getRemoteString("cancelDate",con)
+            holder.orderDate.text = items.get(position).cancellationDate
             holder.phoneChat.hide()
             holder.rating.hide()
             holder.cancelPerson.show()

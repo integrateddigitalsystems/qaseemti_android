@@ -138,6 +138,34 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
     }
 
+
+    fun updatePayment(orderId : Int ){
+        try {
+            loading.show()
+        } catch (ex: java.lang.Exception) {
+
+        }
+        var req = RequestUpdatePayment(orderId,"","","selectedPayment","12","captured",MyApplication.selectedPlaceOrder!!.deliveryDate,"23","test ref","12","abc123")
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.updatePayment(req)?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                    try {
+
+                    } catch (E: java.lang.Exception) {
+
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
+
     fun setListeners(){
         btBackTool.onOneClick {
             super.onBackPressed()
@@ -197,29 +225,36 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         }
 
         btCancelOrder.onOneClick {
-            try {
-                loading.show()
-            }catch (ex: Exception){
+            AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("yes",this),AppHelper.getRemoteString("cancel",this),"Are you sure you want to cancel ?") {
+                try {
+                    loading.show()
+                } catch (ex: Exception) {
 
-            }
-            var cal = Calendar.getInstance()
-            var dateNow = AppHelper.formatDate(cal.time!!,"dd-MM-yyyy")
-            var newReq = RequestCancelOrder(orderId,MyApplication.userId,dateNow,"not accepted yet")
-            RetrofitClient.client?.create(RetrofitInterface::class.java)
-                ?.cancelOrder(
-                    newReq
-                )?.enqueue(object : Callback<ResponseCancel> {
-                    override fun onResponse(call: Call<ResponseCancel>, response: Response<ResponseCancel>) {
-                        try{
-                            resultCancel(response.body()!!.result!!)
-                        }catch (E: java.lang.Exception){
-                           resultCancel("0")
+                }
+                var cal = Calendar.getInstance()
+                var dateNow = AppHelper.formatDate(cal.time!!, "dd-MM-yyyy")
+                var newReq =
+                    RequestCancelOrder(orderId, MyApplication.userId, dateNow, "not accepted yet")
+                RetrofitClient.client?.create(RetrofitInterface::class.java)
+                    ?.cancelOrder(
+                        newReq
+                    )?.enqueue(object : Callback<ResponseCancel> {
+                        override fun onResponse(
+                            call: Call<ResponseCancel>,
+                            response: Response<ResponseCancel>
+                        ) {
+                            try {
+                                resultCancel(response.body()!!.result!!)
+                            } catch (E: java.lang.Exception) {
+                                resultCancel("0")
+                            }
                         }
-                    }
-                    override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
-                        resultCancel("0")
-                    }
-                })
+
+                        override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
+                            resultCancel("0")
+                        }
+                    })
+            }
         }
 
         swOnTrack.setOnCheckedChangeListener { compoundButton, b ->

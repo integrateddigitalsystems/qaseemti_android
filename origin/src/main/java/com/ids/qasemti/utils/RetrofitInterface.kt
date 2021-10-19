@@ -181,7 +181,7 @@ interface RetrofitInterface {
     @POST("cl_place_order")
     fun placeOrder(
         @Body param:RequestPlaceOrder
-    ): Call<ResponseMessage>
+    ): Call<ResponseOrderId>
 
 
     @POST("update_language")
@@ -242,6 +242,16 @@ interface RetrofitInterface {
     @POST("cl_delete_order_from_cart")
     fun deleteCartItem(
         @Body param : RequestOrderId
+    ):Call<ResponseMessage>
+
+    @POST("cl_update_payment")
+    fun updatePayment(
+        @Body param : RequestUpdatePayment
+    ):Call<ResponseMessage>
+
+    @POST("cl_update_order_payment")
+    fun updatePaymentOrder(
+        @Body param : RequestPaymentOrder
     ):Call<ResponseMessage>
 
 }

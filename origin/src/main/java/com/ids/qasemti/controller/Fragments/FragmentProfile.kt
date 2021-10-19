@@ -15,11 +15,9 @@ import androidx.fragment.app.Fragment
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityMapAddress
-import com.ids.qasemti.controller.Activities.ActivityMapLocation
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestUpdateLanguage
-import com.ids.qasemti.model.ResponseUpdate
 import com.ids.qasemti.model.ResponseUser
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
@@ -37,19 +35,17 @@ import kotlinx.android.synthetic.main.service_tab_2.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.white_logo_layout.*
 import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.MultipartBody.Part.Companion.createFormData
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class FragmentProfile : Fragment(), RVOnItemClickListener {
@@ -159,6 +155,12 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         }catch (ex:Exception){
             etBranchNameProfile.text =  Editable.Factory.getInstance().newEditable("")
         }
+        try {
+            etDescriptionProfile.text =
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.desc)
+        }catch (ex:Exception){
+            etDescriptionProfile.text =  Editable.Factory.getInstance().newEditable("")
+        }
 
         if(MyApplication.selectedUser!!.gender.equals("female")){
             rbFemaleProfile.isChecked = true
@@ -222,12 +224,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         val email = etEmailProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val phone = etMobileProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         if(selectedProfilePic==null){
-            var file = File("")
-            var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                selectedProfilePic = MultipartBody.Part.createFormData(
-                    ApiParameters.GALLERY,
-                    file.name + "File",
-                    req)
+            var empty =""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedProfilePic =createFormData("attachment", "", attachmentEmpty)
         }
         var type = "1"
         var typeReq = type.toRequestBody()

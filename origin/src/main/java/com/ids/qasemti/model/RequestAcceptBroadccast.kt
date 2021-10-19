@@ -10,10 +10,6 @@ class RequestAcceptBroadccast(
 
     @SerializedName("order_id")
     @Expose
-    var orderId : Int ?=0 ,
-
-    @SerializedName("additional_cost")
-    @Expose
-    var addCost : Int ?=0
+    var orderId : Int ?=0
  ) {
 }
