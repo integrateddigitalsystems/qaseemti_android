@@ -13,15 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/curve_layout_home" />
+        <include
+            layout="@layout/toolbar" />
     </LinearLayout>
 
-    <include
-        layout="@layout/toolbar" />
 
 
 
-    <androidx.cardview.widget.CardView
+
+  <!--  <androidx.cardview.widget.CardView
         android:id="@+id/linearProfileInfo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,8 +38,10 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="@dimen/margin_start_end"
-        android:paddingEnd="@dimen/margin_start_end">
+        android:paddingEnd="@dimen/margin_start_end">-->
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/llToolBar"
+        android:layout_above="@id/rlMessage"
         android:layout_margin="@dimen/small_margin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,7 +50,7 @@
         <include
             layout="@layout/loading" />
 
-    </androidx.cardview.widget.CardView>
+   <!-- </androidx.cardview.widget.CardView>-->
 
 
 

@@ -754,6 +754,7 @@ class AppHelper {
             val myList = myLocation.getFromLocation(lat, long, 1)
             val address = myList[0]
             var addressStr: String? = ""
+
             addressStr += address.getAddressLine(0).toString()
 
             return addressStr!!

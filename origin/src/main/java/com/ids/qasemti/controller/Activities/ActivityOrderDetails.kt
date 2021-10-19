@@ -6,6 +6,8 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -97,10 +99,19 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             llActualDelivery.show()
             llOrderSwitches.hide()
             btCancelOrder.hide()
-            if(MyApplication.isClient)
-                btRenewOrder.show()
+        }
 
-
+        if(MyApplication.isClient) {
+            if (MyApplication.typeSelected == 2) {
+                if (MyApplication.isClient) {
+                    btRenewOrder.show()
+                } else {
+                    btRenewOrder.hide()
+                }
+            }
+        }else{
+            btRenewOrder.hide()
+            btCancelOrder.hide()
         }
         /*if(MyApplication.isClient)
            // llRatingOrder.hide()
@@ -166,11 +177,88 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             })
     }
 
+    fun nextStep(res:Int){
+        if(res==1){
+            createDialog(this,"Renewal Successful")
+            Handler(Looper.getMainLooper()).postDelayed({
+                finish()
+                MyApplication.renewed = true
+            },1000)
+        }else{
+            createDialog(this,"Failed to renew")
+        }
+    }
+    fun renewOrder(){
+        try {
+            loading.show()
+        } catch (ex: java.lang.Exception) {
+
+        }
+        var vendorId = 0
+        try{
+            vendorId =  MyApplication.selectedOrder!!.product!!.vendorId!!.toInt()
+        }catch (ex:java.lang.Exception){
+
+        }
+        var storeName = ""
+        try{
+            storeName = MyApplication.selectedOrder!!.vendor!!.storeName!!
+        }catch (ex:java.lang.Exception){
+
+        }
+        var cal = Calendar.getInstance()
+        var date = AppHelper.formatDate(cal.time,"dd/mm/yy hh:mm:ssss")
+        var req = RequestRenewOrder(
+            MyApplication.selectedOrder!!.customer!!.user_id!!.toInt(),
+            MyApplication.selectedOrder!!.orderId!!.toInt() ,
+            vendorId,
+            MyApplication.selectedOrder!!.type,
+            MyApplication.selectedOrder!!.product!!.productId!!.toInt(),
+            MyApplication.selectedOrder!!.product!!.types,
+            MyApplication.selectedOrder!!.product!!.sizeCapacity,
+            MyApplication.selectedOrder!!.deliveryDate,
+            date,
+            date,
+            MyApplication.selectedOrder!!.addressname,
+            MyApplication.selectedOrder!!.addressLat!!.toDouble(),
+            MyApplication.selectedOrder!!.addressLong!!.toDouble(),
+            MyApplication.selectedOrder!!.addressStreet,
+            MyApplication.selectedOrder!!.addressBuilding,
+            MyApplication.selectedOrder!!.addressFloor,
+            MyApplication.selectedOrder!!.addressDescription,
+            MyApplication.selectedOrder!!.customer!!.first_name,
+            MyApplication.selectedOrder!!.customer!!.last_name,
+            storeName,
+            MyApplication.selectedOrder!!.customer!!.email,
+            MyApplication.selectedOrder!!.customer!!.mobile_number)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.renewOrder(req)?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                    try {
+                        loading.hide()
+                        nextStep(response.body()!!.result!!)
+                    } catch (E: java.lang.Exception) {
+
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
     fun setListeners(){
         btBackTool.onOneClick {
             super.onBackPressed()
         }
 
+        btRenewOrder.onOneClick {
+            renewOrder()
+        }
         llCall.onOneClick {
             val intent = Intent(Intent.ACTION_DIAL)
             startActivity(intent)

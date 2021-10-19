@@ -268,4 +268,9 @@ interface RetrofitInterface {
         @Body param : RequestProductId
     ):Call<ResponseRequiredFiles>
 
+    @POST("cl_renew_order")
+    fun renewOrder(
+        @Body param : RequestRenewOrder
+    ):Call<ResponseMessage>
+
 }

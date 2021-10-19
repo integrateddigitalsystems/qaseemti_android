@@ -140,6 +140,7 @@
         <activity
             android:name=".controller.Activities.ActivityMapAddress"
             android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".controller.Activities.ActivitySelectAddress"

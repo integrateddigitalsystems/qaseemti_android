@@ -38,7 +38,7 @@ import java.lang.Exception
 class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
     var fragMang: FragmentManager? = null
-    var selected: Int = 0
+    var selected: Int =-1
     var selectedPayment : String ?=""
     override fun onItemClicked(view: View, position: Int) {
 
@@ -157,7 +157,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
     }
 
 
-    fun updatePayment(orderId : Int ){
+    fun updatePayment(orderId:Int){
         try {
             loading.show()
         } catch (ex: Exception) {
@@ -165,20 +165,21 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         }
         var request = RequestPaymentOrder(orderId,selectedPayment,selectedPayment)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.placeOrder(MyApplication.selectedPlaceOrder!!)?.enqueue(object : Callback<ResponseOrderId> {
+            ?.updatePaymentOrder(request)?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(
-                    call: Call<ResponseOrderId>,
-                    response: Response<ResponseOrderId>
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
                 ) {
                     try {
-                        nextStep(response.body()!!)
+                        loading.hide()
+                       // nextStep(response.body()!!)
                     } catch (E: java.lang.Exception) {
 
                         loading.hide()
                     }
                 }
 
-                override fun onFailure(call: Call<ResponseOrderId>, throwable: Throwable) {
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
                     loading.hide()
                 }
             })
@@ -247,23 +248,15 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         btClose.hide()
         AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
 
-        if(MyApplication.position==1) {
+        /*if(MyApplication.position==1) {
             rlNotService.show()
             llMain.hide()
         }else{
             rlNotService.hide()
             llMain.show()
-        }
+        }*/
 
 
-        if (MyApplication.isClient) {
-            llFooterProducts.hide()
-            llFooterCart.show()
-        } else {
-            llFooterProducts.show()
-            llFooterCart.hide()
-
-        }
         setListeners()
         setData()
         AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)

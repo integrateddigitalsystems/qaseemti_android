@@ -123,14 +123,27 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
             val intent = Intent()
             intent.putExtra("lat", array.get(position).lat)
             intent.putExtra("long", array.get(position).long)
-            var latLng = com.google.android.gms.maps.model.LatLng(
+           /* var latLng = com.google.android.gms.maps.model.LatLng(
                 array.get(position).lat!!.toDouble(),
                 array.get(position).long!!.toDouble()
-            )
+            )*/
+            var addr =""
             MyApplication.selectedAddress = array.get(position)
+            if(!array.get(position).desc.equals("null")&&!array.get(position).desc.isNullOrEmpty()){
+              addr = array.get(position).desc!!
+            }
+            if(!array.get(position).street.equals("null")&&!array.get(position).street.isNullOrEmpty()){
+               addr =addr+","+array.get(position).street
+            }
+            if(!array.get(position).bldg.equals("null")&&!array.get(position).bldg.isNullOrEmpty()){
+                addr =addr+","+array.get(position).bldg
+            }
+            if(!array.get(position).floor.equals("null")&&!array.get(position).floor.isNullOrEmpty()){
+                addr =addr+","+array.get(position).floor
+            }
             intent.putExtra(
                 "address",
-                array[position].desc + " ," + array[position].street + " ," + array[position].bldg + " ," + array[position].floor
+                addr
             )
             setResult(RESULT_OK, intent)
             finish()
