@@ -55,7 +55,7 @@ class AdapterOrderType(
             holder.paymentMethod.text = items.get(position).paymentMethodTitle
         }catch (ex:java.lang.Exception){holder.paymentMethod.text = ""}
         try {
-            holder.orderCost.text = items.get(position).total+" "+items.get(position).currency
+            holder.orderCost.text = (items.get(position).total!!.toInt()+items.get(position).shippingTotal!!.toInt()).toString()+" "+items.get(position).currency
         }catch (ex:Exception){ holder.orderCost.text =""}
         try{
             holder.cancelReasonDetails.text = items.get(position).cancellationDate

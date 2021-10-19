@@ -243,7 +243,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     fun acceptOrder(orderId : Int , additional:Int) {
         loading.show()
 
-        var newReq = RequestAcceptBroadccast(MyApplication.userId,orderId,additional)
+        var newReq = RequestAcceptBroadccast(MyApplication.userId,orderId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.acceptBroadcast(newReq)?.enqueue(object : Callback<ResponseUser> {
                 override fun onResponse(
