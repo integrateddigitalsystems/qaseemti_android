@@ -1,5 +1,6 @@
 package com.ids.qasemti.controller.Activities
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -40,6 +41,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
     var fragMang: FragmentManager? = null
     var selected: Int =-1
     var selectedPayment : String ?=""
+    var orderId="0"
     override fun onItemClicked(view: View, position: Int) {
 
     }
@@ -49,7 +51,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         setContentView(R.layout.activity_place_order)
         init()
         AppHelper.setAllTexts(rootLayout,this)
-        getSupportActionBar()!!.hide();
+        supportActionBar!!.hide()
 
 
 
@@ -76,17 +78,19 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         rvOtherData.adapter = AdapterOtherOrderData(array2,this,this)
     }
 
+
     fun setListeners(){
+
         rbCash.onOneClick {
             if (selected != 0) {
                 ivCash.setImageDrawable(
-                    getResources().getDrawable(
+                    resources.getDrawable(
                         R.drawable.blue_circle_border,
                         theme
                     )
                 )
                 ivKnet.setImageDrawable(
-                    getResources().getDrawable(
+                    resources.getDrawable(
                         R.drawable.blue_circle,
                         theme
                     )
@@ -99,7 +103,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                 )
 
                 selected = 0
-                selectedPayment = "Cash"
+                selectedPayment = "cod"
             }
         }
         rbKnet.onOneClick {
@@ -157,13 +161,9 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
     }
 
 
-    fun updatePayment(orderId:Int){
-        try {
-            loading.show()
-        } catch (ex: Exception) {
-
-        }
-        var request = RequestPaymentOrder(orderId,selectedPayment,selectedPayment)
+    fun updatePayment(){
+        loading.show()
+        var request = RequestPaymentOrder(orderId.toInt(),selectedPayment,selectedPayment)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updatePaymentOrder(request)?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(
@@ -172,67 +172,25 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                 ) {
                     try {
                         loading.hide()
-                       // nextStep(response.body()!!)
+                       if(response.body()!!.result==1){
+                           finishAffinity()
+                           startActivity(Intent(this@ActivityPlaceOrder,ActivityHome::class.java))
+                       }else{
+                           toast(getString(R.string.places_try_again))
+                       }
                     } catch (E: java.lang.Exception) {
-
-                        loading.hide()
+                        toast(getString(R.string.places_try_again))
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
                     loading.hide()
+                    toast(getString(R.string.places_try_again))
                 }
             })
     }
-    fun nextStep(res:ResponseOrderId){
 
-        if(res.result!!.toInt()==1) {
-            updatePayment(res.orderId!!.toInt())
-            var ok = AppHelper.getRemoteString("ok", this)
 
-            val builder = AlertDialog.Builder(this)
-            builder
-                .setMessage(res.message)
-                .setCancelable(true)
-                .setNegativeButton(ok) { dialog, _ ->
-                    finishAffinity()
-                    MyApplication.selectedPos = 1
-                    MyApplication.arrayCart.remove(MyApplication.selectedPlaceOrder)
-                    AppHelper.toGSOn(MyApplication.arrayCart)
-                    MyApplication.selectedFragment = FragmentOrders()
-                    MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                    startActivity(Intent(this, ActivityHome::class.java))
-                }
-            val alert = builder.create()
-            alert.show()
-        }
-        loading.hide()
-    }
-    fun placeOrder(){
-        try {
-            loading.show()
-        } catch (ex: Exception) {
-
-        }
-        RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.placeOrder(MyApplication.selectedPlaceOrder!!)?.enqueue(object : Callback<ResponseOrderId> {
-                override fun onResponse(
-                    call: Call<ResponseOrderId>,
-                    response: Response<ResponseOrderId>
-                ) {
-                    try {
-                        nextStep(response.body()!!)
-                    } catch (E: java.lang.Exception) {
-
-                        loading.hide()
-                    }
-                }
-
-                override fun onFailure(call: Call<ResponseOrderId>, throwable: Throwable) {
-                    loading.hide()
-                }
-            })
-    }
     fun init() {
 
 
@@ -247,18 +205,22 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         btPLaceOrder.typeface = AppHelper.getTypeFace(this)
         btClose.hide()
         AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
-
-        /*if(MyApplication.position==1) {
+        setListeners()
+        setData()
+        AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
+        var spFound=true
+        if(intent.hasExtra(AppConstants.SP_FOUND))
+            spFound=intent.extras!!.getBoolean(AppConstants.SP_FOUND,true)
+        if(intent.hasExtra(AppConstants.ORDER_ID))
+            orderId=intent.extras!!.getString(AppConstants.ORDER_ID,"0")
+        if(!spFound) {
             rlNotService.show()
             llMain.hide()
         }else{
             rlNotService.hide()
             llMain.show()
-        }*/
+        }
 
 
-        setListeners()
-        setData()
-        AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
     }
 }

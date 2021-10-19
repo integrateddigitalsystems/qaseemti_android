@@ -60,4 +60,6 @@ object AppConstants {
     const val MEDIA_TYPE_IMAGE = 1
     const val MEDIA_TYPE_YOUTUBE = 2
 
+    const val SP_FOUND = "sp_found"
+    const val ORDER_ID = "order_id"
 }

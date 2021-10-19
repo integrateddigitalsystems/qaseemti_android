@@ -183,6 +183,11 @@ interface RetrofitInterface {
         @Body param:RequestPlaceOrder
     ): Call<ResponseOrderId>
 
+    @POST("broadcast_order_outofrange")
+    fun broadcastOutofRange(
+        @Body param : RequestOrderId
+    ):Call<ResponseOrderId>
+
 
     @POST("update_language")
     fun updateLanguage(
@@ -244,6 +249,9 @@ interface RetrofitInterface {
         @Body param : RequestOrderId
     ):Call<ResponseMessage>
 
+
+
+
     @POST("cl_update_payment")
     fun updatePayment(
         @Body param : RequestUpdatePayment
@@ -267,6 +275,24 @@ interface RetrofitInterface {
     fun get_required_docs(
         @Body param : RequestProductId
     ):Call<ResponseRequiredFiles>
+
+
+    @POST("cl_update_order_paid")
+    fun updateOrderPaid(
+        @Body param : RequestUpdatePaid
+    ):Call<ResponseRequiredFiles>
+
+
+    @Multipart
+    @POST("sp_upload_files")
+    fun spUploadFiles(
+        @Part(ApiParameters.USER_ID) userId: RequestBody,
+        @Part(ApiParameters.FILE_NAME) filename: RequestBody,
+        @Part file: MultipartBody.Part,
+        @Part(ApiParameters.PRODUCT_ID) product_id: RequestBody,
+        @Part(ApiParameters.FILE_ID) fileId: RequestBody
+
+    ): Call<ResponseMessage>
 
     @POST("cl_renew_order")
     fun renewOrder(

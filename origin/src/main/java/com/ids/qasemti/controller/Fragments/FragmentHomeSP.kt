@@ -241,7 +241,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         loading.hide()
     }
 
-    fun acceptOrder(orderId : Int ) {
+    fun acceptOrder(orderId : Int , additional:Int) {
         loading.show()
 
         var newReq = RequestAcceptBroadccast(MyApplication.userId,orderId)
@@ -293,7 +293,9 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
         } else if (view.id == R.id.btAcceptOrder) {
-            acceptOrder(ordersArray.get(position).orderId!!.toInt()/*,ordersArray.get(position).total!!.toDouble().toInt()+ordersArray.get(position).shippingTotal!!.toDouble().toInt()*/)
+            acceptOrder(
+                ordersArray[position].orderId!!.toInt(),
+                ordersArray[position].total!!.toDouble().toInt()+ ordersArray[position].shippingTotal!!.toDouble().toInt())
         }
     }
 }

@@ -127,15 +127,10 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
         if(view.id == R.id.ivDeleteItem){
             AppHelper.createYesNoDialog(requireActivity(),AppHelper.getRemoteString("yes",requireContext()),AppHelper.getRemoteString("cancel",requireContext()),AppHelper.getRemoteString("are_you_sure_delete",requireContext())) {
-                /*MyApplication.arrayCart.removeAt(position)
-                AppHelper.toGSOn(MyApplication.arrayCart)
-                adapter!!.notifyItemRemoved(position)*/
-                deleteCartItem(array.get(position).orderId!!.toInt())
-            }
+             deleteCartItem(array[position].orderId!!.toInt())
+           }
         }else{
-            MyApplication.seletedPosCart = position
-            MyApplication.selectedPlaceOrder = MyApplication.arrayCart.get(position)
-            startActivity(Intent(requireContext(),ActivityPlaceOrder::class.java))
+            startActivity(Intent(requireContext(),ActivityPlaceOrder::class.java).putExtra(AppConstants.ORDER_ID,array[position].orderId))
         }
     }
 }
