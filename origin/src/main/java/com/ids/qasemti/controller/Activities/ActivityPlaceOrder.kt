@@ -156,7 +156,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         }
 
         btPLaceOrder.setOnClickListener {
-            placeOrder()
+            updatePayment()
         }
     }
 

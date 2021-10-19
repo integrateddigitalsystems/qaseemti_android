@@ -317,12 +317,12 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
     }
 
     private fun setData(type: Boolean) {
-        /*for(item in mainArray){
+        for(item in mainArray){
             if(item.orderStatus==orderType){
                 ordersArray.add(item)
             }
-        }*/
-        ordersArray.addAll(mainArray)
+        }
+      // ordersArray.addAll(mainArray)
         try {
             adapter = AdapterOrderType(ordersArray, this, requireActivity())
             rvOrderDetails.adapter = adapter
