@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -31,16 +30,13 @@ import kotlinx.android.synthetic.main.no_logo_layout.btBck
 import kotlinx.android.synthetic.main.service_tab_1.*
 import kotlinx.android.synthetic.main.service_tab_2.*
 import kotlinx.android.synthetic.main.service_tab_3.*
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 
 
 class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
@@ -79,6 +75,8 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
     var adapterRequiredFiles : AdapterRequiredFiles?=null
     var arrayRequiredFiles: ArrayList<RequiredFiles> = arrayListOf()
+    var countFilesUploaded=0
+    var addServiceDone=false
 
     lateinit var arrayBody: java.util.ArrayList<MultipartBody.Part>
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,6 +98,8 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         setPickedImages()
     }
 
+
+
     private fun listeners(){
         btBck.onOneClick{super.onBackPressed()}
         btPickImage.onOneClick{pickFile(CODE_IMAGE)}
@@ -114,8 +114,14 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             else if(arrayRequiredFiles.size>0 && !requiredFilesUploaded())
                 createDialog(this,"Please fill all Required files")
             else{
-                uploadFiles()
+                addServiceDone=true
                 addService()
+                if(arrayRequiredFiles.size>0){
+                    for (i in arrayRequiredFiles.indices) {
+                        countFilesUploaded=0
+                        uploadFiles(arrayRequiredFiles[i])
+                    }
+                }
             }
         }
         rgCategory.setOnCheckedChangeListener { group, checkedId ->
@@ -309,7 +315,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         var FileName = files[0].name
                         var file = getFile(this,files[0].uri)
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        var selectedFile =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
+                        var selectedFile =  MultipartBody.Part.createFormData(ApiParameters.FILE, file.name+"File", req)
                         arrayRequiredFiles[requireFilePosition].multipart=selectedFile
                         arrayRequiredFiles[requireFilePosition].selectedFileName=FileName
                         adapterRequiredFiles!!.notifyDataSetChanged()
@@ -493,14 +499,17 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             )?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
                     try{
-                        loading.hide()
+
                        if(response.body()!!.result==1){
-                           this@ActivityServiceInformation.onBackPressed()
+                          checkData()
                        }
 
-                        else
+                        else{
+                           loading.hide()
                             toast("failed 1")
+                        }
                     }catch (E: java.lang.Exception){
+                        loading.hide()
                         toast("failed 2")
                     }
                 }
@@ -511,8 +520,49 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             })
     }
 
+    fun uploadFiles(requiredFiles: RequiredFiles) {
+        loading.show()
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.spUploadFiles(
+                MyApplication.userId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
+                requiredFiles.getFileTitle()!!.toRequestBody("text/plain".toMediaTypeOrNull()),
+                requiredFiles.multipart!!,
+                selectedServiceId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
+                requiredFiles.id!!.toRequestBody("text/plain".toMediaTypeOrNull())
+            )?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
+                    try{
 
-    fun uploadFiles(){
+                        if(response.body()!!.result==1){
+                            countFilesUploaded++
+                            checkData()
+                        }
+
+                        else {
+                            loading.hide()
+                            toast("failed to upload required files")
+                        }
+                    }catch (E: java.lang.Exception){
+                        loading.hide()
+                        toast("failed to upload required files")
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                    toast("failed to upload required files")
+                }
+            })
+    }
+
+
+    private fun checkData(){
+        if((addServiceDone && arrayRequiredFiles.size==0) || (addServiceDone && arrayRequiredFiles.size>0 && countFilesUploaded == arrayRequiredFiles.size))
+            this@ActivityServiceInformation.onBackPressed()
+    }
+
+
+
+/*    fun uploadFiles(){
         loading.show()
         var arrayBodyRequiredFiles: java.util.ArrayList<MultipartBody.Part> = arrayListOf()
         if(arrayRequiredFiles.size>0){
@@ -539,7 +589,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                     toast("failed to upload required files")
                 }
             })
-    }
+    }*/
 
 
     private fun requiredFilesUploaded():Boolean{

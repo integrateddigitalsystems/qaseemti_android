@@ -15,6 +15,10 @@ class ResponseOrderId(
 
     @SerializedName("order_id")
     @Expose
-    var orderId : String ?=""
+    var orderId : String ?="",
+
+    @SerializedName("number_of_sps")
+    @Expose
+    var number_of_sps : Int ?=0,
 ) {
 }

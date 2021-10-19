@@ -272,6 +272,7 @@
             android:paddingStart="@dimen/small_margin"
             android:paddingEnd="@dimen/small_margin"
             android:text="@string/no_file_chosen"
+            android:visibility="gone"
             android:id="@+id/tvPickedImage"
             android:tag="no_file_chosen"
             android:textSize="@dimen/small_font"
