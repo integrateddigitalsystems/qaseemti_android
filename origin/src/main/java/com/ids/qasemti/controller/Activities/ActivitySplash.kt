@@ -172,15 +172,15 @@ class ActivitySplash : ActivityBase() {
         var version=arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.version!!
         var force=arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.isForceUpdate!!
         try {
-            /*if (BuildConfig.VERSION_NAME.toDouble() > version) {
+            if (BuildConfig.VERSION_NAME.toDouble() < version) {
                 if (force) {
                     showDialogForceUpdate(this)
                 } else {
                     showDialogUpdate(this)
                 }
-            }else{*/
+            }else{
                 nextStep()
-           // }
+           }
         } catch (ex: Exception) {
 
         }

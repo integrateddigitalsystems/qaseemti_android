@@ -108,4 +108,5 @@
     <dimen name="main_title_font">23sp</dimen>
     <dimen name="order_card">100dp</dimen>
     <dimen name="notification_dimen">26dp</dimen>
+    <dimen name="small_icon_2">10dp</dimen>
 </resources>

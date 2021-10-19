@@ -91,15 +91,16 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     response: Response<ResponseRatings>
                 ) {
                     try {
-                        rbMainUser.rating = response.body()!!.rate!!.toFloat()
+                        if(response.body()!!.rate!=null)
+                           rbMainUser.rating = response.body()!!.rate!!.toFloat()
                     } catch (E: java.lang.Exception) {
-                        rbMainUser.rating = 0f
+                       // rbMainUser.rating = 0f
                     }
                     loading.hide()
                 }
 
                 override fun onFailure(call: Call<ResponseRatings>, throwable: Throwable) {
-                    rbMainUser.rating = 0f
+                  //  rbMainUser.rating = 0f
                     loading.hide()
                 }
             })
@@ -232,24 +233,17 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     fun accepted(res:Int){
         if(res==1){
             AppHelper.createDialog(requireActivity(),getString(R.string.order_accept_succ))
-            //getOrders()
-            MyApplication.fromFooterOrder = false
-            MyApplication.selectedFragment = FragmentOrders()
-            (requireActivity() as ActivityHome?)!!.addFrag(
-                FragmentOrders(),
-                AppConstants.FRAGMENT_ORDER_FROM
-            )
-            MyApplication.typeSelected = 0
+            getOrders()
         }else{
             AppHelper.createDialog(requireActivity(),getString(R.string.error_acc_order))
         }
         loading.hide()
     }
 
-    fun acceptOrder(orderId : Int ) {
+    fun acceptOrder(orderId : Int , additional:Int) {
         loading.show()
 
-        var newReq = RequestAcceptBroadccast(MyApplication.userId,orderId)
+        var newReq = RequestAcceptBroadccast(MyApplication.userId,orderId,additional)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.acceptBroadcast(newReq)?.enqueue(object : Callback<ResponseUser> {
                 override fun onResponse(
@@ -298,7 +292,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
         } else if (view.id == R.id.btAcceptOrder) {
-            acceptOrder(ordersArray.get(position).orderId!!.toInt())
+            acceptOrder(ordersArray.get(position).orderId!!.toInt(),ordersArray.get(position).total!!.toInt()+ordersArray.get(position).shippingTotal!!.toInt())
         }
     }
 }

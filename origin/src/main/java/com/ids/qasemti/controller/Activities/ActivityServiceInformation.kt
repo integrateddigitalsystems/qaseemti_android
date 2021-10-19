@@ -5,13 +5,14 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
-import com.ids.qasemti.controller.Adapters.AdapterServicesData
+import com.ids.qasemti.controller.Adapters.*
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
@@ -48,6 +49,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     private val CODE_DRIVING_LICENSE = 1002
     private val CODE_WORK_LICENSE = 1003
     private val CODE_VEHICLE_LICENSE = 1004
+    private val CODE_REQUIRED_FILES = 1005
     private var selectedCategoryId=1
     private var selectedCategoryName=AppConstants.TYPE_PURCHASE
     private var selectedServiceId=0
@@ -58,6 +60,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     private var selectedSizeName=""
     private var selectedQtyId=0
     private var selectedQtyName=""
+    private var requireFilePosition=0
     var arrayData: ArrayList<ServicesData> = arrayListOf()
     var arrayAllServices: ArrayList<ResponseService> = arrayListOf()
 
@@ -66,10 +69,17 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     var arraySpinnerStockAvailable: ArrayList<ItemSpinner> = arrayListOf()
     var arraySpinnerSizes: ArrayList<ItemSpinner> = arrayListOf()
 
+    var arrayImagesSelected: ArrayList<FilesSelected> = arrayListOf()
     var selectedFileImage : MultipartBody.Part ?=null
     var selectedFileDrivingLicence : MultipartBody.Part ?=null
     var selectedFileWorkLicence : MultipartBody.Part ?=null
     var selectedFileVehicleLicence : MultipartBody.Part ?=null
+
+    var adapterSelectedImages : AdapterGridFiles?=null
+
+    var adapterRequiredFiles : AdapterRequiredFiles?=null
+    var arrayRequiredFiles: ArrayList<RequiredFiles> = arrayListOf()
+
     lateinit var arrayBody: java.util.ArrayList<MultipartBody.Part>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,14 +97,13 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         btBck.show()
         setTabs()
         getAllServices()
+        setPickedImages()
     }
 
     private fun listeners(){
         btBck.onOneClick{super.onBackPressed()}
         btPickImage.onOneClick{pickFile(CODE_IMAGE)}
-        btPickDrivingLicense.onOneClick{pickFile(CODE_DRIVING_LICENSE)}
-        btPickWorkLisence.onOneClick{pickFile(CODE_WORK_LICENSE)}
-        btPickVehicle.onOneClick{pickFile(CODE_VEHICLE_LICENSE)}
+
         btSave.onOneClick{setTab2()}
         btPreViews1.onOneClick{setTab1()}
         btNext1.onOneClick{setTab3()}
@@ -102,8 +111,12 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         btNext2.onOneClick{
             if(arrayData.count { it.value!!.isEmpty() } > 0)
                 createDialog(this,"Please fill all Data")
-            else
+            else if(arrayRequiredFiles.size>0 && !requiredFilesUploaded())
+                createDialog(this,"Please fill all Required files")
+            else{
+                uploadFiles()
                 addService()
+            }
         }
         rgCategory.setOnCheckedChangeListener { group, checkedId ->
             val rb = findViewById<View>(checkedId) as RadioButton
@@ -144,7 +157,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
 
     override fun onItemClicked(view: View, position: Int) {
-
+       if(view.id==R.id.btPickFile){
+           requireFilePosition=position
+           pickFile(CODE_REQUIRED_FILES)
+       }
     }
 
     private fun setServiceSpinner(){
@@ -164,6 +180,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
               setTypeSpinner()
               setSizeCapacitySpinner()
               try{tvDescription.text=arrayFiltered[position].desc!!}catch (e:Exception){}
+              getRequiredFiles()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -280,39 +297,27 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         var file = getFile(this,files[0].uri)
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                         selectedFileImage =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
+                        arrayImagesSelected.add(FilesSelected(files[0].name,file,selectedFileImage))
+                        adapterSelectedImages!!.notifyDataSetChanged()
                       } catch (e: Exception) {
                     }
                 }
 
-                CODE_DRIVING_LICENSE -> {
+                CODE_REQUIRED_FILES -> {
                     try {
-                        tvPickedDrivingLicense.text = files[0].name
+
+                        var FileName = files[0].name
                         var file = getFile(this,files[0].uri)
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        selectedFileDrivingLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
+                        var selectedFile =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
+                        arrayRequiredFiles[requireFilePosition].multipart=selectedFile
+                        arrayRequiredFiles[requireFilePosition].selectedFileName=FileName
+                        adapterRequiredFiles!!.notifyDataSetChanged()
                      } catch (e: Exception) {
                     }
                 }
 
-                CODE_WORK_LICENSE -> {
-                    try {
-                        tvPickedWorkLicense.text = files[0].name
-                        var file = getFile(this,files[0].uri)
-                        var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        selectedFileWorkLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
-                    } catch (e: Exception) {
-                    }
-                }
 
-                CODE_VEHICLE_LICENSE -> {
-                    try {
-                        tvPickedVehicle.text = files[0].name
-                        var file = getFile(this,files[0].uri)
-                        var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        selectedFileVehicleLicence =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
-                    } catch (e: Exception) {
-                    }
-                }
             }
         }catch (e: Exception){}
     }
@@ -397,6 +402,21 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
 
 
+    private fun setPickedImages(){
+        arrayImagesSelected.clear()
+        adapterSelectedImages = AdapterGridFiles(arrayImagesSelected, this, this)
+        rvSelectedImages.layoutManager = GridLayoutManager(this,3)
+        rvSelectedImages.adapter = adapterSelectedImages
+        rvSelectedImages.isNestedScrollingEnabled = false
+    }
+
+    private fun setRequiredFiles(){
+        adapterRequiredFiles = AdapterRequiredFiles(arrayRequiredFiles, this, this)
+        rvRequiredFiles.layoutManager = LinearLayoutManager(this)
+        rvRequiredFiles.adapter = adapterRequiredFiles
+        rvRequiredFiles.isNestedScrollingEnabled = false
+    }
+
     fun getAllServices(){
         var newReq = RequestServices(1, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -420,18 +440,43 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
 
+    fun getRequiredFiles(){
+        var newReq = RequestProductId(201/*selectedServiceId*/)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.get_required_docs(
+                newReq
+            )?.enqueue(object : Callback<ResponseRequiredFiles> {
+                override fun onResponse(call: Call<ResponseRequiredFiles>, response: Response<ResponseRequiredFiles>) {
+                    try{
+                        arrayRequiredFiles.clear()
+                        arrayRequiredFiles.addAll(response.body()!!.files!!)
+                        if(arrayRequiredFiles.size>0)
+                            setRequiredFiles()
+                        else
+                            noRequiredDocuments()
+
+                    }catch (E: java.lang.Exception){
+                        noRequiredDocuments()
+                    }
+                }
+                override fun onFailure(call: Call<ResponseRequiredFiles>, throwable: Throwable) {
+                    noRequiredDocuments()
+                }
+            })
+    }
+
+    private fun noRequiredDocuments(){
+        rvRequiredFiles.hide()
+        no_required.show()
+    }
 
     fun addService(){
         loading.show()
         arrayBody= arrayListOf()
-        if(selectedFileImage!=null)
-            arrayBody.add(selectedFileImage!!)
-        if(selectedFileDrivingLicence!=null)
-            arrayBody.add(selectedFileDrivingLicence!!)
-        if(selectedFileWorkLicence!=null)
-            arrayBody.add(selectedFileWorkLicence!!)
-        if(selectedFileVehicleLicence!=null)
-            arrayBody.add(selectedFileVehicleLicence!!)
+        if(arrayImagesSelected.size>0){
+        for (i in arrayImagesSelected.indices)
+            arrayBody.add(arrayImagesSelected[i].multipart!!)
+        }
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.addService(
                 MyApplication.userId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
@@ -464,6 +509,41 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                     toast("failed 3")
                 }
             })
+    }
+
+
+    fun uploadFiles(){
+        loading.show()
+        var arrayBodyRequiredFiles: java.util.ArrayList<MultipartBody.Part> = arrayListOf()
+        if(arrayRequiredFiles.size>0){
+            for (i in arrayRequiredFiles.indices)
+                arrayBodyRequiredFiles.add(arrayRequiredFiles[i].multipart!!)
+        }
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.uploadFiles(arrayBodyRequiredFiles)?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
+                    try{
+                        loading.hide()
+                        if(response.body()!!.result==1){
+                            toast("required files uploaded")
+                        }
+
+                        else
+                            toast("failed to upload required files")
+                    }catch (E: java.lang.Exception){
+                        toast("failed to upload required files")
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                    toast("failed to upload required files")
+                }
+            })
+    }
+
+
+    private fun requiredFilesUploaded():Boolean{
+        return arrayRequiredFiles.count { it.selectedFileName=="" } == 0
     }
 
 }
