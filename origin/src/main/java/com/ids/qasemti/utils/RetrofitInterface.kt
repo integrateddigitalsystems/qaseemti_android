@@ -293,4 +293,10 @@ interface RetrofitInterface {
         @Part(ApiParameters.FILE_ID) fileId: RequestBody
 
     ): Call<ResponseMessage>
+
+    @POST("cl_renew_order")
+    fun renewOrder(
+        @Body param : RequestRenewOrder
+    ):Call<ResponseMessage>
+
 }

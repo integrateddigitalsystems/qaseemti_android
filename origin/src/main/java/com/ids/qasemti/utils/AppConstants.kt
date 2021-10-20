@@ -15,7 +15,7 @@ object AppConstants {
     const val XXXHDPI = "96"
 
     const val ORDER_TYPE_ACTIVE = "active"
-    const val ORDER_TYPE_COMPLETED ="completted"
+    const val ORDER_TYPE_COMPLETED ="completed"
     const val ORDER_TYPE_UPCOMING ="upcoming"
     const val ORDER_TYPE_CANCELED ="canceled"
     const val ORDER_TYPE_FAILED="failed"

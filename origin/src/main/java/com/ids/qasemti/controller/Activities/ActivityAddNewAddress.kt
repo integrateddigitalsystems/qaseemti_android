@@ -7,6 +7,10 @@ import android.location.Geocoder
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -27,6 +31,7 @@ import java.util.*
 class ActivityAddNewAddress : ActivityBase() {
 
     var REQUEST_CODE = 1000
+    var from = ""
     var latlng: LatLng? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,6 +154,8 @@ class ActivityAddNewAddress : ActivityBase() {
         } catch (ex: Exception) {
             etAddressName.text.clear()
         }
+
+        editData(llAddForm)
     }
 
 
@@ -172,16 +179,40 @@ class ActivityAddNewAddress : ActivityBase() {
         val long = MyApplication.longSelected
         btDrawer.hide()
         btBackTool.show()
+        from = intent.getStringExtra("from")!!
+
         AppHelper.setLogoTint(btBackTool, this, R.color.redPrimary)
         if (MyApplication.fromProfile!!)
             btOnlyOnce.hide()
         else
             btOnlyOnce.show()
 
-        setUpData(LatLng(lat!!.toDouble(),long!!.toDouble()))
+        if(from.equals("current")){
+            setUpData(LatLng(MyApplication.selectedCurrentAddress!!.latitude, MyApplication.selectedCurrentAddress!!.longitude))
+            btSaveAddress.text =AppHelper.getRemoteString("select_address",this)
+            btOnlyOnce.hide()
+        }else {
+            setUpData(LatLng(lat!!.toDouble(), long!!.toDouble()))
+        }
 
     }
 
+    fun editData(v:View){
+        if (v is ViewGroup) {
+            val vg = v as ViewGroup
+            for (i in 0 until vg.childCount) {
+                val child = vg.getChildAt(i)
+                // recursively call this method
+                editData(child)
+            }
+        } else if (v is EditText) {
+          if(v.text.isNullOrEmpty()){
+              v.isEnabled = true
+          }else{
+              v.isEnabled = false
+          }
+        }
+    }
 
     private fun listeners() {
         btBackTool.onOneClick { super.onBackPressed() }
@@ -211,7 +242,12 @@ class ActivityAddNewAddress : ActivityBase() {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
                 MyApplication.fromAdd = true
-                addAddress()
+                if(from=="current"){
+                    addAddress()
+                }else{
+                    setData()
+                }
+
             }
         }
         btOnlyOnce.onOneClick {

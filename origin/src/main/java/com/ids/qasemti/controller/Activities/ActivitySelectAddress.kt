@@ -27,7 +27,7 @@ class ActivitySelectAddress : AppCompactBase() {
 
     var latLng: LatLng? = null
     var REQUEST_LOCATION = 5
-    var addressName : String ?=""
+    var addressName: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_address)
@@ -46,13 +46,13 @@ class ActivitySelectAddress : AppCompactBase() {
                     try {
                         var lat = extras.getDouble("lat")
                         var long = extras.getDouble("long")
-                        latLng = LatLng(lat,long)
-                    }catch (ex:Exception){
+                        latLng = LatLng(lat, long)
+                    } catch (ex: Exception) {
                     }
 
                     addressName = extras.getString("address")
 
-                    Toast.makeText(this,addressName,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, addressName, Toast.LENGTH_SHORT).show()
                 }
 
             }
@@ -84,7 +84,7 @@ class ActivitySelectAddress : AppCompactBase() {
                     "address",
                     addressName
                 )
-                if(latLng!=null){
+                if (latLng != null) {
                     extras.putDouble(
                         "lat",
                         latLng!!.latitude
@@ -96,7 +96,7 @@ class ActivitySelectAddress : AppCompactBase() {
                 }
                 intent.putExtras(extras)
 
-                
+
                 setResult(RESULT_OK, intent)
                 finish()
             } else {
@@ -109,27 +109,27 @@ class ActivitySelectAddress : AppCompactBase() {
         }
         llCurrentLocation.onOneClick {
             getCurrentLocation()
-      /*      if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
+            /*      if (ActivityCompat.checkSelfPermission(
+                          this,
+                          Manifest.permission.ACCESS_FINE_LOCATION
+                      ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                          this,
+                          Manifest.permission.ACCESS_COARSE_LOCATION
+                      ) != PackageManager.PERMISSION_GRANTED
+                  ) {
 
-            }
-            try {
-                val locationManager =
-                    getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                var gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                latLng = LatLng(gps_loc!!.latitude, gps_loc!!.longitude)
-                addressName = AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
-                Toast.makeText(this, "Current Location Saved", Toast.LENGTH_SHORT).show()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Toast.makeText(this, "Error getting current Location", Toast.LENGTH_SHORT).show()
-            }*/
+                  }
+                  try {
+                      val locationManager =
+                          getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                      var gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                      latLng = LatLng(gps_loc!!.latitude, gps_loc!!.longitude)
+                      addressName = AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
+                      Toast.makeText(this, "Current Location Saved", Toast.LENGTH_SHORT).show()
+                  } catch (e: Exception) {
+                      e.printStackTrace()
+                      Toast.makeText(this, "Error getting current Location", Toast.LENGTH_SHORT).show()
+                  }*/
         }
         llLocationMap.onOneClick {
             startActivityForResult(
@@ -148,25 +148,34 @@ class ActivitySelectAddress : AppCompactBase() {
         llNewAddress.onOneClick {
             MyApplication.finish = true
             startActivityForResult(
-                Intent(this,ActivityMapAddress::class.java),
+                Intent(this, ActivityMapAddress::class.java),
                 REQUEST_LOCATION
             )
         }
     }
 
 
-    private fun getCurrentLocation(){
+    private fun getCurrentLocation() {
         loading.show()
         val locationResult = object : MyLocation.LocationResult() {
             override fun gotLocation(location: Location?) {
-                if(location!=null){
-                val lat = location!!.latitude
-                val lon = location.longitude
-                toast("$lat --SLocRes-- $lon")
-                latLng = LatLng(lat, lon)
-                addressName = AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this@ActivitySelectAddress)
+                if (location != null) {
+                    val lat = location!!.latitude
+                    val lon = location.longitude
+                    //toast("$lat --SLocRes-- $lon")
+                    latLng = LatLng(lat, lon)
+                    MyApplication.selectedCurrentAddress = AppHelper.getAddressLoc(
+                        latLng!!.latitude,
+                        latLng!!.longitude,
+                        this@ActivitySelectAddress)
+                    startActivityForResult(
+                        Intent(this@ActivitySelectAddress, ActivityAddNewAddress::class.java)
+                            .putExtra("from","current")
+                            ,
+                        REQUEST_LOCATION
+                    )
 
-                }else{
+                } else {
                     toast("cannot detect location")
                 }
                 loading.hide()
@@ -179,12 +188,14 @@ class ActivitySelectAddress : AppCompactBase() {
     }
 
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         if (grantResults.isNotEmpty() && grantResults[0] ==
-            PackageManager.PERMISSION_GRANTED){
+            PackageManager.PERMISSION_GRANTED
+        ) {
             getCurrentLocation()
-        }else{
+        } else {
             toast("Please accept requested permission in order to detect your current location")
             loading.hide()
         }

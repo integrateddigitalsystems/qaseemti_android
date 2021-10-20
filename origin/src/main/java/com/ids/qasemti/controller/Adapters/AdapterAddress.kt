@@ -29,7 +29,19 @@ class AdapterAddress(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
         holder.tvAddressTitle.text = items[position].addressName
-        holder.tvAddressBody.text = items[position].desc + " ,"+ items[position].street + " ,"+ items[position].bldg + " ,"+items[position].floor
+        if(!items[position].desc.equals("null")&&!items[position].desc.isNullOrEmpty()){
+            holder.tvAddressBody.text = items[position].desc
+        }
+        if(!items[position].street.equals("null")&&!items[position].street.isNullOrEmpty()){
+            holder.tvAddressBody.text =  holder.tvAddressBody.text.toString()+","+items[position].street
+        }
+        if(!items[position].bldg.equals("null")&&!items[position].bldg.isNullOrEmpty()){
+            holder.tvAddressBody.text =  holder.tvAddressBody.text.toString()+","+items[position].bldg
+        }
+        if(!items[position].floor.equals("null")&&!items[position].floor.isNullOrEmpty()){
+            holder.tvAddressBody.text =  holder.tvAddressBody.text.toString()+","+items[position].floor
+        }
+
     }
 
     override fun getItemCount(): Int {

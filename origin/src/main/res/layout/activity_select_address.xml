@@ -113,6 +113,7 @@
             android:layout_height="wrap_content"
             app:cardElevation="@dimen/normal_margin"
             android:elevation="@dimen/normal_margin"
+            android:visibility="gone"
             card_view:contentPadding="0dp"
             app:cardUseCompatPadding="true"
             android:layout_marginTop="@dimen/push_card"

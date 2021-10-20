@@ -28,6 +28,7 @@
         android:scrollbars="none"
         >
         <LinearLayout
+            android:id="@+id/llAddForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -174,7 +175,9 @@
     </ScrollView>
 
 
+
     <Button
+        android:layout_marginBottom="@dimen/normal_margin"
         android:id="@+id/btSaveAddress"
         android:layout_marginStart="@dimen/margin_start_end"
         android:layout_marginEnd="@dimen/margin_start_end"

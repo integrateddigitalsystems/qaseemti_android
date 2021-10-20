@@ -39,7 +39,7 @@ import java.lang.Exception
 class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
     var fragMang: FragmentManager? = null
-    var selected: Int = 0
+    var selected: Int =-1
     var selectedPayment : String ?=""
     var orderId="0"
     override fun onItemClicked(view: View, position: Int) {
