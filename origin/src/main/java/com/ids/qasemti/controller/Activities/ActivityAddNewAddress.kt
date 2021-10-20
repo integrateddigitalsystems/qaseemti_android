@@ -179,7 +179,11 @@ class ActivityAddNewAddress : ActivityBase() {
         val long = MyApplication.longSelected
         btDrawer.hide()
         btBackTool.show()
-        from = intent.getStringExtra("from")!!
+        try {
+            from = intent.getStringExtra("from")!!
+        }catch (ex:Exception){
+
+        }
 
         AppHelper.setLogoTint(btBackTool, this, R.color.redPrimary)
         if (MyApplication.fromProfile!!)

@@ -31,6 +31,7 @@ class MyApplication : Application() {
         var selectedFragmentTag : String ?=""
         var typeSelected = 0
         var renewed = false
+        var fromAccount = false
         var fromAdd : Boolean ?= false
         var rental : Boolean ?=false
         var finish : Boolean ?=false

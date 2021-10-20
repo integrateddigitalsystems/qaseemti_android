@@ -25,6 +25,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
 
     var REQUEST_ADDRESS = 1005
     var latLng : LatLng ?=null
+    var seeOnly = false
     var gmap : GoogleMap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +60,16 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
             onBackPressed()
         }
         var title=""
+
+        try{
+            seeOnly = intent.getBooleanExtra("seeOnly",false)
+        }catch (ex:Exception){
+            seeOnly = false
+        }
+
+        if(seeOnly){
+            btSavePosition.hide()
+        }
         AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
         try {
             title = intent.getStringExtra("mapTitle")!!
@@ -140,39 +151,60 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
         gmap = googleMap
         gmap!!.setMinZoomPreference(12f)
 
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        if(!seeOnly) {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
 
-        }
-        try {
-            val locationManager =
-                getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            var gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            latLng = LatLng(gps_loc!!.latitude, gps_loc!!.longitude)
-         //   addressName = AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
-        } catch (e: Exception) {
-            latLng = LatLng(33.8658486, 35.5483189)
-            e.printStackTrace()
-        }
+            }
+            try {
+                val locationManager =
+                    getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                var gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                latLng = LatLng(gps_loc!!.latitude, gps_loc!!.longitude)
+                //   addressName = AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
+            } catch (e: Exception) {
+                latLng = LatLng(33.8658486, 35.5483189)
+                e.printStackTrace()
+            }
 
-        gmap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-        val markerOptions = MarkerOptions()
-        markerOptions.position(latLng)
-        gmap!!.addMarker(markerOptions)
+            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+            val markerOptions = MarkerOptions()
+            markerOptions.position(latLng)
+            gmap!!.addMarker(markerOptions)
 
-        gmap!!.setOnMapClickListener {
-            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(it))
-            val marker = MarkerOptions()
-            marker.position(it)
-            gmap!!.clear()
-            gmap!!.addMarker(marker)
-            latLng = it
+            gmap!!.setOnMapClickListener {
+                gmap!!.moveCamera(CameraUpdateFactory.newLatLng(it))
+                val marker = MarkerOptions()
+                marker.position(it)
+                gmap!!.clear()
+                gmap!!.addMarker(marker)
+                latLng = it
+            }
+        }else{
+            var ll : LatLng ?=null
+            try{
+                ll= LatLng(MyApplication.selectedOrder!!.customerLat!!.toDouble(),MyApplication.selectedOrder!!.customerLong!!.toDouble())
+            }catch (ex:Exception){
+
+            }
+
+            if(ll!=null){
+                gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ll))
+                val markerOptions = MarkerOptions()
+                markerOptions.position(ll)
+                gmap!!.addMarker(markerOptions)
+            }else{
+                AppHelper.createDialog(this,"No location date connected to selected order")
+                latLng = LatLng(33.8658486, 35.5483189)
+                gmap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+            }
+
         }
 
     }

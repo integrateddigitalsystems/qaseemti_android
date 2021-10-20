@@ -612,7 +612,7 @@ class AppHelper {
                     setLogoTint(imgNot, context, R.color.redPrimary)
                     setTextColor(context, tvNot, R.color.redPrimary)
                 }
-                AppConstants.FRAGMENT_PROD -> {
+                AppConstants.FRAGMENT_MY_SERVICES -> {
                     setLogoTint(imgPro, context, R.color.redPrimary)
                     setTextColor(context, tvPro, R.color.redPrimary)
                 }
