@@ -89,6 +89,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
             if( MyApplication.finish!!){
                 MyApplication.latSelected = latLng!!.latitude
                 MyApplication.longSelected = latLng!!.longitude
+                finish()
                 startActivityForResult(Intent(this,ActivityAddNewAddress::class.java),REQUEST_ADDRESS)
             }else {
                 val intent = Intent()

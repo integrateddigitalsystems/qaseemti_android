@@ -624,6 +624,7 @@ class AppHelper {
 
         }
 
+
         fun getRemoteString(key: String, con: Context): String {
             if (MyApplication.localizeArray != null) {
                 try {

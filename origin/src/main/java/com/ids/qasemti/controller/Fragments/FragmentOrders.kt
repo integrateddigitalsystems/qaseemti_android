@@ -75,7 +75,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         } catch (ex: Exception) {
 
         }
-        var newReq = RequestCart(MyApplication.userId, MyApplication.languageCode)
+        var newReq = RequestOrders(41, MyApplication.languageCode, orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getClientOrders(
                 newReq
@@ -88,6 +88,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                         mainArray.clear()
                         mainArray.addAll(response.body()!!.orders)
                         ordersArray.clear()
+                        ordersArray.addAll(mainArray)
                         setData(true)
                     } catch (E: java.lang.Exception) {
                         mainArray.clear()
@@ -110,7 +111,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         } catch (ex: Exception) {
 
         }
-        var newReq = RequestCart(MyApplication.userId, MyApplication.languageCode)
+        var newReq = RequestOrders(41, MyApplication.languageCode, orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrders(
                 newReq
@@ -123,6 +124,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                         mainArray.clear()
                         mainArray.addAll(response.body()!!.orders)
                         ordersArray.clear()
+                        ordersArray.addAll(mainArray)
                         setData(true)
                     } catch (E: java.lang.Exception) {
                         mainArray.clear()
@@ -174,11 +176,11 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
             ) {
                 if (s.length > 0) {
                     ordersArray.clear()
-                    for (item in mainArray) {
-                        if (item.customer!!.first_name!!.contains(s)) {
-                            ordersArray.add(item)
-                        }
-                    }
+                    ordersArray.addAll(mainArray.filter {
+                        it.orderId!!.contains(s) || it.customer!!.first_name!!.contains(
+                            s
+                        ) || it.product!!.name!!.contains(s)
+                    })
                     adapter!!.notifyDataSetChanged()
                 } else {
                     ordersArray.clear()
@@ -255,6 +257,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
 
         when (position) {
             0 -> {
+                etSearchOrders.text.clear()
                 tvActive.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(), tvActive, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_ACTIVE
@@ -264,6 +267,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                     getClientOrders()
             }
             1 -> {
+                etSearchOrders.text.clear()
                 tvUpcoming.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(), tvUpcoming, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_UPCOMING
@@ -273,6 +277,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                     getClientOrders()
             }
             2 -> {
+                etSearchOrders.text.clear()
                 tvCompleted.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(), tvCompleted, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_COMPLETED
@@ -282,6 +287,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                     getClientOrders()
             }
             3 -> {
+                etSearchOrders.text.clear()
                 tvCancelled.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(), tvCancelled, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_CANCELED
@@ -291,6 +297,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                     getClientOrders()
             }
             else -> {
+                etSearchOrders.text.clear()
                 tvFailed.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(), tvFailed, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_FAILED
@@ -317,12 +324,6 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
     }
 
     private fun setData(type: Boolean) {
-        /*for(item in mainArray){
-            if(item.orderStatus==orderType){
-                ordersArray.add(item)
-            }
-        }*/
-       ordersArray.addAll(mainArray)
         try {
             adapter = AdapterOrderType(ordersArray, this, requireActivity())
             rvOrderDetails.adapter = adapter

@@ -224,4 +224,6 @@
     <string name="you_can_find_updates">You can always find your updates in your email</string>
     <string name="failed">Failed</string>
     <string name="no_required_documents">No Required Documents for this service</string>
+    <string name="submit">Submit</string>
+    <string name="don_t_cancel">Don\'t Cancel</string>
 </resources>

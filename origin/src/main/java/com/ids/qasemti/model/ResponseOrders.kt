@@ -40,6 +40,8 @@ class ResponseOrders(
     @Expose
     var customerid : String ?= "" ,
 
+
+
     @SerializedName("payment_method")
     @Expose
     var paymentMethod : String ?="" ,
@@ -125,6 +127,18 @@ class ResponseOrders(
     @SerializedName("cancellation_reason")
     @Expose
     var cancellationReason : String ?="" ,
+
+    @SerializedName("cancelled_by_id")
+    @Expose
+    var cancelledById : String ?="" ,
+
+    @SerializedName("cancelled_by_name")
+    @Expose
+    var cancelledByName : String ?="" ,
+
+    @SerializedName("cancelled_by_role")
+    @Expose
+    var cancelledByRole : String ?="" ,
 
     @SerializedName("dfg_address_floor")
     @Expose

@@ -8,6 +8,10 @@ class User (
     @Expose
     var userId: String? = "" ,
 
+    @SerializedName("notification_type")
+    @Expose
+    var notificationType : String ?="" ,
+
     @SerializedName("middle_name")
     @Expose
     var middleName: String? = "" ,

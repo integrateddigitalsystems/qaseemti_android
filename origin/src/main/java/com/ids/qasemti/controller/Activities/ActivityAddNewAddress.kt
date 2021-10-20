@@ -93,7 +93,7 @@ class ActivityAddNewAddress : ActivityBase() {
             MyApplication.userId,
            lat,
             long,
-           lat!!.toInt(),
+           0,
             etAddressBody.text.toString(),
             etStreet.text.toString(),
             etBuilding.text.toString(),
@@ -247,9 +247,9 @@ class ActivityAddNewAddress : ActivityBase() {
             } else {
                 MyApplication.fromAdd = true
                 if(from=="current"){
-                    addAddress()
-                }else{
                     setData()
+                }else{
+                    addAddress()
                 }
 
             }
