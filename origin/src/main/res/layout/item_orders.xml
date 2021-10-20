@@ -192,7 +192,7 @@
                         android:textSize="@dimen/small_font_3"
                         android:id="@+id/tvExpectedDate"
                         android:textColor="@color/gray_font"
-                        android:text="20 Jun,2021 16:00"
+                        android:text=""
                         />
 
                 </LinearLayout>

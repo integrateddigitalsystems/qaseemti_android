@@ -265,14 +265,18 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     }
 
     private fun setOrders() {
-        var adapter = AdapterOrders(ordersArray, this, requireContext())
-        rvOrders.adapter = adapter
-        var glm2 = GridLayoutManager(requireContext(), 1)
-        rvOrders.layoutManager = glm2
+        try {
+            var adapter = AdapterOrders(ordersArray, this, requireContext())
+            rvOrders.adapter = adapter
+            var glm2 = GridLayoutManager(requireContext(), 1)
+            rvOrders.layoutManager = glm2
 
-        if (ordersArray.size == 0) {
-            rvOrders.hide()
-            llNodata.show()
+            if (ordersArray.size == 0) {
+                rvOrders.hide()
+                llNodata.show()
+            }
+        }catch (ex:Exception){
+
         }
     }
 
@@ -280,12 +284,14 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
         if (view.id == R.id.llLocation) {
             AppHelper.onOneClick {
+                MyApplication.selectedOrder = ordersArray.get(position)
                 startActivity(
                     Intent(requireActivity(), ActivityMapAddress::class.java)
                         .putExtra(
                             "mapTitle",
                             AppHelper.getRemoteString("view_address", requireContext())
                         )
+                        .putExtra("seeOnly" , true)
                 )
             }
         } else if (view.id == R.id.llViewOrderDetails) {

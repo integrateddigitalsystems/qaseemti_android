@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
@@ -14,10 +16,12 @@ import com.ids.qasemti.model.ResponseUpdate
 import com.ids.qasemti.model.ResponseVerification
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_code_verification.*
+import kotlinx.android.synthetic.main.fragment_orders.*
 import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 
 class ActivityCodeVerification : ActivityBase() {
@@ -84,9 +88,30 @@ class ActivityCodeVerification : ActivityBase() {
             }
         }.start()
 
+        pvCode.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+               if(s.length==6){
+                   verifyOTP()
+               }
+
+            }
+        })
+
     }
 
+
     fun sendOTP(){
+        pvCode.text!!.clear()
         var req = RequestOTP(MyApplication.selectedPhone,MyApplication.deviceId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.sendOTP(
@@ -117,6 +142,7 @@ class ActivityCodeVerification : ActivityBase() {
         }else{
             AppHelper.createDialog(this,"Incorrect Code")
             first = true
+            timer!!.cancel()
             tvTimer.setText("try again")
             tvTimer.onOneClick {
                 if(first) {

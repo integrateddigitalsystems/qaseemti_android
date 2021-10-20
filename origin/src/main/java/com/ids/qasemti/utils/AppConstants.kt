@@ -43,6 +43,7 @@ object AppConstants {
     const val FRAGMENT_HOME_CLIENT ="fragmentHomeClient"
     const val FRAGMENT_HOME_SP ="fragmentHomeSP"
     const val FRAGMENT_SERVICE_DETAILS="fragmentServiceDetails"
+    const val FRAGMENT_MY_SERVICES ="fragmentMyServices"
     const val FRAGMENT_SETTINGS = "fragmentSttings"
     const val FRAGMENT_ORDER = "fragmentOrder"
     const val FRAGMENT_ORDER_FROM="fragmentOrderFromService"

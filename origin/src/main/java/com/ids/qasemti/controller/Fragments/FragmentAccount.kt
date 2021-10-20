@@ -89,7 +89,11 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             )
         }
         btMyServices.onOneClick {
-            startActivity(Intent(requireActivity(), ActivityServices::class.java))
+            MyApplication.fromAccount = true
+            (requireActivity() as ActivityHome?)!!.addFrag(
+                FragmentMyServices(),
+                AppConstants.FRAGMENT_MY_SERVICES
+            )
         }
 
         btSettelments.onOneClick {
