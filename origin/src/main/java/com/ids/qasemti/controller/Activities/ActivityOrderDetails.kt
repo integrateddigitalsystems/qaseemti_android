@@ -53,7 +53,6 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         setContentView(R.layout.activity_order_details)
         init()
         setListeners()
-        
     }
 
     fun init(){
