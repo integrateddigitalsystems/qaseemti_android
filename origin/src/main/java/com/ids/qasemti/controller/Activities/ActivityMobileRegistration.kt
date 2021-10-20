@@ -114,7 +114,6 @@ class ActivityMobileRegistration : ActivityBase() {
             if (etPhone.text.isNullOrEmpty()) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
-                //  MyApplication.isSignedIn = true
                   updateDevice()
                 startActivity(Intent(this, ActivityCodeVerification::class.java))
             }
