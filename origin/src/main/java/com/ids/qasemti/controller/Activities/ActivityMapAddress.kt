@@ -67,7 +67,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
             title = AppHelper.getRemoteString("LocationOnMap",this)
         }
         AppHelper.setLogoTint(btBackTool, this, R.color.redPrimary)
-//        tvPageTitle.setColorTypeface(this, R.color.redPrimary, title!!, true)
+        tvPageTitle.setColorTypeface(this, R.color.redPrimary, title!!, true)
         listeners()
     }
 
