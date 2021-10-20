@@ -123,10 +123,6 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
             val intent = Intent()
             intent.putExtra("lat", array.get(position).lat)
             intent.putExtra("long", array.get(position).long)
-           /* var latLng = com.google.android.gms.maps.model.LatLng(
-                array.get(position).lat!!.toDouble(),
-                array.get(position).long!!.toDouble()
-            )*/
             var addr =""
             MyApplication.selectedAddress = array.get(position)
             if(!array.get(position).desc.equals("null")&&!array.get(position).desc.isNullOrEmpty()){
