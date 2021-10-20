@@ -58,10 +58,10 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
         btBackTool.onOneClick {
             onBackPressed()
         }
-        var title :String ?=""
+        var title=""
         AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
         try {
-            title = intent.getStringExtra("mapTitle")
+            title = intent.getStringExtra("mapTitle")!!
         }
         catch (ex:java.lang.Exception){
             title = AppHelper.getRemoteString("LocationOnMap",this)
