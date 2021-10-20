@@ -251,6 +251,16 @@ fun View.show() {
     }
 }
 
+
+fun View.setWeight(weight:Float){
+    val params = LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT
+    )
+    params.weight = weight
+    this.layoutParams = params
+}
+
+
 fun View.invisible() {
     try {
         visibility = View.INVISIBLE
