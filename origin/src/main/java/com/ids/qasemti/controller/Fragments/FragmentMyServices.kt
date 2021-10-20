@@ -67,13 +67,13 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
                         setData()
                     } catch (E: java.lang.Exception) {
                         array.clear()
-                        setData()
+                        try{setData()}catch (e:Exception){}
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseMainServices>, throwable: Throwable) {
                     array.clear()
-                    setData()
+                    try{setData()}catch (e:Exception){}
                 }
             })
     }
