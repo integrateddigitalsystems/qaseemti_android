@@ -101,7 +101,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/small_margin"
-                        android:text="75% Completed"
+                        android:id="@+id/tvPercentageCompleted"
                         android:textColor="@color/gray_font"
                         android:textSize="@dimen/small_font" />
 

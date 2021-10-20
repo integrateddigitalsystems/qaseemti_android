@@ -55,6 +55,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
     var lat: Double? = 0.0
     var fromProfile: Boolean? = false
     var long: Double? = 0.0
+    var profilePercentage=0
     override fun onItemClicked(view: View, position: Int) {
 
     }
@@ -81,6 +82,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
 
 
     fun setUserData(){
+        profilePercentage=0
        // loading.show()
        // AppHelper.getUserInfo()
         try {
@@ -170,7 +172,18 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             rbMaleProfile.isChecked = true
         }
 
+        if(!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
+            profilePercentage+=25
+        if(!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.middleName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
+            profilePercentage+=25
+        if(!MyApplication.selectedUser!!.location.isNullOrEmpty())
+            profilePercentage+=25
+        if(!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankAddress.isNullOrEmpty()  /*&& !MyApplication.selectedUser!!.iban.isNullOrEmpty()*/)
+            profilePercentage+=25
 
+        pbComplete.setWeight(profilePercentage.toFloat())
+        pbNotComplete.setWeight(100f-profilePercentage.toFloat())
+        tvPercentageCompleted.text = profilePercentage.toString()+" % "+AppHelper.getRemoteString("completed",requireActivity())
 
     }
 
