@@ -571,6 +571,7 @@
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:layout_width="100dp"
+                            android:id="@+id/swOnTrack"
                             android:layout_height="match_parent"
                             android:layout_marginStart="-50dp"
                             android:gravity="center"
@@ -604,6 +605,7 @@
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:layout_width="100dp"
+                            android:id="@+id/swDelivered"
                             android:layout_height="match_parent"
                             android:layout_marginStart="-52dp"
                             android:gravity="center"
@@ -637,6 +639,7 @@
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:layout_width="100dp"
+                            android:id="@+id/swPaid"
                             android:layout_height="match_parent"
                             android:layout_marginStart="-50dp"
                             android:gravity="center"
