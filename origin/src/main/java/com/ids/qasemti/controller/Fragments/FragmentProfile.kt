@@ -163,6 +163,30 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         }catch (ex:Exception){
             etDescriptionProfile.text =  Editable.Factory.getInstance().newEditable("")
         }
+        try {
+            etCivilIdNbProfile.text =
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.civilId)
+        }catch (ex:Exception){
+            etCivilIdNbProfile.text =  Editable.Factory.getInstance().newEditable("")
+        }
+        try {
+            etBranchNameProfile.text =
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.bankBranch)
+        }catch (ex:Exception){
+            etBranchNameProfile.text =  Editable.Factory.getInstance().newEditable("")
+        }
+        try {
+            etIBANProfile.text =
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.IBAN)
+        }catch (ex:Exception){
+            etIBANProfile.text =  Editable.Factory.getInstance().newEditable("")
+        }
+        try {
+            etDateOfBirthProfile.text =
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.dob)
+        }catch (ex:Exception){
+            etDateOfBirthProfile.text =  Editable.Factory.getInstance().newEditable("")
+        }
 
         if(MyApplication.selectedUser!!.gender.equals("female")){
             rbFemaleProfile.isChecked = true
@@ -435,7 +459,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         } catch (ex: java.lang.Exception) {
 
         }
-        var userId = "1"
+        var userId = MyApplication.userId.toString()
         var rolev = "vendor"
         var latt = lat.toString()
         var longg = long.toString()
@@ -468,7 +492,15 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             etBankNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val bankBranch =
             etBranchNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val description =
+            etDescriptionProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val iban = etIBANProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        if(selectedFile==null){
+            var empty =""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedFile =createFormData("attachment", "", attachmentEmpty)
+        }
 
 
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -491,7 +523,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 accNum,
                 bankname,
                 bankBranch,
-                iban
+                iban,
+                description
 
             )?.enqueue(object : Callback<String> {
                 override fun onResponse(call: Call<String>, response: Response<String>) {

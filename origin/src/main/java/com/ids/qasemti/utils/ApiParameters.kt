@@ -27,6 +27,7 @@ object ApiParameters {
     const val SIZE_CAPACITY = "size-capacity"
     const val TYPE = "type"
     const val STOCK_STATUS = "stock_status"
+    const val DESCRIPTION = "description"
     const val PRODUCT_DESC = "product_desc"
     const val GALLERY = "gallery[]"
     const val PRODUCT_ID = "product_id"

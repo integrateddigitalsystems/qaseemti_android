@@ -15,8 +15,8 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.*
-
-import java.util.ArrayList
+import kotlinx.android.synthetic.main.layout_order_switch.*
+import java.util.*
 
 class AdapterOrderType(
     val items: ArrayList<ResponseOrders>,
@@ -26,6 +26,9 @@ class AdapterOrderType(
     RecyclerView.Adapter<AdapterOrderType.VHItem>() {
 
     var con = context
+    var delivered = 0
+    var onTrack = 0
+    var paid = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
         return VHItem(
             LayoutInflater.from(parent.context)
@@ -68,6 +71,47 @@ class AdapterOrderType(
         }catch (ex:Exception){
             holder.cancelledname.text =""
         }
+ 
+        try {
+            onTrack= if(items.get(position).onTrack!!) 1 else 0
+            holder.switchOnTrack.isChecked = items.get(position).onTrack!!
+        }catch (ex:Exception){}
+        try {
+            paid= if(items.get(position).paid!!) 1 else 0
+            holder.switchPaid.isChecked = items.get(position).paid!!
+        }catch (ex:java.lang.Exception){}
+        try {
+            delivered= if(items.get(position).delivered!!) 1 else 0
+            holder.switchDelivered.isChecked = items.get(position).delivered!!
+        }catch (ex:java.lang.Exception){}
+
+        holder.switchDelivered.setOnCheckedChangeListener { compoundButton, b ->
+            if( holder.switchDelivered.isChecked){
+                delivered = 1
+            }else{
+                delivered = 0
+            }
+            AppHelper.updateStatus(items.get(position).orderId!!.toInt(),onTrack,delivered,paid)
+        }
+        holder.switchOnTrack.setOnCheckedChangeListener { compoundButton, b ->
+            if( holder.switchOnTrack.isChecked){
+                onTrack = 1
+            }else{
+                onTrack = 0
+            }
+            AppHelper.updateStatus(items.get(position).orderId!!.toInt(),onTrack,delivered,paid)
+        }
+
+        holder.switchPaid.setOnCheckedChangeListener { compoundButton, b ->
+            if(holder.switchPaid.isChecked){
+                paid = 1
+            }else{
+                paid = 0
+            }
+            AppHelper.updateStatus(items.get(position).orderId!!.toInt(),onTrack,delivered,paid)
+        }
+
+
 
 
 
@@ -187,6 +231,9 @@ class AdapterOrderType(
         var orderCost = itemView.findViewById<TextView>(R.id.tvOrderPrice)
         var cancelledname = itemView.findViewById<TextView>(R.id.tvCancelledByname)
         var switchOnTrack = itemView.findViewById<SwitchCompat>(R.id.swOnTrack)
+        var switchDelivered = itemView.findViewById<SwitchCompat>(R.id.swDelivered)
+        var switchPaid = itemView.findViewById<SwitchCompat>(R.id.swPaid)
+
 
         init {
             itemView.setOnClickListener(this)

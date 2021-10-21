@@ -188,6 +188,10 @@ class User (
     @Expose
     var profilePicUrl: String? = "" ,
 
+    @SerializedName("date_of_birth")
+    @Expose
+    var dob: String? = "" ,
+
     @SerializedName("type")
     @Expose
     var type: Int? = 0 ,
@@ -204,7 +208,17 @@ class User (
 
     @SerializedName("description")
     @Expose
-    var desc: String? = ""
+    var desc: String? = "" ,
+
+    @SerializedName("iban")
+    @Expose
+    var IBAN : String ?="" ,
+
+    @SerializedName("bank_branch")
+    @Expose
+    var bankBranch : String ?="" ,
+
+
 
 ){
     

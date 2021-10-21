@@ -67,12 +67,12 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:id="@+id/etAddressBody"
-                android:hint="@string/address"
+                android:id="@+id/etAddressProvince"
+                android:hint="@string/province"
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
                 android:textColorHint="@color/gray_medium_2"
-                android:tag="address"
+                android:tag="province"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
@@ -117,10 +117,40 @@
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
+                android:hint="@string/area"
+                android:id="@+id/etArea"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="area"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/Building"
                 android:id="@+id/etBuilding"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="Building"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:hint="@string/block"
+                android:id="@+id/etBlock"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="block"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
@@ -140,7 +170,20 @@
                 android:background="@drawable/rounded_white_background"
                 />
 
-
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:hint="@string/avenue"
+                android:id="@+id/etAvenue"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="avenue"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
 
 
 

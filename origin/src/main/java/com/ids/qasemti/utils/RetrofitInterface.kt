@@ -66,7 +66,8 @@ interface RetrofitInterface {
         @Part(ApiParameters.ACCOUNT_NUMBER) accNumber: RequestBody,
         @Part(ApiParameters.BANK_NAME) bankName: RequestBody,
         @Part(ApiParameters.BANK_BRANCH) bankBranch: RequestBody,
-        @Part(ApiParameters.IBAN) iban: RequestBody
+        @Part(ApiParameters.IBAN) iban: RequestBody ,
+        @Part(ApiParameters.DESCRIPTION) desc : RequestBody
     ): Call<String>
 
 

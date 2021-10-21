@@ -72,9 +72,9 @@ class ActivityMobileRegistration : ActivityBase() {
             llNewMember.hide()
         }
 
-        tvRegisterNewMember.onOneClick {
+      /*  tvRegisterNewMember.onOneClick {
             startActivity(Intent(this, ActivityRegistration::class.java))
-        }
+        }*/
 
 
         var items: ArrayList<ItemSpinner> = arrayListOf()

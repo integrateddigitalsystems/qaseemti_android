@@ -250,6 +250,8 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
             }
         } else if (view.id == R.id.llTrackOrder) {
             startActivity(Intent(requireActivity(), ActivityTrackOrder::class.java))
+        } else if (view.id==R.id.swPaid){
+
         }
     }
 
