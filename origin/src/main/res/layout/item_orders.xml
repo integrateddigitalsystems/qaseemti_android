@@ -228,8 +228,8 @@
                 android:maxLines="1"
                 android:id="@+id/tvLocationOrder"
                 android:layout_height="wrap_content"
-                android:text="@string/dumy_text_underline"
-
+                android:text="@string/no_data"
+                android:tag="no_data"
                 android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font"
 

@@ -297,14 +297,19 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         if (view.id == R.id.llLocation) {
             AppHelper.onOneClick {
                 MyApplication.selectedOrder = ordersArray.get(position)
-                startActivity(
-                    Intent(requireActivity(), ActivityMapAddress::class.java)
-                        .putExtra(
-                            "mapTitle",
-                            AppHelper.getRemoteString("view_address", requireContext())
-                        )
-                        .putExtra("seeOnly" , true)
-                )
+                if (!MyApplication.selectedOrder!!.customerLocation.isNullOrEmpty() && !MyApplication.selectedOrder!!.customerLocation.equals(
+                        "null"
+                    )
+                ) {
+                    startActivity(
+                        Intent(requireActivity(), ActivityMapAddress::class.java)
+                            .putExtra(
+                                "mapTitle",
+                                AppHelper.getRemoteString("view_address", requireContext())
+                            )
+                            .putExtra("seeOnly", true)
+                    )
+                }
             }
         } else if (view.id == R.id.llViewOrderDetails) {
             AppHelper.onOneClick {
