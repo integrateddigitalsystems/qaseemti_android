@@ -96,12 +96,20 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     } catch (E: java.lang.Exception) {
                        // rbMainUser.rating = 0f
                     }
-                    loading.hide()
+                    try {
+                        loading.hide()
+                    }catch (ex:Exception){
+
+                    }
                 }
 
                 override fun onFailure(call: Call<ResponseRatings>, throwable: Throwable) {
                   //  rbMainUser.rating = 0f
-                    loading.hide()
+                    try {
+                        loading.hide()
+                    }catch (ex:Exception){
+
+                    }
                 }
             })
     }
@@ -135,9 +143,17 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                         tvActiveOrdersNbr.text = response.body()!!.activeOrders.toString()
                         tvUpcomingOrderNumber.text = response.body()!!.upcomingOrders.toString()
 
+                        try {
                             loading.hide()
+                        }catch (ex:Exception){
+
+                        }
                     } catch (E: java.lang.Exception) {
+                        try {
                             loading.hide()
+                        }catch (ex:Exception){
+
+                        }
 
                     }
                 }
