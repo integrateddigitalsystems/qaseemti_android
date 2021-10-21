@@ -246,6 +246,20 @@ class AppHelper {
             }
         }
 
+        fun updateStatus(orderId : Int , onTrack : Int , delivered : Int , paid:Int ){
+                var newReq = RequestUpdateOrder(orderId ,onTrack,delivered,paid)
+                RetrofitClient.client?.create(RetrofitInterface::class.java)
+                    ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
+                        override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
+                            try{
+                            }catch (E: java.lang.Exception){
+                            }
+                        }
+                        override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                        }
+                    })
+        }
+
 
         fun setHintTag(view: View, tag: String, context: Context) {
             var edit = view as EditText

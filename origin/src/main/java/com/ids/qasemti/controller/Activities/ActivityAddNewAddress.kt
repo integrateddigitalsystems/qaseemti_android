@@ -5,12 +5,10 @@ import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -61,7 +59,7 @@ class ActivityAddNewAddress : ActivityBase() {
             long,
             etStreet.text.toString(),
             etFloor.text.toString(),
-            etAddressBody.text.toString(),
+            etAddressProvince.text.toString(),
             etBuilding.text.toString()
         )
         //  intent.putExtra("lat",array.get(position).lat)
@@ -69,7 +67,7 @@ class ActivityAddNewAddress : ActivityBase() {
         //   var latLng = com.google.android.gms.maps.model.LatLng(array.get(position).lat!!.toDouble(), array.get(position).long!!.toDouble())
         intent.putExtra(
             "address",
-            etAddressBody.text.toString() + " ," + etStreet.text.toString() + " ," + etBuilding.text.toString() + " ," + etFloor.text.toString()
+            etAddressProvince.text.toString() + " ," + etStreet.text.toString() + " ," + etBuilding.text.toString() + " ," + etFloor.text.toString()
         )
         setResult(RESULT_OK, intent)
         finish()
@@ -94,15 +92,15 @@ class ActivityAddNewAddress : ActivityBase() {
            lat,
             long,
            0,
-            etAddressBody.text.toString(),
+           etAddressName.text.toString(),
             etStreet.text.toString(),
             etBuilding.text.toString(),
             etFloor.text.toString(),
             etMoreDetails.text.toString(),
             "",
-            "",
-            "",
-            ""
+            etAddressProvince.text.toString(),
+            etArea.text.toString(),
+            etBlock.text.toString()
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.addClAddress(
@@ -230,7 +228,7 @@ class ActivityAddNewAddress : ActivityBase() {
                 ), REQUEST_CODE
             )
         }
-        etAddressBody.onOneClick {
+        etAddressProvince.onOneClick {
             startActivityForResult(
                 Intent(
                     this,
@@ -239,7 +237,7 @@ class ActivityAddNewAddress : ActivityBase() {
             )
         }
         btSaveAddress.onOneClick {
-            if (etAddressName.text.isNullOrEmpty() || etAddressBody.text.isNullOrEmpty() || etBuilding.text.toString()
+            if (etAddressName.text.isNullOrEmpty() || etAddressProvince.text.isNullOrEmpty() || etBuilding.text.toString()
                     .isNullOrEmpty() || etFloor.text.toString()
                     .isNullOrEmpty() || etStreet.text.isNullOrEmpty() || etMoreDetails.text.isNullOrEmpty()
             ) {
@@ -256,7 +254,7 @@ class ActivityAddNewAddress : ActivityBase() {
         }
         btOnlyOnce.onOneClick {
 
-            if (etAddressName.text.isNullOrEmpty() || etAddressBody.text.isNullOrEmpty() || etBuilding.text.toString()
+            if (etAddressName.text.isNullOrEmpty() || etAddressProvince.text.isNullOrEmpty() || etBuilding.text.toString()
                     .isNullOrEmpty() || etFloor.text.toString()
                     .isNullOrEmpty() || etStreet.text.isNullOrEmpty() || etMoreDetails.text.isNullOrEmpty()
             ) {

@@ -227,4 +227,8 @@
     <string name="no_required_documents">No Required Documents for this service</string>
     <string name="submit">Submit</string>
     <string name="don_t_cancel">Don\'t Cancel</string>
+    <string name="province">Province</string>
+    <string name="area">Area</string>
+    <string name="block">Block</string>
+    <string name="avenue">Avenue</string>
 </resources>

@@ -124,12 +124,12 @@
     </RelativeLayout>
 
     <ScrollView
+        android:layout_marginBottom="@dimen/medium_margin"
         android:layout_marginTop="@dimen/push_less_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="@dimen/margin_start_end"
         android:paddingEnd="@dimen/margin_start_end"
-        android:paddingBottom="@dimen/margin_start_end"
         android:fillViewport="true"
         android:scrollbars="none"
         >

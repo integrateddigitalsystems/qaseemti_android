@@ -24,6 +24,7 @@ import java.lang.Exception
 class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     var array : ArrayList<ResponseAddress> = arrayListOf()
+    var from : String ?=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_addresses)
@@ -37,13 +38,14 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        if(!MyApplication.fromAdd!!) {
+        if(!MyApplication.fromAdd!!||from=="account") {
             getAddresses()
         }else{
             MyApplication.fromAdd = false
             val intent = Intent()
             intent.putExtra("lat", MyApplication.selectedAddress!!.lat)
             intent.putExtra("long",  MyApplication.selectedAddress!!.long)
+
             /*var latLng = com.google.android.gms.maps.model.LatLng(
                 array.get(position).lat!!.toDouble(),
                 array.get(position).long!!.toDouble()
@@ -60,6 +62,11 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
     fun init(){
        // var title = intent.getStringExtra("mapTitle")
      //   tvPageTitle.setColorTypeface(this,R.color.white,title!!,true)
+        try {
+            from = intent.getStringExtra("from")!!
+        }catch (ex:Exception){
+
+        }
         btBackTool.onOneClick {
             super.onBackPressed()
         }

@@ -86,6 +86,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             startActivity(
                 Intent(requireContext(), ActivityAddresses::class.java)
                     .putExtra("mapTitle", AppHelper.getRemoteString("address", requireContext()))
+                    .putExtra("from","account")
             )
         }
         btMyServices.onOneClick {
