@@ -42,7 +42,9 @@ class ActivityCodeVerification : ActivityBase() {
         if(MyApplication.isClient){
             btVerifyCode.hide()
             llClientVerfCode.show()
-
+            btCancelVerf.onOneClick {
+                super.onBackPressed()
+            }
             btRegisterVerf.onOneClick {
                 verifyOTP()
                 //startActivity(Intent(this,ActivityAccountStatus::class.java))
