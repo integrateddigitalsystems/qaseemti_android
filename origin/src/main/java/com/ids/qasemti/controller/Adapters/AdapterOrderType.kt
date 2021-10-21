@@ -135,7 +135,17 @@ class AdapterOrderType(
             holder.location.hide()
             holder.border.show()
             holder.track.show()
-        } else if ((MyApplication.typeSelected == 0 || MyApplication.typeSelected == 1) && !MyApplication.isClient) {
+        } else if(MyApplication.typeSelected==0 ){
+            holder.switch.show()
+            holder.sepActive.show()
+            holder.dateBorder.show()
+            holder.bottomBorder.show()
+            holder.canSep.hide()
+            holder.border.show()
+            holder.rating.hide()
+            holder.track.show()
+            holder.credit.hide()
+        }else if ( MyApplication.typeSelected == 1 && !MyApplication.isClient) {
             holder.switch.show()
             holder.sepActive.show()
             holder.dateBorder.show()

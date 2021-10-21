@@ -2,6 +2,7 @@ package com.ids.qasemti.controller.Activities
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -27,12 +28,14 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_track_order.*
+import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 
 class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
 
     var gmap: GoogleMap? = null
+    var LatLngCurr : LatLng ?=null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val REQUEST_CHECK_SETTINGS = 2
     var firtTime: Boolean = true
@@ -52,7 +55,7 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
 
     // globally declare LocationCallback
     private lateinit var locationCallback: LocationCallback
-    var LOCATION_REFRESH_TIME = 1000
+    var LOCATION_REFRESH_TIME = 5000
     var LOCATION_REFRESH_DISTANCE =5
 
     fun LocationChanged() {
@@ -68,8 +71,6 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
                     )
                     gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
                     markers.get(1).position = ny
-                } else {
-                    firtTime = false
                 }
             }
             var mLocationManager: LocationManager =
@@ -104,6 +105,13 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
                 }
 
 
+            if(firtTime){
+                doc!!.update("order_laltitude", LatLngCurr!!.latitude.toString())
+                doc!!.update("order_longitude", LatLngCurr!!.longitude.toString())
+                firtTime = false
+            }
+
+
         }
     }
 
@@ -126,6 +134,7 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
 
         init()
         LocationChanged()
+
 
 
     }
@@ -250,6 +259,56 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
             }
         }
 
+
+    }
+
+
+    private fun getCurrentLocation() {
+        loading.show()
+        val locationResult = object : MyLocation.LocationResult() {
+            override fun gotLocation(location: Location?) {
+                if (location != null) {
+                    val lat = location!!.latitude
+                    val lon = location.longitude
+                    //toast("$lat --SLocRes-- $lon")
+                    LatLngCurr = LatLng(lat, lon)
+                    MyApplication.selectedCurrentAddress = AppHelper.getAddressLoc(
+                        LatLngCurr!!.latitude,
+                        LatLngCurr!!.longitude,
+                        this@ActivityTrackOrder)
+                    /*startActivityForResult(
+                        Intent(this@ActivitySelectAddress, ActivityAddNewAddress::class.java)
+                            .putExtra("from","current")
+                        ,
+                        REQUEST_LOCATION
+                    )*/
+
+                } else {
+                    toast("cannot detect location")
+                }
+                loading.hide()
+            }
+
+        }
+
+        val myLocation = MyLocation()
+        myLocation.getLocation(this, locationResult)
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        if (grantResults.isNotEmpty() && grantResults[0] ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            getCurrentLocation()
+        } else {
+            toast("Please accept requested permission in order to detect your current location")
+            loading.hide()
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
     }
 }

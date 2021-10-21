@@ -181,7 +181,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             closeDrawer(drawerLayout, true)
         } else {
             checkBack()
-            if (getFragmentCount(fragMang) <= 1) {
+            if (getFragmentCount(fragMang) == 0) {
                 AppHelper.createYesNoDialog(
                     this,
                     AppHelper.getRemoteString("exit", this),

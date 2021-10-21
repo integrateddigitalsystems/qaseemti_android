@@ -143,11 +143,9 @@ class ActivityChat : ActivityBase(), RVOnItemClickListener {
 
     fun sendChat() {
 
-        try {
-            loading.show()
-        } catch (ex: Exception) {
 
-        }
+            loading.show()
+
         var xx = MyApplication.selectedUser
         var newReq = RequestSendChat(
             MyApplication.selectedUser!!.firstName,

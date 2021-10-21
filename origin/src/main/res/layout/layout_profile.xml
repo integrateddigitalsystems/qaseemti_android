@@ -9,8 +9,7 @@
 
     android:layout_height="match_parent">
 
-    <include
-        layout="@layout/loading" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -122,6 +121,10 @@
             android:background="@drawable/shadow"/>-->
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ScrollView
         android:layout_marginBottom="@dimen/medium_margin"
@@ -551,6 +554,12 @@
 
         </LinearLayout>
     </ScrollView>
+
+
+        <include
+            layout="@layout/loading" />
+
+    </RelativeLayout>
 
 
 

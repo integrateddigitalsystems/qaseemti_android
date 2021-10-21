@@ -332,11 +332,9 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                     AppHelper.getRemoteString("cancel", this),
                     "Are you sure you want to cancel ?"
                 ) {
-                    try {
-                        loading.show()
-                    } catch (ex: Exception) {
 
-                    }
+                        loading.show()
+
                     var cal = Calendar.getInstance()
                     var dateNow = AppHelper.formatDate(cal.time!!, "dd-MM-yyyy")
                     var newReq =

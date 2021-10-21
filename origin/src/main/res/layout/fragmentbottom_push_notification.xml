@@ -96,7 +96,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/normal_font"
-        android:text="@string/you_can_find_updates"
+        android:tag="@string/find_your_updates"
+        android:text="@string/find_your_updates"
         android:textColor="@color/gray_font"/>
 
     <!-- <LinearLayout
