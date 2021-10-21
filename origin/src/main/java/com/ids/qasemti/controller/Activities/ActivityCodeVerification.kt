@@ -42,7 +42,9 @@ class ActivityCodeVerification : ActivityBase() {
         if(MyApplication.isClient){
             btVerifyCode.hide()
             llClientVerfCode.show()
-
+            btCancelVerf.onOneClick {
+                super.onBackPressed()
+            }
             btRegisterVerf.onOneClick {
                 verifyOTP()
                 //startActivity(Intent(this,ActivityAccountStatus::class.java))
@@ -171,6 +173,7 @@ class ActivityCodeVerification : ActivityBase() {
     fun verifyOTP(){
 
         loading.show()
+        var pv =pvCode.text.toString()
         var req = RequestVerifyOTP(pvCode.text.toString(),MyApplication.deviceId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.verifyOTP(
