@@ -10,10 +10,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Adapters.AdapterOrderData
-import com.ids.qasemti.controller.Adapters.AdapterOtherOrderData
+import com.ids.qasemti.controller.Adapters.*
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.*
@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.home_container.*
 import kotlinx.android.synthetic.main.layout_border_data.*
 import kotlinx.android.synthetic.main.layout_border_red.*
 import kotlinx.android.synthetic.main.loading.*
+import kotlinx.android.synthetic.main.service_tab_1.*
 import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,11 +40,20 @@ import java.lang.Exception
 class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
     var fragMang: FragmentManager? = null
-    var selected: Int =-1
-    var selectedPayment : String ?=""
-    var orderId="0"
-    override fun onItemClicked(view: View, position: Int) {
+    var selectedPaymentId : Int ?=0
 
+    var orderId="0"
+
+    var arrayPaymentMethods: ArrayList<PaymentMethod> = arrayListOf()
+    var adapterPaymentMethods : AdapterPaymentMethods?=null
+    override fun onItemClicked(view: View, position: Int) {
+      if(view.id==R.id.linearPaymentMethod){
+          try{
+          arrayPaymentMethods.forEach { it.selected=false }
+          arrayPaymentMethods[position].selected=true
+          selectedPaymentId=  arrayPaymentMethods[position].id
+          adapterPaymentMethods!!.notifyDataSetChanged()}catch (e:Exception){}
+      }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,89 +103,18 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
     fun setListeners(){
 
-        rbCash.onOneClick {
-            if (selected != 0) {
-                ivCash.setImageDrawable(
-                    resources.getDrawable(
-                        R.drawable.blue_circle_border,
-                        theme
-                    )
-                )
-                ivKnet.setImageDrawable(
-                    resources.getDrawable(
-                        R.drawable.blue_circle,
-                        theme
-                    )
-                )
-                ivVisa.setImageDrawable(
-                    getResources().getDrawable(
-                        R.drawable.blue_circle,
-                        theme
-                    )
-                )
-
-                selected = 0
-                selectedPayment = "cod"
-            }
-        }
-        rbKnet.onOneClick {
-            if (selected != 1) {
-                ivCash.setImageDrawable(
-                    getResources().getDrawable(
-                        R.drawable.blue_circle,
-                        theme
-                    )
-                )
-                ivKnet.setImageDrawable(
-                    getResources().getDrawable(
-                        R.drawable.blue_circle_border,
-                        theme
-                    )
-                )
-                ivVisa.setImageDrawable(
-                    getResources().getDrawable(
-                        R.drawable.blue_circle,
-                        theme
-                    )
-                )
-                selected = 1
-                selectedPayment = "KNET"
-            }
-        }
-        rbVisa.onOneClick {
-            if (selected != 2) {
-                ivCash.setImageDrawable(
-                    getResources().getDrawable(
-                        R.drawable.blue_circle,
-                        theme
-                    )
-                )
-                ivKnet.setImageDrawable(
-                    getResources().getDrawable(
-                        R.drawable.blue_circle,
-                        theme
-                    )
-                )
-                ivVisa.setImageDrawable(
-                    getResources().getDrawable(
-                        R.drawable.blue_circle_border,
-                        theme
-                    )
-                )
-                selected = 2
-                selectedPayment ="Credit Card"
-            }
-        }
-
         btPLaceOrder.setOnClickListener {
-            updatePayment()
+            if(arrayPaymentMethods.count { it.selected }==0)
+                AppHelper.createDialog(this,"Please choose payment method")
+            else
+               updatePayment()
         }
     }
 
 
     fun updatePayment(){
         loading.show()
-        var request = RequestPaymentOrder(orderId.toInt(),selectedPayment,selectedPayment)
+        var request = RequestPaymentOrder(orderId.toInt(),selectedPaymentId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updatePaymentOrder(request)?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(
@@ -238,5 +177,45 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         }
 
 
+        getPaymentMethods()
+
+    }
+
+
+    fun getPaymentMethods(){
+        loading.show()
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getPaymentMethods()?.enqueue(object : Callback<ResponsePaymentMethod> {
+                override fun onResponse(
+                    call: Call<ResponsePaymentMethod>,
+                    response: Response<ResponsePaymentMethod>
+                ) {
+                    try {
+                        loading.hide()
+                        arrayPaymentMethods.clear()
+                        if(response.body()!!.result==1){
+                            arrayPaymentMethods.addAll(response.body()!!.paymentMethods!!)
+                            setPaymentMethods()
+                        }else{
+                            toast("Error in getting payment methods")
+                        }
+                    } catch (E: java.lang.Exception) {
+                        toast("Error in getting payment methods")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponsePaymentMethod>, throwable: Throwable) {
+                    loading.hide()
+                    toast("Error in getting payment methods")
+                }
+            })
+    }
+
+
+    private fun setPaymentMethods(){
+        adapterPaymentMethods = AdapterPaymentMethods(arrayPaymentMethods, this, this)
+        rvPaymentMethod.layoutManager = GridLayoutManager(this,1)
+        rvPaymentMethod.adapter = adapterPaymentMethods
+        rvPaymentMethod.isNestedScrollingEnabled = false
     }
 }

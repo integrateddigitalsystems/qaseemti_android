@@ -1,0 +1,34 @@
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:id="@+id/linearPaymentMethod"
+    android:layout_marginTop="@dimen/normal_margin"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/ivRadioPayment"
+        android:layout_width="@dimen/small_icon"
+        android:layout_height="@dimen/small_icon"
+        android:src="@drawable/blue_circle" />
+
+    <ImageView
+        android:layout_width="@dimen/icon_2"
+        android:layout_height="@dimen/icon_2"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:visibility="gone"
+        android:layout_marginEnd="@dimen/normal_margin"
+        android:src="@drawable/icon_knet" />
+
+    <com.ids.qasemti.custom.CustomTextViewMedium
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/medium_font"
+        android:id="@+id/tvPaymentTitle"
+        android:layout_marginStart="@dimen/small_margin"
+        android:textColor="@color/gray_font_title"
+       />
+
+
+</LinearLayout>

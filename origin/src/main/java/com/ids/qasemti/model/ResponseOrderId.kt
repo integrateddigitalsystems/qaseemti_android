@@ -20,5 +20,9 @@ class ResponseOrderId(
     @SerializedName("number_of_sps")
     @Expose
     var number_of_sps : Int ?=0,
+
+    @SerializedName("action")
+    @Expose
+    var action : Int ?=0
 ) {
 }
