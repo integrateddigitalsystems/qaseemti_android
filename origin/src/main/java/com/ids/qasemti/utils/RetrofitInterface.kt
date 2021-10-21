@@ -37,7 +37,7 @@ interface RetrofitInterface {
     fun contactUs(@Body param: RequestContactUs): Call<ResponseUpdate>
 
     @POST("sp_get_orders")
-    fun getOrders(@Body param: RequestCart): Call<ResponseMainOrder>
+    fun getOrders(@Body param: RequestOrders): Call<ResponseMainOrder>
 
     @POST("cancel_order")
     fun cancelOrder(@Body param: RequestCancelOrder): Call<ResponseCancel>
@@ -216,7 +216,7 @@ interface RetrofitInterface {
     ):Call<ResponseMainAddress>
 
     @POST("cl_get_orders")
-    fun getClientOrders(@Body param: RequestCart): Call<ResponseMainOrder>
+    fun getClientOrders(@Body param: RequestOrders): Call<ResponseMainOrder>
 
     @GET("json")
     fun getLocationLatLng(

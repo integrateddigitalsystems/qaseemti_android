@@ -57,8 +57,20 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
     }
     fun setData(){
-            tvLocationPlaceOrder.text =
-                MyApplication.selectedPlaceOrder!!.addressDescription + " ," +  MyApplication.selectedPlaceOrder!!.addressStreet + " ," +  MyApplication.selectedPlaceOrder!!.addressBuilding + " ," +  MyApplication.selectedPlaceOrder!!.addressFloor
+
+        if(!MyApplication.selectedPlaceOrder!!.addressDescription.equals("null")&&! MyApplication.selectedPlaceOrder!!.addressDescription.isNullOrEmpty()){
+            tvLocationPlaceOrder.text = MyApplication.selectedPlaceOrder!!.addressDescription
+        }
+        if(!MyApplication.selectedPlaceOrder!!.addressStreet.equals("null")&&!MyApplication.selectedPlaceOrder!!.addressStreet.isNullOrEmpty()){
+            tvLocationPlaceOrder.text =   tvLocationPlaceOrder.text.toString()+","+MyApplication.selectedPlaceOrder!!.addressStreet
+        }
+        if(!MyApplication.selectedPlaceOrder!!.addressBuilding.equals("null")&&!MyApplication.selectedPlaceOrder!!.addressBuilding.isNullOrEmpty()){
+            tvLocationPlaceOrder.text =   tvLocationPlaceOrder.text.toString()+","+MyApplication.selectedPlaceOrder!!.addressBuilding
+        }
+        if(!MyApplication.selectedPlaceOrder!!.addressFloor.equals("null")&&!MyApplication.selectedPlaceOrder!!.addressFloor.isNullOrEmpty()){
+            tvLocationPlaceOrder.text =   tvLocationPlaceOrder.text.toString()+","+MyApplication.selectedPlaceOrder!!.addressFloor
+        }
+
         tvOrderDate.text = MyApplication.selectedPlaceOrder!!.deliveryDate
         fragMang = supportFragmentManager
         var array:ArrayList<OrderData> = arrayListOf()

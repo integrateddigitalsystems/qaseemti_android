@@ -124,13 +124,13 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
     private fun setData() {
 
 
-        var adapter = AdapterMyServices(array, this, requireContext())
-        rvServices.layoutManager = LinearLayoutManager(requireContext())
-        rvServices.adapter = adapter
-        rvServices.isNestedScrollingEnabled = false
         try {
-            loading.hide()
-        } catch (ex: Exception) {
+            var adapter = AdapterMyServices(array, this, requireContext())
+            rvServices.layoutManager = LinearLayoutManager(requireContext())
+            rvServices.adapter = adapter
+            rvServices.isNestedScrollingEnabled = false
+                loading.hide()
+        }catch (ex:Exception){
 
         }
     }

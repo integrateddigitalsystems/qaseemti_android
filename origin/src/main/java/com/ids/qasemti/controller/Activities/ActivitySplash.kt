@@ -220,8 +220,8 @@ class ActivitySplash : ActivityBase() {
 
     fun nextStep() {
        // getMobileConfig()
-        MyApplication.isSignedIn = true
-        MyApplication.userId = 41
+      /*  MyApplication.isSignedIn = true
+        MyApplication.userId = 41*/
         Handler(Looper.getMainLooper()).postDelayed({
             if(MyApplication.firstTime) {
                 AppHelper.updateDevice(this,"")
@@ -245,8 +245,8 @@ class ActivitySplash : ActivityBase() {
                 }else{
                     AppHelper.updateDevice(this,"")
                     if(MyApplication.isClient){
-                        MyApplication.isSignedIn = true
-                        MyApplication.userId = 41
+                        /*MyApplication.isSignedIn = true
+                        MyApplication.userId = 41*/
                         AppHelper.getUserInfo()
                         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
                         MyApplication.selectedFragment = FragmentHomeClient()

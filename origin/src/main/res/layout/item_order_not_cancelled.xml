@@ -251,7 +251,7 @@
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/medium_2"
                 android:paddingEnd="@dimen/medium_2"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:layout_width="@dimen/normal_icon"
@@ -272,6 +272,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="John Smith"
+                    android:id="@+id/tvCancelledByname"
                     android:textColor="@color/gray_font_light"
                     android:textSize="@dimen/small_font_2" />
 

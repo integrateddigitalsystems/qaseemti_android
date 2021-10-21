@@ -134,17 +134,11 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     try {
                         tvActiveOrdersNbr.text = response.body()!!.activeOrders.toString()
                         tvUpcomingOrderNumber.text = response.body()!!.upcomingOrders.toString()
-                        try {
-                            loading.hide()
-                        } catch (ex: Exception) {
 
-                        }
+                            loading.hide()
                     } catch (E: java.lang.Exception) {
-                        try {
                             loading.hide()
-                        } catch (ex: Exception) {
 
-                        }
                     }
                 }
 
@@ -281,6 +275,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     }
 
     override fun onItemClicked(view: View, position: Int) {
+
 
         if (view.id == R.id.llLocation) {
             AppHelper.onOneClick {

@@ -62,6 +62,11 @@ class AdapterOrderType(
         } catch (ex:Exception){
                 holder.cancelReasonDetails.text =""
         }
+        try{
+            holder.cancelledname.text = items.get(position).cancelledByName
+        }catch (ex:Exception){
+            holder.cancelledname.text =""
+        }
 
 
 
@@ -179,6 +184,7 @@ class AdapterOrderType(
         var cancelReasonDetails = itemView.findViewById<TextView>(R.id.tvCancelReasonDetails)
         var paymentMethod = itemView.findViewById<TextView>(R.id.tvPaymentMethod)
         var orderCost = itemView.findViewById<TextView>(R.id.tvOrderPrice)
+        var cancelledname = itemView.findViewById<TextView>(R.id.tvCancelledByname)
 
         init {
             itemView.setOnClickListener(this)
