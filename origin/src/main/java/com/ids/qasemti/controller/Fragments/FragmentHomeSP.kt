@@ -191,6 +191,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             if (swAvailable.isChecked) {
                 rvOrders.show()
+                getOrders()
                 setAvailability(1)
                 swAvailable.text = AppHelper.getRemoteString("available", requireContext())
                 llNodata.hide()

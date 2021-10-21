@@ -173,6 +173,7 @@ class ActivityCodeVerification : ActivityBase() {
     fun verifyOTP(){
 
         loading.show()
+        var pv =pvCode.text.toString()
         var req = RequestVerifyOTP(pvCode.text.toString(),MyApplication.deviceId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.verifyOTP(

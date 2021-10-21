@@ -186,6 +186,10 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                         loading.hide()
                        if(response.body()!!.result==1){
                            finishAffinity()
+                           MyApplication.selectedPos = 2
+                           MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+                           MyApplication.selectedFragment = FragmentHomeClient()
+                           MyApplication.tintColor = R.color.redPrimary
                            startActivity(Intent(this@ActivityPlaceOrder,ActivityHome::class.java))
                        }else{
                            toast(getString(R.string.places_try_again))
