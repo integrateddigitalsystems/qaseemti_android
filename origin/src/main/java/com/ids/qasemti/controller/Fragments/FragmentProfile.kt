@@ -188,6 +188,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             etDateOfBirthProfile.text =  Editable.Factory.getInstance().newEditable("")
         }
 
+        try{
+            if(!MyApplication.selectedUser!!.profilePicUrl.isNullOrEmpty())
+               ivProfile.loadRoundedImage(MyApplication.selectedUser!!.profilePicUrl!!)
+        }catch (e:Exception){}
+
         if(MyApplication.selectedUser!!.gender.equals("female")){
             rbFemaleProfile.isChecked = true
             rbMaleProfile.isChecked = false
@@ -195,6 +200,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             rbFemaleProfile.isChecked = false
             rbMaleProfile.isChecked = true
         }
+
+        try{tvUsername.text=MyApplication.selectedUser!!.firstName+" "+MyApplication.selectedUser!!.lastName}catch (e:Exception){}
 
         if(!MyApplication.isClient){
         if(!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
@@ -415,6 +422,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 //   var path = getPath(files.get(0).uri)
                 var file = AppHelper.getFile(requireContext(), files[0].uri)
                 var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                ivProfile.loadRoundedLocalImage(file)
                 if (!fromProfile!!)
                     selectedFile = MultipartBody.Part.createFormData(
                         ApiParameters.CIVIL_ID_ATTACH,
