@@ -47,11 +47,9 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
     }
 
     fun getServices() {
-        try {
-            loading.show()
-        } catch (ex: Exception) {
 
-        }
+        loading.show()
+
         var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getServices(
@@ -67,13 +65,19 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
                         setData()
                     } catch (E: java.lang.Exception) {
                         array.clear()
-                        try{setData()}catch (e:Exception){}
+                        try {
+                            setData()
+                        } catch (e: Exception) {
+                        }
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseMainServices>, throwable: Throwable) {
                     array.clear()
-                    try{setData()}catch (e:Exception){}
+                    try {
+                        setData()
+                    } catch (e: Exception) {
+                    }
                 }
             })
     }
@@ -129,8 +133,12 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
             rvServices.layoutManager = LinearLayoutManager(requireContext())
             rvServices.adapter = adapter
             rvServices.isNestedScrollingEnabled = false
-                loading.hide()
-        }catch (ex:Exception){
+            if(array.size==0){
+                rvServices.hide()
+                tvNoData.show()
+            }
+            loading.hide()
+        } catch (ex: Exception) {
 
         }
     }

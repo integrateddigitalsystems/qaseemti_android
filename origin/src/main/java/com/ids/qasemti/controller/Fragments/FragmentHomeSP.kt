@@ -46,7 +46,6 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         init()
 
 
-
     }
 
     fun getBroadcastedOrders() {
@@ -91,23 +90,23 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     response: Response<ResponseRatings>
                 ) {
                     try {
-                        if(response.body()!!.rate!=null)
-                           rbMainUser.rating = response.body()!!.rate!!.toFloat()
+                        if (response.body()!!.rate != null)
+                            rbMainUser.rating = response.body()!!.rate!!.toFloat()
                     } catch (E: java.lang.Exception) {
-                       // rbMainUser.rating = 0f
+                        // rbMainUser.rating = 0f
                     }
                     try {
                         loading.hide()
-                    }catch (ex:Exception){
+                    } catch (ex: Exception) {
 
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseRatings>, throwable: Throwable) {
-                  //  rbMainUser.rating = 0f
+                    //  rbMainUser.rating = 0f
                     try {
                         loading.hide()
-                    }catch (ex:Exception){
+                    } catch (ex: Exception) {
 
                     }
                 }
@@ -127,11 +126,9 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     }
 
     fun getData() {
-        try {
-            loading.show()
-        } catch (ex: Exception) {
 
-        }
+        loading.show()
+
         var newReq = RequestUserStatus(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrdersCount(newReq)?.enqueue(object : Callback<ResponeOrderCount> {
@@ -145,13 +142,13 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
                         try {
                             loading.hide()
-                        }catch (ex:Exception){
+                        } catch (ex: Exception) {
 
                         }
                     } catch (E: java.lang.Exception) {
                         try {
                             loading.hide()
-                        }catch (ex:Exception){
+                        } catch (ex: Exception) {
 
                         }
 
@@ -188,6 +185,12 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             )
             MyApplication.typeSelected = 1
         }
+       try {
+           swAvailable.isChecked =
+               if (MyApplication.selectedUser!!.available == "0") false else true
+       }catch (ex:Exception){
+
+       }
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             if (swAvailable.isChecked) {
                 rvOrders.show()
@@ -205,11 +208,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     }
 
     fun getOrders() {
-        try {
-            loading.show()
-        } catch (ex: Exception) {
 
-        }
+        loading.show()
         var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getBroadcastedOrders(newReq)?.enqueue(object : Callback<ResponseMainOrder> {
@@ -241,21 +241,21 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             })
     }
 
-    fun accepted(res:Int){
-        if(res==1){
-            AppHelper.createDialog(requireActivity(),getString(R.string.order_accept_succ))
+    fun accepted(res: Int) {
+        if (res == 1) {
+            AppHelper.createDialog(requireActivity(), getString(R.string.order_accept_succ))
             getOrders()
             getData()
-        }else{
-            AppHelper.createDialog(requireActivity(),getString(R.string.error_acc_order))
+        } else {
+            AppHelper.createDialog(requireActivity(), getString(R.string.error_acc_order))
         }
         loading.hide()
     }
 
-    fun acceptOrder(orderId : Int , additional:Int) {
+    fun acceptOrder(orderId: Int, additional: Int) {
         loading.show()
 
-        var newReq = RequestAcceptBroadccast(MyApplication.userId,orderId)
+        var newReq = RequestAcceptBroadccast(MyApplication.userId, orderId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.acceptBroadcast(newReq)?.enqueue(object : Callback<ResponseUser> {
                 override fun onResponse(
@@ -286,7 +286,9 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 rvOrders.hide()
                 llNodata.show()
             }
-        }catch (ex:Exception){
+
+            loading.hide()
+        } catch (ex: Exception) {
 
         }
     }
@@ -318,7 +320,9 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         } else if (view.id == R.id.btAcceptOrder) {
             acceptOrder(
                 ordersArray[position].orderId!!.toInt(),
-                ordersArray[position].total!!.toDouble().toInt()+ ordersArray[position].shippingTotal!!.toDouble().toInt())
+                ordersArray[position].total!!.toDouble()
+                    .toInt() + ordersArray[position].shippingTotal!!.toDouble().toInt()
+            )
         }
     }
 }

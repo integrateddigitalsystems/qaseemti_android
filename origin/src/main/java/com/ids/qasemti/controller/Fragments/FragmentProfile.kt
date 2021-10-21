@@ -165,7 +165,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         }
         try {
             etCivilIdNbProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.civilId)
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.civil_id)
         }catch (ex:Exception){
             etCivilIdNbProfile.text =  Editable.Factory.getInstance().newEditable("")
         }

@@ -73,11 +73,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_font_3"
-            android:text="@string/products"
+            android:text="@string/MyServices"
             android:textColor="@color/gray_font"
             android:layout_marginTop="@dimen/mini_margin"
             android:layout_gravity="center"
-            android:tag="products"
+            android:tag="MyServices"
             />
 
     </LinearLayout>

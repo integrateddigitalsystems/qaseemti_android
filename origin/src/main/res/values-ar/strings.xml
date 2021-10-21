@@ -218,16 +218,15 @@
     <string name="settlement_request_number">رقم طلب التسوية</string>
     <string name="order_accept_succ">تم قبول الطلب بنجاح</string>
     <string name="error_acc_order">خطأ في قبول الطلب</string>
-    <string name="yes">Yes</string>
+    <string name="yes">نعم</string>
     <string name="are_you_sure_delete">هل أنت متأكد أنك تريد الحذف ؟</string>
     <string name="please_select_location">يرجى تحديد الموقع</string>
-    <string name="you_can_find_updates">You can always find your updates in your email</string>
-    <string name="failed">Failed</string>
-    <string name="no_required_documents">No Required Documents for this service</string>
-    <string name="submit">Submit</string>
-    <string name="don_t_cancel">Don\'t Cancel</string>
-    <string name="province">Province</string>
-    <string name="area">Area</string>
-    <string name="block">Block</string>
-    <string name="avenue">Avenue</string>
+    <string name="Failed">فاشلة</string>
+    <string name="no_required_documents">لا توجد مستندات مطلوبة لمزود الخدمة هذا</string>
+    <string name="submit">إرسال</string>
+    <string name="dont_cancel">لا تلغي</string>
+    <string name="Province">مقاطعة</string>
+    <string name="Area">منطقة</string>
+    <string name="Block">حي</string>
+    <string name="Avenu">الجادة</string>
 </resources>

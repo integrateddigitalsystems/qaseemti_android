@@ -75,11 +75,8 @@ class ActivityAddNewAddress : ActivityBase() {
 
     fun addAddress() {
 
-        try {
             loading.show()
-        } catch (ex: Exception) {
 
-        }
         var lat :Double ?= 0.0
         var long : Double ?=0.0
         try{

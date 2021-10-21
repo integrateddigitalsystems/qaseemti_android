@@ -75,11 +75,9 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
      }
 
     fun getAddresses(){
-        try {
-            loading.show()
-        } catch (ex: Exception) {
 
-        }
+            loading.show()
+
         var newReq = RequestUserStatus(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getAddresses(newReq)?.enqueue(object : Callback<ResponseMainAddress> {
