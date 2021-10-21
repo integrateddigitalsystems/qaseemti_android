@@ -29,7 +29,7 @@ import kotlin.system.exitProcess
 
 class ActivityMobileRegistration : ActivityBase() {
 
-    var selectedCode = ""
+    var selectedCode = "961"
 
     override fun onBackPressed() {
         if (MyApplication.fromLogout) {
@@ -78,10 +78,10 @@ class ActivityMobileRegistration : ActivityBase() {
 
 
         var items: ArrayList<ItemSpinner> = arrayListOf()
-        items.add(ItemSpinner(0, "+961", ""))
-        items.add(ItemSpinner(0, "+965", ""))
-        items.add(ItemSpinner(0, "+1", ""))
-        items.add(ItemSpinner(0, "+31", ""))
+        items.add(ItemSpinner(0, "961", ""))
+        items.add(ItemSpinner(0, "965", ""))
+        items.add(ItemSpinner(0, "1", ""))
+        items.add(ItemSpinner(0, "31", ""))
 
 
         val adapterMobileCode = AdapterGeneralSpinner(
@@ -125,7 +125,7 @@ class ActivityMobileRegistration : ActivityBase() {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
                 getUserStatus()
-                MyApplication.selectedPhone = etPhone.text.toString()
+                MyApplication.selectedPhone = selectedCode+etPhone.text.toString()
 
             }
 
@@ -163,7 +163,7 @@ class ActivityMobileRegistration : ActivityBase() {
 
         var newReq = RequestUpdate(
             MyApplication.deviceId,
-            etPhone.text.toString(),
+            selectedCode+etPhone.text.toString(),
             model,
             osVersion,
             deviceToken,
@@ -200,7 +200,7 @@ class ActivityMobileRegistration : ActivityBase() {
     }
 
     fun sendOTP() {
-        var req = RequestOTP(etPhone.text.toString(), MyApplication.deviceId)
+        var req = RequestOTP( selectedCode+etPhone.text.toString(), MyApplication.deviceId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.sendOTP(
                 req

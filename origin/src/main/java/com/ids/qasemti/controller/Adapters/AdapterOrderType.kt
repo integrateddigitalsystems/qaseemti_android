@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatRatingBar
+import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
@@ -185,6 +186,7 @@ class AdapterOrderType(
         var paymentMethod = itemView.findViewById<TextView>(R.id.tvPaymentMethod)
         var orderCost = itemView.findViewById<TextView>(R.id.tvOrderPrice)
         var cancelledname = itemView.findViewById<TextView>(R.id.tvCancelledByname)
+        var switchOnTrack = itemView.findViewById<SwitchCompat>(R.id.swOnTrack)
 
         init {
             itemView.setOnClickListener(this)
