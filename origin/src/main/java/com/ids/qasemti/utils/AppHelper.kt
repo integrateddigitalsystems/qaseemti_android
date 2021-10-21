@@ -1199,7 +1199,7 @@ class AppHelper {
         fun getFragmentCount(fragmentManager: FragmentManager): Int {
             var count = 0
             try {
-                for (entry in 0 until fragmentManager.getBackStackEntryCount()) {
+                for (entry in 0 until fragmentManager.backStackEntryCount) {
                     count++
                 }
             } catch (e: java.lang.Exception) {
