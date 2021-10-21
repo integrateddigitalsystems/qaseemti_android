@@ -68,7 +68,7 @@ interface RetrofitInterface {
         @Part(ApiParameters.BANK_BRANCH) bankBranch: RequestBody,
         @Part(ApiParameters.IBAN) iban: RequestBody ,
         @Part(ApiParameters.DESCRIPTION) desc : RequestBody
-    ): Call<String>
+    ): Call<ResponseUser>
 
 
     @Multipart
@@ -82,7 +82,7 @@ interface RetrofitInterface {
         @Part profile_pic: MultipartBody.Part,
         @Part(ApiParameters.TYPE) type: RequestBody
 
-    ): Call<String>
+    ): Call<ResponseUser>
 
 
     @Multipart
