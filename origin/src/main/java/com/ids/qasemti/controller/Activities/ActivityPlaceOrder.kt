@@ -130,17 +130,15 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                            MyApplication.selectedFragment = FragmentHomeClient()
                            MyApplication.tintColor = R.color.redPrimary
                            startActivity(Intent(this@ActivityPlaceOrder,ActivityHome::class.java))
-                       }else{
-                           toast(getString(R.string.places_try_again))
                        }
                     } catch (E: java.lang.Exception) {
-                        toast(getString(R.string.places_try_again))
+
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
                     loading.hide()
-                    toast(getString(R.string.places_try_again))
+
                 }
             })
     }
