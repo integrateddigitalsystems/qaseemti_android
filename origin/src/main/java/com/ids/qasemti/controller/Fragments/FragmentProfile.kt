@@ -172,6 +172,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             rbMaleProfile.isChecked = true
         }
 
+        if(!MyApplication.isClient){
         if(!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
             profilePercentage+=25
         if(!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.middleName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
@@ -180,6 +181,16 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             profilePercentage+=25
         if(!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankAddress.isNullOrEmpty()  /*&& !MyApplication.selectedUser!!.iban.isNullOrEmpty()*/)
             profilePercentage+=25
+        }else{
+            if(!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
+                profilePercentage+=25
+            if(!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
+                profilePercentage+=25
+            if(!MyApplication.selectedUser!!.email.isNullOrEmpty())
+                profilePercentage+=25
+            if(!MyApplication.selectedUser!!.profilePicUrl.isNullOrEmpty())
+                profilePercentage+=25
+        }
 
         pbComplete.setWeight(profilePercentage.toFloat())
         pbNotComplete.setWeight(100f-profilePercentage.toFloat())
@@ -199,6 +210,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         // (activity as ActivityHome?)!!.showLogout(false)
         tvToolbarCurveTitle.visibility = View.GONE
         listeners()
+        if (MyApplication.isClient)
+            showClientFields()
         getUserData()
 
 
@@ -240,7 +253,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             var empty =""
             val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
 
-            selectedProfilePic =createFormData("attachment", "", attachmentEmpty)
+            selectedProfilePic =createFormData("profile_pic", "", attachmentEmpty)
         }
         var type = "1"
         var typeReq = type.toRequestBody()
@@ -380,16 +393,17 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                 if (!fromProfile!!)
                     selectedFile = MultipartBody.Part.createFormData(
-                        ApiParameters.GALLERY,
+                        ApiParameters.CIVIL_ID_ATTACH,
                         file.name + "File",
                         req
                     )
-                else
+                else{
                     selectedProfilePic = MultipartBody.Part.createFormData(
-                        ApiParameters.GALLERY,
+                       if(MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
                         file.name + "File",
                         req
                     )
+                }
 
             } catch (e: Exception) {
             }
@@ -492,5 +506,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                     loading.hide()
                 }
             })
+    }
+
+    private fun showClientFields(){
+        etMiddleNameProfile.hide()
+        linearProviderInfo.hide()
     }
 }
