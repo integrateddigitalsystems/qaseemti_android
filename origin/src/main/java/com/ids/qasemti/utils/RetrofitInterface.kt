@@ -300,4 +300,8 @@ interface RetrofitInterface {
         @Body param : RequestRenewOrder
     ):Call<ResponseMessage>
 
+
+    @POST("get_payment_methods")
+    fun getPaymentMethods(
+    ):Call<ResponsePaymentMethod>
 }

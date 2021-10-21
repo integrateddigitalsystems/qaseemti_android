@@ -63,4 +63,8 @@ object AppConstants {
 
     const val SP_FOUND = "sp_found"
     const val ORDER_ID = "order_id"
+
+    const val PLACE_ORDER_NO_SP = 1
+    const val PLACE_ORDER_AVAILABLE_IN= 2
+    const val PLACE_ORDER_AVAILABLE_OUT = 3
 }

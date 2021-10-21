@@ -9,12 +9,10 @@ class RequestPaymentOrder(
     @Expose
     var orderId : Int ?=0 ,
 
-    @SerializedName("payment_method")
+    @SerializedName("payment_id")
     @Expose
-    var paymentMethod : String ?="" ,
+    var payment_id : Int ?=0
 
-    @SerializedName("payment_method_title")
-    @Expose
-    var paymentMethodTitle : String ?=""
+
 ) {
 }
