@@ -1,6 +1,6 @@
 package com.ids.qasemti.utils
 
-import android.R
+
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.common.reflect.Reflection.getPackageName
+import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityChooseLanguage
 import com.ids.qasemti.controller.MyApplication
 import java.io.File
@@ -63,7 +64,7 @@ fun String.occurrencesOf(sub: String): Int {
  * Set the first character as upper case
  */
 fun String.upperCaseFirstLetter(): String {
-    return this.substring(0, 1).toUpperCase().plus(this.substring(1))
+    return this.substring(0, 1).uppercase().plus(this.substring(1))
 }
 
 /**
@@ -76,8 +77,8 @@ fun String.isNumeric(): Boolean {
 fun ImageView.loadImagesUrl(url: String) {
     val options: RequestOptions = RequestOptions()
         .centerCrop()
-        .placeholder(R.color.darker_gray)
-        .error(R.color.darker_gray)
+        .placeholder(R.color.gray_medium_2)
+        .error(R.color.gray_medium_2)
     Glide.with(this).load(url).apply(options)
         .into(this)
 
@@ -85,8 +86,8 @@ fun ImageView.loadImagesUrl(url: String) {
 fun ImageView.loadImagesUrlResize(url: String) {
     val options: RequestOptions = RequestOptions()
         .centerCrop()
-        .placeholder(R.color.darker_gray)
-        .error(R.color.darker_gray)
+        .placeholder(R.color.gray_medium_2)
+        .error(R.color.gray_medium_2)
         .override(500, 200)
         Glide.with(this).load(url).apply(options)
         .into(this)
@@ -96,13 +97,34 @@ fun ImageView.loadImagesUrlResize(url: String) {
 fun ImageView.loadLocalImage(file: File) {
     val options: RequestOptions = RequestOptions()
         .centerCrop()
-        .placeholder(R.color.darker_gray)
-        .error(R.color.darker_gray)
+        .placeholder(R.color.gray_medium_2)
+        .error(R.color.gray_medium_2)
     Glide.with(this).load(file).apply(options)
         .into(this)
 
 }
 
+fun ImageView.loadRoundedImage(url: String) {
+    val options: RequestOptions = RequestOptions()
+        .centerCrop()
+        .placeholder(R.drawable.circle_gray)
+        .error(R.drawable.circle_gray)
+        .circleCrop()
+         Glide.with(this).load(url).apply(options)
+        .into(this)
+
+}
+
+fun ImageView.loadRoundedLocalImage(file: File) {
+    val options: RequestOptions = RequestOptions()
+        .centerCrop()
+        .circleCrop()
+        .placeholder(R.drawable.circle_gray)
+        .error(R.drawable.circle_gray)
+          Glide.with(this).load(file).apply(options)
+        .into(this)
+
+}
 /**
  * Used for simpler logging
  */
@@ -215,35 +237,6 @@ fun TextView.setColorTypeface(context: Context, color: Int,text:String,bold:Bool
 
 }
 
-
-@SuppressLint("RestrictedApi")
-fun AppCompatCheckBox.setCheckBoxColor(uncheckedColor: Int, checkedColor: Int) {
-    val colorStateList = ColorStateList(
-        arrayOf(
-            intArrayOf(-R.attr.state_checked), // unchecked
-            intArrayOf(R.attr.state_checked)  // checked
-        ),
-        intArrayOf(uncheckedColor, checkedColor)
-    )
-    this.supportButtonTintList = colorStateList
-}
-
-@SuppressLint("RestrictedApi")
-fun AppCompatRadioButton.setRadioButtonColor(uncheckedColor: Int, checkedColor: Int) {
-    val colorStateList = ColorStateList(
-        arrayOf(
-            intArrayOf(-R.attr.state_checked), // unchecked
-            intArrayOf(R.attr.state_checked)  // checked
-        ),
-        intArrayOf(uncheckedColor, checkedColor)
-    )
-    this.supportButtonTintList = colorStateList
-}
-
-
-/**
- * Used for Showing and Hiding views
- */
 fun View.show() {
     try {
         visibility = View.VISIBLE

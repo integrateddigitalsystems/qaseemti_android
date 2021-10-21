@@ -263,50 +263,35 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                 tvActive.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(), tvActive, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_ACTIVE
-                if (!MyApplication.isClient)
-                    getOrders()
-                else
-                    getClientOrders()
+                retrieveOrders()
             }
             1 -> {
                 etSearchOrders.text.clear()
                 tvUpcoming.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(), tvUpcoming, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_UPCOMING
-                if (!MyApplication.isClient)
-                    getOrders()
-                else
-                    getClientOrders()
+                retrieveOrders()
             }
             2 -> {
                 etSearchOrders.text.clear()
                 tvCompleted.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(), tvCompleted, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_COMPLETED
-                if (!MyApplication.isClient)
-                    getOrders()
-                else
-                    getClientOrders()
+                retrieveOrders()
             }
             3 -> {
                 etSearchOrders.text.clear()
                 tvCancelled.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(), tvCancelled, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_CANCELED
-                if (!MyApplication.isClient)
-                    getOrders()
-                else
-                    getClientOrders()
+                retrieveOrders()
             }
             else -> {
                 etSearchOrders.text.clear()
                 tvFailed.setBackgroundResource(R.drawable.rounded_red_background)
                 AppHelper.setTextColor(requireContext(), tvFailed, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_FAILED
-                if (!MyApplication.isClient)
-                    getOrders()
-                else
-                    getClientOrders()
+                retrieveOrders()
             }
         }
     }
@@ -352,5 +337,12 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         } catch (ex: Exception) {
 
         }
+    }
+
+    private fun retrieveOrders(){
+        if (!MyApplication.isClient)
+            getOrders()
+        else
+            getClientOrders()
     }
 }

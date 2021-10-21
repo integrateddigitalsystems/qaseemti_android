@@ -161,5 +161,9 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
                     .putExtra("webTitle", "Privacy Policy")
             )
         }
+
+        btRateUs.onOneClick {
+            AppHelper.openAppInPlayStore(requireActivity())
+        }
     }
 }

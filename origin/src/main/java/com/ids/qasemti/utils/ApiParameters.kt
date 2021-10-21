@@ -20,6 +20,7 @@ object ApiParameters {
     const val BANK_BRANCH = "bank_branch"
     const val IBAN = "iban"
     const val PROFILE_PIC="profile_pic"
+    const val CIVIL_ID_ATTACH="civil_id_attach"
     const val CATEGORY = "category"
 
     const val PRODUCT_NAME = "product_name"

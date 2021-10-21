@@ -4,6 +4,7 @@ package com.ids.qasemti.utils
 import android.R.attr.data
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -636,6 +637,30 @@ class AppHelper {
                 }
             }
 
+        }
+
+        fun openAppInPlayStore(activity: Activity) {
+            val appPackageName = activity.packageName
+            try {
+                activity.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=$appPackageName")
+                    )
+                )
+
+                activity.finish()
+
+            } catch (anfe: android.content.ActivityNotFoundException) {
+                activity.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                    )
+                )
+                activity.finish()
+
+            }
         }
 
 
