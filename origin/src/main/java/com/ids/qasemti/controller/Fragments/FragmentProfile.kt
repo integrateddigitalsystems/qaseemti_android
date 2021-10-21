@@ -228,6 +228,16 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
 
     }
 
+    fun succUpdate(res:Int){
+        if(res==1){
+            AppHelper.createDialog(requireActivity(),"Update Successful")
+            loading.hide()
+            getUserData()
+        }else{
+            AppHelper.createDialog(requireActivity(),"Update Failed")
+        }
+    }
+
     fun getUserData(){
         loading.show()
         var newReq = RequestUpdateLanguage(MyApplication.userId,MyApplication.languageCode)
@@ -281,17 +291,17 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 typeReq
 
 
-            )?.enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
+            )?.enqueue(object : Callback<ResponseUser> {
+                override fun onResponse(call: Call<ResponseUser>, response: Response<ResponseUser>) {
                     try {
                         loading.hide()
-                        getUserData()
+                        succUpdate(response.body()!!.result!!)
                     } catch (E: java.lang.Exception) {
                         loading.hide()
                     }
                 }
 
-                override fun onFailure(call: Call<String>, throwable: Throwable) {
+                override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
                  loading.hide()
                 }
             })
@@ -512,16 +522,16 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 iban,
                 description
 
-            )?.enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
+            )?.enqueue(object : Callback<ResponseUser> {
+                override fun onResponse(call: Call<ResponseUser>, response: Response<ResponseUser>) {
                     try {
-                        getUserData()
+                        succUpdate(response.body()!!.result!!)
                     } catch (E: java.lang.Exception) {
                         loading.hide()
                     }
                 }
 
-                override fun onFailure(call: Call<String>, throwable: Throwable) {
+                override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
                     loading.hide()
                 }
             })
