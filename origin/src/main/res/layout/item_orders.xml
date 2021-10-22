@@ -192,7 +192,7 @@
                         android:textSize="@dimen/small_font_3"
                         android:id="@+id/tvExpectedDate"
                         android:textColor="@color/gray_font"
-                        android:text="20 Jun,2021 16:00"
+                        android:text=""
                         />
 
                 </LinearLayout>
@@ -228,8 +228,8 @@
                 android:maxLines="1"
                 android:id="@+id/tvLocationOrder"
                 android:layout_height="wrap_content"
-                android:text="@string/dumy_text_underline"
-
+                android:text="@string/no_data"
+                android:tag="no_data"
                 android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font"
 

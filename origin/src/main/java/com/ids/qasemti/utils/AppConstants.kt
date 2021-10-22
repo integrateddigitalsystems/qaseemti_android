@@ -15,7 +15,7 @@ object AppConstants {
     const val XXXHDPI = "96"
 
     const val ORDER_TYPE_ACTIVE = "active"
-    const val ORDER_TYPE_COMPLETED ="completted"
+    const val ORDER_TYPE_COMPLETED ="completed"
     const val ORDER_TYPE_UPCOMING ="upcoming"
     const val ORDER_TYPE_CANCELED ="canceled"
     const val ORDER_TYPE_FAILED="failed"
@@ -43,6 +43,7 @@ object AppConstants {
     const val FRAGMENT_HOME_CLIENT ="fragmentHomeClient"
     const val FRAGMENT_HOME_SP ="fragmentHomeSP"
     const val FRAGMENT_SERVICE_DETAILS="fragmentServiceDetails"
+    const val FRAGMENT_MY_SERVICES ="fragmentMyServices"
     const val FRAGMENT_SETTINGS = "fragmentSttings"
     const val FRAGMENT_ORDER = "fragmentOrder"
     const val FRAGMENT_ORDER_FROM="fragmentOrderFromService"
@@ -60,4 +61,10 @@ object AppConstants {
     const val MEDIA_TYPE_IMAGE = 1
     const val MEDIA_TYPE_YOUTUBE = 2
 
+    const val SP_FOUND = "sp_found"
+    const val ORDER_ID = "order_id"
+
+    const val PLACE_ORDER_NO_SP = 1
+    const val PLACE_ORDER_AVAILABLE_IN= 2
+    const val PLACE_ORDER_AVAILABLE_OUT = 3
 }

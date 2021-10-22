@@ -8,6 +8,10 @@ class User (
     @Expose
     var userId: String? = "" ,
 
+    @SerializedName("notification_type")
+    @Expose
+    var notificationType : String ?="" ,
+
     @SerializedName("middle_name")
     @Expose
     var middleName: String? = "" ,
@@ -184,6 +188,10 @@ class User (
     @Expose
     var profilePicUrl: String? = "" ,
 
+    @SerializedName("date_of_birth")
+    @Expose
+    var dob: String? = "" ,
+
     @SerializedName("type")
     @Expose
     var type: Int? = 0 ,
@@ -195,6 +203,22 @@ class User (
     @SerializedName("rate")
     @Expose
     var rate: Double? = 0.0
+
+    ,
+
+    @SerializedName("description")
+    @Expose
+    var desc: String? = "" ,
+
+    @SerializedName("iban")
+    @Expose
+    var IBAN : String ?="" ,
+
+    @SerializedName("bank_branch")
+    @Expose
+    var bankBranch : String ?="" ,
+
+
 
 ){
     

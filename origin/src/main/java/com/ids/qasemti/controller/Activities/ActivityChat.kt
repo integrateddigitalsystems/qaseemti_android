@@ -62,11 +62,12 @@ class ActivityChat : ActivityBase(), RVOnItemClickListener {
             MyApplication.selectedUser!!.firstName!!,
             true
         )
-        tvPageTitle.show()
+        tvPageTitle.hide()
         btBackTool.show()
         btBackTool.onOneClick {
             super.onBackPressed()
         }
+        AppHelper.setLogoTint(btBackTool,this,R.color.gray_send)
 
     }
 
@@ -142,11 +143,9 @@ class ActivityChat : ActivityBase(), RVOnItemClickListener {
 
     fun sendChat() {
 
-        try {
-            loading.show()
-        } catch (ex: Exception) {
 
-        }
+            loading.show()
+
         var xx = MyApplication.selectedUser
         var newReq = RequestSendChat(
             MyApplication.selectedUser!!.firstName,

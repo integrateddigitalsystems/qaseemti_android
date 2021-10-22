@@ -7,186 +7,25 @@
     android:layout_height="match_parent">
 
 
-    <com.ids.qasemti.custom.CustomTextViewBold
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/medium_margin"
-        android:tag="driving_license"
-        android:text="@string/driving_license"
-        android:textColor="@color/gray_font_title"
-        android:textSize="@dimen/big_font" />
-
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/normal_margin"
-        >
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/rvRequiredFiles"
+        />
 
-        <Button
-            android:layout_width="180dp"
-            android:layout_height="@dimen/button_height"
-            android:background="@drawable/rounded_white_red_border"
-            android:text="@string/choose_file"
-            android:tag="@string/choose_file"
-            android:id="@+id/btPickDrivingLicense"
-            android:textSize="@dimen/small_font"
-            android:textColor="@color/gray_font"
-            android:textAllCaps="false"
-            />
-
-        <com.ids.qasemti.custom.CustomTextViewMedium
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/small_margin"
-            android:id="@+id/tvPickedDrivingLicense"
-            android:paddingEnd="@dimen/small_margin"
-            android:text="@string/no_file_chosen"
-            android:tag="no_file_chosen"
-            android:textSize="@dimen/small_font"
-            />
-
-    </LinearLayout>
-
-    <EditText
+    <com.ids.qasemti.custom.CustomTextViewMedium
         android:layout_width="match_parent"
-        android:layout_height="@dimen/edit_text_height"
-        android:background="@drawable/rounded_white_background"
-        android:hint="@string/license_number"
-        android:tag="license_number"
-        android:paddingStart="@dimen/small_margin"
-        android:paddingEnd="@dimen/small_margin"
-        android:maxLines="1"
-        android:layout_marginTop="@dimen/normal_margin"
-        android:textColorHint="@color/gray_font_light"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:textSize="@dimen/normal_font"
-        android:textColor="@color/gray_font_title"
-
-        />
-
-
-
-    <com.ids.qasemti.custom.CustomTextViewBold
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/big_font"
-        android:textColor="@color/gray_font_title"
-        android:text="@string/work_license"
-        android:layout_marginTop="@dimen/medium_margin"
-        android:tag="work_license"
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/normal_margin"
-        >
-
-        <Button
-            android:layout_width="180dp"
-            android:layout_height="@dimen/button_height"
-            android:background="@drawable/rounded_white_red_border"
-            android:text="@string/choose_file"
-            android:tag="@string/choose_file"
-            android:textSize="@dimen/small_font"
-            android:id="@+id/btPickWorkLisence"
-            android:textColor="@color/gray_font"
-            android:textAllCaps="false"
-            />
-
-        <com.ids.qasemti.custom.CustomTextViewMedium
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/small_margin"
-            android:paddingEnd="@dimen/small_margin"
-            android:id="@+id/tvPickedWorkLicense"
-            android:text="@string/no_file_chosen"
-            android:tag="no_file_chosen"
-            android:textSize="@dimen/small_font"
-            />
-
-    </LinearLayout>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/edit_text_height"
-        android:background="@drawable/rounded_white_background"
-        android:hint="@string/license_number"
-        android:tag="license_number"
-        android:paddingStart="@dimen/small_margin"
-        android:paddingEnd="@dimen/small_margin"
-        android:maxLines="1"
-        android:layout_marginTop="@dimen/normal_margin"
-        android:textColorHint="@color/gray_font_light"
-        android:textSize="@dimen/normal_font"
-        android:textColor="@color/gray_font_title"
-
-        />
-
-
-    <com.ids.qasemti.custom.CustomTextViewBold
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/big_font"
-        android:textColor="@color/gray_font_title"
-        android:text="@string/vehicle_license"
-        android:layout_marginTop="@dimen/medium_margin"
-        android:tag="vehicle_license"
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/normal_margin"
-        >
-
-        <Button
-            android:layout_width="180dp"
-            android:layout_height="@dimen/button_height"
-            android:background="@drawable/rounded_white_red_border"
-            android:text="@string/choose_file"
-            android:tag="@string/choose_file"
-            android:textSize="@dimen/small_font"
-            android:id="@+id/btPickVehicle"
-            android:textColor="@color/gray_font"
-            android:textAllCaps="false"
-            />
-
-        <com.ids.qasemti.custom.CustomTextViewMedium
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/small_margin"
-            android:paddingEnd="@dimen/small_margin"
-            android:text="@string/no_file_chosen"
-            android:id="@+id/tvPickedVehicle"
-            android:tag="no_file_chosen"
-            android:textSize="@dimen/small_font"
-            />
-
-    </LinearLayout>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/edit_text_height"
-        android:background="@drawable/rounded_white_background"
-        android:hint="@string/license_number"
-        android:tag="license_number"
-        android:paddingStart="@dimen/small_margin"
-        android:paddingEnd="@dimen/small_margin"
-        android:maxLines="1"
-        android:layout_marginTop="@dimen/normal_margin"
-        android:textColorHint="@color/gray_font_light"
-        android:textSize="@dimen/normal_font"
-        android:textColor="@color/gray_font_title"
-
+        android:textColor="@color/gray_font"
+        android:text="@string/no_required_documents"
+        android:tag="no_required_documents"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/no_required"
+        android:visibility="gone"
         />
 
 

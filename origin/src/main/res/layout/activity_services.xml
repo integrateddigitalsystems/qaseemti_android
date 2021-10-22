@@ -19,13 +19,13 @@
             <include layout="@layout/no_logo_layout" />
         </LinearLayout>
 
-        <include
-            layout="@layout/toolbar" />
+       <!-- <include layout="@layout/toolbar" />-->
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/llHomeCurve"
-            android:layout_marginTop="@dimen/medium_push_2"
+            android:layout_marginTop="-65dp"
             android:fillViewport="true">
 
             <LinearLayout
@@ -34,31 +34,27 @@
                 android:orientation="vertical">
 
 
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvServices"
-                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/card_new_margin"
-                    android:layout_marginEnd="@dimen/card_new_margin" />
+                    android:layout_marginEnd="@dimen/card_new_margin"
+                    android:visibility="visible" />
 
 
-
-
-
-                <LinearLayout
-                    android:visibility="gone"
+              <!--  <LinearLayout
                     android:id="@+id/llNodata"
-                    android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="@dimen/no_logo_height"
                         android:layout_height="@dimen/no_logo_height"
                         android:src="@drawable/icon_no_data" />
-                </LinearLayout>
+                </LinearLayout>-->
 
 
             </LinearLayout>
@@ -94,6 +90,19 @@
             app:tint="@color/white" />
 
     </RelativeLayout>
+
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone"
+            android:id="@+id/tvNoData"
+            android:textSize="@dimen/header_font"
+            android:text="@string/no_data"
+            android:tag="no_data"
+            android:textColor="@color/redPrimary"/>
 
 
 

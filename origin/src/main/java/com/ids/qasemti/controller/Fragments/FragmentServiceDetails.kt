@@ -68,11 +68,16 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
         tvItalicNote.typeface = AppHelper.getTypeFaceItalic(requireContext())
 
+
         btServiceCheckout.typeface=AppHelper.getTypeFace(requireContext())
         btServiceCheckout.onOneClick {
-            MyApplication.selectedVariationType=selectedTypeName
-            MyApplication.selectedSize=selectedSizeName
-            startActivity(Intent(requireContext(),ActivityCheckout::class.java))
+            if(MyApplication.isSignedIn) {
+                MyApplication.selectedVariationType = selectedTypeName
+                MyApplication.selectedSize = selectedSizeName
+                startActivity(Intent(requireContext(), ActivityCheckout::class.java))
+            }else{
+                (activity as ActivityHome?)!!.goRegistration(2,AppConstants.FRAGMENT_HOME_SP,FragmentHomeClient(),R.color.white)
+            }
         }
         try{
             AppHelper.setTitle(requireActivity(), MyApplication.selectedService!!.name!!, "")

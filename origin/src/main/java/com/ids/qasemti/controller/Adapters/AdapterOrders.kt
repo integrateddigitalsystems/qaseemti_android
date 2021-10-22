@@ -32,13 +32,13 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
         }else{
             holder.titleTop.text = holder.titleTop.text.toString()+": " + "Purchase"
         }
-        holder.category.text = items.get(position).product!!.name
-        holder.expected.text = items.get(position).deliveryDate
-        holder.orderDate.text = items.get(position).date
-        holder.tvLocation.text = AppHelper.getAddress(items.get(position).userLat!!.toDouble(),items.get(position).userLong!!.toDouble(),con)
-        holder.id.text ="# "+ items.get(position).orderId!!.toString()
-        holder.expectedTitle.typeface = AppHelper.getTypeFaceBold(con)
-        holder.tvLocation.setColorTypeface(con,R.color.redPrimary,"",false)
+        try{holder.category.text = items.get(position).product!!.name}catch (e:Exception){}
+        try{holder.expected.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-mm-dd","dd MMM yyyy hh:mm")}catch (e:Exception){}
+        try{holder.orderDate.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-mm-dd hh:mm:ssss","dd MMM yyyy hh:mm")}catch (e:Exception){}
+        try{holder.tvLocation.text = AppHelper.getAddress(items.get(position).userLat!!.toDouble(),items.get(position).userLong!!.toDouble(),con)}catch (e:Exception){}
+        try{holder.id.text ="# "+ items.get(position).orderId!!.toString()}catch (e:Exception){}
+        try{holder.expectedTitle.typeface = AppHelper.getTypeFaceBold(con)}catch (e:Exception){}
+        try{holder.tvLocation.setColorTypeface(con,R.color.redPrimary,items.get(position).customerLocation!!,false)}catch (e:Exception){}
 
     }
 

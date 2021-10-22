@@ -106,13 +106,13 @@
             android:textColor="@color/redPrimary"
             android:padding="@dimen/mini_margin"
             android:id="@+id/tvFailed"
-            android:tag="failed"
+            android:tag="Failed"
             android:textSize="@dimen/small_font_3"
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/failed"/>
+            android:text="@string/Failed"/>
 
 
     </LinearLayout>

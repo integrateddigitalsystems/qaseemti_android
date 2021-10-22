@@ -5,8 +5,10 @@ import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -27,6 +29,7 @@ import java.util.*
 class ActivityAddNewAddress : ActivityBase() {
 
     var REQUEST_CODE = 1000
+    var from = ""
     var latlng: LatLng? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +59,7 @@ class ActivityAddNewAddress : ActivityBase() {
             long,
             etStreet.text.toString(),
             etFloor.text.toString(),
-            etAddressBody.text.toString(),
+            etAddressProvince.text.toString(),
             etBuilding.text.toString()
         )
         //  intent.putExtra("lat",array.get(position).lat)
@@ -64,7 +67,7 @@ class ActivityAddNewAddress : ActivityBase() {
         //   var latLng = com.google.android.gms.maps.model.LatLng(array.get(position).lat!!.toDouble(), array.get(position).long!!.toDouble())
         intent.putExtra(
             "address",
-            etAddressBody.text.toString() + " ," + etStreet.text.toString() + " ," + etBuilding.text.toString() + " ," + etFloor.text.toString()
+            etAddressProvince.text.toString() + " ," + etStreet.text.toString() + " ," + etBuilding.text.toString() + " ," + etFloor.text.toString()
         )
         setResult(RESULT_OK, intent)
         finish()
@@ -72,11 +75,8 @@ class ActivityAddNewAddress : ActivityBase() {
 
     fun addAddress() {
 
-        try {
             loading.show()
-        } catch (ex: Exception) {
 
-        }
         var lat :Double ?= 0.0
         var long : Double ?=0.0
         try{
@@ -88,16 +88,16 @@ class ActivityAddNewAddress : ActivityBase() {
             MyApplication.userId,
            lat,
             long,
-           lat!!.toInt(),
-            etAddressBody.text.toString(),
+           0,
+           etAddressName.text.toString(),
             etStreet.text.toString(),
             etBuilding.text.toString(),
             etFloor.text.toString(),
             etMoreDetails.text.toString(),
             "",
-            "",
-            "",
-            ""
+            etAddressProvince.text.toString(),
+            etArea.text.toString(),
+            etBlock.text.toString()
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.addClAddress(
@@ -149,6 +149,8 @@ class ActivityAddNewAddress : ActivityBase() {
         } catch (ex: Exception) {
             etAddressName.text.clear()
         }
+
+        editData(llAddForm)
     }
 
 
@@ -172,16 +174,44 @@ class ActivityAddNewAddress : ActivityBase() {
         val long = MyApplication.longSelected
         btDrawer.hide()
         btBackTool.show()
+        try {
+            from = intent.getStringExtra("from")!!
+        }catch (ex:Exception){
+
+        }
+
         AppHelper.setLogoTint(btBackTool, this, R.color.redPrimary)
         if (MyApplication.fromProfile!!)
             btOnlyOnce.hide()
         else
             btOnlyOnce.show()
 
-        setUpData(LatLng(lat!!.toDouble(),long!!.toDouble()))
+        if(from.equals("current")){
+            setUpData(LatLng(MyApplication.selectedCurrentAddress!!.latitude, MyApplication.selectedCurrentAddress!!.longitude))
+            btSaveAddress.text =AppHelper.getRemoteString("select_address",this)
+            btOnlyOnce.hide()
+        }else {
+            setUpData(LatLng(lat!!.toDouble(), long!!.toDouble()))
+        }
 
     }
 
+    fun editData(v:View){
+        if (v is ViewGroup) {
+            val vg = v as ViewGroup
+            for (i in 0 until vg.childCount) {
+                val child = vg.getChildAt(i)
+                // recursively call this method
+                editData(child)
+            }
+        } else if (v is EditText) {
+          if(v.text.isNullOrEmpty()){
+              v.isEnabled = true
+          }else{
+              v.isEnabled = false
+          }
+        }
+    }
 
     private fun listeners() {
         btBackTool.onOneClick { super.onBackPressed() }
@@ -195,7 +225,7 @@ class ActivityAddNewAddress : ActivityBase() {
                 ), REQUEST_CODE
             )
         }
-        etAddressBody.onOneClick {
+        etAddressProvince.onOneClick {
             startActivityForResult(
                 Intent(
                     this,
@@ -204,19 +234,24 @@ class ActivityAddNewAddress : ActivityBase() {
             )
         }
         btSaveAddress.onOneClick {
-            if (etAddressName.text.isNullOrEmpty() || etAddressBody.text.isNullOrEmpty() || etBuilding.text.toString()
+            if (etAddressName.text.isNullOrEmpty() || etAddressProvince.text.isNullOrEmpty() || etBuilding.text.toString()
                     .isNullOrEmpty() || etFloor.text.toString()
                     .isNullOrEmpty() || etStreet.text.isNullOrEmpty() || etMoreDetails.text.isNullOrEmpty()
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
                 MyApplication.fromAdd = true
-                addAddress()
+                if(from=="current"){
+                    setData()
+                }else{
+                    addAddress()
+                }
+
             }
         }
         btOnlyOnce.onOneClick {
 
-            if (etAddressName.text.isNullOrEmpty() || etAddressBody.text.isNullOrEmpty() || etBuilding.text.toString()
+            if (etAddressName.text.isNullOrEmpty() || etAddressProvince.text.isNullOrEmpty() || etBuilding.text.toString()
                     .isNullOrEmpty() || etFloor.text.toString()
                     .isNullOrEmpty() || etStreet.text.isNullOrEmpty() || etMoreDetails.text.isNullOrEmpty()
             ) {

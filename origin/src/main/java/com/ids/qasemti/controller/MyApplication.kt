@@ -7,6 +7,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.location.Address
 import android.os.Build
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
@@ -29,6 +30,8 @@ class MyApplication : Application() {
         var isDebug: Boolean = true
         var selectedFragmentTag : String ?=""
         var typeSelected = 0
+        var renewed = false
+        var fromAccount = false
         var fromAdd : Boolean ?= false
         var rental : Boolean ?=false
         var finish : Boolean ?=false
@@ -61,6 +64,7 @@ class MyApplication : Application() {
         var selectedOrder : ResponseOrders?=null
         var selectedPlaceOrder : RequestPlaceOrder ?=null
         var selectedAddress : ResponseAddress ?=null
+        var selectedCurrentAddress : Address ?=null
         var selectedSize = ""
         var selectedPrice = ""
         var selectedVariationType = ""

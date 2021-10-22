@@ -181,7 +181,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             closeDrawer(drawerLayout, true)
         } else {
             checkBack()
-            if (getFragmentCount(fragMang) <= 1) {
+            if (getFragmentCount(fragMang) == 0) {
                 AppHelper.createYesNoDialog(
                     this,
                     AppHelper.getRemoteString("exit", this),
@@ -389,8 +389,8 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             if (MyApplication.selectedFragmentTag != AppConstants.FRAGMENT_PROD)
                 setSelectedTab(
                     0,
-                    FragmentProducts(),
-                    AppConstants.FRAGMENT_PROD,
+                    FragmentMyServices(),
+                    AppConstants.FRAGMENT_MY_SERVICES,
                     ivProductFooter,
                     R.color.white
                 )

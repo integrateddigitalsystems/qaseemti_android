@@ -15,11 +15,9 @@ import androidx.fragment.app.Fragment
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityMapAddress
-import com.ids.qasemti.controller.Activities.ActivityMapLocation
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestUpdateLanguage
-import com.ids.qasemti.model.ResponseUpdate
 import com.ids.qasemti.model.ResponseUser
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
@@ -37,19 +35,17 @@ import kotlinx.android.synthetic.main.service_tab_2.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.white_logo_layout.*
 import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.MultipartBody.Part.Companion.createFormData
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class FragmentProfile : Fragment(), RVOnItemClickListener {
@@ -59,6 +55,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
     var lat: Double? = 0.0
     var fromProfile: Boolean? = false
     var long: Double? = 0.0
+    var profilePercentage=0
     override fun onItemClicked(view: View, position: Int) {
 
     }
@@ -85,6 +82,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
 
 
     fun setUserData(){
+        profilePercentage=0
        // loading.show()
        // AppHelper.getUserInfo()
         try {
@@ -159,6 +157,41 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         }catch (ex:Exception){
             etBranchNameProfile.text =  Editable.Factory.getInstance().newEditable("")
         }
+        try {
+            etDescriptionProfile.text =
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.desc)
+        }catch (ex:Exception){
+            etDescriptionProfile.text =  Editable.Factory.getInstance().newEditable("")
+        }
+        try {
+            etCivilIdNbProfile.text =
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.civil_id)
+        }catch (ex:Exception){
+            etCivilIdNbProfile.text =  Editable.Factory.getInstance().newEditable("")
+        }
+        try {
+            etBranchNameProfile.text =
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.bankBranch)
+        }catch (ex:Exception){
+            etBranchNameProfile.text =  Editable.Factory.getInstance().newEditable("")
+        }
+        try {
+            etIBANProfile.text =
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.IBAN)
+        }catch (ex:Exception){
+            etIBANProfile.text =  Editable.Factory.getInstance().newEditable("")
+        }
+        try {
+            etDateOfBirthProfile.text =
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.dob)
+        }catch (ex:Exception){
+            etDateOfBirthProfile.text =  Editable.Factory.getInstance().newEditable("")
+        }
+
+        try{
+            if(!MyApplication.selectedUser!!.profilePicUrl.isNullOrEmpty())
+               ivProfile.loadRoundedImage(MyApplication.selectedUser!!.profilePicUrl!!)
+        }catch (e:Exception){}
 
         if(MyApplication.selectedUser!!.gender.equals("female")){
             rbFemaleProfile.isChecked = true
@@ -168,7 +201,31 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             rbMaleProfile.isChecked = true
         }
 
+        try{tvUsername.text=MyApplication.selectedUser!!.firstName+" "+MyApplication.selectedUser!!.lastName}catch (e:Exception){}
 
+        if(!MyApplication.isClient){
+        if(!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
+            profilePercentage+=25
+        if(!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.middleName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
+            profilePercentage+=25
+        if(!MyApplication.selectedUser!!.location.isNullOrEmpty())
+            profilePercentage+=25
+        if(!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankAddress.isNullOrEmpty()  /*&& !MyApplication.selectedUser!!.iban.isNullOrEmpty()*/)
+            profilePercentage+=25
+        }else{
+            if(!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
+                profilePercentage+=25
+            if(!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
+                profilePercentage+=25
+            if(!MyApplication.selectedUser!!.email.isNullOrEmpty())
+                profilePercentage+=25
+            if(!MyApplication.selectedUser!!.profilePicUrl.isNullOrEmpty())
+                profilePercentage+=25
+        }
+
+        pbComplete.setWeight(profilePercentage.toFloat())
+        pbNotComplete.setWeight(100f-profilePercentage.toFloat())
+        tvPercentageCompleted.text = profilePercentage.toString()+" % "+AppHelper.getRemoteString("completed",requireActivity())
 
     }
 
@@ -184,9 +241,21 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         // (activity as ActivityHome?)!!.showLogout(false)
         tvToolbarCurveTitle.visibility = View.GONE
         listeners()
+        if (MyApplication.isClient)
+            showClientFields()
         getUserData()
 
 
+    }
+
+    fun succUpdate(res:Int){
+        if(res==1){
+            AppHelper.createDialog(requireActivity(),"Update Successful")
+            loading.hide()
+            getUserData()
+        }else{
+            AppHelper.createDialog(requireActivity(),"Update Failed")
+        }
     }
 
     fun getUserData(){
@@ -222,12 +291,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         val email = etEmailProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val phone = etMobileProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         if(selectedProfilePic==null){
-            var file = File("")
-            var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                selectedProfilePic = MultipartBody.Part.createFormData(
-                    ApiParameters.GALLERY,
-                    file.name + "File",
-                    req)
+            var empty =""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedProfilePic =createFormData("profile_pic", "", attachmentEmpty)
         }
         var type = "1"
         var typeReq = type.toRequestBody()
@@ -244,17 +311,17 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 typeReq
 
 
-            )?.enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
+            )?.enqueue(object : Callback<ResponseUser> {
+                override fun onResponse(call: Call<ResponseUser>, response: Response<ResponseUser>) {
                     try {
                         loading.hide()
-                        getUserData()
+                        succUpdate(response.body()!!.result!!)
                     } catch (E: java.lang.Exception) {
                         loading.hide()
                     }
                 }
 
-                override fun onFailure(call: Call<String>, throwable: Throwable) {
+                override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
                  loading.hide()
                 }
             })
@@ -365,18 +432,20 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 //   var path = getPath(files.get(0).uri)
                 var file = AppHelper.getFile(requireContext(), files[0].uri)
                 var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                ivProfile.loadRoundedLocalImage(file)
                 if (!fromProfile!!)
                     selectedFile = MultipartBody.Part.createFormData(
-                        ApiParameters.GALLERY,
+                        ApiParameters.CIVIL_ID_ATTACH,
                         file.name + "File",
                         req
                     )
-                else
+                else{
                     selectedProfilePic = MultipartBody.Part.createFormData(
-                        ApiParameters.GALLERY,
+                       if(MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
                         file.name + "File",
                         req
                     )
+                }
 
             } catch (e: Exception) {
             }
@@ -408,7 +477,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         } catch (ex: java.lang.Exception) {
 
         }
-        var userId = "1"
+        var userId = MyApplication.userId.toString()
         var rolev = "vendor"
         var latt = lat.toString()
         var longg = long.toString()
@@ -441,7 +510,15 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             etBankNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val bankBranch =
             etBranchNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val description =
+            etDescriptionProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val iban = etIBANProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        if(selectedFile==null){
+            var empty =""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedFile =createFormData("attachment", "", attachmentEmpty)
+        }
 
 
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -464,20 +541,26 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 accNum,
                 bankname,
                 bankBranch,
-                iban
+                iban,
+                description
 
-            )?.enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
+            )?.enqueue(object : Callback<ResponseUser> {
+                override fun onResponse(call: Call<ResponseUser>, response: Response<ResponseUser>) {
                     try {
-                        getUserData()
+                        succUpdate(response.body()!!.result!!)
                     } catch (E: java.lang.Exception) {
                         loading.hide()
                     }
                 }
 
-                override fun onFailure(call: Call<String>, throwable: Throwable) {
+                override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
                     loading.hide()
                 }
             })
+    }
+
+    private fun showClientFields(){
+        etMiddleNameProfile.hide()
+        linearProviderInfo.hide()
     }
 }

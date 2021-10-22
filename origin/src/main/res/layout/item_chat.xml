@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-          <androidx.cardview.widget.CardView
+         <!-- <androidx.cardview.widget.CardView
                 android:id="@+id/linearProfileInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,31 +33,30 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/margin_start_end"
-                android:paddingEnd="@dimen/margin_start_end">
+                android:paddingEnd="@dimen/margin_start_end">-->
 
                 <LinearLayout
-                    android:background="@drawable/pink_rounded"
+                    android:background="@drawable/gray_rounded_receive"
                     android:orientation="horizontal"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                 <com.ids.qasemti.custom.CustomTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvReply"
-                    android:textColor="@color/redPrimary"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/normal_font"
                     android:text="Hello There!"
                     android:padding="@dimen/normal_margin"/>
 
             </LinearLayout>
 
-          </androidx.cardview.widget.CardView>
+         <!-- </androidx.cardview.widget.CardView>-->
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_marginStart="@dimen/normal_margin"
-            android:layout_marginTop="@dimen/push_date"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -94,7 +93,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_red_background"
+                    android:background="@drawable/gray_round_send"
                     android:orientation="horizontal">
 
                     <com.ids.qasemti.custom.CustomTextViewBold
@@ -122,6 +121,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="@dimen/small_margin"
             android:layout_marginEnd="@dimen/mini_margin"
             android:gravity="bottom|end"
             android:layout_weight="1"

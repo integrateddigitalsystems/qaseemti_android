@@ -28,6 +28,7 @@
         android:scrollbars="none"
         >
         <LinearLayout
+            android:id="@+id/llAddForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -66,12 +67,12 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:id="@+id/etAddressBody"
-                android:hint="@string/address"
+                android:id="@+id/etAddressProvince"
+                android:hint="@string/Province"
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
                 android:textColorHint="@color/gray_medium_2"
-                android:tag="address"
+                android:tag="Province"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
@@ -116,10 +117,40 @@
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
+                android:hint="@string/Area"
+                android:id="@+id/etArea"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="Area"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/Building"
                 android:id="@+id/etBuilding"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="Building"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:hint="@string/Block"
+                android:id="@+id/etBlock"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="Block"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
@@ -139,7 +170,20 @@
                 android:background="@drawable/rounded_white_background"
                 />
 
-
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:textColor="@color/gray_font"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:hint="@string/Avenu"
+                android:id="@+id/etAvenue"
+                android:textColorHint="@color/gray_medium_2"
+                android:tag="Avenu"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_white_background"
+                />
 
 
 
@@ -174,7 +218,9 @@
     </ScrollView>
 
 
+
     <Button
+        android:layout_marginBottom="@dimen/normal_margin"
         android:id="@+id/btSaveAddress"
         android:layout_marginStart="@dimen/margin_start_end"
         android:layout_marginEnd="@dimen/margin_start_end"

@@ -7,7 +7,16 @@ class OrderProduct(
 
     @SerializedName("booking_max")
     @Expose
-    var bookingMax : ArrayList<String> ?= arrayListOf(),
+    var bookingMax : String ?= "",
+
+    @SerializedName("booking_end_date")
+    @Expose
+    var booking_end_date : String ?="",
+
+    @SerializedName("booking_start_date\n")
+    @Expose
+    var booking_start_date
+    : ArrayList<String> ?= arrayListOf(),
 
     @SerializedName("booking_min")
     @Expose
@@ -93,6 +102,10 @@ class OrderProduct(
 
     @SerializedName("gallery_of_images")
     @Expose
-    var gallery : ArrayList<Any> = arrayListOf()
+    var gallery : ArrayList<Any> = arrayListOf() ,
+
+    @SerializedName("size-capacity")
+    @Expose
+    var sizeCapacity : String ?=""
 ) {
 }

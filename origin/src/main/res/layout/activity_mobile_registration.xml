@@ -110,7 +110,7 @@
                 android:id="@+id/btLoginClient"
                 android:background="@drawable/blue_rounded"/>
 
-            <com.ids.qasemti.custom.CustomTextViewMedium
+            <!--<com.ids.qasemti.custom.CustomTextViewMedium
                 android:id="@+id/tvRegisterNewMember"
                 android:layout_alignParentBottom="true"
                 android:textColor="@color/redPrimary"
@@ -119,7 +119,7 @@
                 android:textSize="@dimen/big_font"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"/>
+                android:gravity="center"/>-->
         </RelativeLayout>
 
 

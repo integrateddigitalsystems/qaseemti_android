@@ -1,5 +1,6 @@
 package com.ids.qasemti.controller.Activities
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
@@ -11,14 +12,18 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestPlaceOrder
-import com.ids.qasemti.model.ResponseAddress
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import kotlinx.android.synthetic.main.activity_new_address.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
+import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -77,14 +82,9 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
         btPlaceOrder.onOneClick {
             if (locationSelected) {
 
-                if(MyApplication.selectedPlaceOrder!=null){
-                    update = true
-                }else{
-                    update = false
-                }
+                update = MyApplication.selectedPlaceOrder!=null
                 setPlacedOrder()
-                startActivity(Intent(this, ActivityPlaceOrder::class.java))
-
+                placeOrder()
             } else {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("please_select_location",this))
             }
@@ -111,9 +111,9 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                 var mYear = 0
                 var mMonth = 0
                 var mDay = 0
-                mYear = mcurrentDate!![Calendar.YEAR]
-                mMonth = mcurrentDate!![Calendar.MONTH]
-                mDay = mcurrentDate!![Calendar.DAY_OF_MONTH]
+                mYear = mcurrentDate[Calendar.YEAR]
+                mMonth = mcurrentDate[Calendar.MONTH]
+                mDay = mcurrentDate[Calendar.DAY_OF_MONTH]
 
                 mcurrentDate.set(mYear, mMonth, mDay)
                 val mDatePicker = DatePickerDialog(
@@ -189,9 +189,9 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
             var mYear = 0
             var mMonth = 0
             var mDay = 0
-            mYear = mcurrentDate!![Calendar.YEAR]
-            mMonth = mcurrentDate!![Calendar.MONTH]
-            mDay = mcurrentDate!![Calendar.DAY_OF_MONTH]
+            mYear = mcurrentDate[Calendar.YEAR]
+            mMonth = mcurrentDate[Calendar.MONTH]
+            mDay = mcurrentDate[Calendar.DAY_OF_MONTH]
 
             mcurrentDate.set(mYear, mMonth, mDay)
             val mDatePicker = DatePickerDialog(
@@ -353,7 +353,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
         }
 
         MyApplication.selectedPlaceOrder = RequestPlaceOrder(
-            MyApplication.userId!!,
+            MyApplication.userId,
             MyApplication.selectedService!!.type!!,
             MyApplication.selectedService!!.id!!.toInt(),
             MyApplication.selectedVariationType,
@@ -385,5 +385,93 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
 
         AppHelper.toGSOn(MyApplication.arrayCart)
 
+    }
+
+
+    fun placeOrder(){
+       loading.show()
+        //testing success scenario
+/*        MyApplication.selectedPlaceOrder!!.addressLatitude=""
+        MyApplication.selectedPlaceOrder!!.addressLongitude=""*/
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.placeOrder(MyApplication.selectedPlaceOrder!!)?.enqueue(object :
+                Callback<ResponseOrderId> {
+                override fun onResponse(
+                    call: Call<ResponseOrderId>,
+                    response: Response<ResponseOrderId>
+                ) {
+                    try {
+                        loading.hide()
+                        if(response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_IN){
+                            startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java).putExtra(AppConstants.ORDER_ID,response.body()!!.orderId))
+                        }
+                        else if(response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_OUT)
+                            showProviderMessage(response.body()!!)
+                        else
+                            startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java)
+                                .putExtra(AppConstants.ORDER_ID,response.body()!!.orderId)
+                                .putExtra(AppConstants.SP_FOUND,false)
+                            )
+
+                    } catch (E: java.lang.Exception) {
+
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseOrderId>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
+
+    fun showProviderMessage(res:ResponseOrderId){
+        var ok = AppHelper.getRemoteString("ok", this)
+        var cancel = AppHelper.getRemoteString("cancel", this)
+        val builder = AlertDialog.Builder(this)
+        builder
+            .setMessage(res.message)
+            .setCancelable(true)
+            .setNegativeButton(cancel) { dialog, _ ->
+                startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java)
+                    .putExtra(AppConstants.SP_FOUND,false)
+                    .putExtra(AppConstants.ORDER_ID,res.orderId)
+                )
+            }
+            .setPositiveButton(ok) { dialog, _ ->
+                broadcastOutOfRange(res.orderId!!)
+            }
+        val alert = builder.create()
+        alert.show()
+
+    }
+
+
+    fun broadcastOutOfRange(orderId:String){
+        loading.show()
+        var req = RequestOrderId(orderId.toInt())
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.broadcastOutofRange(req)?.enqueue(object :
+                Callback<ResponseOrderId> {
+                override fun onResponse(
+                    call: Call<ResponseOrderId>,
+                    response: Response<ResponseOrderId>
+                ) {
+                    try {
+                        loading.hide()
+                        if(response.body()!!.number_of_sps!=null && response.body()!!.number_of_sps!! >0){
+                            startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java).putExtra(AppConstants.ORDER_ID,response.body()!!.orderId))
+                        }else
+                            startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java).putExtra(AppConstants.SP_FOUND,false).putExtra(AppConstants.ORDER_ID,response.body()!!.orderId))
+                    } catch (E: java.lang.Exception) {
+
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseOrderId>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
     }
 }

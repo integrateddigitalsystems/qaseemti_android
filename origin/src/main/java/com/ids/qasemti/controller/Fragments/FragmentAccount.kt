@@ -84,12 +84,17 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         btMyAddresses.onOneClick {
             MyApplication.typeSelected = 1 
             startActivity(
-                Intent(requireContext(), ActivityOrderDetails::class.java)
+                Intent(requireContext(), ActivityAddresses::class.java)
                     .putExtra("mapTitle", AppHelper.getRemoteString("address", requireContext()))
+                    .putExtra("from","account")
             )
         }
         btMyServices.onOneClick {
-            startActivity(Intent(requireActivity(), ActivityServices::class.java))
+            MyApplication.fromAccount = true
+            (requireActivity() as ActivityHome?)!!.addFrag(
+                FragmentMyServices(),
+                AppConstants.FRAGMENT_MY_SERVICES
+            )
         }
 
         btSettelments.onOneClick {
@@ -155,6 +160,10 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
                 Intent(requireContext(), ActivityWeb::class.java)
                     .putExtra("webTitle", "Privacy Policy")
             )
+        }
+
+        btRateUs.onOneClick {
+            AppHelper.openAppInPlayStore(requireActivity())
         }
     }
 }

@@ -4,6 +4,7 @@ package com.ids.qasemti.utils
 import android.R.attr.data
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -244,6 +245,20 @@ class AppHelper {
                     e.printStackTrace()
                 }
             }
+        }
+
+        fun updateStatus(orderId : Int , onTrack : Int , delivered : Int , paid:Int ){
+                var newReq = RequestUpdateOrder(orderId ,onTrack,delivered,paid)
+                RetrofitClient.client?.create(RetrofitInterface::class.java)
+                    ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
+                        override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
+                            try{
+                            }catch (E: java.lang.Exception){
+                            }
+                        }
+                        override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                        }
+                    })
         }
 
 
@@ -612,7 +627,7 @@ class AppHelper {
                     setLogoTint(imgNot, context, R.color.redPrimary)
                     setTextColor(context, tvNot, R.color.redPrimary)
                 }
-                AppConstants.FRAGMENT_PROD -> {
+                AppConstants.FRAGMENT_MY_SERVICES -> {
                     setLogoTint(imgPro, context, R.color.redPrimary)
                     setTextColor(context, tvPro, R.color.redPrimary)
                 }
@@ -623,6 +638,31 @@ class AppHelper {
             }
 
         }
+
+        fun openAppInPlayStore(activity: Activity) {
+            val appPackageName = activity.packageName
+            try {
+                activity.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=$appPackageName")
+                    )
+                )
+
+                activity.finish()
+
+            } catch (anfe: android.content.ActivityNotFoundException) {
+                activity.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                    )
+                )
+                activity.finish()
+
+            }
+        }
+
 
         fun getRemoteString(key: String, con: Context): String {
             if (MyApplication.localizeArray != null) {
@@ -754,6 +794,7 @@ class AppHelper {
             val myList = myLocation.getFromLocation(lat, long, 1)
             val address = myList[0]
             var addressStr: String? = ""
+
             addressStr += address.getAddressLine(0).toString()
 
             return addressStr!!
@@ -1158,7 +1199,7 @@ class AppHelper {
         fun getFragmentCount(fragmentManager: FragmentManager): Int {
             var count = 0
             try {
-                for (entry in 0 until fragmentManager.getBackStackEntryCount()) {
+                for (entry in 0 until fragmentManager.backStackEntryCount) {
                     count++
                 }
             } catch (e: java.lang.Exception) {

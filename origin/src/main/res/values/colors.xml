@@ -21,6 +21,8 @@
     <color name="white">#ffffff</color>
     <color name="gradient_red">#ff516b</color>
     <color name="pink_bg">#f5dbdf</color>
+    <color name="gray_receive">#b7b7b7</color>
+    <color name="gray_send">#777777</color>
     <color name="black">#000000</color>
     <color name="blacktrans">#22000000</color>
 

@@ -8,14 +8,15 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatRatingBar
+import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.*
-
-import java.util.ArrayList
+import kotlinx.android.synthetic.main.layout_order_switch.*
+import java.util.*
 
 class AdapterOrderType(
     val items: ArrayList<ResponseOrders>,
@@ -25,6 +26,9 @@ class AdapterOrderType(
     RecyclerView.Adapter<AdapterOrderType.VHItem>() {
 
     var con = context
+    var delivered = 0
+    var onTrack = 0
+    var paid = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
         return VHItem(
             LayoutInflater.from(parent.context)
@@ -40,10 +44,10 @@ class AdapterOrderType(
             holder.locationText.setColorTypeface(con,R.color.redPrimary,items.get(position).customerLocation!!,false) }
         catch (ex:Exception){ holder.name.text = "" }
         try{
-            holder.orderDate.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MMMM yyyy")
+            holder.orderDate.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MMM yyyy hh:mm")
         }catch (ex:java.lang.Exception){holder.orderDate.text = ""}
         try{
-            holder.expectedDate.text = items.get(position).deliveryDate
+            holder.expectedDate.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-mm-dd","dd MMM yyyy hh:mm")
         }catch (ex:java.lang.Exception){holder.orderDate.text=""}
         try{
             holder.orderId.text = "#"+items.get(position).orderId.toString()
@@ -55,14 +59,67 @@ class AdapterOrderType(
             holder.paymentMethod.text = items.get(position).paymentMethodTitle
         }catch (ex:java.lang.Exception){holder.paymentMethod.text = ""}
         try {
-            holder.orderCost.text = items.get(position).total+" "+items.get(position).currency
+            holder.orderCost.text = (items.get(position).total!!.toInt()+items.get(position).shippingTotal!!.toInt()).toString()+" "+items.get(position).currency
         }catch (ex:Exception){ holder.orderCost.text =""}
+        try{
+            holder.cancelReasonDetails.text = items.get(position).cancellationDate
+        } catch (ex:Exception){
+                holder.cancelReasonDetails.text =""
+        }
+        try{
+            holder.cancelledname.text = items.get(position).cancelledByName
+        }catch (ex:Exception){
+            holder.cancelledname.text =""
+        }
+ 
+        try {
+            onTrack= if(items.get(position).onTrack!!) 1 else 0
+            holder.switchOnTrack.isChecked = items.get(position).onTrack!!
+        }catch (ex:Exception){}
+        try {
+            paid= if(items.get(position).paid!!) 1 else 0
+            holder.switchPaid.isChecked = items.get(position).paid!!
+        }catch (ex:java.lang.Exception){}
+        try {
+            delivered= if(items.get(position).delivered!!) 1 else 0
+            holder.switchDelivered.isChecked = items.get(position).delivered!!
+        }catch (ex:java.lang.Exception){}
+
+        holder.switchDelivered.setOnCheckedChangeListener { compoundButton, b ->
+            if( holder.switchDelivered.isChecked){
+                delivered = 1
+            }else{
+                delivered = 0
+            }
+            AppHelper.updateStatus(items.get(position).orderId!!.toInt(),onTrack,delivered,paid)
+        }
+        holder.switchOnTrack.setOnCheckedChangeListener { compoundButton, b ->
+            if( holder.switchOnTrack.isChecked){
+                onTrack = 1
+            }else{
+                onTrack = 0
+            }
+            AppHelper.updateStatus(items.get(position).orderId!!.toInt(),onTrack,delivered,paid)
+        }
+
+        holder.switchPaid.setOnCheckedChangeListener { compoundButton, b ->
+            if(holder.switchPaid.isChecked){
+                paid = 1
+            }else{
+                paid = 0
+            }
+            AppHelper.updateStatus(items.get(position).orderId!!.toInt(),onTrack,delivered,paid)
+        }
+
+
+
 
 
 
         holder.cancelPerson.hide()
         holder.cancelReason.hide()
         holder.cancelorder.hide()
+        holder.phoneChat.show()
         holder.cancelBord.hide()
         holder.expectedDel.show()
         holder.orderAmount.show()
@@ -70,6 +127,7 @@ class AdapterOrderType(
         if (MyApplication.isClient && MyApplication.typeSelected == 0) {
             holder.credit.show()
             holder.switch.hide()
+            holder.dateBorder.hide()
             holder.sepActive.show()
             holder.titelOrderDate.text = AppHelper.getRemoteString("order_date",con)
             holder.rating.hide()
@@ -77,20 +135,32 @@ class AdapterOrderType(
             holder.location.hide()
             holder.border.show()
             holder.track.show()
-        } else if ((MyApplication.typeSelected == 0 || MyApplication.typeSelected == 1) && !MyApplication.isClient) {
+        } else if(MyApplication.typeSelected==0 ){
             holder.switch.show()
             holder.sepActive.show()
+            holder.dateBorder.show()
+            holder.bottomBorder.show()
+            holder.canSep.hide()
+            holder.border.show()
+            holder.rating.hide()
+            holder.track.show()
+            holder.credit.hide()
+        }else if ( MyApplication.typeSelected == 1 && !MyApplication.isClient) {
+            holder.switch.show()
+            holder.sepActive.show()
+            holder.dateBorder.show()
+            holder.bottomBorder.show()
             holder.canSep.hide()
             holder.rating.hide()
-            holder.bottomBorder.hide()
+            holder.track.hide()
             holder.credit.hide()
         } else if (MyApplication.typeSelected == 1 && MyApplication.isClient) {
             holder.credit.hide()
             holder.rating.hide()
+            holder.dateBorder.show()
             holder.upcomingSeperator.hide()
             holder.switch.hide()
             holder.location.show()
-            holder.bottomBorder.hide()
             holder.border.hide()
             holder.canSep.hide()
             holder.track.hide()
@@ -98,6 +168,8 @@ class AdapterOrderType(
             holder.phoneChat.hide()
             holder.credit.hide()
             holder.rating.show()
+            holder.track.hide()
+            holder.upcomingSeperator.show()
             holder.location.show()
             holder.canSep.hide()
             holder.cancelorder.show()
@@ -105,18 +177,23 @@ class AdapterOrderType(
             holder.titelOrderDate.text = AppHelper.getRemoteString("Actual_delivery",con)
         }else{
             holder.titelOrderDate.text = AppHelper.getRemoteString("cancelDate",con)
+            holder.orderDate.text = items.get(position).cancellationDate
             holder.phoneChat.hide()
             holder.rating.hide()
+            holder.canSep.show()
+            holder.bottomBorder.hide()
             holder.cancelPerson.show()
             holder.cancelReason.show()
+            holder.upcomingSeperator.hide()
             holder.cancelorder.show()
             holder.credit.hide()
+            holder.dateBorder.show()
+            holder.track.hide()
             holder.expectedDel.hide()
             holder.switch.hide()
             holder.orderAmount.hide()
             holder.cancelBord.show()
         }
-        holder.phoneChat.show()
 
         holder.expected.typeface = AppHelper.getTypeFaceBold(con)
         holder.cancelReasonDetails.typeface = AppHelper.getTypeFace(con)
@@ -147,6 +224,7 @@ class AdapterOrderType(
         var phoneChat = itemView.findViewById<LinearLayout>(R.id.llPhoneChat)
         var border = itemView.findViewById<LinearLayout>(R.id.llBorderCan)
         var rating = itemView.findViewById<LinearLayout>(R.id.llRatings)
+        var dateBorder = itemView.findViewById<LinearLayout>(R.id.llDateBorder)
         var canSep = itemView.findViewById<LinearLayout>(R.id.llSepCancel)
         var expectedDel = itemView.findViewById<LinearLayout>(R.id.llExpectedDelivery)
         var orderId = itemView.findViewById<TextView>(R.id.tvOrderId)
@@ -161,6 +239,11 @@ class AdapterOrderType(
         var cancelReasonDetails = itemView.findViewById<TextView>(R.id.tvCancelReasonDetails)
         var paymentMethod = itemView.findViewById<TextView>(R.id.tvPaymentMethod)
         var orderCost = itemView.findViewById<TextView>(R.id.tvOrderPrice)
+        var cancelledname = itemView.findViewById<TextView>(R.id.tvCancelledByname)
+        var switchOnTrack = itemView.findViewById<SwitchCompat>(R.id.swOnTrack)
+        var switchDelivered = itemView.findViewById<SwitchCompat>(R.id.swDelivered)
+        var switchPaid = itemView.findViewById<SwitchCompat>(R.id.swPaid)
+
 
         init {
             itemView.setOnClickListener(this)

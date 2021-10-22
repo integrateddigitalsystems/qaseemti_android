@@ -12,7 +12,7 @@ class ResponseMainSettlement(
     @Expose
     var settlements: ArrayList<ResponseSettlement> ,
 
-    @SerializedName("number of orders")
+    @SerializedName("number_of_orders")
     @Expose
     var numberOfOrders: Int ?=0 ,
 

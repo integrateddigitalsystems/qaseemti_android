@@ -37,7 +37,7 @@ interface RetrofitInterface {
     fun contactUs(@Body param: RequestContactUs): Call<ResponseUpdate>
 
     @POST("sp_get_orders")
-    fun getOrders(@Body param: RequestCart): Call<ResponseMainOrder>
+    fun getOrders(@Body param: RequestOrders): Call<ResponseMainOrder>
 
     @POST("cancel_order")
     fun cancelOrder(@Body param: RequestCancelOrder): Call<ResponseCancel>
@@ -66,8 +66,9 @@ interface RetrofitInterface {
         @Part(ApiParameters.ACCOUNT_NUMBER) accNumber: RequestBody,
         @Part(ApiParameters.BANK_NAME) bankName: RequestBody,
         @Part(ApiParameters.BANK_BRANCH) bankBranch: RequestBody,
-        @Part(ApiParameters.IBAN) iban: RequestBody
-    ): Call<String>
+        @Part(ApiParameters.IBAN) iban: RequestBody ,
+        @Part(ApiParameters.DESCRIPTION) desc : RequestBody
+    ): Call<ResponseUser>
 
 
     @Multipart
@@ -81,7 +82,7 @@ interface RetrofitInterface {
         @Part profile_pic: MultipartBody.Part,
         @Part(ApiParameters.TYPE) type: RequestBody
 
-    ): Call<String>
+    ): Call<ResponseUser>
 
 
     @Multipart
@@ -181,7 +182,12 @@ interface RetrofitInterface {
     @POST("cl_place_order")
     fun placeOrder(
         @Body param:RequestPlaceOrder
-    ): Call<ResponseMessage>
+    ): Call<ResponseOrderId>
+
+    @POST("broadcast_order_outofrange")
+    fun broadcastOutofRange(
+        @Body param : RequestOrderId
+    ):Call<ResponseOrderId>
 
 
     @POST("update_language")
@@ -211,7 +217,7 @@ interface RetrofitInterface {
     ):Call<ResponseMainAddress>
 
     @POST("cl_get_orders")
-    fun getClientOrders(@Body param: RequestCart): Call<ResponseMainOrder>
+    fun getClientOrders(@Body param: RequestOrders): Call<ResponseMainOrder>
 
     @GET("json")
     fun getLocationLatLng(
@@ -244,4 +250,58 @@ interface RetrofitInterface {
         @Body param : RequestOrderId
     ):Call<ResponseMessage>
 
+
+
+
+    @POST("cl_update_payment")
+    fun updatePayment(
+        @Body param : RequestUpdatePayment
+    ):Call<ResponseMessage>
+
+    @POST("cl_update_order_payment")
+    fun updatePaymentOrder(
+        @Body param : RequestPaymentOrder
+    ):Call<ResponseMessage>
+
+
+
+    @Multipart
+    @POST("upload_file")
+    fun uploadFiles(
+        @Part gallery: ArrayList<MultipartBody.Part>
+    ): Call<ResponseMessage>
+
+
+    @POST("get_required_docs")
+    fun get_required_docs(
+        @Body param : RequestProductId
+    ):Call<ResponseRequiredFiles>
+
+
+    @POST("cl_update_order_paid")
+    fun updateOrderPaid(
+        @Body param : RequestUpdatePaid
+    ):Call<ResponseRequiredFiles>
+
+
+    @Multipart
+    @POST("sp_upload_files")
+    fun spUploadFiles(
+        @Part(ApiParameters.USER_ID) userId: RequestBody,
+        @Part(ApiParameters.FILE_NAME) filename: RequestBody,
+        @Part file: MultipartBody.Part,
+        @Part(ApiParameters.PRODUCT_ID) product_id: RequestBody,
+        @Part(ApiParameters.FILE_ID) fileId: RequestBody
+
+    ): Call<ResponseMessage>
+
+    @POST("cl_renew_order")
+    fun renewOrder(
+        @Body param : RequestRenewOrder
+    ):Call<ResponseMessage>
+
+
+    @POST("get_payment_methods")
+    fun getPaymentMethods(
+    ):Call<ResponsePaymentMethod>
 }

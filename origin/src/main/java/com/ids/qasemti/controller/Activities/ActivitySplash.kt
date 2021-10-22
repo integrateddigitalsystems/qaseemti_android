@@ -172,15 +172,15 @@ class ActivitySplash : ActivityBase() {
         var version=arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.version!!
         var force=arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.isForceUpdate!!
         try {
-            /*if (BuildConfig.VERSION_NAME.toDouble() > version) {
+            if (BuildConfig.VERSION_NAME.toDouble() < version) {
                 if (force) {
                     showDialogForceUpdate(this)
                 } else {
                     showDialogUpdate(this)
                 }
-            }else{*/
+            }else{
                 nextStep()
-           // }
+           }
         } catch (ex: Exception) {
 
         }
@@ -219,9 +219,9 @@ class ActivitySplash : ActivityBase() {
 
 
     fun nextStep() {
-        getMobileConfig()
-        MyApplication.isSignedIn = true
-        MyApplication.userId = 6
+       // getMobileConfig()
+      /*  MyApplication.isSignedIn = true
+        MyApplication.userId = 41*/
         Handler(Looper.getMainLooper()).postDelayed({
             if(MyApplication.firstTime) {
                 AppHelper.updateDevice(this,"")
@@ -245,8 +245,8 @@ class ActivitySplash : ActivityBase() {
                 }else{
                     AppHelper.updateDevice(this,"")
                     if(MyApplication.isClient){
-                        MyApplication.isSignedIn = true
-                        MyApplication.userId = 6
+                        /*MyApplication.isSignedIn = true
+                        MyApplication.userId = 41*/
                         AppHelper.getUserInfo()
                         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
                         MyApplication.selectedFragment = FragmentHomeClient()

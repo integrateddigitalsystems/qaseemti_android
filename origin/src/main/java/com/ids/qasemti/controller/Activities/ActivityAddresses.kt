@@ -24,6 +24,7 @@ import java.lang.Exception
 class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     var array : ArrayList<ResponseAddress> = arrayListOf()
+    var from : String ?=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_addresses)
@@ -37,13 +38,14 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        if(!MyApplication.fromAdd!!) {
+        if(!MyApplication.fromAdd!!||from=="account") {
             getAddresses()
         }else{
             MyApplication.fromAdd = false
             val intent = Intent()
             intent.putExtra("lat", MyApplication.selectedAddress!!.lat)
             intent.putExtra("long",  MyApplication.selectedAddress!!.long)
+
             /*var latLng = com.google.android.gms.maps.model.LatLng(
                 array.get(position).lat!!.toDouble(),
                 array.get(position).long!!.toDouble()
@@ -60,6 +62,11 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
     fun init(){
        // var title = intent.getStringExtra("mapTitle")
      //   tvPageTitle.setColorTypeface(this,R.color.white,title!!,true)
+        try {
+            from = intent.getStringExtra("from")!!
+        }catch (ex:Exception){
+
+        }
         btBackTool.onOneClick {
             super.onBackPressed()
         }
@@ -68,11 +75,9 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
      }
 
     fun getAddresses(){
-        try {
-            loading.show()
-        } catch (ex: Exception) {
 
-        }
+            loading.show()
+
         var newReq = RequestUserStatus(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getAddresses(newReq)?.enqueue(object : Callback<ResponseMainAddress> {
@@ -123,14 +128,23 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
             val intent = Intent()
             intent.putExtra("lat", array.get(position).lat)
             intent.putExtra("long", array.get(position).long)
-            var latLng = com.google.android.gms.maps.model.LatLng(
-                array.get(position).lat!!.toDouble(),
-                array.get(position).long!!.toDouble()
-            )
+            var addr =""
             MyApplication.selectedAddress = array.get(position)
+            if(!array.get(position).desc.equals("null")&&!array.get(position).desc.isNullOrEmpty()){
+              addr = array.get(position).desc!!
+            }
+            if(!array.get(position).street.equals("null")&&!array.get(position).street.isNullOrEmpty()){
+               addr =addr+","+array.get(position).street
+            }
+            if(!array.get(position).bldg.equals("null")&&!array.get(position).bldg.isNullOrEmpty()){
+                addr =addr+","+array.get(position).bldg
+            }
+            if(!array.get(position).floor.equals("null")&&!array.get(position).floor.isNullOrEmpty()){
+                addr =addr+","+array.get(position).floor
+            }
             intent.putExtra(
                 "address",
-                array[position].desc + " ," + array[position].street + " ," + array[position].bldg + " ," + array[position].floor
+                addr
             )
             setResult(RESULT_OK, intent)
             finish()

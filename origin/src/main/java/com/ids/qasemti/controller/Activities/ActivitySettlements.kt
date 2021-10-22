@@ -91,11 +91,9 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
     }
 
     fun getOrders(position: Int) {
-        try {
-            loading.show()
-        } catch (ex: Exception) {
 
-        }
+            loading.show()
+
         var newReq = RequestUserStatus(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getToBeSettled(
@@ -121,11 +119,9 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
     }
 
     fun getSettlements(position: Int) {
-        try {
-            loading.show()
-        } catch (ex: Exception) {
 
-        }
+            loading.show()
+
         var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getSettlements(
@@ -152,7 +148,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
 
     private fun setData(position: Int) {
 
-        if (position == 0) {
+        if (array.size == 0) {
             btRequestSettlements.show()
             MyApplication.upcoming = false
             var adapter = AdapterSettlements(array, this, this)

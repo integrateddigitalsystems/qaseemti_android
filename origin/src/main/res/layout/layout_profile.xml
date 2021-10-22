@@ -9,8 +9,7 @@
 
     android:layout_height="match_parent">
 
-    <include
-        layout="@layout/loading" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -68,7 +67,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/small_margin"
-                        android:text="Kamal Hamdan"
+                        android:id="@+id/tvUsername"
                         android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/header_font" />
 
@@ -101,7 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/small_margin"
-                        android:text="75% Completed"
+                        android:id="@+id/tvPercentageCompleted"
                         android:textColor="@color/gray_font"
                         android:textSize="@dimen/small_font" />
 
@@ -123,13 +122,17 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <ScrollView
+        android:layout_marginBottom="@dimen/medium_margin"
         android:layout_marginTop="@dimen/push_less_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="@dimen/margin_start_end"
         android:paddingEnd="@dimen/margin_start_end"
-        android:paddingBottom="@dimen/margin_start_end"
         android:fillViewport="true"
         android:scrollbars="none"
         >
@@ -224,7 +227,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:text="K.hamdan@ids.com.lb"
+
                     android:textColor="@color/gray_font"
                     android:textSize="@dimen/normal_font" />
 
@@ -258,9 +261,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
+                    android:enabled="false"
                     android:background="@color/transparent"
                     android:textSize="@dimen/normal_font"
-                    android:text="03/1287612"
                     android:textColor="@color/gray_font"
                      />
 
@@ -268,7 +271,11 @@
             </LinearLayout>
 
 
-
+            <LinearLayout
+                android:id="@+id/linearProviderInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             <LinearLayout
 
@@ -531,7 +538,7 @@
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
-
+            </LinearLayout>
             <Button
                 android:id="@+id/btSaveProfile"
                 android:layout_marginTop="@dimen/normal_margin"
@@ -547,6 +554,12 @@
 
         </LinearLayout>
     </ScrollView>
+
+
+        <include
+            layout="@layout/loading" />
+
+    </RelativeLayout>
 
 
 

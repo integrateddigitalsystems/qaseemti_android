@@ -6,6 +6,8 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -90,6 +92,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                 llOrderSwitches.hide()
             }
             llActualDelivery.hide()
+        }else if(MyApplication.typeSelected==1){
+            btCancelOrder.show()
         }else{
             tvPageTitle.textRemote("CompletedOrderDetails",this)
             llRatingOrder.show()
@@ -97,10 +101,18 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             llActualDelivery.show()
             llOrderSwitches.hide()
             btCancelOrder.hide()
-            if(MyApplication.isClient)
-                btRenewOrder.show()
+        }
 
-
+        if(MyApplication.isClient) {
+            if (MyApplication.typeSelected == 2) {
+                if (MyApplication.isClient) {
+                    btRenewOrder.show()
+                } else {
+                    btRenewOrder.hide()
+                }
+            }
+        }else{
+            btRenewOrder.hide()
         }
         /*if(MyApplication.isClient)
            // llRatingOrder.hide()
@@ -135,14 +147,128 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         try{tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy")}catch (e:Exception){}
         try{tvExpectedOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.deliveryDate!!,"yyyy-MM-dd","dd MMMM yyyy")}catch (e:Exception){}
         try{tvOrderAmountDeet.text = MyApplication.selectedOrder!!.total!!.toString()+" "+MyApplication.selectedOrder!!.currency}catch (e:Exception){}
+        try{
+            swDelivered.isChecked = MyApplication.selectedOrder!!.delivered!!
+        }catch (ex:Exception){}
+        try {
+            swPaid.isChecked = MyApplication.selectedOrder!!.paid!!
+        }catch (ex:java.lang.Exception){}
+        try {
+            swOnTrack.isChecked = MyApplication.selectedOrder!!.onTrack!!
+        }catch (ex:java.lang.Exception){}
 
     }
 
+
+    fun updatePayment(orderId : Int ){
+        try {
+            loading.show()
+        } catch (ex: java.lang.Exception) {
+
+        }
+        var req = RequestUpdatePayment(orderId,"","","selectedPayment","12","captured",MyApplication.selectedPlaceOrder!!.deliveryDate,"23","test ref","12","abc123")
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.updatePayment(req)?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                    try {
+
+                    } catch (E: java.lang.Exception) {
+
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
+
+    fun nextStep(res:Int){
+        if(res==1){
+            createDialog(this,"Renewal Successful")
+            Handler(Looper.getMainLooper()).postDelayed({
+                finish()
+                MyApplication.renewed = true
+            },1000)
+        }else{
+            createDialog(this,"Failed to renew")
+        }
+    }
+    fun renewOrder(){
+        try {
+            loading.show()
+        } catch (ex: java.lang.Exception) {
+
+        }
+        var vendorId = 0
+        try{
+            vendorId =  MyApplication.selectedOrder!!.product!!.vendorId!!.toInt()
+        }catch (ex:java.lang.Exception){
+
+        }
+        var storeName = ""
+        try{
+            storeName = MyApplication.selectedOrder!!.vendor!!.storeName!!
+        }catch (ex:java.lang.Exception){
+
+        }
+        var cal = Calendar.getInstance()
+        var date = AppHelper.formatDate(cal.time,"dd/mm/yy hh:mm:ssss")
+        var req = RequestRenewOrder(
+            MyApplication.selectedOrder!!.customer!!.user_id!!.toInt(),
+            MyApplication.selectedOrder!!.orderId!!.toInt() ,
+            vendorId,
+            MyApplication.selectedOrder!!.type,
+            MyApplication.selectedOrder!!.product!!.productId!!.toInt(),
+            MyApplication.selectedOrder!!.product!!.types,
+            MyApplication.selectedOrder!!.product!!.sizeCapacity,
+            MyApplication.selectedOrder!!.deliveryDate,
+            date,
+            date,
+            MyApplication.selectedOrder!!.addressname,
+            MyApplication.selectedOrder!!.addressLat!!.toDouble(),
+            MyApplication.selectedOrder!!.addressLong!!.toDouble(),
+            MyApplication.selectedOrder!!.addressStreet,
+            MyApplication.selectedOrder!!.addressBuilding,
+            MyApplication.selectedOrder!!.addressFloor,
+            MyApplication.selectedOrder!!.addressDescription,
+            MyApplication.selectedOrder!!.customer!!.first_name,
+            MyApplication.selectedOrder!!.customer!!.last_name,
+            storeName,
+            MyApplication.selectedOrder!!.customer!!.email,
+            MyApplication.selectedOrder!!.customer!!.mobile_number)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.renewOrder(req)?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                    try {
+                        loading.hide()
+                        nextStep(response.body()!!.result!!)
+                    } catch (E: java.lang.Exception) {
+
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
     fun setListeners(){
         btBackTool.onOneClick {
             super.onBackPressed()
         }
 
+        btRenewOrder.onOneClick {
+            renewOrder()
+        }
         llCall.onOneClick {
             val intent = Intent(Intent.ACTION_DIAL)
             startActivity(intent)
@@ -196,30 +322,63 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             timePickerDialog.show()
         }
 
-        btCancelOrder.onOneClick {
-            try {
-                loading.show()
-            }catch (ex: Exception){
+        btSubmit.onOneClick {
+            if(etCancellationReason.text.isNullOrEmpty()){
+                createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
+            }else {
+                AppHelper.createYesNoDialog(
+                    this,
+                    AppHelper.getRemoteString("yes", this),
+                    AppHelper.getRemoteString("cancel", this),
+                    "Are you sure you want to cancel ?"
+                ) {
 
+                        loading.show()
+
+                    var cal = Calendar.getInstance()
+                    var dateNow = AppHelper.formatDate(cal.time!!, "dd-MM-yyyy")
+                    var newReq =
+                        RequestCancelOrder(
+                            orderId,
+                            MyApplication.userId,
+                            dateNow,
+                            etCancellationReason.text.toString()
+                        )
+                    RetrofitClient.client?.create(RetrofitInterface::class.java)
+                        ?.cancelOrder(
+                            newReq
+                        )?.enqueue(object : Callback<ResponseCancel> {
+                            override fun onResponse(
+                                call: Call<ResponseCancel>,
+                                response: Response<ResponseCancel>
+                            ) {
+                                try {
+                                    resultCancel(response.body()!!.result!!)
+                                } catch (E: java.lang.Exception) {
+                                    resultCancel("0")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<ResponseCancel>,
+                                throwable: Throwable
+                            ) {
+                                resultCancel("0")
+                            }
+                        })
+                }
             }
-            var cal = Calendar.getInstance()
-            var dateNow = AppHelper.formatDate(cal.time!!,"dd-MM-yyyy")
-            var newReq = RequestCancelOrder(orderId,MyApplication.userId,dateNow,"not accepted yet")
-            RetrofitClient.client?.create(RetrofitInterface::class.java)
-                ?.cancelOrder(
-                    newReq
-                )?.enqueue(object : Callback<ResponseCancel> {
-                    override fun onResponse(call: Call<ResponseCancel>, response: Response<ResponseCancel>) {
-                        try{
-                            resultCancel(response.body()!!.result!!)
-                        }catch (E: java.lang.Exception){
-                           resultCancel("0")
-                        }
-                    }
-                    override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
-                        resultCancel("0")
-                    }
-                })
+        }
+        btDontCancel.onOneClick {
+            btCancelOrder.show()
+            etCancellationReason.hide()
+            llCancelButtons.hide()
+        }
+        btCancelOrder.onOneClick {
+            btCancelOrder.hide()
+            etCancellationReason.show()
+            llCancelButtons.show()
+
         }
 
         swOnTrack.setOnCheckedChangeListener { compoundButton, b ->
