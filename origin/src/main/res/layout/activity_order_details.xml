@@ -156,7 +156,9 @@
 
 
    <EditText
+       android:layout_marginTop="@dimen/normal_margin"
        android:padding="@dimen/normal_margin"
+       android:visibility="gone"
        android:layout_marginBottom="@dimen/medium_margin"
        android:layout_marginStart="@dimen/margin_start_end"
        android:layout_marginEnd="@dimen/margin_start_end"
@@ -170,6 +172,7 @@
        android:background="@drawable/rounded_white_background"/>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/llCancelButtons"
         android:layout_below="@id/etCancellationReason"
         android:weightSum="2"

@@ -90,8 +90,13 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     response: Response<ResponseRatings>
                 ) {
                     try {
-                        if (response.body()!!.rate != null)
+                        if (response.body()!!.rate != null) {
                             rbMainUser.rating = response.body()!!.rate!!.toFloat()
+                            tvRatingValue.text = response.body()!!.rate.toString()
+                        }else{
+                            tvRatingValue.text = "0"
+                        }
+
                     } catch (E: java.lang.Exception) {
                         // rbMainUser.rating = 0f
                     }

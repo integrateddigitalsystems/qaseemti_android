@@ -133,6 +133,12 @@ fun Any.wtf(message: String) {
         Log.wtf(this::class.java.simpleName, message)
 }
 
+fun Activity.loadJSONFromAssets(fileName: String): String {
+    return this.assets.open(fileName).bufferedReader().use { reader ->
+        reader.readText()
+    }
+}
+
 
 fun Any.addFragment(
     container: Int,

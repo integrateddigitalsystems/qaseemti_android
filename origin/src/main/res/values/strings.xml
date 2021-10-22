@@ -1,6 +1,7 @@
 <resources>
 
     <string name="app_name" translatable="false">Qaseemati</string>
+    <string name="copyrights" translatable="false">Copyright © 2021 Qasemati All rights</string>
     <string name="hello">Hello 111</string>
     <string name="hello2">Hello 222</string>
     <string name="hello3">Hello 3333</string>
@@ -35,7 +36,7 @@
     <string name="upcoming_orders">Upcoming \n Orders</string>
     <string name="dumy_text_underline">Beirut, Bir hassan, J Bld 5th floor.Block B</string>
     <string name="verification">Verification</string>
-    <string name="enter_the_4_digit_code_sent_to_you_from_qasemati">Enter the 4 digit code sent to you from Qasemati</string>
+    <string name="enter_the_6_digit_code_sent_to_you_from_qasemati">Enter the 6 digit code sent to you from Qasemati</string>
     <string name="resend_code_in">Resend code in</string>
     <string name="resend_code">Resend the code</string>
     <string name="verify">VERIFY</string>
@@ -80,7 +81,6 @@
     <string name="cancelled">Cancelled</string>
     <string name="rate">Rate</string>
     <string name="OrderAmount">Order Amount</string>
-    --
     <string name="cancellation_reason">Cancellation reason:</string>
     <string name="CanceledBy">Cancelled By:</string>
     <string name="description">Description</string>
@@ -222,7 +222,6 @@
     <string name="yes">Yes</string>
     <string name="are_you_sure_delete">Are you sure you want to delete item?</string>
     <string name="please_select_location">Please Select Location</string>
-    <string name="you_can_find_updates">You can always find your updates in your email</string>
     <string name="Failed">Failed</string>
     <string name="no_required_documents">No Required Documents for this service</string>
     <string name="submit">Submit</string>
@@ -230,5 +229,12 @@
     <string name="Province">Province</string>
     <string name="Area">Area</string>
     <string name="Block">Block</string>
+    <string name="you_can_find_updates">You can always find your updates in your email</string>
+    <string name="login_alert_title">Is this your phone number ?</string>
+    <string name="login_alert_msg">You will receive verification code via SMS</string>
+    <string name="confirm">Confirm</string>
+    <string name="edit">Edit</string>
     <string name="Avenu">Avenue</string>
+
+
 </resources>

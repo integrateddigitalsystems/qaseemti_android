@@ -79,7 +79,6 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="20 Jun,2021 16:00"
                             android:id="@+id/tvOrderDateDeet"
                             android:textColor="@color/gray_font_title"
                             android:textSize="@dimen/small_font_3" />
@@ -127,7 +126,6 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="20 Jun,2021 16:00"
                             android:id="@+id/tvExpectedOrderDateDeet"
                             android:textColor="@color/gray_font_title"
                             android:textSize="@dimen/small_font_3" />

@@ -79,8 +79,8 @@ class ActivityCodeVerification : ActivityBase() {
 
             override fun onFinish() {
                 first = true
-                tvTimer.setText("try again")
-                tvTimer.onOneClick {
+               tvTimer.text = ""
+                tvTimerTitle.onOneClick {
                     if(first) {
                         time = 59
                         this.start()
@@ -145,8 +145,8 @@ class ActivityCodeVerification : ActivityBase() {
             AppHelper.createDialog(this,"Incorrect Code")
             first = true
             timer!!.cancel()
-            tvTimer.setText("try again")
-            tvTimer.onOneClick {
+            tvTimer.setText("")
+            tvTimerTitle.onOneClick {
                 if(first) {
                     time = 59
                     timer!!.start()

@@ -75,7 +75,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         } catch (ex: Exception) {
 
         }
-        var newReq = RequestOrders(MyApplication.userId, MyApplication.languageCode, orderType)
+        var newReq = RequestOrders(6, MyApplication.languageCode, orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getClientOrders(
                 newReq
@@ -111,7 +111,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         } catch (ex: Exception) {
 
         }
-        var newReq = RequestOrders(MyApplication.userId, MyApplication.languageCode, orderType)
+        var newReq = RequestOrders(41, MyApplication.languageCode, orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrders(
                 newReq
@@ -211,14 +211,23 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
 
     override fun onItemClicked(view: View, position: Int) {
         if (view.id == R.id.llLocation) {
-            AppHelper.onOneClick {
-                startActivity(
-                    Intent(requireActivity(), ActivityMapAddress::class.java)
-                        .putExtra(
-                            "mapTitle",
-                            AppHelper.getRemoteString("view_address", requireContext())
+            if (view.id == R.id.llLocation) {
+                AppHelper.onOneClick {
+                    MyApplication.selectedOrder = ordersArray.get(position)
+                    if (!MyApplication.selectedOrder!!.customerLocation.isNullOrEmpty() && !MyApplication.selectedOrder!!.customerLocation.equals(
+                            "null"
                         )
-                )
+                    ) {
+                        startActivity(
+                            Intent(requireActivity(), ActivityMapAddress::class.java)
+                                .putExtra(
+                                    "mapTitle",
+                                    AppHelper.getRemoteString("view_address", requireContext())
+                                )
+                                .putExtra("seeOnly", true)
+                        )
+                    }
+                }
             }
         } else if (view.id == R.id.llViewOrderDetails) {
             AppHelper.onOneClick {

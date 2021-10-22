@@ -28,6 +28,7 @@ import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 
 import com.ids.qasemti.utils.AppConstants.FIREBASE_FORCE_UPDATE
+import com.ids.qasemti.utils.AppConstants.FIREBASE_LINKS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LOCALIZE
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.loading.*
@@ -282,6 +283,7 @@ class ActivitySplash : ActivityBase() {
                                 MyApplication.BASE_URL=BASE_URLS!!.android!!.maxByOrNull { it.version!! }!!.url!!
                         }}catch (e:Exception){}
                     MyApplication.localizeArray = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE), FirebaseLocalizeArray::class.java)
+                    MyApplication.webLinks = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),FirebaseWebData::class.java)
                     AppHelper.setAllTexts(rootLayout, this)
                     checkForUpdate()
                 }

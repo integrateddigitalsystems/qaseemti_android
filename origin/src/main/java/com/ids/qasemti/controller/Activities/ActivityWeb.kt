@@ -7,6 +7,8 @@ import android.webkit.*
 import com.bumptech.glide.Glide.init
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.setColorTypeface
 import com.ids.qasemti.utils.show
@@ -15,6 +17,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 class ActivityWeb: ActivityBase() {
 
+    var selectedUrl : String ?=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
@@ -28,11 +31,18 @@ class ActivityWeb: ActivityBase() {
         tvPageTitle.show()
         AppHelper.setLogoTint(btBackTool,this,R.color.white)
         var title = intent.getStringExtra("webTitle")
+        var id = intent.getIntExtra("webId",0)
         tvPageTitle.setColorTypeface(this,R.color.white,title!!,true)
         btBackTool.setOnClickListener {
             super.onBackPressed()
         }
-        loadContent("https://mokhtar-fund.gov.lb/")
+        if(MyApplication.languageCode==AppConstants.LANG_ENGLISH){
+            selectedUrl = MyApplication.webLinks!!.links.find { it.idNo ==id  }!!.urlEn
+        }else{
+            selectedUrl = MyApplication.webLinks!!.links.find { it.idNo ==id  }!!.urlAr
+        }
+
+        loadContent(selectedUrl!!)
     }
     fun loadContent(content:String){
         wvData.settings.javaScriptEnabled=true

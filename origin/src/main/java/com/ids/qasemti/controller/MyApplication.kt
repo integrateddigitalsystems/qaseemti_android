@@ -29,7 +29,9 @@ class MyApplication : Application() {
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
         var selectedFragmentTag : String ?=""
+        var webLinks : FirebaseWebData ?=null
         var typeSelected = 0
+        var relatedOrders : ArrayList<RelatedOrder> = arrayListOf()
         var renewed = false
         var fromAccount = false
         var fromAdd : Boolean ?= false
@@ -40,6 +42,7 @@ class MyApplication : Application() {
         var userStatus : ResponseUserStatus ?=null
         var fromLogout = false
         var register = false
+        var selectedItemDialog="+961"
         var addNewAddress = true 
         var settlementTabSelected =0
         var defaultIcon : ImageView ?=null

@@ -154,6 +154,7 @@
             <ImageView
                 android:layout_width="@dimen/icon"
                 android:layout_height="@dimen/icon"
+                android:visibility="gone"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/arrow_right"
                 android:tint="@color/button_blue" />
