@@ -166,13 +166,6 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
                     .putExtra("webId",3)
             )
         }
-        btPrivacy.setOnClickListener {
-            startActivity(
-                Intent(requireContext(), ActivityWeb::class.java)
-                    .putExtra("webTitle", AppHelper.getRemoteString("PrivacyPolicy",requireContext()))
-                    .putExtra("webId",3)
-            )
-        }
         btTermsAndConditions.setOnClickListener {
             startActivity(
                 Intent(requireContext(), ActivityWeb::class.java)
