@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/new_blue</item>
+        <item name="colorControlActivated">@color/new_blue</item>
+    </style>
+
     <style name="DatePickerDialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>

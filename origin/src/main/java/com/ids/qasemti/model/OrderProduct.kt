@@ -13,10 +13,9 @@ class OrderProduct(
     @Expose
     var booking_end_date : String ?="",
 
-    @SerializedName("booking_start_date\n")
+    @SerializedName("booking_start_date")
     @Expose
-    var booking_start_date
-    : ArrayList<String> ?= arrayListOf(),
+    var booking_start_date: String ?= "",
 
     @SerializedName("booking_min")
     @Expose

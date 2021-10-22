@@ -45,17 +45,6 @@ class ActivityChat : ActivityBase(), RVOnItemClickListener {
         loading.show()
         getChat()
         listeners()
-        if (MyApplication.isClient) {
-            MyApplication.selectedUser = User()
-            MyApplication.selectedUser!!.userId = (2345).toString()
-            MyApplication.selectedUser!!.firstName = "Jad"
-            MyApplication.selectedUser!!.email = "emailer@hotmail.com"
-        } else {
-            MyApplication.selectedUser = User()
-            MyApplication.selectedUser!!.userId = (2500).toString()
-            MyApplication.selectedUser!!.firstName = "Service Person"
-            MyApplication.selectedUser!!.email = "email@email.com"
-        }
         tvPageTitle.setColorTypeface(
             this,
             R.color.white,

@@ -46,7 +46,15 @@
             <LinearLayout
                 android:layout_width="@dimen/bigger_image"
                 android:layout_height="match_parent">
-                <RelativeLayout
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/gray_font_title"
+                    android:id="@+id/tvCountryCode"
+                    android:background="@drawable/rounded_white_background"/>
+               <!-- <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/rounded_white_background">
@@ -58,7 +66,7 @@
                         android:background="@color/transparent"
                         />
 
-                </RelativeLayout>
+                </RelativeLayout>-->
             </LinearLayout>
 
             <EditText
@@ -68,7 +76,6 @@
                 android:paddingEnd="@dimen/normal_margin"
                 android:inputType="phone"
                 android:hint="@string/mobile"
-                android:text="1"
                 android:background="@drawable/rounded_white_background"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:layout_width="match_parent"
@@ -79,12 +86,14 @@
 
 
         <Button
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
             android:textColor="@color/white"
             android:text="@string/login"
             android:visibility="visible"
             android:tag="login"
             android:layout_marginTop="@dimen/big_margin_2"
-            android:layout_width="@dimen/button_width"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:id="@+id/btLogin"
             android:background="@drawable/blue_rounded"/>

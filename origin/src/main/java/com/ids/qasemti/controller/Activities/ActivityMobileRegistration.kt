@@ -1,14 +1,21 @@
 package com.ids.qasemti.controller.Activities
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.view.Window
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Adapters.AdapterCountryCodes
 
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
+import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
@@ -27,9 +34,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
-class ActivityMobileRegistration : ActivityBase() {
+class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
 
     var selectedCode = "961"
+    var arrayCountries : ArrayList<CountryCodes> = arrayListOf()
+    var dialog : Dialog ?=null
 
     override fun onBackPressed() {
         if (MyApplication.fromLogout) {
@@ -63,7 +72,10 @@ class ActivityMobileRegistration : ActivityBase() {
         AppHelper.setAllTexts(rootLayoutMobileRegister, this)
         AppHelper.setLogoTint(logo_main, this, R.color.white)
 
-
+        tvCountryCode.text = MyApplication.selectedItemDialog
+        tvCountryCode.onOneClick {
+            showCountires()
+        }
         if (MyApplication.isClient) {
             btLogin.hide()
             llNewMember.show()
@@ -77,14 +89,8 @@ class ActivityMobileRegistration : ActivityBase() {
         }*/
 
 
-        var items: ArrayList<ItemSpinner> = arrayListOf()
-        items.add(ItemSpinner(0, "961", ""))
-        items.add(ItemSpinner(0, "965", ""))
-        items.add(ItemSpinner(0, "1", ""))
-        items.add(ItemSpinner(0, "31", ""))
 
-
-        val adapterMobileCode = AdapterGeneralSpinner(
+        /*val adapterMobileCode = AdapterGeneralSpinner(
             this,
             R.layout.spinner_layout,
             items,
@@ -108,14 +114,18 @@ class ActivityMobileRegistration : ActivityBase() {
             }
 
 
-        }
+        }*/
 
         btLoginClient.onOneClick {
             if (etPhone.text.isNullOrEmpty()) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
-                  updateDevice()
-                startActivity(Intent(this, ActivityCodeVerification::class.java))
+
+                AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("confirm",this),AppHelper.getRemoteString("edit",this),AppHelper.getRemoteString("login_alert_title",this)+"\n"+MyApplication.selectedItemDialog+etPhone.text.toString()+"\n"+AppHelper.getRemoteString("login_alert_msg",this)){
+                    MyApplication.selectedPhone = MyApplication.selectedItemDialog.replace("+","").trim()+etPhone.text.toString()
+                    loading.show()
+                    updateDevice()
+                }
             }
 
         }
@@ -124,8 +134,12 @@ class ActivityMobileRegistration : ActivityBase() {
             if (etPhone.text.isNullOrEmpty()) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
-                getUserStatus()
-                MyApplication.selectedPhone = selectedCode+etPhone.text.toString()
+                AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("confirm",this),AppHelper.getRemoteString("edit",this),AppHelper.getRemoteString("login_alert_title",this)+"\n"+MyApplication.selectedItemDialog+etPhone.text.toString()+"\n"+AppHelper.getRemoteString("login_alert_msg",this)){
+                    MyApplication.selectedPhone = MyApplication.selectedItemDialog.replace("+","").trim()+etPhone.text.toString()
+                    getUserStatus()
+
+                }
+
 
             }
 
@@ -163,7 +177,7 @@ class ActivityMobileRegistration : ActivityBase() {
 
         var newReq = RequestUpdate(
             MyApplication.deviceId,
-            selectedCode+etPhone.text.toString(),
+            MyApplication.selectedPhone,
             model,
             osVersion,
             deviceToken,
@@ -199,8 +213,42 @@ class ActivityMobileRegistration : ActivityBase() {
 
     }
 
+
+    private fun showCountires(){
+        arrayCountries.clear()
+        arrayCountries.addAll(Gson().fromJson(loadJSONFromAssets("countries.json"), CountryArray::class.java).countries!!)
+        dialog = Dialog(this, R.style.dialogWithoutTitle)
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setCanceledOnTouchOutside(false)
+        dialog!!.setContentView(R.layout.popup_recyler)
+        dialog!!.setCancelable(true)
+        val rv: RecyclerView = dialog!!.findViewById(R.id.rvData)
+
+        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        rv.layoutManager = layoutManager
+        var adapter = AdapterCountryCodes(arrayCountries,this)
+        rv.adapter = adapter
+
+        try{
+            var item=arrayCountries.find { it.code!!.replace("+","").trim()==MyApplication.selectedItemDialog.replace("+","").trim() }
+            var position=arrayCountries.indexOf(item!!)
+            rv.scrollToPosition(position)}catch (e:Exception){}
+
+        dialog!!.show()
+    }
+
+    fun nextStepCode(){
+
+        if(!MyApplication.isClient) {
+            if (MyApplication.userStatus!!.enabled != 0)
+                startActivity(Intent(this, ActivityCodeVerification::class.java))
+        }else {
+            startActivity(Intent(this, ActivityCodeVerification::class.java))
+        }
+        loading.hide()
+    }
     fun sendOTP() {
-        var req = RequestOTP( selectedCode+etPhone.text.toString(), MyApplication.deviceId)
+        var req = RequestOTP(  MyApplication.selectedPhone, MyApplication.deviceId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.sendOTP(
                 req
@@ -210,7 +258,7 @@ class ActivityMobileRegistration : ActivityBase() {
                     response: Response<ResponseUpdate>
                 ) {
                     try {
-
+                        nextStepCode()
                     } catch (E: java.lang.Exception) {
                     }
                 }
@@ -222,8 +270,7 @@ class ActivityMobileRegistration : ActivityBase() {
 
     fun nextStep() {
        updateDevice()
-        if(MyApplication.userStatus!!.enabled!=0)
-            startActivity(Intent(this, ActivityCodeVerification::class.java))
+
     }
 
     fun getUserStatus() {
@@ -241,7 +288,6 @@ class ActivityMobileRegistration : ActivityBase() {
                 ) {
                     try {
                         MyApplication.userStatus = response.body()
-                        loading.hide()
                         nextStep()
                     } catch (E: java.lang.Exception) {
                         try {
@@ -260,5 +306,14 @@ class ActivityMobileRegistration : ActivityBase() {
                     }
                 }
             })
+    }
+
+    override fun onItemClicked(view: View, position: Int) {
+
+
+            dialog!!.dismiss()
+            MyApplication.selectedItemDialog=arrayCountries[position].code!!
+            tvCountryCode.text = arrayCountries[position].code!!
+
     }
 }

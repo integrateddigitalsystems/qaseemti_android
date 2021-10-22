@@ -433,6 +433,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:text="@string/no_data"
+                        android:tag="no_data"
                         android:textColor="@color/primary"
                         android:textSize="@dimen/normal_font"
 
@@ -699,7 +700,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/normal_margin"
-                        android:text="-"
+                        android:text="10 KWD"
                         android:textColor="@color/redPrimary"
                         android:textSize="@dimen/normal_font" />
                 </LinearLayout>
