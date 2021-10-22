@@ -35,7 +35,6 @@
     <ScrollView
         android:id="@+id/svScroll"
         android:layout_below="@id/llContactOrder"
-        android:layout_above="@id/llCancelOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
