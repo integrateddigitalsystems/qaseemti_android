@@ -189,9 +189,6 @@ class ResponseOrders(
     var type : String ?="" ,
 
 
-
-
-
     @SerializedName("shipping_address_building")
     @Expose
     var shipping_address_building : String ?="" ,
@@ -228,14 +225,6 @@ class ResponseOrders(
     @SerializedName("shipping_phone")
     @Expose
     var shipping_phone : String ?="" ,
-
-
-
-
-
-
-
-
 
 
     @SerializedName("vendor_rate")

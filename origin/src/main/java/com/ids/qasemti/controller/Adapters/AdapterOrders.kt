@@ -35,8 +35,7 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
         try{holder.category.text = items.get(position).product!!.name}catch (e:Exception){}
         try{holder.expected.text = items[position].deliveryDate!!}catch (e:Exception){}
         try{holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-mm-dd hh:mm:ssss","dd MMM yyyy hh:mm")}catch (e:Exception){}
-        try{holder.tvLocation.text = AppHelper.getAddress(items[position].userLat!!.toDouble(),
-            items[position].userLong!!.toDouble(),con)}catch (e:Exception){}
+        try{holder.tvLocation.text = items[position].shipping_address_name}catch (e:Exception){}
         try{holder.id.text ="# "+ items.get(position).orderId!!.toString()}catch (e:Exception){}
         try{holder.expectedTitle.typeface = AppHelper.getTypeFaceBold(con)}catch (e:Exception){}
         try{holder.tvLocation.setColorTypeface(con,R.color.redPrimary,items.get(position).customerLocation!!,false)}catch (e:Exception){}

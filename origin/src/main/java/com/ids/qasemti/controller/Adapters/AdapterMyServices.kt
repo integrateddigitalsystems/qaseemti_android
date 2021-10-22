@@ -43,6 +43,12 @@ class AdapterMyServices(
         }catch (ex:Exception){
             holder.qtPrice.text = ""
         }
+        try {
+            holder.qtEarn.text = items.get(position).variations[0].earnings.toString()
+        }catch (ex:Exception){
+            holder.qtEarn.text = ""
+        }
+
         holder.qtEarn.typeface = AppHelper.getTypeFace(con)
     }
 
