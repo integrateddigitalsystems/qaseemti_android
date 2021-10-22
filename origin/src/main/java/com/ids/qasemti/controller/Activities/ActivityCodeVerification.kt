@@ -9,6 +9,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Fragments.FragmentHomeClient
+import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestOTP
 import com.ids.qasemti.model.RequestVerifyOTP
@@ -38,6 +40,25 @@ class ActivityCodeVerification : ActivityBase() {
             pvCode.text!!.clear()
         }*/
         pvCode.requestFocus()
+
+        tvTitleVerf.onOneClick {
+            if (MyApplication.isClient) {
+                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+                MyApplication.selectedFragment = FragmentHomeClient()
+            } else {
+                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+                MyApplication.selectedFragment = FragmentHomeSP()
+            }
+            MyApplication.isSignedIn = true
+            startActivity(Intent(this, ActivityHome::class.java))
+            finish()
+        }
+
+        tvCodeSentVef.onOneClick {
+            MyApplication.isSignedIn = true
+            startActivity(Intent(this, ActivityRegistration::class.java))
+            finish()
+        }
 
         if(MyApplication.isClient){
             btVerifyCode.hide()

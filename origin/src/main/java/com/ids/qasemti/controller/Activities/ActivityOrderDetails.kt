@@ -82,7 +82,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.show()
-        tvPageTitle.setColorTypeface(this,R.color.white,MyApplication.selectedOrder!!.orderStatus!!,true)
+        tvPageTitle.setColorTypeface(this,R.color.white,MyApplication.selectedOrder!!.orderStatus!!+" "+getString(
+                    R.string.order_details),true)
         if(MyApplication.typeSelected==0) {
             if(!MyApplication.isClient){
                 llEditOrderTime.show()

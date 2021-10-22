@@ -29,7 +29,7 @@
         android:layout_height="match_parent" >
 
         <com.ids.qasemti.custom.CustomTextViewBold
-
+            android:id="@+id/tvTitleVerf"
             android:layout_marginStart="75dp"
             android:layout_marginEnd="75dp"
             android:layout_width="match_parent"
@@ -107,7 +107,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvTimerTitle"
-            android:tag="resend_code_in"
             android:textColor="@color/gray_font_title"
             android:layout_marginTop="@dimen/big_margin"
             android:layout_marginBottom="@dimen/big_margin"

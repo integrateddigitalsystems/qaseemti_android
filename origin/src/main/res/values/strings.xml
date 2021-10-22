@@ -37,7 +37,7 @@
     <string name="dumy_text_underline">Beirut, Bir hassan, J Bld 5th floor.Block B</string>
     <string name="verification">Verification</string>
     <string name="enter_the_6_digit_code_sent_to_you_from_qasemati">Enter the 6 digit code sent to you from Qasemati</string>
-    <string name="resend_code_in">Resend code in</string>
+    <string name="resend_code_in">Resend code</string>
     <string name="resend_code">Resend the code</string>
     <string name="verify">VERIFY</string>
     <string name="account_status">Account Status</string>
@@ -235,6 +235,7 @@
     <string name="confirm">Confirm</string>
     <string name="edit">Edit</string>
     <string name="Avenu">Avenue</string>
+    <string name="order_details">order details</string>
 
 
 </resources>
