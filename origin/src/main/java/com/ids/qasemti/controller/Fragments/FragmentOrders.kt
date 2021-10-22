@@ -75,7 +75,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         } catch (ex: Exception) {
 
         }
-        var newReq = RequestOrders(6, MyApplication.languageCode, orderType)
+        var newReq = RequestOrders(51, MyApplication.languageCode, orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getClientOrders(
                 newReq
