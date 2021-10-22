@@ -138,6 +138,7 @@ class ActivityCodeVerification : ActivityBase() {
                 MyApplication.userId = respone.user!!.userId!!.toInt()
                 startActivity(Intent(this, ActivityHome::class.java))
             }else{*/
+
                 MyApplication.isSignedIn = false
                 startActivity(Intent(this, ActivityRegistration::class.java))
          /*   }
