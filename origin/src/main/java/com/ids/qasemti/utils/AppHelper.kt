@@ -764,6 +764,16 @@ class AppHelper {
             }
         }
 
+        fun getFloorRatingBar(rate:Double):Float{
+            var db = rate % 1
+            var intPart = rate.toInt()
+
+            if(db<0.5){
+                return intPart.toFloat()
+            }else{
+                return (intPart+0.5).toFloat()
+            }
+        }
         fun getAddressLoc(lat: Double, long: Double, con: Context): Address {
             val myLocation = Geocoder(con, Locale.getDefault())
             val myList = myLocation.getFromLocation(lat, long, 1)
