@@ -245,8 +245,8 @@ class ActivitySplash : ActivityBase() {
                 }else{
                     AppHelper.updateDevice(this,"")
                     if(MyApplication.isClient){
-                        MyApplication.isSignedIn = true
-                        MyApplication.userId = if(MyApplication.isClient) 51 else 41
+                        /*MyApplication.isSignedIn = true
+                        MyApplication.userId = 41*/
                         AppHelper.getUserInfo()
                         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
                         MyApplication.selectedFragment = FragmentHomeClient()

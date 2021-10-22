@@ -39,7 +39,7 @@ class AdapterMyServices(
         holder.title.text = items.get(position).name
         holder.qtPrice.typeface = AppHelper.getTypeFace(con)
         try {
-            holder.qtPrice.text = items.get(position).variations.get(0).price.toString()!! + " KWD"
+            holder.qtPrice.text = items.get(position).variations[0].price.toString()
         }catch (ex:Exception){
             holder.qtPrice.text = ""
         }

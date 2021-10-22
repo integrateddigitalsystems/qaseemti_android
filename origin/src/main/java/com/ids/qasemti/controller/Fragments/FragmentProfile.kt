@@ -153,7 +153,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         }
         try {
             etBranchNameProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.bankAddress)
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.bankBranch)
         }catch (ex:Exception){
             etBranchNameProfile.text =  Editable.Factory.getInstance().newEditable("")
         }
@@ -210,7 +210,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             profilePercentage+=25
         if(!MyApplication.selectedUser!!.location.isNullOrEmpty())
             profilePercentage+=25
-        if(!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankAddress.isNullOrEmpty()  /*&& !MyApplication.selectedUser!!.iban.isNullOrEmpty()*/)
+        if(!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankBranch.isNullOrEmpty()  /*&& !MyApplication.selectedUser!!.iban.isNullOrEmpty()*/)
             profilePercentage+=25
         }else{
             if(!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())

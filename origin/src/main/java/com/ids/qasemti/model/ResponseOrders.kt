@@ -188,6 +188,56 @@ class ResponseOrders(
     @Expose
     var type : String ?="" ,
 
+
+
+
+
+    @SerializedName("shipping_address_building")
+    @Expose
+    var shipping_address_building : String ?="" ,
+    @SerializedName("shipping_address_description")
+    @Expose
+    var shipping_address_description : String ?="" ,
+    @SerializedName("shipping_address_floor")
+    @Expose
+    var shipping_address_floor : String ?="" ,
+    @SerializedName("shipping_address_latitude")
+    @Expose
+    var shipping_address_latitude : String ?="" ,
+    @SerializedName("shipping_address_longitude")
+    @Expose
+    var shipping_address_longitude : String ?="" ,
+    @SerializedName("shipping_address_name")
+    @Expose
+    var shipping_address_name : String ?="" ,
+    @SerializedName("shipping_address_street")
+    @Expose
+    var shipping_address_street : String ?="" ,
+
+
+    @SerializedName("shipping_email")
+    @Expose
+    var shipping_email : String ?="" ,
+    @SerializedName("shipping_first_name")
+    @Expose
+    var shipping_first_name : String ?="" ,
+    @SerializedName("shipping_last_name")
+    @Expose
+    var shipping_last_name : String ?="" ,
+
+    @SerializedName("shipping_phone")
+    @Expose
+    var shipping_phone : String ?="" ,
+
+
+
+
+
+
+
+
+
+
     @SerializedName("vendor_rate")
     @Expose
     var vendorRate : String ?=""

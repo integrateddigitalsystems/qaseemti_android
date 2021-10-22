@@ -130,20 +130,18 @@ class ActivityCodeVerification : ActivityBase() {
             })
     }
     fun requestSucc(respone:ResponseVerification){
-     /*   if(respone.result.equals("1")){
+        if(respone.result.equals("1")){
             AppHelper.createDialog(this,"Correct Code")
             if(respone.user!=null) {
                 MyApplication.phoneNumber = MyApplication.selectedPhone
                 MyApplication.isSignedIn = true
                 MyApplication.userId = respone.user!!.userId!!.toInt()
                 startActivity(Intent(this, ActivityHome::class.java))
-            }else{*/
-
+            }else{
                 MyApplication.isSignedIn = false
                 startActivity(Intent(this, ActivityRegistration::class.java))
-         /*   }
-        }
-        else{
+            }
+        }else{
             AppHelper.createDialog(this,"Incorrect Code")
             first = true
             timer!!.cancel()
@@ -156,7 +154,7 @@ class ActivityCodeVerification : ActivityBase() {
                 }
             }
             //startActivity(Intent(this, ActivityRegistration::class.java))
-        }*/
+        }
 
        /* MyApplication.isSignedIn = true
         try{

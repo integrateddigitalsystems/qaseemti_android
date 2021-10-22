@@ -139,7 +139,7 @@
                             android:maxLines="1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/dumy_text_underline"
+                            android:text="@string/no_data"
                             android:id="@+id/tvLocationOrderDeatils"
                             android:textColor="@color/primary"
                             android:textSize="@dimen/normal_font"
