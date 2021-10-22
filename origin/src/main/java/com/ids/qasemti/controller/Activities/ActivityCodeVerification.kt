@@ -43,9 +43,11 @@ class ActivityCodeVerification : ActivityBase() {
 
         tvTitleVerf.onOneClick {
             if (MyApplication.isClient) {
+               MyApplication.userId = 51
                 MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
                 MyApplication.selectedFragment = FragmentHomeClient()
             } else {
+                MyApplication.userId = 41
                 MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
                 MyApplication.selectedFragment = FragmentHomeSP()
             }
@@ -55,6 +57,11 @@ class ActivityCodeVerification : ActivityBase() {
         }
 
         tvCodeSentVef.onOneClick {
+            if (MyApplication.isClient) {
+                MyApplication.userId = 51
+            } else {
+                MyApplication.userId = 41
+            }
             MyApplication.isSignedIn = true
             startActivity(Intent(this, ActivityRegistration::class.java))
             finish()
