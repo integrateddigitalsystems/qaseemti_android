@@ -36,6 +36,12 @@ class ActivityAccountStatus : ActivityBase() {
                 MyApplication.phoneNumber = MyApplication.selectedPhone
                 MyApplication.isSignedIn = true
                 MyApplication.firstTime = false
+
+                //testing
+                MyApplication.phoneNumber = "70884435"
+                MyApplication.userId = if(MyApplication.isClient) 51 else 41
+
+
                AppHelper.goHome(this)
             }
         }
