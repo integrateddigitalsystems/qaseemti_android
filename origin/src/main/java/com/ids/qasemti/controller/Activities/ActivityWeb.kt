@@ -41,6 +41,9 @@ class ActivityWeb: ActivityBase() {
         }else{
             selectedUrl = MyApplication.webLinks!!.links.find { it.idNo ==id  }!!.urlAr
         }
+        if(id==4){
+            svScrollForm.show()
+        }
 
         loadContent(selectedUrl!!)
     }

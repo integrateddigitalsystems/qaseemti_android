@@ -60,7 +60,12 @@ class ActivityRegistration : ActivityBase() {
     }
 
     fun nextStep() {
-        if (MyApplication.firstTime) {
+        MyApplication.register = true
+        MyApplication.selectedPos=4
+        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
+        MyApplication.selectedFragment = FragmentAccount()
+        startActivity(Intent(this, ActivityAccountStatus::class.java))
+        /*if (MyApplication.firstTime) {
             MyApplication.register = true
             MyApplication.selectedPos=4
             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
@@ -75,7 +80,7 @@ class ActivityRegistration : ActivityBase() {
             MyApplication.selectedFragment = FragmentAccount()
             AppHelper.getUserInfo()
             startActivity(Intent(this, ActivityHome::class.java))
-        }
+        }*/
     }
 
     fun updateProfile() {
