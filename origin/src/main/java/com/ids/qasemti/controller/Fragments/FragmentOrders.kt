@@ -75,7 +75,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         } catch (ex: Exception) {
 
         }
-        var newReq = RequestOrders(51, MyApplication.languageCode, orderType)
+        var newReq = RequestOrders(MyApplication.userId, MyApplication.languageCode, orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getClientOrders(
                 newReq
@@ -111,7 +111,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         } catch (ex: Exception) {
 
         }
-        var newReq = RequestOrders(41, MyApplication.languageCode, orderType)
+        var newReq = RequestOrders(MyApplication.userId, MyApplication.languageCode, orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrders(
                 newReq
