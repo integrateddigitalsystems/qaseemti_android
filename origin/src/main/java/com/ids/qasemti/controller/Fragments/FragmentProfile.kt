@@ -193,12 +193,17 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                ivProfile.loadRoundedImage(MyApplication.selectedUser!!.profilePicUrl!!)
         }catch (e:Exception){}
 
-        if(MyApplication.selectedUser!!.gender.equals("female")){
+        try {
+            if (MyApplication.selectedUser!!.gender.equals("female")) {
+                rbFemaleProfile.isChecked = true
+                rbMaleProfile.isChecked = false
+            } else {
+                rbFemaleProfile.isChecked = false
+                rbMaleProfile.isChecked = true
+            }
+        }catch (ex:Exception){
             rbFemaleProfile.isChecked = true
             rbMaleProfile.isChecked = false
-        }else{
-            rbFemaleProfile.isChecked = false
-            rbMaleProfile.isChecked = true
         }
 
         try{tvUsername.text=MyApplication.selectedUser!!.firstName+" "+MyApplication.selectedUser!!.lastName}catch (e:Exception){}
