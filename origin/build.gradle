@@ -99,9 +99,6 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
     testImplementation 'junit:junit:4.13'
-
-
-
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

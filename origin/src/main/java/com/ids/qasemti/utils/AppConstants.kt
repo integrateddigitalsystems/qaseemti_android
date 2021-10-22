@@ -17,7 +17,7 @@ object AppConstants {
     const val ORDER_TYPE_ACTIVE = "active"
     const val ORDER_TYPE_COMPLETED ="completed"
     const val ORDER_TYPE_UPCOMING ="upcoming"
-    const val ORDER_TYPE_CANCELED ="canceled"
+    const val ORDER_TYPE_CANCELED ="cancelled"
     const val ORDER_TYPE_FAILED="failed"
     const val CENTER_WHITE = 2
     const val LEFT_BLACK = 4
