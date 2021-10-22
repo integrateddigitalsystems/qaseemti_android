@@ -92,11 +92,12 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                 llOrderSwitches.hide()
             }
             llActualDelivery.hide()
+        }else if(MyApplication.typeSelected ==2){
+            llRatingOrder.show()
         }else if(MyApplication.typeSelected==1){
             btCancelOrder.show()
         }else{
             tvPageTitle.textRemote("CompletedOrderDetails",this)
-            llRatingOrder.show()
             llEditOrderTime.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
