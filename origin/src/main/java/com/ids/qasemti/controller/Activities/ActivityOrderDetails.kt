@@ -82,9 +82,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.show()
-        tvPageTitle.setColorTypeface(this,R.color.white,"",true)
+        tvPageTitle.setColorTypeface(this,R.color.white,MyApplication.selectedOrder!!.orderStatus!!,true)
         if(MyApplication.typeSelected==0) {
-            tvPageTitle.textRemote("ActiveOrderDetails",this)
             if(!MyApplication.isClient){
                 llEditOrderTime.show()
             }else{
@@ -97,7 +96,6 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         }else if(MyApplication.typeSelected==1){
             btCancelOrder.show()
         }else{
-            tvPageTitle.textRemote("CompletedOrderDetails",this)
             llEditOrderTime.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
