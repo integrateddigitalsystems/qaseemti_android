@@ -239,44 +239,4 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
 
     }
 
-/*    private fun initGooglePlacesApi() {
-        Places.initialize(applicationContext, getString(R.string.google_api_key))
-        val placesClient: PlacesClient = Places.createClient(applicationContext)
-        val autocompleteFragment = supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
-        autocompleteFragment.setHint(getString(R.string.please_select_location))
-        //        autocompleteFragment.setLocationRestriction(RectangularBounds.newInstance(
-//                new LatLng(34.7006096, 19.2477876),
-//                new LatLng(41.7488862, 29.7296986))); //Greece bounds
-        autocompleteFragment.setCountry("gr")
-
-        autocompleteFragment.setPlaceFields(
-            listOf(
-                Place.Field.ADDRESS,
-                Place.Field.ADDRESS_COMPONENTS
-            )
-        )
-        autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS)
-
-
-        // Set up a PlaceSelectionListener to handle the response.
-        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onPlaceSelected(place: Place) {
-                if (place.addressComponents!!.asList()[0].types[0]
-                        .equals("route")
-                ) {
-
-                    toast(place.address!!)
-                    var location = place.address
-                } else { //If user does not choose a specific place.
-
-                    toast("choose address")
-                }
-
-            }
-
-            override fun onError(status: Status) {
-                toast( "An error occurred: $status")
-            }
-        })
-    }*/
 }

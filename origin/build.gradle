@@ -131,6 +131,8 @@ dependencies {
     implementation 'com.nbsp:materialfilepicker:1.9.1'
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
 }
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'

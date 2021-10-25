@@ -27,11 +27,13 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
     }
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
-        if(MyApplication.languageCode == AppConstants.LANG_ARABIC){
-            holder.titleTop.text = holder.titleTop.text.toString()+": " + "شراء"
-        }else{
-            holder.titleTop.text = holder.titleTop.text.toString()+": " + "Purchase"
-        }
+        holder.viewOrder.setColorTypeface(con,R.color.button_blue,"",false)
+
+        if(!items.get(position).product!!.type.isNullOrEmpty()||items.get(position).product!!.type!="null")
+            holder.titleTop.text = AppHelper.getRemoteString("category",con)+" "+items.get(position).product!!.type
+        else
+            holder.titleTop.text = AppHelper.getRemoteString("category",con)+" "+AppHelper.getRemoteString("no_data",con)
+
         try{holder.category.text = items.get(position).product!!.name}catch (e:Exception){}
         try{holder.expected.text = items[position].deliveryDate!!}catch (e:Exception){}
         try{holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-mm-dd hh:mm:ssss","dd MMM yyyy hh:mm")}catch (e:Exception){}
@@ -52,6 +54,7 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
         var expected = itemView.findViewById<TextView>(R.id.tvExpectedDate)
         var titleTop = itemView.findViewById<TextView>(R.id.tvCategoryOrder)
         var expectedTitle = itemView.findViewById<TextView>(R.id.tvDateExpected)
+        var viewOrder = itemView.findViewById<TextView>(R.id.tvOrderDetailsBroad)
         var location = itemView.findViewById<LinearLayout>(R.id.llLocation)
         var id = itemView.findViewById<TextView>(R.id.tvOrderId)
         var tvLocation = itemView.findViewById<TextView>(R.id.tvLocationOrder)

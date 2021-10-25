@@ -1,7 +1,6 @@
 package com.ids.qasemti.controller.Fragments
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +11,7 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.*
 import com.ids.qasemti.controller.Adapters.AdapterOrderType
@@ -27,7 +27,6 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 
 
 class FragmentOrders : Fragment(), RVOnItemClickListener {
@@ -112,6 +111,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         } catch (ex: Exception) {
 
         }
+
         var newReq = RequestOrders(MyApplication.userId, MyApplication.languageCode, orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrders(
@@ -156,6 +156,8 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                 requireContext()
             )
         )*/
+
+
         AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         (activity as ActivityHome).showTitle(true)
         (activity as ActivityHome).showLogout(false)
@@ -196,6 +198,11 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
 
             }
         })
+
+        slRefresh.setOnRefreshListener(OnRefreshListener {
+            retrieveOrders()
+        })
+
 
     }
 
@@ -322,6 +329,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
     }
 
     private fun setData(type: Boolean) {
+        slRefresh.isRefreshing = false
         try {
             adapter = AdapterOrderType(ordersArray, this, requireActivity())
             rvOrderDetails.adapter = adapter
@@ -357,6 +365,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
     }
 
     private fun retrieveOrders(){
+        slRefresh.isRefreshing=false
         if (!MyApplication.isClient)
             getOrders()
         else
