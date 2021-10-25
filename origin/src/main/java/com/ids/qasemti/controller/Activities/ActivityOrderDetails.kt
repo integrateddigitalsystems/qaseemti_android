@@ -378,6 +378,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             llCancelButtons.hide()
         }
         btCancelOrder.onOneClick {
+            etCancellationReason.text.clear()
             btCancelOrder.hide()
             etCancellationReason.show()
             llCancelButtons.show()
@@ -386,6 +387,15 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
         swOnTrack.setOnCheckedChangeListener { compoundButton, b ->
 
+            AppHelper.createSwitchDialog(
+                this,
+                AppHelper.getRemoteString("ok", this),
+                AppHelper.getRemoteString("cancel", this),
+                getString(
+                    R.string.are_you_sure_change_status
+                ),
+                swOnTrack
+            ) {
             if(swOnTrack.isChecked){
                 onTrack = 1
             }else{
@@ -393,21 +403,40 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             }
             setStatus()
         }
+
+
+        }
         swPaid.setOnCheckedChangeListener { compoundButton, b ->
-            if(swOnTrack.isChecked){
+            AppHelper.createSwitchDialog(
+                this,
+                AppHelper.getRemoteString("ok", this),
+                AppHelper.getRemoteString("cancel", this),
+                getString(
+                    R.string.are_you_sure_change_status
+                ),
+                swPaid
+            ) {
+                if (swPaid.isChecked) {
                 paid = 1
             }else{
                 paid = 0
             }
             setStatus()
         }
+        }
         swDelivered.setOnCheckedChangeListener { compoundButton, b ->
-            if(swOnTrack.isChecked){
+
+            AppHelper.createSwitchDialog(this,AppHelper.getRemoteString("ok", this),AppHelper.getRemoteString("cancel", this),getString(
+                R.string.are_you_sure_change_status
+            ),swDelivered){
+                if (swDelivered.isChecked) {
                 delivered = 1
             }else{
                 delivered = 0
             }
             setStatus()
+        }
+
         }
 
 
