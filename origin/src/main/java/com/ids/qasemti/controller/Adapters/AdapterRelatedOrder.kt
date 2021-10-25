@@ -26,10 +26,10 @@ class AdapterRelatedOrder(val items: ArrayList<RelatedOrder>, private val itemCl
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-        holder.value.text = items.get(position).total
+        holder.value.text = items.get(position).total+ " "+items.get(position).currency
         holder.date.text = items.get(position).orderDate
-        holder.due.text = items.get(position).deliveryDate
-        holder.earning.text = items.get(position).orderEarning
+        holder.due.text = items.get(position).adminFees + " "+ items.get(position).currency
+        holder.earning.text = items.get(position).orderEarning + " "+ items.get(position).currency
         /*if(position==items.size-1&&done==false){
             holder.line.hide()
             done = true

@@ -77,7 +77,8 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     var arrayRequiredFiles: ArrayList<RequiredFiles> = arrayListOf()
     var countFilesUploaded=0
     var addServiceDone=false
-
+    var price=""
+    var earning=""
     lateinit var arrayBody: java.util.ArrayList<MultipartBody.Part>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -362,6 +363,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun setTab2(){
+        if(arrayImagesSelected.size>0){
         linearProgress1.setBackgroundColor(ContextCompat.getColor(this,R.color.redPrimary))
         linearProgress2.setBackgroundColor(ContextCompat.getColor(this,R.color.gray_progress))
         linearService1.hide()
@@ -374,9 +376,15 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         ivTab2.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
         ivTab3.setColorFilter(ContextCompat.getColor(this, R.color.gray_font), android.graphics.PorterDuff.Mode.SRC_IN)
         tvTabTitle.text =AppHelper.getRemoteString("ownership_proof",this)
+        }else{
+            AppHelper.createDialog(this,"Please upload image")
+        }
     }
 
     private fun setTab3(){
+        if(arrayRequiredFiles.size>0 && !requiredFilesUploaded())
+            createDialog(this,"Please fill all Required files")
+        else{
         linearProgress1.setBackgroundColor(ContextCompat.getColor(this,R.color.redPrimary))
         linearProgress2.setBackgroundColor(ContextCompat.getColor(this,R.color.redPrimary))
         linearService1.hide()
@@ -391,6 +399,17 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         tvTabTitle.text =  AppHelper.getRemoteString("price_earning",this)
 
         setDataPicked()
+
+
+        var service=arrayAllServices.find { it.id == selectedServiceId.toString() }
+        var variation=service!!.variations.find { it.types == selectedTypeName && it.sizeCapacity == selectedSizeName }
+        price=""
+        earning=""
+        try{price = variation!!.price!!}catch (e:Exception){}
+        try{earning = variation!!.earnings!!}catch (e:Exception){}
+        tvPrice.text="Price : "+price
+        tvEarning.text="Earning : "+earning
+        }
     }
 
     private fun setDataPicked(){
@@ -447,7 +466,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
 
     fun getRequiredFiles(){
-        var newReq = RequestProductId(201/*selectedServiceId*/)
+        var newReq = RequestProductId(selectedServiceId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.get_required_docs(
                 newReq

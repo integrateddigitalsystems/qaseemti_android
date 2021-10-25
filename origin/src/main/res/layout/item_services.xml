@@ -115,7 +115,7 @@
                         android:gravity="end"
                         android:id="@+id/tvPriceQt"
                         android:maxLines="1"
-                        android:layout_marginStart="@dimen/normal_margin"
+                        android:layout_marginEnd="@dimen/normal_margin"
                         android:text=""
                         android:textSize="@dimen/normal_font"
                         android:textColor="@color/redPrimary"
@@ -141,9 +141,9 @@
                         android:layout_width="match_parent"
                         android:layout_gravity="end"
                         android:maxLines="1"
-                        android:layout_marginStart="@dimen/normal_margin"
+                        android:layout_marginEnd="@dimen/normal_margin"
                         android:text=""
-                        android:gravity="center_vertical"
+                        android:gravity="end"
                         android:id="@+id/tvEarnQt"
                         android:textSize="@dimen/small_font_2"
                         android:textColor="@color/redPrimary"
@@ -154,6 +154,7 @@
             <ImageView
                 android:layout_width="@dimen/icon"
                 android:layout_height="@dimen/icon"
+                android:visibility="gone"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/arrow_right"
                 android:tint="@color/button_blue" />

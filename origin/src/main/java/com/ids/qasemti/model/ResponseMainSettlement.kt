@@ -14,7 +14,7 @@ class ResponseMainSettlement(
 
     @SerializedName("number_of_orders")
     @Expose
-    var numberOfOrders: Int ?=0 ,
+    var numberOfOrders: String ?="" ,
 
     @SerializedName("total")
     @Expose

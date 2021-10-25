@@ -153,7 +153,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         }
         try {
             etBranchNameProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.bankAddress)
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.bankBranch)
         }catch (ex:Exception){
             etBranchNameProfile.text =  Editable.Factory.getInstance().newEditable("")
         }
@@ -193,12 +193,17 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                ivProfile.loadRoundedImage(MyApplication.selectedUser!!.profilePicUrl!!)
         }catch (e:Exception){}
 
-        if(MyApplication.selectedUser!!.gender.equals("female")){
+        try {
+            if (MyApplication.selectedUser!!.gender.equals("female")) {
+                rbFemaleProfile.isChecked = true
+                rbMaleProfile.isChecked = false
+            } else {
+                rbFemaleProfile.isChecked = false
+                rbMaleProfile.isChecked = true
+            }
+        }catch (ex:Exception){
             rbFemaleProfile.isChecked = true
             rbMaleProfile.isChecked = false
-        }else{
-            rbFemaleProfile.isChecked = false
-            rbMaleProfile.isChecked = true
         }
 
         try{tvUsername.text=MyApplication.selectedUser!!.firstName+" "+MyApplication.selectedUser!!.lastName}catch (e:Exception){}
@@ -210,7 +215,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             profilePercentage+=25
         if(!MyApplication.selectedUser!!.location.isNullOrEmpty())
             profilePercentage+=25
-        if(!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankAddress.isNullOrEmpty()  /*&& !MyApplication.selectedUser!!.iban.isNullOrEmpty()*/)
+        if(!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankBranch.isNullOrEmpty()  /*&& !MyApplication.selectedUser!!.iban.isNullOrEmpty()*/)
             profilePercentage+=25
         }else{
             if(!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())

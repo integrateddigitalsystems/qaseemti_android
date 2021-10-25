@@ -55,6 +55,7 @@
         android:id="@+id/etLicenceNumber"
         android:paddingEnd="@dimen/small_margin"
         android:maxLines="1"
+        android:visibility="gone"
         android:layout_marginTop="@dimen/normal_margin"
         android:textColorHint="@color/gray_font_light"
         android:textSize="@dimen/normal_font"

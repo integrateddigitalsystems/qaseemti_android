@@ -55,10 +55,10 @@
 
             >
 
-            <TextView
+            <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="45"
+               android:id="@+id/tvRatingValue"
                 android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font"
 
@@ -87,8 +87,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:progressTint="@color/button_blue"
-                    android:stepSize="1" />
+                    android:theme="@style/RatingBar"
+                    android:stepSize="0.5" />
             </LinearLayout>
 
         </LinearLayout>
@@ -301,6 +301,15 @@
             </RelativeLayout>
         </LinearLayout>
 
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/tvNoDataHome"
+            android:visibility="gone"
+            android:text="@string/no_data"
+            android:tag="no_data"
+            android:textColor="@color/redPrimary"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvOrders"
@@ -310,6 +319,7 @@
             android:layout_marginTop="@dimen/big_margin"
             android:layout_marginEnd="@dimen/card_new_margin"
             android:background="@color/gray_bg" />
+
 
         <LinearLayout
             android:id="@+id/llNodata"

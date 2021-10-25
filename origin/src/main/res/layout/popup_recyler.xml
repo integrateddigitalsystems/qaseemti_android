@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:minWidth="300dp"
+    android:layout_height="wrap_content"
+    android:minHeight="100dp"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvData"
+        android:paddingStart="@dimen/normal_margin"
+        android:paddingEnd="@dimen/normal_margin"
+        android:paddingTop="@dimen/normal_margin"
+        android:paddingBottom="@dimen/normal_margin"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+
+
+</LinearLayout>

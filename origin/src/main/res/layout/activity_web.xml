@@ -1,14 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
-    <include
-        layout="@layout/toolbar" />
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <WebView
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/wvData"/>
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <WebView
+                android:id="@+id/wvData"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5" />
+
+            <ScrollView
+                android:visibility="gone"
+                android:id="@+id/svScrollForm"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+                <LinearLayout
+                    android:id="@+id/llContactForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <EditText
+                        android:id="@+id/etFullNameContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/margin_start_end"
+                        android:layout_marginTop="@dimen/big_margin"
+                        android:layout_marginEnd="@dimen/margin_start_end"
+                        android:background="@drawable/rounded_white_background"
+                        android:hint="@string/full_name"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/normal_margin"
+                        android:paddingEnd="@dimen/normal_margin"
+                        android:tag="full_name"
+                        android:textColor="@color/gray_font"
+                        android:textColorHint="@color/gray_medium_2"
+                        android:textSize="@dimen/normal_font" />
+
+                    <EditText
+                        android:id="@+id/etPhoneContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/margin_start_end"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:layout_marginEnd="@dimen/margin_start_end"
+                        android:background="@drawable/rounded_white_background"
+                        android:hint="@string/mobile"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/normal_margin"
+                        android:paddingEnd="@dimen/normal_margin"
+                        android:tag="mobile"
+                        android:textColor="@color/gray_font"
+                        android:textColorHint="@color/gray_medium_2"
+                        android:textSize="@dimen/normal_font" />
+
+                    <EditText
+                        android:id="@+id/etEmailContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/margin_start_end"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:layout_marginEnd="@dimen/margin_start_end"
+                        android:background="@drawable/rounded_white_background"
+                        android:hint="@string/email"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/normal_margin"
+                        android:paddingEnd="@dimen/normal_margin"
+                        android:tag="email"
+                        android:textColor="@color/gray_font"
+                        android:textColorHint="@color/gray_medium_2"
+                        android:textSize="@dimen/normal_font" />
+
+                    <EditText
+                        android:id="@+id/etSubjectContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/margin_start_end"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:layout_marginEnd="@dimen/margin_start_end"
+                        android:background="@drawable/rounded_white_background"
+                        android:hint="@string/subject"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/normal_margin"
+                        android:paddingEnd="@dimen/normal_margin"
+                        android:tag="subject"
+                        android:textColor="@color/gray_font"
+                        android:textColorHint="@color/gray_medium_2"
+                        android:textSize="@dimen/normal_font" />
+
+                    <EditText
+                        android:id="@+id/etMessageContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/msg_edit_text"
+                        android:layout_marginStart="@dimen/margin_start_end"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:layout_marginEnd="@dimen/margin_start_end"
+                        android:background="@drawable/rounded_white_background"
+                        android:gravity="start"
+                        android:hint="@string/message"
+                        android:padding="@dimen/normal_margin"
+                        android:tag="message"
+                        android:textColor="@color/gray_font"
+                        android:textColorHint="@color/gray_medium_2"
+                        android:textSize="@dimen/normal_font" />
+
+                    <Button
+                        android:id="@+id/btContactUs"
+                        android:layout_marginBottom="@dimen/normal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/margin_start_end"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:layout_marginEnd="@dimen/margin_start_end"
+                        android:background="@drawable/rounded_blue"
+                        android:tag="contact_us"
+                        android:text="@string/contact_us"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

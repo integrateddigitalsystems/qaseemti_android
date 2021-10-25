@@ -90,8 +90,13 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     response: Response<ResponseRatings>
                 ) {
                     try {
-                        if (response.body()!!.rate != null)
-                            rbMainUser.rating = response.body()!!.rate!!.toFloat()
+                        if (response.body()!!.rate != null) {
+                            rbMainUser.rating =  AppHelper.getFloorRatingBar(response.body()!!.rate!!)
+                            tvRatingValue.text = response.body()!!.rate.toString()
+                        } else {
+                            tvRatingValue.text = "0"
+                        }
+
                     } catch (E: java.lang.Exception) {
                         // rbMainUser.rating = 0f
                     }
@@ -185,12 +190,12 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             )
             MyApplication.typeSelected = 1
         }
-       try {
-           swAvailable.isChecked =
-               if (MyApplication.selectedUser!!.available == "0") false else true
-       }catch (ex:Exception){
+        try {
+            swAvailable.isChecked =
+                if (MyApplication.selectedUser!!.available == "0") false else true
+        } catch (ex: Exception) {
 
-       }
+        }
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             if (swAvailable.isChecked) {
                 rvOrders.show()
@@ -201,6 +206,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             } else {
                 rvOrders.hide()
                 llNodata.show()
+                tvNoDataHome.hide()
                 setAvailability(0)
                 swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
             }
@@ -284,7 +290,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
             if (ordersArray.size == 0) {
                 rvOrders.hide()
-                llNodata.show()
+                llNodata.hide()
+                tvNoDataHome.show()
             }
 
             loading.hide()

@@ -123,7 +123,11 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             )
         }
         btContactAdministrator.setOnClickListener {
-            startActivity(Intent(requireActivity(), ActivityContactUs::class.java))
+            startActivity(
+                Intent(requireContext(), ActivityWeb::class.java)
+                    .putExtra("webTitle", AppHelper.getRemoteString("ContactAdministrator",requireContext()))
+                    .putExtra("webId",4)
+            )
         }
         btLogoutAccount.onOneClick {
             AppHelper.createYesNoDialog(
@@ -158,7 +162,15 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         btPrivacy.setOnClickListener {
             startActivity(
                 Intent(requireContext(), ActivityWeb::class.java)
-                    .putExtra("webTitle", "Privacy Policy")
+                    .putExtra("webTitle", AppHelper.getRemoteString("PrivacyPolicy",requireContext()))
+                    .putExtra("webId",3)
+            )
+        }
+        btTermsAndConditions.setOnClickListener {
+            startActivity(
+                Intent(requireContext(), ActivityWeb::class.java)
+                    .putExtra("webTitle", AppHelper.getRemoteString("TermsAndConditions",requireContext()))
+                    .putExtra("webId",2)
             )
         }
 

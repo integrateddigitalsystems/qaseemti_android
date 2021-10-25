@@ -9,6 +9,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Fragments.FragmentHomeClient
+import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestOTP
 import com.ids.qasemti.model.RequestVerifyOTP
@@ -38,6 +40,32 @@ class ActivityCodeVerification : ActivityBase() {
             pvCode.text!!.clear()
         }*/
         pvCode.requestFocus()
+
+        tvTitleVerf.onOneClick {
+            if (MyApplication.isClient) {
+               MyApplication.userId = 51
+                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+                MyApplication.selectedFragment = FragmentHomeClient()
+            } else {
+                MyApplication.userId = 41
+                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+                MyApplication.selectedFragment = FragmentHomeSP()
+            }
+            MyApplication.isSignedIn = true
+            startActivity(Intent(this, ActivityHome::class.java))
+            finish()
+        }
+
+        tvCodeSentVef.onOneClick {
+            if (MyApplication.isClient) {
+                MyApplication.userId = 51
+            } else {
+                MyApplication.userId = 41
+            }
+            MyApplication.isSignedIn = true
+            startActivity(Intent(this, ActivityRegistration::class.java))
+            finish()
+        }
 
         if(MyApplication.isClient){
             btVerifyCode.hide()
@@ -79,8 +107,8 @@ class ActivityCodeVerification : ActivityBase() {
 
             override fun onFinish() {
                 first = true
-                tvTimer.setText("try again")
-                tvTimer.onOneClick {
+               tvTimer.text = ""
+                tvTimerTitle.onOneClick {
                     if(first) {
                         time = 59
                         this.start()
@@ -130,25 +158,23 @@ class ActivityCodeVerification : ActivityBase() {
             })
     }
     fun requestSucc(respone:ResponseVerification){
-     /*   if(respone.result.equals("1")){
+        if(respone.result.equals("1")){
             AppHelper.createDialog(this,"Correct Code")
             if(respone.user!=null) {
                 MyApplication.phoneNumber = MyApplication.selectedPhone
                 MyApplication.isSignedIn = true
                 MyApplication.userId = respone.user!!.userId!!.toInt()
                 startActivity(Intent(this, ActivityHome::class.java))
-            }else{*/
-
+            }else{
                 MyApplication.isSignedIn = false
                 startActivity(Intent(this, ActivityRegistration::class.java))
-         /*   }
-        }
-        else{
+            }
+        }else{
             AppHelper.createDialog(this,"Incorrect Code")
             first = true
             timer!!.cancel()
-            tvTimer.setText("try again")
-            tvTimer.onOneClick {
+            tvTimer.setText("")
+            tvTimerTitle.onOneClick {
                 if(first) {
                     time = 59
                     timer!!.start()
@@ -156,7 +182,7 @@ class ActivityCodeVerification : ActivityBase() {
                 }
             }
             //startActivity(Intent(this, ActivityRegistration::class.java))
-        }*/
+        }
 
        /* MyApplication.isSignedIn = true
         try{

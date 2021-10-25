@@ -37,7 +37,8 @@
             android:textSize="@dimen/normal_font"
             android:textColor="@color/gray_font"
             android:layout_marginStart="@dimen/small_margin"
-            android:text="Price : 10 KWD"
+            android:text="Price : "
+            android:id="@+id/tvPrice"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             />
@@ -63,8 +64,9 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/normal_font"
             android:textColor="@color/gray_font"
+            android:id="@+id/tvEarning"
             android:layout_marginStart="@dimen/small_margin"
-            android:text="Earning : 7 KWD"
+            android:text="Earning :"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             />
@@ -91,7 +93,7 @@
             android:textSize="@dimen/normal_font"
             android:textColor="@color/gray_font"
             android:layout_marginStart="@dimen/small_margin"
-            android:text="Estimated delivery time : 4 business hours"
+            android:text="Estimated delivery time : -"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             />

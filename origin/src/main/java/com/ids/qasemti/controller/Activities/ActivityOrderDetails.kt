@@ -82,9 +82,9 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.show()
-        tvPageTitle.setColorTypeface(this,R.color.white,"",true)
+        tvPageTitle.setColorTypeface(this,R.color.white,MyApplication.selectedOrder!!.orderStatus!!+" "+getString(
+                    R.string.order_details),true)
         if(MyApplication.typeSelected==0) {
-            tvPageTitle.textRemote("ActiveOrderDetails",this)
             if(!MyApplication.isClient){
                 llEditOrderTime.show()
             }else{
@@ -92,11 +92,11 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                 llOrderSwitches.hide()
             }
             llActualDelivery.hide()
+        }else if(MyApplication.typeSelected ==2){
+            llRatingOrder.show()
         }else if(MyApplication.typeSelected==1){
             btCancelOrder.show()
         }else{
-            tvPageTitle.textRemote("CompletedOrderDetails",this)
-            llRatingOrder.show()
             llEditOrderTime.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
@@ -127,26 +127,26 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
     private fun setOrderData(){
         var array:ArrayList<OrderData> = arrayListOf()
-        array.add(OrderData("Category","Purchase"))
-        array.add(OrderData("Service","Water Tank"))
-        array.add(OrderData("Type","Fresh"))
-        array.add(OrderData("Size/Capacity","200 Gallons"))
-        array.add(OrderData("Quantity","1 Trip"))
-        if(MyApplication.rental!!){
-            array.add(OrderData("Period","From 1/1/2021\n" +
-                    "Till 1/5/2021"))
+        array.add(OrderData("Category",MyApplication.selectedOrder!!.type))
+        array.add(OrderData("Service",MyApplication.selectedOrder!!.product!!.name))
+        array.add(OrderData("Type",MyApplication.selectedOrder!!.product!!.types))
+        array.add(OrderData("Size/Capacity",MyApplication.selectedOrder!!.product!!.sizeCapacity))
+        array.add(OrderData("Quantity",MyApplication.selectedOrder!!.product!!.qty))
+        if(!MyApplication.selectedOrder!!.type.equals("purchase")){
+            array.add(OrderData("Period",MyApplication.selectedOrder!!.product!!.booking_start_date!!+"\n -" + MyApplication.selectedOrder!!.product!!.booking_end_date!!))
         }
 
 
         rvDataBorder.layoutManager = LinearLayoutManager(this)
         rvDataBorder.adapter = AdapterOrderData(array,this,this)
 
-        try{tvLocationOrderDeatils.text = AppHelper.getAddress(MyApplication.selectedOrder!!.customerLat!!.toDouble(),MyApplication.selectedOrder!!.customerLong!!.toDouble(),this)}catch (e:Exception){}
+        try{tvLocationOrderDeatils.text = MyApplication.selectedOrder!!.shipping_address_name}catch (e:Exception){}
         try{tvOrderCustomerName.text = MyApplication.selectedOrder!!.customer!!.first_name+" "+MyApplication.selectedOrder!!.customer!!.last_name}catch (e:Exception){}
         try{tvOrderDeetId.text = MyApplication.selectedOrder!!.orderId.toString()}catch (e:Exception){}
         try{tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy")}catch (e:Exception){}
-        try{tvExpectedOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.deliveryDate!!,"yyyy-MM-dd","dd MMMM yyyy")}catch (e:Exception){}
+        try{tvExpectedOrderDateDeet.text = MyApplication.selectedOrder!!.deliveryDate}catch (e:Exception){}
         try{tvOrderAmountDeet.text = MyApplication.selectedOrder!!.total!!.toString()+" "+MyApplication.selectedOrder!!.currency}catch (e:Exception){}
+        try{tvPaymentMethod.text = MyApplication.selectedOrder!!.paymentMethod}catch (e:Exception){}
         try{
             swDelivered.isChecked = MyApplication.selectedOrder!!.delivered!!
         }catch (ex:Exception){}

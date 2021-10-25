@@ -29,7 +29,7 @@
         android:layout_height="match_parent" >
 
         <com.ids.qasemti.custom.CustomTextViewBold
-
+            android:id="@+id/tvTitleVerf"
             android:layout_marginStart="75dp"
             android:layout_marginEnd="75dp"
             android:layout_width="match_parent"
@@ -50,16 +50,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/height_35"
-            android:tag="enter_the_4_digit_code_sent_to_you_from_qasemati"
+            android:tag="enter_the_6_digit_code_sent_to_you_from_qasemati"
             android:layout_marginBottom="@dimen/big_margin_2"
             android:gravity="center"
             android:textSize="@dimen/header_font"
-            android:text="@string/enter_the_4_digit_code_sent_to_you_from_qasemati"/>
+            android:text="@string/enter_the_6_digit_code_sent_to_you_from_qasemati"/>
 
 
         <com.ids.qasemti.custom.CustomTextViewBold
             android:gravity="center"
             android:textSize="@dimen/header_font"
+            android:visibility="gone"
             android:id="@+id/tvSubTitleVerf"
             android:layout_width="match_parent"
             android:layout_marginBottom="@dimen/height_35"
@@ -77,10 +78,10 @@
             android:layout_gravity="center_horizontal"
             android:cursorVisible="true"
             android:hint="______"
-            android:textColorHint="@color/black"
+            android:textColorHint="@color/gray_font"
             android:inputType="number"
             android:itemBackground="@drawable/rounded_white_background"
-            android:textColor="@color/black"
+            android:textColor="@color/gray_font"
             android:textSize="@dimen/big_font"
             android:focusable="true"
             android:textStyle="bold"
@@ -105,7 +106,7 @@
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="resend_code_in"
+            android:id="@+id/tvTimerTitle"
             android:textColor="@color/gray_font_title"
             android:layout_marginTop="@dimen/big_margin"
             android:layout_marginBottom="@dimen/big_margin"
@@ -132,8 +133,10 @@
             android:text="@string/verify"
             android:id="@+id/btVerifyCode"
             android:tag="verify"
+            android:layout_marginStart="@dimen/big_margin_2"
+            android:layout_marginEnd="@dimen/big_margin_2"
             android:textColor="@color/white"
-            android:layout_width="@dimen/button_width"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:background="@drawable/blue_rounded"/>
 

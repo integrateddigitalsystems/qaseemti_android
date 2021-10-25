@@ -17,7 +17,7 @@ object AppConstants {
     const val ORDER_TYPE_ACTIVE = "active"
     const val ORDER_TYPE_COMPLETED ="completed"
     const val ORDER_TYPE_UPCOMING ="upcoming"
-    const val ORDER_TYPE_CANCELED ="canceled"
+    const val ORDER_TYPE_CANCELED ="cancelled"
     const val ORDER_TYPE_FAILED="failed"
     const val CENTER_WHITE = 2
     const val LEFT_BLACK = 4
@@ -39,6 +39,7 @@ object AppConstants {
     const val FIREBASE_FORCE_UPDATE = "android_force_update"
     const val FIREBASE_VERSION_CODE = "android_version_code"
     const val FIREBASE_LOCALIZE = "localize_msg"
+    const val FIREBASE_LINKS ="htmlPageUrls"
     const val FIREBASE_MOBILE_CONFIGURATION = "mobileConfigurations"
     const val FRAGMENT_HOME_CLIENT ="fragmentHomeClient"
     const val FRAGMENT_HOME_SP ="fragmentHomeSP"

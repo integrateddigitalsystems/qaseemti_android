@@ -43,11 +43,13 @@ class AdapterOrderType(
             holder.name.typeface = AppHelper.getTypeFaceBold(con)
             holder.locationText.setColorTypeface(con,R.color.redPrimary,items.get(position).customerLocation!!,false) }
         catch (ex:Exception){ holder.name.text = "" }
+
+        try{holder.locationText.text=items.get(position).shipping_address_name!!}catch (e:Exception){}
         try{
             holder.orderDate.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MMM yyyy hh:mm")
         }catch (ex:java.lang.Exception){holder.orderDate.text = ""}
         try{
-            holder.expectedDate.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-mm-dd","dd MMM yyyy hh:mm")
+            holder.expectedDate.text = items.get(position).deliveryDate!!
         }catch (ex:java.lang.Exception){holder.orderDate.text=""}
         try{
             holder.orderId.text = "#"+items.get(position).orderId.toString()
@@ -59,7 +61,7 @@ class AdapterOrderType(
             holder.paymentMethod.text = items.get(position).paymentMethodTitle
         }catch (ex:java.lang.Exception){holder.paymentMethod.text = ""}
         try {
-            holder.orderCost.text = (items.get(position).total!!.toInt()+items.get(position).shippingTotal!!.toInt()).toString()+" "+items.get(position).currency
+            holder.orderCost.text = items.get(position).total!!+" "+items.get(position).currency
         }catch (ex:Exception){ holder.orderCost.text =""}
         try{
             holder.cancelReasonDetails.text = items.get(position).cancellationDate
@@ -74,15 +76,15 @@ class AdapterOrderType(
  
         try {
             onTrack= if(items.get(position).onTrack!!) 1 else 0
-            holder.switchOnTrack.isChecked = items.get(position).onTrack!!
+            holder.switchOnTrack.isChecked = items[position].onTrack!!
         }catch (ex:Exception){}
         try {
             paid= if(items.get(position).paid!!) 1 else 0
-            holder.switchPaid.isChecked = items.get(position).paid!!
+            holder.switchPaid.isChecked = items[position].paid!!
         }catch (ex:java.lang.Exception){}
         try {
             delivered= if(items.get(position).delivered!!) 1 else 0
-            holder.switchDelivered.isChecked = items.get(position).delivered!!
+            holder.switchDelivered.isChecked = items[position].delivered!!
         }catch (ex:java.lang.Exception){}
 
         holder.switchDelivered.setOnCheckedChangeListener { compoundButton, b ->
@@ -143,7 +145,7 @@ class AdapterOrderType(
             holder.canSep.hide()
             holder.border.show()
             holder.rating.hide()
-            holder.track.show()
+            holder.track.hide()
             holder.credit.hide()
         }else if ( MyApplication.typeSelected == 1 && !MyApplication.isClient) {
             holder.switch.show()

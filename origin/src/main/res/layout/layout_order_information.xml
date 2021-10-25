@@ -66,7 +66,6 @@
                         android:layout_height="@dimen/normal_icon"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/normal_font"
-                        android:text="10 KWD"
                         android:id="@+id/tvOrderAmountDeet"
                         android:textColor="@color/redPrimary" />
 
@@ -106,10 +105,10 @@
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="match_parent"
                         android:gravity="center_vertical"
+                        android:id="@+id/tvPaymentMethod"
                         android:layout_height="@dimen/normal_icon"
                         android:textSize="@dimen/small_font_2"
-                        android:textColor="@color/gray_font_title"
-                        android:text="Cash on delivery" />
+                        android:textColor="@color/gray_font_title" />
 
                 </LinearLayout>
 

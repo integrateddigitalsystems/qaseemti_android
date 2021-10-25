@@ -29,6 +29,7 @@ import java.lang.Exception
 class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
     var array: ArrayList<ResponseOrders> = arrayListOf()
     var arraySett: ArrayList<ResponseSettlement> = arrayListOf()
+    var res : ResponseMainOrder ?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settlement)
@@ -106,6 +107,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                     try {
                         array.clear()
                         array.addAll(response.body()!!.orders)
+                        res = response.body()!!
                         setData(position)
                     } catch (E: java.lang.Exception) {
                         loading.hide()
@@ -122,7 +124,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
 
             loading.show()
 
-        var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
+        var newReq = RequestServices(6, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getSettlements(
                 newReq
@@ -148,14 +150,16 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
 
     private fun setData(position: Int) {
 
-        if (array.size == 0) {
+        if (position == 0) {
             btRequestSettlements.show()
             MyApplication.upcoming = false
+            tvTotalOrderCount.text = res!!.ordersCount.toString()
+            tvSettlementAmount.text = res!!.settlementAmount!!.toString()
             var adapter = AdapterSettlements(array, this, this)
             rvSettlements.layoutManager = LinearLayoutManager(this)
             rvSettlements.adapter = adapter
             rvSettlements.isNestedScrollingEnabled = false
-            if(array.size>0){
+            if(array.size==0){
                 btRequestSettlements.hide()
             }
         } else {
@@ -177,9 +181,11 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
         if (view.id == R.id.tvViewDetails) {
             AppHelper.onOneClick {
                 if (MyApplication.upcoming!!) {
+                    MyApplication.relatedOrders.clear()
+                    MyApplication.relatedOrders.addAll(arraySett.get(position).relatedOrders!!)
                     startActivity(
                         Intent(this, ActivityRelatedOrders::class.java)
-                            .putExtra("settelmentId", "#70007070")
+                            .putExtra("settelmentId", arraySett.get(position).reqId)
                     )
                 }
             }
