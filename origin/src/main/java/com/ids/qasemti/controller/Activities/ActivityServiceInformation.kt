@@ -129,7 +129,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                 }
             }
         }
-        rgCategory.setOnCheckedChangeListener { group, checkedId ->
+        rgCategory.setOnCheckedChangeListener { _, checkedId ->
             val rb = findViewById<View>(checkedId) as RadioButton
             if(checkedId==R.id.rbPurchase){
                 selectedCategoryId=1
