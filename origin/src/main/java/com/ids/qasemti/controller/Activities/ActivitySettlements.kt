@@ -61,23 +61,23 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
 
         loading.show()
 
-        var newReq = RequestUserStatus(MyApplication.userId)
+        var newReq = RequestVendor(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.postSettlement(
                 newReq
-            )?.enqueue(object : Callback<ResponseMessage> {
+            )?.enqueue(object : Callback<ResponseSettlementRequest> {
                 override fun onResponse(
-                    call: Call<ResponseMessage>,
-                    response: Response<ResponseMessage>
+                    call: Call<ResponseSettlementRequest>,
+                    response: Response<ResponseSettlementRequest>
                 ) {
                     try {
-                        nextStep(response.body()!!.result!!)
+                        nextStep(response.body()!!.result!!.toInt())
                     } catch (E: java.lang.Exception) {
                         nextStep(AppConstants.FAILURE_REQUEST)
                     }
                 }
 
-                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                override fun onFailure(call: Call<ResponseSettlementRequest>, throwable: Throwable) {
                     nextStep(AppConstants.FAILURE_REQUEST)
                 }
             })

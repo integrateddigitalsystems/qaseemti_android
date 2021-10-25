@@ -35,6 +35,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
@@ -56,6 +57,7 @@ import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
+import kotlinx.android.synthetic.main.layout_order_switch.*
 import me.grantland.widget.AutofitHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -612,26 +614,33 @@ class AppHelper {
 
             when (selected) {
                 AppConstants.FRAGMENT_ACCOUNT -> {
+                    MyApplication.selectedTitle = tvAcc.text.toString()
                     setLogoTint(imgAcc, context, R.color.redPrimary)
                     setTextColor(context, tvAcc, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_HOME_CLIENT, AppConstants.FRAGMENT_HOME_SP -> {
+                    MyApplication.selectedTitle = tvHom.text.toString()
                     setLogoTint(imgHom, context, R.color.redPrimary)
                     setTextColor(context, tvHom, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_ORDER -> {
+                    MyApplication.selectedTitle = tvOrd.text.toString()
                     setLogoTint(imgOrd, context, R.color.redPrimary)
                     setTextColor(context, tvOrd, R.color.redPrimary)
                 }
-                AppConstants.FRAGMENT_NOTFICATIONS -> {
+                AppConstants.FRAGMENT_NOTFICATIONS ->
+                {
+                    MyApplication.selectedTitle = tvNot.text.toString()
                     setLogoTint(imgNot, context, R.color.redPrimary)
                     setTextColor(context, tvNot, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_MY_SERVICES -> {
+                    MyApplication.selectedTitle = tvPro.text.toString()
                     setLogoTint(imgPro, context, R.color.redPrimary)
                     setTextColor(context, tvPro, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_CART -> {
+                   // MyApplication.selectedTitle = tvAcc.text.toString()
                     setLogoTint(imgCart, context, R.color.redPrimary)
                     setTextColor(context, tvCart, R.color.redPrimary)
                 }
@@ -686,6 +695,58 @@ class AppHelper {
 
         }
 
+        fun createYesNoDialog(
+            c: Activity,
+            positiveButton: String,
+            negativeButton: String,
+            message: String,
+            doAction: () -> Unit ,
+            doCancel : () -> Unit
+        ) {
+
+
+            val builder = AlertDialog.Builder(c)
+            builder
+                .setMessage(message)
+                .setCancelable(true)
+                .setNegativeButton(negativeButton) { dialog, _ ->
+                    doCancel()
+                    dialog.cancel()
+                }
+                .setPositiveButton(positiveButton) { dialog, _ ->
+                    doAction()
+                }
+            val alert = builder.create()
+            alert.show()
+
+        }
+
+        fun createSwitchDialog(
+            c: Activity,
+            positiveButton: String,
+            negativeButton: String,
+            message: String,
+            view: SwitchCompat ,
+            doAction: () -> Unit
+        ) {
+
+
+            val builder = AlertDialog.Builder(c)
+            builder.setMessage(
+                message
+            )
+                .setCancelable(true)
+                .setNegativeButton(negativeButton) { dialog, _ ->
+                   view.isChecked = !view.isChecked
+                    dialog.cancel()
+                }
+                .setPositiveButton(positiveButton) { dialog, _ ->
+                    doAction()
+                }
+            val alert = builder.create()
+            alert.show()
+
+        }
         fun createYesNoDialog(
             c: Activity,
             positiveButton: String,
@@ -870,18 +931,18 @@ class AppHelper {
         }
 
 
-        fun setTitle(context: Context, text: String, tag: String) {
+        fun setTitle(context: Context, text: String, tag: String,color:Int) {
             if (tag.isNotEmpty()) {
                 try {
                     (context as ActivityHome?)!!.setTitleAc(
                         MyApplication.localizeArray!!.messages!!.find { it.localize_Key == tag }!!
                             .getMessage()!!
-                    )
+                    ,color)
                 } catch (e: java.lang.Exception) {
-                    (context as ActivityHome?)!!.setTitleAc(text)
+                    (context as ActivityHome?)!!.setTitleAc(text,color)
                 }
             } else {
-                (context as ActivityHome?)!!.setTitleAc(text)
+                (context as ActivityHome?)!!.setTitleAc(text,color)
             }
         }
 

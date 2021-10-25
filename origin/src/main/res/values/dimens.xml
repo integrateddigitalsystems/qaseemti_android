@@ -39,6 +39,7 @@
     <dimen name="icon_2">25dp</dimen>
     <dimen name="normal_icon_size">30dp</dimen>
     <dimen name="big_icon_size">35dp</dimen>
+    <dimen name="bigger_icon_size">50dp</dimen>
     <dimen name="bigger_edit_text">45dp</dimen>
     <dimen name="map_height">300dp</dimen>
     <dimen name="news_main_height">300dp</dimen>

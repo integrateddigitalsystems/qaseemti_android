@@ -111,8 +111,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
 
 
-        AppHelper.setTitle(requireActivity(), AppHelper.getRemoteString("our_services",requireContext()), "services")
-
+       AppHelper.setTitle(requireActivity(), AppHelper.getRemoteString("our_services",requireContext()), "services",R.color.white)
         getServices()
 
 

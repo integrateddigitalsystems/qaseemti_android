@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_account.rootLayout
 import kotlinx.android.synthetic.main.layout_profile.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 
 class FragmentAccount : Fragment(), RVOnItemClickListener {
@@ -46,6 +47,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         (activity as ActivityHome).showLogout(false)
         (activity as ActivityHome).showTitle(false)
         showData()
+        //AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         if (MyApplication.register) {
             MyApplication.register = false
             (requireActivity() as ActivityHome?)!!.addFrag(
@@ -85,7 +87,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             MyApplication.typeSelected = 1 
             startActivity(
                 Intent(requireContext(), ActivityAddresses::class.java)
-                    .putExtra("mapTitle", AppHelper.getRemoteString("address", requireContext()))
+                    .putExtra("mapTitle", AppHelper.getRemoteString("MyAddresses", requireContext()))
                     .putExtra("from","account")
             )
         }

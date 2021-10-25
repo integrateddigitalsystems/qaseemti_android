@@ -8,6 +8,7 @@ object ApiParameters {
     const val LAST_NAME ="last_name"
     const val EMAIL = "email"
     const val MOBILE_NUMBER = "mobile_number"
+    const val ALTERNATE_NUMBER ="altr_numb"
     const val CIVIL_ID = "civil_id"
     const val GENDER = "gender"
     const val DATE_OF_BIRTH ="date_of_birth"

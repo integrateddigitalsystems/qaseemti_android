@@ -10,6 +10,7 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestOTP
 import com.ids.qasemti.model.ResponseConfiguration
 import com.ids.qasemti.model.ResponseUpdate
+import com.ids.qasemti.model.ResponseUser
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_mobile_registration.*
 import kotlinx.android.synthetic.main.activity_register.*
@@ -20,12 +21,13 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
-class ActivityRegistration : ActivityBase() {
+class ActivityRegistration : ActivityBase() , ApiListener{
 
     var body1: MultipartBody.Part? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,9 +54,59 @@ class ActivityRegistration : ActivityBase() {
             } else if (!AppHelper.isEmailValid(etEmail.text.toString())) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("email_valid_error", this))
             } else {
-                updateProfile()
-                //   sendOTP()
-                //  startActivity(Intent(this,ActivityCodeVerification::class.java))
+                if (!MyApplication.isClient){
+                    var selectedProfilePic : MultipartBody.Part ?=null
+                    if (selectedProfilePic == null) {
+                        var empty = ""
+                        val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+                        selectedProfilePic =
+                            MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+                    }
+                    CallAPIs.updateProfileServiceProvider(
+                        this,
+                        this,
+                        loading,
+                        0.0,
+                      0.0,
+                        "",
+                        etFirstName.text.toString(),
+                       "",
+                        etLastName.text.toString(),
+                        etEmail.text.toString(),
+                        MyApplication.selectedPhone!!,
+                        "",
+                       "",
+                      "",
+                        "",
+                        "",
+                       "",
+                        "",
+                      "",
+                        etIBANProfile.text.toString(),
+                        selectedProfilePic!!,
+                        selectedProfilePic!!
+                    )
+                }else {
+                    var selectedProfilePic : MultipartBody.Part ?=null
+                    if (selectedProfilePic == null) {
+                        var empty = ""
+                        val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+                        selectedProfilePic =
+                            MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+                    }
+                    CallAPIs.updateProfileClient(
+                      this,
+                        this,
+                        loading,
+                        etFirstName.text.toString(),
+                        etLastName.text.toString(),
+                        etEmail.text.toString(),
+                        MyApplication.selectedPhone!!,
+                        selectedProfilePic!!
+                    )
+                }
             }
         }
     }
@@ -124,5 +176,10 @@ class ActivityRegistration : ActivityBase() {
                     nextStep()
                 }
             })
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+        var res = response as ResponseUser
+        nextStep()
     }
 }

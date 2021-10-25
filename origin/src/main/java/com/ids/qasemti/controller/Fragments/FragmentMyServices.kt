@@ -84,11 +84,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
 
     private fun init() {
         // btBck.show()
-        AppHelper.setTitle(
-            requireActivity(),
-            AppHelper.getRemoteString("MyServices", requireContext()),
-            "MyServices"
-        )
+        AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.white)
         if (MyApplication.fromAccount) {
             MyApplication.fromAccount = false
             (activity as ActivityHome).showBack(true)

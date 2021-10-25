@@ -235,4 +235,6 @@
     <string name="edit">تعديل</string>
     <string name="you_can_find_updates">You can always find your updates in your email</string>
     <string name="order_details">order details</string>
+    <string name="are_you_sure_change_status">Are you sure you want to change the status ?</string>
+    <string name="discard">Discard</string>
 </resources>

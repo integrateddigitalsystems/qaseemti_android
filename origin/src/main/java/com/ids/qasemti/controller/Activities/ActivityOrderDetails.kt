@@ -1,5 +1,6 @@
 package com.ids.qasemti.controller.Activities
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
@@ -42,14 +43,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
+class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
     var dialog: Dialog? = null
     var orderId = 1
-    var onTrack : Int ?=0
-    var delivered : Int ?=0
-    var paid : Int ?=0
-    lateinit var  shake: Animation
+    var onTrack: Int? = 0
+    var delivered: Int? = 0
+    var paid: Int? = 0
+    lateinit var shake: Animation
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_details)
@@ -57,53 +58,56 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         setListeners()
     }
 
-    fun init(){
-        window.setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    fun init() {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         btDrawer.hide()
         btBackTool.show()
-        shake =  AnimationUtils.loadAnimation(this, R.anim.shake)
-        orderId = intent.getIntExtra("orderId",1)
+        shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+        orderId = intent.getIntExtra("orderId", 1)
 
-        shake =  AnimationUtils.loadAnimation(this, R.anim.shake)
-        orderId = intent.getIntExtra("orderId",1)
+        shake = AnimationUtils.loadAnimation(this, R.anim.shake)
+        orderId = intent.getIntExtra("orderId", 1)
         btBackTool.onOneClick {
             super.onBackPressed()
         }
-       orderId = intent.getIntExtra("orderId",1)
-        var type = intent.getIntExtra("type",1)
+        orderId = intent.getIntExtra("orderId", 1)
+        var type = intent.getIntExtra("type", 1)
 
-        if(type==0){
+        if (type == 0) {
             llDetailsCallMessage.show()
-        }else{
+        } else {
             llDetailsCallMessage.hide()
         }
 
 
 
-        AppHelper.setAllTexts(rootLayoutOrderDetails,this)
+        AppHelper.setAllTexts(rootLayoutOrderDetails, this)
         tvPageTitle.show()
-        tvPageTitle.setColorTypeface(this,R.color.white,MyApplication.selectedOrder!!.orderStatus!!+" "+getString(
-                    R.string.order_details),true)
-        if(MyApplication.typeSelected==0) {
-            if(!MyApplication.isClient){
+        tvPageTitle.setColorTypeface(
+            this, R.color.white, MyApplication.selectedOrder!!.orderStatus!! + " " + getString(
+                R.string.order_details
+            ), true
+        )
+        if (MyApplication.typeSelected == 0) {
+            if (!MyApplication.isClient) {
                 llEditOrderTime.show()
-            }else{
+            } else {
                 llEditOrderTime.hide()
                 llOrderSwitches.hide()
             }
             llActualDelivery.hide()
-        }else if(MyApplication.typeSelected ==2){
+        } else if (MyApplication.typeSelected == 2) {
             llRatingOrder.show()
-        }else if(MyApplication.typeSelected==1){
+        } else if (MyApplication.typeSelected == 1) {
             btCancelOrder.show()
-        }else{
+        } else {
             llEditOrderTime.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
             btCancelOrder.hide()
         }
 
-        if(MyApplication.isClient) {
+        if (MyApplication.isClient) {
             if (MyApplication.typeSelected == 2) {
                 if (MyApplication.isClient) {
                     btRenewOrder.show()
@@ -111,62 +115,107 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                     btRenewOrder.hide()
                 }
             }
-        }else{
+        } else {
             btRenewOrder.hide()
         }
         /*if(MyApplication.isClient)
            // llRatingOrder.hide()
            // llRatingOrder.hide()*/
 
-        tvLocationOrderDeatils.setColorTypeface(this,R.color.redPrimary,"",false)
+        tvLocationOrderDeatils.setColorTypeface(this, R.color.redPrimary, "", false)
         setOrderData()
     }
 
 
-
-
-    private fun setOrderData(){
-        var array:ArrayList<OrderData> = arrayListOf()
-        array.add(OrderData("Category",MyApplication.selectedOrder!!.type))
-        array.add(OrderData("Service",MyApplication.selectedOrder!!.product!!.name))
-        array.add(OrderData("Type",MyApplication.selectedOrder!!.product!!.types))
-        array.add(OrderData("Size/Capacity",MyApplication.selectedOrder!!.product!!.sizeCapacity))
-        array.add(OrderData("Quantity",MyApplication.selectedOrder!!.product!!.qty))
-        if(!MyApplication.selectedOrder!!.type.equals("purchase")){
-            array.add(OrderData("Period",MyApplication.selectedOrder!!.product!!.booking_start_date!!+"\n -" + MyApplication.selectedOrder!!.product!!.booking_end_date!!))
+    private fun setOrderData() {
+        var array: ArrayList<OrderData> = arrayListOf()
+        array.add(OrderData("Category", MyApplication.selectedOrder!!.type))
+        array.add(OrderData("Service", MyApplication.selectedOrder!!.product!!.name))
+        array.add(OrderData("Type", MyApplication.selectedOrder!!.product!!.types))
+        array.add(OrderData("Size/Capacity", MyApplication.selectedOrder!!.product!!.sizeCapacity))
+        array.add(OrderData("Quantity", MyApplication.selectedOrder!!.product!!.qty))
+        if (!MyApplication.selectedOrder!!.type.equals("purchase")) {
+            array.add(
+                OrderData(
+                    "Period",
+                    MyApplication.selectedOrder!!.product!!.booking_start_date!! + "\n -" + MyApplication.selectedOrder!!.product!!.booking_end_date!!
+                )
+            )
         }
 
 
         rvDataBorder.layoutManager = LinearLayoutManager(this)
-        rvDataBorder.adapter = AdapterOrderData(array,this,this)
+        rvDataBorder.adapter = AdapterOrderData(array, this, this)
 
-        try{tvLocationOrderDeatils.text = MyApplication.selectedOrder!!.shipping_address_name}catch (e:Exception){}
-        try{tvOrderCustomerName.text = MyApplication.selectedOrder!!.customer!!.first_name+" "+MyApplication.selectedOrder!!.customer!!.last_name}catch (e:Exception){}
-        try{tvOrderDeetId.text = MyApplication.selectedOrder!!.orderId.toString()}catch (e:Exception){}
-        try{tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy")}catch (e:Exception){}
-        try{tvExpectedOrderDateDeet.text = MyApplication.selectedOrder!!.deliveryDate}catch (e:Exception){}
-        try{tvOrderAmountDeet.text = MyApplication.selectedOrder!!.total!!.toString()+" "+MyApplication.selectedOrder!!.currency}catch (e:Exception){}
-        try{tvPaymentMethod.text = MyApplication.selectedOrder!!.paymentMethod}catch (e:Exception){}
-        try{
+        try {
+            tvLocationOrderDeatils.text = MyApplication.selectedOrder!!.shipping_address_name
+        } catch (e: Exception) {
+        }
+        try {
+            tvOrderCustomerName.text =
+                MyApplication.selectedOrder!!.customer!!.first_name + " " + MyApplication.selectedOrder!!.customer!!.last_name
+        } catch (e: Exception) {
+        }
+        try {
+            tvOrderDeetId.text = MyApplication.selectedOrder!!.orderId.toString()
+        } catch (e: Exception) {
+        }
+        try {
+            tvOrderDateDeet.text = AppHelper.formatDate(
+                MyApplication.selectedOrder!!.date!!,
+                "yyyy-MM-dd hh:mm:ss",
+                "dd MMMM yyyy"
+            )
+        } catch (e: Exception) {
+        }
+        try {
+            tvExpectedOrderDateDeet.text = MyApplication.selectedOrder!!.deliveryDate
+        } catch (e: Exception) {
+        }
+        try {
+            tvOrderAmountDeet.text =
+                MyApplication.selectedOrder!!.total!!.toString() + " " + MyApplication.selectedOrder!!.currency
+        } catch (e: Exception) {
+        }
+        try {
+            tvPaymentMethod.text = MyApplication.selectedOrder!!.paymentMethod
+        } catch (e: Exception) {
+        }
+        try {
             swDelivered.isChecked = MyApplication.selectedOrder!!.delivered!!
-        }catch (ex:Exception){}
+        } catch (ex: Exception) {
+        }
         try {
             swPaid.isChecked = MyApplication.selectedOrder!!.paid!!
-        }catch (ex:java.lang.Exception){}
+        } catch (ex: java.lang.Exception) {
+        }
         try {
             swOnTrack.isChecked = MyApplication.selectedOrder!!.onTrack!!
-        }catch (ex:java.lang.Exception){}
+        } catch (ex: java.lang.Exception) {
+        }
 
     }
 
 
-    fun updatePayment(orderId : Int ){
+    fun updatePayment(orderId: Int) {
         try {
             loading.show()
         } catch (ex: java.lang.Exception) {
 
         }
-        var req = RequestUpdatePayment(orderId,"","","selectedPayment","12","captured",MyApplication.selectedPlaceOrder!!.deliveryDate,"23","test ref","12","abc123")
+        var req = RequestUpdatePayment(
+            orderId,
+            "",
+            "",
+            "selectedPayment",
+            "12",
+            "captured",
+            MyApplication.selectedPlaceOrder!!.deliveryDate,
+            "23",
+            "test ref",
+            "12",
+            "abc123"
+        )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updatePayment(req)?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(
@@ -187,40 +236,41 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             })
     }
 
-    fun nextStep(res:Int){
-        if(res==1){
-            createDialog(this,"Renewal Successful")
+    fun nextStep(res: Int) {
+        if (res == 1) {
+            createDialog(this, "Renewal Successful")
             Handler(Looper.getMainLooper()).postDelayed({
                 finish()
                 MyApplication.renewed = true
-            },1000)
-        }else{
-            createDialog(this,"Failed to renew")
+            }, 1000)
+        } else {
+            createDialog(this, "Failed to renew")
         }
     }
-    fun renewOrder(){
+
+    fun renewOrder() {
         try {
             loading.show()
         } catch (ex: java.lang.Exception) {
 
         }
         var vendorId = 0
-        try{
-            vendorId =  MyApplication.selectedOrder!!.product!!.vendorId!!.toInt()
-        }catch (ex:java.lang.Exception){
+        try {
+            vendorId = MyApplication.selectedOrder!!.product!!.vendorId!!.toInt()
+        } catch (ex: java.lang.Exception) {
 
         }
         var storeName = ""
-        try{
+        try {
             storeName = MyApplication.selectedOrder!!.vendor!!.storeName!!
-        }catch (ex:java.lang.Exception){
+        } catch (ex: java.lang.Exception) {
 
         }
         var cal = Calendar.getInstance()
-        var date = AppHelper.formatDate(cal.time,"dd/mm/yy hh:mm:ssss")
+        var date = AppHelper.formatDate(cal.time, "dd/mm/yy hh:mm:ssss")
         var req = RequestRenewOrder(
             MyApplication.selectedOrder!!.customer!!.user_id!!.toInt(),
-            MyApplication.selectedOrder!!.orderId!!.toInt() ,
+            MyApplication.selectedOrder!!.orderId!!.toInt(),
             vendorId,
             MyApplication.selectedOrder!!.type,
             MyApplication.selectedOrder!!.product!!.productId!!.toInt(),
@@ -240,7 +290,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             MyApplication.selectedOrder!!.customer!!.last_name,
             storeName,
             MyApplication.selectedOrder!!.customer!!.email,
-            MyApplication.selectedOrder!!.customer!!.mobile_number)
+            MyApplication.selectedOrder!!.customer!!.mobile_number
+        )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.renewOrder(req)?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(
@@ -261,7 +312,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                 }
             })
     }
-    fun setListeners(){
+
+    fun setListeners() {
         btBackTool.onOneClick {
             super.onBackPressed()
         }
@@ -274,7 +326,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             startActivity(intent)
         }
         llMessage.onOneClick {
-            startActivity(Intent(this,ActivityChat::class.java))
+            startActivity(Intent(this, ActivityChat::class.java))
         }
         rlCheckoutDate.onOneClick {
             var mcurrentDate = Calendar.getInstance()
@@ -315,7 +367,10 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                 this, R.style.DatePickerDialog,
                 { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
-                    var time = String.format("%02d", selectedHour)+" : "+ String.format("%02d", selectedMinute)
+                    var time = String.format("%02d", selectedHour) + " : " + String.format(
+                        "%02d",
+                        selectedMinute
+                    )
                     etOrderDetailTime.text = time.toEditable()
                 }, hour, minute, false
             ) //Yes 24 hour time
@@ -323,9 +378,9 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         }
 
         btSubmit.onOneClick {
-            if(etCancellationReason.text.isNullOrEmpty()){
-                createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
-            }else {
+            if (etCancellationReason.text.isNullOrEmpty()) {
+                createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
+            } else {
                 AppHelper.createYesNoDialog(
                     this,
                     AppHelper.getRemoteString("yes", this),
@@ -333,7 +388,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                     "Are you sure you want to cancel ?"
                 ) {
 
-                        loading.show()
+                    loading.show()
 
                     var cal = Calendar.getInstance()
                     var dateNow = AppHelper.formatDate(cal.time!!, "dd-MM-yyyy")
@@ -375,6 +430,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             llCancelButtons.hide()
         }
         btCancelOrder.onOneClick {
+            etCancellationReason.text.clear()
             btCancelOrder.hide()
             etCancellationReason.show()
             llCancelButtons.show()
@@ -383,58 +439,91 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
         swOnTrack.setOnCheckedChangeListener { compoundButton, b ->
 
-            if(swOnTrack.isChecked){
-                onTrack = 1
-            }else{
-                onTrack = 0
+            AppHelper.createSwitchDialog(
+                this,
+                AppHelper.getRemoteString("ok", this),
+                AppHelper.getRemoteString("cancel", this),
+                getString(
+                    R.string.are_you_sure_change_status
+                ),
+                swOnTrack
+            ) {
+                if (swOnTrack.isChecked) {
+                    onTrack = 1
+                } else {
+                    onTrack = 0
+                }
+                setStatus()
             }
-            setStatus()
+
+
         }
         swPaid.setOnCheckedChangeListener { compoundButton, b ->
-            if(swOnTrack.isChecked){
-                paid = 1
-            }else{
-                paid = 0
+            AppHelper.createSwitchDialog(
+                this,
+                AppHelper.getRemoteString("ok", this),
+                AppHelper.getRemoteString("cancel", this),
+                getString(
+                    R.string.are_you_sure_change_status
+                ),
+                swPaid
+            ) {
+                if (swPaid.isChecked) {
+                    paid = 1
+                } else {
+                    paid = 0
+                }
+                setStatus()
             }
-            setStatus()
         }
         swDelivered.setOnCheckedChangeListener { compoundButton, b ->
-            if(swOnTrack.isChecked){
-                delivered = 1
-            }else{
-                delivered = 0
+
+            AppHelper.createSwitchDialog(this,AppHelper.getRemoteString("ok", this),AppHelper.getRemoteString("cancel", this),getString(
+                R.string.are_you_sure_change_status
+            ),swDelivered){
+                if (swDelivered.isChecked) {
+                    delivered = 1
+                } else {
+                    delivered = 0
+                }
+                setStatus()
             }
-            setStatus()
+
         }
 
 
-        llRatingOrder.setOnClickListener{
+        llRatingOrder.setOnClickListener {
             showRatingDialog()
         }
     }
-    fun setStatus(){
-        var newReq = RequestUpdateOrder(orderId ,onTrack,delivered,paid)
+
+    fun setStatus() {
+        var newReq = RequestUpdateOrder(orderId, onTrack, delivered, paid)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
-                override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
-                    try{
-                    }catch (E: java.lang.Exception){
+                override fun onResponse(
+                    call: Call<ResponseUpdate>,
+                    response: Response<ResponseUpdate>
+                ) {
+                    try {
+                    } catch (E: java.lang.Exception) {
                     }
                 }
+
                 override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
                 }
             })
     }
 
-    fun resultCancel(req:String){
-        if(req=="1"){
-            AppHelper.createDialog(this,AppHelper.getRemoteString("success",this))
-        }else{
-            AppHelper.createDialog(this,AppHelper.getRemoteString("failure",this))
+    fun resultCancel(req: String) {
+        if (req == "1") {
+            AppHelper.createDialog(this, AppHelper.getRemoteString("success", this))
+        } else {
+            AppHelper.createDialog(this, AppHelper.getRemoteString("failure", this))
         }
         try {
             loading.hide()
-        }catch (ex: Exception){
+        } catch (ex: Exception) {
 
         }
     }
@@ -445,14 +534,16 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
     }
 
 
-
     private fun showRatingDialog() {
         dialog = Dialog(this, R.style.Base_ThemeOverlay_AppCompat_Dialog)
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog!!.setCanceledOnTouchOutside(true)
         dialog!!.setContentView(R.layout.dialog_rating)
         dialog!!.window!!.setBackgroundDrawableResource(R.color.transparent)
-        dialog!!.window!!.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
+        dialog!!.window!!.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
         dialog!!.setCancelable(true)
         var close = dialog!!.findViewById<ImageView>(R.id.btClose)
         var tvTitleRate = dialog!!.findViewById<TextView>(R.id.tvTitleRate)
@@ -460,24 +551,27 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         var etRatingText = dialog!!.findViewById<EditText>(R.id.etRatingText)
         var rbOrder = dialog!!.findViewById<RatingBar>(R.id.rbOrder)
         var btSubmit = dialog!!.findViewById<Button>(R.id.btSubmit)
-        var vendorName=""
-        try{
-        if(MyApplication.selectedOrder!=null){
-            vendorName=MyApplication.selectedOrder!!.vendor!!.firstName!!+" "+MyApplication.selectedOrder!!.vendor!!.lastName!!
-        }}catch (e:Exception){}
-        tvTitleRate.text=AppHelper.getRemoteString("rate",this)+" "+vendorName
+        var vendorName = ""
+        try {
+            if (MyApplication.selectedOrder != null) {
+                vendorName =
+                    MyApplication.selectedOrder!!.vendor!!.firstName!! + " " + MyApplication.selectedOrder!!.vendor!!.lastName!!
+            }
+        } catch (e: Exception) {
+        }
+        tvTitleRate.text = AppHelper.getRemoteString("rate", this) + " " + vendorName
 
 
-        btSubmit.setOnClickListener{
-            if(etRatingText.text.toString().isEmpty()){
-               etRatingText.startAnimation(shake)
-            }else if(rbOrder.rating == 0f)
+        btSubmit.setOnClickListener {
+            if (etRatingText.text.toString().isEmpty()) {
+                etRatingText.startAnimation(shake)
+            } else if (rbOrder.rating == 0f)
                 rbOrder.startAnimation(shake)
             else {
-                if(MyApplication.isClient) {
+                if (MyApplication.isClient) {
                     setClientRating(loading, etRatingText.text.toString(), rbOrder.rating.toInt())
-                }else{
-                    setSerRating(loading,etRatingText.text.toString(),rbOrder.rating.toInt())
+                } else {
+                    setSerRating(loading, etRatingText.text.toString(), rbOrder.rating.toInt())
                 }
             }
         }
@@ -489,7 +583,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
     }
 
-    fun setSerRating(loading:LinearLayout, description:String, rating:Int){
+    fun setSerRating(loading: LinearLayout, description: String, rating: Int) {
         loading.show()
         var newReq = RequestClientReviews(
             MyApplication.selectedOrder!!.vendor!!.userId!!.toInt(),
@@ -501,17 +595,21 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.setRatingSer(newReq)?.enqueue(object : Callback<ResponseMessage> {
-                override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
-                    try{
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                    try {
                         loading.hide()
-                        if(response.body()!!.result == 1)
+                        if (response.body()!!.result == 1)
                             dialog!!.dismiss()
-                        else{
-                            createDialog(this@ActivityOrderDetails,response.body()!!.message!!)
+                        else {
+                            createDialog(this@ActivityOrderDetails, response.body()!!.message!!)
                         }
-                    }catch (E: java.lang.Exception){
+                    } catch (E: java.lang.Exception) {
                     }
                 }
+
                 override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
                     loading.hide()
                 }
@@ -519,7 +617,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
     }
 
 
-    fun setClientRating(loading:LinearLayout, description:String, rating:Int){
+    fun setClientRating(loading: LinearLayout, description: String, rating: Int) {
         loading.show()
         var newReq = RequestRating(
             MyApplication.selectedOrder!!.vendor!!.userId!!.toInt(),
@@ -529,20 +627,24 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             "",//get from user object
             description,
             rating
-            )
+        )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.setRating(newReq)?.enqueue(object : Callback<ResponseMessage> {
-                override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
-                    try{
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                    try {
                         loading.hide()
-                        if(response.body()!!.result == 1)
+                        if (response.body()!!.result == 1)
                             dialog!!.dismiss()
-                        else{
-                            createDialog(this@ActivityOrderDetails,response.body()!!.message!!)
+                        else {
+                            createDialog(this@ActivityOrderDetails, response.body()!!.message!!)
                         }
-                    }catch (E: java.lang.Exception){
+                    } catch (E: java.lang.Exception) {
                     }
                 }
+
                 override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
                     loading.hide()
                 }

@@ -14,6 +14,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.model.ResponseService
 import com.ids.qasemti.model.ServiceItem
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.loadRoundedImage
 import java.util.ArrayList
 
 class AdapterServices(
@@ -33,6 +34,7 @@ class AdapterServices(
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
         Glide.with(con).load(R.drawable.icon_truck).into(holder.image);
+        holder.image.loadRoundedImage(items.get(position).featuredImage!!)
 
        // holder.image.setBackgroundResource(items.get(position).testCode!!)
         holder.title.text = items.get(position).name

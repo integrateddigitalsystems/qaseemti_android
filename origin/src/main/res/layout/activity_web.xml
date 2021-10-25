@@ -122,7 +122,7 @@
                         android:textSize="@dimen/normal_font" />
 
                     <Button
-                        android:id="@+id/btContactUs"
+                        android:id="@+id/btContactWeb"
                         android:layout_marginBottom="@dimen/normal_margin"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"

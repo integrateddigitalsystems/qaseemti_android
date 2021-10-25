@@ -137,9 +137,9 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         AppHelper.setLogoTint(btLogout, this, color)
     }
 
-    fun setTitleAc(title: String) {
+    fun setTitleAc(title: String,color:Int) {
         tvPageTitle.show()
-        tvPageTitle.text = title
+        tvPageTitle.setColorTypeface(this,color,title,true)
     }
 
     fun defaultFragment() {

@@ -48,14 +48,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class FragmentProfile : Fragment(), RVOnItemClickListener {
+class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var selectedFile: MultipartBody.Part? = null
     var selectedProfilePic: MultipartBody.Part? = null
     var gender = "female"
     var lat: Double? = 0.0
     var fromProfile: Boolean? = false
     var long: Double? = 0.0
-    var profilePercentage=0
+    var profilePercentage = 0
     override fun onItemClicked(view: View, position: Int) {
 
     }
@@ -80,118 +80,120 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
     }
 
 
-
-    fun setUserData(){
-        profilePercentage=0
-       // loading.show()
-       // AppHelper.getUserInfo()
+    fun setUserData() {
+        profilePercentage = 0
+        // loading.show()
+        // AppHelper.getUserInfo()
         try {
             etFirstNameProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.firstName)
-        }catch (ex:Exception){
-            etFirstNameProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etFirstNameProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etMiddleNameProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.middleName)
-        }catch (ex:Exception){
-            etMiddleNameProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etMiddleNameProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etLastNameProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.lastName)
-        }catch (ex:Exception){
-            etLastNameProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etLastNameProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etEmailProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.email)
-        }catch (ex:Exception){
-            etEmailProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etEmailProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etMobileProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.mobileNumber)
-        }catch (ex:Exception){
-            etMobileProfile.text =  Editable.Factory.getInstance().newEditable("")
+                Editable.Factory.getInstance()
+                    .newEditable(MyApplication.selectedUser!!.mobileNumber)
+        } catch (ex: Exception) {
+            etMobileProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etCivilIdNbProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.civilId)
-        }catch (ex:Exception){
-            etCivilIdNbProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etCivilIdNbProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etDateOfBirthProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.birthday)
-        }catch (ex:Exception){
-            etDateOfBirthProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etDateOfBirthProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etAltContactNumberProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.altrNumb)
-        }catch (ex:Exception){
-            etAltContactNumberProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etAltContactNumberProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etAddressProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.location)
-        }catch (ex:Exception){
-            etAddressProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etAddressProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etAccountNumberProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.accountNumber)
-        }catch (ex:Exception){
-            etAccountNumberProfile.text =  Editable.Factory.getInstance().newEditable("")
+                Editable.Factory.getInstance()
+                    .newEditable(MyApplication.selectedUser!!.accountNumber)
+        } catch (ex: Exception) {
+            etAccountNumberProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etBankNameProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.bankName)
-        }catch (ex:Exception){
-            etBankNameProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etBankNameProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etBranchNameProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.bankBranch)
-        }catch (ex:Exception){
-            etBranchNameProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etBranchNameProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etDescriptionProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.desc)
-        }catch (ex:Exception){
-            etDescriptionProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etDescriptionProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etCivilIdNbProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.civil_id)
-        }catch (ex:Exception){
-            etCivilIdNbProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etCivilIdNbProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etBranchNameProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.bankBranch)
-        }catch (ex:Exception){
-            etBranchNameProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etBranchNameProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etIBANProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.IBAN)
-        }catch (ex:Exception){
-            etIBANProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etIBANProfile.text = Editable.Factory.getInstance().newEditable("")
         }
         try {
             etDateOfBirthProfile.text =
                 Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.dob)
-        }catch (ex:Exception){
-            etDateOfBirthProfile.text =  Editable.Factory.getInstance().newEditable("")
+        } catch (ex: Exception) {
+            etDateOfBirthProfile.text = Editable.Factory.getInstance().newEditable("")
         }
 
-        try{
-            if(!MyApplication.selectedUser!!.profilePicUrl.isNullOrEmpty())
-               ivProfile.loadRoundedImage(MyApplication.selectedUser!!.profilePicUrl!!)
-        }catch (e:Exception){}
+        try {
+            if (!MyApplication.selectedUser!!.profilePicUrl.isNullOrEmpty())
+                ivProfile.loadRoundedImage(MyApplication.selectedUser!!.profilePicUrl!!)
+        } catch (e: Exception) {
+        }
 
         try {
             if (MyApplication.selectedUser!!.gender.equals("female")) {
@@ -201,36 +203,44 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 rbFemaleProfile.isChecked = false
                 rbMaleProfile.isChecked = true
             }
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
             rbFemaleProfile.isChecked = true
             rbMaleProfile.isChecked = false
         }
 
-        try{tvUsername.text=MyApplication.selectedUser!!.firstName+" "+MyApplication.selectedUser!!.lastName}catch (e:Exception){}
+        try {
+            tvUsername.text =
+                MyApplication.selectedUser!!.firstName + " " + MyApplication.selectedUser!!.lastName
+        } catch (e: Exception) {
+        }
 
-        if(!MyApplication.isClient){
-        if(!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
-            profilePercentage+=25
-        if(!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.middleName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
-            profilePercentage+=25
-        if(!MyApplication.selectedUser!!.location.isNullOrEmpty())
-            profilePercentage+=25
-        if(!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankBranch.isNullOrEmpty()  /*&& !MyApplication.selectedUser!!.iban.isNullOrEmpty()*/)
-            profilePercentage+=25
-        }else{
-            if(!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
-                profilePercentage+=25
-            if(!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
-                profilePercentage+=25
-            if(!MyApplication.selectedUser!!.email.isNullOrEmpty())
-                profilePercentage+=25
-            if(!MyApplication.selectedUser!!.profilePicUrl.isNullOrEmpty())
-                profilePercentage+=25
+        if (!MyApplication.isClient) {
+            if (!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
+                profilePercentage += 25
+            if (!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.middleName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
+                profilePercentage += 25
+            if (!MyApplication.selectedUser!!.location.isNullOrEmpty())
+                profilePercentage += 25
+            if (!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankBranch.isNullOrEmpty()  /*&& !MyApplication.selectedUser!!.iban.isNullOrEmpty()*/)
+                profilePercentage += 25
+        } else {
+            if (!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
+                profilePercentage += 25
+            if (!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
+                profilePercentage += 25
+            if (!MyApplication.selectedUser!!.email.isNullOrEmpty())
+                profilePercentage += 25
+            if (!MyApplication.selectedUser!!.profilePicUrl.isNullOrEmpty())
+                profilePercentage += 25
         }
 
         pbComplete.setWeight(profilePercentage.toFloat())
-        pbNotComplete.setWeight(100f-profilePercentage.toFloat())
-        tvPercentageCompleted.text = profilePercentage.toString()+" % "+AppHelper.getRemoteString("completed",requireActivity())
+        pbNotComplete.setWeight(100f - profilePercentage.toFloat())
+        tvPercentageCompleted.text =
+            profilePercentage.toString() + " % " + AppHelper.getRemoteString(
+                "completed",
+                requireActivity()
+            )
 
     }
 
@@ -241,7 +251,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             requireActivity(),
             AppHelper.getRemoteString("Profile", requireContext()),
             "profile"
-        )
+        ,R.color.redPrimary)
         rbFemaleProfile.isSelected = true
         // (activity as ActivityHome?)!!.showLogout(false)
         tvToolbarCurveTitle.visibility = View.GONE
@@ -253,35 +263,42 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
 
     }
 
-    fun succUpdate(res:Int){
-        if(res==1){
-            AppHelper.createDialog(requireActivity(),"Update Successful")
+    fun succUpdate(res: Int) {
+        if (res == 1) {
+            AppHelper.createDialog(requireActivity(), "Update Successful")
             loading.hide()
             getUserData()
-        }else{
-            AppHelper.createDialog(requireActivity(),"Update Failed")
+        } else {
+            AppHelper.createDialog(requireActivity(), "Update Failed")
         }
     }
 
-    fun getUserData(){
+    fun getUserData() {
         loading.show()
-        var newReq = RequestUpdateLanguage(MyApplication.userId,MyApplication.languageCode)
+        var newReq = RequestUpdateLanguage(MyApplication.userId, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.getUser(newReq
+            ?.getUser(
+                newReq
             )?.enqueue(object : Callback<ResponseUser> {
-                override fun onResponse(call: Call<ResponseUser>, response: Response<ResponseUser>) {
-                    try{
-                        MyApplication.selectedUser=response.body()!!.user}catch (e:Exception){
+                override fun onResponse(
+                    call: Call<ResponseUser>,
+                    response: Response<ResponseUser>
+                ) {
+                    try {
+                        MyApplication.selectedUser = response.body()!!.user
+                    } catch (e: Exception) {
 
-                        }
+                    }
                     loading.hide()
                     setUserData()
                 }
+
                 override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
                     loading.hide()
                 }
             })
     }
+
     fun updateClient() {
         try {
             loading.show()
@@ -295,11 +312,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         val last = etLastNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val email = etEmailProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val phone = etMobileProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        if(selectedProfilePic==null){
-            var empty =""
+        if (selectedProfilePic == null) {
+            var empty = ""
             val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
 
-            selectedProfilePic =createFormData("profile_pic", "", attachmentEmpty)
+            selectedProfilePic = createFormData("profile_pic", "", attachmentEmpty)
         }
         var type = "1"
         var typeReq = type.toRequestBody()
@@ -317,7 +334,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
 
 
             )?.enqueue(object : Callback<ResponseUser> {
-                override fun onResponse(call: Call<ResponseUser>, response: Response<ResponseUser>) {
+                override fun onResponse(
+                    call: Call<ResponseUser>,
+                    response: Response<ResponseUser>
+                ) {
                     try {
                         loading.hide()
                         succUpdate(response.body()!!.result!!)
@@ -327,7 +347,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 }
 
                 override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
-                 loading.hide()
+                    loading.hide()
                 }
             })
 
@@ -348,10 +368,66 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                   AppHelper.createDialog(requireActivity(),str)
               }else
               {*/
-            if (!MyApplication.isClient)
-                updateProfile()
-            else
-                updateClient()
+            if (!MyApplication.isClient){
+
+                if (selectedProfilePic == null) {
+                    var empty = ""
+                    val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+                    selectedProfilePic =
+                        MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+                }
+                if(selectedFile==null){
+                    var empty = ""
+                    val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+                    selectedFile =
+                        MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+                }
+                CallAPIs.updateProfileServiceProvider(
+                    requireContext(),
+                    this,
+                    loading,
+                    lat!!,
+                    long!!,
+                    gender,
+                    etFirstNameProfile.text.toString(),
+                    etMiddleNameProfile.text.toString(),
+                    etLastNameProfile.text.toString(),
+                    etEmailProfile.text.toString(),
+                    etMobileProfile.text.toString(),
+                    etAltContactNumberProfile.text.toString(),
+                    etCivilIdNbProfile.text.toString(),
+                    etDateOfBirthProfile.text.toString(),
+                    etAddressProfile.text.toString(),
+                    etAccountNumberProfile.text.toString(),
+                    etBankNameProfile.text.toString(),
+                    etBranchNameProfile.text.toString(),
+                    etDescriptionProfile.text.toString(),
+                    etIBANProfile.text.toString(),
+                    selectedFile!!,
+                    selectedProfilePic!!
+                )
+        }else {
+                if (selectedProfilePic == null) {
+                    var empty = ""
+                    val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+                    selectedProfilePic =
+                        MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+                }
+                CallAPIs.updateProfileClient(
+                    requireContext(),
+                    this,
+                    loading,
+                    etFirstNameProfile.text.toString(),
+                    etLastNameProfile.text.toString(),
+                    etEmailProfile.text.toString(),
+                    etMobileProfile.text.toString(),
+                    selectedProfilePic!!
+                )
+            }
+            //updateClient()
             //   }
         }
         rbMaleProfile.onOneClick {
@@ -444,9 +520,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                         file.name + "File",
                         req
                     )
-                else{
+                else {
                     selectedProfilePic = MultipartBody.Part.createFormData(
-                       if(MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
+                        if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
                         file.name + "File",
                         req
                     )
@@ -499,6 +575,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         val last = etLastNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val email = etEmailProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val phone = etMobileProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val altNUm = etAltContactNumberProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val civilId =
             etCivilIdNbProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val genderr = gender.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -518,11 +595,17 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
         val description =
             etDescriptionProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val iban = etIBANProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-        if(selectedFile==null){
-            var empty =""
+        if (selectedFile == null) {
+            var empty = ""
             val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
 
-            selectedFile =createFormData("attachment", "", attachmentEmpty)
+            selectedFile = createFormData("attachment", "", attachmentEmpty)
+        }
+        if (selectedProfilePic == null) {
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedProfilePic = createFormData("attachment", "", attachmentEmpty)
         }
 
 
@@ -534,6 +617,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 last,
                 email,
                 phone,
+                altNUm,
                 civilId,
                 selectedFile!!,
                 genderr,
@@ -550,7 +634,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
                 description
 
             )?.enqueue(object : Callback<ResponseUser> {
-                override fun onResponse(call: Call<ResponseUser>, response: Response<ResponseUser>) {
+                override fun onResponse(
+                    call: Call<ResponseUser>,
+                    response: Response<ResponseUser>
+                ) {
                     try {
                         succUpdate(response.body()!!.result!!)
                     } catch (E: java.lang.Exception) {
@@ -564,8 +651,13 @@ class FragmentProfile : Fragment(), RVOnItemClickListener {
             })
     }
 
-    private fun showClientFields(){
+    private fun showClientFields() {
         etMiddleNameProfile.hide()
         linearProviderInfo.hide()
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+        var res = response as ResponseUser
+        succUpdate(res.result!!)
     }
 }
