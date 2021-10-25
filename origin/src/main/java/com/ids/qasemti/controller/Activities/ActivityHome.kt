@@ -1,5 +1,7 @@
 package com.ids.qasemti.controller.Activities
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Layout
@@ -411,6 +413,40 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             llFooterProducts.show()
             llFooterCart.hide()
             tvFooterHome.textRemote("Home",this)
+        }
+
+        btLogout.setOnClickListener{
+            showLogoutDialog(this)
+        }
+    }
+
+    fun showLogoutDialog(context: Activity){
+        AppHelper.createYesNoDialog(
+            context,
+            AppHelper.getRemoteString("logout", context),
+            AppHelper.getRemoteString("cancel", context),
+            AppHelper.getRemoteString("sureLogout", context)
+        ) {
+            MyApplication.isSignedIn = false
+            MyApplication.fromLogout = true
+            MyApplication.deviceId = 0
+            MyApplication.phoneNumber = ""
+            MyApplication.userId = 0
+            if (MyApplication.isClient) {
+                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+                MyApplication.selectedFragment = FragmentHomeClient()
+            } else {
+                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+                MyApplication.selectedFragment = FragmentHomeSP()
+            }
+            MyApplication.selectedPos = 2
+            context.finishAffinity()
+            startActivity(
+                Intent(
+                    context,
+                    ActivityMobileRegistration::class.java
+                ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            )
         }
     }
 

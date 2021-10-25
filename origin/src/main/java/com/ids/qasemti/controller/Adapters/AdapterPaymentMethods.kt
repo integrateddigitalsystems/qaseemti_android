@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.model.FilesSelected
+import com.ids.qasemti.utils.AppHelper
 
 import java.util.ArrayList
 
@@ -36,6 +37,7 @@ class AdapterPaymentMethods(
         else
             holder.ivRadioPayment.setImageResource(R.drawable.blue_circle_border)
 
+        try{holder.ivPayment.setImageResource(AppHelper.getImageId(con,items[position].slug!!))}catch (e:Exception){}
     }
 
     override fun getItemCount(): Int {
@@ -46,7 +48,7 @@ class AdapterPaymentMethods(
 
         var ivRadioPayment = itemView.findViewById<ImageView>(R.id.ivRadioPayment)
         var tvPaymentTitle = itemView.findViewById<TextView>(R.id.tvPaymentTitle)
-
+        var ivPayment = itemView.findViewById<ImageView>(R.id.ivPayment)
         init {
               itemView.setOnClickListener(this)
         }

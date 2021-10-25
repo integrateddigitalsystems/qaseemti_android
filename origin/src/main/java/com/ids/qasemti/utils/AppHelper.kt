@@ -1,10 +1,8 @@
 package com.ids.qasemti.utils
 
 
-import android.R.attr.data
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -25,8 +23,6 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.OpenableColumns
 import android.provider.Settings
-import android.provider.Settings.Global.getString
-import android.provider.Settings.System.getString
 import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
@@ -42,7 +38,6 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.BitmapImageViewTarget
@@ -71,7 +66,6 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.prefs.PreferencesFactory
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
@@ -1155,6 +1149,11 @@ class AppHelper {
             } else {
                 capitalize(manufacturer) + " " + model
             }
+        }
+
+
+        fun getImageId(context: Context, imageName: String): Int {
+            return context.resources.getIdentifier("drawable/$imageName", null, context.packageName)
         }
 
 

@@ -1,5 +1,7 @@
 package com.ids.qasemti.controller.Activities
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -7,6 +9,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,6 +49,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     private val CODE_WORK_LICENSE = 1003
     private val CODE_VEHICLE_LICENSE = 1004
     private val CODE_REQUIRED_FILES = 1005
+    private val CODE_CAMERA = 1006
     private var selectedCategoryId=1
     private var selectedCategoryName=AppConstants.TYPE_PURCHASE
     private var selectedServiceId=0
@@ -125,7 +129,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                 }
             }
         }
-        rgCategory.setOnCheckedChangeListener { group, checkedId ->
+        rgCategory.setOnCheckedChangeListener { _, checkedId ->
             val rb = findViewById<View>(checkedId) as RadioButton
             if(checkedId==R.id.rbPurchase){
                 selectedCategoryId=1
@@ -215,7 +219,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 selectedTypeId=arraySpinnerTypes[position].id!!
                 selectedTypeName=arraySpinnerTypes[position].name!!
-                setStockSpinner(arrayTypes[position].stockQuantity!!)
+                //setStockSpinner(arrayTypes[position].stockQuantity!!)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -276,13 +280,18 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
 
     private fun pickFile(pickCode:Int){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_DENIED){
+             ActivityCompat.requestPermissions(this as Activity,
+                arrayOf( Manifest.permission.CAMERA),CODE_CAMERA)
 
+        }else{
         val intent = Intent(this, FilePickerActivity::class.java)
         intent.putExtra(
             FilePickerActivity.CONFIGS, Configurations.Builder()
                 .setCheckPermission(true)
                // .setSelectedMediaFiles(mediaFiles)
-               // .enableImageCapture(true)
+                .enableImageCapture(true)
                 .setShowVideos(false)
                 .setSkipZeroSizeFiles(true)
                 .setMaxSelection(1)
@@ -290,6 +299,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                 .build()
         )
         startActivityForResult(intent,pickCode)
+        }
 
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -323,6 +333,12 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                      } catch (e: Exception) {
                     }
                 }
+
+              /*  CODE_CAMERA ->{
+                    try{}catch (e:Exception){
+
+                    }
+                }*/
 
 
             }
@@ -363,7 +379,11 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun setTab2(){
-        if(arrayImagesSelected.size>0){
+        if(arrayImagesSelected.size== 0 )
+            createDialog(this,"Please upload image")
+        else if(etStockAvailable.text.toString().isEmpty() || etStockAvailable.text.toString() == "0")
+            createDialog(this,"Please fill stock available")
+        else{
         linearProgress1.setBackgroundColor(ContextCompat.getColor(this,R.color.redPrimary))
         linearProgress2.setBackgroundColor(ContextCompat.getColor(this,R.color.gray_progress))
         linearService1.hide()
@@ -376,8 +396,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         ivTab2.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
         ivTab3.setColorFilter(ContextCompat.getColor(this, R.color.gray_font), android.graphics.PorterDuff.Mode.SRC_IN)
         tvTabTitle.text =AppHelper.getRemoteString("ownership_proof",this)
-        }else{
-            AppHelper.createDialog(this,"Please upload image")
         }
     }
 
@@ -405,10 +423,13 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         var variation=service!!.variations.find { it.types == selectedTypeName && it.sizeCapacity == selectedSizeName }
         price=""
         earning=""
+            var edt=""
         try{price = variation!!.price!!}catch (e:Exception){}
         try{earning = variation!!.earnings!!}catch (e:Exception){}
+            try{edt = service.eta!!}catch (e:Exception){}
         tvPrice.text="Price : "+price
         tvEarning.text="Earning : "+earning
+        tvEstimatedDeliveryTime.text="Estimated delivery time : "+edt
         }
     }
 
@@ -418,7 +439,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         arrayData.add(ServicesData(2, getString(R.string.service),selectedServiceName, selectedServiceId))
         arrayData.add(ServicesData(3, getString(R.string.type),selectedTypeName, selectedTypeId))
         arrayData.add(ServicesData(4, getString(R.string.SizeCapacity),selectedSizeName, selectedSizeId))
-        arrayData.add(ServicesData(5, getString(R.string.Quantity),selectedQtyName, selectedQtyId))
+        arrayData.add(ServicesData(5, getString(R.string.Quantity),etStockAvailable.text.toString(), 1))
         var adapter = AdapterServicesData(arrayData, this, this)
         rvData.layoutManager = LinearLayoutManager(this)
         rvData.adapter = adapter
