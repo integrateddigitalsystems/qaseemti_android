@@ -36,6 +36,7 @@ class ActivityWeb: ActivityBase() {
     }
 
 
+
     fun resultContact(req:Int){
         if(req==1){
             AppHelper.createDialog(this,AppHelper.getRemoteString("success",this))
