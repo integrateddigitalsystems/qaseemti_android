@@ -35,6 +35,7 @@
     <ScrollView
         android:id="@+id/svScroll"
         android:layout_below="@id/llContactOrder"
+        android:layout_above="@id/llCancelOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -178,9 +179,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
+
         <com.ids.qasemti.custom.CustomTextViewMedium
-            android:layout_marginStart="@dimen/margin_start_end"
+            android:gravity="center"
             android:layout_marginEnd="@dimen/normal_margin"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_weight="1"
+            android:id="@+id/btDontCancel"
+            android:text="@string/discard"
+            android:tag="discard"
+            android:textColor="@color/redPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_white_red_border"
+            />
+
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:layout_marginStart="@dimen/normal_margin"
             android:layout_weight="1"
             android:text="@string/submit"
             android:tag="submit"
@@ -191,20 +209,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"
             android:background="@drawable/rounded_blue"
-            />
-
-        <com.ids.qasemti.custom.CustomTextViewMedium
-            android:gravity="center"
-            android:layout_marginStart="@dimen/normal_margin"
-            android:layout_marginEnd="@dimen/margin_start_end"
-            android:layout_weight="1"
-            android:id="@+id/btDontCancel"
-            android:text="@string/dont_cancel"
-            android:tag="dont_cancel"
-            android:textColor="@color/redPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/rounded_white_red_border"
             />
 
     </LinearLayout>
