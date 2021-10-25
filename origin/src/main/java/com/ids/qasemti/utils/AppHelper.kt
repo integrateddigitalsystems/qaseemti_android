@@ -1,10 +1,8 @@
 package com.ids.qasemti.utils
 
 
-import android.R.attr.data
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -25,8 +23,6 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.OpenableColumns
 import android.provider.Settings
-import android.provider.Settings.Global.getString
-import android.provider.Settings.System.getString
 import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
@@ -35,13 +31,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.BitmapImageViewTarget
@@ -56,6 +52,7 @@ import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
+import kotlinx.android.synthetic.main.layout_order_switch.*
 import me.grantland.widget.AutofitHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -69,7 +66,6 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.prefs.PreferencesFactory
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
@@ -612,26 +608,33 @@ class AppHelper {
 
             when (selected) {
                 AppConstants.FRAGMENT_ACCOUNT -> {
+                    MyApplication.selectedTitle =getRemoteString("Account",context)
                     setLogoTint(imgAcc, context, R.color.redPrimary)
                     setTextColor(context, tvAcc, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_HOME_CLIENT, AppConstants.FRAGMENT_HOME_SP -> {
+                    MyApplication.selectedTitle =getRemoteString("Services",context)
                     setLogoTint(imgHom, context, R.color.redPrimary)
                     setTextColor(context, tvHom, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_ORDER -> {
+                    MyApplication.selectedTitle =getRemoteString("orders",context)
                     setLogoTint(imgOrd, context, R.color.redPrimary)
                     setTextColor(context, tvOrd, R.color.redPrimary)
                 }
-                AppConstants.FRAGMENT_NOTFICATIONS -> {
+                AppConstants.FRAGMENT_NOTFICATIONS ->
+                {
+                    MyApplication.selectedTitle =getRemoteString("notifications",context)
                     setLogoTint(imgNot, context, R.color.redPrimary)
                     setTextColor(context, tvNot, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_MY_SERVICES -> {
+                    MyApplication.selectedTitle =getRemoteString("MyServices",context)
                     setLogoTint(imgPro, context, R.color.redPrimary)
                     setTextColor(context, tvPro, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_CART -> {
+                    MyApplication.selectedTitle =getRemoteString("Cart",context)
                     setLogoTint(imgCart, context, R.color.redPrimary)
                     setTextColor(context, tvCart, R.color.redPrimary)
                 }
@@ -686,6 +689,58 @@ class AppHelper {
 
         }
 
+        fun createYesNoDialog(
+            c: Activity,
+            positiveButton: String,
+            negativeButton: String,
+            message: String,
+            doAction: () -> Unit ,
+            doCancel : () -> Unit
+        ) {
+
+
+            val builder = AlertDialog.Builder(c)
+            builder
+                .setMessage(message)
+                .setCancelable(true)
+                .setNegativeButton(negativeButton) { dialog, _ ->
+                    doCancel()
+                    dialog.cancel()
+                }
+                .setPositiveButton(positiveButton) { dialog, _ ->
+                    doAction()
+                }
+            val alert = builder.create()
+            alert.show()
+
+        }
+
+        fun createSwitchDialog(
+            c: Activity,
+            positiveButton: String,
+            negativeButton: String,
+            message: String,
+            view: SwitchCompat ,
+            doAction: () -> Unit
+        ) {
+
+
+            val builder = AlertDialog.Builder(c)
+            builder.setMessage(
+                message
+            )
+                .setCancelable(true)
+                .setNegativeButton(negativeButton) { dialog, _ ->
+                   view.isChecked = !view.isChecked
+                    dialog.cancel()
+                }
+                .setPositiveButton(positiveButton) { dialog, _ ->
+                    doAction()
+                }
+            val alert = builder.create()
+            alert.show()
+
+        }
         fun createYesNoDialog(
             c: Activity,
             positiveButton: String,
@@ -870,18 +925,18 @@ class AppHelper {
         }
 
 
-        fun setTitle(context: Context, text: String, tag: String) {
+        fun setTitle(context: Context, text: String, tag: String,color:Int) {
             if (tag.isNotEmpty()) {
                 try {
                     (context as ActivityHome?)!!.setTitleAc(
                         MyApplication.localizeArray!!.messages!!.find { it.localize_Key == tag }!!
                             .getMessage()!!
-                    )
+                    ,color)
                 } catch (e: java.lang.Exception) {
-                    (context as ActivityHome?)!!.setTitleAc(text)
+                    (context as ActivityHome?)!!.setTitleAc(text,color)
                 }
             } else {
-                (context as ActivityHome?)!!.setTitleAc(text)
+                (context as ActivityHome?)!!.setTitleAc(text,color)
             }
         }
 
@@ -1094,6 +1149,11 @@ class AppHelper {
             } else {
                 capitalize(manufacturer) + " " + model
             }
+        }
+
+
+        fun getImageId(context: Context, imageName: String): Int {
+            return context.resources.getIdentifier("drawable/$imageName", null, context.packageName)
         }
 
 

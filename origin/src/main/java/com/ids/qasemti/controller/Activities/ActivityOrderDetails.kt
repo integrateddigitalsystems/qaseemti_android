@@ -96,6 +96,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             llRatingOrder.show()
         }else if(MyApplication.typeSelected==1){
             btCancelOrder.show()
+            llOrderSwitches.hide()
         }else{
             llEditOrderTime.hide()
             llActualDelivery.show()
@@ -146,7 +147,10 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         try{tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy")}catch (e:Exception){}
         try{tvExpectedOrderDateDeet.text = MyApplication.selectedOrder!!.deliveryDate}catch (e:Exception){}
         try{tvOrderAmountDeet.text = MyApplication.selectedOrder!!.total!!.toString()+" "+MyApplication.selectedOrder!!.currency}catch (e:Exception){}
-        try{tvPaymentMethod.text = MyApplication.selectedOrder!!.paymentMethod}catch (e:Exception){}
+        try{
+            if(MyApplication.selectedOrder!!.paymentMethod!=null && MyApplication.selectedOrder!!.paymentMethod!!.isNotEmpty())
+            tvPaymentMethod.text = MyApplication.selectedOrder!!.paymentMethod
+        }catch (e:Exception){}
         try{
             swDelivered.isChecked = MyApplication.selectedOrder!!.delivered!!
         }catch (ex:Exception){}
@@ -375,14 +379,24 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             llCancelButtons.hide()
         }
         btCancelOrder.onOneClick {
+            etCancellationReason.text.clear()
             btCancelOrder.hide()
             etCancellationReason.show()
             llCancelButtons.show()
 
         }
 
-        swOnTrack.setOnCheckedChangeListener { compoundButton, b ->
+        swOnTrack.setOnClickListener {
 
+            AppHelper.createSwitchDialog(
+                this,
+                AppHelper.getRemoteString("ok", this),
+                AppHelper.getRemoteString("cancel", this),
+                getString(
+                    R.string.are_you_sure_change_status
+                ),
+                swOnTrack
+            ) {
             if(swOnTrack.isChecked){
                 onTrack = 1
             }else{
@@ -390,21 +404,40 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             }
             setStatus()
         }
-        swPaid.setOnCheckedChangeListener { compoundButton, b ->
-            if(swOnTrack.isChecked){
+
+
+        }
+        swPaid.setOnClickListener {
+            AppHelper.createSwitchDialog(
+                this,
+                AppHelper.getRemoteString("ok", this),
+                AppHelper.getRemoteString("cancel", this),
+                getString(
+                    R.string.are_you_sure_change_status
+                ),
+                swPaid
+            ) {
+                if (swPaid.isChecked) {
                 paid = 1
             }else{
                 paid = 0
             }
             setStatus()
         }
-        swDelivered.setOnCheckedChangeListener { compoundButton, b ->
-            if(swOnTrack.isChecked){
+        }
+        swDelivered.setOnClickListener {
+
+            AppHelper.createSwitchDialog(this,AppHelper.getRemoteString("ok", this),AppHelper.getRemoteString("cancel", this),getString(
+                R.string.are_you_sure_change_status
+            ),swDelivered){
+                if (swDelivered.isChecked) {
                 delivered = 1
             }else{
                 delivered = 0
             }
             setStatus()
+        }
+
         }
 
 

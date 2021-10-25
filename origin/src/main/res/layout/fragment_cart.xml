@@ -15,12 +15,13 @@
 
     </LinearLayout>
 
-    <LinearLayout
+  <!--  <LinearLayout
+        android:id="@+id/llTool"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <include
         layout="@layout/toolbar" />
-    </LinearLayout>
+    </LinearLayout>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="@dimen/medium_push"

@@ -530,8 +530,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/normal_margin"
-                    android:tag="pending_cash_on_delivery"
-                    android:text="@string/pending_cash_delivery"
+                    android:tag="no_payment_info"
+                    android:text="@string/no_payment_info"
                     android:textColor="@color/gray_font"
                     android:textSize="@dimen/normal_font" />
 
@@ -745,6 +745,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/small_margin"
+                        android:textAllCaps="true"
                         android:layout_marginEnd="@dimen/small_margin"
                         android:gravity="center_vertical"
                         android:text="@string/view_order_details"
@@ -789,6 +790,7 @@
                         android:layout_marginEnd="@dimen/small_margin"
                         android:gravity="center_vertical"
                         android:tag="track_order_C"
+                        android:textAllCaps="true"
                         android:text="@string/track_order"
                         android:textColor="@color/redPrimary"
                         android:textSize="@dimen/small_font" />

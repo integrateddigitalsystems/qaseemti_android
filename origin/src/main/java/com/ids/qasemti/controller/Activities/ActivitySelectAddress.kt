@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 class ActivitySelectAddress : AppCompactBase() {
 
     var latLng: LatLng? = null
-    var REQUEST_LOCATION = 5
+    var REQUEST_LOCATION = 1005
     var addressName: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +35,7 @@ class ActivitySelectAddress : AppCompactBase() {
         init()
         setListeners()
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -50,7 +51,37 @@ class ActivitySelectAddress : AppCompactBase() {
                     } catch (ex: Exception) {
                     }
 
+                    var sumbtted = MyApplication.submitted
+
                     addressName = extras.getString("address")
+                    if (sumbtted!!) {
+                        if (!addressName.isNullOrEmpty()) {
+                            val intent = Intent()
+
+                            val extras = Bundle()
+                            extras.putString(
+                                "address",
+                                addressName
+                            )
+                            if (latLng != null) {
+                                extras.putDouble(
+                                    "lat",
+                                    latLng!!.latitude
+                                )
+                                extras.putDouble(
+                                    "long",
+                                    latLng!!.longitude
+                                )
+                            }
+                            intent.putExtras(extras)
+
+
+                            setResult(RESULT_OK, intent)
+                            finish()
+                        } else {
+                            AppHelper.createDialog(this, "Please pick location")
+                        }
+                    }
 
                     Toast.makeText(this, addressName, Toast.LENGTH_SHORT).show()
                 }
@@ -139,6 +170,7 @@ class ActivitySelectAddress : AppCompactBase() {
             )
         }
         llSavedLocation.onOneClick {
+            MyApplication.addNew = false
             startActivityForResult(
                 Intent(this, ActivityAddresses::class.java)
                     .putExtra("mapTitle", AppHelper.getRemoteString("SavedLocation", this)),
@@ -147,13 +179,16 @@ class ActivitySelectAddress : AppCompactBase() {
         }
         llNewAddress.onOneClick {
             MyApplication.finish = true
-            startActivityForResult(
-                Intent(this, ActivityMapAddress::class.java),
-                REQUEST_LOCATION
-            )
+            MyApplication.addNew = true
+            startActivityForResult(Intent(this,ActivityMapAddress::class.java),
+                REQUEST_LOCATION)
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
 
     private fun getCurrentLocation() {
         loading.show()
@@ -167,11 +202,11 @@ class ActivitySelectAddress : AppCompactBase() {
                     MyApplication.selectedCurrentAddress = AppHelper.getAddressLoc(
                         latLng!!.latitude,
                         latLng!!.longitude,
-                        this@ActivitySelectAddress)
+                        this@ActivitySelectAddress
+                    )
                     startActivityForResult(
                         Intent(this@ActivitySelectAddress, ActivityAddNewAddress::class.java)
-                            .putExtra("from","current")
-                            ,
+                            .putExtra("from", "current"),
                         REQUEST_LOCATION
                     )
 

@@ -35,12 +35,11 @@
 
     <LinearLayout
         android:background="@drawable/pink_background_circle"
-        android:padding="@dimen/normal_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     <ImageView
-        android:layout_width="@dimen/big_icon_size"
-        android:layout_height="@dimen/big_icon_size"
+        android:layout_width="@dimen/bigger_icon_size"
+        android:layout_height="@dimen/bigger_icon_size"
         android:id="@+id/ivServiceLogo"
         />
     </LinearLayout>

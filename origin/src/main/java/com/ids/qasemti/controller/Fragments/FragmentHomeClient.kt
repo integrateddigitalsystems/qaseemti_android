@@ -91,7 +91,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
             startActivity(Intent( requireActivity(),ActivitySelectAddress::class.java))
         }
         if (MyApplication.isSignedIn) {
-            (activity as ActivityHome?)!!.showLogout(false)
+            (activity as ActivityHome?)!!.showLogout(true)
             btRegisterLogin.hide()
         }else{
             btRegisterLogin.show()
@@ -111,8 +111,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
 
 
-        AppHelper.setTitle(requireActivity(), AppHelper.getRemoteString("our_services",requireContext()), "services")
-
+       AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!,"",R.color.white)
         getServices()
 
 
@@ -319,10 +318,11 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
             if (arrayFiltered.size == 0) {
                 rvServices.hide()
                 btFilter.hide()
-                llNodata.show()
+                tvNoDataClient.show()
 
 
             } else {
+                tvNoDataClient.hide()
                 var adapter = AdapterServices(arrayFiltered, this, requireContext())
                 rvServices.layoutManager = LinearLayoutManager(requireContext())
                 rvServices.adapter = adapter
@@ -336,7 +336,6 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
 
         if (view.id == R.id.linearService) {
-            tvPageTitle
             AppHelper.onOneClick {
                 MyApplication.selectedFragment = FragmentServiceDetails()
                 MyApplication.selectedService = arrayAllServices.get(position)

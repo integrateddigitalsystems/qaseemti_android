@@ -1,5 +1,7 @@
 package com.ids.qasemti.controller.Adapters
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +23,7 @@ import java.util.*
 class AdapterOrderType(
     val items: ArrayList<ResponseOrders>,
     private val itemClickListener: RVOnItemClickListener,
-    context: Context
+    context: Activity
 ) :
     RecyclerView.Adapter<AdapterOrderType.VHItem>() {
 
@@ -58,10 +60,11 @@ class AdapterOrderType(
             holder.ratingBar.rating = items.get(position).vendor!!.rate!!.toFloat()
         }catch (ex:java.lang.Exception){holder.ratingBar.rating = 0f}
         try{
-            holder.paymentMethod.text = items.get(position).paymentMethodTitle
-        }catch (ex:java.lang.Exception){holder.paymentMethod.text = ""}
+            if(items[position].paymentMethodTitle!=null && items[position].paymentMethodTitle!!.isNotEmpty())
+                holder.paymentMethod.text = items[position].paymentMethodTitle
+        }catch (ex:java.lang.Exception){}
         try {
-            holder.orderCost.text = items.get(position).total!!+" "+items.get(position).currency
+            holder.orderCost.text = items[position].total!!+" "+items.get(position).currency
         }catch (ex:Exception){ holder.orderCost.text =""}
         try{
             holder.cancelReasonDetails.text = items.get(position).cancellationDate
@@ -73,7 +76,7 @@ class AdapterOrderType(
         }catch (ex:Exception){
             holder.cancelledname.text =""
         }
- 
+
         try {
             onTrack= if(items.get(position).onTrack!!) 1 else 0
             holder.switchOnTrack.isChecked = items[position].onTrack!!
@@ -87,30 +90,76 @@ class AdapterOrderType(
             holder.switchDelivered.isChecked = items[position].delivered!!
         }catch (ex:java.lang.Exception){}
 
-        holder.switchDelivered.setOnCheckedChangeListener { compoundButton, b ->
-            if( holder.switchDelivered.isChecked){
-                delivered = 1
-            }else{
-                delivered = 0
+        holder.switchDelivered.setOnClickListener {
+            AppHelper.createSwitchDialog(
+                con,
+                AppHelper.getRemoteString("ok", con),
+                AppHelper.getRemoteString("cancel", con),
+                con.getString(
+                    R.string.are_you_sure_change_status
+                ),
+                holder.switchDelivered
+            ) {
+                if (holder.switchDelivered.isChecked) {
+                    delivered = 1
+                } else {
+                    delivered = 0
+                }
+                AppHelper.updateStatus(
+                    items.get(position).orderId!!.toInt(),
+                    onTrack,
+                    delivered,
+                    paid
+                )
             }
-            AppHelper.updateStatus(items.get(position).orderId!!.toInt(),onTrack,delivered,paid)
         }
-        holder.switchOnTrack.setOnCheckedChangeListener { compoundButton, b ->
-            if( holder.switchOnTrack.isChecked){
-                onTrack = 1
-            }else{
-                onTrack = 0
+        holder.switchOnTrack.setOnClickListener {
+            AppHelper.createSwitchDialog(
+                con,
+                AppHelper.getRemoteString("ok", con),
+                AppHelper.getRemoteString("cancel", con),
+                con.getString(
+                    R.string.are_you_sure_change_status
+                ),
+                holder.switchOnTrack
+            ) {
+                if (holder.switchOnTrack.isChecked) {
+                    onTrack = 1
+                } else {
+                    onTrack = 0
+                }
+                AppHelper.updateStatus(
+                    items.get(position).orderId!!.toInt(),
+                    onTrack,
+                    delivered,
+                    paid
+                )
             }
-            AppHelper.updateStatus(items.get(position).orderId!!.toInt(),onTrack,delivered,paid)
         }
 
-        holder.switchPaid.setOnCheckedChangeListener { compoundButton, b ->
-            if(holder.switchPaid.isChecked){
-                paid = 1
-            }else{
-                paid = 0
+        holder.switchPaid.setOnClickListener {
+
+            AppHelper.createSwitchDialog(
+                con,
+                AppHelper.getRemoteString("ok", con),
+                AppHelper.getRemoteString("cancel", con),
+                con.getString(
+                    R.string.are_you_sure_change_status
+                ),
+                holder.switchPaid
+            ) {
+                if (holder.switchPaid.isChecked) {
+                    paid = 1
+                } else {
+                    paid= 0
+                }
+                AppHelper.updateStatus(
+                    items.get(position).orderId!!.toInt(),
+                    onTrack,
+                    delivered,
+                    paid
+                )
             }
-            AppHelper.updateStatus(items.get(position).orderId!!.toInt(),onTrack,delivered,paid)
         }
 
 
@@ -145,7 +194,7 @@ class AdapterOrderType(
             holder.canSep.hide()
             holder.border.show()
             holder.rating.hide()
-            holder.track.hide()
+            holder.track.show()
             holder.credit.hide()
         }else if ( MyApplication.typeSelected == 1 && !MyApplication.isClient) {
             holder.switch.show()
@@ -153,6 +202,7 @@ class AdapterOrderType(
             holder.dateBorder.show()
             holder.bottomBorder.show()
             holder.canSep.hide()
+            holder.switch.hide()
             holder.rating.hide()
             holder.track.hide()
             holder.credit.hide()

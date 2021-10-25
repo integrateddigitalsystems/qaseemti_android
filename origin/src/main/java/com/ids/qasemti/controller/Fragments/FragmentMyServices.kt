@@ -83,12 +83,8 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
     }
 
     private fun init() {
-        // btBck.show()
-        AppHelper.setTitle(
-            requireActivity(),
-            AppHelper.getRemoteString("MyServices", requireContext()),
-            "MyServices"
-        )
+
+
         if (MyApplication.fromAccount) {
             MyApplication.fromAccount = false
             (activity as ActivityHome).showBack(true)
@@ -97,16 +93,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
         }
         (activity as ActivityHome).showLogout(false)
         (activity as ActivityHome).showTitle(true)
-        /*  tvPageTitle.setColorTypeface(requireContext(),
-              R.color.white, AppHelper.getRemoteString("MyServices",requireContext()),true)
-          btBackTool.show()*/
-        /*tvPageTitle.setColorTypeface(requireContext(),
-            R.color.white, AppHelper.getRemoteString("MyServices",requireContext()),true)
-        btBackTool.show()
-        btBackTool.onOneClick {
-          //super
-        }*/
-
+        AppHelper.setTitle(requireContext(),MyApplication.selectedTitle!!,"",R.color.white)
         listeners()
     }
 

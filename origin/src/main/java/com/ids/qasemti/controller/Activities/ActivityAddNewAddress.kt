@@ -28,7 +28,7 @@ import java.util.*
 
 class ActivityAddNewAddress : ActivityBase() {
 
-    var REQUEST_CODE = 1000
+    var REQUEST_CODE = 1005
     var from = ""
     var latlng: LatLng? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +68,11 @@ class ActivityAddNewAddress : ActivityBase() {
         intent.putExtra(
             "address",
             etAddressProvince.text.toString() + " ," + etStreet.text.toString() + " ," + etBuilding.text.toString() + " ," + etFloor.text.toString()
+        )
+        MyApplication.submitted = true
+        intent.putExtra(
+            "submitted",
+            true
         )
         setResult(RESULT_OK, intent)
         finish()
@@ -180,19 +185,21 @@ class ActivityAddNewAddress : ActivityBase() {
 
         }
 
+        tvPageTitle.setColorTypeface(this,R.color.redPrimary,AppHelper.getRemoteString("address",this),true)
         AppHelper.setLogoTint(btBackTool, this, R.color.redPrimary)
         if (MyApplication.fromProfile!!)
             btOnlyOnce.hide()
         else
             btOnlyOnce.show()
 
+        try{
         if(from.equals("current")){
             setUpData(LatLng(MyApplication.selectedCurrentAddress!!.latitude, MyApplication.selectedCurrentAddress!!.longitude))
             btSaveAddress.text =AppHelper.getRemoteString("select_address",this)
             btOnlyOnce.hide()
         }else {
             setUpData(LatLng(lat!!.toDouble(), long!!.toDouble()))
-        }
+        }}catch (e:Exception){}
 
     }
 

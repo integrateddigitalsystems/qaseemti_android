@@ -196,10 +196,31 @@
         android:tag="stock_available"
         />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_background"
+        android:hint="@string/stock_available"
+        android:tag="stock_available"
+        android:paddingStart="@dimen/small_margin"
+        android:id="@+id/etStockAvailable"
+        android:paddingEnd="@dimen/small_margin"
+        android:maxLines="1"
+        android:inputType="number"
+
+        android:layout_marginTop="@dimen/normal_margin"
+        android:textColorHint="@color/gray_font_light"
+        android:textSize="@dimen/normal_font"
+        android:textColor="@color/gray_font_title"
+
+        />
+
+
     <RelativeLayout
         android:layout_marginTop="@dimen/small_margin"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
+        android:visibility="gone"
         android:background="@drawable/rounded_white_background">
 
         <Spinner

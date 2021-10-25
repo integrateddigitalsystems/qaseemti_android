@@ -23,6 +23,7 @@ import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.fragment_orders.*
 import kotlinx.android.synthetic.main.layout_order_contact_tab.*
 import kotlinx.android.synthetic.main.loading.*
+import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -149,12 +150,13 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         ordersArray.add("3")
         mainArray.addAll(ordersArray)*/
         (activity as ActivityHome?)!!.drawColor()
-        (activity as ActivityHome?)!!.setTitleAc(
+        /*(activity as ActivityHome?)!!.setTitleAc(
             AppHelper.getRemoteString(
                 "order_type",
                 requireContext()
             )
-        )
+        )*/
+        AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         (activity as ActivityHome).showTitle(true)
         (activity as ActivityHome).showLogout(false)
         (activity as ActivityHome).setTintLogo(R.color.redPrimary)
@@ -325,6 +327,12 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
             rvOrderDetails.adapter = adapter
             var glm2 = GridLayoutManager(requireContext(), 1)
             rvOrderDetails.layoutManager = glm2
+
+            if(ordersArray.size==0){
+                tvNoData.show()
+            }else{
+                tvNoData.hide()
+            }
         } catch (ex: Exception) {
 
         }

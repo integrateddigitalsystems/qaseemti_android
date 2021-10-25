@@ -83,8 +83,14 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
             if (locationSelected) {
 
                 update = MyApplication.selectedPlaceOrder!=null
-                setPlacedOrder()
-                placeOrder()
+                if(MyApplication.selectedUser!=null) {
+                    try{
+                    setPlacedOrder()
+                    placeOrder()
+                    }catch (e:Exception){
+                       toast(getString(R.string.failure))
+                    }
+                }
             } else {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("please_select_location",this))
             }
@@ -359,19 +365,19 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
             MyApplication.selectedVariationType,
             MyApplication.selectedSize,
             selectedDate,
-            MyApplication.selectedAddress!!.addressName,
+            if(MyApplication.selectedAddress!!.addressName !=null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
             lat,
             long,
-            MyApplication.selectedAddress!!.street,
-            MyApplication.selectedAddress!!.bldg,
-            MyApplication.selectedAddress!!.floor,
-            MyApplication.selectedAddress!!.desc,
-            MyApplication.selectedUser!!.firstName,
-            MyApplication.selectedUser!!.lastName,
-            MyApplication.selectedUser!!.billingCompany,
-            MyApplication.selectedUser!!.email,
-            MyApplication.selectedUser!!.mobileNumber,
-            MyApplication.selectedService!!.name,
+            if(MyApplication.selectedAddress!!.street !=null && MyApplication.selectedAddress!!.street!!.isNotEmpty()) MyApplication.selectedAddress!!.street else "",
+            if(MyApplication.selectedAddress!!.bldg !=null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
+            if(MyApplication.selectedAddress!!.floor !=null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
+            if(MyApplication.selectedAddress!!.desc !=null && MyApplication.selectedAddress!!.desc!!.isNotEmpty())  MyApplication.selectedAddress!!.desc else "",
+            if(MyApplication.selectedUser!!.firstName !=null && MyApplication.selectedUser!!.firstName!!.isNotEmpty()) MyApplication.selectedUser!!.firstName else "",
+            if(MyApplication.selectedUser!!.lastName !=null && MyApplication.selectedUser!!.lastName!!.isNotEmpty())MyApplication.selectedUser!!.lastName else "",
+            if(MyApplication.selectedUser!!.billingCompany !=null && MyApplication.selectedUser!!.billingCompany!!.isNotEmpty())MyApplication.selectedUser!!.billingCompany else "",
+            if(MyApplication.selectedUser!!.email !=null && MyApplication.selectedUser!!.email!!.isNotEmpty()) MyApplication.selectedUser!!.email else "",
+            if(MyApplication.selectedUser!!.mobileNumber !=null && MyApplication.selectedUser!!.mobileNumber!!.isNotEmpty())MyApplication.selectedUser!!.mobileNumber else "",
+            if(MyApplication.selectedService!!.name!!.isNotEmpty())MyApplication.selectedService!!.name else "",
             MyApplication.selectedPrice
 
         )

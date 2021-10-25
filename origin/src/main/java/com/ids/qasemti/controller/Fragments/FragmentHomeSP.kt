@@ -19,6 +19,7 @@ import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.loading.*
+import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -121,7 +122,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     fun init() {
         (activity as ActivityHome?)!!.showLogout(false)
         (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
-
+     //   AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         setListeners()
         getRating()
         getData()
@@ -178,6 +179,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 FragmentOrders(),
                 AppConstants.FRAGMENT_ORDER_FROM
             )
+            MyApplication.selectedTitle = AppHelper.getRemoteString("orders",requireContext())
             MyApplication.typeSelected = 0
 
         }
@@ -188,6 +190,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 FragmentOrders(),
                 AppConstants.FRAGMENT_ORDER_FROM
             )
+            MyApplication.selectedTitle = AppHelper.getRemoteString("orders",requireContext())
             MyApplication.typeSelected = 1
         }
         try {

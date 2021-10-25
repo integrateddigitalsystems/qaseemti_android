@@ -18,6 +18,10 @@ class ResponseMainSettlement(
 
     @SerializedName("total")
     @Expose
-    var total : String ?=""
+    var total : String ?="",
+
+    @SerializedName("total_earnings")
+    @Expose
+    var totalEarnings : String ?=""
 ) {
 }

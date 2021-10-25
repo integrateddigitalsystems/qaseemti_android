@@ -66,6 +66,17 @@
                 android:orientation="vertical">
 
 
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:id="@+id/tvNoDataClient"
+                    android:visibility="gone"
+                    android:textSize="@dimen/header_font"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/redPrimary"
+                    android:text="@string/no_data"
+                    android:tag="no_data"
+                    />
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginStart="@dimen/card_new_margin"
                     android:layout_marginEnd="@dimen/card_new_margin"
@@ -75,7 +86,7 @@
                     android:layout_height="match_parent"
                     android:visibility="visible" />
 
-                <LinearLayout
+               <!-- <LinearLayout
                     android:visibility="gone"
                     android:id="@+id/llNodata"
                     android:gravity="center"
@@ -86,7 +97,7 @@
                         android:layout_width="@dimen/no_logo_height"
                         android:layout_height="@dimen/no_logo_height"
                         android:src="@drawable/icon_no_data" />
-                </LinearLayout>
+                </LinearLayout>-->
 
 
             </LinearLayout>

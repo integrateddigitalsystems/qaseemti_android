@@ -41,9 +41,13 @@ class ResponseSettlement (
     @Expose
     var vendorId : String ?="" ,
 
-    @SerializedName("total_earnings")
+    @SerializedName("earnings")
     @Expose
     var totalEarnings : String ?="" ,
+
+    @SerializedName("fees")
+    @Expose
+    var fees : String ?="" ,
 
     @SerializedName("related_orders")
     @Expose

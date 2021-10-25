@@ -104,16 +104,19 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
             })
     }
     fun setData(){
-        adapter = AdapterCart(array, this, requireContext())
-        rvCart.layoutManager = LinearLayoutManager(requireContext())
-        rvCart.adapter = adapter
-        rvCart.isNestedScrollingEnabled = false
-        loading.hide()
+        try {
+            adapter = AdapterCart(array, this, requireContext())
+            rvCart.layoutManager = LinearLayoutManager(requireContext())
+            rvCart.adapter = adapter
+            rvCart.isNestedScrollingEnabled = false
+            loading.hide()
+        }catch (ex:Exception){
+
+        }
     }
 
     fun init(){
-        var cart = AppHelper.getRemoteString("Cart",requireContext())
-        tvPageTitle.setColorTypeface(requireContext(),R.color.white,cart,true)
+        AppHelper.setTitle(requireContext(),MyApplication.selectedTitle!!,"",R.color.white)
         getCartData()
 
 
