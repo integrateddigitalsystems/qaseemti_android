@@ -322,7 +322,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
         } catch (e: Exception) {
         }
         try {
-            tvPrice.text = MyApplication.selectedPrice + " KWD"
+            tvPrice.text = MyApplication.selectedPrice + ""
         } catch (e: Exception) {
         }
         try {

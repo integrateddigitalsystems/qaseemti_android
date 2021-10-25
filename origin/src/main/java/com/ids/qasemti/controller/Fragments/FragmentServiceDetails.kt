@@ -103,7 +103,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
             var arrayMedia=selectedVariation.images
             try{
                 MyApplication.selectedPrice = selectedVariation.price!!
-                tvPrice.text=selectedVariation.price+" KWD"}catch (e:Exception){}
+                tvPrice.text=selectedVariation.price+""}catch (e:Exception){}
             if(arrayMedia.size>0){
                 for (i in arrayMedia.indices)
                     arrayItems.add(SliderItem(arrayMedia[i],1,""))

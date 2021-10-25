@@ -311,6 +311,11 @@
             android:tag="no_data"
             android:textColor="@color/redPrimary"/>
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_marginTop="@dimen/first_margin"
+            android:id="@+id/slRefreshBroad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvOrders"
             android:layout_width="match_parent"
@@ -319,7 +324,7 @@
             android:layout_marginTop="@dimen/big_margin"
             android:layout_marginEnd="@dimen/card_new_margin"
             android:background="@color/gray_bg" />
-
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <LinearLayout
             android:id="@+id/llNodata"

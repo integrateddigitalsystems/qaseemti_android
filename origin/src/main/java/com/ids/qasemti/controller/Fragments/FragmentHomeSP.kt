@@ -1,5 +1,6 @@
 package com.ids.qasemti.controller.Fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,16 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 
 import com.ids.qasemti.controller.Activities.ActivityMapAddress
+import com.ids.qasemti.controller.Activities.ActivityMobileRegistration
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
+import kotlinx.android.synthetic.main.fragment_orders.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -172,6 +176,10 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     }
 
     fun setListeners() {
+
+        slRefreshBroad.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            getOrders()
+        })
         rlActive.onOneClick {
             MyApplication.fromFooterOrder = false
             MyApplication.selectedFragment = FragmentOrders()
@@ -218,6 +226,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     fun getOrders() {
 
+        slRefreshBroad.isRefreshing = false
         loading.show()
         var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -328,6 +337,18 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
         } else if (view.id == R.id.btAcceptOrder) {
+            showAcceptOrderPopup(requireActivity(),position)
+
+        }
+    }
+
+    fun showAcceptOrderPopup(context: Activity,position: Int){
+        AppHelper.createYesNoDialog(
+            context,
+            AppHelper.getRemoteString("yes", context),
+            AppHelper.getRemoteString("cancel", context),
+            AppHelper.getRemoteString("sure_accept", context)
+        ) {
             acceptOrder(
                 ordersArray[position].orderId!!.toInt(),
                 ordersArray[position].total!!.toDouble()

@@ -267,10 +267,12 @@
                     android:src="@drawable/view"
                     app:tint="@color/button_blue" />
 
-                <com.ids.qasemti.custom.CustomTextViewMedium
+                <me.grantland.widget.AutofitTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/normal_font"
+                    android:maxLines="1"
+                    android:id="@+id/tvOrderDetailsBroad"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
                     android:textColor="@color/button_blue"

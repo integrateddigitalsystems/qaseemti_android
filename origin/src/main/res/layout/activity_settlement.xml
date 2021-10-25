@@ -15,17 +15,39 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <ImageButton
-        android:layout_width="@dimen/icon_2"
-        android:layout_height="@dimen/icon_2"
-        android:id="@+id/btBck"
-        android:backgroundTint="@color/redPrimary"
-        android:tint="@color/redPrimary"
-        android:layout_marginTop="@dimen/margin_start_end"
-        android:layout_marginStart="@dimen/margin_start_end"
-        android:background="@drawable/ic_back"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_start_end"
+            >
+            <ImageButton
+                android:layout_width="@dimen/icon_2"
+                android:layout_height="@dimen/icon_2"
+                android:id="@+id/btBck"
+                android:backgroundTint="@color/redPrimary"
+                android:tint="@color/redPrimary"
 
-        />
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:background="@drawable/ic_back"
+
+                />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/tvPageTitle"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="@dimen/height_35"
+                android:layout_marginEnd="@dimen/height_35"
+                android:maxLines="2"
+                android:textColor="@color/redPrimary"
+                android:textSize="@dimen/title_font" />
+        </RelativeLayout>
+
 
     <LinearLayout
         android:layout_marginStart="@dimen/margin_start_end"

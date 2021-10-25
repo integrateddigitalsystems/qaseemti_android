@@ -498,6 +498,7 @@
                         android:id="@+id/ratingOrder"
                         style="?attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
+                        android:theme="@style/RatingBar"
                         android:layout_height="match_parent"
                         android:layout_gravity="end"
                         android:progressTint="@color/button_blue"
@@ -740,12 +741,14 @@
                         android:src="@drawable/view"
                         app:tint="@color/button_blue" />
 
-                    <com.ids.qasemti.custom.CustomTextViewMedium
+                    <me.grantland.widget.AutofitTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/small_margin"
+                        android:id="@+id/tvViewOrderDetails"
                         android:textAllCaps="true"
+                        android:maxLines="1"
                         android:layout_marginEnd="@dimen/small_margin"
                         android:gravity="center_vertical"
                         android:text="@string/view_order_details"
