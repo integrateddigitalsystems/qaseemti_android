@@ -238,4 +238,6 @@
     <string name="no_payment_info">No Payment Info</string>
     <string name="are_you_sure_change_status">هل انت متأكد من تغيير الحالة؟</string>
     <string name="discard">Discard</string>
+    <string name="sure_accept">هل أنت متأكد أنك تريد قبول الطلب؟</string>
+
 </resources>

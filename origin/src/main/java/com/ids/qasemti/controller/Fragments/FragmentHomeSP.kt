@@ -1,5 +1,6 @@
 package com.ids.qasemti.controller.Fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 
 import com.ids.qasemti.controller.Activities.ActivityMapAddress
+import com.ids.qasemti.controller.Activities.ActivityMobileRegistration
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
@@ -328,6 +330,18 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
         } else if (view.id == R.id.btAcceptOrder) {
+            showAcceptOrderPopup(requireActivity(),position)
+
+        }
+    }
+
+    fun showAcceptOrderPopup(context: Activity,position: Int){
+        AppHelper.createYesNoDialog(
+            context,
+            AppHelper.getRemoteString("yes", context),
+            AppHelper.getRemoteString("cancel", context),
+            AppHelper.getRemoteString("sure_accept", context)
+        ) {
             acceptOrder(
                 ordersArray[position].orderId!!.toInt(),
                 ordersArray[position].total!!.toDouble()

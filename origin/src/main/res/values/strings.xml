@@ -240,5 +240,7 @@
     <string name="are_you_sure_change_status">Are you sure you want to change the status ?</string>
     <string name="discard">Discard</string>
 
+    <string name="sure_accept">Are you sure you want to accept order?</string>
 
+ 
 </resources>

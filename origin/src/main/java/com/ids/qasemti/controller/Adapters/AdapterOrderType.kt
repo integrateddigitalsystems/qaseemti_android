@@ -194,7 +194,7 @@ class AdapterOrderType(
             holder.canSep.hide()
             holder.border.show()
             holder.rating.hide()
-            holder.track.show()
+            holder.track.hide()
             holder.credit.hide()
         }else if ( MyApplication.typeSelected == 1 && !MyApplication.isClient) {
             holder.switch.show()

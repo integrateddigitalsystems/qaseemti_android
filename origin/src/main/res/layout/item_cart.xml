@@ -70,7 +70,7 @@
                 android:id="@+id/tvItemCost"
                 android:textColor="@color/redPrimary"
                 android:textSize="@dimen/small_font"
-                android:text="10 KWD"/>
+                android:text="10"/>
 
 
         </LinearLayout>

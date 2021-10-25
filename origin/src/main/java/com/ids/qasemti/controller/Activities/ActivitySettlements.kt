@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.activity_settlement.*
 import kotlinx.android.synthetic.main.activity_settlement.linearTabs
 import kotlinx.android.synthetic.main.fragment_orders.*
 import kotlinx.android.synthetic.main.loading.*
-import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,7 +45,9 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
         setTabs()
         try{
             tvPageTitle.setColorTypeface(this,R.color.redPrimary,AppHelper.getRemoteString("settlements",this),true)
-        }catch (ex:Exception){}
+        }catch (ex:Exception){
+
+        }
         setTabLayout(MyApplication.settlementTabSelected, tvToBeSettled)
         getOrders(MyApplication.settlementTabSelected)
     }
