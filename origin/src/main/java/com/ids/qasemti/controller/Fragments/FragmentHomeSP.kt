@@ -91,7 +91,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 ) {
                     try {
                         if (response.body()!!.rate != null) {
-                            rbMainUser.rating = response.body()!!.rate!!.toFloat()
+                            rbMainUser.rating =  AppHelper.getFloorRatingBar(response.body()!!.rate!!)
                             tvRatingValue.text = response.body()!!.rate.toString()
                         } else {
                             tvRatingValue.text = "0"

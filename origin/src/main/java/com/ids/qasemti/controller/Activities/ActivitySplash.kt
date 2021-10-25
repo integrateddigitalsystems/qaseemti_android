@@ -241,6 +241,13 @@ class ActivitySplash : ActivityBase() {
                         MyApplication.selectedFragment = FragmentHomeSP()
                     }
                     MyApplication.isSignedIn = true
+                    if(MyApplication.userId==0){
+                        if(MyApplication.isClient){
+                            MyApplication.userId == 51
+                        }else{
+                            MyApplication.userId = 41
+                        }
+                    }
                     startActivity(Intent(this, ActivityHome::class.java))
                     finish()
                 }else{
