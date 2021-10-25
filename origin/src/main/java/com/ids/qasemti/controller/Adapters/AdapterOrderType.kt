@@ -43,6 +43,8 @@ class AdapterOrderType(
             holder.name.typeface = AppHelper.getTypeFaceBold(con)
             holder.locationText.setColorTypeface(con,R.color.redPrimary,items.get(position).customerLocation!!,false) }
         catch (ex:Exception){ holder.name.text = "" }
+
+        try{holder.locationText.text=items.get(position).shipping_address_name!!}catch (e:Exception){}
         try{
             holder.orderDate.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MMM yyyy hh:mm")
         }catch (ex:java.lang.Exception){holder.orderDate.text = ""}
