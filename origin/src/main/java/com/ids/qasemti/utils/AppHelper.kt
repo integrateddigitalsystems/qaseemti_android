@@ -608,33 +608,33 @@ class AppHelper {
 
             when (selected) {
                 AppConstants.FRAGMENT_ACCOUNT -> {
-                    MyApplication.selectedTitle = tvAcc.text.toString()
+                    MyApplication.selectedTitle =getRemoteString("Account",context)
                     setLogoTint(imgAcc, context, R.color.redPrimary)
                     setTextColor(context, tvAcc, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_HOME_CLIENT, AppConstants.FRAGMENT_HOME_SP -> {
-                    MyApplication.selectedTitle = tvHom.text.toString()
+                    MyApplication.selectedTitle =getRemoteString("Services",context)
                     setLogoTint(imgHom, context, R.color.redPrimary)
                     setTextColor(context, tvHom, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_ORDER -> {
-                    MyApplication.selectedTitle = tvOrd.text.toString()
+                    MyApplication.selectedTitle =getRemoteString("orders",context)
                     setLogoTint(imgOrd, context, R.color.redPrimary)
                     setTextColor(context, tvOrd, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_NOTFICATIONS ->
                 {
-                    MyApplication.selectedTitle = tvNot.text.toString()
+                    MyApplication.selectedTitle =getRemoteString("notifications",context)
                     setLogoTint(imgNot, context, R.color.redPrimary)
                     setTextColor(context, tvNot, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_MY_SERVICES -> {
-                    MyApplication.selectedTitle = tvPro.text.toString()
+                    MyApplication.selectedTitle =getRemoteString("MyServices",context)
                     setLogoTint(imgPro, context, R.color.redPrimary)
                     setTextColor(context, tvPro, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_CART -> {
-                   // MyApplication.selectedTitle = tvAcc.text.toString()
+                    MyApplication.selectedTitle =getRemoteString("Cart",context)
                     setLogoTint(imgCart, context, R.color.redPrimary)
                     setTextColor(context, tvCart, R.color.redPrimary)
                 }

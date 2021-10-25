@@ -167,7 +167,11 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
             rvSettlements.isNestedScrollingEnabled = false
             if(array.size==0){
                 btRequestSettlements.hide()
-            }
+                    tvNoDataSet.show()
+
+            }else{
+                    tvNoDataSet.hide()
+                }
         } else {
             tvTotalOrderCount.text = resSet!!.numberOfOrders.toString()
             tvSettlementAmount.text = resSet!!.totalEarnings!!.toString()
@@ -182,6 +186,13 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
             rvSettlements.layoutManager = LinearLayoutManager(this)
             rvSettlements.adapter = adapter
             rvSettlements.isNestedScrollingEnabled = false
+
+            if(arraySett.size==0){
+                tvNoDataSet.show()
+            }else{
+                tvNoDataSet.hide()
+            }
+
         }
 
 

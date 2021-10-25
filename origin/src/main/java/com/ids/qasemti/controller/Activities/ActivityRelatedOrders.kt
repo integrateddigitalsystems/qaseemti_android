@@ -36,6 +36,12 @@ class ActivityRelatedOrders : AppCompatActivity() , RVOnItemClickListener  {
         tvTitleEarnings.setColorTypeface(this,R.color.gray_font_title,"",true)
         tvTitleOrders.setColorTypeface(this,R.color.gray_font_title,"",true)
 
+        if(MyApplication.relatedOrders.size ==0 ){
+            tvNoData.show()
+        }else{
+            tvNoData.hide()
+        }
+
 
 
 

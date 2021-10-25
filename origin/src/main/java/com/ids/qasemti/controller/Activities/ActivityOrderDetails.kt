@@ -96,6 +96,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             llRatingOrder.show()
         }else if(MyApplication.typeSelected==1){
             btCancelOrder.show()
+            llOrderSwitches.hide()
         }else{
             llEditOrderTime.hide()
             llActualDelivery.show()

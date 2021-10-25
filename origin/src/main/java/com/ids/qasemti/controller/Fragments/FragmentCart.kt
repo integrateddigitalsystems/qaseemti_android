@@ -116,8 +116,7 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
     }
 
     fun init(){
-        var cart = AppHelper.getRemoteString("Cart",requireContext())
-        tvPageTitle.setColorTypeface(requireContext(),R.color.white,cart,true)
+        AppHelper.setTitle(requireContext(),MyApplication.selectedTitle!!,"",R.color.white)
         getCartData()
 
 
