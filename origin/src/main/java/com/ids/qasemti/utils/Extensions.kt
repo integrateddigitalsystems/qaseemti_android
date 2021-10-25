@@ -27,6 +27,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityChooseLanguage
 import com.ids.qasemti.controller.MyApplication
 import java.io.File
+import java.util.*
 
 
 /**
@@ -222,6 +223,14 @@ fun TextView.textRemote(key: String, con:Context) {
 
     }
 
+}
+
+fun String.capitalized(): String {
+    return this.replaceFirstChar {
+        if (it.isLowerCase())
+            it.titlecase(Locale.getDefault())
+        else it.toString()
+    }
 }
 
 fun TextView.setColorTypeface(context: Context, color: Int,text:String,bold:Boolean) {

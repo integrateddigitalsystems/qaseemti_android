@@ -40,6 +40,7 @@ class AdapterOrderType(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
+        holder.orderDetails.setColorTypeface(con,R.color.button_blue,"",false)
         try {
             holder.name.text = items.get(position).customer!!.first_name + " " + items.get(position).customer!!.last_name
             holder.name.typeface = AppHelper.getTypeFaceBold(con)
@@ -90,6 +91,15 @@ class AdapterOrderType(
             holder.switchDelivered.isChecked = items[position].delivered!!
         }catch (ex:java.lang.Exception){}
 
+        if(paid==1) {
+            holder.switchPaid.isChecked = true
+            holder.switchPaid.isEnabled = false
+        }
+        if(delivered==1) {
+            holder.switchDelivered.isChecked = true
+            holder.switchDelivered.isEnabled = false
+        }
+
         holder.switchDelivered.setOnClickListener {
             AppHelper.createSwitchDialog(
                 con,
@@ -105,6 +115,7 @@ class AdapterOrderType(
                 } else {
                     delivered = 0
                 }
+                holder.switchDelivered.isEnabled = false
                 AppHelper.updateStatus(
                     items.get(position).orderId!!.toInt(),
                     onTrack,
@@ -295,6 +306,7 @@ class AdapterOrderType(
         var switchOnTrack = itemView.findViewById<SwitchCompat>(R.id.swOnTrack)
         var switchDelivered = itemView.findViewById<SwitchCompat>(R.id.swDelivered)
         var switchPaid = itemView.findViewById<SwitchCompat>(R.id.swPaid)
+        var orderDetails = itemView.findViewById<TextView>(R.id.tvViewOrderDetails)
 
 
         init {

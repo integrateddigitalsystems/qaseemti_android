@@ -160,7 +160,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
             btRequestSettlements.show()
             MyApplication.upcoming = false
             tvTotalOrderCount.text = res!!.ordersCount.toString()
-            tvSettlementAmount.text = res!!.settlementAmount!!.toString()
+            tvSettlementAmount.text = res!!.settlementAmount!!.toString() +" "+ res!!.orders.get(position).currency
             var adapter = AdapterSettlements(array, this, this)
             rvSettlements.layoutManager = LinearLayoutManager(this)
             rvSettlements.adapter = adapter

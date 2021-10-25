@@ -249,10 +249,13 @@ class AppHelper {
                     ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
                         override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
                             try{
+                                Log.wtf("","")
                             }catch (E: java.lang.Exception){
+                                Log.wtf("","")
                             }
                         }
                         override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                            Log.wtf("","")
                         }
                     })
         }

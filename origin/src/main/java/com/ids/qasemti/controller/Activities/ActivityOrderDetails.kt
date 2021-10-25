@@ -82,11 +82,11 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
 
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.show()
-        tvPageTitle.setColorTypeface(this,R.color.white,MyApplication.selectedOrder!!.orderStatus!!+" "+getString(
+        tvPageTitle.setColorTypeface(this,R.color.white,MyApplication.selectedOrder!!.orderStatus!!.capitalized()+" "+getString(
                     R.string.order_details),true)
         if(MyApplication.typeSelected==0) {
             if(!MyApplication.isClient){
-                llEditOrderTime.show()
+                llEditOrderTime.hide()
             }else{
                 llEditOrderTime.hide()
                 llOrderSwitches.hide()
@@ -94,6 +94,9 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             llActualDelivery.hide()
         }else if(MyApplication.typeSelected ==2){
             llRatingOrder.show()
+            btCancelOrder.hide()
+            llActualDelivery.show()
+            llOrderSwitches.hide()
         }else if(MyApplication.typeSelected==1){
             btCancelOrder.show()
             llOrderSwitches.hide()
@@ -145,7 +148,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         try{tvOrderCustomerName.text = MyApplication.selectedOrder!!.customer!!.first_name+" "+MyApplication.selectedOrder!!.customer!!.last_name}catch (e:Exception){}
         try{tvOrderDeetId.text = MyApplication.selectedOrder!!.orderId.toString()}catch (e:Exception){}
         try{tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy")}catch (e:Exception){}
-        try{tvExpectedOrderDateDeet.text = MyApplication.selectedOrder!!.deliveryDate}catch (e:Exception){}
+        try{tvExpectedOrderDateDeet.text = MyApplication.selectedOrder!!.deliveryDate}catch (e:Exception){ }
+        try{tvActualDeliveryTime.text = MyApplication.selectedOrder!!.deliveryDate}catch (e:Exception){ }
         try{tvOrderAmountDeet.text = MyApplication.selectedOrder!!.total!!.toString()+" "+MyApplication.selectedOrder!!.currency}catch (e:Exception){}
         try{
             if(MyApplication.selectedOrder!!.paymentMethod!=null && MyApplication.selectedOrder!!.paymentMethod!!.isNotEmpty())

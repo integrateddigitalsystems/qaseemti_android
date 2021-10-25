@@ -15,6 +15,10 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
     <ImageButton
         android:layout_width="@dimen/icon_2"
         android:layout_height="@dimen/icon_2"
@@ -26,6 +30,8 @@
         android:background="@drawable/ic_back"
 
         />
+
+        </RelativeLayout>
 
     <LinearLayout
         android:layout_marginStart="@dimen/margin_start_end"
