@@ -37,6 +37,21 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
+                    <com.ids.qasemti.custom.CustomTextViewBold
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:id="@+id/tvContactTitle"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:text="@string/contact_us"
+                        android:tag="contact_us"
+                        android:visibility="visible"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/height_35"
+                        android:layout_marginEnd="@dimen/height_35"
+                        android:maxLines="2"
+                        android:textColor="@color/redPrimary"
+                        android:textSize="@dimen/title_font" />
+
                     <EditText
                         android:id="@+id/etFullNameContact"
                         android:layout_width="match_parent"
@@ -130,8 +145,8 @@
                         android:layout_marginTop="@dimen/normal_margin"
                         android:layout_marginEnd="@dimen/margin_start_end"
                         android:background="@drawable/rounded_blue"
-                        android:tag="contact_us"
-                        android:text="@string/contact_us"
+                        android:tag="submit"
+                        android:text="@string/submit"
                         android:textColor="@color/white" />
 
                 </LinearLayout>
