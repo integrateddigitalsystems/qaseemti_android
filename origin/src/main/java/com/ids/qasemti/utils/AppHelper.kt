@@ -604,8 +604,6 @@ class AppHelper {
             setTextColor(context, tvCart, R.color.gray_font)
 
 
-
-
             when (selected) {
                 AppConstants.FRAGMENT_ACCOUNT -> {
                     MyApplication.selectedTitle =getRemoteString("Account",context)
