@@ -184,7 +184,8 @@ class ActivityAddNewAddress : ActivityBase() {
         }catch (ex:Exception){
 
         }
-        tvPageTitle.setColorTypeface(this,R.color.redPrimary,AppHelper.getRemoteString("AddNewAddress",this),true)
+
+        tvPageTitle.setColorTypeface(this,R.color.redPrimary,AppHelper.getRemoteString("address",this),true)
         AppHelper.setLogoTint(btBackTool, this, R.color.redPrimary)
         if (MyApplication.fromProfile!!)
             btOnlyOnce.hide()
