@@ -17,9 +17,8 @@
         android:layout_width="@dimen/icon_2"
         android:layout_height="@dimen/icon_2"
         android:layout_marginStart="@dimen/normal_margin"
-        android:visibility="gone"
         android:layout_marginEnd="@dimen/normal_margin"
-        android:src="@drawable/icon_knet" />
+        android:id="@+id/ivPayment" />
 
     <com.ids.qasemti.custom.CustomTextViewMedium
         android:layout_width="wrap_content"

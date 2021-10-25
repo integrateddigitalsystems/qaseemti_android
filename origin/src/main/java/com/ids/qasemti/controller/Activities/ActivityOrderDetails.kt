@@ -146,7 +146,10 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         try{tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy")}catch (e:Exception){}
         try{tvExpectedOrderDateDeet.text = MyApplication.selectedOrder!!.deliveryDate}catch (e:Exception){}
         try{tvOrderAmountDeet.text = MyApplication.selectedOrder!!.total!!.toString()+" "+MyApplication.selectedOrder!!.currency}catch (e:Exception){}
-        try{tvPaymentMethod.text = MyApplication.selectedOrder!!.paymentMethod}catch (e:Exception){}
+        try{
+            if(MyApplication.selectedOrder!!.paymentMethod!=null && MyApplication.selectedOrder!!.paymentMethod!!.isNotEmpty())
+            tvPaymentMethod.text = MyApplication.selectedOrder!!.paymentMethod
+        }catch (e:Exception){}
         try{
             swDelivered.isChecked = MyApplication.selectedOrder!!.delivered!!
         }catch (ex:Exception){}

@@ -91,7 +91,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
             startActivity(Intent( requireActivity(),ActivitySelectAddress::class.java))
         }
         if (MyApplication.isSignedIn) {
-            (activity as ActivityHome?)!!.showLogout(false)
+            (activity as ActivityHome?)!!.showLogout(true)
             btRegisterLogin.hide()
         }else{
             btRegisterLogin.show()

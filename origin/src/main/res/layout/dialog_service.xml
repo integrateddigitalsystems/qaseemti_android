@@ -122,71 +122,79 @@
 
         </RelativeLayout>
 
-        <com.ids.qasemti.custom.CustomTextViewMedium
-            android:paddingStart="@dimen/mini_margin"
-            android:layout_marginTop="@dimen/normal_margin"
+
+        <LinearLayout
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:text="@string/type"
-            android:textColor="@color/redPrimary"/>
-
-        <RelativeLayout
-            android:layout_marginTop="@dimen/normal_margin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/gray_background_rounded">
-
-            <Spinner
-                android:id="@+id/spType"
+            android:orientation="vertical">
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:paddingStart="@dimen/mini_margin"
+                android:layout_marginTop="@dimen/normal_margin"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/height_35"
-                android:background="@color/transparent"
-                />
+                android:layout_height="wrap_content"
+                android:text="@string/type"
+                android:textColor="@color/redPrimary"/>
 
-            <ImageView
-                android:layout_marginEnd="@dimen/first_margin"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:layout_width="@dimen/small_icon"
-                android:layout_height="@dimen/small_icon"
-                android:src="@drawable/arrow_right"
-                android:rotation="90"
-                app:tint="@color/button_blue"/>
-
-        </RelativeLayout>
-
-        <com.ids.qasemti.custom.CustomTextViewMedium
-            android:paddingStart="@dimen/mini_margin"
-            android:layout_marginTop="@dimen/normal_margin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/service_capacity"
-            android:textColor="@color/redPrimary"/>
-
-        <RelativeLayout
-            android:layout_marginTop="@dimen/normal_margin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/gray_background_rounded">
-
-            <Spinner
-                android:id="@+id/spServiceCapactity"
+            <RelativeLayout
+                android:layout_marginTop="@dimen/normal_margin"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/height_35"
-                android:background="@color/transparent"
-                />
+                android:layout_height="match_parent"
+                android:background="@drawable/gray_background_rounded">
 
-            <ImageView
-                android:layout_marginEnd="@dimen/first_margin"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:layout_width="@dimen/small_icon"
-                android:layout_height="@dimen/small_icon"
-                android:src="@drawable/arrow_right"
-                android:rotation="90"
-                app:tint="@color/button_blue"/>
+                <Spinner
+                    android:id="@+id/spType"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_35"
+                    android:background="@color/transparent"
+                    />
 
-        </RelativeLayout>
+                <ImageView
+                    android:layout_marginEnd="@dimen/first_margin"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_width="@dimen/small_icon"
+                    android:layout_height="@dimen/small_icon"
+                    android:src="@drawable/arrow_right"
+                    android:rotation="90"
+                    app:tint="@color/button_blue"/>
+
+            </RelativeLayout>
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:paddingStart="@dimen/mini_margin"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/service_capacity"
+                android:textColor="@color/redPrimary"/>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gray_background_rounded">
+
+                <Spinner
+                    android:id="@+id/spServiceCapactity"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_35"
+                    android:background="@color/transparent"
+                    />
+
+                <ImageView
+                    android:layout_marginEnd="@dimen/first_margin"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_width="@dimen/small_icon"
+                    android:layout_height="@dimen/small_icon"
+                    android:src="@drawable/arrow_right"
+                    android:rotation="90"
+                    app:tint="@color/button_blue"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
 
 
         <LinearLayout

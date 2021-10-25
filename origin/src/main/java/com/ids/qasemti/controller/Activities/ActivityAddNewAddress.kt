@@ -186,13 +186,14 @@ class ActivityAddNewAddress : ActivityBase() {
         else
             btOnlyOnce.show()
 
+        try{
         if(from.equals("current")){
             setUpData(LatLng(MyApplication.selectedCurrentAddress!!.latitude, MyApplication.selectedCurrentAddress!!.longitude))
             btSaveAddress.text =AppHelper.getRemoteString("select_address",this)
             btOnlyOnce.hide()
         }else {
             setUpData(LatLng(lat!!.toDouble(), long!!.toDouble()))
-        }
+        }}catch (e:Exception){}
 
     }
 

@@ -58,10 +58,11 @@ class AdapterOrderType(
             holder.ratingBar.rating = items.get(position).vendor!!.rate!!.toFloat()
         }catch (ex:java.lang.Exception){holder.ratingBar.rating = 0f}
         try{
-            holder.paymentMethod.text = items.get(position).paymentMethodTitle
-        }catch (ex:java.lang.Exception){holder.paymentMethod.text = ""}
+            if(items[position].paymentMethodTitle!=null && items[position].paymentMethodTitle!!.isNotEmpty())
+                holder.paymentMethod.text = items[position].paymentMethodTitle
+        }catch (ex:java.lang.Exception){}
         try {
-            holder.orderCost.text = items.get(position).total!!+" "+items.get(position).currency
+            holder.orderCost.text = items[position].total!!+" "+items.get(position).currency
         }catch (ex:Exception){ holder.orderCost.text =""}
         try{
             holder.cancelReasonDetails.text = items.get(position).cancellationDate

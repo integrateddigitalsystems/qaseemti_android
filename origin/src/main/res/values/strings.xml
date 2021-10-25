@@ -236,6 +236,7 @@
     <string name="edit">Edit</string>
     <string name="Avenu">Avenue</string>
     <string name="order_details">order details</string>
+    <string name="no_payment_info">No Payment Info</string>
 
 
 </resources>

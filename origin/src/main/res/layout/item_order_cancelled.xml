@@ -392,6 +392,7 @@
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginEnd="@dimen/small_margin"
                     android:gravity="center_vertical"
+                    android:textAllCaps="true"
                     android:text="@string/view_order_details"
                     android:textColor="@color/button_blue"
                     android:textSize="@dimen/normal_font" />

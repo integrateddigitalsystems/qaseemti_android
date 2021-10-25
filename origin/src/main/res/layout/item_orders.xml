@@ -276,6 +276,7 @@
                     android:textColor="@color/button_blue"
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginEnd="@dimen/small_margin"
+                    android:textAllCaps="true"
                     android:text="@string/view_order_details"/>
 
 

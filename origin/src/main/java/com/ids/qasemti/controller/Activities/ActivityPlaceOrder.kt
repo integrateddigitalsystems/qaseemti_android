@@ -81,21 +81,21 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
             tvLocationPlaceOrder.text =   tvLocationPlaceOrder.text.toString()+","+MyApplication.selectedPlaceOrder!!.addressFloor
         }
 
-        tvOrderDate.text = MyApplication.selectedPlaceOrder!!.deliveryDate
+        try{tvOrderDate.text = MyApplication.selectedPlaceOrder!!.deliveryDate}catch (e:Exception){}
         fragMang = supportFragmentManager
         var array:ArrayList<OrderData> = arrayListOf()
-        array.add(OrderData(AppHelper.getRemoteString("category",this),MyApplication.selectedPlaceOrder!!.productCategory!!))
-        array.add(OrderData(AppHelper.getRemoteString("service",this),MyApplication.selectedPlaceOrder!!.title))
-        array.add(OrderData(AppHelper.getRemoteString("type",this),MyApplication.selectedPlaceOrder!!.types))
-        array.add(OrderData(AppHelper.getRemoteString("SizeCapacity",this),MyApplication.selectedPlaceOrder!!.sizeCapacity))
+        array.add(OrderData(AppHelper.getRemoteString("category",this),if(MyApplication.selectedPlaceOrder!!.productCategory!=null && MyApplication.selectedPlaceOrder!!.productCategory!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.productCategory!! else ""))
+        array.add(OrderData(AppHelper.getRemoteString("service",this),if(MyApplication.selectedPlaceOrder!!.title!=null && MyApplication.selectedPlaceOrder!!.title!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.title else ""))
+        array.add(OrderData(AppHelper.getRemoteString("type",this),if(MyApplication.selectedPlaceOrder!!.types!=null && MyApplication.selectedPlaceOrder!!.types!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.types else ""))
+        array.add(OrderData(AppHelper.getRemoteString("SizeCapacity",this),if(MyApplication.selectedPlaceOrder!!.sizeCapacity!=null && MyApplication.selectedPlaceOrder!!.sizeCapacity!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.sizeCapacity else ""))
         array.add(OrderData(AppHelper.getRemoteString("Quantity",this),"1"))
         rvDataBorder.layoutManager = LinearLayoutManager(this)
         rvDataBorder.adapter = AdapterOrderData(array,this,this)
 
         var array2:ArrayList<OrderData> = arrayListOf()
-        array2.add(OrderData(AppHelper.getRemoteString("Subtotal",this),MyApplication.selectedPlaceOrder!!.price+" KWD"))
-        array2.add(OrderData(AppHelper.getRemoteString("AdditionalFees",this),"0 KWD"))
-        array2.add(OrderData(AppHelper.getRemoteString("TotalAmount",this),(MyApplication.selectedPlaceOrder!!.price)+" KWD"))
+        array2.add(OrderData(AppHelper.getRemoteString("Subtotal",this),if(MyApplication.selectedPlaceOrder!!.sizeCapacity!=null && MyApplication.selectedPlaceOrder!!.sizeCapacity!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.price  else ""))
+        array2.add(OrderData(AppHelper.getRemoteString("AdditionalFees",this),"0"))
+        array2.add(OrderData(AppHelper.getRemoteString("TotalAmount",this),if(MyApplication.selectedPlaceOrder!!.price!=null && MyApplication.selectedPlaceOrder!!.price!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.price else ""))
         rvOtherData.layoutManager = LinearLayoutManager(this)
         rvOtherData.adapter = AdapterOtherOrderData(array2,this,this)
     }
@@ -159,7 +159,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         btClose.hide()
         AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
         setListeners()
-        setData()
+        try{
+        setData()}catch (e:Exception){}
         AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
         var spFound=true
         if(intent.hasExtra(AppConstants.SP_FOUND))
