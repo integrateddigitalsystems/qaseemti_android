@@ -25,6 +25,7 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     var array : ArrayList<ResponseAddress> = arrayListOf()
     var from : String ?=""
+    var submitted : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_addresses)
@@ -55,13 +56,18 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
                 "address",
                 MyApplication.selectedAddress!!.desc + " ," + MyApplication.selectedAddress!!.street + " ," +  MyApplication.selectedAddress!!.bldg + " ," +  MyApplication.selectedAddress!!.floor
             )
+            intent.putExtra("submitted",MyApplication.submitted)
             setResult(RESULT_OK, intent)
             finish()
         }
     }
     fun init(){
-       // var title = intent.getStringExtra("mapTitle")
-     //   tvPageTitle.setColorTypeface(this,R.color.white,title!!,true)
+        try {
+            var title = intent.getStringExtra("mapTitle")
+            tvPageTitle.setColorTypeface(this, R.color.white, title!!, true)
+        }catch (ex:Exception){
+
+        }
         try {
             from = intent.getStringExtra("from")!!
         }catch (ex:Exception){
@@ -145,6 +151,10 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
             intent.putExtra(
                 "address",
                 addr
+            )
+            intent.putExtra(
+                "submitted",
+                true
             )
             setResult(RESULT_OK, intent)
             finish()

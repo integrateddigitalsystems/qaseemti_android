@@ -28,7 +28,7 @@ import java.util.*
 
 class ActivityAddNewAddress : ActivityBase() {
 
-    var REQUEST_CODE = 1000
+    var REQUEST_CODE = 1005
     var from = ""
     var latlng: LatLng? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +68,11 @@ class ActivityAddNewAddress : ActivityBase() {
         intent.putExtra(
             "address",
             etAddressProvince.text.toString() + " ," + etStreet.text.toString() + " ," + etBuilding.text.toString() + " ," + etFloor.text.toString()
+        )
+        MyApplication.submitted = true
+        intent.putExtra(
+            "submitted",
+            true
         )
         setResult(RESULT_OK, intent)
         finish()

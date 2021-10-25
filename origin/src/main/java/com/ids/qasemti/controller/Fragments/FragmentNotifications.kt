@@ -18,6 +18,7 @@ import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.fragment_notifications.*
 import kotlinx.android.synthetic.main.loading.*
+import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,6 +53,11 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
         rvNotifications.layoutManager = LinearLayoutManager(context)
         adapter = AdapterNotification(array, this, requireContext())
         rvNotifications.adapter = adapter
+        if(array.size==0){
+            tvNoData.show()
+        }else{
+            tvNoData.hide()
+        }
         try {
             loading.hide()
         }catch (ex: Exception){
@@ -105,11 +111,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
         array.clear()
         (activity as ActivityHome).showLogout(false)
 
-        AppHelper.setTitle(
-            requireActivity(),
-            AppHelper.getRemoteString("notifications", requireContext()),
-            "notifications"
-        )
+        AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.white)
 
         getData()
 

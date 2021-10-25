@@ -80,7 +80,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
             }
         }
         try{
-            AppHelper.setTitle(requireActivity(), MyApplication.selectedService!!.name!!, "")
+            AppHelper.setTitle(requireActivity(), MyApplication.selectedService!!.name!!, "",R.color.white)
         }catch (ex:Exception){
 
         }

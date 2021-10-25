@@ -24,6 +24,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
 
 
     var REQUEST_ADDRESS = 1005
+    var first = true
     var latLng : LatLng ?=null
     var seeOnly = false
     var gmap : GoogleMap? = null
@@ -86,10 +87,12 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
         btSavePosition.setOnClickListener {
 
             var x = latLng
-            if( MyApplication.finish!!){
+            if(MyApplication.finish!!){
                 MyApplication.latSelected = latLng!!.latitude
                 MyApplication.longSelected = latLng!!.longitude
-                finish()
+                if(!MyApplication.addNew) {
+                    finish()
+                }
                 startActivityForResult(Intent(this,ActivityAddNewAddress::class.java),REQUEST_ADDRESS)
             }else {
                 val intent = Intent()
@@ -121,6 +124,32 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
     override fun onResume() {
         super.onResume()
         mvLocation!!.onResume()
+
+        if(MyApplication.addNew&&!first) {
+            try {
+                MyApplication.addNew = false
+                MyApplication.fromAdd = false
+                val intent = Intent()
+                intent.putExtra("lat", MyApplication.selectedAddress!!.lat)
+                intent.putExtra("long", MyApplication.selectedAddress!!.long)
+
+                /*var latLng = com.google.android.gms.maps.model.LatLng(
+                array.get(position).lat!!.toDouble(),
+                array.get(position).long!!.toDouble()
+            )*/
+                //   MyApplication.selectedAddress = array.get(position)
+                intent.putExtra(
+                    "address",
+                    MyApplication.selectedAddress!!.desc + " ," + MyApplication.selectedAddress!!.street + " ," + MyApplication.selectedAddress!!.bldg + " ," + MyApplication.selectedAddress!!.floor
+                )
+                MyApplication.submitted = true
+                intent.putExtra("submitted", MyApplication.submitted)
+                setResult(RESULT_OK, intent)
+                finish()
+            }catch (ex:Exception){}
+        }else{
+            first = false
+        }
     }
 
     override fun onStart() {

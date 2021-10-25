@@ -54,6 +54,7 @@ interface RetrofitInterface {
         @Part(ApiParameters.LAST_NAME) lastName: RequestBody,
         @Part(ApiParameters.EMAIL) email: RequestBody,
         @Part(ApiParameters.MOBILE_NUMBER) mobileNumber: RequestBody,
+        @Part(ApiParameters.ALTERNATE_NUMBER) altr_numb : RequestBody ,
         @Part(ApiParameters.CIVIL_ID) civilid: RequestBody,
         @Part civil_id_attach: MultipartBody.Part,
         @Part(ApiParameters.GENDER) gender: RequestBody,
@@ -227,8 +228,8 @@ interface RetrofitInterface {
 
     @POST("sp_request_settlement")
     fun postSettlement(
-        @Body param : RequestUserStatus
-    ):Call<ResponseMessage>
+        @Body param : RequestVendor
+    ):Call<ResponseSettlementRequest>
 
     @POST("get_order_chat")
     fun getChats(

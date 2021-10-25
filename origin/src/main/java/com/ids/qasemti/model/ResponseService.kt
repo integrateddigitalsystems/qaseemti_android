@@ -60,7 +60,11 @@ class ResponseService(
 
     @SerializedName("variations")
     @Expose
-    var variations : ArrayList<ServiceVariation> = arrayListOf()
+    var variations : ArrayList<ServiceVariation> = arrayListOf() ,
+
+    @SerializedName("featured_image")
+    @Expose
+    var featuredImage : String ?=""
 
 
 

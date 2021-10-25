@@ -55,6 +55,8 @@ object AppConstants {
     const val FRAGMENT_CART="fragmentCart"
     const val CHECKOUT = "checkout"
 
+    const val UPDATE_PROFILE_CLIENT = 0
+    const val UPDATE_PROFILE_SERVICE_PROVIDER = 1
 
     const val TYPE_PURCHASE = "purchase"
     const val TYPE_RENTAL = "rental"

@@ -8,12 +8,22 @@ import com.bumptech.glide.Glide.init
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.utils.AppConstants
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.setColorTypeface
-import com.ids.qasemti.utils.show
+import com.ids.qasemti.model.RequestContactUs
+import com.ids.qasemti.model.ResponseUpdate
+import com.ids.qasemti.utils.*
+import kotlinx.android.synthetic.main.activity_contact_us.*
 import kotlinx.android.synthetic.main.activity_web.*
+import kotlinx.android.synthetic.main.activity_web.etEmailContact
+import kotlinx.android.synthetic.main.activity_web.etFullNameContact
+import kotlinx.android.synthetic.main.activity_web.etMessageContact
+import kotlinx.android.synthetic.main.activity_web.etPhoneContact
+import kotlinx.android.synthetic.main.activity_web.etSubjectContact
+import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.lang.Exception
 
 class ActivityWeb: ActivityBase() {
 
@@ -25,14 +35,55 @@ class ActivityWeb: ActivityBase() {
 
     }
 
+
+    fun resultContact(req:Int){
+        if(req==1){
+            AppHelper.createDialog(this,AppHelper.getRemoteString("success",this))
+        }else{
+            AppHelper.createDialog(this,AppHelper.getRemoteString("failure",this))
+        }
+        try {
+            loading.hide()
+        }catch (ex: Exception){
+
+        }
+        etFullNameContact.text.clear()
+        etEmailContact.text.clear()
+        etMessageContact.text.clear()
+        etPhoneContact.text.clear()
+        etSubjectContact.text.clear()
+    }
+    fun sendContact(){
+        try {
+            loading.show()
+        }catch (ex: Exception){
+
+        }
+        var newReq = RequestContactUs(etFullNameContact.text.toString(),etPhoneContact.text.toString(),etEmailContact.text.toString(),etSubjectContact.text.toString(),etMessageContact.text.toString())
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.contactUs(
+                newReq
+            )?.enqueue(object : Callback<ResponseUpdate> {
+                override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
+                    try{
+                        resultContact(response.body()!!.result!!.toInt())
+                    }catch (E: java.lang.Exception){
+                        resultContact(0)
+                    }
+                }
+                override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                    resultContact(0)
+                }
+            })
+    }
     fun init(){
-        rlToolBar.setBackgroundColor(AppHelper.getColor(this,R.color.redPrimary))
+        rlToolBar.setBackgroundColor(AppHelper.getColor(this,R.color.gray_background))
         btBackTool.show()
         tvPageTitle.show()
-        AppHelper.setLogoTint(btBackTool,this,R.color.white)
+        AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
         var title = intent.getStringExtra("webTitle")
         var id = intent.getIntExtra("webId",0)
-        tvPageTitle.setColorTypeface(this,R.color.white,title!!,true)
+        tvPageTitle.setColorTypeface(this,R.color.redPrimary,title!!,true)
         btBackTool.setOnClickListener {
             super.onBackPressed()
         }
@@ -46,6 +97,18 @@ class ActivityWeb: ActivityBase() {
         }
 
         loadContent(selectedUrl!!)
+
+        btContactWeb.onOneClick {
+
+            if(etFullNameContact.text.isNullOrEmpty()||etEmailContact.text.isNullOrEmpty()||etPhoneContact.text.isNullOrEmpty()||etMessageContact.text.isNullOrEmpty()||etSubjectContact.text.isNullOrEmpty()){
+                AppHelper.createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
+            }else if(!AppHelper.isEmailValid(etEmailContact.text.toString())){
+                AppHelper.createDialog(this,AppHelper.getRemoteString("email_valid_error",this))
+            }else{
+                sendContact()
+            }
+        }
+
     }
     fun loadContent(content:String){
         wvData.settings.javaScriptEnabled=true

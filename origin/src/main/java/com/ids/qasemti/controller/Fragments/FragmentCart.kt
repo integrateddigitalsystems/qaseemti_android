@@ -104,11 +104,15 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
             })
     }
     fun setData(){
-        adapter = AdapterCart(array, this, requireContext())
-        rvCart.layoutManager = LinearLayoutManager(requireContext())
-        rvCart.adapter = adapter
-        rvCart.isNestedScrollingEnabled = false
-        loading.hide()
+        try {
+            adapter = AdapterCart(array, this, requireContext())
+            rvCart.layoutManager = LinearLayoutManager(requireContext())
+            rvCart.adapter = adapter
+            rvCart.isNestedScrollingEnabled = false
+            loading.hide()
+        }catch (ex:Exception){
+
+        }
     }
 
     fun init(){

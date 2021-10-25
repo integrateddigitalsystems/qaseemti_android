@@ -28,6 +28,7 @@ class MyApplication : Application() {
         var upcoming: Boolean ?=false
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
+        var addNew : Boolean = true
         var selectedFragmentTag : String ?=""
         var webLinks : FirebaseWebData ?=null
         var typeSelected = 0
@@ -35,6 +36,8 @@ class MyApplication : Application() {
         var renewed = false
         var fromAccount = false
         var fromAdd : Boolean ?= false
+        var submitted : Boolean ?=false
+        var selectedTitle : String ?=""
         var rental : Boolean ?=false
         var finish : Boolean ?=false
         var latSelected : Double ?=0.0
