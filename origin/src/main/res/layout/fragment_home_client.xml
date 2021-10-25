@@ -66,6 +66,7 @@
                 android:orientation="vertical">
 
 
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginStart="@dimen/card_new_margin"
                     android:layout_marginEnd="@dimen/card_new_margin"

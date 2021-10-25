@@ -30,6 +30,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
     var array: ArrayList<ResponseOrders> = arrayListOf()
     var arraySett: ArrayList<ResponseSettlement> = arrayListOf()
     var res : ResponseMainOrder ?=null
+    var resSet : ResponseMainSettlement ?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settlement)
@@ -43,6 +44,9 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
         // repeat(3){array.add("1")}
         btBck.show()
         setTabs()
+        try{
+            tvPageTitle.setColorTypeface(this,R.color.redPrimary,AppHelper.getRemoteString("settlements",this),true)
+        }catch (ex:Exception){}
         setTabLayout(MyApplication.settlementTabSelected, tvToBeSettled)
         getOrders(MyApplication.settlementTabSelected)
     }
@@ -72,6 +76,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                 ) {
                     try {
                         nextStep(response.body()!!.result!!.toInt())
+
                     } catch (E: java.lang.Exception) {
                         nextStep(AppConstants.FAILURE_REQUEST)
                     }
@@ -124,7 +129,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
 
             loading.show()
 
-        var newReq = RequestServices(6, MyApplication.languageCode)
+        var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getSettlements(
                 newReq
@@ -136,6 +141,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                     try {
                         arraySett.clear()
                         arraySett.addAll(response.body()!!.settlements)
+                        resSet = response.body()!!
                         setData(position)
                     } catch (E: java.lang.Exception) {
                         loading.hide()
@@ -163,6 +169,13 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                 btRequestSettlements.hide()
             }
         } else {
+            tvTotalOrderCount.text = resSet!!.numberOfOrders.toString()
+            tvSettlementAmount.text = resSet!!.totalEarnings!!.toString()
+            try {
+              tvSettlementAmount.text = tvSettlementAmount.text.toString() + " "+resSet!!.settlements.get(0).relatedOrders.get(0).currency
+            }catch (ex:Exception){
+
+            }
             btRequestSettlements.hide()
             MyApplication.upcoming = true
             var adapter = AdapterPreviousSettlements(arraySett, this, this)

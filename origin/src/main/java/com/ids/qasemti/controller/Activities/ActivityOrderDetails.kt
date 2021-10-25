@@ -437,7 +437,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
         }
 
-        swOnTrack.setOnCheckedChangeListener { compoundButton, b ->
+        swOnTrack.setOnClickListener {
 
             AppHelper.createSwitchDialog(
                 this,
@@ -458,7 +458,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
 
         }
-        swPaid.setOnCheckedChangeListener { compoundButton, b ->
+        swPaid.setOnClickListener {
             AppHelper.createSwitchDialog(
                 this,
                 AppHelper.getRemoteString("ok", this),
@@ -476,7 +476,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                 setStatus()
             }
         }
-        swDelivered.setOnCheckedChangeListener { compoundButton, b ->
+        swDelivered.setOnClickListener {
 
             AppHelper.createSwitchDialog(this,AppHelper.getRemoteString("ok", this),AppHelper.getRemoteString("cancel", this),getString(
                 R.string.are_you_sure_change_status

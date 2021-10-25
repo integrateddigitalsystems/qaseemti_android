@@ -248,10 +248,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         //tvToolbarCurveTitle.setText(getString(R.string.profile))
         (activity as ActivityHome?)!!.showBack(R.color.white)
         AppHelper.setTitle(
-            requireActivity(),
-            AppHelper.getRemoteString("Profile", requireContext()),
-            "profile"
-        ,R.color.redPrimary)
+            requireActivity(), MyApplication.selectedTitle!!,"",R.color.white)
         rbFemaleProfile.isSelected = true
         // (activity as ActivityHome?)!!.showLogout(false)
         tvToolbarCurveTitle.visibility = View.GONE

@@ -122,7 +122,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     fun init() {
         (activity as ActivityHome?)!!.showLogout(false)
         (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
-        AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
+     //   AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         setListeners()
         getRating()
         getData()
@@ -179,6 +179,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 FragmentOrders(),
                 AppConstants.FRAGMENT_ORDER_FROM
             )
+            MyApplication.selectedTitle = AppHelper.getRemoteString("orders",requireContext())
             MyApplication.typeSelected = 0
 
         }
@@ -189,6 +190,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 FragmentOrders(),
                 AppConstants.FRAGMENT_ORDER_FROM
             )
+            MyApplication.selectedTitle = AppHelper.getRemoteString("orders",requireContext())
             MyApplication.typeSelected = 1
         }
         try {

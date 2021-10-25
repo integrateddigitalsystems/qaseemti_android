@@ -95,9 +95,9 @@ class AdapterOrderType(
                 con.getString(
                     R.string.are_you_sure_change_status
                 ),
-                holder.switchPaid
+                holder.switchDelivered
             ) {
-                if (holder.switchPaid.isChecked) {
+                if (holder.switchDelivered.isChecked) {
                     delivered = 1
                 } else {
                     delivered = 0
@@ -118,7 +118,7 @@ class AdapterOrderType(
                 con.getString(
                     R.string.are_you_sure_change_status
                 ),
-                holder.switchPaid
+                holder.switchOnTrack
             ) {
                 if (holder.switchOnTrack.isChecked) {
                     onTrack = 1

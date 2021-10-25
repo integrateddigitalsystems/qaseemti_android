@@ -92,6 +92,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             )
         }
         btMyServices.onOneClick {
+            MyApplication.selectedTitle = AppHelper.getRemoteString("MyServices",requireContext())
             MyApplication.fromAccount = true
             (requireActivity() as ActivityHome?)!!.addFrag(
                 FragmentMyServices(),
@@ -104,6 +105,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         }
 
         btMyProfile.onOneClick {
+            MyApplication.selectedTitle = AppHelper.getRemoteString("Profile",requireContext())
             (requireActivity() as ActivityHome?)!!.addFrag(
                 FragmentProfile(),
                 AppConstants.FRAGMENT_PROFILE
