@@ -1,6 +1,7 @@
 
 package com.ids.qasemti.controller.Activities
 
+import android.app.Activity
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -9,6 +10,9 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -31,6 +35,7 @@ class ActivityAddNewAddress : ActivityBase() {
     var REQUEST_CODE = 1005
     var from = ""
     var latlng: LatLng? = null
+    var resultLauncher: ActivityResultLauncher<Intent>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_address)
@@ -62,8 +67,8 @@ class ActivityAddNewAddress : ActivityBase() {
             etAddressProvince.text.toString(),
             etBuilding.text.toString()
         )
-        //  intent.putExtra("lat",array.get(position).lat)
-        //  intent.putExtra("long",array.get(position).long)
+          intent.putExtra("lat",latlng!!.latitude)
+          intent.putExtra("long",latlng!!.longitude)
         //   var latLng = com.google.android.gms.maps.model.LatLng(array.get(position).lat!!.toDouble(), array.get(position).long!!.toDouble())
         intent.putExtra(
             "address",
@@ -225,20 +230,10 @@ class ActivityAddNewAddress : ActivityBase() {
         var title = intent.getStringExtra("mapTitle")
     //    tvPageTitle.setColorTypeface(this, R.color.redPrimary, title!!, true)
         btMapAddress.onOneClick {
-            startActivityForResult(
-                Intent(
-                    this,
-                    ActivityMapAddress::class.java
-                ), REQUEST_CODE
-            )
+            resultLauncher!!.launch(Intent(this, ActivityMapAddress::class.java))
         }
         etAddressProvince.onOneClick {
-            startActivityForResult(
-                Intent(
-                    this,
-                    ActivityMapAddress::class.java
-                ), REQUEST_CODE
-            )
+            resultLauncher!!.launch(Intent(this, ActivityMapAddress::class.java))
         }
         btSaveAddress.onOneClick {
             if (etAddressName.text.isNullOrEmpty() || etAddressProvince.text.isNullOrEmpty() || etBuilding.text.toString()
@@ -268,5 +263,8 @@ class ActivityAddNewAddress : ActivityBase() {
                 setData()
             }
         }
+
+
+
     }
 }
