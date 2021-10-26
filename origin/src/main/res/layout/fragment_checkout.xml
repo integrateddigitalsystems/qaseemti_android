@@ -115,7 +115,7 @@
                         android:layout_width="@dimen/fab_margin"
                         android:layout_height="@dimen/fab_margin"
                         android:layout_marginEnd="@dimen/normal_margin"
-                        android:rotation="-90"
+                        android:rotation="90"
                         android:src="@drawable/ic_back"
                         app:tint="@color/new_blue" />
 

@@ -29,7 +29,7 @@ import java.util.*
 
 class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
 
-    var open = false
+    var open = true
     var REQUEST_LOCATION = 5
     var stamp: Long? = 0
     var update = false
