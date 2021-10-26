@@ -49,11 +49,25 @@ class AdapterOrderType(
 
         try{holder.locationText.text=items.get(position).shipping_address_name!!}catch (e:Exception){}
         try{
-            holder.orderDate.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MMM yyyy hh:mm")
-        }catch (ex:java.lang.Exception){holder.orderDate.text = ""}
+            holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MMM yyyy hh:mm")
+        }catch (ex:java.lang.Exception){
+            if(items[position].date!=null)
+               holder.orderDate.text = items[position].date!!
+            else
+                holder.orderDate.text = ""
+        }
+
+        try{
+            holder.tvOrderDateValue.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MMM yyyy hh:mm")
+        }catch (ex:java.lang.Exception){
+            if(items[position].date!=null)
+               holder.tvOrderDateValue.text=items[position].date!!
+            else
+               holder.tvOrderDateValue.text = ""
+        }
         try{
             holder.expectedDate.text = items.get(position).deliveryDate!!
-        }catch (ex:java.lang.Exception){holder.orderDate.text=""}
+        }catch (ex:java.lang.Exception){holder.expectedDate.text=""}
         try{
             holder.orderId.text = "#"+items.get(position).orderId.toString()
         }catch (ex:java.lang.Exception){holder.orderId.text =""}
@@ -61,14 +75,14 @@ class AdapterOrderType(
             holder.ratingBar.rating = items.get(position).vendor!!.rate!!.toFloat()
         }catch (ex:java.lang.Exception){holder.ratingBar.rating = 0f}
         try{
-            if(items[position].paymentMethodTitle!=null && items[position].paymentMethodTitle!!.isNotEmpty())
-                holder.paymentMethod.text = items[position].paymentMethodTitle
+            if(items[position].paymentMethod!=null && items[position].paymentMethod!!.isNotEmpty())
+                holder.paymentMethod.text = items[position].paymentMethod
         }catch (ex:java.lang.Exception){}
         try {
             holder.orderCost.text = items[position].total!!+" "+items.get(position).currency
         }catch (ex:Exception){ holder.orderCost.text =""}
         try{
-            holder.cancelReasonDetails.text = items.get(position).cancellationDate
+            holder.cancelReasonDetails.text = items.get(position).cancellationReason
         } catch (ex:Exception){
                 holder.cancelReasonDetails.text =""
         }
@@ -240,7 +254,7 @@ class AdapterOrderType(
             holder.titelOrderDate.text = AppHelper.getRemoteString("Actual_delivery",con)
         }else{
             holder.titelOrderDate.text = AppHelper.getRemoteString("cancelDate",con)
-            holder.orderDate.text = items.get(position).cancellationDate
+            holder.orderDate.text = items[position].cancellationDate
             holder.phoneChat.hide()
             holder.rating.hide()
             holder.canSep.show()
@@ -307,6 +321,7 @@ class AdapterOrderType(
         var switchDelivered = itemView.findViewById<SwitchCompat>(R.id.swDelivered)
         var switchPaid = itemView.findViewById<SwitchCompat>(R.id.swPaid)
         var orderDetails = itemView.findViewById<TextView>(R.id.tvViewOrderDetails)
+        var tvOrderDateValue = itemView.findViewById<TextView>(R.id.tvOrderDateValue)
 
 
         init {

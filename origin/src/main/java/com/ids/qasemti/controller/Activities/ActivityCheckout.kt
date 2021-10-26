@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.location.Address
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
@@ -259,6 +260,9 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
         }
 
     }
+
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

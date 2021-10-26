@@ -72,7 +72,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
        orderId = intent.getIntExtra("orderId",1)
         var type = intent.getIntExtra("type",1)
 
-        if(type==0){
+        if(type==0 || type == 3){
             llDetailsCallMessage.show()
         }else{
             llDetailsCallMessage.hide()
@@ -237,13 +237,13 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
             MyApplication.selectedOrder!!.deliveryDate,
             date,
             date,
-            MyApplication.selectedOrder!!.addressname,
-            MyApplication.selectedOrder!!.addressLat!!.toDouble(),
-            MyApplication.selectedOrder!!.addressLong!!.toDouble(),
-            MyApplication.selectedOrder!!.addressStreet,
-            MyApplication.selectedOrder!!.addressBuilding,
-            MyApplication.selectedOrder!!.addressFloor,
-            MyApplication.selectedOrder!!.addressDescription,
+            MyApplication.selectedOrder!!.shipping_address_name,
+            MyApplication.selectedOrder!!.shipping_address_latitude!!.toDouble(),
+            MyApplication.selectedOrder!!.shipping_address_longitude!!.toDouble(),
+            MyApplication.selectedOrder!!.shipping_address_street,
+            MyApplication.selectedOrder!!.shipping_address_building,
+            MyApplication.selectedOrder!!.shipping_address_floor,
+            MyApplication.selectedOrder!!.shipping_address_description,
             MyApplication.selectedOrder!!.customer!!.first_name,
             MyApplication.selectedOrder!!.customer!!.last_name,
             storeName,
@@ -275,7 +275,8 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         }
 
         btRenewOrder.onOneClick {
-            renewOrder()
+            try{
+            renewOrder()}catch (e:Exception){}
         }
         llCall.onOneClick {
             val intent = Intent(Intent.ACTION_DIAL)
