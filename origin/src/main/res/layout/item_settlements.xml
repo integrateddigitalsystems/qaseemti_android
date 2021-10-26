@@ -220,6 +220,8 @@
 
 
         <LinearLayout
+            android:id="@+id/llViewOrderDetails"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="@dimen/settlement_inside_item_hight"
             android:gravity="center"

@@ -64,6 +64,7 @@ class AdapterPreviousSettlements(
         var dues = itemView.findViewById<LinearLayout>(R.id.llMyDues)
         var amountTitle = itemView.findViewById<TextView>(R.id.tvAmountTitle)
         var earningsTitle = itemView.findViewById<TextView>(R.id.tvEarningsTitle)
+        var viewOrder = itemView.findViewById<LinearLayout>(R.id.llViewOrderDetails)
         var id = itemView.findViewById<TextView>(R.id.tvSettlementId)
         var date = itemView.findViewById<TextView>(R.id.tvOrderDateSett)
         var amount = itemView.findViewById<TextView>(R.id.tvSettAmount)

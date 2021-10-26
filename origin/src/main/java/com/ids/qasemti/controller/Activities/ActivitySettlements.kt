@@ -212,6 +212,9 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                         Intent(this, ActivityRelatedOrders::class.java)
                             .putExtra("settelmentId", arraySett.get(position).reqId)
                     )
+                }else{
+                    MyApplication.selectedOrder = array.get(position)
+                    startActivity(Intent(this,ActivityOrderDetails::class.java))
                 }
             }
         }

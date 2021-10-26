@@ -229,7 +229,7 @@
     <string name="Area">منطقة</string>
     <string name="Block">حي</string>
     <string name="Avenu">الجادة</string>
-    <string name="login_alert_title">هل هذا رقم هاتفك؟</string>
+    <string name="login_alert_title">هل هذا رقم هاتفك؟ phoned_number</string>
     <string name="login_alert_msg">ستتلقى رمز التحقق عبر SMS</string>
     <string name="confirm">تأكيد</string>
     <string name="edit">تعديل</string>

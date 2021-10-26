@@ -105,6 +105,9 @@ class MyApplication : Application() {
         var phoneNumber : String?
             get() = sharedPreferences.getString(AppConstants.PHONE_NUMBER,"")
             set(value) { sharedPreferencesEditor.putString(AppConstants.PHONE_NUMBER, value).apply() }
+        var firstMapAddress : Boolean?
+            get() = sharedPreferences.getBoolean(AppConstants.MAPPING,false)
+            set(value) { sharedPreferencesEditor.putBoolean(AppConstants.MAPPING, value!!).apply() }
 
     }
 

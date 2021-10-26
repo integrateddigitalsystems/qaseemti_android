@@ -37,6 +37,7 @@ class AdapterSettlements(
 
         holder.details.text = AppHelper.getRemoteString("view_order_details", con)
         holder.idTitle.hide()
+        holder.viewOrder.show()
         holder.id.text = items.get(position).orderId.toString()
         holder.date.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy hh:mm")
         holder.amount.text = items.get(position).total+" "+items.get(position).currency
@@ -54,6 +55,7 @@ class AdapterSettlements(
         var idTitle = itemView.findViewById<TextView>(R.id.tvIdSettlementTitle)
         var dateTitle = itemView.findViewById<TextView>(R.id.tvDateTitle)
         var dues = itemView.findViewById<LinearLayout>(R.id.llMyDues)
+        var viewOrder = itemView.findViewById<LinearLayout>(R.id.llViewOrderDetails)
         var amountTitle = itemView.findViewById<TextView>(R.id.tvAmountTitle)
         var earningsTitle = itemView.findViewById<TextView>(R.id.tvEarningsTitle)
         var id = itemView.findViewById<TextView>(R.id.tvSettlementId)
@@ -64,6 +66,7 @@ class AdapterSettlements(
 
 
         init {
+            viewOrder.setOnClickListener(this)
             details.setOnClickListener(this)
             itemView.setOnClickListener(this)
         }
