@@ -1,6 +1,7 @@
 package com.ids.qasemti.controller.Activities
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,6 +9,8 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
@@ -27,6 +30,8 @@ class ActivitySelectAddress : AppCompactBase() {
 
     var latLng: LatLng? = null
     var REQUEST_LOCATION = 1005
+    var firstTime: Boolean = true
+    var resultLauncher: ActivityResultLauncher<Intent>? = null
     var addressName: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,58 +42,10 @@ class ActivitySelectAddress : AppCompactBase() {
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_LOCATION) {
-            if (resultCode == RESULT_OK) {
-                val extras = data!!.extras
-                if (extras != null) {
+    /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+         super.onActivityResult(requestCode, resultCode, data)
 
-                    try {
-                        var lat = extras.getDouble("lat")
-                        var long = extras.getDouble("long")
-                        latLng = LatLng(lat, long)
-                    } catch (ex: Exception) {
-                    }
-
-                    var sumbtted = MyApplication.submitted
-
-                    addressName = extras.getString("address")
-                    if (sumbtted!!) {
-                        if (!addressName.isNullOrEmpty()) {
-                            val intent = Intent()
-
-                            val extras = Bundle()
-                            extras.putString(
-                                "address",
-                                addressName
-                            )
-                            if (latLng != null) {
-                                extras.putDouble(
-                                    "lat",
-                                    latLng!!.latitude
-                                )
-                                extras.putDouble(
-                                    "long",
-                                    latLng!!.longitude
-                                )
-                            }
-                            intent.putExtras(extras)
-
-
-                            setResult(RESULT_OK, intent)
-                            finish()
-                        } else {
-                            AppHelper.createDialog(this, "Please pick location")
-                        }
-                    }
-
-                    Toast.makeText(this, addressName, Toast.LENGTH_SHORT).show()
-                }
-
-            }
-        }
-    }
+     }*/
 
     fun init() {
         tvPageTitle.setColorTypeface(
@@ -99,6 +56,61 @@ class ActivitySelectAddress : AppCompactBase() {
         )
         AppHelper.setLogoTint(btBackTool, this, R.color.white)
         btBackTool.show()
+
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+
+
+                    val extras = result.data!!.extras
+                    if (extras != null) {
+
+                        try {
+                            var lat = extras.getDouble("lat")
+                            var long = extras.getDouble("long")
+                            latLng = LatLng(lat, long)
+                        } catch (ex: Exception) {
+                        }
+                        var tryy = extras.getString("lat")
+
+                        var sumbtted = extras.getBoolean("submitted")
+
+                        addressName = extras.getString("address")
+                        if (sumbtted) {
+                            if (!addressName.isNullOrEmpty()) {
+                                val intent = Intent()
+
+                                val extras = Bundle()
+                                extras.putString(
+                                    "address",
+                                    addressName
+                                )
+                                if (latLng != null) {
+                                    extras.putDouble(
+                                        "lat",
+                                        latLng!!.latitude
+                                    )
+                                    extras.putDouble(
+                                        "long",
+                                        latLng!!.longitude
+                                    )
+                                }
+                                intent.putExtras(extras)
+
+
+                                setResult(RESULT_OK, intent)
+                                finish()
+                            } else {
+                                AppHelper.createDialog(this, "Please pick location")
+                            }
+                        }
+
+                        Toast.makeText(this, addressName, Toast.LENGTH_SHORT).show()
+                    }
+
+
+                }
+            }
     }
 
     fun setListeners() {
@@ -139,54 +151,34 @@ class ActivitySelectAddress : AppCompactBase() {
             super.onBackPressed()
         }
         llCurrentLocation.onOneClick {
-            getCurrentLocation()
-            /*      if (ActivityCompat.checkSelfPermission(
-                          this,
-                          Manifest.permission.ACCESS_FINE_LOCATION
-                      ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                          this,
-                          Manifest.permission.ACCESS_COARSE_LOCATION
-                      ) != PackageManager.PERMISSION_GRANTED
-                  ) {
 
-                  }
-                  try {
-                      val locationManager =
-                          getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                      var gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                      latLng = LatLng(gps_loc!!.latitude, gps_loc!!.longitude)
-                      addressName = AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
-                      Toast.makeText(this, "Current Location Saved", Toast.LENGTH_SHORT).show()
-                  } catch (e: Exception) {
-                      e.printStackTrace()
-                      Toast.makeText(this, "Error getting current Location", Toast.LENGTH_SHORT).show()
-                  }*/
+            getCurrentLocation()
+
         }
         llLocationMap.onOneClick {
-            startActivityForResult(
+            resultLauncher!!.launch(
                 Intent(this, ActivityMapAddress::class.java)
-                    .putExtra("mapTitle", AppHelper.getRemoteString("LocationOnMap", this)),
-                REQUEST_LOCATION
-            )
+                    .putExtra("mapTitle", AppHelper.getRemoteString("LocationOnMap", this)))
+
         }
         llSavedLocation.onOneClick {
             MyApplication.addNew = false
-            startActivityForResult(
+            resultLauncher!!.launch(
                 Intent(this, ActivityAddresses::class.java)
-                    .putExtra("mapTitle", AppHelper.getRemoteString("SavedLocation", this)),
-                REQUEST_LOCATION
+                    .putExtra("mapTitle", AppHelper.getRemoteString("SavedLocation", this))
             )
+
         }
         llNewAddress.onOneClick {
             MyApplication.finish = true
             MyApplication.addNew = true
-            startActivityForResult(Intent(this,ActivityMapAddress::class.java),
-                REQUEST_LOCATION)
+            resultLauncher!!.launch(Intent(this, ActivityMapAddress::class.java))
         }
     }
 
     override fun onResume() {
         super.onResume()
+        firstTime = true
 
     }
 
@@ -194,6 +186,7 @@ class ActivitySelectAddress : AppCompactBase() {
         loading.show()
         val locationResult = object : MyLocation.LocationResult() {
             override fun gotLocation(location: Location?) {
+
                 if (location != null) {
                     val lat = location!!.latitude
                     val lon = location.longitude
@@ -204,15 +197,20 @@ class ActivitySelectAddress : AppCompactBase() {
                         latLng!!.longitude,
                         this@ActivitySelectAddress
                     )
-                    startActivityForResult(
-                        Intent(this@ActivitySelectAddress, ActivityAddNewAddress::class.java)
-                            .putExtra("from", "current"),
-                        REQUEST_LOCATION
+
+                    /* if(firstTime) {*/
+                    resultLauncher!!.launch(
+                        Intent(
+                            this@ActivitySelectAddress,
+                            ActivityAddNewAddress::class.java
+                        ).putExtra("from", "current")
                     )
+
 
                 } else {
                     toast("cannot detect location")
                 }
+
                 loading.hide()
             }
 
@@ -229,7 +227,18 @@ class ActivitySelectAddress : AppCompactBase() {
         if (grantResults.isNotEmpty() && grantResults[0] ==
             PackageManager.PERMISSION_GRANTED
         ) {
-            getCurrentLocation()
+            if (ActivityCompat.checkSelfPermission(
+                    this@ActivitySelectAddress,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                    this@ActivitySelectAddress,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED && requestCode == AppConstants.REQUEST_LOCATION_PERMISSION
+            ) {
+                getCurrentLocation()
+            }
+
         } else {
             toast("Please accept requested permission in order to detect your current location")
             loading.hide()

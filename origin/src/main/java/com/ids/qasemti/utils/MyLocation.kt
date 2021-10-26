@@ -71,7 +71,7 @@ fun getLocation(context: Context, result: LocationResult): Boolean {
         ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) run {
 
         ActivityCompat.requestPermissions(context as Activity,
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 111)
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), AppConstants.REQUEST_LOCATION_PERMISSION)
     }else{
 
 

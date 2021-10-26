@@ -1,11 +1,15 @@
 package com.ids.qasemti.controller.Activities
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -24,6 +28,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
 
 
     var REQUEST_ADDRESS = 1005
+    var resultLauncher: ActivityResultLauncher<Intent>? = null
     var first = true
     var latLng : LatLng ?=null
     var seeOnly = false
@@ -93,7 +98,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
                 if(!MyApplication.addNew) {
                     finish()
                 }
-                startActivityForResult(Intent(this,ActivityAddNewAddress::class.java),REQUEST_ADDRESS)
+                resultLauncher!!.launch(Intent(this,ActivityAddNewAddress::class.java))
             }else {
                 val intent = Intent()
                 intent.putExtra("lat", latLng!!.latitude)
@@ -106,6 +111,13 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
                 finish()
             }
         }
+
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+
+                }
+            }
     }
 
 
@@ -130,8 +142,8 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
                 MyApplication.addNew = false
                 MyApplication.fromAdd = false
                 val intent = Intent()
-                intent.putExtra("lat", MyApplication.selectedAddress!!.lat)
-                intent.putExtra("long", MyApplication.selectedAddress!!.long)
+                intent.putExtra("lat", MyApplication.selectedAddress!!.lat!!.toDouble())
+                intent.putExtra("long", MyApplication.selectedAddress!!.long!!.toDouble())
 
                 /*var latLng = com.google.android.gms.maps.model.LatLng(
                 array.get(position).lat!!.toDouble(),

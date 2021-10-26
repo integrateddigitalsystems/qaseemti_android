@@ -147,7 +147,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         try{tvLocationOrderDeatils.text = MyApplication.selectedOrder!!.shipping_address_name}catch (e:Exception){}
         try{tvOrderCustomerName.text = MyApplication.selectedOrder!!.customer!!.first_name+" "+MyApplication.selectedOrder!!.customer!!.last_name}catch (e:Exception){}
         try{tvOrderDeetId.text = MyApplication.selectedOrder!!.orderId.toString()}catch (e:Exception){}
-        try{tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy")}catch (e:Exception){}
+        try{tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy hh:mm")}catch (e:Exception){}
         try{tvExpectedOrderDateDeet.text = MyApplication.selectedOrder!!.deliveryDate}catch (e:Exception){ }
         try{tvActualDeliveryTime.text = MyApplication.selectedOrder!!.deliveryDate}catch (e:Exception){ }
         try{tvOrderAmountDeet.text = MyApplication.selectedOrder!!.total!!.toString()+" "+MyApplication.selectedOrder!!.currency}catch (e:Exception){}

@@ -230,7 +230,7 @@
     <string name="Area">Area</string>
     <string name="Block">Block</string>
     <string name="you_can_find_updates">You can always find your updates in your email</string>
-    <string name="login_alert_title">Is this your phone number ?</string>
+    <string name="login_alert_title">Is this your phone number ? phoned_number</string>
     <string name="login_alert_msg">You will receive verification code via SMS</string>
     <string name="confirm">Confirm</string>
     <string name="edit">Edit</string>
