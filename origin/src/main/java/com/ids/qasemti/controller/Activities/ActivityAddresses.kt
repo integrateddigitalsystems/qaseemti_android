@@ -44,8 +44,8 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
         }else{
             MyApplication.fromAdd = false
             val intent = Intent()
-            intent.putExtra("lat", MyApplication.selectedAddress!!.lat)
-            intent.putExtra("long",  MyApplication.selectedAddress!!.long)
+            intent.putExtra("lat", MyApplication.selectedAddress!!.lat!!.toDouble())
+            intent.putExtra("long",  MyApplication.selectedAddress!!.long!!.toDouble())
 
             /*var latLng = com.google.android.gms.maps.model.LatLng(
                 array.get(position).lat!!.toDouble(),
@@ -132,8 +132,8 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
         if(!MyApplication.fromProfile!!) {
             val intent = Intent()
-            intent.putExtra("lat", array.get(position).lat)
-            intent.putExtra("long", array.get(position).long)
+            intent.putExtra("lat", array.get(position).lat!!.toDouble())
+            intent.putExtra("long", array.get(position).long!!.toDouble())
             var addr =""
             MyApplication.selectedAddress = array.get(position)
             if(!array.get(position).desc.equals("null")&&!array.get(position).desc.isNullOrEmpty()){

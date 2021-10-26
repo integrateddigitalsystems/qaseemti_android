@@ -35,6 +35,8 @@ object AppConstants {
     const val SIGNED_IN ="signed_in"
     const val ARRAY_CARTS ="array_carts"
     const val PHONE_NUMBER ="phone_number"
+    const val MAPPING ="mapping"
+    const val REQUEST_LOCATION_PERMISSION = 111
     const val NOTF_TYPE = "notf_type"
     const val FIREBASE_FORCE_UPDATE = "android_force_update"
     const val FIREBASE_VERSION_CODE = "android_version_code"

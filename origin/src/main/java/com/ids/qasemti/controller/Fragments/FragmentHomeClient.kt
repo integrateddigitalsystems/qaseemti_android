@@ -87,9 +87,9 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         }catch (ex:Exception){
         }*/
 
-        linearProfileInfo.setOnClickListener {
+     /*   linearProfileInfo.setOnClickListener {
             startActivity(Intent( requireActivity(),ActivitySelectAddress::class.java))
-        }
+        }*/
         if (MyApplication.isSignedIn) {
             (activity as ActivityHome?)!!.showLogout(true)
             btRegisterLogin.hide()

@@ -126,8 +126,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                        if(response.body()!!.result==1){
                            finishAffinity()
                            MyApplication.selectedPos = 2
-                           MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
-                           MyApplication.selectedFragment = FragmentHomeClient()
+                           MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                           MyApplication.selectedFragment = FragmentOrders()
                            MyApplication.tintColor = R.color.redPrimary
                            startActivity(Intent(this@ActivityPlaceOrder,ActivityHome::class.java))
                        }

@@ -47,6 +47,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
     var dialog: Dialog? = null
     var orderId = 1
     var onTrack : Int ?=0
+    var typeSelected : String ?=""
     var delivered : Int ?=0
     var paid : Int ?=0
     lateinit var  shake: Animation
@@ -71,20 +72,17 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         }
        orderId = intent.getIntExtra("orderId",1)
         var type = intent.getIntExtra("type",1)
-
-        if(type==0 || type == 3){
+        typeSelected = MyApplication.selectedOrder!!.orderStatus
+        if(typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE) || typeSelected.equals(AppConstants.ORDER_TYPE_CANCELED)){
             llDetailsCallMessage.show()
         }else{
             llDetailsCallMessage.hide()
         }
-
-
-
         AppHelper.setAllTexts(rootLayoutOrderDetails,this)
         tvPageTitle.show()
         tvPageTitle.setColorTypeface(this,R.color.white,MyApplication.selectedOrder!!.orderStatus!!.capitalized()+" "+getString(
                     R.string.order_details),true)
-        if(MyApplication.typeSelected==0) {
+        if(typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE)) {
             if(!MyApplication.isClient){
                 llEditOrderTime.hide()
             }else{
@@ -92,12 +90,12 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
                 llOrderSwitches.hide()
             }
             llActualDelivery.hide()
-        }else if(MyApplication.typeSelected ==2){
+        }else if(typeSelected.equals(AppConstants.ORDER_TYPE_COMPLETED)){
             llRatingOrder.show()
             btCancelOrder.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
-        }else if(MyApplication.typeSelected==1){
+        }else if(typeSelected.equals(AppConstants.ORDER_TYPE_UPCOMING)){
             btCancelOrder.show()
             llOrderSwitches.hide()
         }else{
@@ -108,7 +106,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         }
 
         if(MyApplication.isClient) {
-            if (MyApplication.typeSelected == 2) {
+            if (typeSelected.equals(AppConstants.ORDER_TYPE_COMPLETED)) {
                 if (MyApplication.isClient) {
                     btRenewOrder.show()
                 } else {
@@ -147,7 +145,7 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         try{tvLocationOrderDeatils.text = MyApplication.selectedOrder!!.shipping_address_name}catch (e:Exception){}
         try{tvOrderCustomerName.text = MyApplication.selectedOrder!!.customer!!.first_name+" "+MyApplication.selectedOrder!!.customer!!.last_name}catch (e:Exception){}
         try{tvOrderDeetId.text = MyApplication.selectedOrder!!.orderId.toString()}catch (e:Exception){}
-        try{tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy")}catch (e:Exception){}
+        try{tvOrderDateDeet.text = AppHelper.formatDate(MyApplication.selectedOrder!!.date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy hh:mm")}catch (e:Exception){}
         try{tvExpectedOrderDateDeet.text = MyApplication.selectedOrder!!.deliveryDate}catch (e:Exception){ }
         try{tvActualDeliveryTime.text = MyApplication.selectedOrder!!.deliveryDate}catch (e:Exception){ }
         try{tvOrderAmountDeet.text = MyApplication.selectedOrder!!.total!!.toString()+" "+MyApplication.selectedOrder!!.currency}catch (e:Exception){}
@@ -157,9 +155,15 @@ class ActivityOrderDetails: ActivityBase() , RVOnItemClickListener {
         }catch (e:Exception){}
         try{
             swDelivered.isChecked = MyApplication.selectedOrder!!.delivered!!
+            if(swDelivered.isChecked){
+                swDelivered.isEnabled = false
+            }
         }catch (ex:Exception){}
         try {
             swPaid.isChecked = MyApplication.selectedOrder!!.paid!!
+            if(swPaid.isChecked){
+                swPaid.isEnabled = false
+            }
         }catch (ex:java.lang.Exception){}
         try {
             swOnTrack.isChecked = MyApplication.selectedOrder!!.onTrack!!
