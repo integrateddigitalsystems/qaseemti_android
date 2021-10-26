@@ -1,29 +1,21 @@
 package com.ids.qasemti.controller.Activities
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.webkit.*
-import com.bumptech.glide.Glide.init
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestContactUs
 import com.ids.qasemti.model.ResponseUpdate
 import com.ids.qasemti.utils.*
-import kotlinx.android.synthetic.main.activity_contact_us.*
 import kotlinx.android.synthetic.main.activity_web.*
-import kotlinx.android.synthetic.main.activity_web.etEmailContact
-import kotlinx.android.synthetic.main.activity_web.etFullNameContact
-import kotlinx.android.synthetic.main.activity_web.etMessageContact
-import kotlinx.android.synthetic.main.activity_web.etPhoneContact
-import kotlinx.android.synthetic.main.activity_web.etSubjectContact
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 
 class ActivityWeb: ActivityBase() {
 
@@ -112,6 +104,7 @@ class ActivityWeb: ActivityBase() {
 
     }
     fun loadContent(content:String){
+        loading.show()
         wvData.settings.javaScriptEnabled=true
         wvData.settings.loadWithOverviewMode = true
         wvData.settings.useWideViewPort = false
@@ -121,11 +114,25 @@ class ActivityWeb: ActivityBase() {
 
 
         wvData.webViewClient = object : WebViewClient() {
+            private var running = 0
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
                 request: WebResourceRequest?
             ): Boolean {
+                running++
                 return false
+            }
+
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                running = Math.max(running, 1)
+                super.onPageStarted(view, url, favicon)
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                if(--running == 0) {
+                    loading.hide()
+                }
             }
         }
 
@@ -144,6 +151,8 @@ class ActivityWeb: ActivityBase() {
                 Log.wtf("console_message", consoleMessage.message())
                 return true
             }
+
+
         }
         )
 

@@ -210,7 +210,7 @@ class AdapterOrderType(
             holder.canSep.hide()
             holder.location.hide()
             holder.border.show()
-            holder.track.hide()
+            holder.track.show()
         } else if(MyApplication.typeSelected==0 ){
             holder.switch.show()
             holder.sepActive.show()
