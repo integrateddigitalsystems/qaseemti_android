@@ -84,7 +84,7 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
         }catch (ex: Exception){
 
         }
-        var newReq = RequestCart(1,MyApplication.languageCode)
+        var newReq = RequestCart(MyApplication.userId,MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getCarts(
                 newReq

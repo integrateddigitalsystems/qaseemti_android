@@ -46,9 +46,7 @@ class ResponseOrders(
     @Expose
     var paymentMethod : String ?="" ,
 
-    @SerializedName("payment_method_title")
-    @Expose
-    var paymentMethodTitle : String ?="" ,
+
 
     @SerializedName("customer_location")
     @Expose

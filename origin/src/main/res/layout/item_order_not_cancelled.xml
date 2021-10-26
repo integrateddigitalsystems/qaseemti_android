@@ -165,7 +165,9 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="20 Jun,2021 16:00"
+                            android:text="@string/no_data"
+                            android:tag="no_data"
+                            android:id="@+id/tvOrderDateValue"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/small_font_3" />
 
@@ -220,8 +222,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:maxLines="1"
-                            android:text="lorem ipsum dolor lorem ipsum lorem ipsum lorem ipsum lorem ipsum."
-                            android:textColor="@color/gray_font_light"
+                            android:text="@string/no_data"
+                            android:tag="no_data"
+                             android:textColor="@color/gray_font_light"
                             android:textSize="@dimen/small_font_2" />
 
 
