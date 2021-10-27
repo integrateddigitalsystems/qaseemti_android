@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Fragments.FragmentAccount
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
@@ -118,7 +119,17 @@ class ActivityAddNewAddress : ActivityBase() {
                     response: Response<ResponseMessage>
                 ) {
                     try {
-                        setData()
+                        if(MyApplication.isClient)
+                            setData()
+                        else{
+                            MyApplication.register=true
+                            MyApplication.selectedPos=4
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
+                            MyApplication.selectedFragment = FragmentAccount()
+                            startActivity(Intent(this@ActivityAddNewAddress,ActivityHome::class.java))
+                            finishAffinity()
+
+                        }
                     } catch (E: java.lang.Exception) {
 
                     }
@@ -198,13 +209,25 @@ class ActivityAddNewAddress : ActivityBase() {
             btOnlyOnce.show()
 
         try{
+
+        if(MyApplication.isClient){
         if(from.equals("current")){
             setUpData(LatLng(MyApplication.selectedCurrentAddress!!.latitude, MyApplication.selectedCurrentAddress!!.longitude))
             btSaveAddress.text =AppHelper.getRemoteString("select_address",this)
             btOnlyOnce.hide()
         }else {
             setUpData(LatLng(lat!!.toDouble(), long!!.toDouble()))
-        }}catch (e:Exception){}
+        }}else{
+            btOnlyOnce.hide()
+            var lat=0.0
+            var long=0.0
+            try{ lat=intent.extras!!.getDouble("lat",0.0)}catch (e:Exception){}
+            try{ long=intent.extras!!.getDouble("long",0.0)}catch (e:Exception){}
+            latlng = LatLng(lat, long)
+            setUpData(latlng!!)
+        }
+
+        }catch (e:Exception){}
 
     }
 
@@ -242,10 +265,13 @@ class ActivityAddNewAddress : ActivityBase() {
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
+                if(MyApplication.isClient){
                 MyApplication.fromAdd = true
                 if(from=="current"){
                     setData()
                 }else{
+                    addAddress()
+                }}else{
                     addAddress()
                 }
 

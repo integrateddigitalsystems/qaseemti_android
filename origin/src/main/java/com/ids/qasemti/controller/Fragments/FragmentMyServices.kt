@@ -106,6 +106,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
         //  btBck.setOnClickListener{super.onBackPressed()}
         btAdd.onOneClick {
             //  if(MyApplication.userStatus!!.online!=0){
+            MyApplication.isEditService=false
             startActivity(Intent(requireContext(), ActivityServiceInformation::class.java))
             //  }
 
@@ -131,7 +132,9 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
     }
 
     override fun onItemClicked(view: View, position: Int) {
-
+        MyApplication.selectedService=array[position]
+        MyApplication.isEditService=true
+        startActivity(Intent(requireContext(), ActivityServiceInformation::class.java))
     }
 
 

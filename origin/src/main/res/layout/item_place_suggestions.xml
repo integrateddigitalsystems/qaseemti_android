@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_address_title"
+        android:textSize="@dimen/medium_font"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_gravity="center_vertical"
+        android:paddingStart="@dimen/margin_start_end"
+        android:paddingEnd="@dimen/margin_start_end"
+        android:gravity="center_vertical"
+        android:textColor="@color/gray_font_title"
+        />
+
+    <com.ids.qasemti.custom.CustomTextViewMedium
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_address_sub_title"
+        android:textSize="@dimen/normal_font"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/margin_start_end"
+        android:paddingEnd="@dimen/margin_start_end"
+        android:layout_marginTop="@dimen/small_margin"
+        android:textColor="@color/gray_font_title"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:background="@color/gray_line"/>
+</LinearLayout>

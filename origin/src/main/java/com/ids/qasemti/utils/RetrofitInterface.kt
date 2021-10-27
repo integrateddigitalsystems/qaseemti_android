@@ -305,4 +305,10 @@ interface RetrofitInterface {
     @POST("get_payment_methods")
     fun getPaymentMethods(
     ):Call<ResponsePaymentMethod>
+
+
+    @POST("sp_update_service")
+    fun updateService(
+        @Body param : RequestUpdateService
+    ):Call<ResponseMessage>
 }

@@ -219,7 +219,9 @@ class User (
     var bankBranch : String ?="" ,
 
 
-
+    @SerializedName("addresses")
+    @Expose
+    var addresses : ArrayList<ResponseAddress> ?= arrayListOf()
 ){
     
     

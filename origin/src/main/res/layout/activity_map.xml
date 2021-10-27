@@ -7,34 +7,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <include  layout="@layout/toolbar" />
 
-     <EditText
-         android:layout_width="match_parent"
-         android:layout_height="@dimen/edit_text_height"
-         android:layout_marginStart="@dimen/margin_start_end"
-         android:layout_marginEnd="@dimen/margin_start_end"
-         android:background="@drawable/rounded_white_red_border"
-         android:hint="@string/search_for_your_location"
-         android:textColorHint="@color/gray_font_light"
-         android:tag="search_for_your_location"
-         android:textSize="@dimen/normal_font"
-         android:textColor="@color/redPrimary"
-         android:paddingStart="@dimen/normal_margin"
-         android:paddingEnd="@dimen/normal_margin"
-         />
 
-    <com.ids.qasemti.custom.CustomTextViewMedium
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_start_end"
-        android:layout_marginEnd="@dimen/margin_start_end"
-        android:layout_marginTop="@dimen/normal_margin"
-        android:textColor="@color/gray_font"
-        android:textSize="@dimen/normal_font"
-        android:text="@string/MoveMapAndDrop"
-        android:tag="MoveMapAndDrop"
-        />
 
-<!--    <fragment
+  <!--  <fragment
         android:id="@+id/autocomplete_fragment"
         android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
         android:layout_width="match_parent"
@@ -45,10 +20,55 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:background="@drawable/rounded_white_red_border"
+            android:hint="@string/search_for_your_location"
+            android:textColorHint="@color/gray_font_light"
+            android:tag="search_for_your_location"
+            android:textSize="@dimen/normal_font"
+            android:id="@+id/etMapSearch"
+            android:textColor="@color/redPrimary"
+            android:paddingStart="@dimen/normal_margin"
+            android:paddingEnd="@dimen/normal_margin"
+            />
+
+
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:textColor="@color/gray_font"
+            android:layout_below="@id/etMapSearch"
+            android:textSize="@dimen/normal_font"
+            android:text="@string/MoveMapAndDrop"
+            android:id="@+id/tvMapSearch"
+            android:tag="MoveMapAndDrop"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rv_place_results"
+            android:background="@color/white"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:layout_below="@id/etMapSearch"
+            />
+
      <com.google.android.gms.maps.MapView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
              android:layout_marginTop="@dimen/normal_margin"
+         android:layout_below="@id/tvMapSearch"
             android:id="@+id/mvLocation"/>
 
         <Button
