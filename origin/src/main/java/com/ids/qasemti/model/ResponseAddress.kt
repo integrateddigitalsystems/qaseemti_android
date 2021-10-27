@@ -48,6 +48,8 @@ class ResponseAddress (
     @Expose
     var block : String ?="" ,
 
+
+
     @SerializedName("city")
     @Expose
     var city : String ?="" ,

@@ -91,6 +91,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
     fun listeners (){
         btSavePosition.setOnClickListener {
 
+            if(MyApplication.isClient){
             var x = latLng
             if(MyApplication.finish!!){
                 MyApplication.latSelected = latLng!!.latitude
@@ -109,6 +110,19 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
                 )
                 setResult(RESULT_OK, intent)
                 finish()
+            }}else{
+
+                    startActivity(Intent(this,ActivityAddNewAddress::class.java)
+                            .putExtra("lat", latLng!!.latitude)
+                            .putExtra("long", latLng!!.longitude)
+                            .putExtra(
+                        "address",
+                        AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
+                    ))
+
+
+
+
             }
         }
 
@@ -137,7 +151,8 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
         super.onResume()
         mvLocation!!.onResume()
 
-        if(MyApplication.addNew&&!first) {
+
+      if((MyApplication.addNew&&!first) && MyApplication.isClient) {
             try {
                 MyApplication.addNew = false
                 MyApplication.fromAdd = false
