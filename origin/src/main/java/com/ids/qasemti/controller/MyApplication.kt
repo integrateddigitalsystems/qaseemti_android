@@ -1,6 +1,7 @@
 @file:Suppress("NAME_SHADOWING")
 package com.ids.qasemti.controller
 
+import android.app.Activity
 import com.ids.qasemti.BuildConfig
 
 import android.app.Application
@@ -45,6 +46,7 @@ class MyApplication : Application() {
         var userStatus : ResponseUserStatus ?=null
         var fromLogout = false
         var register = false
+        var selectedOrderTrack : ResponseOrders ?=null
         var selectedItemDialog="+961"
         var addNewAddress = true 
         var settlementTabSelected =0
@@ -74,7 +76,7 @@ class MyApplication : Application() {
         var selectedSize = ""
         var selectedPrice = ""
         var selectedVariationType = ""
-
+        var trackingActivity : Activity ?=null
         var showLogs: Boolean = true
         var isClient : Boolean = false
         var fromFooterOrder : Boolean = true
@@ -105,7 +107,7 @@ class MyApplication : Application() {
         var phoneNumber : String?
             get() = sharedPreferences.getString(AppConstants.PHONE_NUMBER,"")
             set(value) { sharedPreferencesEditor.putString(AppConstants.PHONE_NUMBER, value).apply() }
-        var firstMapAddress : Boolean?
+        var isTracking  : Boolean?
             get() = sharedPreferences.getBoolean(AppConstants.MAPPING,false)
             set(value) { sharedPreferencesEditor.putBoolean(AppConstants.MAPPING, value!!).apply() }
 

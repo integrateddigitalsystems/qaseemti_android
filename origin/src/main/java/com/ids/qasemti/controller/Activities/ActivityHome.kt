@@ -1,10 +1,16 @@
 package com.ids.qasemti.controller.Activities
 
+import android.Manifest
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
+import android.content.*
+import android.content.pm.PackageManager
+import android.location.Location
+import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
+import android.provider.Settings
 import android.text.Layout
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -12,12 +18,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.ids.qasemti.R
@@ -33,6 +42,7 @@ import com.ids.qasemti.utils.AppConstants.FRAGMENT_NOTFICATIONS
 import com.ids.qasemti.utils.AppConstants.FRAGMENT_ORDER
 import com.ids.qasemti.utils.AppHelper.Companion.getFragmentCount
 import com.ids.qasemti.utils.AppHelper.Companion.resetIcons
+import com.ids.qasemti.utils.LocationUpdatesService.Companion.EXTRA_LOCATION
 import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.home_container.*
 import kotlinx.android.synthetic.main.layout_footer_shadow.*
@@ -43,8 +53,12 @@ import kotlin.system.exitProcess
 class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedListener,
     RVOnItemClickListener {
     private lateinit var fragMang: FragmentManager
+    private val TAG = "HomeActivity"
+    private val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
+    private var foregroundOnlyLocationServiceBound = false
     private lateinit var drawerLayout: DrawerLayout
     var selectedPos = 2
+    var foregrounfLocationService: CurrentLocationService? = null
     private var ordersArray: ArrayList<String> = arrayListOf()
     var isClose = false
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,6 +111,22 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             btLogout.hide()
     }
 
+
+    private val foregroundOnlyServiceConnection = object : ServiceConnection {
+
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder = service as CurrentLocationService.LocalBinder
+            foregrounfLocationService = binder.service
+            foregroundOnlyLocationServiceBound = true
+            foregrounfLocationService!!.subscribeToLocationUpdates()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {
+            foregrounfLocationService = null
+            foregroundOnlyLocationServiceBound = false
+        }
+    }
+
     private fun init() {
         /*val pagerAdapter = SampleFragmentPagerAdapter(
             supportFragmentManager, this
@@ -109,6 +139,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         }*/
 
 
+        setUpService()
 
         if (MyApplication.isSignedIn)
             btLogout.show()
@@ -139,13 +170,13 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         AppHelper.setLogoTint(btLogout, this, color)
     }
 
-    fun setTitleAc(title: String,color:Int) {
+    fun setTitleAc(title: String, color: Int) {
         tvPageTitle.show()
-        tvPageTitle.setColorTypeface(this,color,title,true)
+        tvPageTitle.setColorTypeface(this, color, title, true)
     }
 
     fun defaultFragment() {
-        if(MyApplication.defaultIcon==null){
+        if (MyApplication.defaultIcon == null) {
             MyApplication.defaultIcon = ivFooterHome
         }
         setSelectedTab(
@@ -206,7 +237,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     }
 
-    fun setIconBig(selectedIcon: ImageView){
+    fun setIconBig(selectedIcon: ImageView) {
         selectedIcon.layoutParams = LinearLayout.LayoutParams(
             TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
@@ -216,22 +247,24 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35f, resources.displayMetrics)
                 .toInt()
         )
-        selectedIcon.setPadding(0,-10,0,0)
+        selectedIcon.setPadding(0, -10, 0, 0)
     }
-    fun bigIcon(selectedPosition:Int){
+
+    fun bigIcon(selectedPosition: Int) {
         if (selectedPosition == 0) {
             setIconBig(ivCartFooter)
             setIconBig(ivProductFooter)
         } else if (selectedPosition == 1) {
             setIconBig(ivFooterOrder)
         } else if (selectedPosition == 2) {
-           setIconBig(ivFooterHome)
+            setIconBig(ivFooterHome)
         } else if (selectedPosition == 3) {
             setIconBig(ivFooterNotifications)
         } else if (selectedPosition == 4) {
             setIconBig(ivFooterAccount)
         }
     }
+
     private fun setSelectedTab(
         index: Int,
         fragment: Fragment,
@@ -405,22 +438,22 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             super.onBackPressed()
         }
 
-        if(MyApplication.isClient){
+        if (MyApplication.isClient) {
             llFooterProducts.hide()
             llFooterCart.show()
-            tvFooterHome.textRemote("Services",this)
-        }else{
+            tvFooterHome.textRemote("Services", this)
+        } else {
             llFooterProducts.show()
             llFooterCart.hide()
-            tvFooterHome.textRemote("Home",this)
+            tvFooterHome.textRemote("Home", this)
         }
 
-        btLogout.setOnClickListener{
+        btLogout.setOnClickListener {
             showLogoutDialog(this)
         }
     }
 
-    fun showLogoutDialog(context: Activity){
+    fun showLogoutDialog(context: Activity) {
         AppHelper.createYesNoDialog(
             context,
             AppHelper.getRemoteString("logout", context),
@@ -471,6 +504,127 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             tvPageTitle.hide()
         } else
             btBackTool.show()
+    }
+
+    private fun foregroundPermissionApproved(con: Activity): Boolean {
+        return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+            con,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
+
+    // TODO: Step 1.0, Review Permissions: Method requests permissions.
+    private fun requestForegroundPermissions(con: Activity) {
+        val provideRationale = foregroundPermissionApproved(con)
+
+        // If the user denied a previous request, but didn't check "Don't ask again", provide
+        // additional rationale.
+        if (provideRationale) {
+            Toast.makeText(con, "Success", Toast.LENGTH_SHORT).show()
+        } else {
+            Log.d(TAG, "Request foreground only permission")
+            ActivityCompat.requestPermissions(
+                con,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+            )
+        }
+    }
+
+    private class ForegroundOnlyBroadcastReceiver : BroadcastReceiver() {
+
+        override fun onReceive(context: Context, intent: Intent) {
+            val location = intent.getParcelableExtra<Location>(
+                CurrentLocationService().EXTRA_LOCATION
+            )
+
+            /*if (location != null) {
+                logResultsToScreen("Foreground location: ${location.toText()}")
+            }*/
+        }
+    }
+
+    fun setUpService() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ), 111
+            )
+            requestForegroundPermissions(this)
+            return
+        }
+        MyApplication.isTracking = true
+
+
+        MyApplication.trackingActivity = this
+        val serviceIntent = Intent(this, CurrentLocationService::class.java)
+        bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
+        startService(serviceIntent)
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Log.d(TAG, "onRequestPermissionResult")
+
+        when (requestCode) {
+            REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE -> when {
+                grantResults.isEmpty() ->
+                    // If user interaction was interrupted, the permission request
+                    // is cancelled and you receive empty arrays.
+                    Log.d(TAG, "User interaction was cancelled.")
+                grantResults[0] == PackageManager.PERMISSION_GRANTED ->
+                // Permission was granted.
+                {
+                    var serviceIntent = Intent(this, CurrentLocationService::class.java)
+                    bindService(
+                        serviceIntent,
+                        foregroundOnlyServiceConnection,
+                        Context.BIND_AUTO_CREATE
+                    )
+                    startService (serviceIntent)
+
+                }
+                else -> {
+                    // Permission denied.
+
+
+                    /*  Snackbar.make(
+                          findViewById(R.id.activity_main),
+                          R.string.permission_denied_explanation,
+                          Snackbar.LENGTH_LONG
+                      )
+                          .setAction(R.string.settings) {
+                              // Build intent that displays the App settings screen.
+                              val intent = Intent()
+                              intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                              val uri = Uri.fromParts(
+                                  "package",
+                                  "",
+                                  null
+                              )
+                              intent.data = uri
+                              intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                              startActivity(intent)
+                          }
+                          .show()*/
+                }
+            }
+        }
     }
 
 }

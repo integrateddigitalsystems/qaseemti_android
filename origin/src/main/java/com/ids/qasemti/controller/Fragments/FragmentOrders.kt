@@ -267,6 +267,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                 startActivity(Intent(requireContext(), ActivityChat::class.java))
             }
         } else if (view.id == R.id.llTrackOrder) {
+            MyApplication.selectedOrder = ordersArray.get(position)
             startActivity(Intent(requireActivity(), ActivityTrackOrder::class.java))
         } else if (view.id==R.id.swPaid){
 

@@ -117,6 +117,10 @@
             android:name=".controller.Activities.ActivitySettlements"
             android:screenOrientation="portrait" />
 
+        <service
+            android:name=".utils.CurrentLocationService"
+            android:stopWithTask="true" />
+
         <activity
             android:name=".controller.Activities.ActivityChat"
             android:screenOrientation="portrait" />

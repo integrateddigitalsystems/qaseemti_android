@@ -159,7 +159,7 @@ class ActivityCodeVerification : ActivityBase() {
     }
     fun requestSucc(respone:ResponseVerification){
         if(respone.result.equals("1")){
-            AppHelper.createDialog(this,"Correct Code")
+        //    AppHelper.createDialog(this,"Correct Code")
             if(respone.user!=null) {
                 MyApplication.phoneNumber = MyApplication.selectedPhone
                 MyApplication.isSignedIn = true

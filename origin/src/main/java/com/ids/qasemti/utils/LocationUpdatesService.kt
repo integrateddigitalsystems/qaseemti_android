@@ -27,6 +27,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.location.*
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivitySplash
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.LocationUpdatesService
 
 /**
@@ -53,6 +54,8 @@ class LocationUpdatesService : Service() {
      */
     private var mChangingConfiguration = false
     private var mNotificationManager: NotificationManager? = null
+    internal val ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST =
+        "$PACKAGE_NAME.action.FOREGROUND_ONLY_LOCATION_BROADCAST"
 
     /**
      * Contains parameters used by [com.google.android.gms.location.FusedLocationProviderApi].
@@ -76,10 +79,23 @@ class LocationUpdatesService : Service() {
     private var mLocation: Location? = null
     override fun onCreate() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
         mLocationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                super.onLocationResult(locationResult)
-                onNewLocation(locationResult.lastLocation)
+
+            override fun onLocationResult(locationResult: LocationResult?) {
+                locationResult ?: return
+                try {
+                    locationResult.lastLocation
+                  /*  doc!!.update("order_laltitude", locationResult.lastLocation.latitude.toString())
+                    doc!!.update("order_longitude", locationResult.lastLocation.longitude.toString())*/
+
+                    val intent = Intent(ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
+                    intent.putExtra(EXTRA_LOCATION, locationResult.lastLocation)
+                    LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
+                    onNewLocation(locationResult.lastLocation)
+                } catch (ex: Exception) {
+                    Log.wtf("", ex.toString())
+                }
             }
         }
         createLocationRequest()
@@ -98,6 +114,16 @@ class LocationUpdatesService : Service() {
 
             // Set the Notification Channel for the Notification Manager.
             mNotificationManager!!.createNotificationChannel(mChannel)
+        }
+        startService(Intent(applicationContext, LocationUpdatesService::class.java))
+
+        try {
+            // TODO: Step 1.5, Subscribe to location changes.
+            mFusedLocationClient!!.requestLocationUpdates(
+                mLocationRequest, mLocationCallback, Looper.getMainLooper())
+        } catch (unlikely: SecurityException) {
+            MyApplication.isTracking = true
+            Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
         }
     }
 
@@ -279,7 +305,7 @@ class LocationUpdatesService : Service() {
      * Sets the location request parameters.
      */
     private fun createLocationRequest() {
-        mLocationRequest = LocationRequest()
+        mLocationRequest = LocationRequest.create()
         mLocationRequest!!.interval = UPDATE_INTERVAL_IN_MILLISECONDS
         mLocationRequest!!.fastestInterval = FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
         mLocationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -311,6 +337,26 @@ class LocationUpdatesService : Service() {
             }
         }
         return false
+    }
+
+    fun subscribeToLocationUpdates() {
+        Log.d(TAG, "subscribeToLocationUpdates()")
+
+        MyApplication.isTracking = true
+
+        // Binding to this service doesn't actually trigger onStartCommand(). That is needed to
+        // ensure this Service can be promoted to a foreground service, i.e., the service needs to
+        // be officially started (which we do here).
+        startService(Intent(applicationContext, LocationUpdatesService::class.java))
+
+        try {
+            // TODO: Step 1.5, Subscribe to location changes.
+            mFusedLocationClient!!.requestLocationUpdates(
+                mLocationRequest, mLocationCallback, Looper.getMainLooper())
+        } catch (unlikely: SecurityException) {
+           MyApplication.isTracking = true
+            Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
+        }
     }
 
     companion object {

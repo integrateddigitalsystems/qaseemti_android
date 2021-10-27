@@ -159,6 +159,8 @@ class AdapterOrderType(
                     delivered,
                     paid
                 )
+                MyApplication.trackingActivity = con
+                AppHelper.setUpDoc(items.get(position),con)
             }
         }
 
@@ -200,7 +202,7 @@ class AdapterOrderType(
         holder.expectedDel.show()
         holder.orderAmount.show()
         holder.dates.show()
-        if (MyApplication.isClient && MyApplication.typeSelected == 0) {
+        if (MyApplication.isClient && items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_ACTIVE)) {
             holder.credit.show()
             holder.switch.hide()
             holder.dateBorder.hide()
@@ -210,8 +212,8 @@ class AdapterOrderType(
             holder.canSep.hide()
             holder.location.hide()
             holder.border.show()
-            holder.track.hide()
-        } else if(MyApplication.typeSelected==0 ){
+            holder.track.show()
+        } else if(items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_ACTIVE)){
             holder.switch.show()
             holder.sepActive.show()
             holder.dateBorder.show()
@@ -219,9 +221,9 @@ class AdapterOrderType(
             holder.canSep.hide()
             holder.border.show()
             holder.rating.hide()
-            holder.track.hide()
+            holder.track.show()
             holder.credit.hide()
-        }else if ( MyApplication.typeSelected == 1 && !MyApplication.isClient) {
+        }else if ( items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_UPCOMING) && !MyApplication.isClient) {
             holder.switch.show()
             holder.sepActive.show()
             holder.dateBorder.show()
@@ -231,7 +233,7 @@ class AdapterOrderType(
             holder.rating.hide()
             holder.track.hide()
             holder.credit.hide()
-        } else if (MyApplication.typeSelected == 1 && MyApplication.isClient) {
+        } else if (items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_UPCOMING) && MyApplication.isClient) {
             holder.credit.hide()
             holder.rating.hide()
             holder.dateBorder.show()
@@ -241,7 +243,7 @@ class AdapterOrderType(
             holder.border.hide()
             holder.canSep.hide()
             holder.track.hide()
-        } else if(MyApplication.typeSelected ==2) {
+        } else if(items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_COMPLETED)) {
             holder.phoneChat.hide()
             holder.credit.hide()
             holder.rating.show()

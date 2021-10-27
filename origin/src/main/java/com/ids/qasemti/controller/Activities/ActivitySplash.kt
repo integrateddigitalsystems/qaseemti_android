@@ -183,7 +183,7 @@ class ActivitySplash : ActivityBase() {
                 nextStep()
            }
         } catch (ex: Exception) {
-
+            nextStep()
         }
 
     }
@@ -293,6 +293,8 @@ class ActivitySplash : ActivityBase() {
                     MyApplication.webLinks = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),FirebaseWebData::class.java)
                     AppHelper.setAllTexts(rootLayout, this)
                     checkForUpdate()
+                }else{
+                    nextStep()
                 }
 
 

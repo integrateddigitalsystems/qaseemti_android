@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.location.Location
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -73,6 +74,14 @@ fun String.upperCaseFirstLetter(): String {
  */
 fun String.isNumeric(): Boolean {
     return this.matches("\\d+".toRegex())
+}
+
+fun Location?.toText(): String {
+    return if (this != null) {
+        "($latitude, $longitude)"
+    } else {
+        "Unknown location"
+    }
 }
 
 fun ImageView.loadImagesUrl(url: String) {
