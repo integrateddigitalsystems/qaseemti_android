@@ -10,9 +10,12 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.FilesSelected
 import com.ids.qasemti.model.RequiredFiles
+import com.ids.qasemti.utils.hide
 import com.ids.qasemti.utils.loadLocalImage
+import com.ids.qasemti.utils.show
 
 import java.util.ArrayList
 
@@ -50,6 +53,10 @@ class AdapterRequiredFiles(
 
         init {
               btPickFile.setOnClickListener(this)
+            if(MyApplication.isEditService)
+                btPickFile.hide()
+            else
+                btPickFile.show()
         }
 
         override fun onClick(v: View) {

@@ -399,8 +399,11 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun setTab3(){
+
         if(arrayRequiredFiles.size>0 && !requiredFilesUploaded() && !MyApplication.isEditService)
             createDialog(this,"Please fill all Required files")
+        else if(etStockAvailable.text.toString().isEmpty() ||(!MyApplication.isEditService && etStockAvailable.text.toString() == "0"))
+            createDialog(this,"Please fill stock available")
         else{
         linearProgress1.setBackgroundColor(ContextCompat.getColor(this,R.color.redPrimary))
         linearProgress2.setBackgroundColor(ContextCompat.getColor(this,R.color.redPrimary))
@@ -611,7 +614,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             else
               stockStatus="intock"
         }catch (e:Exception){}
-        var req=RequestUpdateService(selectedServiceId,etStockAvailable.text.toString().toInt(),stockStatus)
+        var req=RequestUpdateService(MyApplication.selectedService!!.id!!.toInt(),etStockAvailable.text.toString().toInt(),stockStatus)
 
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updateService(

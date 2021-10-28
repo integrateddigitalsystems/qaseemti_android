@@ -316,9 +316,9 @@
         android:textSize="@dimen/normal_font"
         android:textColor="@color/white"
         android:layout_marginTop="@dimen/medium_margin"
-        android:text="@string/save"
+        android:text="@string/next"
         android:id="@+id/btSave"
-        android:tag="save"
+        android:tag="next"
         android:textAllCaps="false"
         />
 
