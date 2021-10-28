@@ -1,9 +1,9 @@
 package com.ids.qasemti.controller.Activities
 
 import android.Manifest
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -16,10 +16,12 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
 import com.ids.qasemti.R
@@ -30,19 +32,23 @@ import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_track_order.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.util.*
 
 
 class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
 
     var gmap: GoogleMap? = null
-    var LatLngCurr : LatLng ?=null
+    var LatLngCurr: LatLng? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val REQUEST_CHECK_SETTINGS = 2
     var firtTime: Boolean = true
+    var locationListenerGps: LocationListener? = null
+    var db: FirebaseFirestore? = null
     private val options = MarkerOptions()
-    var  mLocationListener : LocationListener ?=null
+    var mLocationManager: LocationManager ?=null
+    var mLocationListener: LocationListener? = null
     var doc: DocumentReference? = null
-    var currLocation : Location ?=null
+    var currLocation: Location? = null
     var markers: ArrayList<Marker> = arrayListOf()
 
     // in onCreate() initialize FusedLocationProviderClient
@@ -56,63 +62,67 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
     // globally declare LocationCallback
     private lateinit var locationCallback: LocationCallback
     var LOCATION_REFRESH_TIME = 5000
-    var LOCATION_REFRESH_DISTANCE =5
+    var LOCATION_REFRESH_DISTANCE = 5
 
     fun LocationChanged() {
-        if (!MyApplication.isClient) {
-            mLocationListener = LocationListener {
-                var order: OrderLocation
-                doc!!.update("order_laltitude", it.latitude.toString())
-                doc!!.update("order_longitude", it.longitude.toString())
-                if (!firtTime) {
-                    val ny = LatLng(
-                        it!!.latitude!!.toDouble(),
-                        it!!.longitude!!.toDouble()
-                    )
-                    gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
-                    markers.get(1).position = ny
-                }
-            }
-            var mLocationManager: LocationManager =
-                getSystemService(LOCATION_SERVICE) as LocationManager
+        getCurrentLocation()
+        /*  if (!MyApplication.isClient) {
 
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                return
-            }
-            try {
-                val locationManager =
-                  getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                var gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                var network_loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            currLocation = fusedLocationClient.lastLocation.result
-            mLocationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME.toLong(),
-                LOCATION_REFRESH_DISTANCE.toFloat(), mLocationListener!!
-            )
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location : Location? ->
-                  AppHelper.createDialog(this,"lat:"+location!!.latitude +" , "+"long:"+location!!.longitude)
-                }
+              getCurrentLocation()
+              var mLocationManager: LocationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+              mLocationListener = LocationListener {
+                  var order: OrderLocation
+                  doc!!.update("order_laltitude", it.latitude.toString())
+                  doc!!.update("order_longitude", it.longitude.toString())
+                  if (!firtTime) {
+                      val ny = LatLng(
+                          it!!.latitude!!.toDouble(),
+                          it!!.longitude!!.toDouble()
+                      )
+                      gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
+                      markers.get(1).position = ny
+                  }
+              }
 
 
-            if(firtTime){
-                doc!!.update("order_laltitude", LatLngCurr!!.latitude.toString())
-                doc!!.update("order_longitude", LatLngCurr!!.longitude.toString())
-                firtTime = false
-            }
+              if (ActivityCompat.checkSelfPermission(
+                      this,
+                      Manifest.permission.ACCESS_FINE_LOCATION
+                  ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                      this,
+                      Manifest.permission.ACCESS_COARSE_LOCATION
+                  ) != PackageManager.PERMISSION_GRANTED
+              ) {
+                  return
+              }
+              try {
+                  val locationManager =
+                    getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                  var gps_loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                  var network_loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+              } catch (e: Exception) {
+                  e.printStackTrace()
+              }
+              currLocation = fusedLocationClient.lastLocation.result
+              mLocationManager.requestLocationUpdates(
+                  LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME.toLong(),
+                  LOCATION_REFRESH_DISTANCE.toFloat(), mLocationListener!!
+              )
+              fusedLocationClient.lastLocation
+                  .addOnSuccessListener { location : Location? ->
+                    AppHelper.createDialog(this,"lat:"+location!!.latitude +" , "+"long:"+location!!.longitude)
+                  }
 
 
-        }
+              if(firtTime){
+                  doc!!.update("order_laltitude", LatLngCurr!!.latitude.toString())
+                  doc!!.update("order_longitude", LatLngCurr!!.longitude.toString())
+                  firtTime = false
+              }
+
+
+          }*/
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,7 +132,8 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
 
 
 
-        doc = MyApplication.db!!.collection("table_order").document("125")
+        doc = MyApplication.db!!.collection("table_order")
+            .document(MyApplication.selectedOrder!!.orderId!!)
 
 
         var mapViewBundle: Bundle? = null
@@ -133,8 +144,7 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
         mvTrackOrder.onCreate(mapViewBundle)
 
         init()
-        LocationChanged()
-
+       // LocationChanged()
 
 
     }
@@ -149,8 +159,8 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
             onBackPressed()
         }
         AppHelper.setLogoTint(btBackTool, this, R.color.white)
-        tvPageTitle.textRemote("track_order",this)
-        tvPageTitle.setColorTypeface(this,R.color.white,"",true)
+        tvPageTitle.textRemote("track_order", this)
+        tvPageTitle.setColorTypeface(this, R.color.white, "", true)
 
 
 
@@ -179,12 +189,14 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
     override fun onStop() {
         super.onStop()
         mvTrackOrder!!.onStop()
+//        mLocationManager!!.removeUpdates(locationListenerGps!!)
     }
 
 
     override fun onDestroy() {
-        mvTrackOrder!!.onDestroy()
         super.onDestroy()
+        mvTrackOrder!!.onDestroy()
+   //     mLocationManager!!.removeUpdates(locationListenerGps!!)
     }
 
     override fun onLowMemory() {
@@ -224,33 +236,57 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
         }
     }
 
+    fun resizeMapIcons(drawabele: Int, width: Int, height: Int): Bitmap? {
+        val imageBitmap = BitmapFactory.decodeResource(
+            resources, drawabele
+        )
+
+        return Bitmap.createScaledBitmap(imageBitmap, width, height, false)
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         gmap = googleMap
-        gmap!!.setMinZoomPreference(12f)
+        gmap!!.setMinZoomPreference(10f)
         var latLngs: ArrayList<LatLng> = arrayListOf()
 
         var lan: Int = 0
         var long: Int = 1
 
-        var deliverToPosition = LatLng(33.85918135530559, 35.492324839447576)
+        var deliverToPosition = LatLng(
+            MyApplication.selectedOrder!!.shipping_address_latitude!!.toDouble(),
+            MyApplication.selectedOrder!!.shipping_address_longitude!!.toDouble()
+        )
         latLngs.add(deliverToPosition)
 
 
 
         doc!!.get().addOnSuccessListener { documentSnapshot ->
             val orderLoc = documentSnapshot.toObject<OrderLocation>()
-
-            val ny = LatLng(
-                orderLoc!!.order_laltitude!!.toDouble(),
-                orderLoc!!.order_longitude!!.toDouble()
-            )
-            latLngs.add(ny)
+            var ny: LatLng? = null
+            if (orderLoc != null) {
+                ny = LatLng(
+                    orderLoc!!.order_laltitude!!.toDouble(),
+                    orderLoc!!.order_longitude!!.toDouble()
+                )
+            } else {
+                val user: MutableMap<String, String> = HashMap()
+                user["oder_id"] = MyApplication.selectedOrder!!.orderId!!
+                user["order_laltitude"] = LatLngCurr!!.latitude.toString()
+                user["order_longitude"] = LatLngCurr!!.longitude.toString()
+                doc!!.set(user)
+                ny = LatLngCurr
+            }
+            latLngs.add(ny!!)
             for (item in latLngs) {
                 options.position(item);
                 options.title("someTitle");
                 options.snippet("someDesc");
                 markers.add(gmap!!.addMarker(options))
             }
+
+            markers.get(1)
+                .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_vehicle))
+            //    markers.get(1).setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_map_vehicle,125,125)!!))
 
             gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
 
@@ -264,7 +300,6 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
 
 
     private fun getCurrentLocation() {
-        loading.show()
         val locationResult = object : MyLocation.LocationResult() {
             override fun gotLocation(location: Location?) {
                 if (location != null) {
@@ -275,7 +310,13 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
                     MyApplication.selectedCurrentAddress = AppHelper.getAddressLoc(
                         LatLngCurr!!.latitude,
                         LatLngCurr!!.longitude,
-                        this@ActivityTrackOrder)
+                        this@ActivityTrackOrder
+                    )
+                    try {
+                        doc!!.update("order_laltitude", location.latitude.toString())
+                        doc!!.update("order_longitude", location.longitude.toString())
+                    } catch (ex: Exception) {
+                    }
                     /*startActivityForResult(
                         Intent(this@ActivitySelectAddress, ActivityAddNewAddress::class.java)
                             .putExtra("from","current")
@@ -286,13 +327,64 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
                 } else {
                     toast("cannot detect location")
                 }
-                loading.hide()
             }
 
         }
 
         val myLocation = MyLocation()
         myLocation.getLocation(this, locationResult)
+
+
+        locationListenerGps= object : LocationListener {
+
+
+            override fun onLocationChanged(location: Location) {
+                if (!firtTime) {
+                    //  AppHelper.createDialog(this@ActivityTrackOrder,"CHANGE")
+                    var order: OrderLocation
+                    doc!!.update("order_laltitude", location.latitude.toString())
+                    doc!!.update("order_longitude", location.longitude.toString())
+                    val ny = LatLng(
+                        location!!.latitude!!.toDouble(),
+                        location!!.longitude!!.toDouble()
+                    )
+                    gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
+                    markers.get(1).position = ny
+                } else {
+                    firtTime = false
+                }
+            }
+
+            override fun onProviderDisabled(provider: String) {}
+            override fun onProviderEnabled(provider: String) {}
+            override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+        }
+
+        mLocationManager =
+            getSystemService(LOCATION_SERVICE) as LocationManager
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        mLocationManager!!.requestLocationUpdates(
+            LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME.toLong(),
+            LOCATION_REFRESH_DISTANCE.toFloat(), locationListenerGps!!
+        )
+
+
     }
 
 
@@ -305,7 +397,6 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
             getCurrentLocation()
         } else {
             toast("Please accept requested permission in order to detect your current location")
-            loading.hide()
         }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

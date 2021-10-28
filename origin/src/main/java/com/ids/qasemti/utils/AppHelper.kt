@@ -1,6 +1,7 @@
 package com.ids.qasemti.utils
 
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -44,15 +45,15 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.firestore.ktx.toObject
 import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
-import kotlinx.android.synthetic.main.fragment_checkout.*
-import kotlinx.android.synthetic.main.layout_order_switch.*
 import me.grantland.widget.AutofitHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -133,6 +134,8 @@ class AppHelper {
     companion object {
 
         var fragmentAvailable: Int? = null
+        private const val TAG = "MainActivity"
+        private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
 
         fun getTypeFace(context: Context): Typeface {
             return if (Locale.getDefault().language == "ar")
@@ -187,6 +190,41 @@ class AppHelper {
                 })
         }*/
 
+
+
+
+
+
+        fun startService(act:Activity){
+
+            if (ActivityCompat.checkSelfPermission(
+                    act,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    act,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    act,
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ), 111
+                )
+                //requestForegroundPermissions(act)
+                return
+            }
+            MyApplication.saveLocationTracking = true
+            val intent = Intent(act, CurrentLocationService::class.java)
+            act.startService(intent)
+
+        }
+
+        fun stopService(act:Context){
+            val intent = Intent(act, CurrentLocationService::class.java)
+            act.stopService(intent)
+        }
         fun getTypeFaceItalic(context: Context): Typeface {
             return if (Locale.getDefault().language == "ar")
                 Typeface.createFromAsset(
@@ -923,6 +961,46 @@ class AppHelper {
 
         }
 
+
+        fun setUpDoc(order : ResponseOrders) {
+            MyApplication.selectedOrderTrack = order
+            var doc = MyApplication.db!!.collection("table_order")
+                .document(order.orderId!!)
+
+            doc!!.get().addOnSuccessListener { documentSnapshot ->
+                val orderLoc = documentSnapshot.toObject<OrderLocation>()
+                var ny: LatLng? = null
+                if (orderLoc != null) {
+                    Log.wtf("there","already")
+                    ny = LatLng(
+                        orderLoc!!.order_laltitude!!.toDouble(),
+                        orderLoc!!.order_longitude!!.toDouble()
+                    )
+                } else {
+                    try {
+                        val user: MutableMap<String, String> = HashMap()
+                        user["oder_id"] = order.orderId!!
+                        try {
+                            user["order_laltitude"] =
+                                MyApplication.selectedCurrentAddress!!.latitude.toString()
+                        }catch (ex:Exception){
+                            user["order_laltitude"] =
+                               "0.0"
+                        }
+                        try{
+                        user["order_longitude"] =
+                            MyApplication.selectedCurrentAddress!!.longitude.toString()
+                             }catch (ex:Exception){
+                            user["order_longitude"] =
+                               "0.0"
+                        }
+                        doc!!.set(user)
+                    }catch (ex:Exception){}
+                }
+
+            }
+
+        }
 
         fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 

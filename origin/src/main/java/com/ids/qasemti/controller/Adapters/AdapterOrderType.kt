@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatRatingBar
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ResponseOrders
@@ -125,6 +126,9 @@ class AdapterOrderType(
                 holder.switchDelivered
             ) {
                 if (holder.switchDelivered.isChecked) {
+                    MyApplication.saveLocationTracking = false
+                    MyApplication.selectedOrder = items.get(position)
+                    (con as ActivityHome).changeState()
                     delivered = 1
                 } else {
                     delivered = 0
@@ -149,6 +153,9 @@ class AdapterOrderType(
                 holder.switchOnTrack
             ) {
                 if (holder.switchOnTrack.isChecked) {
+                    MyApplication.selectedOrder = items.get(position)
+                    MyApplication.saveLocationTracking = true
+                    (con as ActivityHome).changeState()
                     onTrack = 1
                 } else {
                     onTrack = 0
@@ -159,6 +166,8 @@ class AdapterOrderType(
                     delivered,
                     paid
                 )
+
+                //AppHelper.setUpDoc(items.get(position))
             }
         }
 
@@ -200,7 +209,7 @@ class AdapterOrderType(
         holder.expectedDel.show()
         holder.orderAmount.show()
         holder.dates.show()
-        if (MyApplication.isClient && MyApplication.typeSelected == 0) {
+        if (MyApplication.isClient && items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_ACTIVE)) {
             holder.credit.show()
             holder.switch.hide()
             holder.dateBorder.hide()
@@ -211,7 +220,7 @@ class AdapterOrderType(
             holder.location.hide()
             holder.border.show()
             holder.track.show()
-        } else if(MyApplication.typeSelected==0 ){
+        } else if(items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_ACTIVE)){
             holder.switch.show()
             holder.sepActive.show()
             holder.dateBorder.show()
@@ -219,9 +228,9 @@ class AdapterOrderType(
             holder.canSep.hide()
             holder.border.show()
             holder.rating.hide()
-            holder.track.hide()
+            holder.track.show()
             holder.credit.hide()
-        }else if ( MyApplication.typeSelected == 1 && !MyApplication.isClient) {
+        }else if ( items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_UPCOMING) && !MyApplication.isClient) {
             holder.switch.show()
             holder.sepActive.show()
             holder.dateBorder.show()
@@ -231,7 +240,7 @@ class AdapterOrderType(
             holder.rating.hide()
             holder.track.hide()
             holder.credit.hide()
-        } else if (MyApplication.typeSelected == 1 && MyApplication.isClient) {
+        } else if (items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_UPCOMING) && MyApplication.isClient) {
             holder.credit.hide()
             holder.rating.hide()
             holder.dateBorder.show()
@@ -241,7 +250,7 @@ class AdapterOrderType(
             holder.border.hide()
             holder.canSep.hide()
             holder.track.hide()
-        } else if(MyApplication.typeSelected ==2) {
+        } else if(items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_COMPLETED)) {
             holder.phoneChat.hide()
             holder.credit.hide()
             holder.rating.show()

@@ -1,6 +1,7 @@
 @file:Suppress("NAME_SHADOWING")
 package com.ids.qasemti.controller
 
+import android.app.Activity
 import com.ids.qasemti.BuildConfig
 
 import android.app.Application
@@ -45,6 +46,7 @@ class MyApplication : Application() {
         var userStatus : ResponseUserStatus ?=null
         var fromLogout = false
         var register = false
+        var selectedOrderTrack : ResponseOrders ?=null
         var selectedItemDialog="+961"
         var addNewAddress = true
 
@@ -56,7 +58,7 @@ class MyApplication : Application() {
         var position : Int =0
         var db : FirebaseFirestore?=null
         var tintColor : Int = R.color.white
-        var BASE_URL = "http://dev.qasemti.com/wp-json/api/v1/"
+        var BASE_URL = "https://dev.qasemti.com/wp-json/api/v1/"
         var selectedImage:String ?=""
         var selectedVideo :String ?=""
         var selectedPhone : String ?="03/123123"
@@ -74,8 +76,10 @@ class MyApplication : Application() {
         var selectedCurrentAddress : Address ?=null
         var selectedSize = ""
         var selectedPrice = ""
+        var enableForeTracking = false
         var selectedVariationType = ""
-
+        var trackingActivity : Activity ?=null
+        var fromOrderDetails : Boolean = false
         var showLogs: Boolean = true
         var isClient : Boolean = false
         var isEditService : Boolean = false
@@ -107,9 +111,10 @@ class MyApplication : Application() {
         var phoneNumber : String?
             get() = sharedPreferences.getString(AppConstants.PHONE_NUMBER,"")
             set(value) { sharedPreferencesEditor.putString(AppConstants.PHONE_NUMBER, value).apply() }
-        var firstMapAddress : Boolean?
+        var saveLocationTracking  : Boolean?
             get() = sharedPreferences.getBoolean(AppConstants.MAPPING,false)
             set(value) { sharedPreferencesEditor.putBoolean(AppConstants.MAPPING, value!!).apply() }
+
 
     }
 
