@@ -90,9 +90,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         AppHelper.setAllTexts(rootLayout,this)
         init()
         listeners()
-
-
-
     }
 
     private fun init(){
@@ -101,11 +98,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         setTabs()
         getAllServices()
         setPickedImages()
-
     }
-
-
-
 
 
     private fun listeners(){
@@ -387,7 +380,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     private fun setTab2(){
         if(arrayImagesSelected.size== 0 && !MyApplication.isEditService)
             createDialog(this,"Please upload image")
-        else if(etStockAvailable.text.toString().isEmpty() || etStockAvailable.text.toString() == "0")
+        else if(etStockAvailable.text.toString().isEmpty() ||(!MyApplication.isEditService && etStockAvailable.text.toString() == "0"))
             createDialog(this,"Please fill stock available")
         else{
         linearProgress1.setBackgroundColor(ContextCompat.getColor(this,R.color.redPrimary))
@@ -613,7 +606,9 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     fun updateService(){
         loading.show()
         var stockStatus=""
-        try{if(MyApplication.selectedService!!.variations[0].isInStock!!)
+        try{if(etStockAvailable.text.toString().toInt() == 0)
+              stockStatus="outofstock"
+            else
               stockStatus="intock"
         }catch (e:Exception){}
         var req=RequestUpdateService(selectedServiceId,etStockAvailable.text.toString().toInt(),stockStatus)
@@ -715,14 +710,26 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                  etStockAvailable.setText(MyApplication.selectedService!!.variations[0].stockQuantity!!.toString())
              }catch (e:Exception){}
 
+             try{
+                 var images=MyApplication.selectedService!!.variations[0].images
+                 if(images.size>0){
+                    for (i in images.indices)
+                      arrayImagesSelected.add(FilesSelected(images[i],null,null))
+                 }
+                      adapterSelectedImages!!.notifyDataSetChanged()
+                 }
+             catch (e:Exception){}
 
 
              rbRental.isEnabled=false
              rbPurchase.isEnabled=false
              spService.isEnabled=false
              spType.isEnabled=false
+             spSize.isEnabled=false
              spStock.isEnabled=false
              btPickImage.isEnabled=false
+             btNext2.text=AppHelper.getRemoteString("UpdateService",this)
+
          }
     }
 

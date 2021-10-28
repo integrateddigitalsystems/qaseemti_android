@@ -46,7 +46,8 @@ class MyApplication : Application() {
         var fromLogout = false
         var register = false
         var selectedItemDialog="+961"
-        var addNewAddress = true 
+        var addNewAddress = true
+
         var settlementTabSelected =0
         var defaultIcon : ImageView ?=null
         var selectedFragment  : Fragment ?=null
