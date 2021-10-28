@@ -113,6 +113,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
 
     fun updatePayment(){
+        if(orderId=="")
+            orderId="0"
         loading.show()
         var request = RequestPaymentOrder(orderId.toInt(),selectedPaymentId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -125,7 +127,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                         loading.hide()
                        if(response.body()!!.result==1){
                            finishAffinity()
-                           MyApplication.selectedPos = 2
+                           MyApplication.selectedPos = 1
                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
                            MyApplication.selectedFragment = FragmentOrders()
                            MyApplication.tintColor = R.color.redPrimary

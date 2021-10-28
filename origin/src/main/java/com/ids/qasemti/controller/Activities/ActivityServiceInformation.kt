@@ -101,7 +101,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         setTabs()
         getAllServices()
         setPickedImages()
+
     }
+
+
 
 
 
@@ -114,6 +117,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         btNext1.onOneClick{setTab3()}
         btPreviews2.onOneClick{setTab2()}
         btNext2.onOneClick{
+            if(!MyApplication.isEditService){
             if(arrayData.count { it.value!!.isEmpty() } > 0)
                 createDialog(this,"Please fill all Data")
             else if(arrayRequiredFiles.size>0 && !requiredFilesUploaded())
@@ -127,6 +131,8 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         uploadFiles(arrayRequiredFiles[i])
                     }
                 }
+            }}else{
+                updateService()
             }
         }
         rgCategory.setOnCheckedChangeListener { _, checkedId ->
@@ -168,7 +174,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
 
     override fun onItemClicked(view: View, position: Int) {
-       if(view.id==R.id.btPickFile){
+       if(view.id==R.id.btPickFile && !MyApplication.isEditService){
            requireFilePosition=position
            pickFile(CODE_REQUIRED_FILES)
        }
@@ -379,7 +385,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun setTab2(){
-        if(arrayImagesSelected.size== 0 )
+        if(arrayImagesSelected.size== 0 && !MyApplication.isEditService)
             createDialog(this,"Please upload image")
         else if(etStockAvailable.text.toString().isEmpty() || etStockAvailable.text.toString() == "0")
             createDialog(this,"Please fill stock available")
@@ -400,7 +406,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun setTab3(){
-        if(arrayRequiredFiles.size>0 && !requiredFilesUploaded())
+        if(arrayRequiredFiles.size>0 && !requiredFilesUploaded() && !MyApplication.isEditService)
             createDialog(this,"Please fill all Required files")
         else{
         linearProgress1.setBackgroundColor(ContextCompat.getColor(this,R.color.redPrimary))
@@ -475,6 +481,9 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         arrayAllServices.addAll(response.body()!!.responseService!!)
                         if(arrayAllServices.size>0)
                            setServiceSpinner()
+
+                        if(MyApplication.isEditService)
+                            setEditData()
                     }catch (E: java.lang.Exception){
 
                     }
@@ -601,6 +610,42 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
 
+    fun updateService(){
+        loading.show()
+        var stockStatus=""
+        try{if(MyApplication.selectedService!!.variations[0].isInStock!!)
+              stockStatus="intock"
+        }catch (e:Exception){}
+        var req=RequestUpdateService(selectedServiceId,etStockAvailable.text.toString().toInt(),stockStatus)
+
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.updateService(
+                 req
+
+                )?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
+                    try{
+
+                        if(response.body()!!.result==1){
+                            this@ActivityServiceInformation.onBackPressed()
+                        }
+
+                        else{
+                            loading.hide()
+                            toast("failed 1")
+                        }
+                    }catch (E: java.lang.Exception){
+                        loading.hide()
+                        toast("failed 2")
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                    toast("failed 3")
+                }
+            })
+    }
+
 
 /*    fun uploadFiles(){
         loading.show()
@@ -634,6 +679,51 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
     private fun requiredFilesUploaded():Boolean{
         return arrayRequiredFiles.count { it.selectedFileName=="" } == 0
+    }
+
+
+    private fun setEditData(){
+         if(MyApplication.selectedService!=null){
+             if(MyApplication.selectedService!!.type == AppConstants.TYPE_PURCHASE){
+                rbPurchase.isChecked=true
+             }
+             else{
+                 rbRental.isChecked=true
+             }
+
+             try{
+             var serviceSpinnerSelected=arraySpinnerServices.find { it.name == MyApplication.selectedService!!.name }
+             spService.setSelection(arraySpinnerServices.indexOf(serviceSpinnerSelected))}catch (e:Exception){}
+
+             try{
+             var serviceTypesSelected=arraySpinnerTypes.find { it.name == MyApplication.selectedService!!.variations[0].types }
+             spType.setSelection(arraySpinnerTypes.indexOf(serviceTypesSelected))}catch (e:Exception){}
+
+             try{
+                 var serviceSizeSelected=arraySpinnerSizes.find { it.name == MyApplication.selectedService!!.variations[0].sizeCapacity }
+                 spSize.setSelection(arraySpinnerSizes.indexOf(serviceSizeSelected))
+             }catch (e:Exception){}
+
+
+             try{
+                 var serviceSizeSelected=arraySpinnerSizes.find { it.name == MyApplication.selectedService!!.variations[0].sizeCapacity }
+                 spSize.setSelection(arraySpinnerSizes.indexOf(serviceSizeSelected))
+             }catch (e:Exception){}
+
+             try{
+
+                 etStockAvailable.setText(MyApplication.selectedService!!.variations[0].stockQuantity!!.toString())
+             }catch (e:Exception){}
+
+
+
+             rbRental.isEnabled=false
+             rbPurchase.isEnabled=false
+             spService.isEnabled=false
+             spType.isEnabled=false
+             spStock.isEnabled=false
+             btPickImage.isEnabled=false
+         }
     }
 
 }

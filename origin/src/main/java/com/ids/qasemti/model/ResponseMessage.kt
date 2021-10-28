@@ -16,4 +16,8 @@ class ResponseMessage {
     @SerializedName("address_id")
     @Expose
     var address_id: String? = ""
+
+    @SerializedName("product_id")
+    @Expose
+    var product_id: String? = ""
 }

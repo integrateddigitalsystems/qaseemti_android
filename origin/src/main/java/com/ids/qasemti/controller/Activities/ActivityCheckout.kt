@@ -440,7 +440,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
         var cancel = AppHelper.getRemoteString("cancel", this)
         val builder = AlertDialog.Builder(this)
         builder
-            .setMessage(res.message)
+            .setMessage(AppHelper.getRemoteString("find_service_provider_msg",this))
             .setCancelable(true)
             .setNegativeButton(cancel) { dialog, _ ->
                 startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java)
@@ -470,7 +470,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                     try {
                         loading.hide()
                         if(response.body()!!.number_of_sps!=null && response.body()!!.number_of_sps!! >0){
-                            startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java).putExtra(AppConstants.ORDER_ID,response.body()!!.orderId))
+                            startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java).putExtra(AppConstants.ORDER_ID,orderId))
                         }else
                             startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java).putExtra(AppConstants.SP_FOUND,false).putExtra(AppConstants.ORDER_ID,response.body()!!.orderId))
                     } catch (E: java.lang.Exception) {

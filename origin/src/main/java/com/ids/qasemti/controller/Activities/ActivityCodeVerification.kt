@@ -20,6 +20,7 @@ import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_code_verification.*
 import kotlinx.android.synthetic.main.fragment_orders.*
 import kotlinx.android.synthetic.main.loading.*
+import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -91,10 +92,10 @@ class ActivityCodeVerification : ActivityBase() {
         timer = object : CountDownTimer(60000, 1015) {
             override fun onTick(millisUntilFinished: Long) {
                 if(first){
-                    tvTimer.setText("1:00")
+                    tvTimer.text = "1:00"
                     first = false
                 }else {
-                    tvTimer.setText("0:" + checkDigit(time))
+                    tvTimer.text = "0:" + checkDigit(time)
 
                 }
 
@@ -108,8 +109,13 @@ class ActivityCodeVerification : ActivityBase() {
             override fun onFinish() {
                 first = true
                tvTimer.text = ""
+                tvTimerTitle.text=AppHelper.getRemoteString("resend_code",this@ActivityCodeVerification)
+                AppHelper.setTextColor(this@ActivityCodeVerification, tvTimerTitle, R.color.button_blue)
                 tvTimerTitle.onOneClick {
                     if(first) {
+                        tvTimerTitle.text=AppHelper.getRemoteString("resend_code_in",this@ActivityCodeVerification)
+                        AppHelper.setTextColor(this@ActivityCodeVerification, tvTimerTitle, R.color.gray_font_title)
+
                         time = 59
                         this.start()
                         sendOTP()

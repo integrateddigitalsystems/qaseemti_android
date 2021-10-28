@@ -240,4 +240,6 @@
     <string name="discard">Discard</string>
     <string name="sure_accept">هل أنت متأكد أنك تريد قبول الطلب؟</string>
     <string name="RepeatOrder">إعادة الطلب</string>
+
+    <string name="find_service_provider_msg">لا يوجد مقدمو خدمة في منطقتك في هذا الوقت. هل تريد منا البحث في منطقة أوسع؟ (قد يتم تطبيق رسوم إضافية)</string>
 </resources>

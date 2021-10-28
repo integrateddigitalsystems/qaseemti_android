@@ -54,8 +54,8 @@ android {
             dimension "color"
             minSdkVersion 21
             targetSdkVersion 30
-            versionCode 14
-            versionName '2.3'
+            versionCode 16
+            versionName '2.5'
         }
 
 
@@ -70,8 +70,8 @@ android {
             dimension "color"
             minSdkVersion 21
             targetSdkVersion 30
-            versionCode 15
-            versionName '2.4'
+            versionCode 16
+            versionName '2.5'
         }
     }
 
@@ -132,6 +132,8 @@ dependencies {
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation 'com.google.android.libraries.places:places:2.5.0'
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
 
 }
 apply plugin: 'com.google.firebase.crashlytics'

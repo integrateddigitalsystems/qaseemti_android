@@ -11,6 +11,7 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
@@ -25,10 +26,13 @@ import com.jaiselrahman.filepicker.activity.FilePickerActivity
 import com.jaiselrahman.filepicker.config.Configurations
 import com.jaiselrahman.filepicker.model.MediaFile
 import kotlinx.android.synthetic.main.activity_contact_us.*
-import kotlinx.android.synthetic.main.activity_new_address.*
+
 import kotlinx.android.synthetic.main.curve_layout_home.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.layout_profile.*
+import kotlinx.android.synthetic.main.layout_profile.etAddressName
+import kotlinx.android.synthetic.main.layout_profile.etArea
+import kotlinx.android.synthetic.main.layout_profile.etMoreDetails
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.service_tab_1.*
 import kotlinx.android.synthetic.main.service_tab_2.*
@@ -56,6 +60,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var fromProfile: Boolean? = false
     var long: Double? = 0.0
     var profilePercentage = 0
+
+
+
     override fun onItemClicked(view: View, position: Int) {
 
     }
@@ -76,6 +83,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayoutProfile, requireContext())
         init()
+
 
     }
 
@@ -241,6 +249,44 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 "completed",
                 requireActivity()
             )
+
+        if(!MyApplication.isClient){
+            if(MyApplication.selectedUser!!.addresses!=null && MyApplication.selectedUser!!.addresses!!.size > 0){
+                linearAddressInfo.show()
+                btAddNewAddress.hide()
+                try{
+                var myAddress= MyApplication.selectedUser!!.addresses!![0]
+                if(myAddress.addressName!=null && myAddress.addressName!="null")
+                    etAddressName!!.setText(myAddress.addressName)
+
+                if(myAddress.desc!=null && myAddress.desc!="null")
+                    etMoreDetails!!.setText(myAddress.desc)
+
+                if(myAddress.area!=null && myAddress.area!="null")
+                    etArea!!.setText(myAddress.area)
+
+                if(myAddress.block!=null && myAddress.block!="null")
+                    etBlock!!.setText(myAddress.block)
+
+                if(myAddress.avenue!=null && myAddress.avenue!="null")
+                    etAvenue!!.setText(myAddress.avenue)
+
+                if(myAddress.floor!=null && myAddress.floor!="null")
+                    etFloor!!.setText(myAddress.floor)
+
+                if(myAddress.bldg!=null && myAddress.bldg!="null")
+                    etBuilding!!.setText(myAddress.bldg)
+
+                if(myAddress.street!=null && myAddress.street!="null")
+                    etStreet!!.setText(myAddress.street)}catch (e:java.lang.Exception){}
+
+
+
+            }else{
+                btAddNewAddress.show()
+                linearAddressInfo.hide()
+            }
+        }
 
     }
 
@@ -474,6 +520,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             )
             mDatePicker.show()
         }
+
+        btAddNewAddress.onOneClick {
+            startActivity(Intent(requireActivity(),ActivityMapAddress::class.java))
+        }
     }
 
 
@@ -657,4 +707,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         var res = response as ResponseUser
         succUpdate(res.result!!)
     }
+
+
+
 }

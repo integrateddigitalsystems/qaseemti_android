@@ -79,6 +79,7 @@ class MyApplication : Application() {
         var trackingActivity : Activity ?=null
         var showLogs: Boolean = true
         var isClient : Boolean = false
+        var isEditService : Boolean = false
         var fromFooterOrder : Boolean = true
         var localizeArray: FirebaseLocalizeArray ?= null
         var arrayCart : ArrayList<RequestPlaceOrder> = arrayListOf()
