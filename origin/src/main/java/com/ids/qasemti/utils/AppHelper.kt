@@ -668,6 +668,30 @@ class AppHelper {
         }
 
 
+        fun shareApp(activity: Activity) {
+            val appPackageName = activity.packageName
+            try {
+                activity.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=$appPackageName")
+                    )
+                )
+
+
+
+            } catch (anfe: android.content.ActivityNotFoundException) {
+                activity.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                    )
+                )
+
+
+            }
+        }
+
         fun getRemoteString(key: String, con: Context): String {
             if (MyApplication.localizeArray != null) {
                 try {

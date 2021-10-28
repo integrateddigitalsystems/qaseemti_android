@@ -86,10 +86,11 @@ class ActivityWeb: ActivityBase() {
             selectedUrl = MyApplication.webLinks!!.links.find { it.idNo ==id  }!!.urlAr
         }
         if(id==4){
-            svScrollForm.show()
+            llContactForm.show()
+            wvData.show()
         }
 
-        loadContent(selectedUrl!!)
+        loadContent(selectedUrl!!,if(id==4) wvData2 else wvData)
 
         btContactWeb.onOneClick {
 
@@ -103,17 +104,17 @@ class ActivityWeb: ActivityBase() {
         }
 
     }
-    fun loadContent(content:String){
+    fun loadContent(content:String,webView: WebView){
         loading.show()
-        wvData.settings.javaScriptEnabled=true
-        wvData.settings.loadWithOverviewMode = true
-        wvData.settings.useWideViewPort = false
-        wvData.settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        wvData.settings.builtInZoomControls = false
-        wvData.settings.displayZoomControls = false
+        webView.settings.javaScriptEnabled=true
+        webView.settings.loadWithOverviewMode = true
+        webView.settings.useWideViewPort = false
+        webView.settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.settings.builtInZoomControls = false
+        webView.settings.displayZoomControls = false
 
 
-        wvData.webViewClient = object : WebViewClient() {
+        webView.webViewClient = object : WebViewClient() {
             private var running = 0
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
@@ -136,7 +137,7 @@ class ActivityWeb: ActivityBase() {
             }
         }
 
-        wvData.setWebChromeClient(object : WebChromeClient() {
+        webView.setWebChromeClient(object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
 
                 var prog = newProgress
@@ -156,6 +157,6 @@ class ActivityWeb: ActivityBase() {
         }
         )
 
-        wvData.loadUrl(content!!);
+        webView.loadUrl(content)
     }
 }

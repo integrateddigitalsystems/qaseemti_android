@@ -87,7 +87,6 @@
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
                 android:tag="@string/FName"
-                android:text="aaa"
                 android:textColorHint="@color/gray_medium_2" />
 
             <EditText
@@ -100,7 +99,6 @@
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
                 android:tag="@string/LName"
-                android:text="bbb"
                 android:textColorHint="@color/gray_medium_2" />
 
             <EditText
@@ -114,7 +112,6 @@
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
                 android:tag="@string/email"
-                android:text="aa@bb.cc"
                 android:textColorHint="@color/gray_medium_2" />
 
 

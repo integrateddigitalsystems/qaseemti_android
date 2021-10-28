@@ -153,7 +153,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         }
 
         btRateUs.onOneClick {
-            AppHelper.openAppInPlayStore(requireActivity())
+            AppHelper.shareApp(requireActivity())
         }
     }
 }

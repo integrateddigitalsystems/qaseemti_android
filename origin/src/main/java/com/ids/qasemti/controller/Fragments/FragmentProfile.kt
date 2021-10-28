@@ -267,7 +267,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 linearAddressInfo.show()
 
                 MyApplication.addNewAddress=false
-                btAddNewAddress.text = AppHelper.getRemoteString("UpdateAddress",requireActivity())
+                btAddNewAddress.hide()
+            //    btAddNewAddress.text = AppHelper.getRemoteString("UpdateAddress",requireActivity())
 
 
                 try{
@@ -296,12 +297,16 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 if(myAddress.street!=null && myAddress.street!="null")
                     etStreet!!.setText(myAddress.street)}catch (e:java.lang.Exception){}
 
-
+                btUpdateAddress.show()
+                btUpdateAddress.setOnClickListener{
+                    startActivity(Intent(requireActivity(),ActivityMapAddress::class.java))
+                }
 
             }else{
                 MyApplication.addNewAddress=true
                 btAddNewAddress.text = AppHelper.getRemoteString("AddNewAddress",requireActivity())
                 linearAddressInfo.hide()
+                btUpdateAddress.hide()
             }
         }
 
@@ -416,83 +421,16 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     fun listeners() {
 
-
         btSaveProfile.onOneClick {
+            if(etFirstNameProfile.text.isNullOrEmpty() || (MyApplication.isClient && etMiddleNameProfile.text.isNullOrEmpty() )||etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty()||etMobileProfile.text.isNullOrEmpty())
+                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("fill_all_field",requireContext()))
+            else if(!MyApplication.isClient){
+                updateServiceProfile()
+            }else
+                updateClientProfile()
+         }
 
-            /*  if(etFirstNameProfile.text.isNullOrEmpty()||etMiddleNameProfile.text.isNullOrEmpty()||etLastNameProfile.text.isNullOrEmpty()||etEmailProfile.text.isNullOrEmpty()||etMobileProfile.text.isNullOrEmpty()||etCivilIdNbProfile.text.isNullOrEmpty()||etDateOfBirthProfile.text.isNullOrEmpty()||etAltContactNumberProfile.text.isNullOrEmpty()||etAddressProfile.text.isNullOrEmpty()||etDescriptionProfile.text.isNullOrEmpty()||etAccountNumberProfile.text.isNullOrEmpty()||etBankNameProfile.text.isNullOrEmpty()||etBranchNameProfile.text.isNullOrEmpty()||etIBANProfile.text.isNullOrEmpty()){
-                  AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("fill_all_field",requireContext()))
-              }else if(!AppHelper.isEmailValid(etEmailProfile.text.toString())){
-                  AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("email_valid_error",requireContext()))
-              }else if(selectedFile==null || selectedProfilePic==null ) {
-                  var str ="No File Selected"
-                  AppHelper.createDialog(requireActivity(),str)
-              }else
-              {*/
-            if (!MyApplication.isClient){
 
-                if (selectedProfilePic == null) {
-                    var empty = ""
-                    val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                    selectedProfilePic =
-                        MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
-                }
-                if(selectedFile==null){
-                    var empty = ""
-                    val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                    selectedFile =
-                        MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
-                }
-                CallAPIs.updateProfileServiceProvider(
-                    requireContext(),
-                    this,
-                    loading,
-                    lat!!,
-                    long!!,
-                    gender,
-                    etFirstNameProfile.text.toString(),
-                    etMiddleNameProfile.text.toString(),
-                    etLastNameProfile.text.toString(),
-                    etEmailProfile.text.toString(),
-                    etMobileProfile.text.toString(),
-                    etAltContactNumberProfile.text.toString(),
-                    etCivilIdNbProfile.text.toString(),
-                    etDateOfBirthProfile.text.toString(),
-                    etAddressProfile.text.toString(),
-                    etAccountNumberProfile.text.toString(),
-                    etBankNameProfile.text.toString(),
-                    etBranchNameProfile.text.toString(),
-                    etDescriptionProfile.text.toString(),
-                    etIBANProfile.text.toString(),
-                    selectedFile!!,
-                    selectedProfilePic!!
-                )
-
-                if(MyApplication.isEditService)
-                    updateAddress()
-              }else {
-                if (selectedProfilePic == null) {
-                    var empty = ""
-                    val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                    selectedProfilePic =
-                        MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
-                }
-                CallAPIs.updateProfileClient(
-                    requireContext(),
-                    this,
-                    loading,
-                    etFirstNameProfile.text.toString(),
-                    etLastNameProfile.text.toString(),
-                    etEmailProfile.text.toString(),
-                    etMobileProfile.text.toString(),
-                    selectedProfilePic!!
-                )
-            }
-            //updateClient()
-            //   }
-        }
         rbMaleProfile.onOneClick {
             gender = "male"
         }
@@ -544,6 +482,70 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         btAddNewAddress.onOneClick {
             startActivity(Intent(requireActivity(),ActivityMapAddress::class.java))
         }
+    }
+
+    private fun updateServiceProfile(){
+        if (selectedProfilePic == null) {
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedProfilePic =
+                MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+        }
+        if(selectedFile==null){
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedFile =
+                MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+        }
+        CallAPIs.updateProfileServiceProvider(
+            requireContext(),
+            this,
+            loading,
+            lat!!,
+            long!!,
+            gender,
+            etFirstNameProfile.text.toString(),
+            etMiddleNameProfile.text.toString(),
+            etLastNameProfile.text.toString(),
+            etEmailProfile.text.toString(),
+            etMobileProfile.text.toString(),
+            etAltContactNumberProfile.text.toString(),
+            etCivilIdNbProfile.text.toString(),
+            etDateOfBirthProfile.text.toString(),
+            etAddressProfile.text.toString(),
+            etAccountNumberProfile.text.toString(),
+            etBankNameProfile.text.toString(),
+            etBranchNameProfile.text.toString(),
+            etDescriptionProfile.text.toString(),
+            etIBANProfile.text.toString(),
+            selectedFile!!,
+            selectedProfilePic!!
+        )
+
+        if(MyApplication.isEditService)
+            updateAddress()
+    }
+
+    private fun updateClientProfile(){
+        if (selectedProfilePic == null) {
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedProfilePic =
+                MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+        }
+        CallAPIs.updateProfileClient(
+            requireContext(),
+            this,
+            loading,
+            etFirstNameProfile.text.toString(),
+            etLastNameProfile.text.toString(),
+            etEmailProfile.text.toString(),
+            etMobileProfile.text.toString(),
+            selectedProfilePic!!
+        )
     }
 
 
