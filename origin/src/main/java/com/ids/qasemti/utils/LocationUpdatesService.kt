@@ -28,7 +28,6 @@ import com.google.android.gms.location.*
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivitySplash
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.utils.LocationUpdatesService
 
 /**
  * A bound and started service that is promoted to a foreground service when location updates have
@@ -122,7 +121,7 @@ class LocationUpdatesService : Service() {
             mFusedLocationClient!!.requestLocationUpdates(
                 mLocationRequest, mLocationCallback, Looper.getMainLooper())
         } catch (unlikely: SecurityException) {
-            MyApplication.isTracking = true
+            MyApplication.saveLocationTracking = true
             Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
         }
     }
@@ -342,7 +341,7 @@ class LocationUpdatesService : Service() {
     fun subscribeToLocationUpdates() {
         Log.d(TAG, "subscribeToLocationUpdates()")
 
-        MyApplication.isTracking = true
+        MyApplication.saveLocationTracking = true
 
         // Binding to this service doesn't actually trigger onStartCommand(). That is needed to
         // ensure this Service can be promoted to a foreground service, i.e., the service needs to
@@ -354,7 +353,7 @@ class LocationUpdatesService : Service() {
             mFusedLocationClient!!.requestLocationUpdates(
                 mLocationRequest, mLocationCallback, Looper.getMainLooper())
         } catch (unlikely: SecurityException) {
-           MyApplication.isTracking = true
+           MyApplication.saveLocationTracking = true
             Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
         }
     }

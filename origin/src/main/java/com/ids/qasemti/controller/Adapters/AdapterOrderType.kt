@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatRatingBar
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ResponseOrders
@@ -125,6 +126,9 @@ class AdapterOrderType(
                 holder.switchDelivered
             ) {
                 if (holder.switchDelivered.isChecked) {
+                    MyApplication.saveLocationTracking = false
+                    MyApplication.selectedOrder = items.get(position)
+                    (con as ActivityHome).changeState()
                     delivered = 1
                 } else {
                     delivered = 0
@@ -149,6 +153,9 @@ class AdapterOrderType(
                 holder.switchOnTrack
             ) {
                 if (holder.switchOnTrack.isChecked) {
+                    MyApplication.selectedOrder = items.get(position)
+                    MyApplication.saveLocationTracking = true
+                    (con as ActivityHome).changeState()
                     onTrack = 1
                 } else {
                     onTrack = 0
@@ -159,8 +166,8 @@ class AdapterOrderType(
                     delivered,
                     paid
                 )
-                MyApplication.trackingActivity = con
-                AppHelper.setUpDoc(items.get(position),con)
+
+                //AppHelper.setUpDoc(items.get(position))
             }
         }
 

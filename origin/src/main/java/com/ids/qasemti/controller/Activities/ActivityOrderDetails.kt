@@ -1,20 +1,29 @@
 package com.ids.qasemti.controller.Activities
 
+import android.Manifest
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
-import android.content.Intent
+import android.content.*
+import android.content.pm.PackageManager
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.IBinder
 import android.os.Looper
+import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.*
+import androidx.core.app.ActivityCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterOrderData
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
@@ -51,13 +60,217 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
     var delivered: Int? = 0
     var paid: Int? = 0
     lateinit var shake: Animation
+
+    private var foregroundOnlyLocationServiceBound = false
+
+    private val TAG = "ActivityOrderDetails"
+    private val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
+    // Provides location updates for while-in-use feature.
+    private var foregroundOnlyLocationService: LocationForeService? = null
+
+    // Listens for location broadcasts from ForegroundOnlyLocationService.
+    private lateinit var foregroundOnlyBroadcastReceiver: ForegroundOnlyBroadcastReceiver
+
+    private lateinit var sharedPreferences: SharedPreferences
+
+    private lateinit var foregroundOnlyLocationButton: Button
+
+    private lateinit var outputTextView: TextView
+
+
+    private inner class ForegroundOnlyBroadcastReceiver : BroadcastReceiver() {
+
+        override fun onReceive(context: Context, intent: Intent) {
+            val location = intent.getParcelableExtra<Location>(
+                LocationForeService.EXTRA_LOCATION
+            )
+
+            if (location != null) {
+                Log.wtf("FORE","Foreground location: ${location.toText()}")
+            }
+        }
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        MyApplication.saveLocationTracking
+     /*   updateButtonState(
+            sharedPreferences.getBoolean(SharedPreferenceUtil.KEY_FOREGROUND_ENABLED, false)
+        )*/
+     //   sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+
+        val serviceIntent = Intent(this, LocationForeService::class.java)
+        bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            foregroundOnlyBroadcastReceiver,
+            IntentFilter(
+                LocationForeService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
+        )
+    }
+
+    override fun onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(
+            foregroundOnlyBroadcastReceiver
+        )
+        super.onPause()
+    }
+
+    override fun onStop() {
+        if (foregroundOnlyLocationServiceBound) {
+            unbindService(foregroundOnlyServiceConnection)
+            foregroundOnlyLocationServiceBound = false
+        }
+      //  sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+
+        super.onStop()
+    }
+
+    private val foregroundOnlyServiceConnection = object : ServiceConnection {
+
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder = service as LocationForeService.LocalBinder
+            foregroundOnlyLocationService = binder.foreService
+            foregroundOnlyLocationServiceBound = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {
+            foregroundOnlyLocationService = null
+            foregroundOnlyLocationServiceBound = false
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_details)
         init()
         setListeners()
+
+
+        foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
+        startServicing()
     }
 
+    fun startServicing(){
+     var enabled = MyApplication.saveLocationTracking
+
+        if (!enabled!!) {
+            foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+        } else {
+            // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+            if (foregroundPermissionApproved()) {
+                foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                    ?: Log.d(TAG, "Service Not Bound")
+            } else {
+                requestForegroundPermissions()
+            }
+        }
+    }
+
+    private fun foregroundPermissionApproved(): Boolean {
+        return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
+
+
+    fun changeState(){
+
+
+        if (!MyApplication.saveLocationTracking!!) {
+            foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+        } else {
+            // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+            if (foregroundPermissionApproved()) {
+                foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                    ?: Log.d(TAG, "Service Not Bound")
+            } else {
+                requestForegroundPermissions()
+            }
+        }
+
+    }
+    // TODO: Step 1.0, Review Permissions: Method requests permissions.
+    private fun requestForegroundPermissions() {
+        val provideRationale = foregroundPermissionApproved()
+
+        // If the user denied a previous request, but didn't check "Don't ask again", provide
+        // additional rationale.
+        if (provideRationale) {
+            Snackbar.make(
+                findViewById(R.id.rootLayoutOrderDetails),
+               "Location permission needed for core functionality",
+                Snackbar.LENGTH_LONG
+            )
+                .setAction(R.string.ok) {
+                    // Request permission
+                    ActivityCompat.requestPermissions(
+                        this@ActivityOrderDetails,
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                        REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+                    )
+                }
+                .show()
+        } else {
+            Log.d(TAG, "Request foreground only permission")
+            ActivityCompat.requestPermissions(
+                this@ActivityOrderDetails,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+            )
+        }
+    }
+
+    // TODO: Step 1.0, Review Permissions: Handles permission result.
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        Log.d(TAG, "onRequestPermissionResult")
+
+        when (requestCode) {
+            REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE -> when {
+                grantResults.isEmpty() ->
+                    // If user interaction was interrupted, the permission request
+                    // is cancelled and you receive empty arrays.
+                    Log.d(TAG, "User interaction was cancelled.")
+                grantResults[0] == PackageManager.PERMISSION_GRANTED ->
+                    // Permission was granted.
+                    foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                else -> {
+                    // Permission denied.
+                   // updateButtonState(false)
+
+                    Snackbar.make(
+                        findViewById(R.id.rootLayoutOrderDetails),
+                        R.string.permission_denied,
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAction(R.string.settings) {
+                            // Build intent that displays the App settings screen.
+                            val intent = Intent()
+                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                            val uri = Uri.fromParts(
+                                "package",
+                                "",
+                                null
+                            )
+                            intent.data = uri
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                        }
+                        .show()
+                }
+            }
+        }
+    }
     fun init() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         btDrawer.hide()
@@ -467,13 +680,16 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                 swOnTrack
             ) {
                 if (swOnTrack.isChecked) {
+                    MyApplication.saveLocationTracking = true
+                    changeState()
                     onTrack = 1
                 } else {
                     onTrack = 0
                 }
                 setStatus()
-                MyApplication.trackingActivity = this
-                AppHelper.setUpDoc(MyApplication.selectedOrder!!, this)
+
+               // MyApplication.trackingActivity = this
+              //  AppHelper.setUpDoc(MyApplication.selectedOrder!!, this)
             }
 
 
@@ -508,6 +724,8 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                 swDelivered
             ) {
                 if (swDelivered.isChecked) {
+                    MyApplication.saveLocationTracking = false
+                    changeState()
                     delivered = 1
                 } else {
                     delivered = 0

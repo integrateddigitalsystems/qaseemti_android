@@ -9,13 +9,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.provider.Settings
-import android.text.Layout
 import android.util.Log
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -24,14 +21,13 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.viewpager.widget.ViewPager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
-import com.ids.qasemti.controller.Adapters.SampleFragmentPagerAdapter
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
@@ -42,7 +38,6 @@ import com.ids.qasemti.utils.AppConstants.FRAGMENT_NOTFICATIONS
 import com.ids.qasemti.utils.AppConstants.FRAGMENT_ORDER
 import com.ids.qasemti.utils.AppHelper.Companion.getFragmentCount
 import com.ids.qasemti.utils.AppHelper.Companion.resetIcons
-import com.ids.qasemti.utils.LocationUpdatesService.Companion.EXTRA_LOCATION
 import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.home_container.*
 import kotlinx.android.synthetic.main.layout_footer_shadow.*
@@ -58,15 +53,40 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     private var foregroundOnlyLocationServiceBound = false
     private lateinit var drawerLayout: DrawerLayout
     var selectedPos = 2
+    private var foregroundOnlyLocationService: LocationForeService? = null
     var foregrounfLocationService: CurrentLocationService? = null
+    private lateinit var foregroundOnlyBroadcastReceiver: ForegroundOnlyBroadcastReceiver
     private var ordersArray: ArrayList<String> = arrayListOf()
     var isClose = false
+
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         init()
 
+        foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
+        startServicing()
 
+    }
+
+    fun startServicing(){
+        var enabled = MyApplication.saveLocationTracking
+
+        if (!enabled!!) {
+            foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+        } else {
+            // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+            if (foregroundPermissionApproved()) {
+                foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                    ?: Log.d(TAG, "Service Not Bound")
+            } else {
+                requestForegroundPermissions()
+            }
+        }
     }
 
 
@@ -111,20 +131,21 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             btLogout.hide()
     }
 
+    fun changeState(){
 
-    private val foregroundOnlyServiceConnection = object : ServiceConnection {
 
-        override fun onServiceConnected(name: ComponentName, service: IBinder) {
-            val binder = service as CurrentLocationService.LocalBinder
-            foregrounfLocationService = binder.service
-            foregroundOnlyLocationServiceBound = true
-            foregrounfLocationService!!.subscribeToLocationUpdates()
+        if (!MyApplication.saveLocationTracking!!) {
+            foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+        } else {
+            // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+            if (foregroundPermissionApproved()) {
+                foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                    ?: Log.d(TAG, "Service Not Bound")
+            } else {
+                requestForegroundPermissions()
+            }
         }
 
-        override fun onServiceDisconnected(name: ComponentName) {
-            foregrounfLocationService = null
-            foregroundOnlyLocationServiceBound = false
-        }
     }
 
     private fun init() {
@@ -139,7 +160,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         }*/
 
 
-        setUpService()
+
 
         if (MyApplication.isSignedIn)
             btLogout.show()
@@ -154,10 +175,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        MyApplication.fromFooterOrder = false
-    }
+
 
     fun drawColor() {
         AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
@@ -506,44 +524,158 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             btBackTool.show()
     }
 
-    private fun foregroundPermissionApproved(con: Activity): Boolean {
+    private fun foregroundPermissionApproved(): Boolean {
         return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
-            con,
+            this,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
     }
 
     // TODO: Step 1.0, Review Permissions: Method requests permissions.
-    private fun requestForegroundPermissions(con: Activity) {
-        val provideRationale = foregroundPermissionApproved(con)
+    private fun requestForegroundPermissions() {
+        val provideRationale = foregroundPermissionApproved()
 
         // If the user denied a previous request, but didn't check "Don't ask again", provide
         // additional rationale.
         if (provideRationale) {
-            Toast.makeText(con, "Success", Toast.LENGTH_SHORT).show()
+            Snackbar.make(
+                findViewById(R.id.rootLayoutOrderDetails),
+                "Location permission needed for core functionality",
+                Snackbar.LENGTH_LONG
+            )
+                .setAction(R.string.ok) {
+                    // Request permission
+                    ActivityCompat.requestPermissions(
+                        this@ActivityHome,
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                        REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+                    )
+                }
+                .show()
         } else {
             Log.d(TAG, "Request foreground only permission")
             ActivityCompat.requestPermissions(
-                con,
+                this@ActivityHome,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
             )
         }
     }
 
-    private class ForegroundOnlyBroadcastReceiver : BroadcastReceiver() {
+    // TODO: Step 1.0, Review Permissions: Handles permission result.
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
 
-        override fun onReceive(context: Context, intent: Intent) {
-            val location = intent.getParcelableExtra<Location>(
-                CurrentLocationService().EXTRA_LOCATION
-            )
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Log.d(TAG, "onRequestPermissionResult")
 
-            /*if (location != null) {
-                logResultsToScreen("Foreground location: ${location.toText()}")
-            }*/
+        when (requestCode) {
+            REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE -> when {
+                grantResults.isEmpty() ->
+                    // If user interaction was interrupted, the permission request
+                    // is cancelled and you receive empty arrays.
+                    Log.d(TAG, "User interaction was cancelled.")
+                grantResults[0] == PackageManager.PERMISSION_GRANTED ->
+                    // Permission was granted.
+                    foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                else -> {
+                    // Permission denied.
+                    // updateButtonState(false)
+
+                    Snackbar.make(
+                        findViewById(R.id.rootLayoutOrderDetails),
+                        R.string.permission_denied,
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAction(R.string.settings) {
+                            // Build intent that displays the App settings screen.
+                            val intent = Intent()
+                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                            val uri = Uri.fromParts(
+                                "package",
+                                "",
+                                null
+                            )
+                            intent.data = uri
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                        }
+                        .show()
+                }
+            }
         }
     }
 
+    private inner class ForegroundOnlyBroadcastReceiver : BroadcastReceiver() {
+
+        override fun onReceive(context: Context, intent: Intent) {
+            val location = intent.getParcelableExtra<Location>(
+                LocationForeService.EXTRA_LOCATION
+            )
+
+            if (location != null) {
+                Log.wtf("FORE","Foreground location: ${location.toText()}")
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        /*   updateButtonState(
+               sharedPreferences.getBoolean(SharedPreferenceUtil.KEY_FOREGROUND_ENABLED, false)
+           )*/
+        //   sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+
+        val serviceIntent = Intent(this, LocationForeService::class.java)
+        bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            foregroundOnlyBroadcastReceiver,
+            IntentFilter(
+                LocationForeService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
+
+        )
+        MyApplication.fromFooterOrder = false
+    }
+
+    override fun onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(
+            foregroundOnlyBroadcastReceiver
+        )
+        super.onPause()
+    }
+
+    override fun onStop() {
+        if (foregroundOnlyLocationServiceBound) {
+            unbindService(foregroundOnlyServiceConnection)
+            foregroundOnlyLocationServiceBound = false
+        }
+        //  sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+
+        super.onStop()
+    }
+
+    private val foregroundOnlyServiceConnection = object : ServiceConnection {
+
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder = service as LocationForeService.LocalBinder
+            foregroundOnlyLocationService = binder.foreService
+            foregroundOnlyLocationServiceBound = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {
+            foregroundOnlyLocationService = null
+            foregroundOnlyLocationServiceBound = false
+        }
+    }
     fun setUpService() {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -560,10 +692,10 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ), 111
             )
-            requestForegroundPermissions(this)
+            requestForegroundPermissions()
             return
         }
-        MyApplication.isTracking = true
+        MyApplication.saveLocationTracking = true
 
 
         MyApplication.trackingActivity = this
@@ -573,59 +705,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Log.d(TAG, "onRequestPermissionResult")
 
-        when (requestCode) {
-            REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE -> when {
-                grantResults.isEmpty() ->
-                    // If user interaction was interrupted, the permission request
-                    // is cancelled and you receive empty arrays.
-                    Log.d(TAG, "User interaction was cancelled.")
-                grantResults[0] == PackageManager.PERMISSION_GRANTED ->
-                // Permission was granted.
-                {
-                    var serviceIntent = Intent(this, CurrentLocationService::class.java)
-                    bindService(
-                        serviceIntent,
-                        foregroundOnlyServiceConnection,
-                        Context.BIND_AUTO_CREATE
-                    )
-                    startService (serviceIntent)
-
-                }
-                else -> {
-                    // Permission denied.
-
-
-                    /*  Snackbar.make(
-                          findViewById(R.id.activity_main),
-                          R.string.permission_denied_explanation,
-                          Snackbar.LENGTH_LONG
-                      )
-                          .setAction(R.string.settings) {
-                              // Build intent that displays the App settings screen.
-                              val intent = Intent()
-                              intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                              val uri = Uri.fromParts(
-                                  "package",
-                                  "",
-                                  null
-                              )
-                              intent.data = uri
-                              intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                              startActivity(intent)
-                          }
-                          .show()*/
-                }
-            }
-        }
-    }
 
 }
 

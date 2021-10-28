@@ -4,8 +4,6 @@ package com.ids.qasemti.utils
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.BroadcastReceiver
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -20,7 +18,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
@@ -49,7 +46,6 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.firestore.ktx.toObject
 import com.google.gson.Gson
@@ -58,9 +54,6 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
-import com.ids.qasemti.utils.LocationUpdatesService.Companion.EXTRA_LOCATION
-import kotlinx.android.synthetic.main.fragment_checkout.*
-import kotlinx.android.synthetic.main.layout_order_switch.*
 import me.grantland.widget.AutofitHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -222,7 +215,7 @@ class AppHelper {
                 //requestForegroundPermissions(act)
                 return
             }
-            MyApplication.isTracking = true
+            MyApplication.saveLocationTracking = true
             val intent = Intent(act, CurrentLocationService::class.java)
             act.startService(intent)
 
@@ -945,7 +938,7 @@ class AppHelper {
         }
 
 
-        fun setUpDoc(order : ResponseOrders,context: Activity) {
+        fun setUpDoc(order : ResponseOrders) {
             MyApplication.selectedOrderTrack = order
             var doc = MyApplication.db!!.collection("table_order")
                 .document(order.orderId!!)
@@ -981,7 +974,6 @@ class AppHelper {
                     }catch (ex:Exception){}
                 }
 
-                startService(context)
             }
 
         }

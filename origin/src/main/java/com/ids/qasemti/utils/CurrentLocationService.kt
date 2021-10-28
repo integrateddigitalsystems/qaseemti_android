@@ -11,7 +11,6 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.*
-import android.provider.ContactsContract.Directory.PACKAGE_NAME
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -21,7 +20,6 @@ import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.DocumentReference
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
 
@@ -131,7 +129,7 @@ class CurrentLocationService : Service() {
     override fun onUnbind(intent: Intent?): Boolean {
 
 
-        if (!configurationChange && MyApplication.isTracking!!) {
+        if (!configurationChange && MyApplication.saveLocationTracking!!) {
             Log.d(TAG, "Start foreground service")
             val notification = generateNotification(currentLocation!!)
             startForeground(NOTIFICATION_ID, notification)
@@ -163,7 +161,7 @@ class CurrentLocationService : Service() {
     fun subscribeToLocationUpdates() {
         Log.d(TAG, "subscribeToLocationUpdates()")
 
-        MyApplication.isTracking = true
+        MyApplication.saveLocationTracking = true
 
         // Binding to this service doesn't actually trigger onStartCommand(). That is needed to
         // ensure this Service can be promoted to a foreground service, i.e., the service needs to
@@ -177,7 +175,7 @@ class CurrentLocationService : Service() {
             fusedLocationClient.requestLocationUpdates(
                 locReq, locCall, Looper.getMainLooper())
         } catch (unlikely: SecurityException) {
-            MyApplication.isTracking = false
+            MyApplication.saveLocationTracking = false
             Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
         }
     }
@@ -187,10 +185,10 @@ class CurrentLocationService : Service() {
 
         try {
             // TODO: Step 1.6, Unsubscribe to location changes.
-            MyApplication.isTracking = false
+            MyApplication.saveLocationTracking = false
 
         } catch (unlikely: SecurityException) {
-            MyApplication.isTracking = true
+            MyApplication.saveLocationTracking = true
             Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
         }
     }
@@ -307,8 +305,8 @@ class CurrentLocationService : Service() {
 
     override fun onCreate() {
 
-        var doc = MyApplication.db!!.collection("table_order")
-            .document("2718")
+      /*  var doc = MyApplication.db!!.collection("table_order")
+            .document("2718")*/
 
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -320,7 +318,7 @@ class CurrentLocationService : Service() {
         locReq.smallestDisplacement = 5f // 170 m = 0.1 mile
         locReq.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
-        locCall = object : LocationCallback() {
+       /* locCall = object : LocationCallback() {
 
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
@@ -344,7 +342,7 @@ class CurrentLocationService : Service() {
                     Log.wtf("", ex.toString())
                 }
             }
-        }
+        }*/
 
 
 
