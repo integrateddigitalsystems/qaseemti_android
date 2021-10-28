@@ -87,7 +87,10 @@ class ActivityAddNewAddress : ActivityBase() {
     fun addAddress() {
 
             loading.show()
-
+        var addressId=0
+        try{
+        if(!MyApplication.isClient && !MyApplication.addNewAddress)
+            addressId= MyApplication.selectedUser!!.addresses!![0].addressId!!.toInt()}catch (e:Exception){}
         var lat :Double ?= 0.0
         var long : Double ?=0.0
         try{
@@ -99,8 +102,8 @@ class ActivityAddNewAddress : ActivityBase() {
             MyApplication.userId,
            lat,
             long,
-           0,
-           etAddressName.text.toString(),
+            addressId,
+            etAddressName.text.toString(),
             etStreet.text.toString(),
             etBuilding.text.toString(),
             etFloor.text.toString(),
@@ -240,11 +243,7 @@ class ActivityAddNewAddress : ActivityBase() {
                 editData(child)
             }
         } else if (v is EditText) {
-          if(v.text.isNullOrEmpty()){
-              v.isEnabled = true
-          }else{
-              v.isEnabled = false
-          }
+            v.isEnabled = v.text.isNullOrEmpty()
         }
     }
 

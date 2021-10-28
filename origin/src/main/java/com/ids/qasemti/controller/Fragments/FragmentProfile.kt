@@ -18,7 +18,9 @@ import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityMapAddress
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.RequestAddAddress
 import com.ids.qasemti.model.RequestUpdateLanguage
+import com.ids.qasemti.model.ResponseMessage
 import com.ids.qasemti.model.ResponseUser
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
@@ -26,13 +28,20 @@ import com.jaiselrahman.filepicker.activity.FilePickerActivity
 import com.jaiselrahman.filepicker.config.Configurations
 import com.jaiselrahman.filepicker.model.MediaFile
 import kotlinx.android.synthetic.main.activity_contact_us.*
+import kotlinx.android.synthetic.main.activity_new_address.*
 
 import kotlinx.android.synthetic.main.curve_layout_home.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.layout_profile.etAddressName
+import kotlinx.android.synthetic.main.layout_profile.etAddressProvince
 import kotlinx.android.synthetic.main.layout_profile.etArea
+import kotlinx.android.synthetic.main.layout_profile.etAvenue
+import kotlinx.android.synthetic.main.layout_profile.etBlock
+import kotlinx.android.synthetic.main.layout_profile.etBuilding
+import kotlinx.android.synthetic.main.layout_profile.etFloor
 import kotlinx.android.synthetic.main.layout_profile.etMoreDetails
+import kotlinx.android.synthetic.main.layout_profile.etStreet
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.service_tab_1.*
 import kotlinx.android.synthetic.main.service_tab_2.*
@@ -60,6 +69,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var fromProfile: Boolean? = false
     var long: Double? = 0.0
     var profilePercentage = 0
+
 
 
 
@@ -242,18 +252,24 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 profilePercentage += 25
         }
 
+        try{
+
         pbComplete.setWeight(profilePercentage.toFloat())
         pbNotComplete.setWeight(100f - profilePercentage.toFloat())
         tvPercentageCompleted.text =
             profilePercentage.toString() + " % " + AppHelper.getRemoteString(
                 "completed",
                 requireActivity()
-            )
+            )}catch (e:Exception){}
 
         if(!MyApplication.isClient){
             if(MyApplication.selectedUser!!.addresses!=null && MyApplication.selectedUser!!.addresses!!.size > 0){
                 linearAddressInfo.show()
-                btAddNewAddress.hide()
+
+                MyApplication.addNewAddress=false
+                btAddNewAddress.text = AppHelper.getRemoteString("UpdateAddress",requireActivity())
+
+
                 try{
                 var myAddress= MyApplication.selectedUser!!.addresses!![0]
                 if(myAddress.addressName!=null && myAddress.addressName!="null")
@@ -283,7 +299,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
 
             }else{
-                btAddNewAddress.show()
+                MyApplication.addNewAddress=true
+                btAddNewAddress.text = AppHelper.getRemoteString("AddNewAddress",requireActivity())
                 linearAddressInfo.hide()
             }
         }
@@ -451,7 +468,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     selectedFile!!,
                     selectedProfilePic!!
                 )
-        }else {
+
+                if(MyApplication.isEditService)
+                    updateAddress()
+              }else {
                 if (selectedProfilePic == null) {
                     var empty = ""
                     val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -709,5 +729,43 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     }
 
 
+    fun updateAddress() {
+        var addressId=0
+        try{
+            if(!MyApplication.isClient && !MyApplication.addNewAddress)
+                addressId= MyApplication.selectedUser!!.addresses!![0].addressId!!.toInt()}catch (e: java.lang.Exception){}
+
+        var newReq = RequestAddAddress(
+            MyApplication.userId,
+            MyApplication.selectedUser!!.addresses!![0].lat!!.toDouble(),
+            MyApplication.selectedUser!!.addresses!![0].long!!.toDouble(),
+            addressId,
+            etAddressName.text.toString(),
+            etStreet.text.toString(),
+            etBuilding.text.toString(),
+            etFloor.text.toString(),
+            etMoreDetails.text.toString(),
+            "",
+            etAddressProvince.text.toString(),
+            etArea.text.toString(),
+            etBlock.text.toString()
+        )
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.addClAddress(
+                newReq
+            )?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+
+                }
+            })
+
+    }
 
 }

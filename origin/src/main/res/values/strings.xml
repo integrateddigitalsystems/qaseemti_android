@@ -242,5 +242,7 @@
     <string name="RepeatOrder">REPEAT ORDER</string>
     <string name="sure_accept">Are you sure you want to accept order?</string>
 
+    <string name="UpdateAddress">Update Address</string>
+    <string name="UpdateService">Update Service</string>
     <string name="find_service_provider_msg">There are no service providers in your area at this point of time.  Would you like us to search in a wider area?” (Extra Charges may apply)</string>
 </resources>

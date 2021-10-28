@@ -460,17 +460,7 @@
 
                     />
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:background="@color/button_blue"
-                    android:text="@string/AddNewAddress"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
-                    android:textSize="@dimen/normal_font"
-                    android:layout_marginTop="@dimen/normal_margin"
-                    android:id="@+id/btAddNewAddress"
-                    />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -628,7 +618,16 @@
 
                 </LinearLayout>
 
-
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@color/button_blue"
+                    android:text="@string/AddNewAddress"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/normal_font"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:id="@+id/btAddNewAddress"
+                    />
             <EditText
                 android:id="@+id/etDescriptionProfile"
                 android:layout_width="match_parent"
