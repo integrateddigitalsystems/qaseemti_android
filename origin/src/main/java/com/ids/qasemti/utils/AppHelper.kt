@@ -12,6 +12,7 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Outline
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
@@ -191,11 +192,7 @@ class AppHelper {
         }*/
 
 
-
-
-
-
-        fun startService(act:Activity){
+        fun startService(act: Activity) {
 
             if (ActivityCompat.checkSelfPermission(
                     act,
@@ -221,10 +218,11 @@ class AppHelper {
 
         }
 
-        fun stopService(act:Context){
+        fun stopService(act: Context) {
             val intent = Intent(act, CurrentLocationService::class.java)
             act.stopService(intent)
         }
+
         fun getTypeFaceItalic(context: Context): Typeface {
             return if (Locale.getDefault().language == "ar")
                 Typeface.createFromAsset(
@@ -281,21 +279,25 @@ class AppHelper {
             }
         }
 
-        fun updateStatus(orderId : Int , onTrack : Int , delivered : Int , paid:Int ){
-                var newReq = RequestUpdateOrder(orderId ,onTrack,delivered,paid)
-                RetrofitClient.client?.create(RetrofitInterface::class.java)
-                    ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
-                        override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
-                            try{
-                                Log.wtf("","")
-                            }catch (E: java.lang.Exception){
-                                Log.wtf("","")
-                            }
+        fun updateStatus(orderId: Int, onTrack: Int, delivered: Int, paid: Int) {
+            var newReq = RequestUpdateOrder(orderId, onTrack, delivered, paid)
+            RetrofitClient.client?.create(RetrofitInterface::class.java)
+                ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
+                    override fun onResponse(
+                        call: Call<ResponseUpdate>,
+                        response: Response<ResponseUpdate>
+                    ) {
+                        try {
+                            Log.wtf("", "")
+                        } catch (E: java.lang.Exception) {
+                            Log.wtf("", "")
                         }
-                        override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
-                            Log.wtf("","")
-                        }
-                    })
+                    }
+
+                    override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                        Log.wtf("", "")
+                    }
+                })
         }
 
 
@@ -424,12 +426,12 @@ class AppHelper {
                 var x = t["user_id"].toString()
                 try {
                     userId = t["user_id"] as Double
-                }catch (ex:Exception){
+                } catch (ex: Exception) {
                 }
                 var prodId = 0.0
                 try {
                     prodId = t["product_id"] as Double
-                }catch (ex:Exception){
+                } catch (ex: Exception) {
                 }
                 array.add(
                     RequestPlaceOrder(
@@ -458,13 +460,12 @@ class AppHelper {
             }
 
 
-
             var x = array
             MyApplication.arrayCart.clear()
             MyApplication.arrayCart.addAll(array)
         }
 
-        fun updateDevice(context: Context, phone : String) {
+        fun updateDevice(context: Context, phone: String) {
 
             val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
             val cal = Calendar.getInstance()
@@ -495,7 +496,7 @@ class AppHelper {
                 isService = 0
 
             var newReq = RequestUpdate(
-               MyApplication.deviceId,
+                MyApplication.deviceId,
                 phone,
                 model,
                 osVersion,
@@ -647,33 +648,32 @@ class AppHelper {
 
             when (selected) {
                 AppConstants.FRAGMENT_ACCOUNT -> {
-                    MyApplication.selectedTitle =getRemoteString("Account",context)
+                    MyApplication.selectedTitle = getRemoteString("Account", context)
                     setLogoTint(imgAcc, context, R.color.redPrimary)
                     setTextColor(context, tvAcc, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_HOME_CLIENT, AppConstants.FRAGMENT_HOME_SP -> {
-                    MyApplication.selectedTitle =getRemoteString("Services",context)
+                    MyApplication.selectedTitle = getRemoteString("Services", context)
                     setLogoTint(imgHom, context, R.color.redPrimary)
                     setTextColor(context, tvHom, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_ORDER -> {
-                    MyApplication.selectedTitle =getRemoteString("orders",context)
+                    MyApplication.selectedTitle = getRemoteString("orders", context)
                     setLogoTint(imgOrd, context, R.color.redPrimary)
                     setTextColor(context, tvOrd, R.color.redPrimary)
                 }
-                AppConstants.FRAGMENT_NOTFICATIONS ->
-                {
-                    MyApplication.selectedTitle =getRemoteString("notifications",context)
+                AppConstants.FRAGMENT_NOTFICATIONS -> {
+                    MyApplication.selectedTitle = getRemoteString("notifications", context)
                     setLogoTint(imgNot, context, R.color.redPrimary)
                     setTextColor(context, tvNot, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_MY_SERVICES -> {
-                    MyApplication.selectedTitle =getRemoteString("MyServices",context)
+                    MyApplication.selectedTitle = getRemoteString("MyServices", context)
                     setLogoTint(imgPro, context, R.color.redPrimary)
                     setTextColor(context, tvPro, R.color.redPrimary)
                 }
                 AppConstants.FRAGMENT_CART -> {
-                    MyApplication.selectedTitle =getRemoteString("Cart",context)
+                    MyApplication.selectedTitle = getRemoteString("Cart", context)
                     setLogoTint(imgCart, context, R.color.redPrimary)
                     setTextColor(context, tvCart, R.color.redPrimary)
                 }
@@ -717,7 +717,6 @@ class AppHelper {
                 )
 
 
-
             } catch (anfe: android.content.ActivityNotFoundException) {
                 activity.startActivity(
                     Intent(
@@ -757,8 +756,8 @@ class AppHelper {
             positiveButton: String,
             negativeButton: String,
             message: String,
-            doAction: () -> Unit ,
-            doCancel : () -> Unit
+            doAction: () -> Unit,
+            doCancel: () -> Unit
         ) {
 
 
@@ -783,7 +782,7 @@ class AppHelper {
             positiveButton: String,
             negativeButton: String,
             message: String,
-            view: SwitchCompat ,
+            view: SwitchCompat,
             doAction: () -> Unit
         ) {
 
@@ -794,7 +793,7 @@ class AppHelper {
             )
                 .setCancelable(true)
                 .setNegativeButton(negativeButton) { dialog, _ ->
-                   view.isChecked = !view.isChecked
+                    view.isChecked = !view.isChecked
                     dialog.cancel()
                 }
                 .setPositiveButton(positiveButton) { dialog, _ ->
@@ -804,6 +803,7 @@ class AppHelper {
             alert.show()
 
         }
+
         fun createYesNoDialog(
             c: Activity,
             positiveButton: String,
@@ -882,16 +882,39 @@ class AppHelper {
             }
         }
 
-        fun getFloorRatingBar(rate:Double):Float{
+        fun setSwitchColor(sw: SwitchCompat, con: Context) {
+
+
+            if (sw.isChecked) {
+                var colorInt = AppHelper.getColor(con, R.color.green_switch)
+                var csl = ColorStateList.valueOf(colorInt)
+                sw.thumbTintList = csl
+                var colorInt2 = AppHelper.getColor(con, R.color.green_track_switch)
+                var csl2 = ColorStateList.valueOf(colorInt2)
+                sw.trackTintList = csl2
+            }else{
+                var colorInt = AppHelper.getColor(con, R.color.gray_switch)
+                var csl3 = ColorStateList.valueOf(colorInt)
+                sw.thumbTintList = csl3
+                var colorInt2 = AppHelper.getColor(con, R.color.gray_track_switch)
+                var csl4 = ColorStateList.valueOf(colorInt2)
+                sw.trackTintList = csl4
+            }
+
+
+        }
+
+        fun getFloorRatingBar(rate: Double): Float {
             var db = rate % 1
             var intPart = rate.toInt()
 
-            if(db<0.5){
+            if (db < 0.5) {
                 return intPart.toFloat()
-            }else{
-                return (intPart+0.5).toFloat()
+            } else {
+                return (intPart + 0.5).toFloat()
             }
         }
+
         fun getAddressLoc(lat: Double, long: Double, con: Context): Address {
             val myLocation = Geocoder(con, Locale.getDefault())
             val myList = myLocation.getFromLocation(lat, long, 1)
@@ -962,7 +985,7 @@ class AppHelper {
         }
 
 
-        fun setUpDoc(order : ResponseOrders) {
+        fun setUpDoc(order: ResponseOrders) {
             MyApplication.selectedOrderTrack = order
             var doc = MyApplication.db!!.collection("table_order")
                 .document(order.orderId!!)
@@ -971,7 +994,7 @@ class AppHelper {
                 val orderLoc = documentSnapshot.toObject<OrderLocation>()
                 var ny: LatLng? = null
                 if (orderLoc != null) {
-                    Log.wtf("there","already")
+                    Log.wtf("there", "already")
                     ny = LatLng(
                         orderLoc!!.order_laltitude!!.toDouble(),
                         orderLoc!!.order_longitude!!.toDouble()
@@ -983,19 +1006,20 @@ class AppHelper {
                         try {
                             user["order_laltitude"] =
                                 MyApplication.selectedCurrentAddress!!.latitude.toString()
-                        }catch (ex:Exception){
+                        } catch (ex: Exception) {
                             user["order_laltitude"] =
-                               "0.0"
+                                "0.0"
                         }
-                        try{
-                        user["order_longitude"] =
-                            MyApplication.selectedCurrentAddress!!.longitude.toString()
-                             }catch (ex:Exception){
+                        try {
                             user["order_longitude"] =
-                               "0.0"
+                                MyApplication.selectedCurrentAddress!!.longitude.toString()
+                        } catch (ex: Exception) {
+                            user["order_longitude"] =
+                                "0.0"
                         }
                         doc!!.set(user)
-                    }catch (ex:Exception){}
+                    } catch (ex: Exception) {
+                    }
                 }
 
             }
@@ -1028,18 +1052,18 @@ class AppHelper {
         }
 
 
-        fun setTitle(context: Context, text: String, tag: String,color:Int) {
+        fun setTitle(context: Context, text: String, tag: String, color: Int) {
             if (tag.isNotEmpty()) {
                 try {
                     (context as ActivityHome?)!!.setTitleAc(
                         MyApplication.localizeArray!!.messages!!.find { it.localize_Key == tag }!!
-                            .getMessage()!!
-                    ,color)
+                            .getMessage()!!, color
+                    )
                 } catch (e: java.lang.Exception) {
-                    (context as ActivityHome?)!!.setTitleAc(text,color)
+                    (context as ActivityHome?)!!.setTitleAc(text, color)
                 }
             } else {
-                (context as ActivityHome?)!!.setTitleAc(text,color)
+                (context as ActivityHome?)!!.setTitleAc(text, color)
             }
         }
 
@@ -1404,8 +1428,7 @@ class AppHelper {
         }
 
 
-
-        private fun isLocationPermissionGranted(context: Activity,requestcode:Int): Boolean {
+        private fun isLocationPermissionGranted(context: Activity, requestcode: Int): Boolean {
             return if (ActivityCompat.checkSelfPermission(
                     context,
                     android.Manifest.permission.ACCESS_COARSE_LOCATION

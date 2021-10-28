@@ -37,6 +37,9 @@
     <color name="gray_progress">#e6e6e6</color>
     <color name="green">#00d42f</color>
     <color name="green_switch">#00c995</color>
+    <color name="green_track_switch">#b2efdf</color>
+    <color name="gray_switch">#b8b8b8</color>
+    <color name="gray_track_switch">#e5e5e5</color>
 
     <color name="start_color">#ed5d74</color>
     <color name="end_color">#e51a3b</color>

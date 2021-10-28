@@ -408,6 +408,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
             if (swDelivered.isChecked) {
                 swDelivered.isEnabled = false
             }
+            AppHelper.setSwitchColor(swDelivered,this)
         } catch (ex: Exception) {
         }
         try {
@@ -415,10 +416,12 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
             if (swPaid.isChecked) {
                 swPaid.isEnabled = false
             }
+            AppHelper.setSwitchColor(swPaid,this)
         } catch (ex: java.lang.Exception) {
         }
         try {
             swOnTrack.isChecked = MyApplication.selectedOrder!!.onTrack!!
+            AppHelper.setSwitchColor(swOnTrack,this)
         } catch (ex: java.lang.Exception) {
         }
 
@@ -682,8 +685,10 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                 if (swOnTrack.isChecked) {
                     MyApplication.saveLocationTracking = true
                     changeState()
+                    AppHelper.setSwitchColor(swOnTrack,this)
                     onTrack = 1
                 } else {
+                    AppHelper.setSwitchColor(swOnTrack,this)
                     onTrack = 0
                 }
                 setStatus()
@@ -705,8 +710,11 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                 swPaid
             ) {
                 if (swPaid.isChecked) {
+                    swPaid.isEnabled = false
+                    AppHelper.setSwitchColor(swPaid,this)
                     paid = 1
                 } else {
+                    AppHelper.setSwitchColor(swPaid,this)
                     paid = 0
                 }
                 setStatus()
@@ -724,10 +732,13 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                 swDelivered
             ) {
                 if (swDelivered.isChecked) {
+                    swDelivered.isEnabled = false
                     MyApplication.saveLocationTracking = false
                     changeState()
+                    AppHelper.setSwitchColor(swDelivered,this)
                     delivered = 1
                 } else {
+                    AppHelper.setSwitchColor(swDelivered,this)
                     delivered = 0
                 }
                 setStatus()

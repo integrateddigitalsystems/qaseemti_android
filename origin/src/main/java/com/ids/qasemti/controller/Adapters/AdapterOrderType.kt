@@ -96,23 +96,28 @@ class AdapterOrderType(
         try {
             onTrack= if(items.get(position).onTrack!!) 1 else 0
             holder.switchOnTrack.isChecked = items[position].onTrack!!
+            AppHelper.setSwitchColor(holder.switchOnTrack,con)
         }catch (ex:Exception){}
         try {
             paid= if(items.get(position).paid!!) 1 else 0
             holder.switchPaid.isChecked = items[position].paid!!
+            AppHelper.setSwitchColor(holder.switchPaid,con)
         }catch (ex:java.lang.Exception){}
         try {
             delivered= if(items.get(position).delivered!!) 1 else 0
             holder.switchDelivered.isChecked = items[position].delivered!!
+            AppHelper.setSwitchColor(holder.switchDelivered,con)
         }catch (ex:java.lang.Exception){}
 
         if(paid==1) {
             holder.switchPaid.isChecked = true
             holder.switchPaid.isEnabled = false
+            AppHelper.setSwitchColor(holder.switchPaid,con)
         }
         if(delivered==1) {
             holder.switchDelivered.isChecked = true
             holder.switchDelivered.isEnabled = false
+            AppHelper.setSwitchColor(holder.switchDelivered,con)
         }
 
         holder.switchDelivered.setOnClickListener {
@@ -126,14 +131,17 @@ class AdapterOrderType(
                 holder.switchDelivered
             ) {
                 if (holder.switchDelivered.isChecked) {
+                    holder.switchDelivered.isEnabled = false
                     MyApplication.saveLocationTracking = false
                     MyApplication.selectedOrder = items.get(position)
                     (con as ActivityHome).changeState()
                     delivered = 1
+                    AppHelper.setSwitchColor(holder.switchDelivered,con)
                 } else {
                     delivered = 0
+                    AppHelper.setSwitchColor(holder.switchDelivered,con)
                 }
-                holder.switchDelivered.isEnabled = false
+
                 AppHelper.updateStatus(
                     items.get(position).orderId!!.toInt(),
                     onTrack,
@@ -156,9 +164,11 @@ class AdapterOrderType(
                     MyApplication.selectedOrder = items.get(position)
                     MyApplication.saveLocationTracking = true
                     (con as ActivityHome).changeState()
+                    AppHelper.setSwitchColor(holder.switchOnTrack,con)
                     onTrack = 1
                 } else {
                     onTrack = 0
+                    AppHelper.setSwitchColor(holder.switchOnTrack,con)
                 }
                 AppHelper.updateStatus(
                     items.get(position).orderId!!.toInt(),
@@ -183,9 +193,13 @@ class AdapterOrderType(
                 holder.switchPaid
             ) {
                 if (holder.switchPaid.isChecked) {
+                    holder.switchPaid.isEnabled = false
+                    MyApplication.saveLocationTracking = false
                     paid = 1
+                    AppHelper.setSwitchColor(holder.switchPaid,con)
                 } else {
                     paid= 0
+                    AppHelper.setSwitchColor(holder.switchPaid,con)
                 }
                 AppHelper.updateStatus(
                     items.get(position).orderId!!.toInt(),
