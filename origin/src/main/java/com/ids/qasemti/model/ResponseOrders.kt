@@ -64,6 +64,11 @@ class ResponseOrders(
     @Expose
     var deliveryDate : String ?="" ,
 
+    @SerializedName("actual_delivery_date")
+    @Expose
+    var actual_delivery_date : String ?="" ,
+
+
     @SerializedName("earnings")
     @Expose
     var earnings : String ?="",

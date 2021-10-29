@@ -62,6 +62,15 @@ class ResponseService(
     @Expose
     var variations : ArrayList<ServiceVariation> = arrayListOf() ,
 
+
+    @SerializedName("gallery_of_images")
+    @Expose
+    var gallery_of_images : ArrayList<String> = arrayListOf() ,
+
+    @SerializedName("files")
+    @Expose
+    var files : ArrayList<ServiceFiles> = arrayListOf() ,
+
     @SerializedName("featured_image")
     @Expose
     var featuredImage : String ?=""

@@ -26,11 +26,30 @@ class RequiredFiles {
     var multipart : MultipartBody.Part ?=null
     var selectedFileName: String? = ""
 
+    constructor(
+        id: String?,
+        metaKey: String?,
+        metaValueEn: String?,
+        metaValueAr: String?,
+        multipart: MultipartBody.Part?,
+        selectedFileName: String?
+    ) {
+        this.id = id
+        this.metaKey = metaKey
+        this.metaValueEn = metaValueEn
+        this.metaValueAr = metaValueAr
+        this.multipart = multipart
+        this.selectedFileName = selectedFileName
+    }
+
     fun getFileTitle():String?{
         return if (MyApplication.languageCode == AppConstants.LANG_ENGLISH)
             return metaValueEn
         else
             metaValueAr
     }
+
+
+
 
 }

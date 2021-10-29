@@ -283,12 +283,10 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         shake = AnimationUtils.loadAnimation(this, R.anim.shake)
         orderId = intent.getIntExtra("orderId", 1)
 
-        shake = AnimationUtils.loadAnimation(this, R.anim.shake)
-        orderId = intent.getIntExtra("orderId", 1)
         btBackTool.onOneClick {
             super.onBackPressed()
         }
-        orderId = intent.getIntExtra("orderId", 1)
+
         var type = intent.getIntExtra("type", 1)
         typeSelected = MyApplication.selectedOrder!!.orderStatus
         if (typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE) || typeSelected.equals(AppConstants.ORDER_TYPE_CANCELED)) {
@@ -329,15 +327,18 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
             btCancelOrder.hide()
         }
 
+        try{
         if (MyApplication.isClient) {
             if (typeSelected.equals(AppConstants.ORDER_TYPE_COMPLETED)) {
-                if (MyApplication.isClient) {
+                if (MyApplication.isClient && MyApplication.selectedOrder!!.type!!.lowercase() == "rental") {
                     btRenewOrder.show()
                 } else {
                     btRenewOrder.hide()
                 }
             }
         } else {
+            btRenewOrder.hide()
+        }}catch (e:Exception){
             btRenewOrder.hide()
         }
         /*if(MyApplication.isClient)
@@ -633,7 +634,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                     var dateNow = AppHelper.formatDate(cal.time!!, "dd-MM-yyyy")
                     var newReq =
                         RequestCancelOrder(
-                            orderId,
+                            MyApplication.selectedOrder!!.orderId!!.toInt(),
                             MyApplication.userId,
                             dateNow,
                             etCancellationReason.text.toString()
@@ -758,7 +759,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
     }
 
     fun setStatus() {
-        var newReq = RequestUpdateOrder(orderId, onTrack, delivered, paid)
+        var newReq = RequestUpdateOrder( MyApplication.selectedOrder!!.orderId!!.toInt(), onTrack, delivered, paid)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
                 override fun onResponse(
@@ -777,7 +778,11 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
     fun resultCancel(req: String) {
         if (req == "1") {
-            AppHelper.createDialog(this, AppHelper.getRemoteString("success", this))
+
+            createDialog(this, AppHelper.getRemoteString("success", this)) {
+                finish()
+                MyApplication.renewed = true
+            }
         } else {
             AppHelper.createDialog(this, AppHelper.getRemoteString("failure", this))
         }

@@ -610,10 +610,12 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 .setCheckPermission(true)
                 // .setSelectedMediaFiles(mediaFiles)
                 // .enableImageCapture(true)
+                .setShowImages(true)
                 .setShowVideos(false)
                 .setSkipZeroSizeFiles(true)
                 .setMaxSelection(1)
-                .setShowFiles(true)
+                .setShowFiles(false)
+                .setShowAudios(false)
                 .build()
         )
         fromProfile = from

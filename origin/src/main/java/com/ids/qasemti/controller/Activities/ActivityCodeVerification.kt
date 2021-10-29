@@ -41,6 +41,7 @@ class ActivityCodeVerification : ActivityBase() {
             pvCode.text!!.clear()
         }*/
         pvCode.requestFocus()
+        pvCode.showKeyboard(true)
 
         tvTitleVerf.onOneClick {
             if (MyApplication.isClient) {
@@ -142,6 +143,8 @@ class ActivityCodeVerification : ActivityBase() {
 
             }
         })
+
+
 
     }
 

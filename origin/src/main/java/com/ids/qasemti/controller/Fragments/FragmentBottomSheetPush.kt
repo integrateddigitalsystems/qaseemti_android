@@ -57,20 +57,21 @@ class FragmentBottomSheetPush : BottomSheetDialogFragment() {
         }
 
         rbNotification.setOnClickListener {
-            if(MyApplication.notfType!=1){
+          //  if(MyApplication.selectedUser!!.notificationType!!.toInt()!=1){
                 setNotificationType(1)
-            }
+           // }
 
         }
 
         rbSMS.setOnClickListener {
-            if(MyApplication.notfType!=2){
+          //  if(MyApplication.selectedUser!!.notificationType!!.toInt()!=2){
                 setNotificationType(2)
-            }
+          //  }
         }
     }
 
     fun setNotificationType(available: Int) {
+        MyApplication.selectedUser!!.notificationType =available.toString()
         var newReq = RequestNotificationUpdate(MyApplication.userId, available)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updateNotification(newReq)?.enqueue(object : Callback<ResponseCancel> {
@@ -79,6 +80,8 @@ class FragmentBottomSheetPush : BottomSheetDialogFragment() {
                     response: Response<ResponseCancel>
                 ) {
                     try {
+
+                      //  AppHelper.getUserInfo()
                     } catch (E: java.lang.Exception) {
 
                     }
