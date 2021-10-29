@@ -332,16 +332,15 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
     private fun setData(type: Boolean) {
 
         try {
-            slRefresh.isRefreshing = false
-            adapter = AdapterOrderType(ordersArray, this, requireActivity())
-            rvOrderDetails.adapter = adapter
-            var glm2 = GridLayoutManager(requireContext(), 1)
-            rvOrderDetails.layoutManager = glm2
-
             if(ordersArray.size==0){
                 tvNoData.show()
             }else{
                 tvNoData.hide()
+                slRefresh.isRefreshing = false
+                adapter = AdapterOrderType(ordersArray, this, requireActivity())
+                rvOrderDetails.adapter = adapter
+                var glm2 = GridLayoutManager(requireContext(), 1)
+                rvOrderDetails.layoutManager = glm2
             }
         } catch (ex: Exception) {
 

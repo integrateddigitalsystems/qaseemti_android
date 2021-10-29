@@ -582,14 +582,15 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 //   var path = getPath(files.get(0).uri)
                 var file = AppHelper.getFile(requireContext(), files[0].uri)
                 var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                ivProfile.loadRoundedLocalImage(file)
                 if (!fromProfile!!)
+                   
                     selectedFile = MultipartBody.Part.createFormData(
                         ApiParameters.CIVIL_ID_ATTACH,
                         file.name + "File",
                         req
                     )
                 else {
+                    ivProfile.loadRoundedLocalImage(file)
                     selectedProfilePic = MultipartBody.Part.createFormData(
                         if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
                         file.name + "File",
