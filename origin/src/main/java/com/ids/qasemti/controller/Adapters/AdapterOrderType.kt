@@ -261,6 +261,14 @@ class AdapterOrderType(
             holder.cancelorder.show()
             holder.switch.hide()
             holder.titelOrderDate.text = AppHelper.getRemoteString("Actual_delivery",con)
+            try{
+                if(items[position].actual_delivery_date!=null && items[position].actual_delivery_date!!.isNotEmpty())
+                  holder.orderDate.text = items[position].actual_delivery_date
+                else
+                    holder.orderDate.text = AppHelper.getRemoteString("no_data",con)
+            }catch (e:Exception){
+                holder.orderDate.text = AppHelper.getRemoteString("no_data",con)
+            }
         }else{
             holder.titelOrderDate.text = AppHelper.getRemoteString("cancelDate",con)
             holder.orderDate.text = items[position].cancellationDate

@@ -155,5 +155,9 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         btRateUs.onOneClick {
             AppHelper.shareApp(requireActivity())
         }
+
+        btShareApp.onOneClick {
+            AppHelper.shareAppIntent(requireActivity())
+        }
     }
 }

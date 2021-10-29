@@ -93,14 +93,14 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                     } catch (E: java.lang.Exception) {
                         mainArray.clear()
                         ordersArray.clear()
-                        setData(true)
+                       try{ setData(true)}catch (e:Exception){}
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
                     mainArray.clear()
                     ordersArray.clear()
-                    setData(true)
+                    try{setData(true)}catch (e:Exception){}
                 }
             })
     }
@@ -130,14 +130,14 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                     } catch (E: java.lang.Exception) {
                         mainArray.clear()
                         ordersArray.clear()
-                        setData(true)
+                        try{setData(true)}catch (e:Exception){}
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
                     mainArray.clear()
                     ordersArray.clear()
-                    setData(true)
+                    try{setData(true)}catch (e:Exception){}
                 }
             })
     }
@@ -330,8 +330,9 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
     }
 
     private fun setData(type: Boolean) {
-        slRefresh.isRefreshing = false
+
         try {
+            slRefresh.isRefreshing = false
             adapter = AdapterOrderType(ordersArray, this, requireActivity())
             rvOrderDetails.adapter = adapter
             var glm2 = GridLayoutManager(requireContext(), 1)

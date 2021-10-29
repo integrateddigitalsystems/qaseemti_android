@@ -341,8 +341,9 @@
                             android:id="@+id/tvOrderDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="20 Jun,2021 16:00"
                             android:textColor="@color/gray_font"
+                            android:text="@string/no_data"
+                            android:tag="@string/no_data"
                             android:textSize="@dimen/small_font_3" />
 
                     </LinearLayout>
@@ -391,7 +392,8 @@
                             android:id="@+id/tvExpectedDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="20 Jun,2021 16:00"
+                            android:text="@string/no_data"
+                            android:tag="@string/no_data"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/small_font_3" />
 

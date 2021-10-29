@@ -75,7 +75,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
         }catch (ex:Exception){
 
         }
-        var newReq = RequestNotifications(MyApplication.languageCode,MyApplication.userId,MyApplication.deviceId,0,10,1)
+        var newReq = RequestNotifications(MyApplication.languageCode,MyApplication.userId,MyApplication.deviceId,0,40,1)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getNotifications(
                 newReq

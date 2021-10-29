@@ -103,7 +103,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
     private fun listeners(){
         btBck.onOneClick{super.onBackPressed()}
-        btPickImage.onOneClick{pickFile(CODE_IMAGE)}
+        btPickImage.onOneClick{pickFile(CODE_IMAGE,false)}
 
         btSave.onOneClick{setTab2()}
         btPreViews1.onOneClick{setTab1()}
@@ -116,14 +116,9 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             else if(arrayRequiredFiles.size>0 && !requiredFilesUploaded())
                 createDialog(this,"Please fill all Required files")
             else{
-                addServiceDone=true
+
                 addService()
-                if(arrayRequiredFiles.size>0){
-                    for (i in arrayRequiredFiles.indices) {
-                        countFilesUploaded=0
-                        uploadFiles(arrayRequiredFiles[i])
-                    }
-                }
+
             }}else{
                 updateService()
             }
@@ -169,7 +164,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
        if(view.id==R.id.btPickFile && !MyApplication.isEditService){
            requireFilePosition=position
-           pickFile(CODE_REQUIRED_FILES)
+           pickFile(CODE_REQUIRED_FILES,true)
        }
     }
 
@@ -190,7 +185,8 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
               setTypeSpinner()
               setSizeCapacitySpinner()
               try{tvDescription.text=arrayFiltered[position].desc!!}catch (e:Exception){}
-              getRequiredFiles()
+                if(!MyApplication.isEditService)
+                    getRequiredFiles()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -278,7 +274,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
 
-    private fun pickFile(pickCode:Int){
+    private fun pickFile(pickCode:Int,enableFiles:Boolean){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_DENIED){
              ActivityCompat.requestPermissions(this as Activity,
@@ -294,7 +290,8 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                 .setShowVideos(false)
                 .setSkipZeroSizeFiles(true)
                 .setMaxSelection(1)
-                .setShowFiles(true)
+                .setShowFiles(enableFiles)
+                .setShowAudios(false)
                 .build()
         )
         startActivityForResult(intent,pickCode)
@@ -351,7 +348,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             CODE_IMAGE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED){
-                    pickFile(CODE_IMAGE)
+                    pickFile(CODE_IMAGE,false)
                 }
                 else{
                     Toast.makeText(this, AppHelper.getRemoteString("permission_denied",this), Toast.LENGTH_SHORT).show()
@@ -544,9 +541,17 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             )?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
                     try{
-
+                        addServiceDone=true
                        if(response.body()!!.result==1){
-                          checkData()
+                         // checkData()
+                           if(arrayRequiredFiles.size>0){
+                               for (i in arrayRequiredFiles.indices) {
+                                   countFilesUploaded=0
+                                   if(response.body()!!.product_id!=null && response.body()!!.product_id!!.isNotEmpty())
+                                      uploadFiles(arrayRequiredFiles[i],response.body()!!.product_id!!.toInt())
+                               }
+                           }else
+                               this@ActivityServiceInformation.onBackPressed()
                        }
 
                         else{
@@ -565,14 +570,14 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             })
     }
 
-    fun uploadFiles(requiredFiles: RequiredFiles) {
+    fun uploadFiles(requiredFiles: RequiredFiles,product_id: Int ) {
         loading.show()
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.spUploadFiles(
                 MyApplication.userId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
                 requiredFiles.getFileTitle()!!.toRequestBody("text/plain".toMediaTypeOrNull()),
                 requiredFiles.multipart!!,
-                selectedServiceId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
+                product_id.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
                 requiredFiles.id!!.toRequestBody("text/plain".toMediaTypeOrNull())
             )?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
@@ -625,7 +630,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                     try{
 
                         if(response.body()!!.result==1){
-                            this@ActivityServiceInformation.onBackPressed()
+                            if(arrayRequiredFiles.size > 0 && arrayRequiredFiles.count { it.multipart == null }!=0 ){
+
+                            }else
+                                this@ActivityServiceInformation.onBackPressed()
                         }
 
                         else{
@@ -722,6 +730,28 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                       adapterSelectedImages!!.notifyDataSetChanged()
                  }
              catch (e:Exception){}
+
+
+             try{
+                 arrayRequiredFiles.clear()
+                 if(MyApplication.selectedService!!.files.size>0){
+                     var arrayFiles=MyApplication.selectedService!!.files
+                     for (i in arrayFiles.indices)
+                         arrayRequiredFiles.add(RequiredFiles(
+                             arrayFiles[i].id,
+                             arrayFiles[i].name!!,
+                             arrayFiles[i].name!!,
+                             arrayFiles[i].name!!,
+                             null,
+                             if(arrayFiles[i].url!=null) arrayFiles[i].url!! else ""
+                         ))
+
+                 }
+                 if(arrayRequiredFiles.size>0)
+                     setRequiredFiles()
+                 else
+                     noRequiredDocuments()
+             }catch (e:Exception){}
 
 
              rbRental.isEnabled=false

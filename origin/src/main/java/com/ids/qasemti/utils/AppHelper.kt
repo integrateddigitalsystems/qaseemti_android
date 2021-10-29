@@ -607,6 +607,19 @@ class AppHelper {
             }
         }
 
+        fun shareAppIntent(activity: Activity){
+            val appPackageName: String = activity.packageName
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                "Check out the App at: https://play.google.com/store/apps/details?id=$appPackageName"
+            )
+            sendIntent.type = "text/plain"
+            activity.startActivity(sendIntent)
+        }
+
+
         fun setTextColor(context: Context, view: EditText, color: Int) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -827,6 +840,26 @@ class AppHelper {
             alert.show()
 
         }
+
+
+
+        fun createDialog(c: Activity, message: String,doAction: () -> Unit) {
+
+
+            var ok = getRemoteString("ok", c)
+
+            val builder = AlertDialog.Builder(c)
+            builder
+                .setMessage(message)
+                .setCancelable(true)
+                .setNegativeButton(ok) { dialog, _ ->
+                    doAction()
+                }
+            val alert = builder.create()
+            alert.show()
+
+        }
+
 
         fun setLogoTint(img: ImageView, con: Context, color: Int) {
             try {

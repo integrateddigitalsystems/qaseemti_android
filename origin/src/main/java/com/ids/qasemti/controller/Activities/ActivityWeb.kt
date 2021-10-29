@@ -80,14 +80,15 @@ class ActivityWeb: ActivityBase() {
         btBackTool.setOnClickListener {
             super.onBackPressed()
         }
+        try{
         if(MyApplication.languageCode==AppConstants.LANG_ENGLISH){
             selectedUrl = MyApplication.webLinks!!.links.find { it.idNo ==id  }!!.urlEn
         }else{
             selectedUrl = MyApplication.webLinks!!.links.find { it.idNo ==id  }!!.urlAr
-        }
+        }}catch (e:Exception){}
         if(id==4){
-            llContactForm.show()
-            wvData.show()
+            linearContact.show()
+            wvData.hide()
         }
 
         loadContent(selectedUrl!!,if(id==4) wvData2 else wvData)

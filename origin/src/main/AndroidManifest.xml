@@ -159,7 +159,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".controller.Activities.ActivityCodeVerification"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible"
+
+            />
         <activity
             android:name=".controller.Activities.ActivityHome"
             android:screenOrientation="portrait"
