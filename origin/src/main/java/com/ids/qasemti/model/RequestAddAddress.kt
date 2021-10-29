@@ -73,7 +73,8 @@ class RequestAddAddress {
         city:String?,
         province:String?,
         area:String?,
-        block:String?
+        block:String?,
+        avenue:String
     ) {
         this.userId = userId
         this.latitude = latitude

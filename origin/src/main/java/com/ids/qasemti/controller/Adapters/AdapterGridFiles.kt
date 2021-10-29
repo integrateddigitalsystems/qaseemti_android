@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.FilesSelected
 import com.ids.qasemti.utils.loadImagesUrl
 import com.ids.qasemti.utils.loadLocalImage
@@ -38,8 +39,10 @@ class AdapterGridFiles(
         else
             holder.ivSelectedFile.loadLocalImage(items[position].file!!)
         holder.btRemove.setOnClickListener{
-            items.removeAt(position)
-            notifyDataSetChanged()
+            if(!MyApplication.isEditService){
+               items.removeAt(position)
+               notifyDataSetChanged()
+            }
         }
 
     }

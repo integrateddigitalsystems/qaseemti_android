@@ -120,6 +120,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                 addService()
 
             }}else{
+                addServiceDone=true
                 updateService()
             }
         }
@@ -456,10 +457,17 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun setRequiredFiles(){
-        adapterRequiredFiles = AdapterRequiredFiles(arrayRequiredFiles, this, this)
-        rvRequiredFiles.layoutManager = LinearLayoutManager(this)
-        rvRequiredFiles.adapter = adapterRequiredFiles
-        rvRequiredFiles.isNestedScrollingEnabled = false
+        if(arrayRequiredFiles.size>0){
+            rvRequiredFiles.show()
+            no_required.hide()
+            adapterRequiredFiles = AdapterRequiredFiles(arrayRequiredFiles, this, this)
+            rvRequiredFiles.layoutManager = LinearLayoutManager(this)
+            rvRequiredFiles.adapter = adapterRequiredFiles
+            rvRequiredFiles.isNestedScrollingEnabled = false
+        }
+        else
+            noRequiredDocuments()
+
     }
 
     fun getAllServices(){
@@ -606,8 +614,14 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
 
     private fun checkData(){
+        if(!MyApplication.isEditService){
         if((addServiceDone && arrayRequiredFiles.size==0) || (addServiceDone && arrayRequiredFiles.size>0 && countFilesUploaded == arrayRequiredFiles.size))
             this@ActivityServiceInformation.onBackPressed()
+        }else{
+            var coutMultipart=arrayRequiredFiles.count { it.multipart != null }
+            if((addServiceDone && arrayRequiredFiles.size==0) || (addServiceDone && arrayRequiredFiles.size>0 && countFilesUploaded == coutMultipart))
+                this@ActivityServiceInformation.onBackPressed()
+        }
     }
 
 
@@ -630,8 +644,11 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                     try{
 
                         if(response.body()!!.result==1){
-                            if(arrayRequiredFiles.size > 0 && arrayRequiredFiles.count { it.multipart == null }!=0 ){
-
+                            if(arrayRequiredFiles.size > 0){
+                               for (i in arrayRequiredFiles.indices){
+                                   if(arrayRequiredFiles[i].multipart!=null)
+                                       uploadFiles(arrayRequiredFiles[i],MyApplication.selectedService!!.id!!.toInt())
+                               }
                             }else
                                 this@ActivityServiceInformation.onBackPressed()
                         }

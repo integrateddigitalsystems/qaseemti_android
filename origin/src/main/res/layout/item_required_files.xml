@@ -39,6 +39,7 @@
             android:id="@+id/tvPickedFile"
             android:paddingEnd="@dimen/small_margin"
             android:text="@string/no_file_chosen"
+            android:autoLink="web"
             android:tag="no_file_chosen"
             android:textSize="@dimen/small_font"
             />

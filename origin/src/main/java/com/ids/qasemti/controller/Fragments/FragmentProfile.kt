@@ -295,7 +295,14 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     etBuilding!!.setText(myAddress.bldg)
 
                 if(myAddress.street!=null && myAddress.street!="null")
-                    etStreet!!.setText(myAddress.street)}catch (e:java.lang.Exception){}
+                    etStreet!!.setText(myAddress.street)
+
+                 if(myAddress.province!=null && myAddress.province!="null")
+                    etAddressProvince!!.setText(myAddress.province)
+
+                }catch (e:java.lang.Exception){}
+
+
 
                 btUpdateAddress.show()
                 btUpdateAddress.setOnClickListener{
@@ -524,7 +531,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             selectedProfilePic!!
         )
 
-        if(MyApplication.isEditService)
+        if(!MyApplication.addNewAddress)
             updateAddress()
     }
 
@@ -752,7 +759,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             "",
             etAddressProvince.text.toString(),
             etArea.text.toString(),
-            etBlock.text.toString()
+            etBlock.text.toString(),
+            etAvenue.text.toString()
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.addClAddress(
