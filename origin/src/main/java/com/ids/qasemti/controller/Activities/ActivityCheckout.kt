@@ -33,7 +33,10 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
     var open = true
     var REQUEST_LOCATION = 5
     var stamp: Long? = 0
+    var pickedDate : Date ?=null
     var update = false
+    var fromHour : Int?=0
+    var fromMin : Int ?=0
     var locationSelected = false
     var latLng: LatLng? = null
     var selectedDate: String? = ""
@@ -55,6 +58,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
 
     fun setUpCurr() {
         var cal = Calendar.getInstance()
+        pickedDate = cal.time
         val myFormat = "dd MMM yyyy" //Change as you need
         var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
         var date = sdf.format(cal.time)
@@ -63,6 +67,8 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
             "%02d",
             cal.get(Calendar.MINUTE)
         )
+        fromHour =  cal.get(Calendar.HOUR_OF_DAY)
+        fromMin = cal.get(Calendar.MINUTE)
         etFromTime.text = time.toEditable()
         selectedDate = date + " " + time
     }
@@ -78,19 +84,56 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
         }
     }
 
+    fun compareDates():Int{
+        var sdf =
+            SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+        var dateFrom = etFromDate.text.toString()
+        var dateTo = etToDate.text.toString()
+
+        if(sdf.parse(dateFrom).time>sdf.parse(dateTo).time)
+            return 1
+        else if(sdf.parse(dateFrom).time==sdf.parse(dateTo).time)
+            return -1
+        return 0
+    }
+
+    fun checkGivenDate():Boolean{
+        var sdf =
+            SimpleDateFormat("dd MMM yyyy hh:mm", Locale.ENGLISH)
+        var date = sdf.parse(selectedDate)
+
+        if(Calendar.getInstance().time.time > date.time){
+            return false
+        }
+
+        return true
+    }
+    fun compareTimes(selectH:Int,selectM:Int):Boolean{
+        if(selectH<fromHour!!){
+            return false
+        }else if (selectM< fromMin!!){
+            return false
+        }
+        return true
+
+    }
     fun setListeners() {
         setUpCurr()
         btPlaceOrder.onOneClick {
             if (locationSelected) {
 
-                update = MyApplication.selectedPlaceOrder!=null
-                if(MyApplication.selectedUser!=null) {
-                    try{
-                    setPlacedOrder()
-                    placeOrder()
-                    }catch (e:Exception){
-                       toast(getString(R.string.failure))
+                if(rbNow.isChecked||checkGivenDate()) {
+                    update = MyApplication.selectedPlaceOrder != null
+                    if (MyApplication.selectedUser != null) {
+                        try {
+                            setPlacedOrder()
+                            placeOrder()
+                        } catch (e: Exception) {
+                            toast(getString(R.string.failure))
+                        }
                     }
+                }else{
+                    AppHelper.createDialog(this, "Please select a later date or time")
                 }
             } else {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("please_select_location",this))
@@ -122,7 +165,6 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                 mMonth = mcurrentDate[Calendar.MONTH]
                 mDay = mcurrentDate[Calendar.DAY_OF_MONTH]
 
-                mcurrentDate.set(mYear, mMonth, mDay)
                 val mDatePicker = DatePickerDialog(
                     this,
                     DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
@@ -133,13 +175,17 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                         val myFormat = "dd MMM yyyy" //Change as you need
                         var sdf =
                             SimpleDateFormat(myFormat, Locale.ENGLISH)
+                        pickedDate = myCalendar.time
                         var date = sdf.format(myCalendar.time)
                         etFromDate.text = date.toEditable()
+                        if(compareDates()==1)
+                            etToDate.text = date.toEditable()
                         var x = selectedDate
                         var time = selectedDate!!.split(" ").get(3)
                         selectedDate = etFromDate.text.toString() + " " + time
                     }, mYear, mMonth, mDay
                 )
+                mDatePicker.datePicker.minDate = mcurrentDate.time.time
                 mDatePicker.show()
             }
             rlFromTime.onOneClick {
@@ -155,13 +201,15 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                     this, R.style.DatePickerDialog,
                     { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
-                        var time = String.format("%02d", selectedHour) + " : " + String.format(
+                        fromHour =  selectedHour
+                        fromMin = selectedMinute
+                        var time = String.format("%02d", selectedHour) + ":" + String.format(
                             "%02d",
                             selectedMinute
                         )
                         etFromTime.text = time.toEditable()
-                        var date = selectedDate!!.split(" ").get(0) + selectedDate!!.split(" ")
-                            .get(1) + selectedDate!!.split(" ").get(2)
+                        var date = selectedDate!!.split(" ").get(0)+" " + selectedDate!!.split(" ")
+                            .get(1) +" "+ selectedDate!!.split(" ").get(2)
                         selectedDate = date + " " + time
                     }, hour, minute, true
                 ) //Yes 24 hour time
@@ -186,7 +234,14 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                         "%02d",
                         selectedMinute
                     )
-                    etToTime.text = time.toEditable()
+                    if(compareDates()==-1){
+                        if(!compareTimes(selectedHour,selectedMinute)){
+                            AppHelper.createDialog(this,"You cannot pick a time before selected")
+                        }else{
+                            etToTime.text = time.toEditable()
+                        }
+                    }
+
                 }, hour, minute, true
             ) //Yes 24 hour time
             timePickerDialog.show()
@@ -208,16 +263,14 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                     myCalendar[Calendar.YEAR] = selectedyear
                     myCalendar[Calendar.MONTH] = selectedmonth
                     myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                    val myFormat = "dd/mm/yyyy" //Change as you need
+                    val myFormat = "dd MMM yyyy" //Change as you need
                     var sdf =
                         SimpleDateFormat(myFormat, Locale.ENGLISH)
                     var date = sdf.format(myCalendar.time)
-                    etToDate.text = (String.format("%02d", selectedday) + "/" + String.format(
-                        "%02d",
-                        selectedmonth + 1
-                    ) + "/" + String.format("%02d", selectedyear)).toEditable()
+                    etToDate.text = date.toEditable()
                 }, mYear, mMonth, mDay
             )
+            mDatePicker.datePicker.minDate = pickedDate!!.time
             mDatePicker.show()
         }
 

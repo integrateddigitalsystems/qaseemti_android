@@ -9,7 +9,7 @@
     >
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/linearProfileInfo"
+        android:id="@+id/linearProfileInfoClient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/push_card"
@@ -581,8 +581,7 @@
                             android:layout_marginStart="-50dp"
                             android:gravity="center"
                             android:scaleX="0.7"
-                            android:scaleY="0.7"
-                            android:theme="@style/Theme.MyTheme" />
+                            android:scaleY="0.7" />
 
                     </LinearLayout>
 
@@ -615,8 +614,7 @@
                             android:layout_marginStart="-52dp"
                             android:gravity="center"
                             android:scaleX="0.7"
-                            android:scaleY="0.7"
-                            android:theme="@style/Theme.MyTheme" />
+                            android:scaleY="0.7" />
 
 
                     </LinearLayout>
@@ -649,8 +647,7 @@
                             android:layout_marginStart="-50dp"
                             android:gravity="center"
                             android:scaleX="0.7"
-                            android:scaleY="0.7"
-                            android:theme="@style/Theme.MyTheme" />
+                            android:scaleY="0.7" />
 
 
                     </LinearLayout>

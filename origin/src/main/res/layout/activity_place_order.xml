@@ -30,7 +30,7 @@
         <androidx.cardview.widget.CardView
             android:layout_marginStart="@dimen/card_new_margin"
             android:layout_marginEnd="@dimen/card_new_margin"
-            android:id="@+id/linearProfileInfo"
+            android:id="@+id/linearProfileInfoClient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="-8dp"

@@ -23,7 +23,7 @@
         <androidx.cardview.widget.CardView
             android:layout_below="@id/llHomeCurve"
             android:layout_marginTop="@dimen/medium_push_2"
-            android:id="@+id/linearProfileInfo"
+            android:id="@+id/linearProfileInfoClient"
             android:layout_width="match_parent"
             android:layout_height="90dp"
             app:cardElevation="@dimen/mini_margin"
@@ -37,8 +37,12 @@
             android:paddingStart="@dimen/margin_start_end"
             android:paddingEnd="@dimen/margin_start_end">
 
+            <androidx.viewpager.widget.ViewPager
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/vpAdsClient"/>
 
-            <com.ids.qasemti.custom.CustomTextViewBold
+            <!--<com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -46,7 +50,7 @@
                 android:textColor="@color/gray_font_title"
                 android:text="@string/ads_place"
                 android:tag="ads_place"
-                android:textSize="@dimen/big_font" />
+                android:textSize="@dimen/big_font" />-->
 
         </androidx.cardview.widget.CardView>
 
@@ -60,7 +64,7 @@
             android:fillViewport="true">-->
 
             <LinearLayout
-                android:layout_below="@id/linearProfileInfo"
+                android:layout_below="@id/linearProfileInfoClient"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
@@ -51,8 +52,10 @@ class AdapterAddress(
     inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var tvAddressTitle = itemView.findViewById<TextView>(R.id.tvAddressTitle)
         var tvAddressBody = itemView.findViewById<TextView>(R.id.tvAddressBody)
+        var deleteAddress = itemView.findViewById<ImageView>(R.id.btDeleteAddress)
 
         init {
+            deleteAddress.setOnClickListener(this)
             itemView.setOnClickListener(this)
         }
 

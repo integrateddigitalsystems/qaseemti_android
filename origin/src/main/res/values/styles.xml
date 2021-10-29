@@ -21,6 +21,12 @@
     </style>
 
 
+    <style name="SwitchStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/green_switch</item>
+        <item name="colorSwitchThumbNormal">@color/green_switch</item>
+        <item name="android:colorForeground">@color/gray_switch</item>
+    </style>
+
     <style name="Theme.MyTheme" parent="Theme.AppCompat.Light">
         <!-- colorPrimary is used for the default action bar background -->
         <item name="colorPrimary">@color/white</item>

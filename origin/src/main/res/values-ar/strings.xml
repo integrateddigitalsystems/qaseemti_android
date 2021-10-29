@@ -243,4 +243,6 @@
     <string name="UpdateAddress">تعديل العنوان</string>
     <string name="UpdateService">تعديل الخدمة</string>
     <string name="find_service_provider_msg">لا يوجد مقدمو خدمة في منطقتك في هذا الوقت. هل تريد منا البحث في منطقة أوسع؟ (قد يتم تطبيق رسوم إضافية)</string>
+    <string name="collecting_loc">Collecting Location Data</string>
+    <string name="Cancel">الغاء</string>
 </resources>

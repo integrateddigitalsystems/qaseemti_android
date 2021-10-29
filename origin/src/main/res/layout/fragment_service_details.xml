@@ -39,7 +39,7 @@
                     android:layout_marginTop="-12dp"
                     android:layout_marginStart="@dimen/card_new_margin"
                     android:layout_marginEnd="@dimen/card_new_margin"
-                    android:id="@+id/linearProfileInfo"
+                    android:id="@+id/lineaarProfileInfo"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/image_news"
                     app:cardElevation="@dimen/normal_margin"
@@ -111,7 +111,7 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tbMedia"
                     android:layout_centerHorizontal="true"
-                    android:layout_below="@id/linearProfileInfo"
+                    android:layout_below="@id/linearProfileInfoClient"
                     android:layout_width="match_parent"
                     android:layout_height="18dp"
                     app:tabGravity="center"

@@ -6,7 +6,7 @@
     xmlns:card_view="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/linearProfileInfo"
+        android:id="@+id/linearProfileInfoClient"
         card_view:contentPadding="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

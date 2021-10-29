@@ -184,14 +184,19 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
 
         if (!MyApplication.saveLocationTracking!!) {
-            foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+            try {
+                foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+            }catch (ex:Exception){}
         } else {
-            // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
-            if (foregroundPermissionApproved()) {
-                foregroundOnlyLocationService?.subscribeToLocationUpdates()
-                    ?: Log.d(TAG, "Service Not Bound")
-            } else {
-                requestForegroundPermissions()
+            try {
+                // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+                if (foregroundPermissionApproved()) {
+                    foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                        ?: Log.d(TAG, "Service Not Bound")
+                } else {
+                    requestForegroundPermissions()
+                }
+            } catch (ex: Exception) {
             }
         }
 

@@ -8,7 +8,7 @@
     android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/linearProfileInfo"
+        android:id="@+id/linearProfileInfoClient"
         android:layout_width="match_parent"
         android:layout_height="@dimen/order_card"
         android:padding="@dimen/normal_margin"

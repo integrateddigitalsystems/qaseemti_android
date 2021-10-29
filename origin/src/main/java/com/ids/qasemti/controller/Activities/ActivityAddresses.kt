@@ -14,6 +14,7 @@ import com.ids.qasemti.model.*
 
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.fragment_addresses.*
+import kotlinx.android.synthetic.main.item_address.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
@@ -128,36 +129,77 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
     }
 
+    fun nextStep(response:ResponseMessage){
+        if(response.message.equals("success")){
+            getAddresses()
+        }else{
+            AppHelper.createDialog(this@ActivityAddresses,AppHelper.getRemoteString("Failed",this@ActivityAddresses))
+            loading.hide()
+        }
+    }
+    fun deleteAddress(addId : Int){
+
+        loading.show()
+
+        var newReq = RequestDeleteAddress(MyApplication.userId,addId)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.deleteAddress(newReq)?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                    try {
+                        nextStep(response.body()!!)
+                    } catch (E: java.lang.Exception) {
+                        AppHelper.createDialog(this@ActivityAddresses,AppHelper.getRemoteString("Failed",this@ActivityAddresses))
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    AppHelper.createDialog(this@ActivityAddresses,AppHelper.getRemoteString("Failed",this@ActivityAddresses))
+                    loading.hide()
+                }
+            })
+    }
+
 
     override fun onItemClicked(view: View, position: Int) {
-        if(!MyApplication.fromProfile!!) {
-            val intent = Intent()
-            intent.putExtra("lat", array.get(position).lat!!.toDouble())
-            intent.putExtra("long", array.get(position).long!!.toDouble())
-            var addr =""
-            MyApplication.selectedAddress = array.get(position)
-            if(!array.get(position).desc.equals("null")&&!array.get(position).desc.isNullOrEmpty()){
-              addr = array.get(position).desc!!
+
+        if(view.id==R.id.btDeleteAddress){
+            AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("yes",this),AppHelper.getRemoteString("Cancel",this),AppHelper.getRemoteString("are_you_sure_delete",this)){
+                deleteAddress(array.get(position).addressId!!.toInt())
             }
-            if(!array.get(position).street.equals("null")&&!array.get(position).street.isNullOrEmpty()){
-               addr =addr+","+array.get(position).street
+        }else {
+            if (!MyApplication.fromProfile!!) {
+                val intent = Intent()
+                intent.putExtra("lat", array.get(position).lat!!.toDouble())
+                intent.putExtra("long", array.get(position).long!!.toDouble())
+                var addr = ""
+                MyApplication.selectedAddress = array.get(position)
+                if (!array.get(position).desc.equals("null") && !array.get(position).desc.isNullOrEmpty()) {
+                    addr = array.get(position).desc!!
+                }
+                if (!array.get(position).street.equals("null") && !array.get(position).street.isNullOrEmpty()) {
+                    addr = addr + "," + array.get(position).street
+                }
+                if (!array.get(position).bldg.equals("null") && !array.get(position).bldg.isNullOrEmpty()) {
+                    addr = addr + "," + array.get(position).bldg
+                }
+                if (!array.get(position).floor.equals("null") && !array.get(position).floor.isNullOrEmpty()) {
+                    addr = addr + "," + array.get(position).floor
+                }
+                intent.putExtra(
+                    "address",
+                    addr
+                )
+                intent.putExtra(
+                    "submitted",
+                    true
+                )
+                setResult(RESULT_OK, intent)
+                finish()
             }
-            if(!array.get(position).bldg.equals("null")&&!array.get(position).bldg.isNullOrEmpty()){
-                addr =addr+","+array.get(position).bldg
-            }
-            if(!array.get(position).floor.equals("null")&&!array.get(position).floor.isNullOrEmpty()){
-                addr =addr+","+array.get(position).floor
-            }
-            intent.putExtra(
-                "address",
-                addr
-            )
-            intent.putExtra(
-                "submitted",
-                true
-            )
-            setResult(RESULT_OK, intent)
-            finish()
         }
     }
 }

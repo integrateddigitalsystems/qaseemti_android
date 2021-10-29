@@ -24,7 +24,7 @@
     <androidx.cardview.widget.CardView
         android:layout_below="@id/llCurve"
         android:layout_marginTop="@dimen/medium_push_3"
-        android:id="@+id/linearProfileInfo"
+        android:id="@+id/linearProfileInfoClient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="@dimen/normal_margin"

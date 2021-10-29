@@ -8,7 +8,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/linearProfileInfo"
+        android:id="@+id/linearProfileInfoClient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="@dimen/normal_margin"

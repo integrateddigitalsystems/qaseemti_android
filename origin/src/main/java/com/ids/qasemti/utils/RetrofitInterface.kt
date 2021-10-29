@@ -311,4 +311,12 @@ interface RetrofitInterface {
     fun updateService(
         @Body param : RequestUpdateService
     ):Call<ResponseMessage>
+
+    @POST("delete_address")
+    fun deleteAddress(
+        @Body param : RequestDeleteAddress
+    ):Call<ResponseMessage>
+
+    @POST("get_banners")
+    fun getBanners():Call<ResponseMainBanner>
 }
