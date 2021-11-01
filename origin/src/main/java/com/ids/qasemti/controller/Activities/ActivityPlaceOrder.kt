@@ -153,7 +153,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
         val listProductQuantity: MutableList<String> = java.util.ArrayList()
         listProductQuantity.add(MyApplication.selectedPlaceOrder!!.sizeCapacity!!)
 
-        
+
 
         var merchantId = MyApplication.payparams!!.params.find { it.key == "merchant_id" }!!.value
         var username = MyApplication.payparams!!.params.find { it.key == "username" }!!.value
