@@ -74,7 +74,7 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
 
         tvCountryCode.text = MyApplication.selectedItemDialog
         tvCountryCode.onOneClick {
-            showCountires()
+           // showCountires()
         }
         if (MyApplication.isClient) {
             btLogin.hide()
@@ -119,7 +119,12 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
         btLoginClient.onOneClick {
             if (etPhone.text.isNullOrEmpty()) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
-            } else {
+            } else if (etPhone.text.length !=8) {
+                 AppHelper.createDialog(this, AppHelper.getRemoteString("check_phone_number", this))
+             }
+
+
+            else {
 
                 AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("confirm",this),AppHelper.getRemoteString("edit",this),AppHelper.getRemoteString("login_alert_title",this).replace("phoned_number",MyApplication.selectedItemDialog+etPhone.text.toString())+"\n"+AppHelper.getRemoteString("login_alert_msg",this)){
                     MyApplication.selectedPhone = MyApplication.selectedItemDialog.replace("+","").trim()+etPhone.text.toString()
@@ -133,11 +138,15 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
         btLogin.onOneClick {
             if (etPhone.text.isNullOrEmpty()) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
-            } else {
+            }
+            else if (etPhone.text.length !=8) {
+                AppHelper.createDialog(this, AppHelper.getRemoteString("check_phone_number", this))
+            }
+
+            else {
                 AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("confirm",this),AppHelper.getRemoteString("edit",this),AppHelper.getRemoteString("login_alert_title",this)+"\n"+MyApplication.selectedItemDialog+etPhone.text.toString()+"\n"+AppHelper.getRemoteString("login_alert_msg",this)){
                     MyApplication.selectedPhone = MyApplication.selectedItemDialog.replace("+","").trim()+etPhone.text.toString()
                     getUserStatus()
-
                 }
 
 
@@ -210,9 +219,7 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
                 override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
                 }
             })
-
     }
-
 
     private fun showCountires(){
         arrayCountries.clear()
@@ -240,7 +247,7 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
     fun nextStepCode(){
 
         if(!MyApplication.isClient) {
-            if (MyApplication.userStatus!!.enabled != 0)
+            if (MyApplication.userStatus!!.active != 0)
                 startActivity(Intent(this, ActivityCodeVerification::class.java))
         }else {
             startActivity(Intent(this, ActivityCodeVerification::class.java))

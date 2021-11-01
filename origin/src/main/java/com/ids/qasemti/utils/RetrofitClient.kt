@@ -5,7 +5,7 @@ import android.content.Context
 import android.os.Build
 import com.google.gson.GsonBuilder
 import com.ids.qasemti.controller.MyApplication
-import com.mklimek.sslutilsandroid.SslUtils
+
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

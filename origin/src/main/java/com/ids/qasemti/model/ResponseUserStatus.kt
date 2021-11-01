@@ -7,14 +7,14 @@ class ResponseUserStatus(
 
     @SerializedName("result")
     @Expose
-    var result : Int ?=1 ,
+    var result : Int ?=0 ,
 
     @SerializedName("suspended")
     @Expose
-    var enabled : Int ?= 3 ,
+    var suspended : Int ?= 0 ,
 
     @SerializedName("active")
     @Expose
-    var online : Int ?=3
+    var active : Int ?=0
  ) {
 }

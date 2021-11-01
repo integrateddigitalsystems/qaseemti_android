@@ -237,8 +237,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 profilePercentage += 25
             if (!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.middleName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
                 profilePercentage += 25
-            if (!MyApplication.selectedUser!!.location.isNullOrEmpty())
-                profilePercentage += 25
+            try{
+            if (MyApplication.selectedUser!!.addresses!!.size>0)
+                profilePercentage += 25}catch (e:Exception){}
             if (!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankBranch.isNullOrEmpty()  /*&& !MyApplication.selectedUser!!.iban.isNullOrEmpty()*/)
                 profilePercentage += 25
         } else {

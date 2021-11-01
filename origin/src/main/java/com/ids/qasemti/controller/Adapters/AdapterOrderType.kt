@@ -43,7 +43,19 @@ class AdapterOrderType(
 
         holder.orderDetails.setColorTypeface(con,R.color.button_blue,"",false)
         try {
-            holder.name.text = items.get(position).customer!!.first_name + " " + items.get(position).customer!!.last_name
+            if(!MyApplication.isClient)
+                holder.name.text = items.get(position).customer!!.first_name + " " + items.get(position).customer!!.last_name
+            else{
+                if(items[position].vendor!=null){
+                   try{ holder.name.text = items.get(position).vendor!!.firstName + " " + items.get(position).vendor!!.lastName}catch (e:Exception){
+                       holder.name.text = AppHelper.getRemoteString("pending_service_provider",con.application)
+                   }
+                }else{
+                    holder.name.text = AppHelper.getRemoteString("pending_service_provider",con.application)
+                }
+            }
+
+
             holder.name.typeface = AppHelper.getTypeFaceBold(con)
             holder.locationText.setColorTypeface(con,R.color.redPrimary,items.get(position).customerLocation!!,false) }
         catch (ex:Exception){ holder.name.text = "" }
@@ -117,7 +129,9 @@ class AdapterOrderType(
         if(delivered==1) {
             holder.switchDelivered.isChecked = true
             holder.switchDelivered.isEnabled = false
+            holder.switchOnTrack.isEnabled=false
             AppHelper.setSwitchColor(holder.switchDelivered,con)
+            AppHelper.setSwitchColor(holder.switchOnTrack,con)
         }
 
         holder.switchDelivered.setOnClickListener {
@@ -137,6 +151,8 @@ class AdapterOrderType(
                     (con as ActivityHome).changeState()
                     delivered = 1
                     AppHelper.setSwitchColor(holder.switchDelivered,con)
+                    holder.switchOnTrack.isEnabled=false
+                    AppHelper.setSwitchColor(holder.switchOnTrack,con)
                 } else {
                     delivered = 0
                     AppHelper.setSwitchColor(holder.switchDelivered,con)

@@ -47,7 +47,7 @@ class MyApplication : Application() {
         var fromLogout = false
         var register = false
         var selectedOrderTrack : ResponseOrders ?=null
-        var selectedItemDialog="+961"
+        var selectedItemDialog="+965"
         var addNewAddress = true
 
         var settlementTabSelected =0

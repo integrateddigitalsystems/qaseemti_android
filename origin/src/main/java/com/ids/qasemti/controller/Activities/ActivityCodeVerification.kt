@@ -137,7 +137,7 @@ class ActivityCodeVerification : ActivityBase() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-               if(s.length==6){
+               if(s.length==4){
                    verifyOTP()
                }
 
