@@ -319,4 +319,12 @@ interface RetrofitInterface {
 
     @POST("get_banners")
     fun getBanners():Call<ResponseMainBanner>
+
+    @GET("json")
+    fun getLocationNames(
+        @Query("input") input : String ,
+        @Query("key") key : String
+    ):Call<Any>
+
+
 }

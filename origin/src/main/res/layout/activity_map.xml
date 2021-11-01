@@ -21,6 +21,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <!--<fragment
+            android:id="@+id/mapLocation"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/mini_margin"
+            />-->
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"
@@ -61,10 +70,11 @@
             android:visibility="gone"
             android:layout_marginStart="@dimen/margin_start_end"
             android:layout_marginEnd="@dimen/margin_start_end"
-            android:layout_below="@id/etMapSearch"
+            android:layout_below="@id/tvMapSearch"
             />
 
      <com.google.android.gms.maps.MapView
+         android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
              android:layout_marginTop="@dimen/normal_margin"

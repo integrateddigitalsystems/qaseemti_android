@@ -1,14 +1,9 @@
 package com.ids.qasemti.controller.Activities
 
-import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.TypedValue
+import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +15,10 @@ import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
+import com.upayments.UPaymentCallBack
+import com.upayments.activity.PostUpayData
+import com.upayments.track.UpaymentGateway
+import com.upayments.track.UpaymentGatewayEvent.Builder
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.activity_place_order.rootLayout
@@ -34,14 +33,13 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 
 
-class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
+class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCallBack {
 
     var fragMang: FragmentManager? = null
     var selectedPaymentId : Int ?=0
-
+    var selectedSlug : String ?=""
     var orderId="0"
 
     var arrayPaymentMethods: ArrayList<PaymentMethod> = arrayListOf()
@@ -100,6 +98,97 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         rvOtherData.adapter = AdapterOtherOrderData(array2,this,this)
     }
 
+    fun paymentMethodStep(){
+
+        selectedSlug = arrayPaymentMethods.find { it.id == selectedPaymentId }!!.slug
+         if(selectedSlug.equals("cod")){
+             finishAffinity()
+             MyApplication.selectedPos = 1
+             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+             MyApplication.selectedFragment = FragmentOrders()
+             MyApplication.tintColor = R.color.redPrimary
+             startActivity(Intent(this@ActivityPlaceOrder,ActivityHome::class.java))
+         }else{
+             paymentGateway()
+         }
+    }
+
+    fun paymentGateway(){
+
+
+
+
+        //
+        var array : ArrayList<String> = arrayListOf()
+       /* val analyticsEvent3 = Builder<Builder<Builder<*>>>(MyApplication.selectedPlaceOrder!!.userId!!.toString())
+            .setMerchantId(MyApplication.selectedPlaceOrder!!.userId!!.toString())
+            .setUsername(MyApplication.selectedPlaceOrder!!.firstName)
+            .setPassword("password")
+            .setApikey("apiKey")
+            .setOrderId(MyApplication.selectedPlaceOrder!!.productId!!.toString())
+            .setTotalPrice(MyApplication.selectedPlaceOrder!!.price)
+            .setCurrencyCode("KWD")
+            .setSuccessUrl("https://example.com/success.html")
+            .setErrorUrl("https://example.com/success.html")
+            .setTestMode("https://example.com/success.html")
+            .setCustomerName("mCustomerName")
+            .setCustomerEmail("mCustomerEmail")
+            .setCustomerMobile("mCustomerMobile")
+            .setPaymentGateway("mPaymentGateway")
+            .setWhitelabled(true)
+            .setProductTitle("mProductTitle")
+            .setProductName(array)
+            .setProductPrice(array)
+            .setProductQty(array)
+            .setReference("")
+            .setNotifyUrl("https://example.com/success.html")
+            .build()*/
+
+        val listProductName: MutableList<String> = java.util.ArrayList()
+        listProductName.add(MyApplication.selectedPlaceOrder!!.title!!)
+
+        val listProductPrice: MutableList<String> = java.util.ArrayList()
+        listProductPrice.add(MyApplication.selectedPlaceOrder!!.price!!)
+
+        val listProductQuantity: MutableList<String> = java.util.ArrayList()
+        listProductQuantity.add(MyApplication.selectedPlaceOrder!!.sizeCapacity!!)
+
+        
+
+        var merchantId = MyApplication.payparams!!.params.find { it.key == "merchant_id" }!!.value
+        var username = MyApplication.payparams!!.params.find { it.key == "username" }!!.value
+        var password = MyApplication.payparams!!.params.find { it.key == "password" }!!.value
+        var apiKey = MyApplication.payparams!!.params.find { it.key == "apiKey" }!!.value
+        var succURL = MyApplication.payparams!!.params.find { it.key == "successURL" }!!.value
+        var errorURL = MyApplication.payparams!!.params.find { it.key == "errorURL" }!!.value
+        var refNum = MyApplication.payparams!!.params.find { it.key == "reference" }!!.value
+        var notifyURl = MyApplication.payparams!!.params.find { it.key == "notifyURL" }!!.value
+
+        val analyticsEvent3 = Builder<Builder<Builder<*>>>(merchantId)
+                       .setMerchantId(merchantId)
+                       .setUsername(username)
+                      .setPassword(password)
+                       .setApikey(apiKey)
+                       .setOrderId(MyApplication.selectedPlaceOrder!!.productId!!.toString())
+                      .setTotalPrice(MyApplication.selectedPlaceOrder!!.price)
+                       .setCurrencyCode("KWD")
+                       .setSuccessUrl(succURL)
+                       .setErrorUrl(errorURL)
+                       .setTestMode("0")
+                       .setCustomerName(MyApplication.selectedPlaceOrder!!.firstName+" "+MyApplication.selectedPlaceOrder!!.lastName)
+                       .setCustomerEmail(MyApplication.selectedPlaceOrder!!.email)
+                       .setCustomerMobile(MyApplication.selectedPlaceOrder!!.phone)
+                       .setPaymentGateway(selectedSlug)
+                      .setWhitelabled(true)
+                        .setProductTitle(MyApplication.selectedPlaceOrder!!.title)
+                        .setProductName(listProductName)
+                      .setProductPrice(listProductPrice)
+                      .setProductQty(listProductQuantity)
+                       .setReference(refNum)
+                     .setNotifyUrl(notifyURl)
+                      .build();
+        UpaymentGateway.getInstance().track(analyticsEvent3, this)
+    }
 
     fun setListeners(){
 
@@ -126,12 +215,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
                     try {
                         loading.hide()
                        if(response.body()!!.result==1){
-                           finishAffinity()
-                           MyApplication.selectedPos = 1
-                           MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                           MyApplication.selectedFragment = FragmentOrders()
-                           MyApplication.tintColor = R.color.redPrimary
-                           startActivity(Intent(this@ActivityPlaceOrder,ActivityHome::class.java))
+                          paymentMethodStep()
                        }
                     } catch (E: java.lang.Exception) {
 
@@ -147,6 +231,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
 
 
     fun init() {
+
 
 
         tvLocationPlaceOrder.setColorTypeface(this,R.color.redPrimary,"",false)
@@ -218,5 +303,13 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener {
         rvPaymentMethod.layoutManager = GridLayoutManager(this,1)
         rvPaymentMethod.adapter = adapterPaymentMethods
         rvPaymentMethod.isNestedScrollingEnabled = false
+    }
+
+    override fun callBackUpayment(postUpayData: PostUpayData?) {
+       Log.wtf("callBack","data")
+    }
+
+    override fun errorPayUpayment(data: String?) {
+        Log.wtf("errorPay",data!!.toString())
     }
 }

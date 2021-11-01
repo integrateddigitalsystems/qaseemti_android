@@ -42,6 +42,7 @@ object AppConstants {
     const val FIREBASE_VERSION_CODE = "android_version_code"
     const val FIREBASE_LOCALIZE = "localize_msg"
     const val FIREBASE_LINKS ="htmlPageUrls"
+    const val FIREBASE_PARAMS ="paymentGatewayParameters"
     const val FIREBASE_MOBILE_CONFIGURATION = "mobileConfigurations"
     const val FRAGMENT_HOME_CLIENT ="fragmentHomeClient"
     const val FRAGMENT_HOME_SP ="fragmentHomeSP"

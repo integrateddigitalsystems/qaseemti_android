@@ -111,7 +111,7 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tbMedia"
                     android:layout_centerHorizontal="true"
-                    android:layout_below="@id/linearProfileInfoClient"
+                    android:layout_below="@id/lineaarProfileInfo"
                     android:layout_width="match_parent"
                     android:layout_height="18dp"
                     app:tabGravity="center"

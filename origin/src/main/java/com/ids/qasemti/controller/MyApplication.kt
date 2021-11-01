@@ -32,6 +32,7 @@ class MyApplication : Application() {
         var addNew : Boolean = true
         var selectedFragmentTag : String ?=""
         var webLinks : FirebaseWebData ?=null
+        var payparams : GatewayRespone ?=null
         var typeSelected = 0
         var relatedOrders : ArrayList<RelatedOrder> = arrayListOf()
         var renewed = false

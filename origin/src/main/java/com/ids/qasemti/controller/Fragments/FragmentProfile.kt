@@ -429,7 +429,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     fun listeners() {
 
         btSaveProfile.onOneClick {
-            if(etFirstNameProfile.text.isNullOrEmpty() || (MyApplication.isClient && etMiddleNameProfile.text.isNullOrEmpty() )||etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty()||etMobileProfile.text.isNullOrEmpty())
+            if(etFirstNameProfile.text.isNullOrEmpty() || (!MyApplication.isClient && etMiddleNameProfile.text.isNullOrEmpty() )||etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty()||etMobileProfile.text.isNullOrEmpty())
                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("fill_all_field",requireContext()))
             else if(!MyApplication.isClient){
                 updateServiceProfile()

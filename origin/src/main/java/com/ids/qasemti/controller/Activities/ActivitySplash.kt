@@ -30,6 +30,8 @@ import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppConstants.FIREBASE_FORCE_UPDATE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LINKS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LOCALIZE
+import com.ids.qasemti.utils.AppConstants.FIREBASE_PARAMS
+import com.upayments.track.UpaymentGateway
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
@@ -234,6 +236,7 @@ class ActivitySplash : ActivityBase() {
                     AppHelper.updateDevice(this,MyApplication.phoneNumber!!)
                     AppHelper.getUserInfo()
                     if (MyApplication.isClient) {
+                        UpaymentGateway.init(this, "", "", true)
                         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
                         MyApplication.selectedFragment = FragmentHomeClient()
                     } else {
@@ -253,6 +256,7 @@ class ActivitySplash : ActivityBase() {
                 }else{
                     AppHelper.updateDevice(this,"")
                     if(MyApplication.isClient){
+                        UpaymentGateway.init(this, "", "", true)
                         /*MyApplication.isSignedIn = true
                         MyApplication.userId = 41*/
                         AppHelper.getUserInfo()
@@ -291,6 +295,7 @@ class ActivitySplash : ActivityBase() {
                         }}catch (e:Exception){}
                     MyApplication.localizeArray = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE), FirebaseLocalizeArray::class.java)
                     MyApplication.webLinks = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),FirebaseWebData::class.java)
+                    MyApplication.payparams = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_PARAMS),GatewayRespone::class.java)
                     AppHelper.setAllTexts(rootLayout, this)
                     checkForUpdate()
                 }else{

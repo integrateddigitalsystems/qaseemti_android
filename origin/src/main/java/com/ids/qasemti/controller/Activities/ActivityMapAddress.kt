@@ -7,32 +7,46 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.location.places.Place
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Adapters.PlacesAutoCompleteAdapter
+import com.ids.qasemti.controller.Adapters.PlacesResultAdapter
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_map.*
+import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 
-class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
+class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback, PlacesAutoCompleteAdapter.ClickListener{
 
 
     var REQUEST_ADDRESS = 1005
     var resultLauncher: ActivityResultLauncher<Intent>? = null
+    var mAutoCompleteAdapter : PlacesAutoCompleteAdapter ?=null
     var first = true
     var latLng : LatLng ?=null
     var seeOnly = false
+    private lateinit var mPlacesClient: PlacesClient
     var gmap : GoogleMap? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,11 +61,61 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
         mvLocation.onCreate(mapViewBundle);
 
         init()
-       // initGooglePlacesApi()
+      //  initGooglePlacesApi()
+
+
 
 
     }
 
+
+    private val filterTextWatcher: TextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable) {
+        }
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            mAutoCompleteAdapter!!.getFilter().filter(s.toString());
+            if (s.toString() != "") {
+                mAutoCompleteAdapter!!.getFilter().filter(s.toString())
+                if (rv_place_results.getVisibility() === View.GONE) {
+                    rv_place_results.setVisibility(View.VISIBLE)
+                }
+            } else {
+                if (rv_place_results.getVisibility() === View.VISIBLE) {
+                    rv_place_results.setVisibility(View.GONE)
+                }
+            }
+        }
+    }
+    fun initGooglePlacesApi(){
+
+        Places.initialize(this,getString(R.string.googleKey))
+        etMapSearch.addTextChangedListener(filterTextWatcher)
+        etMapSearch.show()
+
+
+        mAutoCompleteAdapter = PlacesAutoCompleteAdapter(this)
+        rv_place_results.setLayoutManager(LinearLayoutManager(this));
+        //mAutoCompleteAdapter.setClickListener(this);
+        Places.initialize(this,getString(R.string.googleKey))
+        rv_place_results.setAdapter(mAutoCompleteAdapter);
+        mAutoCompleteAdapter!!.notifyDataSetChanged();
+       /* RetroFitMap.client?.create(RetrofitInterface::class.java)
+            ?.getLocationNames("Beirut",getString(R.string.googleKey))?.enqueue(object :
+                Callback<Any> {
+                override fun onResponse(
+                    call: Call<Any>,
+                    response: retrofit2.Response<Any>
+                ) {
+                   Log.wtf("tag",response.toString())
+                }
+
+                override fun onFailure(call: Call<Any>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })*/
+    }
     override fun onBackPressed() {
         setResult(RESULT_CANCELED, intent)
         super.onBackPressed()
@@ -264,6 +328,14 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback{
 
         }
 
+    }
+
+    override fun click(place: com.google.android.libraries.places.api.model.Place?) {
+        Toast.makeText(this,
+            place!!.getAddress()
+                .toString() + ", " + place.getLatLng().latitude + place.getLatLng().longitude,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
 }
