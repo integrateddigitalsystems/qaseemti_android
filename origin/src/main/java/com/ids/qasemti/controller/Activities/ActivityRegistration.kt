@@ -179,7 +179,6 @@ class ActivityRegistration : ActivityBase() , ApiListener{
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        var res = response as ResponseUser
         nextStep()
     }
 }

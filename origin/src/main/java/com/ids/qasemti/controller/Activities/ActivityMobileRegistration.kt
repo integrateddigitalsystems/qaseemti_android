@@ -246,12 +246,7 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
 
     fun nextStepCode(){
 
-        if(!MyApplication.isClient) {
-            if (MyApplication.userStatus!!.active != 0)
-                startActivity(Intent(this, ActivityCodeVerification::class.java))
-        }else {
-            startActivity(Intent(this, ActivityCodeVerification::class.java))
-        }
+        startActivity(Intent(this, ActivityCodeVerification::class.java))
         loading.hide()
     }
     fun sendOTP() {

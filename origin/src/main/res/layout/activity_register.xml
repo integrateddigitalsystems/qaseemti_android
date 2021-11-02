@@ -43,6 +43,11 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -130,5 +135,10 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+        <include
+            layout="@layout/loading" />
+
+    </RelativeLayout>
 
 </LinearLayout>

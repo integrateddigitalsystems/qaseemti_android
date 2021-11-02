@@ -252,4 +252,5 @@
     <string name="suspended_user_msg">User is suspended , Please contact administrator!</string>
     <string name="inactive_user_msg">User is inactive , Please contact administrator!</string>
     <string name="check_phone_number">Please check phone number</string>
+    <string name="select_to_rent_date">Please select a rental expiry date</string>
 </resources>

@@ -12,10 +12,7 @@ import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestOTP
-import com.ids.qasemti.model.RequestVerifyOTP
-import com.ids.qasemti.model.ResponseUpdate
-import com.ids.qasemti.model.ResponseVerification
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_code_verification.*
 import kotlinx.android.synthetic.main.fragment_orders.*
@@ -27,25 +24,25 @@ import retrofit2.Response
 import java.lang.Exception
 
 
-class ActivityCodeVerification : ActivityBase() {
+class ActivityCodeVerification : ActivityBase(), ApiListener {
 
     var firstTime = true
     var time = 60
     var first = true
-    var timer : CountDownTimer ?=null
+    var timer: CountDownTimer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_code_verification)
-        AppHelper.setAllTexts(rootlayoutCodeVerification,this)
-       /* pvCode.setOnFocusChangeListener { view, b ->
-            pvCode.text!!.clear()
-        }*/
+        AppHelper.setAllTexts(rootlayoutCodeVerification, this)
+        /* pvCode.setOnFocusChangeListener { view, b ->
+             pvCode.text!!.clear()
+         }*/
         pvCode.requestFocus()
         pvCode.showKeyboard(true)
 
         tvTitleVerf.onOneClick {
             if (MyApplication.isClient) {
-               MyApplication.userId = 51
+                MyApplication.userId = 51
                 MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
                 MyApplication.selectedFragment = FragmentHomeClient()
             } else {
@@ -69,7 +66,7 @@ class ActivityCodeVerification : ActivityBase() {
             finish()
         }
 
-        if(MyApplication.isClient){
+        if (MyApplication.isClient) {
             btVerifyCode.hide()
             llClientVerfCode.show()
             btCancelVerf.onOneClick {
@@ -79,7 +76,7 @@ class ActivityCodeVerification : ActivityBase() {
                 verifyOTP()
                 //startActivity(Intent(this,ActivityAccountStatus::class.java))
             }
-        }else{
+        } else {
             btVerifyCode.show()
             llClientVerfCode.hide()
 
@@ -92,30 +89,42 @@ class ActivityCodeVerification : ActivityBase() {
         }
         timer = object : CountDownTimer(60000, 1015) {
             override fun onTick(millisUntilFinished: Long) {
-                if(first){
+                if (first) {
                     tvTimer.text = "1:00"
                     first = false
-                }else {
+                } else {
                     tvTimer.text = "0:" + checkDigit(time)
 
                 }
 
                 time--
 
-                if(time ==0){
+                if (time == 0) {
                     this.onFinish()
                 }
             }
 
             override fun onFinish() {
                 first = true
-               tvTimer.text = ""
-                tvTimerTitle.text=AppHelper.getRemoteString("resend_code",this@ActivityCodeVerification)
-                AppHelper.setTextColor(this@ActivityCodeVerification, tvTimerTitle, R.color.button_blue)
+                tvTimer.text = ""
+                tvTimerTitle.text =
+                    AppHelper.getRemoteString("resend_code", this@ActivityCodeVerification)
+                AppHelper.setTextColor(
+                    this@ActivityCodeVerification,
+                    tvTimerTitle,
+                    R.color.button_blue
+                )
                 tvTimerTitle.onOneClick {
-                    if(first) {
-                        tvTimerTitle.text=AppHelper.getRemoteString("resend_code_in",this@ActivityCodeVerification)
-                        AppHelper.setTextColor(this@ActivityCodeVerification, tvTimerTitle, R.color.gray_font_title)
+                    if (first) {
+                        tvTimerTitle.text = AppHelper.getRemoteString(
+                            "resend_code_in",
+                            this@ActivityCodeVerification
+                        )
+                        AppHelper.setTextColor(
+                            this@ActivityCodeVerification,
+                            tvTimerTitle,
+                            R.color.gray_font_title
+                        )
 
                         time = 59
                         this.start()
@@ -137,54 +146,63 @@ class ActivityCodeVerification : ActivityBase() {
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-               if(s.length==4){
-                   verifyOTP()
-               }
+                if (s.length == 4) {
+                    verifyOTP()
+                }
 
             }
         })
 
 
-
     }
 
 
-    fun sendOTP(){
+    fun sendOTP() {
         pvCode.text!!.clear()
-        var req = RequestOTP(MyApplication.selectedPhone,MyApplication.deviceId)
+        var req = RequestOTP(MyApplication.selectedPhone, MyApplication.deviceId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.sendOTP(
                 req
             )?.enqueue(object : Callback<ResponseUpdate> {
-                override fun onResponse(call: Call<ResponseUpdate>, response: Response<ResponseUpdate>) {
-                    try{
+                override fun onResponse(
+                    call: Call<ResponseUpdate>,
+                    response: Response<ResponseUpdate>
+                ) {
+                    try {
 
-                    }catch (E: java.lang.Exception){
+                    } catch (E: java.lang.Exception) {
                     }
                 }
+
                 override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
                 }
             })
     }
-    fun requestSucc(respone:ResponseVerification){
-        if(respone.result.equals("1")){
-        //    AppHelper.createDialog(this,"Correct Code")
-            if(respone.user!=null) {
-                MyApplication.phoneNumber = MyApplication.selectedPhone
-                MyApplication.isSignedIn = true
+
+    fun nextStep() {
+        MyApplication.phoneNumber = MyApplication.selectedPhone
+        MyApplication.isSignedIn = true
+        startActivity(Intent(this, ActivityHome::class.java))
+    }
+
+    fun requestSucc(respone: ResponseVerification) {
+        if (respone.result.equals("1")) {
+            //    AppHelper.createDialog(this,"Correct Code")
+            if (respone.user != null) {
                 MyApplication.userId = respone.user!!.userId!!.toInt()
-                startActivity(Intent(this, ActivityHome::class.java))
-            }else{
+                CallAPIs.getUserStatus(this, this)
+
+            } else {
                 MyApplication.isSignedIn = false
                 startActivity(Intent(this, ActivityRegistration::class.java))
             }
-        }else{
-            AppHelper.createDialog(this,"Incorrect Code")
+        } else {
+            AppHelper.createDialog(this, "Incorrect Code")
             first = true
             timer!!.cancel()
             tvTimer.setText("")
             tvTimerTitle.onOneClick {
-                if(first) {
+                if (first) {
                     time = 59
                     timer!!.start()
                     sendOTP()
@@ -193,41 +211,70 @@ class ActivityCodeVerification : ActivityBase() {
             //startActivity(Intent(this, ActivityRegistration::class.java))
         }
 
-       /* MyApplication.isSignedIn = true
-        try{
-        MyApplication.userId=respone.user!!.userId!!.toInt()
-        }catch (e:Exception){
-            MyApplication.userId=6
-        }
-        AppHelper.getUserInfo()
-        startActivity(Intent(this, ActivityHome::class.java))*/
+        /* MyApplication.isSignedIn = true
+         try{
+         MyApplication.userId=respone.user!!.userId!!.toInt()
+         }catch (e:Exception){
+             MyApplication.userId=6
+         }
+         AppHelper.getUserInfo()
+         startActivity(Intent(this, ActivityHome::class.java))*/
 
     }
 
     fun checkDigit(number: Int): String? {
         return if (number <= 9) "0$number" else number.toString()
     }
-    fun verifyOTP(){
+
+    fun verifyOTP() {
 
         loading.show()
-        var pv =pvCode.text.toString()
-        var req = RequestVerifyOTP(pvCode.text.toString(),MyApplication.deviceId)
+        var pv = pvCode.text.toString()
+        var req = RequestVerifyOTP(pvCode.text.toString(), MyApplication.deviceId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.verifyOTP(
                 req
             )?.enqueue(object : Callback<ResponseVerification> {
-                override fun onResponse(call: Call<ResponseVerification>, response: Response<ResponseVerification>) {
-                    try{
+                override fun onResponse(
+                    call: Call<ResponseVerification>,
+                    response: Response<ResponseVerification>
+                ) {
+                    try {
                         loading.hide()
                         requestSucc(response.body()!!)
-                    }catch (E: java.lang.Exception){
+                    } catch (E: java.lang.Exception) {
                         requestSucc(ResponseVerification("0"))
                     }
                 }
+
                 override fun onFailure(call: Call<ResponseVerification>, throwable: Throwable) {
                     loading.hide()
                     requestSucc(ResponseVerification("0"))
                 }
             })
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+        var res = response as ResponseUserStatus
+        MyApplication.userStatus = res
+        if (res.suspended == 1) {
+            AppHelper.createDialog(this, AppHelper.getRemoteString("suspended_user_msg", this))
+        } else {
+            if (MyApplication.isClient) {
+                nextStep()
+            }else{
+                AppHelper.createDialog(
+                    this,
+                    AppHelper.getRemoteString(
+                        "services_is_inactive",
+                        this
+                    )
+                ) {
+                    nextStep()
+                }
+            }
+
+        }
+
     }
 }

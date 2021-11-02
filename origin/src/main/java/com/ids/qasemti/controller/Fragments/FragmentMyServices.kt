@@ -106,8 +106,13 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
         //  btBck.setOnClickListener{super.onBackPressed()}
         btAdd.onOneClick {
             //  if(MyApplication.userStatus!!.online!=0){
-            MyApplication.isEditService=false
-            startActivity(Intent(requireContext(), ActivityServiceInformation::class.java))
+
+            if(MyApplication.userStatus!!.active == 1) {
+                MyApplication.isEditService=false
+                startActivity(Intent(requireActivity(), ActivityServiceInformation::class.java))
+            } else
+                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("inactive_user_msg",requireContext()))
+
             //  }
 
         }

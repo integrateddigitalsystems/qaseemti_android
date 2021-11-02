@@ -85,16 +85,22 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
     }
 
     fun compareDates():Int{
-        var sdf =
-            SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
-        var dateFrom = etFromDate.text.toString()
-        var dateTo = etToDate.text.toString()
 
-        if(sdf.parse(dateFrom).time>sdf.parse(dateTo).time)
+        try {
+            var sdf =
+                SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+            var dateFrom = etFromDate.text.toString()
+            var dateTo = etToDate.text.toString()
+
+            if (sdf.parse(dateFrom).time > sdf.parse(dateTo).time)
+                return 1
+            else if (sdf.parse(dateFrom).time == sdf.parse(dateTo).time)
+                return -1
+            return 0
+        }catch (ex:Exception){
             return 1
-        else if(sdf.parse(dateFrom).time==sdf.parse(dateTo).time)
-            return -1
-        return 0
+        }
+
     }
 
     fun checkGivenDate():Boolean{
@@ -121,19 +127,23 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
         setUpCurr()
         btPlaceOrder.onOneClick {
             if (locationSelected) {
+                if (MyApplication.selectedService!!.type!!.trim().lowercase() == "rental" && !etToDate.text.isNullOrEmpty() && !etToTime.text.isNullOrEmpty()) {
 
-                if(rbNow.isChecked||checkGivenDate()) {
-                    update = MyApplication.selectedPlaceOrder != null
-                    if (MyApplication.selectedUser != null) {
-                        try {
-                            setPlacedOrder()
-                            placeOrder()
-                        } catch (e: Exception) {
-                            toast(getString(R.string.failure))
+                    if (rbNow.isChecked || checkGivenDate()) {
+                        update = MyApplication.selectedPlaceOrder != null
+                        if (MyApplication.selectedUser != null) {
+                            try {
+                                setPlacedOrder()
+                                placeOrder()
+                            } catch (e: Exception) {
+                                toast(getString(R.string.failure))
+                            }
                         }
+                    } else {
+                        AppHelper.createDialog(this, "Please select a later date or time")
                     }
                 }else{
-                    AppHelper.createDialog(this, "Please select a later date or time")
+                    AppHelper.createDialog(this, AppHelper.getRemoteString("select_to_rent_date",this))
                 }
             } else {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("please_select_location",this))
@@ -240,6 +250,8 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                         }else{
                             etToTime.text = time.toEditable()
                         }
+                    }else{
+                        etToTime.text = time.toEditable()
                     }
 
                 }, hour, minute, true

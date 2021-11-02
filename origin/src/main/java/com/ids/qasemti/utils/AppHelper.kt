@@ -1261,7 +1261,7 @@ class AppHelper {
         }
 
 
-        fun createDialog(c: Activity, message: String) {
+        fun createDialog(c: Activity, message: String,) {
 
 
             var ok = getRemoteString("ok", c)

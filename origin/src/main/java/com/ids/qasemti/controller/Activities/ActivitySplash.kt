@@ -312,7 +312,7 @@ class ActivitySplash : ActivityBase(),ApiListener {
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
         var res = response as ResponseUserStatus
-        if(res.suspended == 0){
+        if(res.suspended == 1){
             AppHelper.createDialog(this,AppHelper.getRemoteString("suspended_user_msg",this))
         }else{
             startActivity(Intent(this, ActivityHome::class.java))

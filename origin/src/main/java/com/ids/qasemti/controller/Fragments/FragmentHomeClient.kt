@@ -151,7 +151,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
                 ) {
                     try {
                         setBannerData(response.body()!!.banners)
-                        loading.hide()
+
                     } catch (E: java.lang.Exception) {
                         loading.hide()
                         setBannerData(arrayListOf())
