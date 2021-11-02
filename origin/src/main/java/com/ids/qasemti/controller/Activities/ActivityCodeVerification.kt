@@ -189,8 +189,15 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
         if (respone.result.equals("1")) {
             //    AppHelper.createDialog(this,"Correct Code")
             if (respone.user != null) {
+                var fullnameEmail=""
+                try{fullnameEmail=respone.user!!.firstName!!+respone.user!!.lastName!!+respone.user!!.email!!}catch (e:Exception){}
+                if(fullnameEmail.isNotEmpty()){
                 MyApplication.userId = respone.user!!.userId!!.toInt()
                 CallAPIs.getUserStatus(this, this)
+                }else{
+                    MyApplication.isSignedIn = false
+                    startActivity(Intent(this, ActivityRegistration::class.java))
+                }
 
             } else {
                 MyApplication.isSignedIn = false

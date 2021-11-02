@@ -238,8 +238,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             if (!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.middleName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
                 profilePercentage += 25
             try{
-            if (MyApplication.selectedUser!!.addresses!!.size>0)
-                profilePercentage += 25}catch (e:Exception){}
+            if (MyApplication.selectedUser!!.addresses!!.size>0){
+                if(MyApplication.selectedUser!!.addresses!![0].addressId!=null && MyApplication.selectedUser!!.addresses!![0].addressName!=null)
+                   profilePercentage += 25
+
+            }}catch (e:Exception){}
             if (!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankBranch.isNullOrEmpty()  /*&& !MyApplication.selectedUser!!.iban.isNullOrEmpty()*/)
                 profilePercentage += 25
         } else {
@@ -265,6 +268,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
         if(!MyApplication.isClient){
             if(MyApplication.selectedUser!!.addresses!=null && MyApplication.selectedUser!!.addresses!!.size > 0){
+                if(MyApplication.selectedUser!!.addresses!![0].addressId!=null && MyApplication.selectedUser!!.addresses!![0].addressName!=null){
+
                 linearAddressInfo.show()
 
                 MyApplication.addNewAddress=false
@@ -308,6 +313,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 btUpdateAddress.show()
                 btUpdateAddress.setOnClickListener{
                     startActivity(Intent(requireActivity(),ActivityMapAddress::class.java))
+                }}else{
+                    MyApplication.addNewAddress=true
+                    btAddNewAddress.text = AppHelper.getRemoteString("AddNewAddress",requireActivity())
+                    linearAddressInfo.hide()
+                    btUpdateAddress.hide()
                 }
 
             }else{
