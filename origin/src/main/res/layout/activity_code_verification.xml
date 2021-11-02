@@ -87,7 +87,7 @@
             android:textStyle="bold"
             app:cursorColor="@color/black"
             app:cursorWidth="1dp"
-            app:itemCount="6"
+            app:itemCount="4"
             app:hideLineWhenFilled="true"
             app:itemHeight="45dp"
             app:itemWidth="45dp"

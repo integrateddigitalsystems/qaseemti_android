@@ -60,7 +60,7 @@ object AppConstants {
 
     const val UPDATE_PROFILE_CLIENT = 0
     const val UPDATE_PROFILE_SERVICE_PROVIDER = 1
-
+    const val API_USER_STATUS = 2
     const val TYPE_PURCHASE = "purchase"
     const val TYPE_RENTAL = "rental"
 

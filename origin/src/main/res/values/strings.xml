@@ -248,4 +248,8 @@
     <string name="find_service_provider_msg">There are no service providers in your area at this point of time.  Would you like us to search in a wider area?” (Extra Charges may apply)</string>
     <string name="collecting_loc">Collecting Location Data</string>
     <string name="Cancel">Cancel</string>
+
+    <string name="suspended_user_msg">User is suspended , Please contact administrator!</string>
+    <string name="inactive_user_msg">User is inactive , Please contact administrator!</string>
+    <string name="check_phone_number">Please check phone number</string>
 </resources>

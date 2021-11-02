@@ -288,7 +288,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         }
 
         var type = intent.getIntExtra("type", 1)
-        typeSelected = MyApplication.selectedOrder!!.orderStatus
+        try{typeSelected = MyApplication.selectedOrder!!.orderStatus}catch (e:Exception){}
         if (typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE) || typeSelected.equals(AppConstants.ORDER_TYPE_CANCELED)) {
             llDetailsCallMessage.show()
         } else {
@@ -296,6 +296,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         }
         AppHelper.setAllTexts(rootLayoutOrderDetails, this)
         tvPageTitle.show()
+        try{
         tvPageTitle.setColorTypeface(
             this,
             R.color.white,
@@ -303,7 +304,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                 R.string.order_details
             ),
             true
-        )
+        )}catch (e:Exception){}
         if (typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE)) {
             if (!MyApplication.isClient) {
                 llEditOrderTime.hide()
@@ -618,7 +619,9 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         }
 
         btSubmit.onOneClick {
-            if (etCancellationReason.text.isNullOrEmpty()) {
+            if(!MyApplication.isClient && MyApplication.userStatus!!.active == 0){
+                createDialog(this,AppHelper.getRemoteString("inactive_user_msg",this))
+            }else  if (etCancellationReason.text.isNullOrEmpty()) {
                 createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
                 AppHelper.createYesNoDialog(

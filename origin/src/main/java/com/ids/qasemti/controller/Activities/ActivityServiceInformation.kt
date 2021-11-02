@@ -558,8 +558,12 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                                    if(response.body()!!.product_id!=null && response.body()!!.product_id!!.isNotEmpty())
                                       uploadFiles(arrayRequiredFiles[i],response.body()!!.product_id!!.toInt())
                                }
-                           }else
-                               this@ActivityServiceInformation.onBackPressed()
+                           }else{
+                               createDialog(this@ActivityServiceInformation, AppHelper.getRemoteString("services_is_inactive", this@ActivityServiceInformation)) {
+                                   this@ActivityServiceInformation.onBackPressed()
+                               }
+                           }
+
                        }
 
                         else{
@@ -616,7 +620,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     private fun checkData(){
         if(!MyApplication.isEditService){
         if((addServiceDone && arrayRequiredFiles.size==0) || (addServiceDone && arrayRequiredFiles.size>0 && countFilesUploaded == arrayRequiredFiles.size))
-            this@ActivityServiceInformation.onBackPressed()
+            createDialog(this, AppHelper.getRemoteString("services_is_inactive", this)) {
+                this@ActivityServiceInformation.onBackPressed()
+            }
+
         }else{
             var coutMultipart=arrayRequiredFiles.count { it.multipart != null }
             if((addServiceDone && arrayRequiredFiles.size==0) || (addServiceDone && arrayRequiredFiles.size>0 && countFilesUploaded == coutMultipart))

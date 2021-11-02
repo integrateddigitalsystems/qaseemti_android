@@ -86,7 +86,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     }
 
     fun getRating() {
-        loading.show()
+        //loading.show()
         var newReq = RequestUserStatus(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getRatings(newReq)?.enqueue(object : Callback<ResponseRatings> {
@@ -105,20 +105,11 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     } catch (E: java.lang.Exception) {
                         // rbMainUser.rating = 0f
                     }
-                    try {
-                        loading.hide()
-                    } catch (ex: Exception) {
-
-                    }
                 }
 
                 override fun onFailure(call: Call<ResponseRatings>, throwable: Throwable) {
                     //  rbMainUser.rating = 0f
-                    try {
-                        loading.hide()
-                    } catch (ex: Exception) {
 
-                    }
                 }
             })
     }
@@ -137,7 +128,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     fun getData() {
 
-        loading.show()
+       // loading.show()
 
         var newReq = RequestUserStatus(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -150,17 +141,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                         tvActiveOrdersNbr.text = response.body()!!.activeOrders.toString()
                         tvUpcomingOrderNumber.text = response.body()!!.upcomingOrders.toString()
 
-                        try {
-                            loading.hide()
-                        } catch (ex: Exception) {
-
-                        }
                     } catch (E: java.lang.Exception) {
-                        try {
-                            loading.hide()
-                        } catch (ex: Exception) {
-
-                        }
 
                     }
                 }
@@ -317,7 +298,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
         if (view.id == R.id.llLocation) {
             AppHelper.onOneClick {
-                MyApplication.selectedOrder = ordersArray.get(position)
+                MyApplication.selectedOrder = ordersArray[position]
                 if (!MyApplication.selectedOrder!!.customerLocation.isNullOrEmpty() && !MyApplication.selectedOrder!!.customerLocation.equals(
                         "null"
                     )
@@ -334,10 +315,14 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             }
         } else if (view.id == R.id.llViewOrderDetails) {
             AppHelper.onOneClick {
+                MyApplication.selectedOrder = ordersArray[position]
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
         } else if (view.id == R.id.btAcceptOrder) {
-            showAcceptOrderPopup(requireActivity(),position)
+            if(MyApplication.userStatus!!.active == 1)
+               showAcceptOrderPopup(requireActivity(),position)
+            else
+                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("inactive_user_msg",requireActivity()))
 
         }
     }

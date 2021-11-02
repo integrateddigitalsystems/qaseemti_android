@@ -82,8 +82,15 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
     private fun listeners(){
       //  btBck.setOnClickListener{super.onBackPressed()}
         btAdd.onOneClick{
-          //  if(MyApplication.userStatus!!.online!=0){
+
+            if(MyApplication.userStatus!!.active == 1)
                 startActivity(Intent(this,ActivityServiceInformation::class.java))
+            else
+                AppHelper.createDialog(this,AppHelper.getRemoteString("inactive_user_msg",this))
+
+
+            //  if(MyApplication.userStatus!!.online!=0){
+
           //  }
 
         }

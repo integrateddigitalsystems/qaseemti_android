@@ -39,7 +39,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class ActivitySplash : ActivityBase() {
+class ActivitySplash : ActivityBase(),ApiListener {
     var mFirebaseRemoteConfig: FirebaseRemoteConfig? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -251,8 +251,11 @@ class ActivitySplash : ActivityBase() {
                             MyApplication.userId = 41
                         }
                     }
+                    if(MyApplication.isClient){
                     startActivity(Intent(this, ActivityHome::class.java))
                     finish()
+                    }else
+                        CallAPIs.getUserStatus(this,this)
                 }else{
                     AppHelper.updateDevice(this,"")
                     if(MyApplication.isClient){
@@ -304,6 +307,17 @@ class ActivitySplash : ActivityBase() {
 
 
             }
+
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+        var res = response as ResponseUserStatus
+        if(res.suspended == 0){
+            AppHelper.createDialog(this,AppHelper.getRemoteString("suspended_user_msg",this))
+        }else{
+            startActivity(Intent(this, ActivityHome::class.java))
+            finish()
+        }
 
     }
 }
