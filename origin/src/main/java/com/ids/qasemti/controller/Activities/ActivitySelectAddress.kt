@@ -198,13 +198,15 @@ class ActivitySelectAddress : AppCompactBase() {
                         this@ActivitySelectAddress
                     )
 
-                    /* if(firstTime) {*/
-                    resultLauncher!!.launch(
-                        Intent(
-                            this@ActivitySelectAddress,
-                            ActivityAddNewAddress::class.java
-                        ).putExtra("from", "current")
-                    )
+                     if(firstTime) {
+                         resultLauncher!!.launch(
+                             Intent(
+                                 this@ActivitySelectAddress,
+                                 ActivityAddNewAddress::class.java
+                             ).putExtra("from", "current")
+                         )
+                         firstTime = false
+                     }
 
 
                 } else {

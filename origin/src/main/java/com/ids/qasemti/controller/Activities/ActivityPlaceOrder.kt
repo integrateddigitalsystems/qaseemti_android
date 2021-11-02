@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -98,16 +99,21 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
         rvOtherData.adapter = AdapterOtherOrderData(array2,this,this)
     }
 
+    fun nextStep(){
+        finishAffinity()
+        MyApplication.selectedPos = 1
+        MyApplication.fromOrderPlaced = true
+        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+        MyApplication.selectedFragment = FragmentOrders()
+        MyApplication.tintColor = R.color.redPrimary
+        startActivity(Intent(this@ActivityPlaceOrder,ActivityHome::class.java))
+    }
+
     fun paymentMethodStep(){
 
         selectedSlug = arrayPaymentMethods.find { it.id == selectedPaymentId }!!.slug
          if(selectedSlug.equals("cod")){
-             finishAffinity()
-             MyApplication.selectedPos = 1
-             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-             MyApplication.selectedFragment = FragmentOrders()
-             MyApplication.tintColor = R.color.redPrimary
-             startActivity(Intent(this@ActivityPlaceOrder,ActivityHome::class.java))
+             nextStep()
          }else{
              paymentGateway()
          }
@@ -144,6 +150,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
             .setNotifyUrl("https://example.com/success.html")
             .build()*/
 
+        loading.show()
         val listProductName: MutableList<String> = java.util.ArrayList()
         listProductName.add(MyApplication.selectedPlaceOrder!!.title!!)
 
@@ -173,8 +180,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
                       .setTotalPrice(MyApplication.selectedPlaceOrder!!.price)
                        .setCurrencyCode("KWD")
                        .setSuccessUrl(succURL)
-                       .setErrorUrl(errorURL)
-                       .setTestMode("0")
+                      .setErrorUrl(errorURL)
+                       .setTestMode("1")
                        .setCustomerName(MyApplication.selectedPlaceOrder!!.firstName+" "+MyApplication.selectedPlaceOrder!!.lastName)
                        .setCustomerEmail(MyApplication.selectedPlaceOrder!!.email)
                        .setCustomerMobile(MyApplication.selectedPlaceOrder!!.phone)
@@ -306,10 +313,31 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
     }
 
     override fun callBackUpayment(postUpayData: PostUpayData?) {
+        loading.hide()
+        if(postUpayData!!.result==AppConstants.PAYMENT_SUCCESS){
+            nextStep()
+        }else{
+            runOnUiThread(Runnable {
+                AppHelper.createDialog(this@ActivityPlaceOrder,postUpayData.result)
+                loading.hide()
+            })
+        }
        Log.wtf("callBack","data")
     }
 
     override fun errorPayUpayment(data: String?) {
-        Log.wtf("errorPay",data!!.toString())
+
+        var message : String ?=""
+        if(MyApplication.languageCode == AppConstants.LANG_ARABIC)
+            message = MyApplication.payparams!!.errorCode.find { it.key == data }!!.codeAr
+        else
+           message = MyApplication.payparams!!.errorCode.find { it.key == data }!!.codeEn
+
+        runOnUiThread(Runnable {
+            AppHelper.createDialog(this@ActivityPlaceOrder,message!!)
+            loading.hide()
+        })
+
+
     }
 }

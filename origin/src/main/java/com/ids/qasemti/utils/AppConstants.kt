@@ -73,4 +73,6 @@ object AppConstants {
     const val PLACE_ORDER_NO_SP = 1
     const val PLACE_ORDER_AVAILABLE_IN= 2
     const val PLACE_ORDER_AVAILABLE_OUT = 3
+
+    const val PAYMENT_SUCCESS = "CAPTURED"
 }

@@ -44,6 +44,7 @@ public class ActivityWeb  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_activty);
+        getSupportActionBar().hide();
         uPaymentCallBack= (UpaymentGateway.UPaymentCallBack);
 
          webView = (WebView) findViewById(R.id.webView);

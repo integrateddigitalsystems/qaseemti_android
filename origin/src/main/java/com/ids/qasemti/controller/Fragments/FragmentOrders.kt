@@ -162,8 +162,12 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         (activity as ActivityHome).showTitle(true)
         (activity as ActivityHome).showLogout(false)
         (activity as ActivityHome).setTintLogo(R.color.redPrimary)
-        if (!MyApplication.fromFooterOrder) {
+        if (!MyApplication.fromFooterOrder ) {
             (activity as ActivityHome).showBack(true)
+        }
+        if(MyApplication.fromOrderPlaced ){
+            (activity as ActivityHome).showBack(false)
+            MyApplication.fromOrderPlaced = false
         }
 
         etSearchOrders.addTextChangedListener(object : TextWatcher {

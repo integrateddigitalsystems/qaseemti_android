@@ -31,6 +31,7 @@ class MyApplication : Application() {
         var isDebug: Boolean = true
         var addNew : Boolean = true
         var selectedFragmentTag : String ?=""
+        var fromOrderPlaced  =false
         var webLinks : FirebaseWebData ?=null
         var payparams : GatewayRespone ?=null
         var typeSelected = 0
