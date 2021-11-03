@@ -519,9 +519,9 @@
                     android:gravity="center_vertical"
                     android:textSize="@dimen/medium_font"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/share"
+                    android:text="@string/ShareApp"
                     android:textDirection="locale"
-                    android:tag="share"
+                    android:tag="ShareApp"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />

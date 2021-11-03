@@ -219,6 +219,8 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                     // setData(true)
                 }
             }
+            var tv = linearTabs.getChildAt(i) as TextView
+            tv.setColorTypeface(requireContext(),R.color.redPrimary,"",false)
         }
     }
 

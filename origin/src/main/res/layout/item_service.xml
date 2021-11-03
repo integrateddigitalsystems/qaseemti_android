@@ -48,6 +48,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:id="@+id/tvServiceTitle"
+        android:textAlignment="viewStart"
         android:textSize="@dimen/medium_font"
         android:textColor="@color/gray_font_title"
         android:layout_marginStart="@dimen/big_margin"

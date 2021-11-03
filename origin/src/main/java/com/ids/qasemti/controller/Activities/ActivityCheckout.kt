@@ -33,10 +33,10 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
     var open = true
     var REQUEST_LOCATION = 5
     var stamp: Long? = 0
-    var pickedDate : Date ?=null
+    var pickedDate: Date? = null
     var update = false
-    var fromHour : Int?=0
-    var fromMin : Int ?=0
+    var fromHour: Int? = 0
+    var fromMin: Int? = 0
     var locationSelected = false
     var latLng: LatLng? = null
     var selectedDate: String? = ""
@@ -67,7 +67,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
             "%02d",
             cal.get(Calendar.MINUTE)
         )
-        fromHour =  cal.get(Calendar.HOUR_OF_DAY)
+        fromHour = cal.get(Calendar.HOUR_OF_DAY)
         fromMin = cal.get(Calendar.MINUTE)
         etFromTime.text = time.toEditable()
         selectedDate = date + " " + time
@@ -84,7 +84,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
         }
     }
 
-    fun compareDates():Int{
+    fun compareDates(): Int {
 
         try {
             var sdf =
@@ -97,37 +97,61 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
             else if (sdf.parse(dateFrom).time == sdf.parse(dateTo).time)
                 return -1
             return 0
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
             return 1
         }
 
     }
 
-    fun checkGivenDate():Boolean{
+    fun checkGivenDate(): Boolean {
         var sdf =
-            SimpleDateFormat("dd MMM yyyy hh:mm", Locale.ENGLISH)
+            SimpleDateFormat("dd MMM yyyy HH:mm", Locale.ENGLISH)
         var date = sdf.parse(selectedDate)
 
-        if(Calendar.getInstance().time.time > date.time){
+        if (Calendar.getInstance().time.time > date.time) {
             return false
         }
 
         return true
     }
-    fun compareTimes(selectH:Int,selectM:Int):Boolean{
-        if(selectH<fromHour!!){
+
+    fun compareTimes(selectH: Int, selectM: Int): Boolean {
+        if (selectH < fromHour!!) {
             return false
-        }else if (selectM< fromMin!!){
+        } else if (selectM < fromMin!!) {
             return false
         }
         return true
 
     }
+
     fun setListeners() {
         setUpCurr()
         btPlaceOrder.onOneClick {
             if (locationSelected) {
-                if (MyApplication.selectedService!!.type!!.trim().lowercase() == "rental" && !etToDate.text.isNullOrEmpty() && !etToTime.text.isNullOrEmpty()) {
+                if (MyApplication.selectedService!!.type!!.trim().lowercase() == "rental") {
+
+                    if (!etToDate.text.isNullOrEmpty() && !etToTime.text.isNullOrEmpty()) {
+                        if (rbNow.isChecked || checkGivenDate()) {
+                            update = MyApplication.selectedPlaceOrder != null
+                            if (MyApplication.selectedUser != null) {
+                                try {
+                                    setPlacedOrder()
+                                    placeOrder()
+                                } catch (e: Exception) {
+                                    toast(getString(R.string.failure))
+                                }
+                            }
+                        }else{
+                            AppHelper.createDialog(this, "Please select a later date or time")
+                        }
+                    } else {
+                        AppHelper.createDialog(
+                            this,
+                            AppHelper.getRemoteString("select_to_rent_date", this)
+                        )
+                    }
+                } else {
 
                     if (rbNow.isChecked || checkGivenDate()) {
                         update = MyApplication.selectedPlaceOrder != null
@@ -139,14 +163,15 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                                 toast(getString(R.string.failure))
                             }
                         }
-                    } else {
+                    }else{
                         AppHelper.createDialog(this, "Please select a later date or time")
                     }
-                }else{
-                    AppHelper.createDialog(this, AppHelper.getRemoteString("select_to_rent_date",this))
                 }
             } else {
-                AppHelper.createDialog(this, AppHelper.getRemoteString("please_select_location",this))
+                AppHelper.createDialog(
+                    this,
+                    AppHelper.getRemoteString("please_select_location", this)
+                )
             }
         }
 
@@ -188,7 +213,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                         pickedDate = myCalendar.time
                         var date = sdf.format(myCalendar.time)
                         etFromDate.text = date.toEditable()
-                        if(compareDates()==1)
+                        if (compareDates() == 1)
                             etToDate.text = date.toEditable()
                         var x = selectedDate
                         var time = selectedDate!!.split(" ").get(3)
@@ -211,15 +236,16 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                     this, R.style.DatePickerDialog,
                     { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
-                        fromHour =  selectedHour
+                        fromHour = selectedHour
                         fromMin = selectedMinute
                         var time = String.format("%02d", selectedHour) + ":" + String.format(
                             "%02d",
                             selectedMinute
                         )
                         etFromTime.text = time.toEditable()
-                        var date = selectedDate!!.split(" ").get(0)+" " + selectedDate!!.split(" ")
-                            .get(1) +" "+ selectedDate!!.split(" ").get(2)
+                        var date =
+                            selectedDate!!.split(" ").get(0) + " " + selectedDate!!.split(" ")
+                                .get(1) + " " + selectedDate!!.split(" ").get(2)
                         selectedDate = date + " " + time
                     }, hour, minute, true
                 ) //Yes 24 hour time
@@ -244,13 +270,13 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                         "%02d",
                         selectedMinute
                     )
-                    if(compareDates()==-1){
-                        if(!compareTimes(selectedHour,selectedMinute)){
-                            AppHelper.createDialog(this,"You cannot pick a time before selected")
-                        }else{
+                    if (compareDates() == -1) {
+                        if (!compareTimes(selectedHour, selectedMinute)) {
+                            AppHelper.createDialog(this, "You cannot pick a time before selected")
+                        } else {
                             etToTime.text = time.toEditable()
                         }
-                    }else{
+                    } else {
                         etToTime.text = time.toEditable()
                     }
 
@@ -325,8 +351,6 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
         }
 
     }
-
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -434,26 +458,26 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
             MyApplication.selectedVariationType,
             MyApplication.selectedSize,
             selectedDate,
-            if(MyApplication.selectedAddress!!.addressName !=null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
+            if (MyApplication.selectedAddress!!.addressName != null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
             lat,
             long,
-            if(MyApplication.selectedAddress!!.street !=null && MyApplication.selectedAddress!!.street!!.isNotEmpty()) MyApplication.selectedAddress!!.street else "",
-            if(MyApplication.selectedAddress!!.bldg !=null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
-            if(MyApplication.selectedAddress!!.floor !=null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
-            if(MyApplication.selectedAddress!!.desc !=null && MyApplication.selectedAddress!!.desc!!.isNotEmpty())  MyApplication.selectedAddress!!.desc else "",
-            if(MyApplication.selectedUser!!.firstName !=null && MyApplication.selectedUser!!.firstName!!.isNotEmpty()) MyApplication.selectedUser!!.firstName else "",
-            if(MyApplication.selectedUser!!.lastName !=null && MyApplication.selectedUser!!.lastName!!.isNotEmpty())MyApplication.selectedUser!!.lastName else "",
-            if(MyApplication.selectedUser!!.billingCompany !=null && MyApplication.selectedUser!!.billingCompany!!.isNotEmpty())MyApplication.selectedUser!!.billingCompany else "",
-            if(MyApplication.selectedUser!!.email !=null && MyApplication.selectedUser!!.email!!.isNotEmpty()) MyApplication.selectedUser!!.email else "",
-            if(MyApplication.selectedUser!!.mobileNumber !=null && MyApplication.selectedUser!!.mobileNumber!!.isNotEmpty())MyApplication.selectedUser!!.mobileNumber else "",
-            if(MyApplication.selectedService!!.name!!.isNotEmpty())MyApplication.selectedService!!.name else "",
+            if (MyApplication.selectedAddress!!.street != null && MyApplication.selectedAddress!!.street!!.isNotEmpty()) MyApplication.selectedAddress!!.street else "",
+            if (MyApplication.selectedAddress!!.bldg != null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
+            if (MyApplication.selectedAddress!!.floor != null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
+            if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
+            if (MyApplication.selectedUser!!.firstName != null && MyApplication.selectedUser!!.firstName!!.isNotEmpty()) MyApplication.selectedUser!!.firstName else "",
+            if (MyApplication.selectedUser!!.lastName != null && MyApplication.selectedUser!!.lastName!!.isNotEmpty()) MyApplication.selectedUser!!.lastName else "",
+            if (MyApplication.selectedUser!!.billingCompany != null && MyApplication.selectedUser!!.billingCompany!!.isNotEmpty()) MyApplication.selectedUser!!.billingCompany else "",
+            if (MyApplication.selectedUser!!.email != null && MyApplication.selectedUser!!.email!!.isNotEmpty()) MyApplication.selectedUser!!.email else "",
+            if (MyApplication.selectedUser!!.mobileNumber != null && MyApplication.selectedUser!!.mobileNumber!!.isNotEmpty()) MyApplication.selectedUser!!.mobileNumber else "",
+            if (MyApplication.selectedService!!.name!!.isNotEmpty()) MyApplication.selectedService!!.name else "",
             MyApplication.selectedPrice
 
         )
-        if(update){
-            var i = MyApplication.arrayCart.size-1
+        if (update) {
+            var i = MyApplication.arrayCart.size - 1
             MyApplication.arrayCart[i] = MyApplication.selectedPlaceOrder!!
-        }else{
+        } else {
             MyApplication.arrayCart.add(MyApplication.selectedPlaceOrder!!)
         }
         MyApplication.seletedPosCart = MyApplication.arrayCart.size - 1
@@ -463,8 +487,8 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
     }
 
 
-    fun placeOrder(){
-       loading.show()
+    fun placeOrder() {
+        loading.show()
         //testing success scenario
 /*        MyApplication.selectedPlaceOrder!!.addressLatitude=""
         MyApplication.selectedPlaceOrder!!.addressLongitude=""*/
@@ -477,15 +501,20 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                 ) {
                     try {
                         loading.hide()
-                        if(response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_IN){
-                            startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java).putExtra(AppConstants.ORDER_ID,response.body()!!.orderId))
-                        }
-                        else if(response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_OUT)
+                        if (response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_IN) {
+                            startActivity(
+                                Intent(
+                                    this@ActivityCheckout,
+                                    ActivityPlaceOrder::class.java
+                                ).putExtra(AppConstants.ORDER_ID, response.body()!!.orderId)
+                            )
+                        } else if (response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_OUT)
                             showProviderMessage(response.body()!!)
                         else
-                            startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java)
-                                .putExtra(AppConstants.ORDER_ID,response.body()!!.orderId)
-                                .putExtra(AppConstants.SP_FOUND,false)
+                            startActivity(
+                                Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java)
+                                    .putExtra(AppConstants.ORDER_ID, response.body()!!.orderId)
+                                    .putExtra(AppConstants.SP_FOUND, false)
                             )
 
                     } catch (E: java.lang.Exception) {
@@ -500,17 +529,18 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
             })
     }
 
-    fun showProviderMessage(res:ResponseOrderId){
+    fun showProviderMessage(res: ResponseOrderId) {
         var ok = AppHelper.getRemoteString("ok", this)
         var cancel = AppHelper.getRemoteString("cancel", this)
         val builder = AlertDialog.Builder(this)
         builder
-            .setMessage(AppHelper.getRemoteString("find_service_provider_msg",this))
+            .setMessage(AppHelper.getRemoteString("find_service_provider_msg", this))
             .setCancelable(true)
             .setNegativeButton(cancel) { dialog, _ ->
-                startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java)
-                    .putExtra(AppConstants.SP_FOUND,false)
-                    .putExtra(AppConstants.ORDER_ID,res.orderId)
+                startActivity(
+                    Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java)
+                        .putExtra(AppConstants.SP_FOUND, false)
+                        .putExtra(AppConstants.ORDER_ID, res.orderId)
                 )
             }
             .setPositiveButton(ok) { dialog, _ ->
@@ -522,7 +552,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
     }
 
 
-    fun broadcastOutOfRange(orderId:String){
+    fun broadcastOutOfRange(orderId: String) {
         loading.show()
         var req = RequestOrderId(orderId.toInt())
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -534,10 +564,21 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
                 ) {
                     try {
                         loading.hide()
-                        if(response.body()!!.number_of_sps!=null && response.body()!!.number_of_sps!! >0){
-                            startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java).putExtra(AppConstants.ORDER_ID,orderId))
-                        }else
-                            startActivity(Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java).putExtra(AppConstants.SP_FOUND,false).putExtra(AppConstants.ORDER_ID,response.body()!!.orderId))
+                        if (response.body()!!.number_of_sps != null && response.body()!!.number_of_sps!! > 0) {
+                            startActivity(
+                                Intent(
+                                    this@ActivityCheckout,
+                                    ActivityPlaceOrder::class.java
+                                ).putExtra(AppConstants.ORDER_ID, orderId)
+                            )
+                        } else
+                            startActivity(
+                                Intent(
+                                    this@ActivityCheckout,
+                                    ActivityPlaceOrder::class.java
+                                ).putExtra(AppConstants.SP_FOUND, false)
+                                    .putExtra(AppConstants.ORDER_ID, response.body()!!.orderId)
+                            )
                     } catch (E: java.lang.Exception) {
 
                         loading.hide()

@@ -334,7 +334,7 @@ class LocationForeService : Service() {
         //      4. Build and issue the notification
 
         // 0. Get data
-        val mainNotificationText = location?.toText() ?: getString(R.string.collecting_loc)
+        val mainNotificationText = location?.toText() ?: AppHelper.getRemoteString("collecting_loc",this)
         val titleText = getString(R.string.app_name)
 
         // 1. Create Notification Channel for O+ and beyond devices (26+).

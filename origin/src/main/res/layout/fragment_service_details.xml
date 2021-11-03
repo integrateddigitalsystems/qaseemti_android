@@ -150,6 +150,7 @@
 
 
                         <RelativeLayout
+                            android:gravity="center_vertical"
                             android:layout_marginTop="@dimen/normal_margin"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/edit_text_height"
@@ -158,7 +159,7 @@
                             <Spinner
                                 android:id="@+id/spServiceType"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/height_35"
+                                android:layout_height="match_parent"
                                 android:background="@color/transparent"
                                 />
 
@@ -206,7 +207,7 @@
                             <Spinner
                                 android:id="@+id/spServiceSize"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/height_35"
+                                android:layout_height="match_parent"
                                 android:background="@color/transparent" />
 
                             <ImageView

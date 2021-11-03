@@ -233,17 +233,16 @@
     <string name="login_alert_msg">ستتلقى رمز التحقق عبر SMS</string>
     <string name="confirm">تأكيد</string>
     <string name="edit">تعديل</string>
-    <string name="you_can_find_updates">You can always find your updates in your email</string>
-    <string name="order_details">Order Details</string>
-    <string name="no_payment_info">No Payment Info</string>
+    <string name="order_details">معلومات الطلب</string>
+    <string name="no_payment_info">لا توجد معلومات دفع</string>
     <string name="are_you_sure_change_status">هل انت متأكد من تغيير الحالة؟</string>
-    <string name="discard">Discard</string>
+    <string name="Discard">تجاهل</string>
     <string name="sure_accept">هل أنت متأكد أنك تريد قبول الطلب؟</string>
     <string name="RepeatOrder">إعادة الطلب</string>
     <string name="UpdateAddress">تعديل العنوان</string>
     <string name="UpdateService">تعديل الخدمة</string>
     <string name="find_service_provider_msg">لا يوجد مقدمو خدمة في منطقتك في هذا الوقت. هل تريد منا البحث في منطقة أوسع؟ (قد يتم تطبيق رسوم إضافية)</string>
-    <string name="collecting_loc">Collecting Location Data</string>
+    <string name="collecting_loc">جمع معلومات الموقع</string>
     <string name="Cancel">الغاء</string>
 
     <string name="suspended_user_msg">تم تعليق المستخدم ، يرجى الاتصال بالمسؤول!</string>

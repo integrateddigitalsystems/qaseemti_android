@@ -83,7 +83,7 @@ class ActivityRegistration : ActivityBase() , ApiListener{
                        "",
                         "",
                       "",
-                        etIBANProfile.text.toString(),
+                     "",
                         selectedProfilePic!!,
                         selectedProfilePic!!
                     )

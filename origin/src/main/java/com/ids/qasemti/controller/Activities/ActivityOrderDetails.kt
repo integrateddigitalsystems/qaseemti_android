@@ -312,20 +312,48 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                 llEditOrderTime.hide()
                 llOrderSwitches.hide()
             }
+            tvPageTitle.text = if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
+                AppHelper.getRemoteString("active",this).capitalized()
+            else
+                AppHelper.getRemoteString("active",this).capitalized() + " " + AppHelper.getRemoteString("order_details",this)
+
             llActualDelivery.hide()
         } else if (typeSelected.equals(AppConstants.ORDER_TYPE_COMPLETED)) {
             llRatingOrder.show()
             btCancelOrder.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
+
+            tvPageTitle.text =  if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
+                AppHelper.getRemoteString("completed",this).capitalized()
+            else
+                AppHelper.getRemoteString("completed",this).capitalized() + " " + AppHelper.getRemoteString("order_details",this)
         } else if (typeSelected.equals(AppConstants.ORDER_TYPE_UPCOMING)) {
             btCancelOrder.show()
             llOrderSwitches.hide()
+            tvPageTitle.text = if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
+                AppHelper.getRemoteString("upcoming",this).capitalized()
+            else
+                AppHelper.getRemoteString("upcoming",this).capitalized() + " " + AppHelper.getRemoteString("order_details",this)
         } else {
+
+           /* if(MyApplication.languageCode==AppConstants.LANG_ARABIC) AppHelper.getRemoteString("order_details",this) + " " +  AppHelper.getRemoteString("cancelled",this).capitalized() else
+                AppHelper.getRemoteString("cancelled",this).capitalized() + " " + AppHelper.getRemoteString("order_details",this)*/
             llEditOrderTime.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
             btCancelOrder.hide()
+            if (typeSelected.equals(AppConstants.ORDER_TYPE_CANCELED)){
+                tvPageTitle.text =   if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
+                    AppHelper.getRemoteString("cancelled",this).capitalized()
+                else
+                    AppHelper.getRemoteString("cancelled",this).capitalized() + " " + AppHelper.getRemoteString("order_details",this)
+            }else{
+                tvPageTitle.text =    if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
+                    AppHelper.getRemoteString("failed",this).capitalized()
+                else
+                    AppHelper.getRemoteString("failed",this).capitalized() + " " + AppHelper.getRemoteString("order_details",this)
+            }
         }
 
         try{
@@ -352,12 +380,13 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
 
     private fun setOrderData() {
+        tvDateExpected.setColorTypeface(this,R.color.gray_font_title,"",true)
         var array: ArrayList<OrderData> = arrayListOf()
-        array.add(OrderData("Category", MyApplication.selectedOrder!!.type))
-        array.add(OrderData("Service", MyApplication.selectedOrder!!.product!!.name))
-        array.add(OrderData("Type", MyApplication.selectedOrder!!.product!!.types))
-        array.add(OrderData("Size/Capacity", MyApplication.selectedOrder!!.product!!.sizeCapacity))
-        array.add(OrderData("Quantity", MyApplication.selectedOrder!!.product!!.qty))
+        array.add(OrderData(AppHelper.getRemoteString("category",this), MyApplication.selectedOrder!!.type))
+        array.add(OrderData(AppHelper.getRemoteString("service",this), MyApplication.selectedOrder!!.product!!.name))
+        array.add(OrderData(AppHelper.getRemoteString("type",this), MyApplication.selectedOrder!!.product!!.types))
+        array.add(OrderData(AppHelper.getRemoteString("SizeCapacity",this), MyApplication.selectedOrder!!.product!!.sizeCapacity))
+        array.add(OrderData(AppHelper.getRemoteString("Quantity",this), MyApplication.selectedOrder!!.product!!.qty))
         if (!MyApplication.selectedOrder!!.type.equals("purchase")) {
             array.add(
                 OrderData(

@@ -4,6 +4,7 @@ import android.app.ActionBar
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.view.Window
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityChat
@@ -399,21 +401,43 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
 
     private fun setData() {
         try {
-            if (arrayFiltered.size == 0) {
+           /* if (arrayFiltered.size == 0) {
                 rvServices.hide()
                 btFilter.hide()
                 tvNoDataClient.show()
 
 
-            } else {
+
+
+            } else {*/
+
+            var data = "{\"id\":202,\"featured_image\":\"https:\\/\\/dev.qasemti.com\\/wp-content\\/uploads\\/2021\\/06\\/a-Horizontal-and-b-vertical-roof-top-Polyethylene-Water-Storage-Tanks-available-in-the.png\",\"type\":\"purchase\",\"name\":\"Water " +
+                    "Tank\",\"description\":\"Water Tank with water for construction sites\",\"eta\":\"1 Day\",\"variations\":[{\"size-capacity\":\"1000 " +
+                    "Gallons\",\"types\":\"Fresh " +
+                    "Water\",\"price\":10,\"earnings\":9,\"fees\":1,\"is_in_stock\":true,\"images\":[\"https:\\/\\/dev.qasemti.com\\/wp-content\\/uploads\\/2021\\/07\\/download-8-1.jpg\",\"https:\\/\\/dev.qasemti.com\\/wp-content\\/uploads\\/2021\\/07\\/download-3-1.jpg\",\"https:\\/\\/dev.qasemti.com\\/wp-content\\/uploads\\/2021\\/07\\/liebherr-kelly-drilling-bohren-verrohrt-cased-lb-28-rotary-drilling-rig-hydraulic-casing-oscillators.jpg\"],\"stock_quantity\":10},{\"size-capacity\":\"3000 " +
+                    "Gallons\",\"types\":\"Fresh " +
+                    "Water\",\"price\":20,\"earnings\":18,\"fees\":2,\"is_in_stock\":true,\"images\":[\"https:\\/\\/dev.qasemti.com\\/wp-content\\/uploads\\/2021\\/06\\/a-Horizontal-and-b-vertical-roof-top-Polyethylene-Water-Storage-Tanks-available-in-the.png\"],\"stock_quantity\":0},{\"size-capacity\":\"5000 " +
+                    "Gallons\",\"types\":\"Fresh " +
+                    "Water\",\"price\":30,\"earnings\":27,\"fees\":3,\"is_in_stock\":true,\"images\":[\"https:\\/\\/dev.qasemti.com\\/wp-content\\/uploads\\/2021\\/06\\/a-Horizontal-and-b-vertical-roof-top-Polyethylene-Water-Storage-Tanks-available-in-the.png\"],\"stock_quantity\":0},{\"size-capacity\":\"1000 " +
+                    "Gallons\",\"types\":\"Not Fresh " +
+                    "Water\",\"price\":10,\"earnings\":9,\"fees\":1,\"is_in_stock\":true,\"images\":[\"https:\\/\\/dev.qasemti.com\\/wp-content\\/uploads\\/2021\\/06\\/a-Horizontal-and-b-vertical-roof-top-Polyethylene-Water-Storage-Tanks-available-in-the.png\"],\"stock_quantity\":0},{\"size-capacity\":\"3000 " +
+                    "Gallons\",\"types\":\"Not Fresh " +
+                    "Water\",\"price\":20,\"earnings\":18,\"fees\":2,\"is_in_stock\":true,\"images\":[\"https:\\/\\/dev.qasemti.com\\/wp-content\\/uploads\\/2021\\/06\\/a-Horizontal-and-b-vertical-roof-top-Polyethylene-Water-Storage-Tanks-available-in-the.png\"],\"stock_quantity\":0},{\"size-capacity\":\"5000 " +
+                    "Gallons\",\"types\":\"Not Fresh " +
+                    "Water\",\"price\":30,\"earnings\":27,\"fees\":3,\"is_in_stock\":true,\"images\":[\"https:\\/\\/dev.qasemti.com\\/wp-content\\/uploads\\/2021\\/06\\/a-Horizontal-and-b-vertical-roof-top-Polyethylene-Water-Storage-Tanks-available-in-the.png\"],\"stock_quantity\":0}],\"booking_min\":1,\"booking_max\":1,\"additional_price_if_distance__10km\":\"10\",\"additional_price_if_distance__20km\":\"20\",\"additional_price_if_distance__30km\":\"30\",\"additional_price_if_distance__40km\":\"40\",\"additional_price_if_distance__50km\":\"50\",\"files\":[{\"id\":\"1\",\"url\":\"https:\\/\\/dev.qasemti.com\\/wp-content\\/uploads\\/media_files\\/2_tree-gc0eeadec0_1280.jpgFile\",\"name\":\"driving " +
+                    "licence\"},{\"id\":\"2\",\"url\":\"https:\\/\\/dev.qasemti.com\\/wp-content\\/uploads\\/media_files\\/2_tree-gc0eeadec0_1280.jpgFile\",\"name\":\"vehicle " +
+                    "licence\"}]}"
+
+            var datum = Gson().fromJson(data, ResponseService::class.java)
+            arrayFiltered.add(datum)
                 tvNoDataClient.hide()
                 var adapter = AdapterServices(arrayFiltered, this, requireContext())
                 rvServices.layoutManager = LinearLayoutManager(requireContext())
                 rvServices.adapter = adapter
                 rvServices.isNestedScrollingEnabled = false
-            }
+            //}
         } catch (ex: Exception) {
-
+            Log.wtf("exception",ex)
         }
     }
 

@@ -14,10 +14,11 @@
             android:paddingStart="@dimen/first_margin"
             android:layout_width="match_parent"
             android:textColor="@color/gray_font_title"
+            android:textAlignment="viewStart"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/tvDataName"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|start"
             android:tag="category"
             android:text="@string/category" />
 
@@ -32,9 +33,10 @@
             android:layout_height="match_parent"
             android:id="@+id/tvDataValue"
             android:textSize="@dimen/medium_font"
+            android:textAlignment="viewStart"
             android:textColor="@color/gray_font_title"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|start"
             android:text="Purchase" />
 
     </LinearLayout>

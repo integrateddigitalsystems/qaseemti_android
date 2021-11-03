@@ -54,20 +54,23 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAlignment="viewStart"
                 android:id="@+id/tvCartTitle"
                 android:textColor="@color/gray_font_title"
                 android:textSize="@dimen/small_font"
                 android:text="Water Tank"/>
 
             <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_marginTop="@dimen/normal_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvItemCost"
+                android:textAlignment="viewStart"
                 android:textColor="@color/redPrimary"
                 android:textSize="@dimen/small_font"
                 android:text="10"/>
