@@ -619,7 +619,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         }
 
         btSubmit.onOneClick {
-            if(!MyApplication.isClient && MyApplication.userStatus!!.active == 0){
+            if(!MyApplication.isClient && MyApplication.selectedUser!!.active == 0){
                 createDialog(this,AppHelper.getRemoteString("inactive_user_msg",this))
             }else  if (etCancellationReason.text.isNullOrEmpty()) {
                 createDialog(this, AppHelper.getRemoteString("fill_all_field", this))

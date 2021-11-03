@@ -319,7 +319,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
         } else if (view.id == R.id.btAcceptOrder) {
-            if(MyApplication.userStatus!!.active == 1)
+            if(MyApplication.selectedUser!!.active == 1)
                showAcceptOrderPopup(requireActivity(),position)
             else
                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("inactive_user_msg",requireActivity()))

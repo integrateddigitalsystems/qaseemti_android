@@ -373,7 +373,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
                     }
                     loading.hide()
-                    setUserData()
+                    try{setUserData()}catch (e:Exception){}
                 }
 
                 override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {

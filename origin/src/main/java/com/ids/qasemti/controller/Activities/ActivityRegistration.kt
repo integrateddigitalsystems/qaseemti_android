@@ -117,66 +117,8 @@ class ActivityRegistration : ActivityBase() , ApiListener{
         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
         MyApplication.selectedFragment = FragmentAccount()
         startActivity(Intent(this, ActivityAccountStatus::class.java))
-        /*if (MyApplication.firstTime) {
-            MyApplication.register = true
-            MyApplication.selectedPos=4
-            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
-            MyApplication.selectedFragment = FragmentAccount()
-            startActivity(Intent(this, ActivityAccountStatus::class.java))
-        } else {
-            MyApplication.isSignedIn = true
-            MyApplication.phoneNumber = MyApplication.selectedPhone
-            MyApplication.register = true
-            MyApplication.selectedPos=4
-            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
-            MyApplication.selectedFragment = FragmentAccount()
-            AppHelper.getUserInfo()
-            startActivity(Intent(this, ActivityHome::class.java))
-        }*/
     }
 
-    fun updateProfile() {
-        try {
-            loading.show()
-        } catch (ex: java.lang.Exception) {
-
-        }
-
-        var empty = RequestBody.create("text/plain".toMediaTypeOrNull(), "")
-        val user = RequestBody.create("text/plain".toMediaTypeOrNull(), MyApplication.userId.toString())
-        val first =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), etFirstName.text.toString())
-        val last =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), etLastName.text.toString())
-        val email =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), etEmail.text.toString())
-
-        var req =  RequestBody.create("multipart/form-data".toMediaType(), File(""))
-        try {
-            body1 = MultipartBody.Part.createFormData("file", "", req)
-        }catch (ex:Exception){
-            body1 = MultipartBody.Part.createFormData("file", "Upload",req)
-        }
-
-        RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.updateProfileRegister(
-                user,
-                first,
-                last,
-                email)?.enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
-                    try {
-                        nextStep()
-                    } catch (E: java.lang.Exception) {
-
-                    }
-                }
-
-                override fun onFailure(call: Call<String>, throwable: Throwable) {
-                    nextStep()
-                }
-            })
-    }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
         nextStep()

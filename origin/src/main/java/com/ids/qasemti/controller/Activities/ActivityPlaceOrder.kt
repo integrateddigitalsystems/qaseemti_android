@@ -117,6 +117,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
          }else{
              paymentGateway()
          }
+       // nextStep()
     }
 
     fun paymentGateway(){
@@ -125,8 +126,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
 
 
         //
-        var array : ArrayList<String> = arrayListOf()
-       /* val analyticsEvent3 = Builder<Builder<Builder<*>>>(MyApplication.selectedPlaceOrder!!.userId!!.toString())
+       /* var array : ArrayList<String> = arrayListOf()
+        val analyticsEvent3 = Builder<Builder<Builder<*>>>(MyApplication.selectedPlaceOrder!!.userId!!.toString())
             .setMerchantId(MyApplication.selectedPlaceOrder!!.userId!!.toString())
             .setUsername(MyApplication.selectedPlaceOrder!!.firstName)
             .setPassword("password")
@@ -148,8 +149,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
             .setProductQty(array)
             .setReference("")
             .setNotifyUrl("https://example.com/success.html")
-            .build()*/
-
+            .build()
+*/
         loading.show()
         val listProductName: MutableList<String> = java.util.ArrayList()
         listProductName.add(MyApplication.selectedPlaceOrder!!.title!!)

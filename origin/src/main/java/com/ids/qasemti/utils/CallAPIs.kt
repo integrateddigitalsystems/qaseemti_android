@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.ProgressBar
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.RequestUpdateLanguage
 import com.ids.qasemti.model.RequestUserStatus
 import com.ids.qasemti.model.ResponseUser
 import com.ids.qasemti.model.ResponseUserStatus
@@ -224,31 +225,25 @@ class CallAPIs {
 
         }
 
-
-
-
-        fun getUserStatus(
-            context: Context,
-            listener: ApiListener,
-
-        ) {
-            var newReq = RequestUserStatus(MyApplication.userId)
+        fun getUserInfo(   context: Context,
+                           listener: ApiListener,) {
+            var newReq = RequestUpdateLanguage(MyApplication.userId, MyApplication.languageCode)
             RetrofitClient.client?.create(RetrofitInterface::class.java)
-                ?.getUserStatus(
+                ?.getUser(
                     newReq
-                )?.enqueue(object : Callback<ResponseUserStatus> {
+                )?.enqueue(object : Callback<ResponseUser> {
                     override fun onResponse(
-                        call: Call<ResponseUserStatus>,
-                        response: Response<ResponseUserStatus>
+                        call: Call<ResponseUser>,
+                        response: Response<ResponseUser>
                     ) {
                         try {
-                            MyApplication.userStatus = response.body()
+                            MyApplication.selectedUser = response.body()!!.user
                             listener.onDataRetrieved(
                                 true,
                                 response.body()!!,
                                 AppConstants.API_USER_STATUS
                             )
-                        } catch (E: java.lang.Exception) {
+                        } catch (e: Exception) {
                             try {
                                 listener.onDataRetrieved(
                                     false,
@@ -261,7 +256,7 @@ class CallAPIs {
                         }
                     }
 
-                    override fun onFailure(call: Call<ResponseUserStatus>, throwable: Throwable) {
+                    override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
                         try {
                             listener.onDataRetrieved(
                                 false,
@@ -273,8 +268,7 @@ class CallAPIs {
                         }
                     }
                 })
-
-
         }
+
     }
 }

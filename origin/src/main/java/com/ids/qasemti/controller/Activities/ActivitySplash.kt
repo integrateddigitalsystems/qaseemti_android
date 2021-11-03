@@ -233,8 +233,7 @@ class ActivitySplash : ActivityBase(),ApiListener {
                 finish()
             }else{
                 if(MyApplication.isSignedIn) {
-                    AppHelper.updateDevice(this,MyApplication.phoneNumber!!)
-                    AppHelper.getUserInfo()
+
                     if (MyApplication.isClient) {
                         UpaymentGateway.init(this, "", "", true)
                         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
@@ -246,26 +245,24 @@ class ActivitySplash : ActivityBase(),ApiListener {
                     MyApplication.isSignedIn = true
                     if(MyApplication.userId==0){
                         if(MyApplication.isClient){
-                            MyApplication.userId == 51
+                            MyApplication.userId = 51
                         }else{
                             MyApplication.userId = 41
                         }
                     }
-                    if(MyApplication.isClient){
-                    startActivity(Intent(this, ActivityHome::class.java))
-                    finish()
-                    }else
-                        CallAPIs.getUserStatus(this,this)
+
+                    AppHelper.updateDevice(this,MyApplication.phoneNumber!!)
+                    CallAPIs.getUserInfo(this,this)
+
                 }else{
                     AppHelper.updateDevice(this,"")
                     if(MyApplication.isClient){
                         UpaymentGateway.init(this, "", "", true)
                         /*MyApplication.isSignedIn = true
                         MyApplication.userId = 41*/
-                        AppHelper.getUserInfo()
                         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
                         MyApplication.selectedFragment = FragmentHomeClient()
-                        startActivity(Intent(this, ActivityHome::class.java))
+                        CallAPIs.getUserInfo(this,this)
                     }
                     else {
                         startActivity(Intent(this, ActivityMobileRegistration::class.java))
@@ -305,14 +302,13 @@ class ActivitySplash : ActivityBase(),ApiListener {
                     nextStep()
                 }
 
-
             }
 
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        var res = response as ResponseUserStatus
-        if(res.suspended == 1){
+        var res = response as ResponseUser
+        if(res.user!!.suspended == 1 && MyApplication.isClient){
             AppHelper.createDialog(this,AppHelper.getRemoteString("suspended_user_msg",this))
         }else{
             startActivity(Intent(this, ActivityHome::class.java))

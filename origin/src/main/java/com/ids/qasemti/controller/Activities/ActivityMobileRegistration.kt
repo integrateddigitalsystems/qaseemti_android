@@ -84,74 +84,27 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
             llNewMember.hide()
         }
 
-      /*  tvRegisterNewMember.onOneClick {
-            startActivity(Intent(this, ActivityRegistration::class.java))
-        }*/
-
-
-
-        /*val adapterMobileCode = AdapterGeneralSpinner(
-            this,
-            R.layout.spinner_layout,
-            items,
-            AppConstants.LEFT_BLACK
-        )
-
-        spMobileCode.adapter = adapterMobileCode
-        adapterMobileCode.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
-        spMobileCode.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                selectedCode = items.get(position).name!!
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
-
-        }*/
-
         btLoginClient.onOneClick {
-            if (etPhone.text.isNullOrEmpty()) {
-                AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
-            } else if (etPhone.text.length !=8) {
-                 AppHelper.createDialog(this, AppHelper.getRemoteString("check_phone_number", this))
-             }
-
-
-            else {
-
-                AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("confirm",this),AppHelper.getRemoteString("edit",this),AppHelper.getRemoteString("login_alert_title",this).replace("phoned_number",MyApplication.selectedItemDialog+etPhone.text.toString())+"\n"+AppHelper.getRemoteString("login_alert_msg",this)){
-                    MyApplication.selectedPhone = MyApplication.selectedItemDialog.replace("+","").trim()+etPhone.text.toString()
-                    loading.show()
-                    updateDevice()
-                }
-            }
-
-        }
+            validateRegistration()
+       }
 
         btLogin.onOneClick {
-            if (etPhone.text.isNullOrEmpty()) {
-                AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
+           validateRegistration()
+        }
+    }
+
+    fun validateRegistration(){
+        if (etPhone.text.isNullOrEmpty()) {
+            AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
+        } else if (etPhone.text.length !=8) {
+            AppHelper.createDialog(this, AppHelper.getRemoteString("check_phone_number", this))
+        }
+        else {
+            AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("confirm",this),AppHelper.getRemoteString("edit",this),AppHelper.getRemoteString("login_alert_title",this).replace("phoned_number",MyApplication.selectedItemDialog+etPhone.text.toString())+"\n"+AppHelper.getRemoteString("login_alert_msg",this)){
+                MyApplication.selectedPhone = MyApplication.selectedItemDialog.replace("+","").trim()+etPhone.text.toString()
+                loading.show()
+                updateDevice()
             }
-            else if (etPhone.text.length !=8) {
-                AppHelper.createDialog(this, AppHelper.getRemoteString("check_phone_number", this))
-            }
-
-            else {
-                AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("confirm",this),AppHelper.getRemoteString("edit",this),AppHelper.getRemoteString("login_alert_title",this)+"\n"+MyApplication.selectedItemDialog+etPhone.text.toString()+"\n"+AppHelper.getRemoteString("login_alert_msg",this)){
-                    MyApplication.selectedPhone = MyApplication.selectedItemDialog.replace("+","").trim()+etPhone.text.toString()
-                    getUserStatus()
-                }
-
-
-            }
-
         }
     }
 
@@ -270,45 +223,7 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
             })
     }
 
-    fun nextStep() {
-       updateDevice()
 
-    }
-
-    fun getUserStatus() {
-
-            loading.show()
-
-        var newReq = RequestUserStatus(MyApplication.userId)
-        RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.getUserStatus(
-                newReq
-            )?.enqueue(object : Callback<ResponseUserStatus> {
-                override fun onResponse(
-                    call: Call<ResponseUserStatus>,
-                    response: Response<ResponseUserStatus>
-                ) {
-                    try {
-                        MyApplication.userStatus = response.body()
-                        nextStep()
-                    } catch (E: java.lang.Exception) {
-                        try {
-                            loading.hide()
-                        } catch (ex: Exception) {
-
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<ResponseUserStatus>, throwable: Throwable) {
-                    try {
-                        loading.hide()
-                    } catch (ex: Exception) {
-
-                    }
-                }
-            })
-    }
 
     override fun onItemClicked(view: View, position: Int) {
 
