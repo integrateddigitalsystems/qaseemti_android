@@ -405,6 +405,22 @@
                 android:background="@drawable/rounded_white_background"
                 />
 
+
+                <EditText
+                    android:id="@+id/etDescriptionProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/msg_edit_text"
+                    android:textColor="@color/gray_font"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:gravity="start"
+                    android:padding="@dimen/normal_margin"
+                    android:hint="@string/description"
+                    android:textColorHint="@color/gray_medium_2"
+                    android:tag="description"
+                    android:textSize="@dimen/normal_font"
+                    android:background="@drawable/rounded_white_background"
+                    />
+
             <LinearLayout
                 android:id="@+id/llAddressProfile"
                 android:layout_width="match_parent"
@@ -646,20 +662,7 @@
                     android:layout_marginTop="@dimen/normal_margin"
                     android:id="@+id/btAddNewAddress"
                     />
-            <EditText
-                android:id="@+id/etDescriptionProfile"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/msg_edit_text"
-                android:textColor="@color/gray_font"
-                android:layout_marginTop="@dimen/normal_margin"
-                android:gravity="start"
-                android:padding="@dimen/normal_margin"
-                android:hint="@string/description"
-                android:textColorHint="@color/gray_medium_2"
-                android:tag="description"
-                android:textSize="@dimen/normal_font"
-                android:background="@drawable/rounded_white_background"
-                />
+
 
 
             <com.ids.qasemti.custom.CustomTextViewBold

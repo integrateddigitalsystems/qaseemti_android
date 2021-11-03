@@ -206,6 +206,16 @@ class User (
 
     ,
 
+    @SerializedName("suspended")
+    @Expose
+    var suspended: Int? = 0 ,
+    @SerializedName("active")
+    @Expose
+    var active: Int? = 0 ,
+    @SerializedName("approved")
+    @Expose
+    var approved: Int? = 0 ,
+
     @SerializedName("description")
     @Expose
     var desc: String? = "" ,

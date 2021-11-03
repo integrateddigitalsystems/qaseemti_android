@@ -107,7 +107,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
         btAdd.onOneClick {
             //  if(MyApplication.userStatus!!.online!=0){
 
-            if(MyApplication.userStatus!!.active == 1) {
+            if(MyApplication.selectedUser!!.active == 1) {
                 MyApplication.isEditService=false
                 startActivity(Intent(requireActivity(), ActivityServiceInformation::class.java))
             } else

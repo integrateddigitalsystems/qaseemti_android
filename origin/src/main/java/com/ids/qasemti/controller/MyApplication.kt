@@ -45,7 +45,7 @@ class MyApplication : Application() {
         var finish : Boolean ?=false
         var latSelected : Double ?=0.0
         var longSelected : Double ?=0.0
-        var userStatus : ResponseUserStatus ?=null
+        //var userStatus : ResponseUserStatus ?=null
         var fromLogout = false
         var register = false
         var selectedOrderTrack : ResponseOrders ?=null

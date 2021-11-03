@@ -187,14 +187,26 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
 
     fun requestSucc(respone: ResponseVerification) {
         if (respone.result.equals("1")) {
-            //    AppHelper.createDialog(this,"Correct Code")
-            if (respone.user != null) {
-                MyApplication.userId = respone.user!!.userId!!.toInt()
-                CallAPIs.getUserStatus(this, this)
-
-            } else {
-                MyApplication.isSignedIn = false
-                startActivity(Intent(this, ActivityRegistration::class.java))
+            if (respone.user != null ) {
+                if(!MyApplication.isClient){
+                if (respone.user!!.suspended == 1) {
+                    AppHelper.createDialog(this, AppHelper.getRemoteString("suspended_user_msg", this))
+                } else if(respone.user!!.approved == 1){
+                   nextStep()
+                }else{
+                    MyApplication.userId= respone.user!!.userId!!.toInt()
+                    MyApplication.isSignedIn = false
+                    startActivity(Intent(this, ActivityRegistration::class.java))
+                }}else{
+                    var fullNameEmail=""
+                    try{fullNameEmail = respone.user!!.firstName + respone.user!!.lastName!!+respone.user!!.email}catch (e:Exception){}
+                    if(fullNameEmail.isEmpty()){
+                        MyApplication.userId= respone.user!!.userId!!.toInt()
+                        MyApplication.isSignedIn = false
+                        startActivity(Intent(this, ActivityRegistration::class.java))
+                    }else
+                        nextStep()
+                }
             }
         } else {
             AppHelper.createDialog(this, "Incorrect Code")
@@ -256,25 +268,6 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
         var res = response as ResponseUserStatus
-        MyApplication.userStatus = res
-        if (res.suspended == 1) {
-            AppHelper.createDialog(this, AppHelper.getRemoteString("suspended_user_msg", this))
-        } else {
-            if (MyApplication.isClient) {
-                nextStep()
-            }else{
-                AppHelper.createDialog(
-                    this,
-                    AppHelper.getRemoteString(
-                        "services_is_inactive",
-                        this
-                    )
-                ) {
-                    nextStep()
-                }
-            }
-
-        }
 
     }
 }
