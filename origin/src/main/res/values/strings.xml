@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name" translatable="false">Qaseemati</string>
-    <string name="copyrights" translatable="false">Copyright © 2021 Qasemati All rights</string>
+    <string name="copyrights" translatable="false">Copyright © 2021 Qasemti All rights</string>
     <string name="hello">Hello 111</string>
     <string name="hello2">Hello 222</string>
     <string name="hello3">Hello 3333</string>
@@ -36,7 +36,7 @@
     <string name="upcoming_orders">Upcoming \n Orders</string>
     <string name="dumy_text_underline">Beirut, Bir hassan, J Bld 5th floor.Block B</string>
     <string name="verification">Verification</string>
-    <string name="enter_the_6_digit_code_sent_to_you_from_qasemati">Enter the 6 digit code sent to you from Qasemati</string>
+    <string name="enter_the_6_digit_code_sent_to_you_from_qasemati">Enter the 6 digit code sent to you from Qasemti</string>
     <string name="resend_code_in">Resend code in</string>
     <string name="resend_code">Resend the code</string>
     <string name="verify">VERIFY</string>
@@ -89,6 +89,7 @@
     <string name="Delivery">Delivered ?</string>
     <string name="Paid">Paid ?</string>
     <string name="search_by">Search by client name, product, order..</string>
+    <string name="search_by_service">Search by service provider name, product, order..</string>
     <string name="Cart">Cart</string>
     <string name="Size">Size</string>
     <string name="Checkout">Checkout</string>
@@ -249,8 +250,10 @@
     <string name="collecting_loc">Collecting Location Data</string>
     <string name="Cancel">Cancel</string>
 
-    <string name="suspended_user_msg">User is suspended , Please contact administrator!</string>
-    <string name="inactive_user_msg">User is inactive , Please contact administrator!</string>
+    <string name="suspended_user_msg">Account is suspended , Please contact administrator!</string>
+    <string name="inactive_user_msg">Account is inactive , Please contact administrator!</string>
     <string name="check_phone_number">Please check phone number</string>
     <string name="select_to_rent_date">Please select a rental expiry date</string>
+    <string name="serviceExists">Service already exists!</string>
+    <string name="adding_error">This service already exists, please add another</string>
 </resources>

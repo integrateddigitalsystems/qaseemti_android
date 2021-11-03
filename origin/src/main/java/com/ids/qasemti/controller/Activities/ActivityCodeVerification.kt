@@ -40,7 +40,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
         pvCode.requestFocus()
         pvCode.showKeyboard(true)
 
-        tvTitleVerf.onOneClick {
+       /* tvTitleVerf.onOneClick {
             if (MyApplication.isClient) {
                 MyApplication.userId = 51
                 MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
@@ -64,7 +64,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
             MyApplication.isSignedIn = true
             startActivity(Intent(this, ActivityRegistration::class.java))
             finish()
-        }
+        }*/
 
         if (MyApplication.isClient) {
             btVerifyCode.hide()
@@ -192,6 +192,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
                 if (respone.user!!.suspended == 1) {
                     AppHelper.createDialog(this, AppHelper.getRemoteString("suspended_user_msg", this))
                 } else if(respone.user!!.approved == 1){
+                    MyApplication.userId = respone.user!!.userId!!.toInt()
                    nextStep()
                 }else{
                     MyApplication.userId= respone.user!!.userId!!.toInt()
@@ -204,8 +205,10 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
                         MyApplication.userId= respone.user!!.userId!!.toInt()
                         MyApplication.isSignedIn = false
                         startActivity(Intent(this, ActivityRegistration::class.java))
-                    }else
+                    }else {
+                        MyApplication.userId = respone.user!!.userId!!.toInt()
                         nextStep()
+                    }
                 }
             }
         } else {

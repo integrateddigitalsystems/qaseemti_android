@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import android.util.AttributeSet
 
 import com.ids.qasemti.utils.AppHelper
+import me.grantland.widget.AutofitHelper
 
 
 class CustomTextViewMedium : AppCompatTextView {
@@ -25,6 +26,8 @@ class CustomTextViewMedium : AppCompatTextView {
     private fun init() {
         if (!isInEditMode)
             typeface = AppHelper.getTypeFace(context)
+
+        AutofitHelper.create(this)
 
     }
 

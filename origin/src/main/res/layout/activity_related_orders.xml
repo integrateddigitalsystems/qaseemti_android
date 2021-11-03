@@ -55,6 +55,7 @@
                     android:layout_marginEnd="@dimen/mini_margin"
                     android:id="@+id/tvTitleOrders"
                     android:layout_width="wrap_content"
+                    android:tag="order"
                     android:layout_height="@dimen/icon"
                     android:text="@string/order"/>
 
@@ -117,6 +118,7 @@
                     android:layout_marginStart="@dimen/mini_margin"
                     android:layout_marginEnd="@dimen/mini_margin"
                     android:id="@+id/tvTitleDues"
+                    android:tag="MyDues"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/icon"
                     android:text="@string/MyDues"/>

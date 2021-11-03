@@ -6,6 +6,7 @@ import android.graphics.Typeface
 import androidx.appcompat.widget.AppCompatTextView
 import android.util.AttributeSet
 import com.ids.qasemti.utils.AppHelper
+import me.grantland.widget.AutofitHelper
 import java.util.*
 
 
@@ -26,6 +27,7 @@ class CustomTextViewBold : AppCompatTextView {
         if (!isInEditMode)
             typeface = AppHelper.getTypeFaceBold(context)
 
+        AutofitHelper.create(this)
             //setTypeface(typeface, Typeface.BOLD)
     }
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearService3"
     android:orientation="vertical"
-    android:visibility="gone"
+    android:visibility="visible"
     android:layout_height="match_parent">
 
 
@@ -37,7 +37,8 @@
             android:textSize="@dimen/normal_font"
             android:textColor="@color/gray_font"
             android:layout_marginStart="@dimen/small_margin"
-            android:text="Price : "
+            android:text="@string/Price"
+            android:tag="Price"
             android:id="@+id/tvPrice"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
@@ -66,7 +67,8 @@
             android:textColor="@color/gray_font"
             android:id="@+id/tvEarning"
             android:layout_marginStart="@dimen/small_margin"
-            android:text="Earning :"
+            android:text="@string/Earning"
+            android:tag="Earning"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             />
@@ -94,7 +96,8 @@
             android:id="@+id/tvEstimatedDeliveryTime"
             android:textColor="@color/gray_font"
             android:layout_marginStart="@dimen/small_margin"
-            android:text="Estimated delivery time : -"
+            android:text="@string/expected_delivery"
+            android:tag="expected_delivery"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             />

@@ -209,6 +209,10 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        loading.hide()
+    }
     fun updatePayment(){
         if(orderId=="")
             orderId="0"

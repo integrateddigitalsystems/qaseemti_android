@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
@@ -28,7 +29,7 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
+class ActivityCheckout : ActivityBase(), RVOnItemClickListener {
 
     var open = true
     var REQUEST_LOCATION = 5
@@ -76,7 +77,8 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
     fun setTintLogo(color: Int) {
         AppHelper.setLogoTint(btDrawer, this, color)
         btDrawer.hide()
-        AppHelper.setTextColor(this, tvPageTitle, color)
+
+       // AppHelper.setTextColor(this, tvPageTitle, color)
         AppHelper.setLogoTint(btBackTool, this, color)
         AppHelper.setLogoTint(btLogout, this, color)
         btBackTool.onOneClick {
@@ -360,6 +362,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
             val extras = data!!.extras
             if (extras != null) {
                 var address = extras.getString("address")
+              //  tvSelectedAddressCheck.setColorTypeface(this,R.color.gray_font_title,address!!,false)
                 tvSelectedAddressCheck.text = address
                 locationSelected = true
                 try {
@@ -376,6 +379,7 @@ class ActivityCheckout : AppCompatActivity(), RVOnItemClickListener {
 
     fun init() {
         setTintLogo(R.color.redPrimary)
+      //  tvSelectedAddressCheck.setColorTypeface(this,R.color.gray_font_title,"",false)
         tvPageTitle.textRemote("Checkout", this)
         tvPageTitle.setColorTypeface(this, R.color.redPrimary, "", true)
         etFromDate.isFocusable = false;

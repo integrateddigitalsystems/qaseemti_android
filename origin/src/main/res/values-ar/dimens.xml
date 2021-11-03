@@ -10,5 +10,8 @@
     <dimen name="font_big_number">28sp</dimen>
     <dimen name="msg_edit_text">120dp</dimen>
     <dimen name="footer_dim">75dp</dimen>
-    <dimen name="medium_font">12sp</dimen>
+    <dimen name="normal_font">11sp</dimen>
+    <dimen name="medium_font">11sp</dimen>
+    <dimen name="small_font">9sp</dimen>
+    <dimen name="small_font_3">8sp</dimen>
 </resources>

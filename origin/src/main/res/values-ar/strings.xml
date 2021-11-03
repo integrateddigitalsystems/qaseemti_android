@@ -92,6 +92,7 @@
     <string name="Delivery">تم التوصيل؟</string>
     <string name="Paid">مدفوع ?</string>
     <string name="search_by">البحث حسب اسم العميل ، المنتج ، الطلب ...</string>
+    <string name="search_by_service">البحث حسب اسم مزود الخدمة ، المنتج ، الطلب ...</string>
     <string name="Cart">عربة التسوق</string>
     <string name="Size">حجم</string>
     <string name="Checkout">الدفع</string>
@@ -250,4 +251,6 @@
     <string name="check_phone_number">يرجى التحقق من رقم الهاتف</string>
 
     <string name="select_to_rent_date">يرجى تحديد تاريخ انتهاء الإيجار</string>
+    <string name="serviceExists">هذه الخدمة موجودة!</string>
+    <string name="adding_error">This service already exists, please add another</string>
 </resources>

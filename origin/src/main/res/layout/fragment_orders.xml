@@ -21,7 +21,7 @@
         <EditText
             android:id="@+id/etSearchOrders"
             android:background="@color/transparent"
-            android:textSize="@dimen/header_font"
+            android:textSize="@dimen/big_font"
             android:hint="@string/search_by"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

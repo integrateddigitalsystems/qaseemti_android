@@ -93,9 +93,12 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun init(){
+        arrayAllServices.clear()
         selectedCategoryName= AppHelper.getRemoteString("purchase",this)
         btBck.show()
         setTabs()
+        if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
+            selectedCategoryName="بيع"
         getAllServices()
         setPickedImages()
     }
@@ -107,8 +110,11 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
         btSave.onOneClick{setTab2()}
         btPreViews1.onOneClick{setTab1()}
+        btPreViews1.typeface = AppHelper.getTypeFace(this)
         btNext1.onOneClick{setTab3()}
+        btNext1.typeface = AppHelper.getTypeFace(this)
         btPreviews2.onOneClick{setTab2()}
+        btPreviews2.typeface = AppHelper.getTypeFace(this)
         btNext2.onOneClick{
             if(!MyApplication.isEditService){
             if(arrayData.count { it.value!!.isEmpty() } > 0)
@@ -124,6 +130,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                 updateService()
             }
         }
+        btNext2.typeface = AppHelper.getTypeFace(this)
         rgCategory.setOnCheckedChangeListener { _, checkedId ->
             val rb = findViewById<View>(checkedId) as RadioButton
             if(checkedId==R.id.rbPurchase){
@@ -135,7 +142,17 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                 selectedCategoryName==AppConstants.TYPE_RENTAL
 
             }
-            selectedCategoryName=rb.text.toString()
+            if(MyApplication.languageCode==AppConstants.LANG_ARABIC){
+                if(selectedCategoryId==1){
+                    selectedCategoryName="بيع"
+                }else{
+                    selectedCategoryName="ايجار"
+                }
+
+            }else{
+                selectedCategoryName=rb.text.toString()
+            }
+
             if(arrayAllServices.size>0)
                 setServiceSpinner()
             /*
@@ -196,6 +213,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
         }
 
+        loading.hide()
     }
 
 
@@ -427,9 +445,9 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         try{price = variation!!.price!!}catch (e:Exception){}
         try{earning = variation!!.earnings!!}catch (e:Exception){}
             try{edt = service.eta!!}catch (e:Exception){}
-        tvPrice.text="Price : "+price
-        tvEarning.text="Earning : "+earning
-        tvEstimatedDeliveryTime.text="Estimated delivery time : "+edt
+        tvPrice.text=AppHelper.getRemoteString("Price",this)+": "+price
+        tvEarning.text=AppHelper.getRemoteString("Earning",this)+": "+earning
+        tvEstimatedDeliveryTime.text=AppHelper.getRemoteString("expected_delivery",this)+": "+edt
         }
     }
 
@@ -471,6 +489,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     fun getAllServices(){
+        loading.show()
         var newReq = RequestServices(1, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getServices(
@@ -567,8 +586,9 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                        }
 
                         else{
+
                            loading.hide()
-                            toast("failed 1")
+                            toast(AppHelper.getRemoteString("adding_error",this@ActivityServiceInformation))
                         }
                     }catch (E: java.lang.Exception){
                         loading.hide()

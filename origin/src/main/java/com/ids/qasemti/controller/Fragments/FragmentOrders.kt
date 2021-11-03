@@ -157,6 +157,12 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
             )
         )*/
 
+        etSearchOrders.typeface = AppHelper.getTypeFace(requireContext())
+        if(MyApplication.isClient){
+            etSearchOrders.hint = AppHelper.getRemoteString("search_by_service",requireContext())
+        }else{
+            etSearchOrders.hint = AppHelper.getRemoteString("search_by",requireContext())
+        }
 
         AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         (activity as ActivityHome).showTitle(true)
@@ -184,11 +190,19 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
             ) {
                 if (s.length > 0) {
                     ordersArray.clear()
-                    ordersArray.addAll(mainArray.filter {
-                        it.orderId!!.contains(s) || it.customer!!.first_name!!.contains(
-                            s
-                        ) || it.product!!.name!!.contains(s)
-                    })
+                    if(!MyApplication.isClient) {
+                        ordersArray.addAll(mainArray.filter {
+                            it.orderId!!.contains(s) || it.customer!!.first_name!!.contains(
+                                s
+                            ) || it.product!!.name!!.contains(s)
+                        })
+                    }else{
+                        ordersArray.addAll(mainArray.filter {
+                            it.orderId!!.contains(s) || it.vendor!!.firstName!!.contains(
+                                s
+                            ) || it.product!!.name!!.contains(s)
+                        })
+                    }
                     adapter!!.notifyDataSetChanged()
                 } else {
                     ordersArray.clear()

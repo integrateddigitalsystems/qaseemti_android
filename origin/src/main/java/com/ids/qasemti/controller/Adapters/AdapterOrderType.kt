@@ -250,7 +250,8 @@ class AdapterOrderType(
             holder.location.hide()
             holder.border.show()
             holder.track.show()
-        } else if(items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_ACTIVE)){
+        }
+        else if(items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_ACTIVE)){
             holder.switch.show()
             holder.sepActive.show()
             holder.dateBorder.show()
@@ -260,17 +261,18 @@ class AdapterOrderType(
             holder.rating.hide()
             holder.track.show()
             holder.credit.hide()
-        }else if ( items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_UPCOMING) && !MyApplication.isClient) {
-            holder.switch.show()
+        }
+        else if ( items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_UPCOMING) && !MyApplication.isClient) {
             holder.sepActive.show()
             holder.dateBorder.show()
             holder.bottomBorder.show()
             holder.canSep.hide()
-            holder.switch.hide()
+            holder.switch.show()
             holder.rating.hide()
             holder.track.hide()
             holder.credit.hide()
-        } else if (items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_UPCOMING) && MyApplication.isClient) {
+        }
+        else if (items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_UPCOMING) && MyApplication.isClient) {
             holder.credit.hide()
             holder.rating.hide()
             holder.dateBorder.show()

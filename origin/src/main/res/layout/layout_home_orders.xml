@@ -162,7 +162,8 @@
                                 android:layout_marginEnd="45dp"
                                 android:gravity="start"
                                 android:lineSpacingMultiplier="0.6"
-                                android:text="Active"
+                                android:text="@string/active"
+                                android:tag="active"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/normal_font" />
@@ -175,7 +176,8 @@
                                 android:layout_marginEnd="45dp"
                                 android:gravity="start"
                                 android:lineSpacingMultiplier="0.6"
-                                android:text="Order"
+                                android:text="@string/orders"
+                                android:tag="orders"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/normal_font" />
@@ -256,12 +258,14 @@
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:maxLines="1"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/normal_margin"
                                 android:layout_marginEnd="45dp"
                                 android:gravity="start"
                                 android:lineSpacingMultiplier="0.6"
-                                android:text="Upcoming"
+                                android:text="@string/upcoming"
+                                android:tag="upcoming"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_font" />
 
@@ -273,7 +277,8 @@
                                 android:layout_marginEnd="45dp"
                                 android:gravity="start"
                                 android:lineSpacingMultiplier="0.6"
-                                android:text="Orders"
+                                android:text="@string/orders"
+                                android:tag="orders"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_font" />
                         </LinearLayout>

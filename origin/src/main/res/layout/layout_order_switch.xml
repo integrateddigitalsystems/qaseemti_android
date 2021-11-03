@@ -54,7 +54,7 @@
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:text="@string/Delivery"
                 android:tag="Delivery"
-                android:textSize="@dimen/small_font"
+                android:textSize="@dimen/normal_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <androidx.appcompat.widget.SwitchCompat
@@ -77,6 +77,7 @@
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:text="@string/Paid"
                 android:tag="Paid"
+                android:textSize="@dimen/normal_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <androidx.appcompat.widget.SwitchCompat

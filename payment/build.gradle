@@ -32,8 +32,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0-alpha02'
 
     implementation 'com.google.android.material:material:1.3.0'
-    implementation fileTree(dir: 'C:\\Users\\j.haidar\\Documents\\GitHub', include: ['*.aar', '*.jar'], exclude: [])
-    implementation files('C:\\Users\\j.haidar\\Documents\\GitHub\\payment')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

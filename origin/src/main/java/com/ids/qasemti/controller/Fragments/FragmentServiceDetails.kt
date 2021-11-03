@@ -99,11 +99,20 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
         arrayItems.clear()
         if(selectedTypeName.isNotEmpty() && selectedSizeName.isNotEmpty()){
-            var selectedVariation=MyApplication.selectedService!!.variations.find { it.sizeCapacity==selectedSizeName && it.types==selectedTypeName }!!
-            var arrayMedia=selectedVariation.images
+            var selectedVariation : ServiceVariation ?=null
+            try {
+                selectedVariation = MyApplication.selectedService!!.variations.find {
+                    it.sizeCapacity == selectedSizeName && it.types == selectedTypeName
+                }!!
+            }catch (ex:Exception){
+
+            }
+            var arrayMedia : ArrayList<String> = arrayListOf()
+            if(selectedVariation!=null)
+                arrayMedia=selectedVariation!!.images
             try{
-                MyApplication.selectedPrice = selectedVariation.price!!
-                tvPrice.text=selectedVariation.price+""}catch (e:Exception){}
+                MyApplication.selectedPrice = selectedVariation!!.price!!
+                tvPrice.text=selectedVariation!!.price+""}catch (e:Exception){}
             if(arrayMedia.size>0){
                 for (i in arrayMedia.indices)
                     arrayItems.add(SliderItem(arrayMedia[i],1,""))

@@ -184,7 +184,6 @@
 
         <activity
             android:name=".controller.Activities.ActivityCheckout"
-            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 

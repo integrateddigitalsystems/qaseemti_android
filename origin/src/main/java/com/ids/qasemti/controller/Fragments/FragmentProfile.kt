@@ -494,6 +494,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                         ) + "/" + String.format("%02d", selectedyear)).toEditable()
                 }, mYear, mMonth, mDay
             )
+           var cal = mcurrentDate.add(Calendar.YEAR,-18)
+            mDatePicker.datePicker.maxDate = mcurrentDate.time.time
             mDatePicker.show()
         }
 

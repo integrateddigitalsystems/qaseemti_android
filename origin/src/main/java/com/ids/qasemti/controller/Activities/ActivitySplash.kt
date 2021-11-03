@@ -243,13 +243,13 @@ class ActivitySplash : ActivityBase(),ApiListener {
                         MyApplication.selectedFragment = FragmentHomeSP()
                     }
                     MyApplication.isSignedIn = true
-                    if(MyApplication.userId==0){
+                    /*if(MyApplication.userId==0){
                         if(MyApplication.isClient){
                             MyApplication.userId = 51
                         }else{
                             MyApplication.userId = 41
                         }
-                    }
+                    }*/
 
                     AppHelper.updateDevice(this,MyApplication.phoneNumber!!)
                     CallAPIs.getUserInfo(this,this)

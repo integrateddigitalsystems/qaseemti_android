@@ -102,7 +102,7 @@ class MyApplication : Application() {
             get() = sharedPreferences.getBoolean(AppConstants.FIRST_TIME,true)
             set(value) { sharedPreferencesEditor.putBoolean(AppConstants.FIRST_TIME, value).apply() }
         var userId : Int
-            get() = sharedPreferences.getInt(AppConstants.USER_ID,41)
+            get() = sharedPreferences.getInt(AppConstants.USER_ID,0)
             set(value) { sharedPreferencesEditor.putInt(AppConstants.USER_ID, value).apply() }
         var cartItems : String?
             get() = sharedPreferences.getString(AppConstants.ARRAY_CARTS,"")
