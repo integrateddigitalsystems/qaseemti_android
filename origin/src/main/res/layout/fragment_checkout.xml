@@ -49,25 +49,30 @@
                     app:tint="@color/redPrimary" />
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/small_margin"
                     android:textColor="@color/gray_font_title"
                     android:textSize="@dimen/medium_font"
                     android:layout_marginEnd="@dimen/big_margin"
-                    android:layout_weight="1"
                     android:id="@+id/tvSelectedAddressCheck"
                     android:gravity="center_vertical"
                     android:tag="select_delivery_address"
                     android:text="@string/select_delivery_address" />
 
+                <LinearLayout
+                    android:gravity="end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <ImageView
                     android:layout_width="@dimen/fab_margin"
                     android:layout_height="@dimen/fab_margin"
                     android:layout_marginEnd="@dimen/normal_margin"
                     android:rotation="180"
                     android:src="@drawable/ic_back"
-                    app:tint="@color/new_blue" />
+                    android:tint="@color/new_blue" />
+
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -99,25 +104,30 @@
                         app:tint="@color/redPrimary" />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/small_margin"
                         android:layout_marginEnd="@dimen/big_margin"
-                        android:layout_weight="1"
                         android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/medium_font"
                         android:gravity="center_vertical"
                         android:tag="select_time_date"
                         android:text="@string/select_time_date" />
 
+                    <LinearLayout
+                        android:gravity="end"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
                     <ImageView
+                        android:layout_gravity="end"
                         android:id="@+id/ivOpenDateTime"
                         android:layout_width="@dimen/fab_margin"
                         android:layout_height="@dimen/fab_margin"
                         android:layout_marginEnd="@dimen/normal_margin"
                         android:rotation="90"
                         android:src="@drawable/ic_back"
-                        app:tint="@color/new_blue" />
+                        android:tint="@color/new_blue" />
+                    </LinearLayout>
 
                 </LinearLayout>
 

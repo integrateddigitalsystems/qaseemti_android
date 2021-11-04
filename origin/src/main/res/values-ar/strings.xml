@@ -31,7 +31,7 @@
     <string name="please_fill_the_below_fields_to_register">الرجاء ملئ المعلومات للتسجيل </string>
     <string name="verification">تحقق</string>
     <string name="resend_code">إعادة إرسال الرمز</string>
-    <string name="enter_the_4_digit_code_sent_to_you_from_qasemati">أدخل الرمز المكون من 4 أرقام المرسل إليك من قسيمتي</string>
+    <string name="enter_the_6_digit_code_sent_to_you_from_qasemati">أدخل الرمز المكون من 4 أرقام المرسل إليك من قسيمتي</string>
     <string name="resend_code_in">إعادة إرسال الرمز بعد</string>
     <string name="verify">تحقق</string>
     <string name="account_status">حالة الحساب</string>
@@ -253,4 +253,5 @@
     <string name="select_to_rent_date">يرجى تحديد تاريخ انتهاء الإيجار</string>
     <string name="serviceExists">هذه الخدمة موجودة!</string>
     <string name="adding_error">This service already exists, please add another</string>
+    <string name="error_getting_data">خلل في احضار الرجاء معاودة المحاولة</string>
 </resources>

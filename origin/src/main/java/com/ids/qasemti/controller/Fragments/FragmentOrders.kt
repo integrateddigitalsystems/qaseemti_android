@@ -258,7 +258,8 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                     }
                 }
             }
-        } else if (view.id == R.id.llViewOrderDetails) {
+        }
+        else if (view.id == R.id.llViewOrderDetails) {
             AppHelper.onOneClick {
                 MyApplication.selectedOrder = ordersArray[position]
                 MyApplication.rental = position == 1
@@ -271,13 +272,15 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                 )
 
             }
-        } else if (view.id == R.id.ivOrderCall) {
+        }
+        else if (view.id == R.id.ivOrderCall) {
             AppHelper.onOneClick {
                 val intent = Intent(Intent.ACTION_DIAL)
                 startActivity(intent)
             }
 
-        } else if (view.id == R.id.ivOrderMessage) {
+        }
+        else if (view.id == R.id.ivOrderMessage) {
             AppHelper.onOneClick {
                 /*val uri = Uri.parse("smsto:12346556")
                 val it = Intent(Intent.ACTION_SENDTO, uri)
@@ -286,11 +289,14 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                 MyApplication.selectedOrder = ordersArray[position]
                 startActivity(Intent(requireContext(), ActivityChat::class.java))
             }
-        } else if (view.id == R.id.llTrackOrder) {
+        }
+        else if (view.id == R.id.llTrackOrder) {
             MyApplication.selectedOrder = ordersArray.get(position)
             startActivity(Intent(requireActivity(), ActivityTrackOrder::class.java))
-        } else if (view.id==R.id.swPaid){
-
+        }
+        else if (view.id==R.id.swDelivered || view.id==R.id.swPaid){
+            if(ordersArray.get(position).done)
+                getOrders()
         }
     }
 

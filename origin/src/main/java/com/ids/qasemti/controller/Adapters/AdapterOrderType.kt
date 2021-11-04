@@ -145,6 +145,9 @@ class AdapterOrderType(
                 holder.switchDelivered
             ) {
                 if (holder.switchDelivered.isChecked) {
+                    if(holder.switchPaid.isChecked){
+                        items.get(position).done = true
+                    }
                     holder.switchDelivered.isEnabled = false
                     MyApplication.saveLocationTracking = false
                     MyApplication.selectedOrder = items.get(position)
@@ -209,6 +212,10 @@ class AdapterOrderType(
                 holder.switchPaid
             ) {
                 if (holder.switchPaid.isChecked) {
+
+                    if(holder.switchDelivered.isChecked){
+
+                    }
                     holder.switchPaid.isEnabled = false
                     MyApplication.saveLocationTracking = false
                     paid = 1
@@ -267,7 +274,7 @@ class AdapterOrderType(
             holder.dateBorder.show()
             holder.bottomBorder.show()
             holder.canSep.hide()
-            holder.switch.show()
+            holder.switch.hide()
             holder.rating.hide()
             holder.track.hide()
             holder.credit.hide()
@@ -380,6 +387,9 @@ class AdapterOrderType(
             call.setOnClickListener(this)
             track.setOnClickListener(this)
             message.setOnClickListener(this)
+            switchDelivered.setOnClickListener(this)
+            switchPaid.setOnClickListener(this)
+
         }
 
         override fun onClick(v: View) {

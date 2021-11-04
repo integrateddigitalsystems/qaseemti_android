@@ -232,7 +232,9 @@ class ResponseOrders(
 
     @SerializedName("vendor_rate")
     @Expose
-    var vendorRate : String ?=""
+    var vendorRate : String ?="",
+
+    var done : Boolean = false
 
 
 

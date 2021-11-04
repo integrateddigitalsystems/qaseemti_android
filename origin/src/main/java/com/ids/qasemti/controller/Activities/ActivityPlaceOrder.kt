@@ -92,9 +92,9 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
         rvDataBorder.adapter = AdapterOrderData(array,this,this)
 
         var array2:ArrayList<OrderData> = arrayListOf()
-        array2.add(OrderData(AppHelper.getRemoteString("Subtotal",this),if(MyApplication.selectedPlaceOrder!!.sizeCapacity!=null && MyApplication.selectedPlaceOrder!!.sizeCapacity!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.price  else ""))
-        array2.add(OrderData(AppHelper.getRemoteString("AdditionalFees",this),"0"))
-        array2.add(OrderData(AppHelper.getRemoteString("TotalAmount",this),if(MyApplication.selectedPlaceOrder!!.price!=null && MyApplication.selectedPlaceOrder!!.price!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.price else ""))
+        array2.add(OrderData(AppHelper.getRemoteString("Subtotal",this),if(MyApplication.selectedPlaceOrder!!.price!=null && MyApplication.selectedPlaceOrder!!.price!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.price +" KWD" else ""))
+        array2.add(OrderData(AppHelper.getRemoteString("AdditionalFees",this),"0 KWD"))
+        array2.add(OrderData(AppHelper.getRemoteString("TotalAmount",this),if(MyApplication.selectedPlaceOrder!!.price!=null && MyApplication.selectedPlaceOrder!!.price!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.price+" KWD"  else ""))
         rvOtherData.layoutManager = LinearLayoutManager(this)
         rvOtherData.adapter = AdapterOtherOrderData(array2,this,this)
     }
@@ -171,6 +171,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
         var errorURL = MyApplication.payparams!!.params.find { it.key == "errorURL" }!!.value
         var refNum = MyApplication.payparams!!.params.find { it.key == "reference" }!!.value
         var notifyURl = MyApplication.payparams!!.params.find { it.key == "notifyURL" }!!.value
+        var testMode = MyApplication.payparams!!.params.find { it.key == "test_mode" }!!.value
 
         val analyticsEvent3 = Builder<Builder<Builder<*>>>(merchantId)
                        .setMerchantId(merchantId)
@@ -182,7 +183,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
                        .setCurrencyCode("KWD")
                        .setSuccessUrl(succURL)
                       .setErrorUrl(errorURL)
-                       .setTestMode("1")
+                       .setTestMode(testMode)
                        .setCustomerName(MyApplication.selectedPlaceOrder!!.firstName+" "+MyApplication.selectedPlaceOrder!!.lastName)
                        .setCustomerEmail(MyApplication.selectedPlaceOrder!!.email)
                        .setCustomerMobile(MyApplication.selectedPlaceOrder!!.phone)
@@ -259,7 +260,10 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
         AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
         setListeners()
         try{
-        setData()}catch (e:Exception){}
+        setData()
+        }catch (e:Exception){
+            Log.wtf("error",e)
+        }
         AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
         var spFound=true
         if(intent.hasExtra(AppConstants.SP_FOUND))

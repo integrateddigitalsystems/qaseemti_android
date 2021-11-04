@@ -326,5 +326,10 @@ interface RetrofitInterface {
         @Query("key") key : String
     ):Call<Any>
 
+    @POST("sp_get_orders")
+    fun getOrderById(
+       @Body param : RequestOrderIdL
+    ):Call<ResponseOrders>
+
 
 }

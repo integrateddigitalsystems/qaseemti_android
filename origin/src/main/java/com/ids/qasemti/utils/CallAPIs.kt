@@ -4,10 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.ProgressBar
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestUpdateLanguage
-import com.ids.qasemti.model.RequestUserStatus
-import com.ids.qasemti.model.ResponseUser
-import com.ids.qasemti.model.ResponseUserStatus
+import com.ids.qasemti.model.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.loading.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -269,6 +266,58 @@ class CallAPIs {
                     }
                 })
         }
+
+
+        fun getOrderByOrderId(
+            orderId : Int ,
+            listener: ApiListener
+        ){
+            var req  = RequestOrderIdL(orderId,MyApplication.languageCode)
+            RetrofitClient.client?.create(RetrofitInterface::class.java)
+                ?.getOrderById(
+                    req
+                )?.enqueue(object : Callback<ResponseOrders> {
+                    override fun onResponse(
+                        call: Call<ResponseOrders>,
+                        response: Response<ResponseOrders>
+                    ) {
+                        /*try {
+                            MyApplication.selectedUser = response.body()!!.user
+                            listener.onDataRetrieved(
+                                true,
+                                response.body()!!,
+                                AppConstants.API_USER_STATUS
+                            )
+                        } catch (e: Exception) {
+                            try {
+                                listener.onDataRetrieved(
+                                    false,
+                                    ResponseUserStatus(),
+                                    AppConstants.API_USER_STATUS
+                                )
+                            } catch (ex: Exception) {
+
+                            }
+                        }*/
+                    }
+
+                    override fun onFailure(call: Call<ResponseOrders>, throwable: Throwable) {
+                        /*try {
+                            listener.onDataRetrieved(
+                                false,
+                                ResponseUserStatus(),
+                                AppConstants.API_USER_STATUS
+                            )
+                        } catch (ex: Exception) {
+
+                        }*/
+                    }
+                })
+
+        }
+
+
+
 
     }
 }
