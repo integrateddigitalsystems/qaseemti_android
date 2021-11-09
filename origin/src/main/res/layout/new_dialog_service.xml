@@ -16,9 +16,9 @@
             android:layout_height="wrap_content"
             android:tag="male"
             android:textSize="@dimen/normal_font"
-            android:buttonTint="@color/button_blue"
+            android:buttonTint="@color/new_black"
             android:textColor="@color/gray_font"
-            android:backgroundTint="@color/button_blue"
+            android:backgroundTint="@color/new_black"
             android:text="@string/male"/>
 
         <RadioButton
@@ -26,10 +26,10 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:tag="female"
-            android:buttonTint="@color/button_blue"
+            android:buttonTint="@color/new_black"
             android:textSize="@dimen/normal_font"
             android:textColor="@color/gray_font"
-            android:backgroundTint="@color/button_blue"
+            android:backgroundTint="@color/new_black"
             android:text="@string/female"/>
 
     </RadioGroup>

@@ -110,7 +110,7 @@
                 <ImageView
                     android:layout_width="@dimen/small_icon"
                     android:layout_height="@dimen/small_icon"
-                    app:tint="@color/redPrimary"
+                    app:tint="@color/primary"
                     android:src="@drawable/wall_clock"
                      android:layout_gravity="top"
                     android:layout_marginTop="@dimen/mini_margin"
@@ -158,7 +158,7 @@
                 <ImageView
                     android:layout_width="@dimen/small_icon"
                     android:layout_height="@dimen/small_icon"
-                    app:tint="@color/redPrimary"
+                    app:tint="@color/primary"
                     android:src="@drawable/wall_clock"
                     android:layout_gravity="top"
                     android:layout_marginTop="@dimen/mini_margin"
@@ -216,7 +216,7 @@
                 android:layout_width="@dimen/normal_icon"
                 android:layout_height="@dimen/normal_icon"
                 android:src="@drawable/placeholder"
-                app:tint="@color/redPrimary" />
+                app:tint="@color/primary" />
 
             <LinearLayout
                 android:layout_marginStart="@dimen/normal_margin"
@@ -238,7 +238,7 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/redPrimary"/>
+                    android:background="@color/primary"/>
 
             </LinearLayout>
 
@@ -265,7 +265,7 @@
                     android:layout_height="@dimen/small_icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/view"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
                 <me.grantland.widget.AutofitTextView
                     android:layout_width="wrap_content"
@@ -275,7 +275,7 @@
                     android:id="@+id/tvOrderDetailsBroad"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:textColor="@color/button_blue"
+                    android:textColor="@color/new_black"
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginEnd="@dimen/small_margin"
                     android:textAllCaps="true"

@@ -55,7 +55,7 @@
                         android:layout_gravity="top"
                         android:layout_marginTop="@dimen/mini_margin"
                         android:src="@drawable/wall_clock"
-                        android:tint="@color/redPrimary"
+                        android:tint="@color/primary"
 
                         />
 
@@ -100,7 +100,7 @@
                         android:layout_gravity="top"
                         android:layout_marginTop="@dimen/mini_margin"
                         android:src="@drawable/wall_clock"
-                        android:tint="@color/redPrimary"
+                        android:tint="@color/primary"
 
                         />
 
@@ -157,7 +157,7 @@
                         android:layout_width="@dimen/small_icon"
                         android:layout_height="@dimen/small_icon"
                         android:src="@drawable/wall_clock"
-                        android:tint="@color/redPrimary"
+                        android:tint="@color/primary"
 
                         />
 
@@ -193,6 +193,7 @@
 
 
                         <EditText
+                            android:textAlignment="viewStart"
                             android:id="@+id/etOrderDetailDate"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/height_35"
@@ -218,7 +219,7 @@
                                 android:layout_height="@dimen/normal_icon"
                                 android:layout_marginEnd="@dimen/normal_margin"
                                 android:src="@drawable/icon_calendar"
-                                android:tint="@color/new_blue" />
+                                android:tint="@color/new_black" />
                         </LinearLayout>
 
                     </RelativeLayout>
@@ -232,6 +233,7 @@
                         android:background="@drawable/gray_background_rounded">
 
                         <EditText
+                            android:textAlignment="viewStart"
                             android:id="@+id/etOrderDetailTime"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/height_35"
@@ -258,7 +260,7 @@
                                 android:layout_height="@dimen/icon_2"
                                 android:layout_marginEnd="@dimen/normal_margin"
                                 android:src="@drawable/icon_hourglass"
-                                app:tint="@color/new_blue" />
+                                app:tint="@color/new_black" />
                         </LinearLayout>
 
                     </RelativeLayout>
@@ -296,7 +298,7 @@
                     android:layout_gravity="top"
                     android:layout_marginTop="@dimen/mini_margin"
                     android:src="@drawable/wall_clock"
-                    android:tint="@color/redPrimary"
+                    android:tint="@color/primary"
 
                     />
 

@@ -118,7 +118,7 @@
                         android:layout_marginEnd="@dimen/normal_margin"
                         android:text=""
                         android:textSize="@dimen/normal_font"
-                        android:textColor="@color/redPrimary"
+                        android:textColor="@color/primary"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
 
@@ -146,7 +146,7 @@
                         android:gravity="end"
                         android:id="@+id/tvEarnQt"
                         android:textSize="@dimen/small_font_2"
-                        android:textColor="@color/redPrimary"
+                        android:textColor="@color/primary"
                         android:layout_height="match_parent"/>
                 </LinearLayout>
             </LinearLayout>
@@ -157,7 +157,7 @@
 
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/arrow_right"
-                android:tint="@color/button_blue" />
+                android:tint="@color/new_black" />
 
         </LinearLayout>
 

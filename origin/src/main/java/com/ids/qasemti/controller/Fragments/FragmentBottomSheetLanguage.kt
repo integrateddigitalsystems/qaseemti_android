@@ -62,7 +62,8 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(){
         MyApplication.selectedFragment=FragmentAccount()
         MyApplication.selectedFragmentTag=AppConstants.FRAGMENT_ACCOUNT
         LocaleUtils.setLocale(Locale("ar"))
-        sendUpdateLanguage()
+        //sendUpdateLanguage()
+        AppHelper.updateDevice(requireContext(),MyApplication.selectedPhone!!)
         reloadActivity()
 
     }
@@ -74,7 +75,8 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(){
         MyApplication.selectedFragment=FragmentAccount()
         MyApplication.selectedFragmentTag=AppConstants.FRAGMENT_ACCOUNT
         LocaleUtils.setLocale(Locale("en"))
-        sendUpdateLanguage()
+       // sendUpdateLanguage()
+        AppHelper.updateDevice(requireContext(),MyApplication.selectedPhone!!)
         reloadActivity()
     }
 

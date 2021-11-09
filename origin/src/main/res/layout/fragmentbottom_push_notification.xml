@@ -23,7 +23,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:tint="@color/redPrimary"
+                android:tint="@color/primary"
                 android:layout_width="@dimen/icon_2"
                 android:layout_height="@dimen/icon_2"
                 android:src="@drawable/icon_notification"/>
@@ -73,7 +73,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="@dimen/normal_font"
-            android:buttonTint="@color/button_blue"
+            android:buttonTint="@color/new_black"
             android:checked="true"
             android:tag="PushNotifications"
             android:id="@+id/rbNotification"
@@ -87,7 +87,7 @@
             android:textSize="@dimen/normal_font"
             android:textColor="@color/gray_font"
             android:id="@+id/rbSMS"
-            android:buttonTint="@color/button_blue"
+            android:buttonTint="@color/new_black"
             android:tag="sms"
             android:text="@string/sms"/>
     </RadioGroup>

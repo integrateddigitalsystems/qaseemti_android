@@ -12,6 +12,7 @@
         android:layout_marginStart="@dimen/margin_start_new"
         android:layout_marginEnd="@dimen/margin_start_new"
         android:layout_width="match_parent"
+        android:gravity="center_vertical"
         android:layout_height="@dimen/edit_text_height"
         android:orientation="horizontal"
         android:padding="@dimen/normal_margin"
@@ -19,7 +20,9 @@
         android:layout_marginTop="@dimen/toolbar_height"
         >
         <EditText
-            android:maxLines="1"
+            android:textAlignment="viewStart"
+            android:gravity="center_vertical"
+            android:inputType="text"
             android:id="@+id/etSearchOrders"
             android:background="@color/transparent"
             android:textSize="@dimen/big_font"
@@ -55,10 +58,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:tag="active"
-            android:text="@string/active"/>
+            android:tag="Active"
+            android:text="@string/Active"/>
         <me.grantland.widget.AutofitTextView
-            android:textColor="@color/redPrimary"
+            android:textColor="@color/primary"
             android:layout_marginStart="@dimen/small_margin"
             android:id="@+id/tvUpcoming"
             android:tag="upcoming"
@@ -79,7 +82,7 @@
             android:id="@+id/tvCompleted"
             android:padding="@dimen/mini_margin"
             android:tag="completed"
-            android:textColor="@color/redPrimary"
+            android:textColor="@color/primary"
             android:gravity="center"
             android:textSize="@dimen/small_font_2"
             android:layout_height="match_parent"
@@ -89,7 +92,7 @@
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:maxLines="1"
-            android:textColor="@color/redPrimary"
+            android:textColor="@color/primary"
             android:padding="@dimen/mini_margin"
             android:id="@+id/tvCancelled"
             android:tag="cancelled"
@@ -104,7 +107,7 @@
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:maxLines="1"
-            android:textColor="@color/redPrimary"
+            android:textColor="@color/primary"
             android:padding="@dimen/mini_margin"
             android:id="@+id/tvFailed"
             android:tag="Failed"
@@ -144,7 +147,7 @@
             android:textSize="@dimen/header_font"
             android:text="@string/no_data"
             android:tag="no_data"
-            android:textColor="@color/redPrimary"/>
+            android:textColor="@color/primary"/>
 
 
         <include

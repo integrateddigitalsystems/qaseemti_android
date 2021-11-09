@@ -85,8 +85,8 @@
             android:layout_margin="@dimen/margin_start_end"
             android:gravity="center"
             android:src="@drawable/ic_plus"
-            app:backgroundTint="@color/button_blue"
-            app:rippleColor="@color/button_blue"
+            app:backgroundTint="@color/new_black"
+            app:rippleColor="@color/new_black"
             app:tint="@color/white" />
 
     </RelativeLayout>
@@ -102,7 +102,7 @@
             android:textSize="@dimen/header_font"
             android:text="@string/no_data"
             android:tag="no_data"
-            android:textColor="@color/redPrimary"/>
+            android:textColor="@color/primary"/>
 
 
 

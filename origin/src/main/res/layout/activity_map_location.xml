@@ -90,7 +90,7 @@
                     android:layout_width="@dimen/normal_icon"
                     android:layout_height="@dimen/normal_icon"
                     android:src="@drawable/icon_phone"
-                    android:tint="@color/redPrimary" />
+                    android:tint="@color/primary" />
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="wrap_content"
@@ -115,7 +115,7 @@
                     android:layout_width="@dimen/normal_icon"
                     android:layout_height="@dimen/normal_icon"
                     android:src="@drawable/icon_pin_blue"
-                    android:tint="@color/redPrimary" />
+                    android:tint="@color/primary" />
 
                 <LinearLayout
                     android:layout_marginStart="@dimen/normal_margin"

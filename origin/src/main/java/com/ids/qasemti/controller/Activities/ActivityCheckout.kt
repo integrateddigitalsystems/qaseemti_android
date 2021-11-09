@@ -4,17 +4,13 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.location.Address
 import android.os.Bundle
-import android.text.Editable
 import android.view.View
 import android.widget.TimePicker
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
-import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
@@ -29,7 +25,7 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ActivityCheckout : ActivityBase(), RVOnItemClickListener {
+class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
 
     var open = true
     var REQUEST_LOCATION = 5
@@ -164,6 +160,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener {
                             } catch (e: Exception) {
                                 toast(getString(R.string.failure))
                             }
+                        }else{
+                            CallAPIs.getUserInfo(this,this)
                         }
                     }else{
                         AppHelper.createDialog(this, "Please select a later date or time")
@@ -378,10 +376,10 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener {
     }
 
     fun init() {
-        setTintLogo(R.color.redPrimary)
+        setTintLogo(R.color.primary)
       //  tvSelectedAddressCheck.setColorTypeface(this,R.color.gray_font_title,"",false)
         tvPageTitle.textRemote("Checkout", this)
-        tvPageTitle.setColorTypeface(this, R.color.redPrimary, "", true)
+        tvPageTitle.setColorTypeface(this, R.color.primary, "", true)
         etFromDate.isFocusable = false;
         etFromTime.isFocusable = false;
         rbNow.isChecked = true
@@ -593,5 +591,15 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener {
                     loading.hide()
                 }
             })
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+        if(success) {
+            setPlacedOrder()
+            placeOrder()
+        }else{
+            toast(AppHelper.getRemoteString("error_getting_data",this))
+        }
+
     }
 }

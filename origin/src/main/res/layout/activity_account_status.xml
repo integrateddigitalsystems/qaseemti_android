@@ -33,7 +33,7 @@
         android:padding="@dimen/normal_margin"
         android:textSize="@dimen/title_font"
         android:tag="account_status"
-        android:textColor="@color/redPrimary"
+        android:textColor="@color/primary"
         android:layout_height="60dp"
         android:text="@string/account_status"
         android:background="@drawable/rounded_white_background"/>

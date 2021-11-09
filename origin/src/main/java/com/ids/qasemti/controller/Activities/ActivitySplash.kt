@@ -4,11 +4,16 @@ package com.ids.qasemti.controller.Activities
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -26,30 +31,34 @@ import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
-
-import com.ids.qasemti.utils.AppConstants.FIREBASE_FORCE_UPDATE
+import com.ids.qasemti.utils.AppConstants.FIREBASE_COUNTRY_NAME_CODE
+import com.ids.qasemti.utils.AppConstants.FIREBASE_ENABLE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LINKS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LOCALIZE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_PARAMS
+import com.ids.qasemti.utils.LocaleUtils.Companion.updateConfig
 import com.upayments.track.UpaymentGateway
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ActivitySplash : ActivityBase(),ApiListener {
     var mFirebaseRemoteConfig: FirebaseRemoteConfig? = null
     override fun onCreate(savedInstanceState: Bundle?) {
+       // updateConfig(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        //  MyApplication.isLoggedIn = true
+
 
         getFirebasePrefs()
-      //  getMobileConfig()
-       //getAddress()
     }
+
+
 
     private fun showDialogUpdate(activity: Activity) {
 
@@ -262,7 +271,10 @@ class ActivitySplash : ActivityBase(),ApiListener {
                         MyApplication.userId = 41*/
                         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
                         MyApplication.selectedFragment = FragmentHomeClient()
-                        CallAPIs.getUserInfo(this,this)
+
+                        startActivity(Intent(this, ActivityHome::class.java))
+                        finish()
+                       // CallAPIs.getUserInfo(this,this)
                     }
                     else {
                         startActivity(Intent(this, ActivityMobileRegistration::class.java))
@@ -296,6 +308,8 @@ class ActivitySplash : ActivityBase(),ApiListener {
                     MyApplication.localizeArray = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE), FirebaseLocalizeArray::class.java)
                     MyApplication.webLinks = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),FirebaseWebData::class.java)
                     MyApplication.payparams = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_PARAMS),GatewayRespone::class.java)
+                    MyApplication.enableCountryCodes = mFirebaseRemoteConfig!!.getBoolean(FIREBASE_ENABLE)
+                    MyApplication.countryNameCodes = mFirebaseRemoteConfig!!.getString(FIREBASE_COUNTRY_NAME_CODE)
                     AppHelper.setAllTexts(rootLayout, this)
                     checkForUpdate()
                 }else{
@@ -308,11 +322,16 @@ class ActivitySplash : ActivityBase(),ApiListener {
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
         var res = response as ResponseUser
-        if(res.user!!.suspended == 1 && MyApplication.isClient){
-            AppHelper.createDialog(this,AppHelper.getRemoteString("suspended_user_msg",this))
-        }else{
-            startActivity(Intent(this, ActivityHome::class.java))
-            finish()
+        try {
+            if (res.user!!.suspended == 1 && MyApplication.isClient) {
+                AppHelper.createDialog(this, AppHelper.getRemoteString("suspended_user_msg", this))
+            } else {
+                startActivity(Intent(this, ActivityHome::class.java))
+                finish()
+            }
+        }catch (ex:Exception){
+            Log.wtf("apiSplash",ex.toString())
+            startActivity(Intent(this,ActivityMobileRegistration::class.java))
         }
 
     }

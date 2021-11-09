@@ -98,7 +98,7 @@
             <ImageView
                 android:layout_width="@dimen/small_icon"
                 android:layout_height="@dimen/small_icon"
-                android:tint="@color/button_blue"
+                android:tint="@color/new_black"
                 android:src="@drawable/arrow_right"
                 />
 
@@ -160,7 +160,7 @@
             <ImageView
                 android:layout_width="@dimen/small_icon"
                 android:layout_height="@dimen/small_icon"
-                android:tint="@color/button_blue"
+                android:tint="@color/new_black"
                 android:src="@drawable/arrow_right"
                 />
 
@@ -219,7 +219,7 @@
             <ImageView
                 android:layout_width="@dimen/small_icon"
                 android:layout_height="@dimen/small_icon"
-                android:tint="@color/button_blue"
+                android:tint="@color/new_black"
                 android:src="@drawable/arrow_right"
                 />
 
@@ -279,7 +279,7 @@
             <ImageView
                 android:layout_width="@dimen/small_icon"
                 android:layout_height="@dimen/small_icon"
-                android:tint="@color/button_blue"
+                android:tint="@color/new_black"
                 android:src="@drawable/arrow_right"
                 />
 

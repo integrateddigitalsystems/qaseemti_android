@@ -15,7 +15,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -183,7 +182,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
 
     fun drawColor() {
-        AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
+        AppHelper.setLogoTint(btDrawer, this, R.color.primary)
     }
 
     fun setTintLogo(color: Int) {
@@ -374,10 +373,10 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                     FragmentOrders(),
                     FRAGMENT_ORDER,
                     ivFooterOrder,
-                    R.color.redPrimary
+                    R.color.primary
                 )
             else if (!MyApplication.isSignedIn && MyApplication.isClient) {
-                goRegistration(1, FRAGMENT_ORDER, FragmentOrders(), R.color.redPrimary)
+                goRegistration(1, FRAGMENT_ORDER, FragmentOrders(), R.color.primary)
             }
         }
 
@@ -413,9 +412,9 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         llFooterCart.onOneClick {
             MyApplication.defaultIcon = ivCartFooter
             if (MyApplication.selectedFragmentTag != FRAGMENT_CART && MyApplication.isSignedIn)
-                setSelectedTab(0, FragmentCart(), FRAGMENT_CART, ivCartFooter, R.color.redPrimary)
+                setSelectedTab(0, FragmentCart(), FRAGMENT_CART, ivCartFooter, R.color.primary)
             else if (!MyApplication.isSignedIn)
-                goRegistration(0, FRAGMENT_CART, FragmentCart(), R.color.redPrimary)
+                goRegistration(0, FRAGMENT_CART, FragmentCart(), R.color.primary)
         }
 
 

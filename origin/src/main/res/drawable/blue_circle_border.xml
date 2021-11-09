@@ -4,5 +4,5 @@
 
     <stroke
         android:width="@dimen/mini_margin"
-        android:color="@color/new_blue"/>
+        android:color="@color/new_black"/>
 </shape>

@@ -11,7 +11,6 @@ import com.google.gson.internal.LinkedTreeMap
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.Address
 import com.ids.qasemti.model.RequestPlaceOrder
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.AppHelper
@@ -33,7 +32,10 @@ class AdapterCart(
     }
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
-        holder.title.text = items.get(position).product!!.name
+        if(!items.get(position).product!!.name.isNullOrEmpty())
+            holder.title.text = items.get(position).product!!.name
+        else
+            holder.title.text = AppHelper.getRemoteString("no_data",con)
         holder.cost.text = items.get(position).total+" "+items.get(position).currency
 
 

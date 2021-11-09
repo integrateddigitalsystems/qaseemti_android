@@ -34,9 +34,12 @@ class MyApplication : Application() {
         var fromOrderPlaced  =false
         var webLinks : FirebaseWebData ?=null
         var payparams : GatewayRespone ?=null
+        var enableCountryCodes : Boolean ?=false
+        var countryNameCodes : String ?=""
         var typeSelected = 0
         var relatedOrders : ArrayList<RelatedOrder> = arrayListOf()
         var renewed = false
+        var completed = false
         var fromAccount = false
         var fromAdd : Boolean ?= false
         var submitted : Boolean ?=false

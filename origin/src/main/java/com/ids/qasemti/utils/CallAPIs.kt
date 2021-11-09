@@ -19,6 +19,11 @@ class CallAPIs {
 
     companion object {
         lateinit var apiListener: ApiListener
+        var retro = RetrofitClient.client!!.create(RetrofitInterface::class.java)
+        var retroMap = RetroFitMap.client!!.create(RetrofitInterface::class.java)
+        var curr: Call<ArrayList<ResponseNominatim>>? = null
+        var mapWorking = false
+
 
         fun updateProfileClient(
             context: Context,
@@ -51,47 +56,47 @@ class CallAPIs {
                 var type = "1"
                 var typeReq = type.toRequestBody()
 
-
-                RetrofitClient.client?.create(RetrofitInterface::class.java)
-                    ?.updateClientProfile(
-                        user,
-                        phone,
-                        first,
-                        last,
-                        email,
-                        selectedProfilePic,
-                        typeReq
+                retro.updateClientProfile(
+                    user,
+                    phone,
+                    first,
+                    last,
+                    email,
+                    selectedProfilePic,
+                    typeReq
 
 
-                    )?.enqueue(object : Callback<ResponseUser> {
-                        override fun onResponse(
-                            call: Call<ResponseUser>,
-                            response: Response<ResponseUser>
-                        ) {
-                            try {
-                                loading.hide()
-                                listener.onDataRetrieved(
-                                    true,
-                                    response.body()!!,
-                                    AppConstants.UPDATE_PROFILE_CLIENT
-                                )
-                            } catch (E: java.lang.Exception) {
-                                listener.onDataRetrieved(
-                                    false,
-                                    ResponseUser(),
-                                    AppConstants.UPDATE_PROFILE_CLIENT
-                                )
-                            }
-                        }
-
-                        override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                )?.enqueue(object : Callback<ResponseUser> {
+                    override fun onResponse(
+                        call: Call<ResponseUser>,
+                        response: Response<ResponseUser>
+                    ) {
+                        try {
+                            loading.hide()
+                            listener.onDataRetrieved(
+                                true,
+                                response.body()!!,
+                                AppConstants.UPDATE_PROFILE_CLIENT
+                            )
+                        } catch (E: java.lang.Exception) {
                             listener.onDataRetrieved(
                                 false,
                                 ResponseUser(),
                                 AppConstants.UPDATE_PROFILE_CLIENT
                             )
                         }
-                    })
+                    }
+
+                    override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                        listener.onDataRetrieved(
+                            false,
+                            ResponseUser(),
+                            AppConstants.UPDATE_PROFILE_CLIENT
+                        )
+                    }
+                })
+
+
             }
         }
 
@@ -103,20 +108,20 @@ class CallAPIs {
             long: Double,
             gender: String,
             firstName: String,
-            middleName : String ,
-            lastName: String ,
+            middleName: String,
+            lastName: String,
             emaill: String,
             mobile: String,
-            altNum : String ,
-            civilIdNb : String ,
-            date : String ,
-            Address : String ,
-            accountNum : String ,
-            bankName : String ,
-            branchName : String ,
-            descrp:String,
-            ibann : String ,
-            selectedFile : MultipartBody.Part ,
+            altNum: String,
+            civilIdNb: String,
+            date: String,
+            Address: String,
+            accountNum: String,
+            bankName: String,
+            branchName: String,
+            descrp: String,
+            ibann: String,
+            selectedFile: MultipartBody.Part,
             selectedProf: MultipartBody.Part
 
         ) {
@@ -133,22 +138,22 @@ class CallAPIs {
 
             val user = userId.toRequestBody("text/plain".toMediaTypeOrNull())
             val first =
-              firstName.toRequestBody("text/plain".toMediaTypeOrNull())
+                firstName.toRequestBody("text/plain".toMediaTypeOrNull())
             val middle =
-               middleName.toRequestBody("text/plain".toMediaTypeOrNull())
+                middleName.toRequestBody("text/plain".toMediaTypeOrNull())
             val last =
                 lastName.toRequestBody("text/plain".toMediaTypeOrNull())
             val email =
-               emaill.toRequestBody("text/plain".toMediaTypeOrNull())
+                emaill.toRequestBody("text/plain".toMediaTypeOrNull())
             val phone =
-               mobile.toRequestBody("text/plain".toMediaTypeOrNull())
+                mobile.toRequestBody("text/plain".toMediaTypeOrNull())
             val civilId =
                 civilIdNb.toRequestBody("text/plain".toMediaTypeOrNull())
             val alt =
                 altNum.toRequestBody("text/plain".toMediaTypeOrNull())
             val genderr = gender.toRequestBody("text/plain".toMediaTypeOrNull())
             val dob =
-              date.toRequestBody("text/plain".toMediaTypeOrNull())
+                date.toRequestBody("text/plain".toMediaTypeOrNull())
             val role = rolev.toRequestBody("text/plain".toMediaTypeOrNull())
             val address =
                 Address.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -160,100 +165,109 @@ class CallAPIs {
             val bankname =
                 bankName.toRequestBody("text/plain".toMediaTypeOrNull())
             val bankBranch =
-               branchName.toRequestBody("text/plain".toMediaTypeOrNull())
+                branchName.toRequestBody("text/plain".toMediaTypeOrNull())
             val description =
-               descrp.toRequestBody("text/plain".toMediaTypeOrNull())
-            val iban =ibann.toRequestBody("text/plain".toMediaTypeOrNull())
+                descrp.toRequestBody("text/plain".toMediaTypeOrNull())
+            val iban = ibann.toRequestBody("text/plain".toMediaTypeOrNull())
+            var x = retro.updateProfile(
+                user,
+                first,
+                middle,
+                last,
+                email,
+                phone,
+                alt,
+                civilId,
+                selectedFile,
+                genderr,
+                dob,
+                role,
+                selectedProf,
+                address,
+                lat,
+                long,
+                accNum,
+                bankname,
+                bankBranch,
+                iban,
+                description
 
+            )
 
+            retro.updateProfile(
+                user,
+                first,
+                middle,
+                last,
+                email,
+                phone,
+                alt,
+                civilId,
+                selectedFile,
+                genderr,
+                dob,
+                role,
+                selectedProf,
+                address,
+                lat,
+                long,
+                accNum,
+                bankname,
+                bankBranch,
+                iban,
+                description
 
-            RetrofitClient.client?.create(RetrofitInterface::class.java)
-                ?.updateProfile(
-                    user,
-                    first,
-                    middle,
-                    last,
-                    email,
-                    phone,
-                    alt ,
-                    civilId,
-                   selectedFile,
-                    genderr,
-                    dob,
-                    role,
-                    selectedProf,
-                    address,
-                    lat,
-                    long,
-                    accNum,
-                    bankname,
-                    bankBranch,
-                    iban,
-                    description
-
-                )?.enqueue(object : Callback<ResponseUser> {
-                    override fun onResponse(
-                        call: Call<ResponseUser>,
-                        response: Response<ResponseUser>
-                    ) {
-                        try {
-                            listener.onDataRetrieved(
-                                true,
-                                response.body()!!,
-                                AppConstants.UPDATE_PROFILE_SERVICE_PROVIDER
-                            )
-                        } catch (E: java.lang.Exception) {
-                            listener.onDataRetrieved(
-                                false,
-                                ResponseUser(),
-                                AppConstants.UPDATE_PROFILE_SERVICE_PROVIDER
-                            )
-                        }
-                    }
-
-                    override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+            )?.enqueue(object : Callback<ResponseUser> {
+                override fun onResponse(
+                    call: Call<ResponseUser>,
+                    response: Response<ResponseUser>
+                ) {
+                    try {
                         listener.onDataRetrieved(
                             true,
+                            response.body()!!,
+                            AppConstants.UPDATE_PROFILE_SERVICE_PROVIDER
+                        )
+                    } catch (E: java.lang.Exception) {
+                        listener.onDataRetrieved(
+                            false,
                             ResponseUser(),
                             AppConstants.UPDATE_PROFILE_SERVICE_PROVIDER
                         )
                     }
-                })
+                }
+
+                override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                    listener.onDataRetrieved(
+                        true,
+                        ResponseUser(),
+                        AppConstants.UPDATE_PROFILE_SERVICE_PROVIDER
+                    )
+                }
+            })
 
         }
 
-        fun getUserInfo(   context: Context,
-                           listener: ApiListener,) {
+        fun getUserInfo(
+            context: Context,
+            listener: ApiListener,
+        ) {
             var newReq = RequestUpdateLanguage(MyApplication.userId, MyApplication.languageCode)
-            RetrofitClient.client?.create(RetrofitInterface::class.java)
-                ?.getUser(
-                    newReq
-                )?.enqueue(object : Callback<ResponseUser> {
-                    override fun onResponse(
-                        call: Call<ResponseUser>,
-                        response: Response<ResponseUser>
-                    ) {
-                        try {
-                            MyApplication.selectedUser = response.body()!!.user
-                            listener.onDataRetrieved(
-                                true,
-                                response.body()!!,
-                                AppConstants.API_USER_STATUS
-                            )
-                        } catch (e: Exception) {
-                            try {
-                                listener.onDataRetrieved(
-                                    false,
-                                    ResponseUserStatus(),
-                                    AppConstants.API_USER_STATUS
-                                )
-                            } catch (ex: Exception) {
-
-                            }
-                        }
-                    }
-
-                    override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+            retro.getUser(
+                newReq
+            )?.enqueue(object : Callback<ResponseUser> {
+                override fun onResponse(
+                    call: Call<ResponseUser>,
+                    response: Response<ResponseUser>
+                ) {
+                    try {
+                        MyApplication.selectedUser = response.body()!!.user
+                        listener.onDataRetrieved(
+                            true,
+                            response.body()!!,
+                            AppConstants.API_USER_STATUS
+                        )
+                    } catch (e: Exception) {
                         try {
                             listener.onDataRetrieved(
                                 false,
@@ -264,59 +278,132 @@ class CallAPIs {
 
                         }
                     }
-                })
+                }
+
+                override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                    try {
+                        listener.onDataRetrieved(
+                            false,
+                            ResponseUserStatus(),
+                            AppConstants.API_USER_STATUS
+                        )
+                    } catch (ex: Exception) {
+
+                    }
+                }
+            })
+        }
+
+        fun getMapLocations(
+            str: String,
+            listener: ApiListener,
+            loading: View
+        ) {
+
+
+            loading.show()
+            if (curr != null)
+                curr!!.cancel()
+            curr = retroMap!!.getMapLocations(
+                str,
+                "json",
+                MyApplication.countryNameCodes!!
+            )
+            curr!!.enqueue(object : Callback<ArrayList<ResponseNominatim>> {
+                override fun onResponse(
+                    call: Call<ArrayList<ResponseNominatim>>,
+                    response: Response<ArrayList<ResponseNominatim>>
+                ) {
+                    try {
+                        listener.onDataRetrieved(
+                            true,
+                            response.body()!!,
+                            AppConstants.MAP_SEARCH
+                        )
+
+                        loading.hide()
+                    } catch (e: Exception) {
+                        try {
+                            listener.onDataRetrieved(
+                                false,
+                                arrayListOf<ResponseNominatim>(),
+                                AppConstants.MAP_SEARCH
+                            )
+                        } catch (ex: Exception) {
+
+                        }
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<ArrayList<ResponseNominatim>>,
+                    throwable: Throwable
+                ) {
+                    try {
+                        listener.onDataRetrieved(
+                            false,
+                            arrayListOf<ResponseNominatim>(),
+                            AppConstants.MAP_SEARCH
+                        )
+                        if(!throwable.message.equals("Canceled"))
+                            loading.hide()
+                    } catch (ex: Exception) {
+
+                    }
+                }
+
+            })
+
+
         }
 
 
         fun getOrderByOrderId(
-            orderId : Int ,
+            orderId: Int,
             listener: ApiListener
-        ){
-            var req  = RequestOrderIdL(orderId,MyApplication.languageCode)
-            RetrofitClient.client?.create(RetrofitInterface::class.java)
-                ?.getOrderById(
-                    req
-                )?.enqueue(object : Callback<ResponseOrders> {
-                    override fun onResponse(
-                        call: Call<ResponseOrders>,
-                        response: Response<ResponseOrders>
-                    ) {
-                        /*try {
-                            MyApplication.selectedUser = response.body()!!.user
-                            listener.onDataRetrieved(
-                                true,
-                                response.body()!!,
-                                AppConstants.API_USER_STATUS
-                            )
-                        } catch (e: Exception) {
-                            try {
-                                listener.onDataRetrieved(
-                                    false,
-                                    ResponseUserStatus(),
-                                    AppConstants.API_USER_STATUS
-                                )
-                            } catch (ex: Exception) {
-
-                            }
-                        }*/
-                    }
-
-                    override fun onFailure(call: Call<ResponseOrders>, throwable: Throwable) {
-                        /*try {
+        ) {
+            var req = RequestOrderIdL(orderId, MyApplication.languageCode)
+            retro.getOrderById(
+                req
+            ).enqueue(object : Callback<ResponseMainOrderById> {
+                override fun onResponse(
+                    call: Call<ResponseMainOrderById>,
+                    response: Response<ResponseMainOrderById>
+                ) {
+                    try {
+                        listener.onDataRetrieved(
+                            true,
+                            response.body()!!.order,
+                            AppConstants.ORDER_BY_ID
+                        )
+                    } catch (e: Exception) {
+                        try {
                             listener.onDataRetrieved(
                                 false,
-                                ResponseUserStatus(),
-                                AppConstants.API_USER_STATUS
+                                ResponseOrders(),
+                                AppConstants.ORDER_BY_ID
                             )
                         } catch (ex: Exception) {
 
-                        }*/
+                        }
                     }
-                })
+                }
+
+                override fun onFailure(call: Call<ResponseMainOrderById>, throwable: Throwable) {
+                    try {
+                        listener.onDataRetrieved(
+                            false,
+                            ResponseOrders(),
+                            AppConstants.ORDER_BY_ID
+                        )
+                    } catch (ex: Exception) {
+
+                    }
+                }
+            })
 
         }
-
-
 
 
     }

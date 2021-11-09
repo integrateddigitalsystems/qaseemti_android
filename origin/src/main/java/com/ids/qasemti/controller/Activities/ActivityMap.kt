@@ -3,7 +3,6 @@ package com.ids.qasemti.controller.Activities
 import android.location.Location
 import android.location.LocationListener
 import android.os.Bundle
-import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -80,8 +79,8 @@ class ActivityMap : AppCompactBase(), OnMapReadyCallback, LocationListener {
         }
 
         var title = intent.getStringExtra("mapTitle")
-        AppHelper.setLogoTint(btBackTool, this, R.color.redPrimary)
-        tvPageTitle.setColorTypeface(this, R.color.redPrimary, title!!, true)
+        AppHelper.setLogoTint(btBackTool, this, R.color.primary)
+        tvPageTitle.setColorTypeface(this, R.color.primary, title!!, true)
 
 
     }

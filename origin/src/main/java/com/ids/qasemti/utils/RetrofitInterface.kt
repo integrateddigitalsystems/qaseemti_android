@@ -329,7 +329,14 @@ interface RetrofitInterface {
     @POST("sp_get_orders")
     fun getOrderById(
        @Body param : RequestOrderIdL
-    ):Call<ResponseOrders>
+    ):Call<ResponseMainOrderById>
+
+    @GET("search")
+    fun getMapLocations(
+        @Query("q") query : String ,
+        @Query("format") format : String ,
+        @Query("countrycodes") codes : String
+    ):Call<ArrayList<ResponseNominatim>>
 
 
 }

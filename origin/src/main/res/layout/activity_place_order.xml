@@ -18,13 +18,17 @@
     </LinearLayout>
 
 
+    <FrameLayout
+        android:layout_above="@+id/llFooter"
+        android:layout_below="@+id/llTool"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/llMain"
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/llFooter"
-        android:layout_below="@+id/llTool"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -66,7 +70,7 @@
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:src="@drawable/placeholder"
-                    android:tint="@color/redPrimary" />
+                    android:tint="@color/primary" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -74,14 +78,13 @@
                     android:layout_marginStart="@dimen/normal_margin"
                     android:orientation="vertical">
 
-                    <me.grantland.widget.AutofitTextView
-                        android:maxLines="1"
+                    <com.ids.qasemti.custom.CustomTextViewMedium
                         android:id="@+id/tvLocationPlaceOrder"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/no_data"
                         android:textColor="@color/primary"
-                        android:textSize="@dimen/normal_font"
+                        android:textSize="@dimen/medium_font"
 
                         />
 
@@ -89,7 +92,7 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/redPrimary" />
+                        android:background="@color/primary" />
 
                 </LinearLayout>
 
@@ -120,7 +123,7 @@
                         android:layout_height="@dimen/normal_icon"
                         android:layout_gravity="top"
                         android:src="@drawable/wall_clock"
-                        android:tint="@color/redPrimary"
+                        android:tint="@color/primary"
 
                         />
 
@@ -165,7 +168,7 @@
                         android:layout_height="@dimen/normal_icon"
                         android:layout_gravity="top"
                         android:src="@drawable/wall_clock"
-                        android:tint="@color/redPrimary"
+                        android:tint="@color/primary"
 
                         />
 
@@ -408,7 +411,7 @@
                     android:layout_marginTop="@dimen/big_margin"
                     android:tag="PaymentMethod"
                     android:text="@string/PaymentMethod"
-                    android:textColor="@color/redPrimary" />
+                    android:textColor="@color/primary" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -540,6 +543,14 @@
 
 
     </LinearLayout>
+
+
+        <include
+            layout="@layout/loading" />
+    </FrameLayout>
+
+
+
     <RelativeLayout
         android:layout_marginStart="@dimen/edit_text_height"
         android:layout_marginEnd="@dimen/edit_text_height"
@@ -583,7 +594,11 @@
 
         </LinearLayout>
 
+
+
     </RelativeLayout>
+
+
 
     <LinearLayout
         android:visibility="gone"
@@ -595,7 +610,6 @@
         <include layout="@layout/footer" />
     </LinearLayout>
 
-    <include
-        layout="@layout/loading" />
+
 
 </RelativeLayout>

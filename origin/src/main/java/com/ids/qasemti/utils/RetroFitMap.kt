@@ -8,7 +8,8 @@ import java.util.concurrent.TimeUnit
 
 object RetroFitMap {
 
-    var map = "https://maps.googleapis.com/maps/api/place/queryautocomplete/"
+ //   var map = "https://maps.googleapis.com/maps/api/place/queryautocomplete/"
+    var map = "https://nominatim.openstreetmap.org/"
 
     private var retrofit: Retrofit? = null
     val client: Retrofit?

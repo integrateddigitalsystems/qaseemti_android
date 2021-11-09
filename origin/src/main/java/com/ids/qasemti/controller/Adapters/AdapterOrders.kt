@@ -9,12 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
-import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ResponseOrders
-import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.setColorTypeface
-import org.w3c.dom.Text
 
 import java.util.ArrayList
 
@@ -27,7 +24,7 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
     }
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
-        holder.viewOrder.setColorTypeface(con,R.color.button_blue,"",false)
+        holder.viewOrder.setColorTypeface(con,R.color.new_black,"",false)
 
         if(!items.get(position).product!!.type.isNullOrEmpty()||items.get(position).product!!.type!="null")
             holder.titleTop.text = AppHelper.getRemoteString("category",con)+" "+items.get(position).product!!.type
@@ -38,9 +35,11 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
         try{holder.expected.text = items[position].deliveryDate!!}catch (e:Exception){}
         try{holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-mm-dd hh:mm:ssss","dd MMM yyyy hh:mm")}catch (e:Exception){}
         try{holder.tvLocation.text = items[position].shipping_address_name}catch (e:Exception){}
+        if(holder.tvLocation.text.isNullOrEmpty())
+            holder.tvLocation.text = AppHelper.getRemoteString("no_data",con)
         try{holder.id.text ="# "+ items.get(position).orderId!!.toString()}catch (e:Exception){}
         try{holder.expectedTitle.typeface = AppHelper.getTypeFaceBold(con)}catch (e:Exception){}
-        try{holder.tvLocation.setColorTypeface(con,R.color.redPrimary,items.get(position).customerLocation!!,false)}catch (e:Exception){}
+        try{holder.tvLocation.setColorTypeface(con,R.color.primary,items.get(position).customerLocation!!,false)}catch (e:Exception){}
 
     }
 

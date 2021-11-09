@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tvItemCost"
                 android:textAlignment="viewStart"
-                android:textColor="@color/redPrimary"
+                android:textColor="@color/primary"
                 android:textSize="@dimen/small_font"
                 android:text="10"/>
 
@@ -82,7 +82,7 @@
             android:id="@+id/ivDeleteItem"
             android:layout_gravity="center_vertical"
             android:layout_width="@dimen/normal_icon_size"
-            android:tint="@color/button_blue"
+            android:tint="@color/new_black"
             android:layout_height="@dimen/normal_icon_size"
             android:src="@drawable/icon_file_trash"/>
 

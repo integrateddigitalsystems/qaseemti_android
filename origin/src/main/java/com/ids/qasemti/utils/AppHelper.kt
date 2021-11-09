@@ -12,7 +12,6 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.database.Cursor
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.Outline
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
@@ -662,33 +661,33 @@ class AppHelper {
             when (selected) {
                 AppConstants.FRAGMENT_ACCOUNT -> {
                     MyApplication.selectedTitle = getRemoteString("Account", context)
-                    setLogoTint(imgAcc, context, R.color.redPrimary)
-                    setTextColor(context, tvAcc, R.color.redPrimary)
+                    setLogoTint(imgAcc, context, R.color.primary)
+                    setTextColor(context, tvAcc, R.color.primary)
                 }
                 AppConstants.FRAGMENT_HOME_CLIENT, AppConstants.FRAGMENT_HOME_SP -> {
                     MyApplication.selectedTitle = getRemoteString("Services", context)
-                    setLogoTint(imgHom, context, R.color.redPrimary)
-                    setTextColor(context, tvHom, R.color.redPrimary)
+                    setLogoTint(imgHom, context, R.color.primary)
+                    setTextColor(context, tvHom, R.color.primary)
                 }
                 AppConstants.FRAGMENT_ORDER -> {
                     MyApplication.selectedTitle = getRemoteString("orders", context)
-                    setLogoTint(imgOrd, context, R.color.redPrimary)
-                    setTextColor(context, tvOrd, R.color.redPrimary)
+                    setLogoTint(imgOrd, context, R.color.primary)
+                    setTextColor(context, tvOrd, R.color.primary)
                 }
                 AppConstants.FRAGMENT_NOTFICATIONS -> {
                     MyApplication.selectedTitle = getRemoteString("notifications", context)
-                    setLogoTint(imgNot, context, R.color.redPrimary)
-                    setTextColor(context, tvNot, R.color.redPrimary)
+                    setLogoTint(imgNot, context, R.color.primary)
+                    setTextColor(context, tvNot, R.color.primary)
                 }
                 AppConstants.FRAGMENT_MY_SERVICES -> {
                     MyApplication.selectedTitle = getRemoteString("MyServices", context)
-                    setLogoTint(imgPro, context, R.color.redPrimary)
-                    setTextColor(context, tvPro, R.color.redPrimary)
+                    setLogoTint(imgPro, context, R.color.primary)
+                    setTextColor(context, tvPro, R.color.primary)
                 }
                 AppConstants.FRAGMENT_CART -> {
                     MyApplication.selectedTitle = getRemoteString("Cart", context)
-                    setLogoTint(imgCart, context, R.color.redPrimary)
-                    setTextColor(context, tvCart, R.color.redPrimary)
+                    setLogoTint(imgCart, context, R.color.primary)
+                    setTextColor(context, tvCart, R.color.primary)
                 }
             }
 

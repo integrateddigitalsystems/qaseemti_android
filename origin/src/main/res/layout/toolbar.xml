@@ -61,7 +61,7 @@
         android:layout_marginStart="@dimen/height_35"
         android:layout_marginEnd="@dimen/height_35"
         android:maxLines="2"
-        android:textColor="@color/redPrimary"
+        android:textColor="@color/primary"
         android:textSize="@dimen/title_font" />
 
 
@@ -74,7 +74,7 @@
         android:visibility="gone"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
-        app:tint="@color/new_blue" />
+        app:tint="@color/new_black" />
 
 
 </RelativeLayout>

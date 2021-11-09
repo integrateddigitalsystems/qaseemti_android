@@ -13,7 +13,6 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 
 import com.ids.qasemti.controller.Activities.ActivityMapAddress
-import com.ids.qasemti.controller.Activities.ActivityMobileRegistration
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
@@ -32,6 +31,7 @@ import java.lang.Exception
 class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     private var ordersArray: ArrayList<ResponseOrders> = arrayListOf()
+    var adapter :  AdapterOrders ?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -116,7 +116,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     fun init() {
         (activity as ActivityHome?)!!.showLogout(false)
-        (activity as ActivityHome?)!!.setTintLogo(R.color.redPrimary)
+        (activity as ActivityHome?)!!.setTintLogo(R.color.primary)
      //   AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         setListeners()
         getRating()
@@ -183,6 +183,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             MyApplication.typeSelected = 1
         }
         try {
+            swAvailable.typeface = AppHelper.getTypeFace(requireContext())
             swAvailable.isChecked =
                 if (MyApplication.selectedUser!!.available == "0") false else true
         } catch (ex: Exception) {
@@ -243,12 +244,12 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     fun accepted(res: Int) {
         if (res == 1) {
             AppHelper.createDialog(requireActivity(), getString(R.string.order_accept_succ))
+            loading.show()
             getOrders()
             getData()
         } else {
             AppHelper.createDialog(requireActivity(), getString(R.string.error_acc_order))
         }
-        loading.hide()
     }
 
     fun acceptOrder(orderId: Int, additional: Int) {
@@ -276,10 +277,15 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     private fun setOrders() {
         try {
-            var adapter = AdapterOrders(ordersArray, this, requireContext())
-            rvOrders.adapter = adapter
-            var glm2 = GridLayoutManager(requireContext(), 1)
-            rvOrders.layoutManager = glm2
+            if(adapter!=null) {
+                adapter!!.notifyDataSetChanged()
+            }else{
+                adapter = AdapterOrders(ordersArray, this, requireContext())
+                rvOrders.adapter = adapter
+                var glm2 = GridLayoutManager(requireContext(), 1)
+                rvOrders.layoutManager = glm2
+
+            }
 
             if (ordersArray.size == 0) {
                 rvOrders.hide()
@@ -289,7 +295,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
             loading.hide()
         } catch (ex: Exception) {
-
+            loading.hide()
         }
     }
 
@@ -319,11 +325,16 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }
         } else if (view.id == R.id.btAcceptOrder) {
-            if(MyApplication.selectedUser!!.active == 1)
-               showAcceptOrderPopup(requireActivity(),position)
-            else
-                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("inactive_user_msg",requireActivity()))
+            AppHelper.onOneClick {
+                if (MyApplication.selectedUser!!.active == 1)
+                    showAcceptOrderPopup(requireActivity(), position)
+                else
+                    AppHelper.createDialog(
+                        requireActivity(),
+                        AppHelper.getRemoteString("inactive_user_msg", requireActivity())
+                    )
 
+            }
         }
     }
 

@@ -15,7 +15,7 @@
         android:textSize="@dimen/big_font"
         android:text="@string/myAccount"
         android:tag="myAccount"
-        android:textColor="@color/redPrimary"
+        android:textColor="@color/primary"
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_margin="@dimen/normal_margin"
@@ -49,7 +49,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/placeholder"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -72,7 +72,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/arrow_right"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
             </LinearLayout>
             <LinearLayout
@@ -91,7 +91,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_services"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -114,7 +114,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/arrow_right"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
             </LinearLayout>
             <LinearLayout
@@ -140,7 +140,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_settlement"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -163,7 +163,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/arrow_right"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
             </LinearLayout>
             <include layout="@layout/separator_dark"/>
@@ -185,7 +185,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_profile"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -208,7 +208,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/arrow_right"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
             </LinearLayout>
             <include layout="@layout/separator_dark"/>
@@ -230,7 +230,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_language"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -253,7 +253,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/arrow_right"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
             </LinearLayout>
             <include layout="@layout/separator_dark"/>
@@ -275,7 +275,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_notification"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -298,7 +298,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/arrow_right"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
             </LinearLayout>
             <include layout="@layout/separator_dark"/>
@@ -325,7 +325,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_contact_administrator"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -348,7 +348,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/arrow_right"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
             </LinearLayout>
             <include layout="@layout/separator_dark"/>
@@ -370,7 +370,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_privacy"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -393,7 +393,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/arrow_right"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
             </LinearLayout>
             <include layout="@layout/separator_dark"/>
@@ -415,7 +415,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_terms"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -438,7 +438,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/arrow_right"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
             </LinearLayout>
             <include layout="@layout/separator_dark"/>
@@ -460,7 +460,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/icon_star"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -483,7 +483,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/arrow_right"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
             </LinearLayout>
             <include layout="@layout/separator_dark"/>
@@ -508,7 +508,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/icon_account_share"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -531,7 +531,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/arrow_right"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
             </LinearLayout>
         <LinearLayout
@@ -559,7 +559,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/icon_logout"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <com.ids.qasemti.custom.CustomTextViewBold
@@ -582,7 +582,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/arrow_right"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
             </LinearLayout>
             <LinearLayout

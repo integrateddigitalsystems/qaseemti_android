@@ -47,6 +47,7 @@
 
 
             <EditText
+                android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -64,6 +65,7 @@
 
 
             <EditText
+                android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:minHeight="@dimen/edit_text_height"
                 android:layout_height="wrap_content"
@@ -97,6 +99,7 @@
 
 
             <EditText
+                android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -113,6 +116,7 @@
 
 
             <EditText
+                android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -128,6 +132,7 @@
                 />
 
             <EditText
+                android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -143,6 +148,7 @@
                 />
 
             <EditText
+                android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -158,6 +164,7 @@
                 />
 
             <EditText
+                android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -173,6 +180,7 @@
                 />
 
             <EditText
+                android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
@@ -194,6 +202,7 @@
 
 
             <EditText
+                android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/msg_edit_text"
                 android:textColor="@color/gray_font"
@@ -242,7 +251,7 @@
         android:layout_width="match_parent"
         android:text="@string/UseOnce"
         android:layout_marginBottom="@dimen/medium_margin"
-        android:textColor="@color/redPrimary"
+        android:textColor="@color/primary"
         android:tag="UseOnce"
         android:layout_height="@dimen/edit_text_height"
         android:background="@color/transparent"/>

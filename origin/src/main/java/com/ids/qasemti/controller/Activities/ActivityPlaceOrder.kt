@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,11 +35,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCallBack {
+class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCallBack,ApiListener {
 
     var fragMang: FragmentManager? = null
     var selectedPaymentId : Int ?=0
     var selectedSlug : String ?=""
+    var firstTime = true
     var orderId="0"
 
     var arrayPaymentMethods: ArrayList<PaymentMethod> = arrayListOf()
@@ -65,47 +65,54 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
 
 
     }
-    fun setData(){
+    fun setData(orders: ResponseOrders){
 
-        if(!MyApplication.selectedPlaceOrder!!.addressDescription.equals("null")&&! MyApplication.selectedPlaceOrder!!.addressDescription.isNullOrEmpty()){
-            tvLocationPlaceOrder.text = MyApplication.selectedPlaceOrder!!.addressDescription
+        tvLocationPlaceOrder.text = ""
+        if(!orders.addressDescription.equals("null")&&! orders.shipping_address_description.isNullOrEmpty()){
+            tvLocationPlaceOrder.text = orders.addressDescription+","
         }
-        if(!MyApplication.selectedPlaceOrder!!.addressStreet.equals("null")&&!MyApplication.selectedPlaceOrder!!.addressStreet.isNullOrEmpty()){
-            tvLocationPlaceOrder.text =   tvLocationPlaceOrder.text.toString()+","+MyApplication.selectedPlaceOrder!!.addressStreet
+        if(!orders.shipping_address_street.equals("null")&&!orders.shipping_address_street.isNullOrEmpty()){
+            tvLocationPlaceOrder.text =   tvLocationPlaceOrder.text.toString()+orders.shipping_address_street+","
         }
-        if(!MyApplication.selectedPlaceOrder!!.addressBuilding.equals("null")&&!MyApplication.selectedPlaceOrder!!.addressBuilding.isNullOrEmpty()){
-            tvLocationPlaceOrder.text =   tvLocationPlaceOrder.text.toString()+","+MyApplication.selectedPlaceOrder!!.addressBuilding
+        if(!orders.shipping_address_building.equals("null")&&!orders.shipping_address_building.isNullOrEmpty()){
+            tvLocationPlaceOrder.text =   tvLocationPlaceOrder.text.toString()+orders.shipping_address_building+","
         }
-        if(!MyApplication.selectedPlaceOrder!!.addressFloor.equals("null")&&!MyApplication.selectedPlaceOrder!!.addressFloor.isNullOrEmpty()){
-            tvLocationPlaceOrder.text =   tvLocationPlaceOrder.text.toString()+","+MyApplication.selectedPlaceOrder!!.addressFloor
+        if(!orders.shipping_address_floor.equals("null")&&!orders.shipping_address_floor.isNullOrEmpty()){
+            tvLocationPlaceOrder.text =   tvLocationPlaceOrder.text.toString()+orders.shipping_address_floor+","
         }
+        if(tvLocationPlaceOrder.text.isNullOrEmpty())
+            tvLocationPlaceOrder.text = AppHelper.getRemoteString("no_data",this)
 
-        try{tvOrderDate.text = MyApplication.selectedPlaceOrder!!.deliveryDate}catch (e:Exception){}
+        try{tvOrderDate.text = orders.deliveryDate}catch (e:Exception){}
         fragMang = supportFragmentManager
         var array:ArrayList<OrderData> = arrayListOf()
-        array.add(OrderData(AppHelper.getRemoteString("category",this),if(MyApplication.selectedPlaceOrder!!.productCategory!=null && MyApplication.selectedPlaceOrder!!.productCategory!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.productCategory!! else ""))
-        array.add(OrderData(AppHelper.getRemoteString("service",this),if(MyApplication.selectedPlaceOrder!!.title!=null && MyApplication.selectedPlaceOrder!!.title!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.title else ""))
-        array.add(OrderData(AppHelper.getRemoteString("type",this),if(MyApplication.selectedPlaceOrder!!.types!=null && MyApplication.selectedPlaceOrder!!.types!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.types else ""))
-        array.add(OrderData(AppHelper.getRemoteString("SizeCapacity",this),if(MyApplication.selectedPlaceOrder!!.sizeCapacity!=null && MyApplication.selectedPlaceOrder!!.sizeCapacity!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.sizeCapacity else ""))
+        array.add(OrderData(AppHelper.getRemoteString("category",this),if(orders.type!=null && orders.type!!.isNotEmpty()) orders.type!! else ""))
+        array.add(OrderData(AppHelper.getRemoteString("service",this),if(orders.product!!.name!=null && orders.product!!.name!!.isNotEmpty()) orders.product!!.name else ""))
+        array.add(OrderData(AppHelper.getRemoteString("type",this),if(orders.product!!.type!=null && orders.product!!.types!!.isNotEmpty()) orders.product!!.types else ""))
+        array.add(OrderData(AppHelper.getRemoteString("SizeCapacity",this),if(orders.product!!.sizeCapacity!=null && orders.product!!.sizeCapacity!!.isNotEmpty()) orders.product!!.sizeCapacity else ""))
         array.add(OrderData(AppHelper.getRemoteString("Quantity",this),"1"))
         rvDataBorder.layoutManager = LinearLayoutManager(this)
         rvDataBorder.adapter = AdapterOrderData(array,this,this)
 
         var array2:ArrayList<OrderData> = arrayListOf()
-        array2.add(OrderData(AppHelper.getRemoteString("Subtotal",this),if(MyApplication.selectedPlaceOrder!!.price!=null && MyApplication.selectedPlaceOrder!!.price!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.price +" KWD" else ""))
-        array2.add(OrderData(AppHelper.getRemoteString("AdditionalFees",this),"0 KWD"))
-        array2.add(OrderData(AppHelper.getRemoteString("TotalAmount",this),if(MyApplication.selectedPlaceOrder!!.price!=null && MyApplication.selectedPlaceOrder!!.price!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.price+" KWD"  else ""))
+        array2.add(OrderData(AppHelper.getRemoteString("Subtotal",this),if(orders.total!=null && orders.total!!.isNotEmpty()) orders.total +" KWD" else ""))
+        array2.add(OrderData(AppHelper.getRemoteString("AdditionalFees",this),if(orders.shippingTotal!=null && orders.shippingTotal!!.isNotEmpty()) orders.shippingTotal+" KWD"  else ""))
+        array2.add(OrderData(AppHelper.getRemoteString("TotalAmount",this),if(orders.grand_total!=null && orders.grand_total!!.isNotEmpty()) orders.grand_total+" KWD"  else ""))
         rvOtherData.layoutManager = LinearLayoutManager(this)
         rvOtherData.adapter = AdapterOtherOrderData(array2,this,this)
+
+        loading.hide()
+
     }
 
     fun nextStep(){
         finishAffinity()
         MyApplication.selectedPos = 1
         MyApplication.fromOrderPlaced = true
+        MyApplication.typeSelected = 0
         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
         MyApplication.selectedFragment = FragmentOrders()
-        MyApplication.tintColor = R.color.redPrimary
+        MyApplication.tintColor = R.color.primary
         startActivity(Intent(this@ActivityPlaceOrder,ActivityHome::class.java))
     }
 
@@ -212,7 +219,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
 
     override fun onResume() {
         super.onResume()
-        loading.hide()
+      //  loading.hide()
     }
     fun updatePayment(){
         if(orderId=="")
@@ -247,29 +254,29 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
 
 
 
-        tvLocationPlaceOrder.setColorTypeface(this,R.color.redPrimary,"",false)
+        tvLocationPlaceOrder.setColorTypeface(this,R.color.primary,"",false)
         tvPageTitle.show()
         tvPageTitle.textRemote("PlaceOrder",this)
-        tvPageTitle.setColorTypeface(this,R.color.redPrimary,"",true)
+        tvPageTitle.setColorTypeface(this,R.color.primary,"",true)
         btBackTool.show()
         btBackTool.onOneClick {
             super.onBackPressed()
         }
         btPLaceOrder.typeface = AppHelper.getTypeFace(this)
         btClose.hide()
-        AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
+        AppHelper.setLogoTint(btBackTool,this,R.color.primary)
         setListeners()
-        try{
-        setData()
-        }catch (e:Exception){
-            Log.wtf("error",e)
-        }
-        AppHelper.setLogoTint(btDrawer, this, R.color.redPrimary)
+
+        AppHelper.setLogoTint(btDrawer, this, R.color.primary)
         var spFound=true
         if(intent.hasExtra(AppConstants.SP_FOUND))
             spFound=intent.extras!!.getBoolean(AppConstants.SP_FOUND,true)
         if(intent.hasExtra(AppConstants.ORDER_ID))
             orderId=intent.extras!!.getString(AppConstants.ORDER_ID,"0")
+        loading.show()
+        try {
+            CallAPIs.getOrderByOrderId(orderId.toInt(), this)
+        }catch (ex:Exception){}
         if(!spFound) {
             rlNotService.show()
             llMain.hide()
@@ -324,7 +331,11 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
     override fun callBackUpayment(postUpayData: PostUpayData?) {
         loading.hide()
         if(postUpayData!!.result==AppConstants.PAYMENT_SUCCESS){
-            nextStep()
+
+            if(firstTime) {
+                firstTime = false
+                nextStep()
+            }
         }else{
             runOnUiThread(Runnable {
                 AppHelper.createDialog(this@ActivityPlaceOrder,postUpayData.result)
@@ -348,5 +359,11 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
         })
 
 
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+        var orderData = response as ResponseOrders
+        setData(orderData)
+        loading.hide()
     }
 }

@@ -4,9 +4,11 @@
     <color name="colorPrimaryDark">#e5193a </color>
     <color name="colorAccent">#e5193a</color>
 
-    <color name="primary">#e5193a</color>
+    <color name="primary_">#e5193a</color>
+    <color name="primary_opac">#99e5193a</color>
+    <color name="second_primary">#fff6eb</color>
     <color name="secondary">#e5193a</color>
-    <color name="redPrimary">#e5193a</color>
+    <color name="primary">#e5193a</color>
     <color name="gray_tint">#818181</color>
     <color name="gray_medium_2">#dadada </color>
     <color name="gray_background">#f2f2f2</color>
@@ -17,7 +19,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="new_blue">#0080ff</color>
-    <color name="button_blue">#0080ff</color>
+    <color name="new_black">#0080ff</color>
     <color name="white">#ffffff</color>
     <color name="gradient_red">#ff516b</color>
     <color name="pink_bg">#f5dbdf</color>

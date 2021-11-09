@@ -206,18 +206,19 @@ class UpaymentGatewayHttpClient {
             }
             String urlTest= "";
             URL url=null;
-            if(key_dev_mode=="0")
-                URLEncoder.encode(UpaymentGatewayAppUtils.ABC + UpaymentGatewayAppUtils.NAME+ UpaymentGatewayAppUtils.SLASH+ UpaymentGatewayAppUtils.TGET,"UTF-8");
-            else
+            if(key_dev_mode.equals("0")) {
+                String x = UpaymentGatewayAppUtils.ABC + UpaymentGatewayAppUtils.NAME + UpaymentGatewayAppUtils.SLASH + UpaymentGatewayAppUtils.TGET;
+                URLEncoder.encode(UpaymentGatewayAppUtils.ABC + UpaymentGatewayAppUtils.NAME + UpaymentGatewayAppUtils.SLASH + UpaymentGatewayAppUtils.TGET, "UTF-8");
+            } else
                 URLEncoder.encode(UpaymentGatewayAppUtils.ABC + UpaymentGatewayAppUtils.NAME+ UpaymentGatewayAppUtils.SLASH+ UpaymentGatewayAppUtils.TGET_SAND,"UTF-8");
 
-            if(key_dev_mode=="0")
+            if(key_dev_mode.equals("0"))
                  urlTest = UpaymentGatewayAppUtils.ABC + UpaymentGatewayAppUtils.NAME+ UpaymentGatewayAppUtils.SLASH+ UpaymentGatewayAppUtils.TGET;
             else
                  urlTest = UpaymentGatewayAppUtils.ABC + UpaymentGatewayAppUtils.NAME+ UpaymentGatewayAppUtils.SLASH+ UpaymentGatewayAppUtils.TGET_SAND;
 
             UpaymentGatewayLog.d("->url final : " + urlTest);
-            if(key_dev_mode=="0")
+            if(key_dev_mode.equals("0"))
              url = new URL(UpaymentGatewayAppUtils.ABC + UpaymentGatewayAppUtils.NAME+ UpaymentGatewayAppUtils.SLASH+ UpaymentGatewayAppUtils.TGET);
             else
                  url = new URL(UpaymentGatewayAppUtils.ABC + UpaymentGatewayAppUtils.NAME+ UpaymentGatewayAppUtils.SLASH+ UpaymentGatewayAppUtils.TGET_SAND);

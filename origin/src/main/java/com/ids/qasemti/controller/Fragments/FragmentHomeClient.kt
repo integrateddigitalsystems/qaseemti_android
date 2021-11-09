@@ -12,6 +12,7 @@ import android.view.Window
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
 import com.ids.qasemti.R
@@ -194,6 +195,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         }
         btFilter.hide()
         var close = dialog!!.findViewById<ImageView>(R.id.btClose)
+
         spServices = dialog!!.findViewById<Spinner>(R.id.spServices)
         spType = dialog!!.findViewById<Spinner>(R.id.spType)
         spServiceCapactity = dialog!!.findViewById<Spinner>(R.id.spServiceCapactity)

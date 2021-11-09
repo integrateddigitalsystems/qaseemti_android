@@ -44,7 +44,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:tint="@color/redPrimary"
+                    android:tint="@color/primary"
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:src="@drawable/footer_orders"/>
@@ -155,7 +155,7 @@
         android:textSize="@dimen/header_font"
         android:text="@string/no_data"
         android:tag="no_data"
-        android:textColor="@color/redPrimary"/>
+        android:textColor="@color/primary"/>
 
 
 </RelativeLayout>

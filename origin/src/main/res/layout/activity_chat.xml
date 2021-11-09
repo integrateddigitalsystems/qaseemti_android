@@ -68,6 +68,7 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:textAlignment="viewStart"
             android:padding="@dimen/small_margin"
             android:layout_toStartOf="@id/ivSendChat"
             android:layout_centerHorizontal="true"
@@ -80,7 +81,7 @@
         <ImageView
             android:layout_marginStart="@dimen/normal_margin"
             android:id="@+id/ivSendChat"
-            android:tint="@color/redPrimary"
+            android:tint="@color/primary"
             android:layout_marginEnd="@dimen/mini_margin"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"

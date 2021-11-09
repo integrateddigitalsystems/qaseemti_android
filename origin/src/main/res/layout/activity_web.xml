@@ -67,6 +67,7 @@
                                     android:textSize="@dimen/title_font" />
 
                                 <EditText
+                                    android:textAlignment="viewStart"
                                     android:id="@+id/etFullNameContact"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/edit_text_height"
@@ -84,6 +85,7 @@
                                     android:textSize="@dimen/normal_font" />
 
                                 <EditText
+                                    android:textAlignment="viewStart"
                                     android:id="@+id/etPhoneContact"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/edit_text_height"
@@ -101,6 +103,7 @@
                                     android:textSize="@dimen/normal_font" />
 
                                 <EditText
+                                    android:textAlignment="viewStart"
                                     android:id="@+id/etEmailContact"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/edit_text_height"
@@ -118,6 +121,7 @@
                                     android:textSize="@dimen/normal_font" />
 
                                 <EditText
+                                    android:textAlignment="viewStart"
                                     android:id="@+id/etSubjectContact"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/edit_text_height"
@@ -135,6 +139,7 @@
                                     android:textSize="@dimen/normal_font" />
 
                                 <EditText
+                                    android:textAlignment="viewStart"
                                     android:id="@+id/etMessageContact"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/msg_edit_text"

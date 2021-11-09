@@ -12,6 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/big_button_height"
         android:id="@+id/logoClient"
+        android:tint="@color/primary"
         android:layout_width="@dimen/splash_logo"
         android:layout_height="@dimen/splash_logo"
         android:src="@drawable/icon_splash"/>
@@ -62,7 +63,7 @@
     <com.ids.qasemti.custom.CustomTextViewMedium
         android:id="@+id/ivApp"
         android:gravity="center_horizontal"
-        android:textColor="@color/redPrimary"
+        android:textColor="@color/primary"
         android:layout_marginBottom="@dimen/big_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

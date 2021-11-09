@@ -47,6 +47,7 @@
     </LinearLayout>
 
     <EditText
+        android:textAlignment="viewStart"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
         android:background="@drawable/rounded_white_background"

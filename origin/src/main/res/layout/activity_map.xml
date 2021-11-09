@@ -30,21 +30,40 @@
             android:layout_marginBottom="@dimen/mini_margin"
             />-->
 
-        <EditText
+        <RelativeLayout
+            android:id="@+id/rlMapSearch"
+            android:paddingStart="@dimen/margin_start_end"
+            android:paddingEnd="@dimen/margin_start_end"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_text_height"
-            android:layout_marginStart="@dimen/margin_start_end"
-            android:layout_marginEnd="@dimen/margin_start_end"
-            android:background="@drawable/rounded_white_red_border"
-            android:hint="@string/search_for_your_location"
-            android:textColorHint="@color/gray_font_light"
-            android:tag="search_for_your_location"
-            android:textSize="@dimen/normal_font"
-            android:id="@+id/etMapSearch"
-            android:textColor="@color/redPrimary"
-            android:paddingStart="@dimen/normal_margin"
-            android:paddingEnd="@dimen/normal_margin"
-            />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:focusable="false"
+                android:id="@+id/etMapSearch"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@drawable/rounded_white_red_border"
+                android:hint="@string/search_for_your_location"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:tag="search_for_your_location"
+                android:textAlignment="viewStart"
+                android:textColor="@color/primary"
+                android:textColorHint="@color/gray_font_light"
+                android:textSize="@dimen/normal_font" />
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/btClear"
+                android:tint="@color/new_black"
+                android:layout_marginEnd="@dimen/medium_margin"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/small_icon"
+                android:layout_height="@dimen/small_icon"
+                android:src="@drawable/close_x"
+                />
+        </RelativeLayout>
 
 
 
@@ -55,23 +74,14 @@
             android:layout_marginEnd="@dimen/margin_start_end"
             android:layout_marginTop="@dimen/normal_margin"
             android:textColor="@color/gray_font"
-            android:layout_below="@id/etMapSearch"
+            android:layout_below="@id/rlMapSearch"
             android:textSize="@dimen/normal_font"
             android:text="@string/MoveMapAndDrop"
             android:id="@+id/tvMapSearch"
             android:tag="MoveMapAndDrop"
             />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/rv_place_results"
-            android:background="@color/white"
-            android:visibility="gone"
-            android:layout_marginStart="@dimen/margin_start_end"
-            android:layout_marginEnd="@dimen/margin_start_end"
-            android:layout_below="@id/tvMapSearch"
-            />
+
 
      <com.google.android.gms.maps.MapView
 
@@ -80,6 +90,17 @@
              android:layout_marginTop="@dimen/normal_margin"
          android:layout_below="@id/tvMapSearch"
             android:id="@+id/mvLocation"/>
+
+
+
+        <LinearLayout
+            android:paddingBottom="@dimen/logo_height"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include
+                layout="@layout/loading" />
+
+        </LinearLayout>
 
         <Button
             android:layout_marginBottom="@dimen/normal_icon_size"
@@ -93,6 +114,19 @@
             android:textColor="@color/white"
             android:text="@string/save"
             android:tag="save"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/logo_height"
+            android:id="@+id/rv_place_results"
+            android:background="@color/white"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:layout_below="@id/rlMapSearch"
+            />
+
 
     </RelativeLayout>
 

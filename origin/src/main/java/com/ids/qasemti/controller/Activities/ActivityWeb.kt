@@ -73,10 +73,10 @@ class ActivityWeb: ActivityBase() {
         rlToolBar.setBackgroundColor(AppHelper.getColor(this,R.color.gray_background))
         btBackTool.show()
         tvPageTitle.show()
-        AppHelper.setLogoTint(btBackTool,this,R.color.redPrimary)
+        AppHelper.setLogoTint(btBackTool,this,R.color.primary)
         var title = intent.getStringExtra("webTitle")
         var id = intent.getIntExtra("webId",0)
-        tvPageTitle.setColorTypeface(this,R.color.redPrimary,title!!,true)
+        tvPageTitle.setColorTypeface(this,R.color.primary,title!!,true)
         btBackTool.setOnClickListener {
             super.onBackPressed()
         }

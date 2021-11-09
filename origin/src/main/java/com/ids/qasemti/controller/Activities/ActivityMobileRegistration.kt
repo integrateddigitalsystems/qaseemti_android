@@ -74,7 +74,8 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
 
         tvCountryCode.text = MyApplication.selectedItemDialog
         tvCountryCode.onOneClick {
-           // showCountires()
+            if(MyApplication.enableCountryCodes!!)
+                showCountires()
         }
         if (MyApplication.isClient) {
             btLogin.hide()
@@ -96,7 +97,7 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
     fun validateRegistration(){
         if (etPhone.text.isNullOrEmpty()) {
             AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
-        } else if (etPhone.text.length !=8) {
+        } else if (etPhone.text.length !=8 && !MyApplication.enableCountryCodes!!) {
             AppHelper.createDialog(this, AppHelper.getRemoteString("check_phone_number", this))
         }
         else {

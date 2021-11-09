@@ -31,7 +31,7 @@
                 android:gravity="center"
                 android:tag="rate"
                 android:text="@string/rate"
-                android:textColor="@color/redPrimary"
+                android:textColor="@color/primary"
                 android:textSize="@dimen/big_font" />
 
 
@@ -44,7 +44,7 @@
                 android:layout_marginTop="@dimen/medium_margin"
                 android:layout_gravity="center"
                 android:id="@+id/rbOrder"
-                android:progressTint="@color/button_blue"
+                android:progressTint="@color/new_black"
                 android:stepSize="1" />
 
             <!--<EditText
@@ -61,6 +61,7 @@
                 android:id="@+id/etRatingTitle"/>-->
 
             <EditText
+                android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="@dimen/medium_margin"
@@ -98,8 +99,8 @@
             app:fabCustomSize="40dp"
             android:layout_marginStart="@dimen/normal_margin"
             android:layout_marginEnd="@dimen/margin_start_end"
-            app:rippleColor="@color/button_blue"
-            app:backgroundTint="@color/button_blue"
+            app:rippleColor="@color/new_black"
+            app:backgroundTint="@color/new_black"
             android:src="@drawable/icon_close"
             android:layout_alignParentEnd="true"
             />

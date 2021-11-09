@@ -1,8 +1,6 @@
 package com.ids.qasemti.controller.Adapters
 
 import android.app.Activity
-import android.app.AlertDialog
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +39,7 @@ class AdapterOrderType(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-        holder.orderDetails.setColorTypeface(con,R.color.button_blue,"",false)
+        holder.orderDetails.setColorTypeface(con,R.color.new_black,"",false)
         try {
             if(!MyApplication.isClient)
                 holder.name.text = items.get(position).customer!!.first_name + " " + items.get(position).customer!!.last_name
@@ -57,7 +55,7 @@ class AdapterOrderType(
 
 
             holder.name.typeface = AppHelper.getTypeFaceBold(con)
-            holder.locationText.setColorTypeface(con,R.color.redPrimary,items.get(position).customerLocation!!,false) }
+            holder.locationText.setColorTypeface(con,R.color.primary,items.get(position).customerLocation!!,false) }
         catch (ex:Exception){ holder.name.text = "" }
 
         try{holder.locationText.text=items.get(position).shipping_address_name!!}catch (e:Exception){}
@@ -144,13 +142,19 @@ class AdapterOrderType(
                 ),
                 holder.switchDelivered
             ) {
+                var usedPos = position
+                var selectedOrd = items.get(position)
                 if (holder.switchDelivered.isChecked) {
+
                     if(holder.switchPaid.isChecked){
-                        items.get(position).done = true
+                        items.removeAt(position)
+                        if(usedPos>0)
+                            usedPos--
+                        notifyItemChanged(usedPos)
                     }
                     holder.switchDelivered.isEnabled = false
                     MyApplication.saveLocationTracking = false
-                    MyApplication.selectedOrder = items.get(position)
+                    MyApplication.selectedOrder = selectedOrd
                     (con as ActivityHome).changeState()
                     delivered = 1
                     AppHelper.setSwitchColor(holder.switchDelivered,con)
@@ -162,7 +166,7 @@ class AdapterOrderType(
                 }
 
                 AppHelper.updateStatus(
-                    items.get(position).orderId!!.toInt(),
+                   selectedOrd.orderId!!.toInt(),
                     onTrack,
                     delivered,
                     paid
@@ -211,9 +215,22 @@ class AdapterOrderType(
                 ),
                 holder.switchPaid
             ) {
+                var usedPos = position
+                var selectOrder = items.get(position)
                 if (holder.switchPaid.isChecked) {
 
+
+
+
                     if(holder.switchDelivered.isChecked){
+                        items.removeAt(position)
+                        if(usedPos>0) {
+                            usedPos--
+                            notifyItemRemoved(usedPos)
+                        }else{
+                            notifyDataSetChanged()
+                        }
+
 
                     }
                     holder.switchPaid.isEnabled = false
@@ -225,7 +242,7 @@ class AdapterOrderType(
                     AppHelper.setSwitchColor(holder.switchPaid,con)
                 }
                 AppHelper.updateStatus(
-                    items.get(position).orderId!!.toInt(),
+                   selectOrder!!.orderId!!.toInt(),
                     onTrack,
                     delivered,
                     paid

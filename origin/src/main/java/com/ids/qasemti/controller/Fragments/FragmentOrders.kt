@@ -44,6 +44,8 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         if (MyApplication.renewed == true) {
             MyApplication.renewed = false
             setTabLayout(0)
+        }else if(MyApplication.completed){
+            setTabLayout(2)
         }
 
     }
@@ -163,11 +165,10 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         }else{
             etSearchOrders.hint = AppHelper.getRemoteString("search_by",requireContext())
         }
-
-        AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
+        AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.primary)
         (activity as ActivityHome).showTitle(true)
         (activity as ActivityHome).showLogout(false)
-        (activity as ActivityHome).setTintLogo(R.color.redPrimary)
+        (activity as ActivityHome).setTintLogo(R.color.primary)
         if (!MyApplication.fromFooterOrder ) {
             (activity as ActivityHome).showBack(true)
         }
@@ -192,18 +193,24 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                     ordersArray.clear()
                     if(!MyApplication.isClient) {
                         ordersArray.addAll(mainArray.filter {
-                            it.orderId!!.contains(s) || it.customer!!.first_name!!.contains(
+                            it.orderId!!.contains(s) ||  (it.customer!!.first_name!=null && it.customer!!.first_name!!.contains(
                                 s
-                            ) || it.product!!.name!!.contains(s)
+                            ) )|| (it.product!!.name!=null && it.product!!.name!!.contains(
+                                s
+                            ) )
                         })
                     }else{
                         ordersArray.addAll(mainArray.filter {
-                            it.orderId!!.contains(s) || it.vendor!!.firstName!!.contains(
+                            it.orderId!!.contains(s) || (it.vendor!=null && it.vendor!!.firstName!!.contains(
                                 s
-                            ) || it.product!!.name!!.contains(s)
+                            ) )||  (it.product!!.name!=null && it.product!!.name!!.contains(
+                                s
+                            ) )
                         })
                     }
-                    adapter!!.notifyDataSetChanged()
+                    try {
+                        adapter!!.notifyDataSetChanged()
+                    }catch (ex:Exception){}
                 } else {
                     ordersArray.clear()
                     ordersArray.addAll(mainArray)
@@ -234,7 +241,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                 }
             }
             var tv = linearTabs.getChildAt(i) as TextView
-            tv.setColorTypeface(requireContext(),R.color.redPrimary,"",false)
+            tv.setColorTypeface(requireContext(),R.color.primary,"",false)
         }
     }
 
@@ -347,7 +354,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
             if (linearTabs.getChildAt(i) is TextView) {
                 var tv = linearTabs.getChildAt(i) as TextView
                 tv.setBackgroundResource(R.color.transparent)
-                AppHelper.setTextColor(requireContext(), tv, R.color.redPrimary)
+                AppHelper.setTextColor(requireContext(), tv, R.color.primary)
             }
         }
 

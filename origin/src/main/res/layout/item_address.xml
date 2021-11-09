@@ -36,16 +36,18 @@
 
 
         <LinearLayout
+            android:gravity="start"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
         <com.ids.qasemti.custom.CustomTextViewBold
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:id="@+id/tvAddressTitle"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
+            android:textAlignment="viewStart"
             android:textSize="@dimen/normal_font"
             android:paddingStart="@dimen/mini_margin"
             android:textColor="@color/gray_font_title"
@@ -63,7 +65,7 @@
                 android:layout_height="@dimen/icon"
                 android:src="@drawable/placeholder"
                 android:layout_gravity="center_vertical"
-                android:tint="@color/redPrimary" />
+                android:tint="@color/primary" />
 
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_width="wrap_content"
@@ -84,7 +86,7 @@
             android:id="@+id/btDeleteAddress"
             android:layout_gravity="center_vertical"
             android:layout_width="@dimen/normal_icon_size"
-            android:tint="@color/button_blue"
+            android:tint="@color/new_black"
             android:layout_height="@dimen/normal_icon_size"
             android:src="@drawable/icon_file_trash"/>
 

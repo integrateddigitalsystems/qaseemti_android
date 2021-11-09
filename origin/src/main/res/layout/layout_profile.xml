@@ -159,6 +159,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:maxLines="1"
+                android:textAlignment="viewStart"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/normal_margin"
@@ -178,6 +179,7 @@
                 android:maxLines="1"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/medium_margin"
+                android:textAlignment="viewStart"
                 android:paddingEnd="@dimen/medium_margin"
                 android:hint="@string/middle_name"
                 android:textColorHint="@color/gray_medium_2"
@@ -193,6 +195,7 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
+                android:textAlignment="viewStart"
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
                 android:maxLines="1"
@@ -228,7 +231,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-
+                    android:textAlignment="viewStart"
                     android:textColor="@color/gray_font"
                     android:textSize="@dimen/normal_font" />
 
@@ -251,8 +254,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/small_font"
                     android:text="@string/mobile"
-
-
+                    android:textAlignment="viewStart"
                     android:textColor="@color/gray_font_light"
                     android:layout_marginTop="@dimen/mini_margin"
                     />
@@ -260,6 +262,7 @@
                 <EditText
                     android:id="@+id/etMobileProfile"
                     android:layout_width="match_parent"
+                    android:textAlignment="viewStart"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:enabled="false"
@@ -291,6 +294,7 @@
 
 
                 <EditText
+
                     android:id="@+id/etCivilIdNbProfile"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -299,6 +303,7 @@
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     android:maxLines="1"
+                    android:textAlignment="viewStart"
                     android:textColorHint="@color/gray_medium_2"
                     android:textSize="@dimen/normal_font"
                     android:background="@drawable/rounded_white_background"
@@ -312,7 +317,7 @@
                     android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/icon_attach"
                     android:layout_gravity="center"
-                    android:backgroundTint="@color/button_blue"
+                    android:backgroundTint="@color/new_black"
 
                     />
 
@@ -347,9 +352,9 @@
                         android:layout_height="wrap_content"
                         android:tag="male"
                         android:textSize="@dimen/normal_font"
-                        android:buttonTint="@color/button_blue"
+                        android:buttonTint="@color/new_black"
                         android:textColor="@color/gray_font"
-                        android:backgroundTint="@color/button_blue"
+                        android:backgroundTint="@color/new_black"
                         android:text="@string/male"/>
 
                     <RadioButton
@@ -358,10 +363,10 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:tag="female"
-                        android:buttonTint="@color/button_blue"
+                        android:buttonTint="@color/new_black"
                         android:textSize="@dimen/normal_font"
                         android:textColor="@color/gray_font"
-                        android:backgroundTint="@color/button_blue"
+                        android:backgroundTint="@color/new_black"
                         android:text="@string/female"/>
 
                 </RadioGroup>
@@ -372,6 +377,7 @@
 
 
             <EditText
+                android:textAlignment="viewStart"
                 android:id="@+id/etDateOfBirthProfile"
                 android:layout_width="match_parent"
                 android:focusableInTouchMode="false"
@@ -390,6 +396,7 @@
 
 
             <EditText
+                android:textAlignment="viewStart"
                 android:id="@+id/etAltContactNumberProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
@@ -407,6 +414,7 @@
 
 
                 <EditText
+                    android:textAlignment="viewStart"
                     android:id="@+id/etDescriptionProfile"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/msg_edit_text"
@@ -435,6 +443,7 @@
 
 
                 <EditText
+                    android:textAlignment="viewStart"
                     android:id="@+id/etAddressProfile"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -454,7 +463,7 @@
                     android:layout_marginEnd="@dimen/mini_margin"
                     android:layout_width="@dimen/normal_icon_size"
                     android:id="@+id/ivMapButton"
-                    android:tint="@color/new_blue"
+                    android:tint="@color/new_black"
                     android:layout_height="@dimen/normal_icon_size"
                     android:src="@drawable/icon_pin_blue"
                     android:layout_gravity="center"
@@ -486,7 +495,7 @@
                         android:layout_width="@dimen/big_icon_size"
                         android:layout_height="@dimen/big_icon_size"
                         android:background="@drawable/icon_pin_blue"
-                        android:backgroundTint="@color/button_blue"
+                        android:backgroundTint="@color/new_black"
                         android:layout_gravity="center_vertical"
                         android:id="@+id/btUpdateAddress"
                         android:visibility="gone"
@@ -503,6 +512,7 @@
 
 
                     <EditText
+                        android:textAlignment="viewStart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
                         android:textColor="@color/gray_font"
@@ -520,6 +530,7 @@
 
 
                     <EditText
+                        android:textAlignment="viewStart"
                         android:layout_width="match_parent"
                         android:minHeight="@dimen/edit_text_height"
                         android:layout_height="wrap_content"
@@ -535,6 +546,7 @@
                         android:background="@drawable/rounded_white_background"
                         />
                     <EditText
+                        android:textAlignment="viewStart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
                         android:textColor="@color/gray_font"
@@ -551,6 +563,7 @@
 
 
                     <EditText
+                        android:textAlignment="viewStart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
                         android:textColor="@color/gray_font"
@@ -566,6 +579,7 @@
                         />
 
                     <EditText
+                        android:textAlignment="viewStart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
                         android:textColor="@color/gray_font"
@@ -581,6 +595,7 @@
                         />
 
                     <EditText
+                        android:textAlignment="viewStart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
                         android:textColor="@color/gray_font"
@@ -596,6 +611,7 @@
                         />
 
                     <EditText
+                        android:textAlignment="viewStart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
                         android:textColor="@color/gray_font"
@@ -611,6 +627,7 @@
                         />
 
                     <EditText
+                        android:textAlignment="viewStart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
                         android:textColor="@color/gray_font"
@@ -632,6 +649,7 @@
 
 
                     <EditText
+                        android:textAlignment="viewStart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/msg_edit_text"
                         android:textColor="@color/gray_font"
@@ -655,7 +673,7 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
-                    android:background="@color/button_blue"
+                    android:background="@color/new_black"
                     android:text="@string/AddNewAddress"
                     android:textColor="@color/white"
                     android:textSize="@dimen/normal_font"
@@ -680,6 +698,7 @@
                 />
 
             <EditText
+                android:textAlignment="viewStart"
                 android:id="@+id/etAccountNumberProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
@@ -695,6 +714,7 @@
                 />
 
             <EditText
+                android:textAlignment="viewStart"
                 android:id="@+id/etBankNameProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
@@ -711,6 +731,7 @@
                 />
 
             <EditText
+                android:textAlignment="viewStart"
                 android:id="@+id/etBranchNameProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
@@ -727,6 +748,7 @@
                 />
 
             <EditText
+                android:textAlignment="viewStart"
                 android:id="@+id/etIBANProfile"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"

@@ -14,6 +14,7 @@ import java.util.*
 open class ActivityBase : Activity() {
     private var decorView: View? = null
     init {
+        AppHelper.setLocal(this)
         LocaleUtils.updateConfig(this)
     }
     override fun onCreate(savedInstanceState: Bundle?) {

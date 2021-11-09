@@ -46,7 +46,7 @@
                     android:layout_height="@dimen/icon"
                     android:layout_marginStart="@dimen/first_margin"
                     android:src="@drawable/placeholder"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
                     android:layout_marginEnd="@dimen/normal_margin"
                     android:rotation="180"
                     android:src="@drawable/ic_back"
-                    android:tint="@color/new_blue" />
+                    android:tint="@color/new_black" />
 
                 </LinearLayout>
 
@@ -101,7 +101,7 @@
                         android:layout_height="@dimen/icon"
                         android:layout_marginStart="@dimen/first_margin"
                         android:src="@drawable/wall_clock"
-                        app:tint="@color/redPrimary" />
+                        app:tint="@color/primary" />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
@@ -126,7 +126,7 @@
                         android:layout_marginEnd="@dimen/normal_margin"
                         android:rotation="90"
                         android:src="@drawable/ic_back"
-                        android:tint="@color/new_blue" />
+                        android:tint="@color/new_black" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -175,8 +175,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/button_blue"
-                            android:buttonTint="@color/button_blue"
+                            android:backgroundTint="@color/new_black"
+                            android:buttonTint="@color/new_black"
                             android:tag="Now"
                             android:text="@string/Now"
                             android:textColor="@color/gray_font"
@@ -188,8 +188,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/button_blue"
-                            android:buttonTint="@color/button_blue"
+                            android:backgroundTint="@color/new_black"
+                            android:buttonTint="@color/new_black"
                             android:tag="Specify"
                             android:text="@string/Specify"
                             android:textColor="@color/gray_font"
@@ -245,7 +245,7 @@
                                 android:layout_height="@dimen/normal_icon"
                                 android:layout_marginEnd="@dimen/normal_margin"
                                 android:src="@drawable/icon_calendar"
-                                android:tint="@color/new_blue" />
+                                android:tint="@color/new_black" />
 
                             </LinearLayout>
 
@@ -259,6 +259,7 @@
                             android:background="@drawable/gray_background_rounded">
 
                             <EditText
+                                android:textAlignment="viewStart"
                                 android:id="@+id/etFromTime"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_35"
@@ -286,7 +287,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/normal_margin"
                                 android:src="@drawable/icon_hourglass"
-                                app:tint="@color/new_blue" />
+                                app:tint="@color/new_black" />
 
                             </LinearLayout>
 
@@ -351,7 +352,7 @@
                                     android:layout_height="@dimen/normal_icon"
                                     android:layout_marginEnd="@dimen/normal_margin"
                                     android:src="@drawable/icon_calendar"
-                                    app:tint="@color/new_blue" />
+                                    app:tint="@color/new_black" />
 
                             </LinearLayout>
 
@@ -365,6 +366,7 @@
                             android:background="@drawable/gray_background_rounded">
 
                             <EditText
+                                android:textAlignment="viewStart"
                                 android:id="@+id/etToTime"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_35"
@@ -391,7 +393,7 @@
                                     android:layout_centerVertical="true"
                                     android:layout_marginEnd="@dimen/normal_margin"
                                     android:src="@drawable/icon_hourglass"
-                                    app:tint="@color/new_blue" />
+                                    app:tint="@color/new_black" />
 
                             </LinearLayout>
 
@@ -531,7 +533,7 @@
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
                                 android:src="@drawable/icon_dollar"
-                                app:tint="@color/redPrimary" />
+                                app:tint="@color/primary" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:layout_width="wrap_content"
@@ -554,7 +556,7 @@
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
                                 android:src="@drawable/icon_vehicules"
-                                app:tint="@color/redPrimary" />
+                                app:tint="@color/primary" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:id="@+id/tvVariationType"
@@ -587,7 +589,7 @@
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
                                 android:src="@drawable/icon_label"
-                                app:tint="@color/redPrimary" />
+                                app:tint="@color/primary" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:layout_width="wrap_content"
@@ -609,7 +611,7 @@
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
                                 android:src="@drawable/icon_quantity"
-                                app:tint="@color/redPrimary" />
+                                app:tint="@color/primary" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:layout_width="wrap_content"
@@ -665,7 +667,7 @@
                         android:layout_marginEnd="@dimen/big_margin"
                         android:gravity="center"
                         android:text="45"
-                        android:textColor="@color/redPrimary" />
+                        android:textColor="@color/primary" />
 
 
                     <LinearLayout
@@ -836,6 +838,7 @@
                 </LinearLayout>
 
                 <EditText
+                    android:textAlignment="viewStart"
                     android:id="@+id/etCoupon"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_35"

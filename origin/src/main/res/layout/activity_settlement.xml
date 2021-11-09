@@ -25,8 +25,8 @@
                 android:layout_width="@dimen/icon_2"
                 android:layout_height="@dimen/icon_2"
                 android:id="@+id/btBck"
-                android:backgroundTint="@color/redPrimary"
-                android:tint="@color/redPrimary"
+                android:backgroundTint="@color/primary"
+                android:tint="@color/primary"
 
                 android:layout_marginStart="@dimen/margin_start_end"
                 android:background="@drawable/ic_back"
@@ -44,7 +44,7 @@
                 android:layout_marginStart="@dimen/height_35"
                 android:layout_marginEnd="@dimen/height_35"
                 android:maxLines="2"
-                android:textColor="@color/redPrimary"
+                android:textColor="@color/primary"
                 android:textSize="@dimen/title_font" />
         </RelativeLayout>
 
@@ -300,7 +300,7 @@
         android:textSize="@dimen/header_font"
         android:text="@string/no_data"
         android:tag="no_data"
-        android:textColor="@color/redPrimary"/>
+        android:textColor="@color/primary"/>
 
         <Button
             android:layout_width="match_parent"

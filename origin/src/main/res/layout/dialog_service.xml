@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/category"
-        android:textColor="@color/redPrimary"/>
+        android:textColor="@color/primary"/>
 
 
         <RadioGroup
@@ -59,7 +59,7 @@
                 android:id="@+id/rbPurchase"
                 android:checked="true"
                 android:textSize="@dimen/normal_font"
-                android:buttonTint="@color/button_blue"
+                android:buttonTint="@color/new_black"
                 android:textColor="@color/gray_font"
                 android:text="@string/purchase"/>
 
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:tag="rental"
                 android:id="@+id/rbRental"
-                android:buttonTint="@color/button_blue"
+                android:buttonTint="@color/new_black"
                 android:textSize="@dimen/normal_font"
                 android:textColor="@color/gray_font"
                 android:text="@string/rental"/>
@@ -95,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/service"
-            android:textColor="@color/redPrimary"/>
+            android:textColor="@color/primary"/>
 
         <RelativeLayout
             android:layout_marginTop="@dimen/normal_margin"
@@ -118,7 +118,7 @@
                 android:layout_height="@dimen/small_icon"
                 android:src="@drawable/arrow_right"
                 android:rotation="90"
-                app:tint="@color/button_blue"/>
+                app:tint="@color/new_black"/>
 
         </RelativeLayout>
 
@@ -134,7 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/type"
-                android:textColor="@color/redPrimary"/>
+                android:textColor="@color/primary"/>
 
             <RelativeLayout
                 android:layout_marginTop="@dimen/normal_margin"
@@ -157,7 +157,7 @@
                     android:layout_height="@dimen/small_icon"
                     android:src="@drawable/arrow_right"
                     android:rotation="90"
-                    app:tint="@color/button_blue"/>
+                    app:tint="@color/new_black"/>
 
             </RelativeLayout>
 
@@ -167,7 +167,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/service_capacity"
-                android:textColor="@color/redPrimary"/>
+                android:textColor="@color/primary"/>
 
             <RelativeLayout
                 android:layout_marginTop="@dimen/normal_margin"
@@ -190,7 +190,7 @@
                     android:layout_height="@dimen/small_icon"
                     android:src="@drawable/arrow_right"
                     android:rotation="90"
-                    app:tint="@color/button_blue"/>
+                    app:tint="@color/new_black"/>
 
             </RelativeLayout>
         </LinearLayout>
@@ -216,7 +216,7 @@
                 android:layout_height="@dimen/button_height"/>
 
             <Button
-                android:textColor="@color/redPrimary"
+                android:textColor="@color/primary"
                 android:text="@string/reset"
                 android:layout_marginStart="@dimen/mini_margin"
                 android:background="@drawable/smaller_whire_red"
@@ -252,8 +252,8 @@
             app:fabCustomSize="40dp"
             android:layout_marginStart="@dimen/normal_margin"
             android:layout_marginEnd="@dimen/margin_start_end"
-            app:rippleColor="@color/button_blue"
-            app:backgroundTint="@color/button_blue"
+            app:rippleColor="@color/new_black"
+            app:backgroundTint="@color/new_black"
             android:src="@drawable/icon_close"
             android:layout_alignParentEnd="true"
             />

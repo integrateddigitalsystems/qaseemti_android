@@ -37,7 +37,7 @@
             android:padding="@dimen/normal_margin"
             android:textSize="@dimen/main_title_font"
             android:tag="verification"
-            android:textColor="@color/redPrimary"
+            android:textColor="@color/primary"
             android:layout_height="60dp"
             android:text="@string/verification"
             android:background="@drawable/rounded_white_background"/>
@@ -162,7 +162,7 @@
                 android:text="@string/cancel"
                 android:id="@+id/btCancelVerf"
                 android:tag="cancel"
-                android:textColor="@color/redPrimary"
+                android:textColor="@color/primary"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:background="@drawable/rounded_white_red_border"/>

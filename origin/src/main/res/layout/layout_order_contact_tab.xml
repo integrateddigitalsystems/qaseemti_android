@@ -48,7 +48,7 @@
                 android:padding="@dimen/normal_margin">
 
                 <ImageView
-                    android:tint="@color/redPrimary"
+                    android:tint="@color/primary"
                     android:id="@+id/ivCurrent"
                     android:layout_width="@dimen/bigger_edit_text"
                     android:layout_height="@dimen/bigger_edit_text"
@@ -100,7 +100,7 @@
                         android:layout_width="@dimen/normal_icon"
                         android:layout_height="@dimen/normal_icon"
                         android:src="@drawable/icon_hashtag"
-                        android:tint="@color/redPrimary" />
+                        android:tint="@color/primary" />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
                         android:layout_width="@dimen/normal_icon"
                         android:layout_height="@dimen/normal_icon"
                         android:src="@drawable/icon_pin_blue"
-                        android:tint="@color/redPrimary" />
+                        android:tint="@color/primary" />
 
                     <LinearLayout
                         android:layout_marginStart="@dimen/normal_margin"
@@ -149,7 +149,7 @@
 
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/redPrimary"/>
+                            android:background="@color/primary"/>
 
                     </LinearLayout>
 
@@ -185,7 +185,7 @@
                 android:layout_height="match_parent">
                 <ImageView
                     android:src="@drawable/icon_phone"
-                    android:tint="@color/redPrimary"
+                    android:tint="@color/primary"
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"/>
 

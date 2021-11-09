@@ -90,7 +90,7 @@
                     android:layout_gravity="top"
                     android:layout_marginTop="@dimen/mini_margin"
                     android:src="@drawable/wall_clock"
-                    app:tint="@color/redPrimary"
+                    app:tint="@color/primary"
 
                     />
 
@@ -146,7 +146,7 @@
                     android:layout_width="@dimen/normal_icon"
                     android:layout_height="@dimen/normal_icon"
                     android:src="@drawable/icon_close"
-                    app:tint="@color/redPrimary" />
+                    app:tint="@color/primary" />
 
 
                 <LinearLayout
@@ -196,7 +196,7 @@
                 android:layout_width="@dimen/normal_icon"
                 android:layout_height="@dimen/normal_icon"
                 android:src="@drawable/icon_star"
-                app:tint="@color/redPrimary" />
+                app:tint="@color/primary" />
 
 
             <com.ids.qasemti.custom.CustomTextViewBold
@@ -221,7 +221,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:progressTint="@color/button_blue"
+                    android:progressTint="@color/new_black"
                     android:stepSize="1" />
             </LinearLayout>
 
@@ -243,7 +243,7 @@
                 android:layout_width="@dimen/normal_icon"
                 android:layout_height="@dimen/normal_icon"
                 android:src="@drawable/icon_user"
-                app:tint="@color/redPrimary" />
+                app:tint="@color/primary" />
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_marginStart="@dimen/normal_margin"
@@ -283,7 +283,7 @@
                 android:layout_width="@dimen/normal_icon"
                 android:layout_height="@dimen/normal_icon"
                 android:src="@drawable/placeholder"
-                app:tint="@color/redPrimary" />
+                app:tint="@color/primary" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -305,7 +305,7 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/redPrimary" />
+                    android:background="@color/primary" />
 
             </LinearLayout>
 
@@ -331,7 +331,7 @@
                 android:paddingEnd="@dimen/small_margin"
                 android:tag="rate"
                 android:text="$"
-                android:textColor="@color/redPrimary"
+                android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font" />
 
             <LinearLayout
@@ -354,7 +354,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/normal_margin"
                     android:text="10 KWD"
-                    android:textColor="@color/redPrimary"
+                    android:textColor="@color/primary"
                     android:textSize="@dimen/normal_font" />
             </LinearLayout>
 
@@ -384,7 +384,7 @@
                     android:layout_height="@dimen/small_icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/view"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="wrap_content"
@@ -395,7 +395,7 @@
                     android:gravity="center_vertical"
                     android:textAllCaps="true"
                     android:text="@string/view_order_details"
-                    android:textColor="@color/button_blue"
+                    android:textColor="@color/new_black"
                     android:textSize="@dimen/normal_font" />
 
 

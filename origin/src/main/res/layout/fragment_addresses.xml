@@ -100,7 +100,7 @@
                         android:textSize="@dimen/header_font"
                         android:text="@string/no_data"
                         android:tag="no_data"
-                        android:textColor="@color/redPrimary"/>
+                        android:textColor="@color/primary"/>
                 </LinearLayout>
 
 

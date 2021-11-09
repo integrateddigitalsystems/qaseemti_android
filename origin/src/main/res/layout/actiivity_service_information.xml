@@ -19,8 +19,8 @@
                 android:layout_width="@dimen/icon_2"
                 android:layout_height="@dimen/icon_2"
                 android:id="@+id/btBck"
-                android:tint="@color/redPrimary"
-                android:backgroundTint="@color/redPrimary"
+                android:tint="@color/primary"
+                android:backgroundTint="@color/primary"
 
                 android:background="@drawable/ic_back"
                 />

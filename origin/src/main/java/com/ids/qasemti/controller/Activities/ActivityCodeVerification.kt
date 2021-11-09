@@ -3,8 +3,6 @@ package com.ids.qasemti.controller.Activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import com.ids.qasemti.R
@@ -112,7 +110,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
                 AppHelper.setTextColor(
                     this@ActivityCodeVerification,
                     tvTimerTitle,
-                    R.color.button_blue
+                    R.color.new_black
                 )
                 tvTimerTitle.onOneClick {
                     if (first) {

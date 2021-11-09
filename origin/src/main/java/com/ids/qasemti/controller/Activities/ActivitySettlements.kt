@@ -6,9 +6,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Adapters.AdapterMyServices
 import com.ids.qasemti.controller.Adapters.AdapterPreviousSettlements
-import com.ids.qasemti.controller.Adapters.AdapterServices
 import com.ids.qasemti.controller.Adapters.AdapterSettlements
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -44,7 +42,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
         btBck.show()
         setTabs()
         try{
-            tvPageTitle.setColorTypeface(this,R.color.redPrimary,AppHelper.getRemoteString("settlements",this),true)
+            tvPageTitle.setColorTypeface(this,R.color.primary,AppHelper.getRemoteString("settlements",this),true)
         }catch (ex:Exception){
 
         }

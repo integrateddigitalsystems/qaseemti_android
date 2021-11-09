@@ -374,7 +374,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
            // llRatingOrder.hide()
            // llRatingOrder.hide()*/
 
-        tvLocationOrderDeatils.setColorTypeface(this, R.color.redPrimary, "", false)
+        tvLocationOrderDeatils.setColorTypeface(this, R.color.primary, "", false)
         setOrderData()
     }
 
@@ -748,6 +748,14 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                 swPaid
             ) {
                 if (swPaid.isChecked) {
+
+                    if(swDelivered.isChecked){
+                        createDialog(this,"This order is now completed"){
+                            MyApplication.renewed = false
+                            MyApplication.completed = true
+                            super.onBackPressed()
+                        }
+                    }
                     swPaid.isEnabled = false
                     AppHelper.setSwitchColor(swPaid,this)
                     paid = 1
@@ -770,6 +778,13 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                 swDelivered
             ) {
                 if (swDelivered.isChecked) {
+                    if(swPaid.isChecked){
+                        createDialog(this,"This order is now completed"){
+                            MyApplication.renewed = false
+                            MyApplication.completed = true
+                            super.onBackPressed()
+                        }
+                    }
                     swDelivered.isEnabled = false
                     MyApplication.saveLocationTracking = false
                     changeState()

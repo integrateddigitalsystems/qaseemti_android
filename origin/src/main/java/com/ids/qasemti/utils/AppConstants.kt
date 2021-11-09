@@ -43,6 +43,8 @@ object AppConstants {
     const val FIREBASE_LOCALIZE = "localize_msg"
     const val FIREBASE_LINKS ="htmlPageUrls"
     const val FIREBASE_PARAMS ="paymentGatewayParameters"
+    const val FIREBASE_ENABLE = "enableMultiCountry"
+    const val FIREBASE_COUNTRY_NAME_CODE = "countryCodeMap"
     const val FIREBASE_MOBILE_CONFIGURATION = "mobileConfigurations"
     const val FRAGMENT_HOME_CLIENT ="fragmentHomeClient"
     const val FRAGMENT_HOME_SP ="fragmentHomeSP"
@@ -62,6 +64,8 @@ object AppConstants {
     const val UPDATE_PROFILE_SERVICE_PROVIDER = 1
     const val API_USER_STATUS = 2
     const val API_USER_INFO = 3
+    const val ORDER_BY_ID = 4
+    const val MAP_SEARCH = 5
     const val TYPE_PURCHASE = "purchase"
     const val TYPE_RENTAL = "rental"
 

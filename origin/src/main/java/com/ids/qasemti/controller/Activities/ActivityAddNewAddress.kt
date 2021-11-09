@@ -1,7 +1,6 @@
 
 package com.ids.qasemti.controller.Activities
 
-import android.app.Activity
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -10,9 +9,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -205,8 +202,8 @@ class ActivityAddNewAddress : ActivityBase() {
 
         }
 
-        tvPageTitle.setColorTypeface(this,R.color.redPrimary,AppHelper.getRemoteString("address",this),true)
-        AppHelper.setLogoTint(btBackTool, this, R.color.redPrimary)
+        tvPageTitle.setColorTypeface(this,R.color.primary,AppHelper.getRemoteString("address",this),true)
+        AppHelper.setLogoTint(btBackTool, this, R.color.primary)
         if (MyApplication.fromProfile!!)
             btOnlyOnce.hide()
         else

@@ -46,8 +46,8 @@ class ActivityCurrentLocation : ActivityBase(), OnMapReadyCallback {
         }
 
         var title = intent.getStringExtra("mapTitle")
-        AppHelper.setLogoTint(btBackTool,this, R.color.redPrimary)
-        tvPageTitle.setColorTypeface(this, R.color.redPrimary,title!!,true)
+        AppHelper.setLogoTint(btBackTool,this, R.color.primary)
+        tvPageTitle.setColorTypeface(this, R.color.primary,title!!,true)
 
 
     }

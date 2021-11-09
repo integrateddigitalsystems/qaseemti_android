@@ -109,7 +109,7 @@
                     android:layout_marginEnd="@dimen/first_margin"
                     android:rotation="90"
                     android:src="@drawable/arrow_right"
-                    android:tint="@color/button_blue" />
+                    android:tint="@color/new_black" />
 
             </RelativeLayout>
 
@@ -147,7 +147,7 @@
         android:layout_marginStart="@dimen/margin_start_end"
         android:textAllCaps="false"
         android:layout_marginEnd="@dimen/margin_start_end"
-        android:textColor="@color/redPrimary"
+        android:textColor="@color/primary"
         android:text="@string/CancelOrder"
         android:tag="cancel_order"
         android:layout_width="match_parent"
@@ -156,6 +156,7 @@
 
 
    <EditText
+       android:textAlignment="viewStart"
        android:layout_marginTop="@dimen/normal_margin"
        android:padding="@dimen/normal_margin"
        android:visibility="gone"
@@ -189,7 +190,7 @@
             android:id="@+id/btDontCancel"
             android:text="@string/Discard"
             android:tag="Discard"
-            android:textColor="@color/redPrimary"
+            android:textColor="@color/primary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_white_red_border"

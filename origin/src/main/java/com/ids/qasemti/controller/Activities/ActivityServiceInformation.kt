@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.RadioButton
 import android.widget.Toast
@@ -93,6 +94,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun init(){
+
         arrayAllServices.clear()
         selectedCategoryName= AppHelper.getRemoteString("purchase",this)
         btBck.show()
@@ -101,6 +103,8 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             selectedCategoryName="بيع"
         getAllServices()
         setPickedImages()
+
+
     }
 
 
@@ -399,7 +403,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         else if(etStockAvailable.text.toString().isEmpty() ||(!MyApplication.isEditService && etStockAvailable.text.toString() == "0"))
             createDialog(this,"Please fill stock available")
         else{
-        linearProgress1.setBackgroundColor(ContextCompat.getColor(this,R.color.redPrimary))
+        linearProgress1.setBackgroundColor(ContextCompat.getColor(this,R.color.primary))
         linearProgress2.setBackgroundColor(ContextCompat.getColor(this,R.color.gray_progress))
         linearService1.hide()
         linearService2.show()
@@ -421,8 +425,8 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         else if(etStockAvailable.text.toString().isEmpty() ||(!MyApplication.isEditService && etStockAvailable.text.toString() == "0"))
             createDialog(this,"Please fill stock available")
         else{
-        linearProgress1.setBackgroundColor(ContextCompat.getColor(this,R.color.redPrimary))
-        linearProgress2.setBackgroundColor(ContextCompat.getColor(this,R.color.redPrimary))
+        linearProgress1.setBackgroundColor(ContextCompat.getColor(this,R.color.primary))
+        linearProgress2.setBackgroundColor(ContextCompat.getColor(this,R.color.primary))
         linearService1.hide()
         linearService2.hide()
         linearService3.show()
@@ -671,13 +675,19 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                     try{
 
                         if(response.body()!!.result==1){
-                            if(arrayRequiredFiles.size > 0){
+                            if(arrayRequiredFiles.size > 0 && arrayRequiredFiles.count { it.multipart!=null }>0){
                                for (i in arrayRequiredFiles.indices){
-                                   if(arrayRequiredFiles[i].multipart!=null)
+                                   if(arrayRequiredFiles[i].multipart!=null){
                                        uploadFiles(arrayRequiredFiles[i],MyApplication.selectedService!!.id!!.toInt())
+                                   }
                                }
-                            }else
+                                loading.hide()
+                               // this@ActivityServiceInformation.onBackPressed()
+
+                            }else {
+                                loading.hide()
                                 this@ActivityServiceInformation.onBackPressed()
+                            }
                         }
 
                         else{
@@ -808,6 +818,8 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
              btNext2.text=AppHelper.getRemoteString("UpdateService",this)
 
          }
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }
 
 }

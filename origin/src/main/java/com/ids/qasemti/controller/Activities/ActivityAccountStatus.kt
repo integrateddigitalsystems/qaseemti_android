@@ -8,7 +8,6 @@ import androidx.core.widget.ImageViewCompat
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestAvailability
 import com.ids.qasemti.model.RequestNotificationUpdate
 import com.ids.qasemti.model.ResponseCancel
 import com.ids.qasemti.utils.AppHelper
@@ -45,7 +44,7 @@ class ActivityAccountStatus : ActivityBase() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     ImageViewCompat.setImageTintList(
                         ivNotificationStatus,
-                        ColorStateList.valueOf(getResources().getColor(R.color.redPrimary, getTheme()))
+                        ColorStateList.valueOf(getResources().getColor(R.color.primary, getTheme()))
                     )
                     ImageViewCompat.setImageTintList(
                         ivMessageStatus,
@@ -56,7 +55,7 @@ class ActivityAccountStatus : ActivityBase() {
                     ImageViewCompat.setImageTintList(
                         ivNotificationStatus,
                         ColorStateList.valueOf(
-                            getResources().getColor(R.color.redPrimary)
+                            getResources().getColor(R.color.primary)
                         )
                     )
                     ImageViewCompat.setImageTintList(
@@ -81,7 +80,7 @@ class ActivityAccountStatus : ActivityBase() {
                     )
                     ImageViewCompat.setImageTintList(
                         ivMessageStatus,
-                        ColorStateList.valueOf(getResources().getColor(R.color.redPrimary, getTheme()))
+                        ColorStateList.valueOf(getResources().getColor(R.color.primary, getTheme()))
                     )
                 }
                 else {
@@ -94,7 +93,7 @@ class ActivityAccountStatus : ActivityBase() {
                     ImageViewCompat.setImageTintList(
                         ivMessageStatus,
                         ColorStateList.valueOf(
-                            getResources().getColor(R.color.redPrimary)
+                            getResources().getColor(R.color.primary)
                         )
                     )
                 }

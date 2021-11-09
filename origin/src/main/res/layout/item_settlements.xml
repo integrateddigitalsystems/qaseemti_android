@@ -40,7 +40,7 @@
                 android:layout_width="@dimen/icon"
                 android:layout_height="@dimen/icon"
                 android:src="@drawable/icon_hashtag"
-                app:tint="@color/redPrimary" />
+                app:tint="@color/primary" />
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:id="@+id/tvIdSettlementTitle"
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:text="123654"
                 android:layout_marginEnd="@dimen/big_margin"
-                android:textColor="@color/redPrimary"
+                android:textColor="@color/primary"
                 android:textSize="@dimen/small_font" />
 
 
@@ -80,7 +80,7 @@
                 android:layout_width="@dimen/icon"
                 android:layout_height="@dimen/icon"
                 android:src="@drawable/wall_clock"
-                app:tint="@color/redPrimary" />
+                app:tint="@color/primary" />
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_marginStart="@dimen/normal_margin"
@@ -118,7 +118,7 @@
                 android:layout_width="@dimen/icon"
                 android:layout_height="@dimen/icon"
                 android:src="@drawable/icon_dollar"
-                app:tint="@color/redPrimary" />
+                app:tint="@color/primary" />
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:id="@+id/tvAmountTitle"
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:text="10 KWD"
                 android:id="@+id/tvSettAmount"
-                android:textColor="@color/redPrimary"
+                android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font" />
 
 
@@ -155,7 +155,7 @@
                 android:layout_width="@dimen/icon"
                 android:layout_height="@dimen/icon"
                 android:src="@drawable/icon_myearning"
-                app:tint="@color/redPrimary" />
+                app:tint="@color/primary" />
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_marginStart="@dimen/normal_margin"
@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:text="10 KWD"
                 android:id="@+id/tvEarnSett"
-                android:textColor="@color/redPrimary"
+                android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font" />
 
 
@@ -193,7 +193,7 @@
                 android:layout_width="@dimen/icon"
                 android:layout_height="@dimen/icon"
                 android:src="@drawable/icon_mydues"
-                app:tint="@color/redPrimary" />
+                app:tint="@color/primary" />
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_marginStart="@dimen/normal_margin"
@@ -209,7 +209,7 @@
                 android:layout_height="wrap_content"
                 android:text="10 KWD"
                 android:id="@+id/tvSettDues"
-                android:textColor="@color/redPrimary"
+                android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font" />
 
 
@@ -241,7 +241,7 @@
                     android:layout_height="@dimen/small_icon"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/view"
-                    app:tint="@color/button_blue" />
+                    app:tint="@color/new_black" />
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="wrap_content"
@@ -253,7 +253,7 @@
                     android:gravity="center_vertical"
                     android:textAllCaps="true"
                     android:text="@string/view_order_details"
-                    android:textColor="@color/button_blue"
+                    android:textColor="@color/new_black"
                     android:textSize="@dimen/normal_font" />
 
 

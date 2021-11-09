@@ -79,7 +79,7 @@
                                 android:layout_width="@dimen/normal_icon_size"
                                 android:layout_height="@dimen/normal_icon_size">
                                 <com.ids.qasemti.custom.CustomTextViewMedium
-                                    android:textColor="@color/new_blue"
+                                    android:textColor="@color/new_black"
                                     android:text="K.D."
                                     android:textSize="@dimen/small_font_2"
                                     android:layout_width="wrap_content"
@@ -142,7 +142,7 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/redPrimary"
+                            android:textColor="@color/primary"
                             android:text="@string/type"
                             android:textSize="@dimen/header_font"
                             android:tag="type"
@@ -171,7 +171,7 @@
                                 android:layout_height="@dimen/small_icon"
                                 android:src="@drawable/arrow_right"
                                 android:rotation="90"
-                                app:tint="@color/button_blue"/>
+                                app:tint="@color/new_black"/>
 
                         </RelativeLayout>
 
@@ -191,7 +191,7 @@
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/redPrimary"
+                            android:textColor="@color/primary"
                             android:text="@string/Size"
                             android:textSize="@dimen/header_font"
                             android:tag="Size"
@@ -218,7 +218,7 @@
                                 android:layout_height="@dimen/small_icon"
                                 android:src="@drawable/arrow_right"
                                 android:rotation="90"
-                                app:tint="@color/button_blue"/>
+                                app:tint="@color/new_black"/>
 
                         </RelativeLayout>
 

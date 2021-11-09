@@ -95,7 +95,7 @@
                 android:layout_weight="1"
                 android:maxLines="1"
                 android:text="10 KWD"
-                android:textColor="@color/redPrimary"
+                android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font" />
         </LinearLayout>
 
@@ -122,7 +122,7 @@
                 android:layout_weight="1"
                 android:maxLines="1"
                 android:text="7 KWD"
-                android:textColor="@color/redPrimary"
+                android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font" />
         </LinearLayout>
     </LinearLayout>
@@ -137,7 +137,7 @@
             android:layout_height="@dimen/icon"
             android:layout_gravity="center_vertical"
             android:src="@drawable/arrow_right"
-            app:tint="@color/button_blue" />
+            app:tint="@color/new_black" />
     </LinearLayout>
 
     </LinearLayout>
