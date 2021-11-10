@@ -1,11 +1,8 @@
 package com.ids.qasemti.utils
 
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.location.Location
 import android.os.Build
@@ -13,19 +10,17 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Html
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.appcompat.widget.AppCompatCheckBox
-import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.common.reflect.Reflection.getPackageName
+import com.google.android.material.snackbar.Snackbar
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Activities.ActivityChooseLanguage
 import com.ids.qasemti.controller.MyApplication
 import java.io.File
 import java.util.*
@@ -190,6 +185,13 @@ fun Activity.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
 
+fun Activity.snackbar(message: String){
+    val snack: Snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+    val view = snack.view
+    view.setBackgroundColor(AppHelper.getColor(this,R.color.primary))
+    snack.show()
+}
+
 fun Any.logw(key: String, value: String) {
     try {
         if (MyApplication.showLogs)
@@ -289,6 +291,7 @@ fun View.hide() {
     try {
         visibility = View.GONE
     } catch (e: Exception) {
+        Log.wtf("visibilityEx",e)
     }
 }
 

@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/linearProfileInfoClient"
+        android:id="@+id/linearOrderNewTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/normal_margin"

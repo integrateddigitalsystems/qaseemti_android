@@ -23,7 +23,7 @@
         <androidx.cardview.widget.CardView
             android:layout_below="@id/llHomeCurve"
             android:layout_marginTop="@dimen/medium_push_2"
-            android:id="@+id/linearProfileInfoClient"
+            android:id="@+id/linearHomeClient"
             android:layout_width="match_parent"
             android:layout_height="90dp"
             app:cardElevation="@dimen/mini_margin"
@@ -64,7 +64,7 @@
             android:fillViewport="true">-->
 
             <LinearLayout
-                android:layout_below="@id/linearProfileInfoClient"
+                android:layout_below="@id/linearHomeClient"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -140,8 +140,8 @@
                 android:id="@+id/btFilter"
                 android:scaleType="center"
                 app:fabCustomSize="40dp"
-                app:rippleColor="@color/new_black"
-                app:backgroundTint="@color/new_black"
+                app:rippleColor="@color/seconday_use"
+                app:backgroundTint="@color/seconday_use"
                 android:src="@drawable/icon_floating"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"

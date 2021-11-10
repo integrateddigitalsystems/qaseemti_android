@@ -4,6 +4,7 @@ package com.ids.qasemti.utils
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -32,6 +33,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -55,6 +57,7 @@ import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import me.grantland.widget.AutofitHelper
+import org.apache.commons.codec.binary.Hex
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -914,6 +917,15 @@ class AppHelper {
             }
         }
 
+
+
+        fun sha256(str:String):String{
+            var byte = org.apache.commons.codec.digest.DigestUtils.sha256(str)
+            return String(Hex.encodeHex(byte))
+
+
+        }
+
         fun setSwitchColor(sw: SwitchCompat, con: Context) {
 
 
@@ -1015,6 +1027,7 @@ class AppHelper {
 
 
         }
+
 
 
         fun setUpDoc(order: ResponseOrders) {
@@ -1260,7 +1273,7 @@ class AppHelper {
         }
 
 
-        fun createDialog(c: Activity, message: String,) {
+        fun createDialog(c: Activity, message: String) {
 
 
             var ok = getRemoteString("ok", c)
@@ -1520,23 +1533,28 @@ class AppHelper {
             for (element in texts) AutofitHelper.create(element)
         }
 
-
         @Throws(IOException::class)
-        fun getFile(context: Context, uri: Uri): File {
-            val destinationFilename =
-                File(context.filesDir.path + File.separatorChar + queryName(context, uri))
+        fun getFile(context: Activity, uri: Uri): File {
             try {
-                context.contentResolver.openInputStream(uri).use { ins ->
-                    createFileFromStream(
-                        ins!!,
-                        destinationFilename
-                    )
+                val destinationFilename =
+                    File(context.filesDir.path + File.separatorChar + queryName(context, uri))
+                try {
+                    context.contentResolver.openInputStream(uri).use { ins ->
+                        createFileFromStream(
+                            ins!!,
+                            destinationFilename
+                        )
+                    }
+                } catch (ex: java.lang.Exception) {
+                    Log.e("Save File", ex.message!!)
+                    ex.printStackTrace()
                 }
-            } catch (ex: java.lang.Exception) {
-                Log.e("Save File", ex.message!!)
-                ex.printStackTrace()
+                return destinationFilename
             }
-            return destinationFilename
+            catch (ex:java.lang.Exception){
+                Log.wtf("createFile","error")
+                return File("")
+            }
         }
 
         fun createFileFromStream(ins: InputStream, destination: File?) {

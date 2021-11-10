@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityPlaceOrder
 import com.ids.qasemti.controller.Adapters.AdapterCart
 import com.ids.qasemti.controller.Adapters.AdapterServices
@@ -118,6 +119,8 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
     fun init(){
         AppHelper.setTitle(requireContext(),MyApplication.selectedTitle!!,"",R.color.white)
         getCartData()
+        (activity as ActivityHome).showLogout(true)
+        (activity as ActivityHome).setTintLogo(R.color.white)
 
 
 

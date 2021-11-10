@@ -33,6 +33,7 @@ class MyApplication : Application() {
         var selectedFragmentTag : String ?=""
         var fromOrderPlaced  =false
         var webLinks : FirebaseWebData ?=null
+        var salt : String ?=""
         var payparams : GatewayRespone ?=null
         var enableCountryCodes : Boolean ?=false
         var countryNameCodes : String ?=""

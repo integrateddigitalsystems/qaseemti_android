@@ -45,6 +45,7 @@ object AppConstants {
     const val FIREBASE_PARAMS ="paymentGatewayParameters"
     const val FIREBASE_ENABLE = "enableMultiCountry"
     const val FIREBASE_COUNTRY_NAME_CODE = "countryCodeMap"
+    const val FIREBASE_SALT = "salt"
     const val FIREBASE_MOBILE_CONFIGURATION = "mobileConfigurations"
     const val FRAGMENT_HOME_CLIENT ="fragmentHomeClient"
     const val FRAGMENT_HOME_SP ="fragmentHomeSP"

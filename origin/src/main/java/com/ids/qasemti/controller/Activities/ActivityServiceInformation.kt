@@ -2,18 +2,26 @@ package com.ids.qasemti.controller.Activities
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.*
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
@@ -28,7 +36,7 @@ import com.jaiselrahman.filepicker.activity.FilePickerActivity
 import com.jaiselrahman.filepicker.config.Configurations
 import com.jaiselrahman.filepicker.model.MediaFile
 import kotlinx.android.synthetic.main.actiivity_service_information.*
-
+import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.no_logo_layout.btBck
 import kotlinx.android.synthetic.main.service_tab_1.*
@@ -41,16 +49,19 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 
 class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     var array : ArrayList<ServiceItem> = arrayListOf()
     private val CODE_IMAGE = 1001
+    var fromCam = false
     private val CODE_DRIVING_LICENSE = 1002
     private val CODE_WORK_LICENSE = 1003
     private val CODE_VEHICLE_LICENSE = 1004
     private val CODE_REQUIRED_FILES = 1005
     private val CODE_CAMERA = 1006
+    var  mPermissionResult : ActivityResultLauncher<Array<String>>?=null
     private var selectedCategoryId=1
     private var selectedCategoryName=AppConstants.TYPE_PURCHASE
     private var selectedServiceId=0
@@ -91,6 +102,30 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         AppHelper.setAllTexts(rootLayout,this)
         init()
         listeners()
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun setUp(){
+
+        requestPermissions(  arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ),CODE_IMAGE)/*
+        mPermissionResult = onRequestPermissionsResult(ActivityResultContracts.RequestMultiplePermissions())
+        { result ->
+            var permission = false
+            for( item in result){
+                permission = item.value
+            }
+            if (permission) {
+              //  selectImage(this)
+                Log.e(ContentValues.TAG, "onActivityResult: PERMISSION GRANTED")
+            } else {
+                Log.e(ContentValues.TAG, "onActivityResult: PERMISSION DENIED")
+            }
+        }*/
     }
 
     private fun init(){
@@ -134,6 +169,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                 updateService()
             }
         }
+
         btNext2.typeface = AppHelper.getTypeFace(this)
         rgCategory.setOnCheckedChangeListener { _, checkedId ->
             val rb = findViewById<View>(checkedId) as RadioButton
@@ -183,6 +219,8 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
 
 
+
+
     override fun onItemClicked(view: View, position: Int) {
        if(view.id==R.id.btPickFile && !MyApplication.isEditService){
            requireFilePosition=position
@@ -197,6 +235,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             if(arrayFiltered[i].name!=null && arrayFiltered[i].name!!.isNotEmpty())
                arraySpinnerServices.add(ItemSpinner(arrayFiltered[i].id!!.toInt(),arrayFiltered[i].name,""))
         }
+        arraySpinnerServices.add(0,
+            ItemSpinner(0,AppHelper.getRemoteString("please__select",this),"")
+        )
+        selectedServiceId = 0
         val adapterServices = AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinnerServices,0)
         spService.adapter = adapterServices
         adapterServices.setDropDownViewResource(R.layout.item_spinner_drop_down)
@@ -224,26 +266,47 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     private fun setTypeSpinner(){
 
         var selectedArray=arrayAllServices.find { it.id==selectedServiceId.toString() }
-        var arrayTypes=selectedArray!!.variations.distinctBy { it.types  }
-        arraySpinnerTypes.clear()
-        for (i in arrayTypes.indices){
-            if(arrayTypes[i].types!=null && arrayTypes[i].types!!.isNotEmpty())
-               arraySpinnerTypes.add(ItemSpinner(i,arrayTypes[i].types,""))
+        var arrayTypes = arrayListOf<ServiceVariation>()
+        try {
+            arrayTypes.addAll(selectedArray!!.variations.distinctBy { it.types })
+        }catch (ex:Exception){
+
         }
-        val adapterTypes = AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinnerTypes,0)
-        spType.adapter = adapterTypes
-        adapterTypes.setDropDownViewResource(R.layout.item_spinner_drop_down)
-        spType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                selectedTypeId=arraySpinnerTypes[position].id!!
-                selectedTypeName=arraySpinnerTypes[position].name!!
-                //setStockSpinner(arrayTypes[position].stockQuantity!!)
+        if(arrayTypes.size >0) {
+            llSpType.show()
+            arraySpinnerTypes.clear()
+            for (i in arrayTypes.indices) {
+                if (arrayTypes[i].types != null && arrayTypes[i].types!!.isNotEmpty())
+                    arraySpinnerTypes.add(ItemSpinner(i, arrayTypes[i].types, ""))
             }
+            arraySpinnerTypes.add(0,
+                ItemSpinner(0,AppHelper.getRemoteString("please__select",this),"")
+            )
+            selectedTypeId = 0
+            val adapterTypes =
+                AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinnerTypes, 0)
+            spType.adapter = adapterTypes
+            adapterTypes.setDropDownViewResource(R.layout.item_spinner_drop_down)
+            spType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedTypeId = arraySpinnerTypes[position].id!!
+                    selectedTypeName = arraySpinnerTypes[position].name!!
+                    //setStockSpinner(arrayTypes[position].stockQuantity!!)
+                }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
 
             }
-
+        }else{
+            selectedTypeId = -1
+            llSpType.hide()
         }
 
     }
@@ -251,26 +314,45 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
     private fun setSizeCapacitySpinner(){
         var selectedArray=arrayAllServices.find { it.id==selectedServiceId.toString() }
-        var arrayTypes=selectedArray!!.variations.distinctBy { it.sizeCapacity }
-        arraySpinnerSizes.clear()
-        for (i in arrayTypes.indices){
-            if(arrayTypes[i].sizeCapacity!=null && arrayTypes[i].sizeCapacity!!.isNotEmpty())
-                arraySpinnerSizes.add(ItemSpinner(i,arrayTypes[i].sizeCapacity,""))
-        }
-        val adapterSize = AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinnerSizes,0)
-        spSize.adapter = adapterSize
-        adapterSize.setDropDownViewResource(R.layout.item_spinner_drop_down)
-        spSize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                selectedSizeId=arraySpinnerSizes[position].id!!
-                selectedSizeName=arraySpinnerSizes[position].name!!
+        var arrayTypes = arrayListOf<ServiceVariation>()
+        try {
+            arrayTypes.addAll(selectedArray!!.variations.distinctBy { it.sizeCapacity })
+        }catch (ex:java.lang.Exception){}
+        if(arrayTypes.size >0) {
+            llSpSizeCap.show()
+            arraySpinnerSizes.clear()
+            for (i in arrayTypes.indices) {
+                if (arrayTypes[i].sizeCapacity != null && arrayTypes[i].sizeCapacity!!.isNotEmpty())
+                    arraySpinnerSizes.add(ItemSpinner(i, arrayTypes[i].sizeCapacity, ""))
+            }
+            arraySpinnerSizes.add(0,
+                ItemSpinner(0,AppHelper.getRemoteString("please__select",this),"")
+            )
+            selectedSizeId = 0
+            val adapterSize =
+                AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinnerSizes, 0)
+            spSize.adapter = adapterSize
+            adapterSize.setDropDownViewResource(R.layout.item_spinner_drop_down)
+            spSize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedSizeId = arraySpinnerSizes[position].id!!
+                    selectedSizeName = arraySpinnerSizes[position].name!!
+
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
 
             }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
+        }else{
+            selectedSizeId = -1
+            llSpSizeCap.hide()
         }
 
     }
@@ -364,18 +446,93 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         }catch (e: Exception){}
     }
 
+    private fun pickImageFromCamera() {
 
+        fromCam = true
+        ImagePicker.with(this)
+            .crop()
+            .compress(1024)
+            .cameraOnly()
+            .maxResultSize(1080, 1080)
+            .createIntent {
+               startActivityForResult(it,CODE_IMAGE)
+            }
+        /*   val pictureIntent = Intent(
+               MediaStore.ACTION_IMAGE_CAPTURE
+           ).addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
+           if (pictureIntent.resolveActivity(requireActivity().packageManager) != null) {
+               //Create a file to store the image
+               var photoFile: File? = null
+               try {
+                   photoFile = createImageFile()
+               } catch (ex: IOException) {
+               }// Error occurred while creating the File
+
+               if (photoFile != null) {
+                   val photoURI = FileProvider.getUriForFile(requireActivity(), "com.ids.qasemti.provider", photoFile)
+                   pictureIntent.putExtra(
+                       MediaStore.EXTRA_OUTPUT,
+                       photoURI
+                   )
+
+                   resultLauncher!!.launch(pictureIntent)
+                   *//*startActivityForResult(
+                    pictureIntent,
+                    PERMISSION_CODE_CAMERA
+                )*//*
+            }
+        }*/
+    }
+
+
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent,CODE_IMAGE)
+        //  startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+    private fun selectImage(context: Context) {
+        val options = arrayOf<CharSequence>("Take Photo",
+            "Choose from Gallery",
+            getString(R.string.cancel))
+
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Choose Profile Pic")
+
+        builder.setItems(options) { dialog, item ->
+            when {
+                options[item] == "Take Photo" -> pickImageFromCamera()
+                options[item] == "Choose from Gallery" -> pickImageFromGallery()
+                options[item] == getString(R.string.cancel) -> dialog.dismiss()
+            }
+        }
+        builder.show()
+    }
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode){
 
+
+
             CODE_IMAGE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] ==
+                var permissioned = false
+
+                for(item in grantResults){
+                    if(item == PackageManager.PERMISSION_GRANTED)
+                        permissioned = true
+                    else
+                        permissioned = false
+                }
+                if(permissioned)
+                    selectImage(this)
+
+               /* if (grantResults.isNotEmpty() && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED){
                     pickFile(CODE_IMAGE,false)
                 }
                 else{
                     Toast.makeText(this, AppHelper.getRemoteString("permission_denied",this), Toast.LENGTH_SHORT).show()
-                }
+                }*/
             }
 
         }
@@ -398,23 +555,41 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun setTab2(){
-        if(arrayImagesSelected.size== 0 && !MyApplication.isEditService)
-            createDialog(this,"Please upload image")
-        else if(etStockAvailable.text.toString().isEmpty() ||(!MyApplication.isEditService && etStockAvailable.text.toString() == "0"))
-            createDialog(this,"Please fill stock available")
-        else{
-        linearProgress1.setBackgroundColor(ContextCompat.getColor(this,R.color.primary))
-        linearProgress2.setBackgroundColor(ContextCompat.getColor(this,R.color.gray_progress))
-        linearService1.hide()
-        linearService2.show()
-        linearService3.hide()
 
-        btTab2.setBackgroundResource(R.drawable.primary_circle)
-        btTab3.setBackgroundResource(R.drawable.circle_gray)
+        if(selectedServiceId !=0 && selectedSizeId !=0 && selectedTypeId !=0 ) {
+            if (arrayImagesSelected.size == 0 && !MyApplication.isEditService)
+                createDialog(this, "Please upload image")
+            else if (etStockAvailable.text.toString()
+                    .isEmpty() || (!MyApplication.isEditService && etStockAvailable.text.toString() == "0")
+            )
+                createDialog(this, "Please fill stock available")
+            else {
+                linearProgress1.setBackgroundColor(ContextCompat.getColor(this, R.color.primary))
+                linearProgress2.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.gray_progress
+                    )
+                )
+                linearService1.hide()
+                linearService2.show()
+                linearService3.hide()
 
-        ivTab2.setColorFilter(ContextCompat.getColor(this, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
-        ivTab3.setColorFilter(ContextCompat.getColor(this, R.color.gray_font), android.graphics.PorterDuff.Mode.SRC_IN)
-        tvTabTitle.text =AppHelper.getRemoteString("ownership_proof",this)
+                btTab2.setBackgroundResource(R.drawable.primary_circle)
+                btTab3.setBackgroundResource(R.drawable.circle_gray)
+
+                ivTab2.setColorFilter(
+                    ContextCompat.getColor(this, R.color.white),
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
+                ivTab3.setColorFilter(
+                    ContextCompat.getColor(this, R.color.gray_font),
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
+                tvTabTitle.text = AppHelper.getRemoteString("ownership_proof", this)
+            }
+        }else{
+            createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
         }
     }
 

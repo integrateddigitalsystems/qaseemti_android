@@ -109,6 +109,11 @@
         android:id="@+id/tvDescription"
          />
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/llSpType">
     <com.ids.qasemti.custom.CustomTextViewBold
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -147,6 +152,14 @@
 
     </RelativeLayout>
 
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/llSpSizeCap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <com.ids.qasemti.custom.CustomTextViewBold
         android:layout_width="wrap_content"
@@ -185,6 +198,8 @@
             app:tint="@color/gray_font_title"/>
 
     </RelativeLayout>
+
+    </LinearLayout>
 
     <com.ids.qasemti.custom.CustomTextViewBold
         android:layout_width="wrap_content"

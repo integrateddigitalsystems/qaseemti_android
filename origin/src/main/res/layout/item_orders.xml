@@ -9,7 +9,7 @@
     >
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/linearProfileInfoClient"
+        android:id="@+id/cvOrders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/push_card"

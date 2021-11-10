@@ -77,6 +77,7 @@
                 android:paddingEnd="@dimen/normal_margin"
                 android:inputType="phone"
                 android:hint="@string/mobile"
+                android:maxLength="8"
                 android:background="@drawable/rounded_white_background"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:layout_width="match_parent"

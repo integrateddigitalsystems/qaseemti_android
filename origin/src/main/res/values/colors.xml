@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#e5193a</color>
-    <color name="colorPrimaryDark">#e5193a </color>
-    <color name="colorAccent">#e5193a</color>
+
+
+    <!--- CHANGES -->
+
+    <color name="primary">#F59C25</color>
+    <color name="seconday_use">#F59C25</color>
+    <color name="primary_opac">#55F59C25</color>
+    <color name="new_black">#55616D</color>
+    <color name="colorPrimary">#F59C25</color>
+    <color name="colorPrimaryDark">#F59C25</color>
+    <color name="colorAccent">#F59C25</color>
+    <color name="other_bg">#f1e5da</color>
+    <color name="circle_color">#fff6eb</color>
+    <color name="tint_new">#ffffff</color>
+    <color name="plain_background">#F59C25</color>
+    <color name="colored_text">#55616D</color>
+
+    <!--<color name="primary">#e5193a</color>
+    <color name="seconday_use">#0080ff</color>
+    <color name="primary_opac">#99e5193a</color>
+    <color name="new_black">#0080ff</color>
+   <color name="colorPrimary">#e5193a</color>
+ <color name="colorPrimaryDark">#e5193a </color>
+ <color name="colorAccent">#e5193a</color>
+   <color name="other_bg">#f5dbdf</color>
+   <color name="circle_color>##ffe7ea</color>
+    <color name="tint_new">#0080ff</color>
+    <color name="plain_background">#FFFFFF</color>
+    <color name="colored_text">#e5193a</color>-->
+
+    <!--- SEARCH NEW_COLOR -->
+    <!--- END -->
 
     <color name="primary_">#e5193a</color>
-    <color name="primary_opac">#99e5193a</color>
+
     <color name="second_primary">#fff6eb</color>
     <color name="secondary">#e5193a</color>
-    <color name="primary">#e5193a</color>
+
     <color name="gray_tint">#818181</color>
-    <color name="gray_medium_2">#dadada </color>
+    <color name="gray_medium_2">#dadada</color>
     <color name="gray_background">#f2f2f2</color>
     <color name="gray_serperator">#e6e6e6</color>
     <color name="gray_selected">#cccccc</color>
@@ -19,10 +48,10 @@
 
     <color name="transparent">#00000000</color>
     <color name="new_blue">#0080ff</color>
-    <color name="new_black">#0080ff</color>
+
     <color name="white">#ffffff</color>
     <color name="gradient_red">#ff516b</color>
-    <color name="pink_bg">#f5dbdf</color>
+
     <color name="gray_receive">#b7b7b7</color>
     <color name="gray_send">#777777</color>
     <color name="black">#000000</color>

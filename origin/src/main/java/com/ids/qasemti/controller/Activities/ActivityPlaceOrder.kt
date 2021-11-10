@@ -83,7 +83,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener , UPaymentCal
         if(tvLocationPlaceOrder.text.isNullOrEmpty())
             tvLocationPlaceOrder.text = AppHelper.getRemoteString("no_data",this)
 
-        try{tvOrderDate.text = orders.deliveryDate}catch (e:Exception){}
+        try{tvOrderDate.text = AppHelper.formatDate(orders.date!!,"yyyy-MM-dd hh:mm:ssss","dd MMM yyyy hh:mm")}catch (e:Exception){}
+        try{tvExpectedDate.text = orders.deliveryDate}catch (ex:Exception){}
         fragMang = supportFragmentManager
         var array:ArrayList<OrderData> = arrayListOf()
         array.add(OrderData(AppHelper.getRemoteString("category",this),if(orders.type!=null && orders.type!!.isNotEmpty()) orders.type!! else ""))

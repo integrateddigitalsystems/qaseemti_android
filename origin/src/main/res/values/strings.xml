@@ -77,8 +77,8 @@
     <string name="iban">IBAN</string>
     <string name="Active">Active</string>
     <string name="upcoming">Upcoming</string>
-    <string name="completed">Completed</string>
-    <string name="cancelled">Cancelled</string>
+    <string name="Completed">Completed</string>
+    <string name="Cancelled">Cancelled</string>
     <string name="rate">Rate</string>
     <string name="OrderAmount">Order Amount</string>
     <string name="cancellation_reason">Cancellation reason:</string>
@@ -141,7 +141,7 @@
     <string name="MarkYourAddress">Mark your address on map for faster delivery</string>
     <string name="myAccount">My Account</string>
     <string name="MyServices">My Services</string>
-    <string name="settlements">Settlements</string>
+    <string name="Settlements">Settlements</string>
     <string name="ContactAdministrator">Contact Administrator</string>
     <string name="PrivacyPolicy">Privacy Policy</string>
     <string name="TermsAndConditions">Terms and conditions</string>
@@ -257,4 +257,5 @@
     <string name="serviceExists">Service already exists!</string>
     <string name="adding_error">This service already exists, please add another</string>
     <string name="error_getting_data">Error getting data , please try again</string>
+    <string name="please__select">---Please Select---</string>
 </resources>

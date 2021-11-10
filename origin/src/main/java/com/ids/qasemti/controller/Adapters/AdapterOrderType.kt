@@ -39,7 +39,7 @@ class AdapterOrderType(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-        holder.orderDetails.setColorTypeface(con,R.color.new_black,"",false)
+        holder.orderDetails.setColorTypeface(con,R.color.tint_new,"",false)
         try {
             if(!MyApplication.isClient)
                 holder.name.text = items.get(position).customer!!.first_name + " " + items.get(position).customer!!.last_name
@@ -272,7 +272,7 @@ class AdapterOrderType(
             holder.rating.hide()
             holder.canSep.hide()
             holder.location.hide()
-            holder.border.show()
+            //holder.border.show() NEW_COLOR
             holder.track.show()
         }
         else if(items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_ACTIVE)){
@@ -281,7 +281,7 @@ class AdapterOrderType(
             holder.dateBorder.show()
             holder.bottomBorder.show()
             holder.canSep.hide()
-            holder.border.show()
+            //holder.border.show() NEW_COLOR
             holder.rating.hide()
             holder.track.show()
             holder.credit.hide()

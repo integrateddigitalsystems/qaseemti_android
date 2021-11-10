@@ -26,7 +26,7 @@
 
     <LinearLayout
         android:id="@+id/llMain"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -34,7 +34,6 @@
         <androidx.cardview.widget.CardView
             android:layout_marginStart="@dimen/card_new_margin"
             android:layout_marginEnd="@dimen/card_new_margin"
-            android:id="@+id/linearProfileInfoClient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="-8dp"
@@ -148,7 +147,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/tvOrderDate"
-                            android:text="20 Jun,2021 16:00"
                             android:textColor="@color/gray_font_title"
                             android:textSize="@dimen/small_font_3" />
 
@@ -195,7 +193,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/tvExpectedDate"
-                            android:text="20 Jun,2021 16:00"
                             android:textColor="@color/gray_font_title"
                             android:textSize="@dimen/small_font_3" />
 
@@ -554,7 +551,7 @@
     <RelativeLayout
         android:layout_marginStart="@dimen/edit_text_height"
         android:layout_marginEnd="@dimen/edit_text_height"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_above="@+id/llFooter"
         android:layout_below="@+id/llTool"
         android:id="@+id/rlNotService"
@@ -571,7 +568,7 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:src="@drawable/no_service_logo"
+            android:src="@drawable/icon_no_service"
             android:layout_height="wrap_content"/>
 
             <com.ids.qasemti.custom.CustomTextViewMedium

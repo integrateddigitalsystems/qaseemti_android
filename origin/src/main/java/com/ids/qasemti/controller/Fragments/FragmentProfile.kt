@@ -1,18 +1,29 @@
 package com.ids.qasemti.controller.Fragments
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityMapAddress
@@ -27,36 +38,19 @@ import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import com.jaiselrahman.filepicker.activity.FilePickerActivity
 import com.jaiselrahman.filepicker.config.Configurations
 import com.jaiselrahman.filepicker.model.MediaFile
-import kotlinx.android.synthetic.main.activity_contact_us.*
-import kotlinx.android.synthetic.main.activity_new_address.*
-
 import kotlinx.android.synthetic.main.curve_layout_home.*
-import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.layout_profile.*
-import kotlinx.android.synthetic.main.layout_profile.etAddressName
-import kotlinx.android.synthetic.main.layout_profile.etAddressProvince
-import kotlinx.android.synthetic.main.layout_profile.etArea
-import kotlinx.android.synthetic.main.layout_profile.etAvenue
-import kotlinx.android.synthetic.main.layout_profile.etBlock
-import kotlinx.android.synthetic.main.layout_profile.etBuilding
-import kotlinx.android.synthetic.main.layout_profile.etFloor
-import kotlinx.android.synthetic.main.layout_profile.etMoreDetails
-import kotlinx.android.synthetic.main.layout_profile.etStreet
 import kotlinx.android.synthetic.main.loading.*
-import kotlinx.android.synthetic.main.service_tab_1.*
-import kotlinx.android.synthetic.main.service_tab_2.*
-import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.android.synthetic.main.white_logo_layout.*
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.MultipartBody.Part.Companion.createFormData
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -64,11 +58,23 @@ import java.util.*
 class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var selectedFile: MultipartBody.Part? = null
     var selectedProfilePic: MultipartBody.Part? = null
+    var selectedPhoto : String ?=""
     var gender = "female"
+    var  mPermissionResult : ActivityResultLauncher<Array<String>> ?=null
+    var fromCam : Boolean ?= false
     var lat: Double? = 0.0
+    var photoURI : Uri ?=null
+    var photoFile: File? = null
+    var resultLauncher: ActivityResultLauncher<Intent>? = null
     var fromProfile: Boolean? = false
     var long: Double? = 0.0
     var profilePercentage = 0
+    private val IMAGE_PICK_CODE = 1000
+    private val CAMERA_CODE = 1003
+    private val CHOOSER_CODE = 1004
+    private val PERMISSION_WRITE = 1005
+    private val PERMISSION_CODE = 1001
+    private val PERMISSION_CODE_CAMERA = 1002
 
 
 
@@ -79,6 +85,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setUp()
     }
 
     override fun onCreateView(
@@ -95,8 +102,194 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         init()
 
 
+
     }
 
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        resultLauncher!!.launch(
+           intent)
+      //  startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat(
+            "yyyyMMdd_HHmmss",
+            Locale.getDefault()
+        ).format(Date())
+        val imageFileName = "IMG_" + timeStamp + "_"
+        val storageDir = requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val image = File.createTempFile(
+            imageFileName, /* prefix */
+            ".jpg", /* suffix */
+            storageDir      /* directory */
+        )
+
+        selectedPhoto = image.absolutePath
+        return image
+    }
+
+    private fun pickImageFromCamera() {
+
+        fromCam = true
+        ImagePicker.with(this)
+            .crop()
+            .compress(1024)
+            .cameraOnly()
+            .maxResultSize(1080, 1080)
+            .createIntent {
+                resultLauncher!!.launch(it)
+            }
+     /*   val pictureIntent = Intent(
+            MediaStore.ACTION_IMAGE_CAPTURE
+        ).addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        if (pictureIntent.resolveActivity(requireActivity().packageManager) != null) {
+            //Create a file to store the image
+            var photoFile: File? = null
+            try {
+                photoFile = createImageFile()
+            } catch (ex: IOException) {
+            }// Error occurred while creating the File
+
+            if (photoFile != null) {
+                val photoURI = FileProvider.getUriForFile(requireActivity(), "com.ids.qasemti.provider", photoFile)
+                pictureIntent.putExtra(
+                    MediaStore.EXTRA_OUTPUT,
+                    photoURI
+                )
+
+                resultLauncher!!.launch(pictureIntent)
+                *//*startActivityForResult(
+                    pictureIntent,
+                    PERMISSION_CODE_CAMERA
+                )*//*
+            }
+        }*/
+    }
+
+    /*private fun pickImageFromCamera() {
+        fromProfile = true
+        val pictureIntent = Intent(
+            MediaStore.ACTION_IMAGE_CAPTURE
+        ).addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        if (pictureIntent.resolveActivity(requireActivity().packageManager) != null) {
+            //Create a file to store the image
+            try {
+                photoFile = createImageFile()
+            } catch (ex: IOException) {
+            }// Error occurred while creating the File
+
+            if (photoFile != null) {
+                photoURI = FileProvider.getUriForFile(requireActivity(), "com.ids.qasemti.provider", photoFile!!)
+                pictureIntent.putExtra(
+                    MediaStore.EXTRA_OUTPUT,
+                    photoURI
+                )
+                *//*val resInfoList: List<ResolveInfo> = requireActivity().getPackageManager().queryIntentActivities(
+                    pictureIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY
+                )
+                for (resolveInfo in resInfoList) {
+                    val packageName = resolveInfo.activityInfo.packageName
+                    requireActivity().grantUriPermission(
+                        packageName,
+                        photoURI,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                }*//*
+
+               // val chooser = Intent.createChooser(pictureIntent, "Share File")
+
+               *//* val resInfoList: List<ResolveInfo> = requireActivity().getPackageManager()
+                    .queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY)
+
+                for (resolveInfo in resInfoList) {
+                    val packageName = resolveInfo.activityInfo.packageName
+                    requireActivity().grantUriPermission(
+                        packageName,
+                        photoURI,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                }*//*
+
+                //startActivity(chooser)
+                fromCam = true
+                resultLauncher!!.launch(pictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK))
+            }
+        }
+    }*/
+
+    private fun selectImage(context: Context) {
+        val options = arrayOf<CharSequence>("Take Photo",
+            "Choose from Gallery",
+            getString(R.string.cancel))
+
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Choose Profile Pic")
+
+        builder.setItems(options) { dialog, item ->
+            when {
+                options[item] == "Take Photo" -> pickImageFromCamera()
+                options[item] == "Choose from Gallery" -> pickImageFromGallery()
+                options[item] == getString(R.string.cancel) -> dialog.dismiss()
+            }
+        }
+        builder.show()
+    }
+
+    fun setUp(){
+        mPermissionResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
+        { result ->
+            var permission = false
+            for( item in result){
+                permission = item.value
+            }
+            if (permission) {
+                selectImage(requireContext())
+                Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
+            } else {
+                Log.e(TAG, "onActivityResult: PERMISSION DENIED")
+            }
+        }
+    }
+    private fun openChooser(){
+
+
+
+
+
+        mPermissionResult!!.launch(
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        )
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            when {
+                PermissionChecker.checkSelfPermission(
+                    requireActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PermissionChecker.PERMISSION_DENIED -> {
+                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    requestMultiplePermissions.launch(permissions)
+                }
+                PermissionChecker.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) == PermissionChecker.PERMISSION_DENIED -> {
+                    val permissions = arrayOf(Manifest.permission.CAMERA)
+                    requestMultiplePermissions.launch(permissions) }
+                PermissionChecker.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PermissionChecker.PERMISSION_DENIED -> {
+                    val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    requestMultiplePermissions.launch(permissions) }
+                else -> {}//pickFromChooser()
+            }
+        }
+        else{}*/
+            //pickFromChooser()
+
+    }
 
     fun setUserData() {
         profilePercentage = 0
@@ -439,6 +632,62 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     fun listeners() {
 
+
+
+
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+
+                    var file : File ?=null
+                    if(fromCam!!) {
+                        file = File(result.data!!.data!!.path)
+
+                    }else{
+                         try {
+                         /*   val files: ArrayList<MediaFile> =
+                                result.data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!*/
+                            //   var path = getPath(files.get(0).uri)
+                                file = AppHelper.getFile(requireActivity(),  result.data!!.data!!)
+
+
+                        } catch (e: Exception) {
+                            Log.wtf("tag","tag")
+                        }
+                    }
+
+                    var req = file!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                    if (!fromProfile!!)
+
+                        selectedFile = MultipartBody.Part.createFormData(
+                            ApiParameters.CIVIL_ID_ATTACH,
+                            file.name + "File",
+                            req
+                        )
+                    else {
+                        ivProfile.loadRoundedLocalImage(file)
+                        selectedProfilePic = MultipartBody.Part.createFormData(
+                            if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
+                            file.name + "File",
+                            req
+                        )
+                    }
+                    }
+
+                  /*  if (requestCode == 1000) {
+                        if (resultCode == Activity.RESULT_OK) {
+                            val extras = data!!.extras
+                            if (extras != null) {
+                                lat = extras.getDouble("lat")
+                                long = extras.getDouble("long")
+                                etAddressProfile.text = Editable.Factory.getInstance()
+                                    .newEditable(AppHelper.getAddress(lat!!, long!!, requireContext()))
+                            }
+
+                        }
+                    } else {*/
+
+            }
         btSaveProfile.onOneClick {
             if(etFirstNameProfile.text.isNullOrEmpty() || (!MyApplication.isClient && etMiddleNameProfile.text.isNullOrEmpty() )||etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty()||etMobileProfile.text.isNullOrEmpty())
                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("fill_all_field",requireContext()))
@@ -600,7 +849,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 val files: ArrayList<MediaFile> =
                     data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!
                 //   var path = getPath(files.get(0).uri)
-                var file = AppHelper.getFile(requireContext(), files[0].uri)
+                var file = AppHelper.getFile(requireActivity(), files[0].uri)
                 var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                 if (!fromProfile!!)
                    
@@ -625,7 +874,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     private fun pickFile(pickCode: Int, from: Boolean) {
 
-        val intent = Intent(requireContext(), FilePickerActivity::class.java)
+        /*val intent = Intent(requireContext(), FilePickerActivity::class.java)
         intent.putExtra(
             FilePickerActivity.CONFIGS, Configurations.Builder()
                 .setCheckPermission(true)
@@ -638,9 +887,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 .setShowFiles(false)
                 .setShowAudios(false)
                 .build()
-        )
+        )*/
         fromProfile = from
-        startActivityForResult(intent, pickCode)
+        openChooser()
+      //  startActivityForResult(intent, pickCode)
 
     }
 

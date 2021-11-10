@@ -79,8 +79,8 @@
     <string name="iban">رقم الحساب البنكي الدولي</string>
     <string name="Active">الحالية</string>
     <string name="upcoming">القادمة</string>
-    <string name="completed">منتهية</string>
-    <string name="cancelled">ملغلة</string>
+    <string name="Completed">منتهية</string>
+    <string name="Cancelled">ملغلة</string>
     <string name="rate">تقييم</string>
     <string name="OrderAmount">تكلفة الطلب</string>
     <string name="cancellation_reason">سبب الإلغاء:</string>
@@ -143,7 +143,7 @@
     <string name="MarkYourAddress">ضع علامة على عنوانك على الخريطة لتسليم أسرع</string>
     <string name="myAccount">حسابي</string>
     <string name="MyServices">خدماتي</string>
-    <string name="settlements">تسويات</string>
+    <string name="Settlements">التسويات</string>
     <string name="ContactAdministrator">اتصل بالمسؤول</string>
     <string name="PrivacyPolicy">سياسة خاصة</string>
     <string name="TermsAndConditions">الأحكام والشروط</string>
@@ -254,4 +254,5 @@
     <string name="serviceExists">هذه الخدمة موجودة!</string>
     <string name="adding_error">This service already exists, please add another</string>
     <string name="error_getting_data">خلل في احضار الرجاء معاودة المحاولة</string>
+    <string name="please__select">---Please Select---</string>
 </resources>

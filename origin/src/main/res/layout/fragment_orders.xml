@@ -47,7 +47,7 @@
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/tvActive"
-            android:background="@drawable/rounded_red_background"
+            android:background="@drawable/rounded_orders"
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:textSize="@dimen/small_font_2"
@@ -81,13 +81,13 @@
             android:layout_width="match_parent"
             android:id="@+id/tvCompleted"
             android:padding="@dimen/mini_margin"
-            android:tag="completed"
+            android:tag="Completed"
             android:textColor="@color/primary"
             android:gravity="center"
             android:textSize="@dimen/small_font_2"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/completed"/>
+            android:text="@string/Completed"/>
         <me.grantland.widget.AutofitTextView
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
@@ -95,13 +95,13 @@
             android:textColor="@color/primary"
             android:padding="@dimen/mini_margin"
             android:id="@+id/tvCancelled"
-            android:tag="cancelled"
+            android:tag="Cancelled"
             android:textSize="@dimen/small_font_2"
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/cancelled"/>
+            android:text="@string/Cancelled"/>
 
         <me.grantland.widget.AutofitTextView
             android:layout_marginStart="@dimen/small_margin"

@@ -9,7 +9,7 @@
     >
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/linearProfileInfoClient"
+        android:id="@+id/cvNotCancelled"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/push_card"
@@ -116,6 +116,7 @@
                             android:background="@color/gray_line" />
 
                         <ImageView
+                            android:tint="@color/primary"
                             android:id="@+id/ivOrderMessage"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -529,6 +530,7 @@
                     android:layout_width="@dimen/normal_icon"
                     android:layout_height="@dimen/normal_icon"
                     android:padding="1dp"
+                    android:tint="@color/primary"
                     android:src="@drawable/icon_credit" />
 
 
@@ -725,13 +727,13 @@
                 android:layout_height="@dimen/bigger_edit_text"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingStart="@dimen/margin_start_end"
                 android:weightSum="2">
 
                 <LinearLayout
                     android:id="@+id/llViewOrderDetails"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/plain_rounded_background"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
@@ -742,7 +744,7 @@
                         android:layout_height="@dimen/icon"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/view"
-                        app:tint="@color/new_black" />
+                        android:tint="@color/tint_new" />
 
                     <me.grantland.widget.AutofitTextView
                         android:layout_width="wrap_content"
@@ -756,7 +758,7 @@
                         android:layout_marginEnd="@dimen/small_margin"
                         android:gravity="center_vertical"
                         android:text="@string/view_order_details"
-                        android:textColor="@color/new_black"
+                        android:textColor="@color/tint_new"
                         android:textSize="@dimen/normal_font" />
 
 

@@ -152,8 +152,8 @@
                     android:textDirection="locale"
                     android:textSize="@dimen/medium_font"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/settlements"
-                    android:tag="settlements"
+                    android:text="@string/Settlements"
+                    android:tag="Settlements"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />

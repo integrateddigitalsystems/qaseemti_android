@@ -4,16 +4,12 @@ package com.ids.qasemti.controller.Activities
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -36,7 +32,7 @@ import com.ids.qasemti.utils.AppConstants.FIREBASE_ENABLE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LINKS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LOCALIZE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_PARAMS
-import com.ids.qasemti.utils.LocaleUtils.Companion.updateConfig
+import com.ids.qasemti.utils.AppConstants.FIREBASE_SALT
 import com.upayments.track.UpaymentGateway
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.loading.*
@@ -44,20 +40,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-import kotlin.collections.ArrayList
 
 
-class ActivitySplash : ActivityBase(),ApiListener {
+class ActivitySplash : ActivityBase(), ApiListener {
     var mFirebaseRemoteConfig: FirebaseRemoteConfig? = null
     override fun onCreate(savedInstanceState: Bundle?) {
-       // updateConfig(this)
+        // updateConfig(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
 
         getFirebasePrefs()
     }
-
 
 
     private fun showDialogUpdate(activity: Activity) {
@@ -68,11 +62,11 @@ class ActivitySplash : ActivityBase(),ApiListener {
         val textEntryView = inflater.inflate(R.layout.item_dialog, null)
         textView = textEntryView.findViewById(R.id.dialogMsg)
         textView.gravity = Gravity.CENTER
-        textView.text = AppHelper.getRemoteString("popup_version_message",this)
-        builder.setTitle(AppHelper.getRemoteString("popup_version_title",this))
+        textView.text = AppHelper.getRemoteString("popup_version_message", this)
+        builder.setTitle(AppHelper.getRemoteString("popup_version_title", this))
 
         builder.setView(textEntryView)
-            .setPositiveButton(AppHelper.getRemoteString("popup_version_done",this)) { dialog, _ ->
+            .setPositiveButton(AppHelper.getRemoteString("popup_version_done", this)) { dialog, _ ->
                 dialog.dismiss()
                 val appPackageName = activity.packageName
                 try {
@@ -96,7 +90,12 @@ class ActivitySplash : ActivityBase(),ApiListener {
 
                 }
             }
-            .setNegativeButton(AppHelper.getRemoteString("popup_version_cancel",this)) { dialog, _ ->
+            .setNegativeButton(
+                AppHelper.getRemoteString(
+                    "popup_version_cancel",
+                    this
+                )
+            ) { dialog, _ ->
                 nextStep()
 
             }
@@ -134,13 +133,13 @@ class ActivitySplash : ActivityBase(),ApiListener {
         textView = textEntryView.findViewById(R.id.dialogMsg)
         textView.gravity = Gravity.START
 
-        textView.text = AppHelper.getRemoteString("popup_version_message",this)
-        builder.setTitle(AppHelper.getRemoteString("popup_version_title",this))
+        textView.text = AppHelper.getRemoteString("popup_version_message", this)
+        builder.setTitle(AppHelper.getRemoteString("popup_version_title", this))
 
 
 
         builder.setView(textEntryView)
-            .setNegativeButton(AppHelper.getRemoteString("popup_version_done",this)) { dialog, _ ->
+            .setNegativeButton(AppHelper.getRemoteString("popup_version_done", this)) { dialog, _ ->
                 dialog.dismiss()
                 val appPackageName = activity.packageName
                 try {
@@ -180,9 +179,14 @@ class ActivitySplash : ActivityBase(),ApiListener {
 
     fun checkForUpdate() {
 
-        var arrayMobileConfiguration = Gson().fromJson(mFirebaseRemoteConfig!!.getString(AppConstants.FIREBASE_MOBILE_CONFIGURATION), FirebaseConfArray::class.java)
-        var version=arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.version!!
-        var force=arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.isForceUpdate!!
+        var arrayMobileConfiguration = Gson().fromJson(
+            mFirebaseRemoteConfig!!.getString(AppConstants.FIREBASE_MOBILE_CONFIGURATION),
+            FirebaseConfArray::class.java
+        )
+        var version =
+            arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.version!!
+        var force =
+            arrayMobileConfiguration.android!!.find { it.isClient == BuildConfig.isClient }!!.isForceUpdate!!
         try {
             if (BuildConfig.VERSION_NAME.toDouble() < version) {
                 if (force) {
@@ -190,58 +194,73 @@ class ActivitySplash : ActivityBase(),ApiListener {
                 } else {
                     showDialogUpdate(this)
                 }
-            }else{
+            } else {
                 nextStep()
-           }
+            }
         } catch (ex: Exception) {
             nextStep()
         }
 
     }
 
-    fun getAddress(){
+    fun getAddress() {
         RetroFitMap.client?.create(RetrofitInterface::class.java)
-            ?.getLocationLatLng("32.879087766 , 12.1231233",getString(R.string.googleKey))?.enqueue(object : Callback<Any> {
+            ?.getLocationLatLng("32.879087766 , 12.1231233", getString(R.string.googleKey))
+            ?.enqueue(object : Callback<Any> {
                 override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                    try{
-                    }catch (E: java.lang.Exception){
+                    try {
+                    } catch (E: java.lang.Exception) {
                     }
                 }
+
                 override fun onFailure(call: Call<Any>, throwable: Throwable) {
 
                 }
             })
     }
 
-    fun getMobileConfig(){
-        var newReq = RequestNotifications(MyApplication.languageCode,MyApplication.userId,MyApplication.deviceId,0,10,1)
+    fun getMobileConfig() {
+        var newReq = RequestNotifications(
+            MyApplication.languageCode,
+            MyApplication.userId,
+            MyApplication.deviceId,
+            0,
+            10,
+            1
+        )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getMobileConfiguration(
             )?.enqueue(object : Callback<ArrayList<ResponseConfiguration>> {
-                override fun onResponse(call: Call<ArrayList<ResponseConfiguration>>, response: Response<ArrayList<ResponseConfiguration>>) {
-                    try{
-                    }catch (E: java.lang.Exception){
+                override fun onResponse(
+                    call: Call<ArrayList<ResponseConfiguration>>,
+                    response: Response<ArrayList<ResponseConfiguration>>
+                ) {
+                    try {
+                    } catch (E: java.lang.Exception) {
                     }
                 }
-                override fun onFailure(call: Call<ArrayList<ResponseConfiguration>>, throwable: Throwable) {
+
+                override fun onFailure(
+                    call: Call<ArrayList<ResponseConfiguration>>,
+                    throwable: Throwable
+                ) {
                 }
             })
     }
 
 
-
     fun nextStep() {
-       // getMobileConfig()
+        // getMobileConfig()
         /*MyApplication.isSignedIn = true
         MyApplication.userId = 41*/
         Handler(Looper.getMainLooper()).postDelayed({
-            if(MyApplication.firstTime) {
-                AppHelper.updateDevice(this,"")
+            if (MyApplication.firstTime) {
+                AppHelper.updateDevice(this, "")
                 MyApplication.firstTime = false
                 startActivity(Intent(this, ActivityChooseLanguage::class.java))
                 finish()
-            }else{
-                if(MyApplication.isSignedIn) {
+            } else {
+                if (MyApplication.isSignedIn) {
 
                     if (MyApplication.isClient) {
                         UpaymentGateway.init(this, "", "", true)
@@ -260,12 +279,12 @@ class ActivitySplash : ActivityBase(),ApiListener {
                         }
                     }*/
 
-                    AppHelper.updateDevice(this,MyApplication.phoneNumber!!)
-                    CallAPIs.getUserInfo(this,this)
+                    AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
+                    CallAPIs.getUserInfo(this, this)
 
-                }else{
-                    AppHelper.updateDevice(this,"")
-                    if(MyApplication.isClient){
+                } else {
+                    AppHelper.updateDevice(this, "")
+                    if (MyApplication.isClient) {
                         UpaymentGateway.init(this, "", "", true)
                         /*MyApplication.isSignedIn = true
                         MyApplication.userId = 41*/
@@ -274,9 +293,8 @@ class ActivitySplash : ActivityBase(),ApiListener {
 
                         startActivity(Intent(this, ActivityHome::class.java))
                         finish()
-                       // CallAPIs.getUserInfo(this,this)
-                    }
-                    else {
+                        // CallAPIs.getUserInfo(this,this)
+                    } else {
                         startActivity(Intent(this, ActivityMobileRegistration::class.java))
                         finish()
                     }
@@ -284,6 +302,7 @@ class ActivitySplash : ActivityBase(),ApiListener {
             }
         }, 500)
     }
+
 
     private fun getFirebasePrefs() {
         MyApplication.db = Firebase.firestore
@@ -296,23 +315,68 @@ class ActivitySplash : ActivityBase(),ApiListener {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val updated = task.result
-                    try{
-                        var BASE_URLS = Gson().fromJson(mFirebaseRemoteConfig!!.getString(BuildConfig.urls), FirebaseBaseUrlsArray::class.java)
-                        if(BASE_URLS!=null && BASE_URLS!!.android!!.size>0){
-                            var myUrl=BASE_URLS!!.android!!.find { it.version == BuildConfig.VERSION_NAME.toDouble() }
-                            if(myUrl!=null){
-                                MyApplication.BASE_URL=myUrl.url!!
-                            }else
-                                MyApplication.BASE_URL=BASE_URLS!!.android!!.maxByOrNull { it.version!! }!!.url!!
-                        }}catch (e:Exception){}
-                    MyApplication.localizeArray = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE), FirebaseLocalizeArray::class.java)
-                    MyApplication.webLinks = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),FirebaseWebData::class.java)
-                    MyApplication.payparams = Gson().fromJson(mFirebaseRemoteConfig!!.getString(FIREBASE_PARAMS),GatewayRespone::class.java)
-                    MyApplication.enableCountryCodes = mFirebaseRemoteConfig!!.getBoolean(FIREBASE_ENABLE)
-                    MyApplication.countryNameCodes = mFirebaseRemoteConfig!!.getString(FIREBASE_COUNTRY_NAME_CODE)
+                    try {
+                        var BASE_URLS = Gson().fromJson(
+                            mFirebaseRemoteConfig!!.getString(BuildConfig.urls),
+                            FirebaseBaseUrlsArray::class.java
+                        )
+                        if (BASE_URLS != null && BASE_URLS!!.android!!.size > 0) {
+                            var myUrl =
+                                BASE_URLS!!.android!!.find { it.version == BuildConfig.VERSION_NAME.toDouble() }
+                            if (myUrl != null) {
+                                MyApplication.BASE_URL = myUrl.url!!
+                            } else
+                                MyApplication.BASE_URL =
+                                    BASE_URLS!!.android!!.maxByOrNull { it.version!! }!!.url!!
+                        }
+                    } catch (e: Exception) {
+                    }
+                    MyApplication.localizeArray = Gson().fromJson(
+                        mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE),
+                        FirebaseLocalizeArray::class.java
+                    )
+                    MyApplication.webLinks = Gson().fromJson(
+                        mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),
+                        FirebaseWebData::class.java
+                    )
+                    MyApplication.payparams = Gson().fromJson(
+                        mFirebaseRemoteConfig!!.getString(FIREBASE_PARAMS),
+                        GatewayRespone::class.java
+                    )
+                    MyApplication.enableCountryCodes =
+                        mFirebaseRemoteConfig!!.getBoolean(FIREBASE_ENABLE)
+                    MyApplication.countryNameCodes =
+                        mFirebaseRemoteConfig!!.getString(FIREBASE_COUNTRY_NAME_CODE)
+                    MyApplication.salt = mFirebaseRemoteConfig!!.getString(FIREBASE_SALT)
+                    /*var merchantId =
+                        MyApplication.payparams!!.params.find { it.key == "merchant_id" }!!.value
+                    var username =
+                        MyApplication.payparams!!.params.find { it.key == "username" }!!.value
+                    var password =
+                        MyApplication.payparams!!.params.find { it.key == "password" }!!.value
+                    var apiKey =
+                        MyApplication.payparams!!.params.find { it.key == "apiKey" }!!.value
+                    var succURL =
+                        MyApplication.payparams!!.params.find { it.key == "successURL" }!!.value
+                    var errorURL =
+                        MyApplication.payparams!!.params.find { it.key == "errorURL" }!!.value
+                    var refNum =
+                        MyApplication.payparams!!.params.find { it.key == "reference" }!!.value
+                    var notifyURl =
+                        MyApplication.payparams!!.params.find { it.key == "notifyURL" }!!.value
+
+                    var sha1 = AppHelper.sha256(merchantId + username + apiKey + "KWD" + 123456 + 100+100+100+100+100+100+100)
+
+                    var sha15 = sha1 + MyApplication.salt
+                    var sha2 = AppHelper.sha256(sha15)
+                    var bytes = org.apache.commons.codec.digest.DigestUtils.sha256(sha15)
+                    var myJsonString = Gson().toJson(bytes)*/
+
+
+
                     AppHelper.setAllTexts(rootLayout, this)
                     checkForUpdate()
-                }else{
+                } else {
                     nextStep()
                 }
 
@@ -329,9 +393,9 @@ class ActivitySplash : ActivityBase(),ApiListener {
                 startActivity(Intent(this, ActivityHome::class.java))
                 finish()
             }
-        }catch (ex:Exception){
-            Log.wtf("apiSplash",ex.toString())
-            startActivity(Intent(this,ActivityMobileRegistration::class.java))
+        } catch (ex: Exception) {
+            Log.wtf("apiSplash", ex.toString())
+            startActivity(Intent(this, ActivityMobileRegistration::class.java))
         }
 
     }

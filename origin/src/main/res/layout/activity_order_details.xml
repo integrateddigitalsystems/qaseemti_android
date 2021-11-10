@@ -17,6 +17,7 @@
         android:layout_height="wrap_content">
 
         <include layout="@layout/no_logo_layout" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -29,6 +30,7 @@
         android:layout_marginTop="@dimen/medium_push_3">
 
         <include layout="@layout/layout_order_contact_tab" />
+
     </LinearLayout>
 
 

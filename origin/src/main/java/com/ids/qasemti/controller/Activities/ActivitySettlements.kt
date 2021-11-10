@@ -27,6 +27,8 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
     var array: ArrayList<ResponseOrders> = arrayListOf()
     var arraySett: ArrayList<ResponseSettlement> = arrayListOf()
     var res : ResponseMainOrder ?=null
+    var adapter : AdapterSettlements ?=null
+    var adapterPrev : AdapterPreviousSettlements ?=null
     var resSet : ResponseMainSettlement ?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,10 +54,13 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
 
     fun nextStep(res: Int) {
         if (res == 1) {
-            AppHelper.createDialog(this, AppHelper.getRemoteString("success", this))
+            snackbar(AppHelper.getRemoteString("success", this))
+          //  AppHelper.createDialog(this,AppHelper.getRemoteString("success", this) )
             getOrders(MyApplication.settlementTabSelected)
         } else {
-            AppHelper.createDialog(this, AppHelper.getRemoteString("failure", this))
+            snackbar(AppHelper.getRemoteString("failure", this))
+           // AppHelper.createDialog(this, AppHelper.getRemoteString("failure", this))
+            getOrders(MyApplication.settlementTabSelected)
         }
         loading.hide()
     }
@@ -156,34 +161,45 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
     private fun setData(position: Int) {
 
         if (position == 0) {
-            btRequestSettlements.show()
-            MyApplication.upcoming = false
+
+            if(adapterPrev!=null) {
+                arraySett.clear()
+                adapterPrev!!.notifyDataSetChanged()
+            }
+
             tvTotalOrderCount.text = res!!.ordersCount.toString()
-            tvSettlementAmount.text = res!!.settlementAmount!!.toString() +" "+ res!!.orders.get(position).currency
-            var adapter = AdapterSettlements(array, this, this)
-            rvSettlements.layoutManager = LinearLayoutManager(this)
-            rvSettlements.adapter = adapter
-            rvSettlements.isNestedScrollingEnabled = false
+            tvSettlementAmount.text = res!!.settlementAmount!!.toString() + " " +"KWD" //res!!.orders.get(position).currency
             if(array.size==0){
                 btRequestSettlements.hide()
-                    tvNoDataSet.show()
+                tvNoDataSet.show()
 
-            }else{
-                    tvNoDataSet.hide()
-                }
+            }else {
+                tvNoDataSet.hide()
+                btRequestSettlements.show()
+                MyApplication.upcoming = false
+                adapter = AdapterSettlements(array, this, this)
+                rvSettlements.layoutManager = LinearLayoutManager(this)
+                rvSettlements.adapter = adapter
+                rvSettlements.isNestedScrollingEnabled = false
+            }
+
         } else {
+            if(adapter!=null) {
+                array.clear()
+                adapter!!.notifyDataSetChanged()
+            }
             tvTotalOrderCount.text = resSet!!.numberOfOrders.toString()
             tvSettlementAmount.text = resSet!!.totalEarnings!!.toString()
             try {
-              tvSettlementAmount.text = tvSettlementAmount.text.toString() + " "+resSet!!.settlements.get(0).relatedOrders.get(0).currency
+              tvSettlementAmount.text = tvSettlementAmount.text.toString() + " "+"KWD"//resSet!!.settlements.get(0).relatedOrders.get(0).currency
             }catch (ex:Exception){
 
             }
             btRequestSettlements.hide()
             MyApplication.upcoming = true
-            var adapter = AdapterPreviousSettlements(arraySett, this, this)
+            adapterPrev = AdapterPreviousSettlements(arraySett, this, this)
             rvSettlements.layoutManager = LinearLayoutManager(this)
-            rvSettlements.adapter = adapter
+            rvSettlements.adapter = adapterPrev
             rvSettlements.isNestedScrollingEnabled = false
 
             if(arraySett.size==0){

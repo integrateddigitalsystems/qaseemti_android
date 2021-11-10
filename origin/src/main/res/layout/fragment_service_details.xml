@@ -79,7 +79,7 @@
                                 android:layout_width="@dimen/normal_icon_size"
                                 android:layout_height="@dimen/normal_icon_size">
                                 <com.ids.qasemti.custom.CustomTextViewMedium
-                                    android:textColor="@color/new_black"
+                                    android:textColor="@color/seconday_use"
                                     android:text="K.D."
                                     android:textSize="@dimen/small_font_2"
                                     android:layout_width="wrap_content"
@@ -275,6 +275,7 @@
                         android:layout_marginStart="@dimen/normal_margin"
                         android:layout_width="@dimen/normal_icon_size"
                         android:layout_height="@dimen/normal_icon_size"
+                        android:tint="@color/primary"
                         android:src="@drawable/icon_alert"/>
 
                     <com.ids.qasemti.custom.CustomTextViewMedium

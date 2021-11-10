@@ -33,9 +33,8 @@ import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.createDialog
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
-import kotlinx.android.synthetic.main.activity_contact_us.*
 import kotlinx.android.synthetic.main.activity_order_details.*
-import kotlinx.android.synthetic.main.fragment_home_client.*
+
 import kotlinx.android.synthetic.main.layout_border_data.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.layout_order_contact_tab.*
@@ -94,7 +93,6 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
     override fun onStart() {
         super.onStart()
-        MyApplication.saveLocationTracking
      /*   updateButtonState(
             sharedPreferences.getBoolean(SharedPreferenceUtil.KEY_FOREGROUND_ENABLED, false)
         )*/
@@ -148,12 +146,12 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_details)
-        init()
         setListeners()
 
 
         foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
         startServicing()
+        init()
     }
 
     fun startServicing(){
@@ -277,6 +275,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         }
     }
     fun init() {
+
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         btDrawer.hide()
         btBackTool.show()
@@ -296,69 +295,71 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         }
         AppHelper.setAllTexts(rootLayoutOrderDetails, this)
         tvPageTitle.show()
-        try{
-        tvPageTitle.setColorTypeface(
-            this,
-            R.color.white,
-            MyApplication.selectedOrder!!.orderStatus!!.capitalized() + " " + getString(
-                R.string.order_details
-            ),
-            true
-        )}catch (e:Exception){}
+
+        if(MyApplication.languageCode==AppConstants.LANG_ENGLISH) {
+            try {
+                tvPageTitle.setColorTypeface(
+                    this,
+                    R.color.white,
+                    AppHelper.getRemoteString("status_"+MyApplication.selectedOrder!!.orderStatus,this)+ " " + AppHelper.getRemoteString("order_details",this),
+                    true
+                )
+            } catch (e: Exception) {
+            }
+        }else{
+            try {
+                tvPageTitle.setColorTypeface(
+                    this,
+                    R.color.white,
+                    AppHelper.getRemoteString("order_details",this) +" "+AppHelper.getRemoteString("status_"+MyApplication.selectedOrder!!.orderStatus,this),
+                    true
+                )
+            } catch (e: Exception) {
+            }
+        }
         if (typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE)) {
             if (!MyApplication.isClient) {
                 llEditOrderTime.hide()
+                if(MyApplication.selectedOrder!!.vendor==null || MyApplication.selectedOrder!!.vendor!!.userId==null){
+                    llOrderSwitches.hide()
+                    btCancelOrder.hide()
+                    llDetailsCallMessage.hide()
+                }else{
+                    btCancelOrder.show()
+                    llDetailsCallMessage.show()
+                    llOrderSwitches.show()
+                }
             } else {
                 llEditOrderTime.hide()
                 llOrderSwitches.hide()
             }
-            tvPageTitle.text = if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
-                AppHelper.getRemoteString("active",this).capitalized()
-            else
-                AppHelper.getRemoteString("active",this).capitalized() + " " + AppHelper.getRemoteString("order_details",this)
-
+            llRatingOrder.hide()
             llActualDelivery.hide()
         } else if (typeSelected.equals(AppConstants.ORDER_TYPE_COMPLETED)) {
             llRatingOrder.show()
+            llOrderSwitches.show()
             btCancelOrder.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
-
-            tvPageTitle.text =  if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
-                AppHelper.getRemoteString("completed",this).capitalized()
-            else
-                AppHelper.getRemoteString("completed",this).capitalized() + " " + AppHelper.getRemoteString("order_details",this)
         } else if (typeSelected.equals(AppConstants.ORDER_TYPE_UPCOMING)) {
             btCancelOrder.show()
+            llRatingOrder.hide()
             llOrderSwitches.hide()
-            tvPageTitle.text = if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
-                AppHelper.getRemoteString("upcoming",this).capitalized()
-            else
-                AppHelper.getRemoteString("upcoming",this).capitalized() + " " + AppHelper.getRemoteString("order_details",this)
         } else {
-
+            llRatingOrder.hide()
            /* if(MyApplication.languageCode==AppConstants.LANG_ARABIC) AppHelper.getRemoteString("order_details",this) + " " +  AppHelper.getRemoteString("cancelled",this).capitalized() else
                 AppHelper.getRemoteString("cancelled",this).capitalized() + " " + AppHelper.getRemoteString("order_details",this)*/
             llEditOrderTime.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
             btCancelOrder.hide()
-            if (typeSelected.equals(AppConstants.ORDER_TYPE_CANCELED)){
-                tvPageTitle.text =   if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
-                    AppHelper.getRemoteString("cancelled",this).capitalized()
-                else
-                    AppHelper.getRemoteString("cancelled",this).capitalized() + " " + AppHelper.getRemoteString("order_details",this)
-            }else{
-                tvPageTitle.text =    if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
-                    AppHelper.getRemoteString("failed",this).capitalized()
-                else
-                    AppHelper.getRemoteString("failed",this).capitalized() + " " + AppHelper.getRemoteString("order_details",this)
-            }
+
         }
 
         try{
         if (MyApplication.isClient) {
             if (typeSelected.equals(AppConstants.ORDER_TYPE_COMPLETED)) {
+                llRatingOrder.show()
                 if (MyApplication.isClient && MyApplication.selectedOrder!!.type!!.lowercase() == "rental") {
                     btRenewOrder.show()
                 } else {
@@ -370,9 +371,6 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         }}catch (e:Exception){
             btRenewOrder.hide()
         }
-        /*if(MyApplication.isClient)
-           // llRatingOrder.hide()
-           // llRatingOrder.hide()*/
 
         tvLocationOrderDeatils.setColorTypeface(this, R.color.primary, "", false)
         setOrderData()
