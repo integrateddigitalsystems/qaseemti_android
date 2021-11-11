@@ -106,11 +106,17 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     }
 
     private fun pickImageFromGallery() {
+
+
+        /*var i = Intent(Intent.ACTION_GET_CONTENT);
+        i.setType("application/pdf");
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        resultLauncher!!.launch(i)*/
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        resultLauncher!!.launch(
-           intent)
-      //  startActivityForResult(intent, IMAGE_PICK_CODE)
+
+       resultLauncher!!.launch(intent)
+       // startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
     @Throws(IOException::class)
@@ -223,12 +229,15 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     }*/
 
     private fun selectImage(context: Context) {
-        val options = arrayOf<CharSequence>("Take Photo",
-            "Choose from Gallery",
-            getString(R.string.cancel))
+
+
+
+        val options = arrayOf<CharSequence>(AppHelper.getRemoteString("take_photo",requireActivity()),
+            AppHelper.getRemoteString("choose_from_gallery",requireActivity()),
+            AppHelper.getRemoteString("cancel",requireActivity()))
 
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Choose Profile Pic")
+        builder.setTitle(AppHelper.getRemoteString("choose_file",requireActivity()))
 
         builder.setItems(options) { dialog, item ->
             when {
@@ -642,7 +651,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     var file : File ?=null
                     if(fromCam!!) {
                         file = File(result.data!!.data!!.path)
-
+                        fromCam = false
                     }else{
                          try {
                          /*   val files: ArrayList<MediaFile> =

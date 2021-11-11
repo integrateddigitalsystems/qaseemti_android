@@ -10,6 +10,7 @@ public class PostUpayData {
     String TrackID=   "";
     String OrderID=   "";
     String cust_ref=    "";
+    String auth = "" ;
 
     public String getPayment_type() {
         return payment_type;
@@ -18,7 +19,7 @@ public class PostUpayData {
     String payment_type="";
 
 
-    public PostUpayData(String payMentId, String result, String postDate, String tranID, String ref, String trackID, String OrderID, String cust_ref, String payment_type) {
+    public PostUpayData(String payMentId, String result, String postDate, String tranID, String ref, String trackID, String OrderID, String cust_ref, String payment_type,String auth) {
 
         this.payMentId= payMentId;
         this.Result= result;
@@ -29,6 +30,7 @@ public class PostUpayData {
         this.OrderID= OrderID;
         this.cust_ref= cust_ref;
         this.payment_type= payment_type;
+        this.auth = auth ;
     }
 
     public String getPayMentId() {
@@ -62,4 +64,6 @@ public class PostUpayData {
     public String getCust_ref() {
         return cust_ref;
     }
+
+    public String getAuth() { return auth ;}
 }

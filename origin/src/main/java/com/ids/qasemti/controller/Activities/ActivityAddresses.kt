@@ -98,7 +98,7 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
                         setData()
                     } catch (E: java.lang.Exception) {
 
-                            loading.hide()
+                           setData()
                     }
                 }
 
@@ -123,6 +123,10 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
 
         if(array.size==0){
             rvAddresses.hide()
+            llNodata.show()
+        }else{
+            rvAddresses.show()
+            llNodata.hide()
         }
 
         loading.hide()

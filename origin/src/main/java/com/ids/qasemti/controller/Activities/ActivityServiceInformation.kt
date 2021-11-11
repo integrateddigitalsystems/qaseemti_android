@@ -56,6 +56,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     var array : ArrayList<ServiceItem> = arrayListOf()
     private val CODE_IMAGE = 1001
     var fromCam = false
+    var type : Int ?=0
+    var selectedType : Boolean = false
+    var selectedSize : Boolean = false
+    var selectedService : Boolean = false
     private val CODE_DRIVING_LICENSE = 1002
     private val CODE_WORK_LICENSE = 1003
     private val CODE_VEHICLE_LICENSE = 1004
@@ -86,7 +90,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     var selectedFileDrivingLicence : MultipartBody.Part ?=null
     var selectedFileWorkLicence : MultipartBody.Part ?=null
     var selectedFileVehicleLicence : MultipartBody.Part ?=null
-
+    var image : Boolean ?= false
     var adapterSelectedImages : AdapterGridFiles?=null
 
     var adapterRequiredFiles : AdapterRequiredFiles?=null
@@ -96,6 +100,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     var price=""
     var earning=""
     lateinit var arrayBody: java.util.ArrayList<MultipartBody.Part>
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.actiivity_service_information)
@@ -143,9 +148,16 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun listeners(){
         btBck.onOneClick{super.onBackPressed()}
-        btPickImage.onOneClick{pickFile(CODE_IMAGE,false)}
+        btPickImage.onOneClick{
+          //  pickFile(CODE_IMAGE,false)
+            type = CODE_IMAGE
+            image = true
+            setUp()
+           // selectImage(this,CODE_IMAGE)
+        }
 
         btSave.onOneClick{setTab2()}
         btPreViews1.onOneClick{setTab1()}
@@ -221,10 +233,14 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onItemClicked(view: View, position: Int) {
        if(view.id==R.id.btPickFile && !MyApplication.isEditService){
            requireFilePosition=position
-           pickFile(CODE_REQUIRED_FILES,true)
+           //pickFile(CODE_REQUIRED_FILES,true)
+           type = CODE_REQUIRED_FILES
+           setUp()
+          // selectImage(this,CODE_REQUIRED_FILES)
        }
     }
 
@@ -246,9 +262,15 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
               selectedServiceId=arraySpinnerServices[position].id!!
               selectedServiceName=arraySpinnerServices[position].name!!
+                if(position==0)
+                    selectedService = false
+                else
+                    selectedService = true
               setTypeSpinner()
               setSizeCapacitySpinner()
-              try{tvDescription.text=arrayFiltered[position].desc!!}catch (e:Exception){}
+              try{tvDescription.text=arrayFiltered.find {
+                  it.id!!.toInt() == selectedServiceId
+              }!!.desc}catch (e:Exception){}
                 if(!MyApplication.isEditService)
                     getRequiredFiles()
             }
@@ -272,7 +294,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         }catch (ex:Exception){
 
         }
-        if(arrayTypes.size >0) {
+
             llSpType.show()
             arraySpinnerTypes.clear()
             for (i in arrayTypes.indices) {
@@ -282,6 +304,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             arraySpinnerTypes.add(0,
                 ItemSpinner(0,AppHelper.getRemoteString("please__select",this),"")
             )
+        if(arraySpinnerTypes.size >1) {
             selectedTypeId = 0
             val adapterTypes =
                 AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinnerTypes, 0)
@@ -294,6 +317,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                     position: Int,
                     id: Long
                 ) {
+                    if(position==0)
+                        selectedType = false
+                    else
+                        selectedType = true
                     selectedTypeId = arraySpinnerTypes[position].id!!
                     selectedTypeName = arraySpinnerTypes[position].name!!
                     //setStockSpinner(arrayTypes[position].stockQuantity!!)
@@ -318,7 +345,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         try {
             arrayTypes.addAll(selectedArray!!.variations.distinctBy { it.sizeCapacity })
         }catch (ex:java.lang.Exception){}
-        if(arrayTypes.size >0) {
             llSpSizeCap.show()
             arraySpinnerSizes.clear()
             for (i in arrayTypes.indices) {
@@ -328,6 +354,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             arraySpinnerSizes.add(0,
                 ItemSpinner(0,AppHelper.getRemoteString("please__select",this),"")
             )
+        if(arraySpinnerSizes.size >1){
             selectedSizeId = 0
             val adapterSize =
                 AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinnerSizes, 0)
@@ -340,6 +367,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                     position: Int,
                     id: Long
                 ) {
+                    if(position==0)
+                        selectedSize = false
+                    else
+                        selectedSize = true
                     selectedSizeId = arraySpinnerSizes[position].id!!
                     selectedSizeName = arraySpinnerSizes[position].name!!
 
@@ -406,16 +437,21 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         try {
-            val files: ArrayList<MediaFile> =data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!
+           // val files: ArrayList<MediaFile> =data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!
             when (requestCode) {
 
                 CODE_IMAGE -> {
                     try {
-                        tvPickedImage.text = files[0].name
-                        var file = getFile(this,files[0].uri)
+                        var file : File ?=null
+                        if(fromCam){
+                            file = File(data!!.data!!.path)
+                        }else {
+                            file = getFile(this,data!!.data!!)
+                        }
+                        tvPickedImage.text = file.name
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                         selectedFileImage =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
-                        arrayImagesSelected.add(FilesSelected(files[0].name,file,selectedFileImage))
+                        arrayImagesSelected.add(FilesSelected(file.name,file,selectedFileImage))
                         adapterSelectedImages!!.notifyDataSetChanged()
                       } catch (e: Exception) {
                     }
@@ -424,8 +460,16 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                 CODE_REQUIRED_FILES -> {
                     try {
 
-                        var FileName = files[0].name
-                        var file = getFile(this,files[0].uri)
+                        var file : File ?=null
+                        var FileName : String ?=""
+                        if(fromCam){
+                            file = File(data!!.data!!.path)
+                            FileName = file.name
+                        }else {
+                            file = getFile(this, data!!.data!!)
+                            FileName = file.name
+
+                        }
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                         var selectedFile =  MultipartBody.Part.createFormData(ApiParameters.FILE, file.name+"File", req)
                         arrayRequiredFiles[requireFilePosition].multipart=selectedFile
@@ -435,15 +479,20 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                     }
                 }
 
-              /*  CODE_CAMERA ->{
-                    try{}catch (e:Exception){
+               /* CODE_CAMERA ->{
+                    try{
+
+                    }catch (e:Exception){
 
                     }
                 }*/
 
 
             }
-        }catch (e: Exception){}
+        }catch (e: Exception){
+
+            var x = e
+        }
     }
 
     private fun pickImageFromCamera() {
@@ -455,7 +504,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             .cameraOnly()
             .maxResultSize(1080, 1080)
             .createIntent {
-               startActivityForResult(it,CODE_IMAGE)
+               startActivityForResult(it,type!!)
             }
         /*   val pictureIntent = Intent(
                MediaStore.ACTION_IMAGE_CAPTURE
@@ -488,15 +537,36 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent,CODE_IMAGE)
+        startActivityForResult(intent,type!!)
         //  startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
-    private fun selectImage(context: Context) {
-        val options = arrayOf<CharSequence>("Take Photo",
-            "Choose from Gallery",
-            getString(R.string.cancel))
+    fun pickPDFFile(){
+        var i = Intent(Intent.ACTION_GET_CONTENT);
+        i.setType("application/pdf");
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(i,type!!)
+    }
 
+    private fun selectImage(context: Context) {
+        var options = arrayOf<CharSequence>()
+        if(!image!!) {
+            var tempOp = arrayOf<CharSequence>(
+                "Take Photo",
+                "Choose from Gallery",
+                "Select File",
+                getString(R.string.cancel)
+            )
+            options = tempOp
+        }else{
+             var tempOp = arrayOf<CharSequence>(
+                "Take Photo",
+                "Choose from Gallery",
+                getString(R.string.cancel)
+            )
+            options = tempOp
+        }
+        image = false
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Choose Profile Pic")
 
@@ -504,6 +574,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             when {
                 options[item] == "Take Photo" -> pickImageFromCamera()
                 options[item] == "Choose from Gallery" -> pickImageFromGallery()
+                options[item] == getString(R.string.select_file) -> pickPDFFile()
                 options[item] == getString(R.string.cancel) -> dialog.dismiss()
             }
         }
@@ -556,7 +627,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
     private fun setTab2(){
 
-        if(selectedServiceId !=0 && selectedSizeId !=0 && selectedTypeId !=0 ) {
+        if(selectedService && selectedSize && selectedType ) {
             if (arrayImagesSelected.size == 0 && !MyApplication.isEditService)
                 createDialog(this, "Please upload image")
             else if (etStockAvailable.text.toString()

@@ -348,32 +348,6 @@ class ActivitySplash : ActivityBase(), ApiListener {
                     MyApplication.countryNameCodes =
                         mFirebaseRemoteConfig!!.getString(FIREBASE_COUNTRY_NAME_CODE)
                     MyApplication.salt = mFirebaseRemoteConfig!!.getString(FIREBASE_SALT)
-                    /*var merchantId =
-                        MyApplication.payparams!!.params.find { it.key == "merchant_id" }!!.value
-                    var username =
-                        MyApplication.payparams!!.params.find { it.key == "username" }!!.value
-                    var password =
-                        MyApplication.payparams!!.params.find { it.key == "password" }!!.value
-                    var apiKey =
-                        MyApplication.payparams!!.params.find { it.key == "apiKey" }!!.value
-                    var succURL =
-                        MyApplication.payparams!!.params.find { it.key == "successURL" }!!.value
-                    var errorURL =
-                        MyApplication.payparams!!.params.find { it.key == "errorURL" }!!.value
-                    var refNum =
-                        MyApplication.payparams!!.params.find { it.key == "reference" }!!.value
-                    var notifyURl =
-                        MyApplication.payparams!!.params.find { it.key == "notifyURL" }!!.value
-
-                    var sha1 = AppHelper.sha256(merchantId + username + apiKey + "KWD" + 123456 + 100+100+100+100+100+100+100)
-
-                    var sha15 = sha1 + MyApplication.salt
-                    var sha2 = AppHelper.sha256(sha15)
-                    var bytes = org.apache.commons.codec.digest.DigestUtils.sha256(sha15)
-                    var myJsonString = Gson().toJson(bytes)*/
-
-
-
                     AppHelper.setAllTexts(rootLayout, this)
                     checkForUpdate()
                 } else {

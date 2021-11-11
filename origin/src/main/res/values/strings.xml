@@ -258,4 +258,7 @@
     <string name="adding_error">This service already exists, please add another</string>
     <string name="error_getting_data">Error getting data , please try again</string>
     <string name="please__select">---Please Select---</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="choose_from_gallery">Choose from Gallery</string>
+    <string name="select_file">Select File</string>
 </resources>

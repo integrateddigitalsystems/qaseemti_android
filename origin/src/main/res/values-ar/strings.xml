@@ -246,13 +246,20 @@
     <string name="collecting_loc">جمع معلومات الموقع</string>
     <string name="Cancel">الغاء</string>
 
+    <string name="you_can_find_updates">You can always find your updates in your email</string>
+    <string name="enter_the_4_digit_code_sent_to_you_from_qasemati">Enter the 4 digit code sent to you from Qasemati</string>
+
+    
     <string name="suspended_user_msg">تم تعليق المستخدم ، يرجى الاتصال بالمسؤول!</string>
     <string name="inactive_user_msg">المستخدم غير نشط ، يرجى الاتصال بالمسؤول!</string>
     <string name="check_phone_number">يرجى التحقق من رقم الهاتف</string>
 
     <string name="select_to_rent_date">يرجى تحديد تاريخ انتهاء الإيجار</string>
     <string name="serviceExists">هذه الخدمة موجودة!</string>
-    <string name="adding_error">This service already exists, please add another</string>
+    <string name="adding_error">هذه الخدمة موجودة الرجاء اضافة خدمة جديدة</string>
     <string name="error_getting_data">خلل في احضار الرجاء معاودة المحاولة</string>
-    <string name="please__select">---Please Select---</string>
+    <string name="please__select">---الرجاء اختيار---</string>
+    <string name="take_photo">التقاط صورة</string>
+    <string name="choose_from_gallery">اختيار صورة من المعرض</string>
+    <string name="select_file">اختيار ملف</string>
 </resources>

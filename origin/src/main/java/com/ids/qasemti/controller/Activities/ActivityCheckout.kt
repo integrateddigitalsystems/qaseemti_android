@@ -503,21 +503,25 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
                 ) {
                     try {
                         loading.hide()
-                        if (response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_IN) {
-                            startActivity(
-                                Intent(
-                                    this@ActivityCheckout,
-                                    ActivityPlaceOrder::class.java
-                                ).putExtra(AppConstants.ORDER_ID, response.body()!!.orderId)
-                            )
-                        } else if (response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_OUT)
-                            showProviderMessage(response.body()!!)
-                        else
-                            startActivity(
-                                Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java)
-                                    .putExtra(AppConstants.ORDER_ID, response.body()!!.orderId)
-                                    .putExtra(AppConstants.SP_FOUND, false)
-                            )
+                        if(!response.body()!!.result.equals("0")) {
+                            if (response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_IN) {
+                                startActivity(
+                                    Intent(
+                                        this@ActivityCheckout,
+                                        ActivityPlaceOrder::class.java
+                                    ).putExtra(AppConstants.ORDER_ID, response.body()!!.orderId)
+                                )
+                            } else if (response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_OUT)
+                                showProviderMessage(response.body()!!)
+                            else
+                                startActivity(
+                                    Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java)
+                                        .putExtra(AppConstants.ORDER_ID, response.body()!!.orderId)
+                                        .putExtra(AppConstants.SP_FOUND, false)
+                                )
+                        }else{
+                            AppHelper.createDialog(this@ActivityCheckout,response.body()!!.message!!)
+                        }
 
                     } catch (E: java.lang.Exception) {
 

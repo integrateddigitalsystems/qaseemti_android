@@ -107,10 +107,12 @@ public class ActivityWeb  extends AppCompatActivity {
                                 String TrackID=    map.get("trackid");
                                 String OrderID=    map.get("orderid");
                                 String cust_ref=    map.get("ref");
+                                String auth = map.get("auth");
                               //  String payment_type= map.get("payment_type");
 
                                 PostUpayData postUpayData= new PostUpayData(payMentId,Result,PostDate,TranID
-                                ,Ref,TrackID,OrderID,cust_ref,"");
+                                ,Ref,TrackID,OrderID,cust_ref,"",auth);
+
 
                                 if(!successPost) {
                                     uPaymentCallBack.callBackUpayment(postUpayData);
@@ -161,10 +163,11 @@ public class ActivityWeb  extends AppCompatActivity {
                                 String TrackID=    map.get("trackid");
                                 String OrderID=    map.get("orderid");
                                 String cust_ref=    map.get("ref");
+                                String auth = map.get("auth");
                               //  String payment_type= map.get("payment_type");
 
                                 PostUpayData postUpayData= new PostUpayData(payMentId,Result,PostDate,TranID
-                                        ,Ref,TrackID,OrderID,cust_ref, "");
+                                        ,Ref,TrackID,OrderID,cust_ref, "",auth);
 
                                 if(!successPost) {
                                     uPaymentCallBack.callBackUpayment(postUpayData);
@@ -224,10 +227,11 @@ public class ActivityWeb  extends AppCompatActivity {
                                 String TrackID=    map.get("trackid");
                                 String OrderID=    map.get("orderid");
                                 String cust_ref=    map.get("ref");
+                                String auth = map.get("auth");
                                // String payment_type= map.get("payment_type");
 
                                 PostUpayData postUpayData= new PostUpayData(payMentId,Result,PostDate,TranID
-                                        ,Ref,TrackID,OrderID,cust_ref, "");
+                                        ,Ref,TrackID,OrderID,cust_ref, "",auth);
 
 
                                 if(!successPost) {
@@ -280,10 +284,11 @@ public class ActivityWeb  extends AppCompatActivity {
                                 String TrackID=    map.get("trackid");
                                 String OrderID=    map.get("orderid");
                                 String cust_ref=    map.get("ref");
+                                String auth = map.get("auth");
                               //  String payment_type= map.get("payment_type");
 
                                 PostUpayData postUpayData= new PostUpayData(payMentId,Result,PostDate,TranID
-                                        ,Ref,TrackID,OrderID,cust_ref, "");
+                                        ,Ref,TrackID,OrderID,cust_ref, "",auth);
 
 
 
@@ -385,9 +390,10 @@ public class ActivityWeb  extends AppCompatActivity {
             String OrderID=    "";
             String cust_ref=    "";
             String payment_type= "";
+            String auth = "" ;
 
             PostUpayData postUpayData= new PostUpayData(payMentId,Result,PostDate,TranID
-                    ,Ref,TrackID,OrderID,cust_ref, payment_type);
+                    ,Ref,TrackID,OrderID,cust_ref, payment_type,auth);
 
             uPaymentCallBack.callBackUpayment(postUpayData);
             finish();

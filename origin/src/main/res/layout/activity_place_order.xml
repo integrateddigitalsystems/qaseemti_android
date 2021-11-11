@@ -26,7 +26,7 @@
 
     <LinearLayout
         android:id="@+id/llMain"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -551,7 +551,7 @@
     <RelativeLayout
         android:layout_marginStart="@dimen/edit_text_height"
         android:layout_marginEnd="@dimen/edit_text_height"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_above="@+id/llFooter"
         android:layout_below="@+id/llTool"
         android:id="@+id/rlNotService"
