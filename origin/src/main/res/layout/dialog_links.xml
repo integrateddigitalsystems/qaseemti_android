@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_white_background"
+    android:layout_margin="@dimen/margin_start_end"
+    android:padding="@dimen/margin_start_end"
+    android:layout_height="match_parent">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/rvLinkServers"/>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rlPassword"
+        android:layout_marginBottom="@dimen/huge_margin"
+        android:background="@drawable/gray_background_rounded"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height">
+        <EditText
+            android:background="@android:color/transparent"
+            android:id="@+id/etLinkPassword"
+            android:layout_width="match_parent"
+            android:maxLines="1"
+            android:layout_toStartOf="@id/btTestPassword"
+            android:layout_height="match_parent"
+            />
+
+        <Button
+            android:textColor="@color/white"
+            android:text="@string/submit"
+            android:tag="submit"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/blue_rounded"
+            android:layout_width="@dimen/bigger_card"
+            android:layout_height="match_parent"
+            android:id="@+id/btTestPassword"/>
+    </RelativeLayout>
+
+</LinearLayout>

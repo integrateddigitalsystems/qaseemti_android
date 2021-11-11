@@ -307,7 +307,8 @@ class CallAPIs {
             curr = retroMap!!.getMapLocations(
                 str,
                 "json",
-                MyApplication.countryNameCodes!!
+                MyApplication.countryNameCodes!!,
+                MyApplication.languageCode
             )
             curr!!.enqueue(object : Callback<ArrayList<ResponseNominatim>> {
                 override fun onResponse(

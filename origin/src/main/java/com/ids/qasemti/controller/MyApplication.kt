@@ -64,7 +64,6 @@ class MyApplication : Application() {
         var position : Int =0
         var db : FirebaseFirestore?=null
         var tintColor : Int = R.color.white
-        var BASE_URL = "https://dev.qasemti.com/wp-json/api/v1/"
         var selectedImage:String ?=""
         var selectedVideo :String ?=""
         var selectedPhone : String ?="03/123123"
@@ -102,6 +101,9 @@ class MyApplication : Application() {
             get() = sharedPreferences.getString(AppConstants.SELECTED_LANGUAGE, AppConstants.LANG_ENGLISH)!!
             set(value) { sharedPreferencesEditor.putString(AppConstants.SELECTED_LANGUAGE, value).apply() }
         var UNIQUE_REQUEST_CODE = 0
+        var BASE_URL : String
+            get() = sharedPreferences.getString(AppConstants.BASE_URL,"")!!
+            set(value) { sharedPreferencesEditor.putString(AppConstants.BASE_URL, value).apply() }
         var firstTime : Boolean
             get() = sharedPreferences.getBoolean(AppConstants.FIRST_TIME,true)
             set(value) { sharedPreferencesEditor.putBoolean(AppConstants.FIRST_TIME, value).apply() }

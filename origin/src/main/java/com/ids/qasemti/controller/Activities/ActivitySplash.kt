@@ -1,8 +1,10 @@
 package com.ids.qasemti.controller.Activities
 
 
+import android.app.ActionBar
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -11,8 +13,12 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.Gravity
+import android.view.View
+import android.view.Window
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -21,6 +27,9 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.gson.Gson
 import com.ids.qasemti.BuildConfig
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Adapters.AdapterCountryCodes
+import com.ids.qasemti.controller.Adapters.AdapterServerLinks
+import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
@@ -35,14 +44,19 @@ import com.ids.qasemti.utils.AppConstants.FIREBASE_PARAMS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_SALT
 import com.upayments.track.UpaymentGateway
 import kotlinx.android.synthetic.main.activity_splash.*
+import kotlinx.android.synthetic.main.dialog_links.*
 import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-class ActivitySplash : ActivityBase(), ApiListener {
+class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
+    var selectedURL: Boolean? = false
+    var URLs: ArrayList<ServerLink> = arrayListOf()
+    var dialog: Dialog? = null
     var mFirebaseRemoteConfig: FirebaseRemoteConfig? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         // updateConfig(this)
@@ -50,6 +64,7 @@ class ActivitySplash : ActivityBase(), ApiListener {
         setContentView(R.layout.activity_splash)
 
 
+        //  openDialog()
         getFirebasePrefs()
     }
 
@@ -248,6 +263,52 @@ class ActivitySplash : ActivityBase(), ApiListener {
             })
     }
 
+    override fun onItemClicked(view: View, position: Int) {
+        if (!URLs.get(position).password.isNullOrEmpty()) {
+            dialog!!.rlPassword.show()
+            dialog!!.btTestPassword.onOneClick {
+                if (dialog!!.etLinkPassword.text.toString().equals(URLs.get(position).password)) {
+                    MyApplication.BASE_URL = URLs.get(position).urlLink!!
+                    dialog!!.dismiss()
+                    selectedURL = true
+                    setUpRestFirebase()
+                } else {
+                    AppHelper.createDialog(
+                        this,
+                        AppHelper.getRemoteString("incorrect_password", this)
+                    )
+                }
+            }
+        } else {
+            MyApplication.BASE_URL = URLs.get(position).urlLink!!
+            dialog!!.dismiss()
+            selectedURL = true
+            setUpRestFirebase()
+        }
+    }
+
+    fun showDialog() {
+
+        dialog = Dialog(this, R.style.Base_ThemeOverlay_AppCompat_Dialog)
+    //    dialog!!.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE)
+        dialog!!.setTitle(AppHelper.getRemoteString("please_choose_link",this))
+        dialog!!.setCanceledOnTouchOutside(false)
+        dialog!!.setContentView(R.layout.dialog_links)
+        dialog!!.setCancelable(false)
+        dialog!!.window!!.setLayout(
+            ActionBar.LayoutParams.MATCH_PARENT,
+            ActionBar.LayoutParams.WRAP_CONTENT
+        )
+        val rv: RecyclerView = dialog!!.findViewById(R.id.rvLinkServers)
+
+        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        rv.layoutManager = layoutManager
+        var adapter = AdapterServerLinks(URLs, this)
+        rv.adapter = adapter
+
+        dialog!!.show()
+    }
+
 
     fun nextStep() {
         // getMobileConfig()
@@ -303,6 +364,46 @@ class ActivitySplash : ActivityBase(), ApiListener {
         }, 500)
     }
 
+    fun setUpRestFirebase() {
+        try {
+            if (!selectedURL!!) {
+                var BASE_URLS = Gson().fromJson(
+                    mFirebaseRemoteConfig!!.getString(BuildConfig.urls),
+                    FirebaseBaseUrlsArray::class.java
+                )
+                if (BASE_URLS != null && BASE_URLS!!.android!!.size > 0) {
+                    var myUrl =
+                        BASE_URLS!!.android!!.find { it.version == BuildConfig.VERSION_NAME.toDouble() }
+                    if (myUrl != null) {
+                        MyApplication.BASE_URL = myUrl.url!!
+                    } else
+                        MyApplication.BASE_URL =
+                            BASE_URLS!!.android!!.maxByOrNull { it.version!! }!!.url!!
+                }
+            }
+        } catch (e: Exception) {
+        }
+        MyApplication.localizeArray = Gson().fromJson(
+            mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE),
+            FirebaseLocalizeArray::class.java
+        )
+        MyApplication.webLinks = Gson().fromJson(
+            mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),
+            FirebaseWebData::class.java
+        )
+        MyApplication.payparams = Gson().fromJson(
+            mFirebaseRemoteConfig!!.getString(FIREBASE_PARAMS),
+            GatewayRespone::class.java
+        )
+        MyApplication.enableCountryCodes =
+            mFirebaseRemoteConfig!!.getBoolean(FIREBASE_ENABLE)
+        MyApplication.countryNameCodes =
+            mFirebaseRemoteConfig!!.getString(FIREBASE_COUNTRY_NAME_CODE)
+        MyApplication.salt = mFirebaseRemoteConfig!!.getString(FIREBASE_SALT)
+        AppHelper.setAllTexts(rootLayout, this)
+        checkForUpdate()
+    }
+
 
     private fun getFirebasePrefs() {
         MyApplication.db = Firebase.firestore
@@ -314,46 +415,26 @@ class ActivitySplash : ActivityBase(), ApiListener {
         mFirebaseRemoteConfig!!.fetchAndActivate()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val updated = task.result
-                    try {
-                        var BASE_URLS = Gson().fromJson(
-                            mFirebaseRemoteConfig!!.getString(BuildConfig.urls),
-                            FirebaseBaseUrlsArray::class.java
-                        )
-                        if (BASE_URLS != null && BASE_URLS!!.android!!.size > 0) {
-                            var myUrl =
-                                BASE_URLS!!.android!!.find { it.version == BuildConfig.VERSION_NAME.toDouble() }
-                            if (myUrl != null) {
-                                MyApplication.BASE_URL = myUrl.url!!
-                            } else
-                                MyApplication.BASE_URL =
-                                    BASE_URLS!!.android!!.maxByOrNull { it.version!! }!!.url!!
+                    var URLS = Gson().fromJson(
+                        mFirebaseRemoteConfig!!.getString(AppConstants.MULTI_LINKS),
+                        MultiLink::class.java
+                    )
+                    if (URLS.enableAndroid!! && MyApplication.firstTime) {
+                        URLs.addAll(URLS.serverLink)
+                        showDialog()
+                    } else {
+                        if(MyApplication.BASE_URL.isEmpty()) {
+                            selectedURL = false
+                        }else{
+                            selectedURL = true
                         }
-                    } catch (e: Exception) {
+                        setUpRestFirebase()
                     }
-                    MyApplication.localizeArray = Gson().fromJson(
-                        mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE),
-                        FirebaseLocalizeArray::class.java
-                    )
-                    MyApplication.webLinks = Gson().fromJson(
-                        mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),
-                        FirebaseWebData::class.java
-                    )
-                    MyApplication.payparams = Gson().fromJson(
-                        mFirebaseRemoteConfig!!.getString(FIREBASE_PARAMS),
-                        GatewayRespone::class.java
-                    )
-                    MyApplication.enableCountryCodes =
-                        mFirebaseRemoteConfig!!.getBoolean(FIREBASE_ENABLE)
-                    MyApplication.countryNameCodes =
-                        mFirebaseRemoteConfig!!.getString(FIREBASE_COUNTRY_NAME_CODE)
-                    MyApplication.salt = mFirebaseRemoteConfig!!.getString(FIREBASE_SALT)
-                    AppHelper.setAllTexts(rootLayout, this)
-                    checkForUpdate()
+
+
                 } else {
                     nextStep()
                 }
-
             }
 
     }

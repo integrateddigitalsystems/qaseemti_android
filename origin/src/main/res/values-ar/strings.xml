@@ -249,7 +249,7 @@
     <string name="you_can_find_updates">You can always find your updates in your email</string>
     <string name="enter_the_4_digit_code_sent_to_you_from_qasemati">Enter the 4 digit code sent to you from Qasemati</string>
 
-    
+
     <string name="suspended_user_msg">تم تعليق المستخدم ، يرجى الاتصال بالمسؤول!</string>
     <string name="inactive_user_msg">المستخدم غير نشط ، يرجى الاتصال بالمسؤول!</string>
     <string name="check_phone_number">يرجى التحقق من رقم الهاتف</string>
@@ -262,4 +262,5 @@
     <string name="take_photo">التقاط صورة</string>
     <string name="choose_from_gallery">اختيار صورة من المعرض</string>
     <string name="select_file">اختيار ملف</string>
+    <string name="incorrect_password">Incorrect password</string>
 </resources>

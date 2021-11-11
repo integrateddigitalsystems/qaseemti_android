@@ -335,7 +335,8 @@ interface RetrofitInterface {
     fun getMapLocations(
         @Query("q") query : String ,
         @Query("format") format : String ,
-        @Query("countrycodes") codes : String
+        @Query("countrycodes") codes : String,
+        @Query("accept-language") accLang : String
     ):Call<ArrayList<ResponseNominatim>>
 
 

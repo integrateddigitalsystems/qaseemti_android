@@ -27,8 +27,10 @@ object AppConstants {
 
     const val LANG_ENGLISH = "en"
     const val LANG_ARABIC = "ar"
+    const val MULTI_LINKS = "MultiServersLink"
     const val SELECTED_LANGUAGE = "key_language_code"
     const val FIRST_TIME = "firstTime"
+    const val BASE_URL = "base_url"
     const val DEVICE_ID = "DEVICEID"
     const val FIREBASE_URLS = "urls"
     const val USER_ID = "user_id"
