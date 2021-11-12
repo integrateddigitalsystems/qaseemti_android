@@ -139,7 +139,7 @@
             <LinearLayout
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
-
+                android:visibility="gone"
                 android:id="@+id/llEditOrderTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
