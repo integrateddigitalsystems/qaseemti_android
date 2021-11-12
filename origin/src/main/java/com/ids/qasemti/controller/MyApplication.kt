@@ -45,6 +45,7 @@ class MyApplication : Application() {
         var fromAdd : Boolean ?= false
         var submitted : Boolean ?=false
         var selectedTitle : String ?=""
+        var bannedActs : ArrayList<Activity> = arrayListOf()
         var rental : Boolean ?=false
         var finish : Boolean ?=false
         var latSelected : Double ?=0.0

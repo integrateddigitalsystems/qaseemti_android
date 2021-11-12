@@ -234,6 +234,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             })
     }
 
+    fun setUpActivities (){
+        MyApplication.bannedActs.add(ActivitySettlements())
+    }
     fun getMobileConfig() {
         var newReq = RequestNotifications(
             MyApplication.languageCode,

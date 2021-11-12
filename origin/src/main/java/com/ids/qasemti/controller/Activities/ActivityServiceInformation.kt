@@ -574,7 +574,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             when {
                 options[item] == "Take Photo" -> pickImageFromCamera()
                 options[item] == "Choose from Gallery" -> pickImageFromGallery()
-                options[item] == getString(R.string.select_file) -> pickPDFFile()
+                options[item] == "Select File" -> pickPDFFile()
                 options[item] == getString(R.string.cancel) -> dialog.dismiss()
             }
         }

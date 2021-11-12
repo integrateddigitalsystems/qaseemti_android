@@ -232,9 +232,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
 
 
-        val options = arrayOf<CharSequence>(AppHelper.getRemoteString("take_photo",requireActivity()),
-            AppHelper.getRemoteString("choose_from_gallery",requireActivity()),
-            AppHelper.getRemoteString("cancel",requireActivity()))
+        val options = arrayOf<CharSequence>("Take Photo",
+            "Choose from Gallery",
+            getString(R.string.cancel))
 
         val builder = AlertDialog.Builder(context)
         builder.setTitle(AppHelper.getRemoteString("choose_file",requireActivity()))
