@@ -496,6 +496,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 if(myAddress.avenue!=null && myAddress.avenue!="null")
                     etAvenue!!.setText(myAddress.avenue)
 
+                if(myAddress.apartment!=null && myAddress.apartment!="null")
+                    etApartment!!.setText(myAddress.apartment)
+
                 if(myAddress.floor!=null && myAddress.floor!="null")
                     etFloor!!.setText(myAddress.floor)
 
@@ -1033,7 +1036,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             etAddressProvince.text.toString(),
             etArea.text.toString(),
             etBlock.text.toString(),
-            etAvenue.text.toString()
+            etAvenue.text.toString(),
+            etApartment.text.toString()
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.addClAddress(

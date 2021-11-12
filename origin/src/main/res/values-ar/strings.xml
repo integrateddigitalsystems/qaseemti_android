@@ -263,4 +263,5 @@
     <string name="choose_from_gallery">اختيار صورة من المعرض</string>
     <string name="select_file">اختيار ملف</string>
     <string name="incorrect_password">Incorrect password</string>
+    <string name="Apartment">شقة</string>
 </resources>

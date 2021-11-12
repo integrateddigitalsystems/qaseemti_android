@@ -109,7 +109,8 @@ class ActivityAddNewAddress : ActivityBase() {
             etAddressProvince.text.toString(),
             etArea.text.toString(),
             etBlock.text.toString(),
-            etAvenue.text.toString()
+            etAvenue.text.toString(),
+            etApartment.text.toString()
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.addClAddress(

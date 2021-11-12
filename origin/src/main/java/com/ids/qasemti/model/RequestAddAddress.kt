@@ -60,6 +60,10 @@ class RequestAddAddress {
     @Expose
     var avenue : String ?=""
 
+    @SerializedName("Apartment")
+    @Expose
+    var apartment : String ?=""
+
     constructor(
         userId: Int?,
         latitude: Double?,
@@ -74,7 +78,8 @@ class RequestAddAddress {
         province:String?,
         area:String?,
         block:String?,
-        avenue:String
+        avenue:String,
+        apartment:String
     ) {
         this.userId = userId
         this.latitude = latitude
@@ -90,5 +95,6 @@ class RequestAddAddress {
         this.area = area
         this.block = block
         this.avenue = avenue
+        this.apartment=apartment
     }
 }

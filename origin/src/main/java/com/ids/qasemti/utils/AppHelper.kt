@@ -417,7 +417,7 @@ class AppHelper {
             return sdf2.format(date)
         }
 
-        fun getArrayCarts() {
+   /*     fun getArrayCarts() {
 
             var array: ArrayList<RequestPlaceOrder> = arrayListOf()
             for (item in MyApplication.arrayCart.indices) {
@@ -465,7 +465,7 @@ class AppHelper {
             var x = array
             MyApplication.arrayCart.clear()
             MyApplication.arrayCart.addAll(array)
-        }
+        }*/
 
         fun updateDevice(context: Context, phone: String) {
 

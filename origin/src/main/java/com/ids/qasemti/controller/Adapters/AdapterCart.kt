@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.internal.LinkedTreeMap
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
-import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestPlaceOrder
+
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.AppHelper
 

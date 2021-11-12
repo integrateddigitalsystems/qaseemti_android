@@ -339,5 +339,10 @@ interface RetrofitInterface {
         @Query("accept-language") accLang : String
     ):Call<ArrayList<ResponseNominatim>>
 
+    @POST("sp_send_new_dt")
+    fun sp_send_new_dt(
+        @Body param : RequestNewDeliveryDate
+    ):Call<ResponseDeliveryDate>
+
 
 }

@@ -16,7 +16,7 @@ class RequestPlaceOrder {
     @Expose
     var productId: Int? = null
 
-    @SerializedName("types")
+    @SerializedName("type")
     @Expose
     var types: String? = null
 
@@ -32,27 +32,56 @@ class RequestPlaceOrder {
     @Expose
     var addressName: String? = null
 
-    @SerializedName("address_latitude")
+    @SerializedName("address_id")
     @Expose
-    var addressLatitude: String? = null
+    var address_id: Int? = null
 
-    @SerializedName("address_longitude")
+
+    @SerializedName("province")
     @Expose
-    var addressLongitude: String? = null
+    var province: String? = null
 
-    @SerializedName("address_street")
+
+    @SerializedName("area")
     @Expose
-    var addressStreet: String? = null
+    var area: String? = null
 
-    @SerializedName("address_building")
+
+    @SerializedName("block")
     @Expose
-    var addressBuilding: String? = null
+    var block: String? = null
 
-    @SerializedName("address_floor")
+    @SerializedName("avenu")
     @Expose
-    var addressFloor: String? = null
+    var avenu: String? = null
 
-    @SerializedName("address_description")
+    @SerializedName("latitude")
+    @Expose
+    var latitude: String? = null
+
+    @SerializedName("longitude")
+    @Expose
+    var longitude: String? = null
+
+    @SerializedName("street")
+    @Expose
+    var street: String? = null
+
+
+    @SerializedName("apartment")
+    @Expose
+    var apartment: String? = null
+
+
+    @SerializedName("building")
+    @Expose
+    var building: String? = null
+
+    @SerializedName("floor")
+    @Expose
+    var floor: String? = null
+
+    @SerializedName("description")
     @Expose
     var addressDescription: String? = null
 
@@ -76,6 +105,10 @@ class RequestPlaceOrder {
     @Expose
     var phone: String? = null
 
+    @SerializedName("coupon")
+    @Expose
+    var coupon: String? = ""
+
     var title : String ?=""
     var price : String ?=""
 
@@ -91,11 +124,11 @@ class RequestPlaceOrder {
         sizeCapacity: String?,
         deliveryDate: String?,
         addressName: String?,
-        addressLatitude: String?,
-        addressLongitude: String?,
-        addressStreet: String?,
-        addressBuilding: String?,
-        addressFloor: String?,
+        latitude: String?,
+        longitude: String?,
+        street: String?,
+        building: String?,
+        floor: String?,
         addressDescription: String?,
         firstName: String?,
         lastName: String?,
@@ -103,7 +136,9 @@ class RequestPlaceOrder {
         email: String?,
         phone: String?,
         title : String ?,
-        price : String ?
+        price : String ?,
+        coupon : String ?,
+        address_id:Int
     ) {
         this.userId = userId
         this.productCategory = productCategory
@@ -112,11 +147,11 @@ class RequestPlaceOrder {
         this.sizeCapacity = sizeCapacity
         this.deliveryDate = deliveryDate
         this.addressName = addressName
-        this.addressLatitude = addressLatitude
-        this.addressLongitude = addressLongitude
-        this.addressStreet = addressStreet
-        this.addressBuilding = addressBuilding
-        this.addressFloor = addressFloor
+        this.latitude = latitude
+        this.longitude = longitude
+        this.street = street
+        this.building = building
+        this.floor = floor
         this.addressDescription = addressDescription
         this.firstName = firstName
         this.lastName = lastName
@@ -125,5 +160,7 @@ class RequestPlaceOrder {
         this.phone = phone
         this.title = title
         this.price = price
+        this.address_id=address_id
+        this.coupon=coupon
     }
 }

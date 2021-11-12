@@ -139,7 +139,7 @@
             <LinearLayout
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
-                android:visibility="gone"
+
                 android:id="@+id/llEditOrderTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -230,6 +230,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/normal_margin"
                         android:layout_weight="2"
+                        android:visibility="gone"
                         android:background="@drawable/gray_background_rounded">
 
                         <EditText
@@ -251,6 +252,7 @@
                             android:id="@+id/rlCheckoutTime"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/height_35"
+
                             android:gravity="end|center_vertical"
                             android:orientation="vertical">
 
@@ -274,6 +276,7 @@
                     android:layout_marginStart="@dimen/margin_start_end"
                     android:layout_marginEnd="@dimen/margin_start_end"
                     android:layout_marginBottom="@dimen/first_margin"
+                    android:id="@+id/btSendRequest"
                     android:background="@drawable/rounded_blue"
                     android:text="@string/SendRequest"
                     android:textColor="@color/white" />

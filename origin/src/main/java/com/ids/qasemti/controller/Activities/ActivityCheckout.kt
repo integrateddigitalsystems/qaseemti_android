@@ -473,9 +473,12 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             if (MyApplication.selectedUser!!.email != null && MyApplication.selectedUser!!.email!!.isNotEmpty()) MyApplication.selectedUser!!.email else "",
             if (MyApplication.selectedUser!!.mobileNumber != null && MyApplication.selectedUser!!.mobileNumber!!.isNotEmpty()) MyApplication.selectedUser!!.mobileNumber else "",
             if (MyApplication.selectedService!!.name!!.isNotEmpty()) MyApplication.selectedService!!.name else "",
-            MyApplication.selectedPrice
+            MyApplication.selectedPrice,
+            "",
+            if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
 
-        )
+
+            )
         if (update) {
             var i = MyApplication.arrayCart.size - 1
             MyApplication.arrayCart[i] = MyApplication.selectedPlaceOrder!!

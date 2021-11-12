@@ -263,4 +263,5 @@
     <string name="select_file">Select File</string>
     <string name="incorrect_password">Incorrect password</string>
     <string name="please_choose_link">Please choose service link</string>
+    <string name="Apartment">Apartment</string>
 </resources>

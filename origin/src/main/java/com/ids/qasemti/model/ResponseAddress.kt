@@ -44,6 +44,11 @@ class ResponseAddress (
     @Expose
     var avenue : String ?="" ,
 
+    @SerializedName("Apartment")
+    @Expose
+    var apartment : String ?="" ,
+
+
     @SerializedName("block")
     @Expose
     var block : String ?="" ,

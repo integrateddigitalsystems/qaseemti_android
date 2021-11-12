@@ -319,12 +319,13 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         }
         if (typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE)) {
             if (!MyApplication.isClient) {
-                llEditOrderTime.hide()
+
                 if(MyApplication.selectedOrder!!.vendor==null || MyApplication.selectedOrder!!.vendor!!.userId==null){
                     llOrderSwitches.hide()
                     btCancelOrder.hide()
                     llDetailsCallMessage.hide()
                 }else{
+                    llEditOrderTime.show()
                     btCancelOrder.show()
                     llDetailsCallMessage.show()
                     llOrderSwitches.show()
@@ -613,7 +614,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                     myCalendar[Calendar.YEAR] = selectedyear
                     myCalendar[Calendar.MONTH] = selectedmonth
                     myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                    val myFormat = "dd/MM/yyyy" //Change as you need
+                    val myFormat = "yyyy-MM-dd" //Change as you need
                     var sdf =
                         SimpleDateFormat(myFormat, Locale.ENGLISH)
                     var date = sdf.format(myCalendar.time)
@@ -622,6 +623,14 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
             )
             mDatePicker.show()
         }
+
+        btSendRequest.onOneClick {
+            if(etOrderDetailDate.text.toString().isEmpty())
+                createDialog(this,"Please enter suggested date")
+            else
+                sendSuggestedDate()
+        }
+
         rlCheckoutTime.onOneClick {
             // TODO Auto-generated method stub
             val mcurrentTime = Calendar.getInstance()
@@ -817,6 +826,31 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                 }
 
                 override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                }
+            })
+    }
+
+
+    fun sendSuggestedDate() {
+        loading.show()
+        var newReq = RequestNewDeliveryDate( MyApplication.selectedOrder!!.orderId!!.toInt(), etOrderDetailDate.text.toString())
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.sp_send_new_dt(newReq)?.enqueue(object : Callback<ResponseDeliveryDate> {
+                override fun onResponse(
+                    call: Call<ResponseDeliveryDate>,
+                    response: Response<ResponseDeliveryDate>
+                ) {
+                    try {
+                        loading.hide()
+                        if(response.body()!!.result=="1"){
+                            createDialog(this@ActivityOrderDetails,"Suggested date was sent")
+                        }
+                    } catch (E: java.lang.Exception) {
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseDeliveryDate>, throwable: Throwable) {
+                    loading.hide()
                 }
             })
     }
