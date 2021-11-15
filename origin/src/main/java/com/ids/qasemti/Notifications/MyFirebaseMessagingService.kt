@@ -37,7 +37,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
        // wtf("RECEIVED NOTIFICATION")
 
-        Log.wtf(TAG, "From: " + remoteMessage.getFrom()!!)
+      //  Log.wtf(TAG, "From: " + remoteMessage.getFrom()!!)
 
         if (remoteMessage.data.size > 0) {
             Log.wtf(TAG, "Message data payload: " + remoteMessage.getData())

@@ -402,10 +402,52 @@
                 <include
                     layout="@layout/layout_border_red" />
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_35"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_white_background">
+
+                    <LinearLayout
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/rounded_blue"
+                        android:id="@+id/tvApply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/height_35">
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="@dimen/toolbar_height"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:tag="preview"
+                            android:text="@string/preview"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/big_font" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:textAlignment="viewStart"
+                        android:id="@+id/etCoupon"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_35"
+                        android:layout_toStartOf="@id/tvApply"
+                        android:background="@color/transparent"
+                        android:hint="@string/couponNumber"
+                        android:paddingStart="@dimen/normal_margin"
+                        android:paddingEnd="@dimen/mini_margin"
+                        android:tag="couponNumber"
+                        android:textSize="@dimen/small_font"
+
+                        />
+
+                </RelativeLayout>
+
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/big_margin"
+                    android:layout_marginTop="@dimen/medium_margin"
                     android:tag="PaymentMethod"
                     android:text="@string/PaymentMethod"
                     android:textColor="@color/primary" />

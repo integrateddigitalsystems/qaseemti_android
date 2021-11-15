@@ -131,12 +131,7 @@ class User (
     @SerializedName("birthday")
     @Expose
     var birthday: String? = "" ,
-    @SerializedName("civil_id")
-    @Expose
-    var civil_id: String? = "" ,
-    @SerializedName("civil_id_attach")
-    @Expose
-    var civil_id_attach: String? = "" ,
+
     @SerializedName("country")
     @Expose
     var country: String? = "" ,

@@ -46,6 +46,8 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
             setTabLayout(0)
         }else if(MyApplication.completed){
             setTabLayout(2)
+        }else{
+            setTabLayout(typeSelected)
         }
 
     }

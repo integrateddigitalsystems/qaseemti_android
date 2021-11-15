@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -19,8 +20,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -65,6 +68,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var lat: Double? = 0.0
     var photoURI : Uri ?=null
     var photoFile: File? = null
+    val BLOCKED = -1
     var resultLauncher: ActivityResultLauncher<Intent>? = null
     var fromProfile: Boolean? = false
     var long: Double? = 0.0
@@ -112,6 +116,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         i.setType("application/pdf");
         i.addCategory(Intent.CATEGORY_OPENABLE);
         resultLauncher!!.launch(i)*/
+        fromCam = false
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
 
@@ -259,8 +264,25 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             if (permission) {
                 selectImage(requireContext())
                 Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
-            } else {
-                Log.e(TAG, "onActivityResult: PERMISSION DENIED")
+                MyApplication.permissionAllow11 = 0
+            } else
+            {
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    if (MyApplication.permissionAllow11!! >= 2) {
+                        for (item in result) {
+                            if (checkSelfPermission(requireContext(),item.key) == BLOCKED) {
+                                resultLauncher!!.launch(
+                                    Intent(android.provider.Settings.ACTION_SETTINGS)
+                                );
+
+                                Toast.makeText(requireContext(), AppHelper.getRemoteString("grant_settings_permission",requireContext()), Toast.LENGTH_LONG).show()
+                                break
+                            }
+                        }
+                    } else {
+                        MyApplication.permissionAllow11 = MyApplication.permissionAllow11!! + 1
+                    }
+                }
             }
         }
     }
@@ -386,7 +408,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         }
         try {
             etCivilIdNbProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.civil_id)
+                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.civilId)
         } catch (ex: Exception) {
             etCivilIdNbProfile.text = Editable.Factory.getInstance().newEditable("")
         }
@@ -437,7 +459,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         if (!MyApplication.isClient) {
             if (!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
                 profilePercentage += 25
-            if (!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.middleName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
+            if (!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.middleName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty() && !MyApplication.selectedUser!!.email.isNullOrEmpty() && !MyApplication.selectedUser!!.dob.isNullOrEmpty() && !MyApplication.selectedUser!!.altrNumb.isNullOrEmpty() && (!MyApplication.selectedUser!!.civilId.isNullOrEmpty()|| !MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty()))
                 profilePercentage += 25
             try{
             if (MyApplication.selectedUser!!.addresses!!.size>0){
@@ -445,7 +467,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                    profilePercentage += 25
 
             }}catch (e:Exception){}
-            if (!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankBranch.isNullOrEmpty()  /*&& !MyApplication.selectedUser!!.iban.isNullOrEmpty()*/)
+            if (!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankBranch.isNullOrEmpty()  && !MyApplication.selectedUser!!.IBAN.isNullOrEmpty())
                 profilePercentage += 25
         } else {
             if (!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
@@ -544,8 +566,14 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         // (activity as ActivityHome?)!!.showLogout(false)
         tvToolbarCurveTitle.visibility = View.GONE
         listeners()
-        if (MyApplication.isClient)
+        if (MyApplication.isClient) {
             showClientFields()
+            llProfilePercent.hide()
+            tvPercentageCompleted.hide()
+        }else{
+            llProfilePercent.show()
+            tvPercentageCompleted.show()
+        }
         getUserData()
 
 
@@ -701,10 +729,20 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
             }
         btSaveProfile.onOneClick {
-            if(etFirstNameProfile.text.isNullOrEmpty() || (!MyApplication.isClient && etMiddleNameProfile.text.isNullOrEmpty() )||etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty()||etMobileProfile.text.isNullOrEmpty())
+            if(etFirstNameProfile.text.isNullOrEmpty() ||etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty())
                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("fill_all_field",requireContext()))
             else if(!MyApplication.isClient){
-                updateServiceProfile()
+                var x = etCivilIdNbProfile.text
+                if(etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length==12) {
+
+                    if(etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30 )
+                        updateServiceProfile()
+                    else
+                        AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("IBANLength",requireActivity()))
+                }else{
+                    AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("civil_id_length",requireActivity()))
+
+                }
             }else
                 updateClientProfile()
          }

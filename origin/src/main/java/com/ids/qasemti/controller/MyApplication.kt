@@ -33,6 +33,7 @@ class MyApplication : Application() {
         var selectedFragmentTag : String ?=""
         var fromOrderPlaced  =false
         var webLinks : FirebaseWebData ?=null
+        var kuwaitCoordinates : Coordinates ?=null
         var salt : String ?=""
         var payparams : GatewayRespone ?=null
         var enableCountryCodes : Boolean ?=false
@@ -123,6 +124,9 @@ class MyApplication : Application() {
         var saveLocationTracking  : Boolean?
             get() = sharedPreferences.getBoolean(AppConstants.MAPPING,false)
             set(value) { sharedPreferencesEditor.putBoolean(AppConstants.MAPPING, value!!).apply() }
+        var permissionAllow11  : Int?
+            get() = sharedPreferences.getInt(AppConstants.PERMISSION,0)
+            set(value) { sharedPreferencesEditor.putInt(AppConstants.PERMISSION, value!!).apply() }
 
 
     }

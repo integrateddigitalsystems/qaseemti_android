@@ -36,6 +36,7 @@ import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
+import com.ids.qasemti.utils.AppConstants.COORDINATES
 import com.ids.qasemti.utils.AppConstants.FIREBASE_COUNTRY_NAME_CODE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_ENABLE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LINKS
@@ -393,6 +394,10 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
         MyApplication.webLinks = Gson().fromJson(
             mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),
             FirebaseWebData::class.java
+        )
+        MyApplication.kuwaitCoordinates = Gson().fromJson(
+            mFirebaseRemoteConfig!!.getString(COORDINATES),
+            Coordinates::class.java
         )
         MyApplication.payparams = Gson().fromJson(
             mFirebaseRemoteConfig!!.getString(FIREBASE_PARAMS),

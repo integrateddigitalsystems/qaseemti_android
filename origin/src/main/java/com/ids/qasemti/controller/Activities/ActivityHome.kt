@@ -463,7 +463,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         if (MyApplication.isClient) {
             llFooterProducts.hide()
             llFooterCart.show()
-            tvFooterHome.textRemote("Services", this)
+            tvFooterHome.textRemote("Home", this)
         } else {
             llFooterProducts.show()
             llFooterCart.hide()

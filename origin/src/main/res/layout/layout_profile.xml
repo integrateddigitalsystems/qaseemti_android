@@ -73,6 +73,7 @@
                         android:textSize="@dimen/header_font" />
 
                     <LinearLayout
+                        android:id="@+id/llProfilePercent"
                         android:layout_width="match_parent"
                         android:layout_height="10dp"
                         android:layout_marginTop="@dimen/small_margin"
@@ -294,9 +295,10 @@
 
 
                 <EditText
-
+                    android:inputType="number"
                     android:id="@+id/etCivilIdNbProfile"
                     android:layout_width="0dp"
+                    android:maxLength="12"
                     android:layout_weight="1"
                     android:layout_height="@dimen/edit_text_height"
                     android:textColor="@color/gray_font"
@@ -764,6 +766,7 @@
             <EditText
                 android:textAlignment="viewStart"
                 android:id="@+id/etIBANProfile"
+                android:maxLength="30"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:maxLines="1"

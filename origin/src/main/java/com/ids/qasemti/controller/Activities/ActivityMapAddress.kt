@@ -7,6 +7,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.text.Editable
@@ -60,6 +61,8 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
     var adapter: AdapterMapLocations? = null
     var dialog: Dialog? = null
     var send = 0
+    var google : GoogleMap ?=null
+    var firstTime: Boolean? = true
     var clearFlag = false
     var Loading: LinearLayout? = null
     var arrayMapLocs: ArrayList<ResponseNominatim> = arrayListOf()
@@ -68,6 +71,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
     var Recycle: RecyclerView? = null
     var latLng: LatLng? = null
     var seeOnly = false
+    var startLatLng: LatLng? = null
     private lateinit var mPlacesClient: PlacesClient
     var gmap: GoogleMap? = null
 
@@ -384,12 +388,109 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
         mvLocation!!.onLowMemory()
     }
 
+    private fun getCurrentLocation() {
+        loading.show()
+        val locationResult = object : MyLocation.LocationResult() {
+            override fun gotLocation(location: Location?) {
+
+                if (location != null) {
+                    val lat = location!!.latitude
+                    val lon = location.longitude
+                    //toast("$lat --SLocRes-- $lon")
+                    latLng = LatLng(lat, lon)
+                    MyApplication.selectedCurrentAddress = AppHelper.getAddressLoc(
+                        latLng!!.latitude,
+                        latLng!!.longitude,
+                        this@ActivityMapAddress
+                    )
+
+                    if (firstTime!!) {
+                        startLatLng = LatLng(location.latitude,location.longitude)
+                        setUpMap()
+                        /*  resultLauncher!!.launch(
+                              Intent(
+                                  this@ActivityMapAddress,
+                                  ActivityAddNewAddress::class.java
+                              ).putExtra("from", "current")
+                          )*/
+
+                        firstTime = false
+                    }
+
+
+                } else {
+                    toast("cannot detect location")
+                }
+
+                loading.hide()
+            }
+
+        }
+
+        val myLocation = MyLocation()
+        myLocation.getLocation(this, locationResult)
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        if (grantResults.isNotEmpty() && grantResults[0] ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            if (ActivityCompat.checkSelfPermission(
+                    this@ActivityMapAddress,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED && requestCode == AppConstants.REQUEST_LOCATION_PERMISSION
+            ) {
+                getCurrentLocation()
+            }
+
+        } else {
+            startLatLng = LatLng(
+                MyApplication.kuwaitCoordinates!!.lat!!.toDouble(),
+                MyApplication.kuwaitCoordinates!!.long!!.toDouble()
+            )
+            setUpMap()
+            //  toast("Please accept requested permission in order to detect your current location")
+            loading.hide()
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+    }
+
+    fun setUpMap(){
+        latLng = startLatLng
+        google!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        val markerOptions = MarkerOptions()
+        markerOptions.position(latLng)
+        google!!.addMarker(markerOptions)
+
+        google!!.setOnMapClickListener {
+            google!!.moveCamera(CameraUpdateFactory.newLatLng(it))
+            val marker = MarkerOptions()
+            marker.position(it)
+            etMapSearch.text = AppHelper.getAddress(latLng!!.latitude,latLng!!.longitude,this).toEditable()
+            google!!.clear()
+            google!!.addMarker(marker)
+            latLng = it
+        }
+
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         gmap = googleMap
-        gmap!!.setMinZoomPreference(12f)
+        gmap!!.setMinZoomPreference(10f)
 
         if (!seeOnly) {
-            if (ActivityCompat.checkSelfPermission(
+            google = gmap
+            getCurrentLocation()
+            /*if (ActivityCompat.checkSelfPermission(
                     this,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
@@ -406,46 +507,36 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
                 latLng = LatLng(gps_loc!!.latitude, gps_loc!!.longitude)
                 //   addressName = AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
             } catch (e: Exception) {
-                latLng = LatLng(33.8658486, 35.5483189)
+
                 e.printStackTrace()
-            }
+            }*/
 
-            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-            val markerOptions = MarkerOptions()
-            markerOptions.position(latLng)
-            gmap!!.addMarker(markerOptions)
+          //  latLng = LatLng(29.375989262225815, 47.97723169953782)
 
-            gmap!!.setOnMapClickListener {
-                gmap!!.moveCamera(CameraUpdateFactory.newLatLng(it))
-                val marker = MarkerOptions()
-                marker.position(it)
-                gmap!!.clear()
-                gmap!!.addMarker(marker)
-                latLng = it
-            }
-        } else {
-            var ll: LatLng? = null
-            try {
-                ll = LatLng(
-                    MyApplication.selectedOrder!!.customerLat!!.toDouble(),
-                    MyApplication.selectedOrder!!.customerLong!!.toDouble()
-                )
-            } catch (ex: Exception) {
 
-            }
-
-            if (ll != null) {
-                gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ll))
-                val markerOptions = MarkerOptions()
-                markerOptions.position(ll)
-                gmap!!.addMarker(markerOptions)
-            } else {
-                AppHelper.createDialog(this, "No location date connected to selected order")
-                latLng = LatLng(33.8658486, 35.5483189)
-                gmap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-            }
+    } else {
+        var ll: LatLng? = null
+        try {
+            ll = LatLng(
+                MyApplication.selectedOrder!!.customerLat!!.toDouble(),
+                MyApplication.selectedOrder!!.customerLong!!.toDouble()
+            )
+        } catch (ex: Exception) {
 
         }
+
+        if (ll != null) {
+            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ll))
+            val markerOptions = MarkerOptions()
+            markerOptions.position(ll)
+            gmap!!.addMarker(markerOptions)
+        } else {
+            AppHelper.createDialog(this, "No location date connected to selected order")
+            latLng = LatLng(33.8658486, 35.5483189)
+            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        }
+
+    }
 
     }
 
@@ -459,7 +550,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
         /* }else{
              adapter!!.notifyDataSetChanged()
          }*/
-      //  Loading!!.hide()
+        //  Loading!!.hide()
     }
 
     override fun click(place: com.google.android.libraries.places.api.model.Place?) {

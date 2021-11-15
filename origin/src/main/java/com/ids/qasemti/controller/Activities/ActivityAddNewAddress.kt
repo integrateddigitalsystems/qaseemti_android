@@ -259,7 +259,7 @@ class ActivityAddNewAddress : ActivityBase() {
         btSaveAddress.onOneClick {
             if (etAddressName.text.isNullOrEmpty() || etAddressProvince.text.isNullOrEmpty() || etBuilding.text.toString()
                     .isNullOrEmpty() || etFloor.text.toString()
-                    .isNullOrEmpty() || etStreet.text.isNullOrEmpty() || etMoreDetails.text.isNullOrEmpty()
+                    .isNullOrEmpty() || etStreet.text.isNullOrEmpty()
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
@@ -279,7 +279,7 @@ class ActivityAddNewAddress : ActivityBase() {
 
             if (etAddressName.text.isNullOrEmpty() || etAddressProvince.text.isNullOrEmpty() || etBuilding.text.toString()
                     .isNullOrEmpty() || etFloor.text.toString()
-                    .isNullOrEmpty() || etStreet.text.isNullOrEmpty() || etMoreDetails.text.isNullOrEmpty()
+                    .isNullOrEmpty() || etStreet.text.isNullOrEmpty()
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {

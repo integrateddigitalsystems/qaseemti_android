@@ -8,14 +8,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -34,7 +31,6 @@ import com.ids.qasemti.utils.AppHelper.Companion.getFile
 import com.ids.sampleapp.model.ItemSpinner
 import com.jaiselrahman.filepicker.activity.FilePickerActivity
 import com.jaiselrahman.filepicker.config.Configurations
-import com.jaiselrahman.filepicker.model.MediaFile
 import kotlinx.android.synthetic.main.actiivity_service_information.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.loading.*
@@ -65,6 +61,9 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     private val CODE_VEHICLE_LICENSE = 1004
     private val CODE_REQUIRED_FILES = 1005
     private val CODE_CAMERA = 1006
+    val GRANTED = 0
+    val DENIED = 1
+    val BLOCKED = -1
     var  mPermissionResult : ActivityResultLauncher<Array<String>>?=null
     private var selectedCategoryId=1
     private var selectedCategoryName=AppConstants.TYPE_PURCHASE
@@ -110,14 +109,42 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
 
+    fun getPermissionStatus(activity: Activity?, androidPermissionName: String?): Int {
+        return if (ContextCompat.checkSelfPermission(
+                activity!!,
+                androidPermissionName!!
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                    activity,
+                    androidPermissionName
+                )
+            ) {
+                BLOCKED
+            } else DENIED
+        } else GRANTED
+    }
+
     @RequiresApi(Build.VERSION_CODES.M)
     fun setUp(){
 
-        requestPermissions(  arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ),CODE_IMAGE)/*
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ),CODE_IMAGE)
+        } else {
+            ActivityCompat.requestPermissions(this,  arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ),CODE_IMAGE)
+        }
+
+        /*
         mPermissionResult = onRequestPermissionsResult(ActivityResultContracts.RequestMultiplePermissions())
         { result ->
             var permission = false
@@ -535,6 +562,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
 
     private fun pickImageFromGallery() {
+        fromCam = false
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent,type!!)
@@ -580,6 +608,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         }
         builder.show()
     }
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode){
 
@@ -594,8 +623,35 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                     else
                         permissioned = false
                 }
-                if(permissioned)
+                if(permissioned) {
                     selectImage(this)
+                    MyApplication.permissionAllow11 = 0
+                } else
+                {
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                        if (MyApplication.permissionAllow11!! >= 2) {
+                            for (item in permissions) {
+
+                                var x = checkSelfPermission(item)
+                                if (checkSelfPermission(item) == BLOCKED) {
+                                    startActivityForResult(
+                                        Intent(android.provider.Settings.ACTION_SETTINGS),
+                                        0
+                                    );
+                                    toast(
+                                        AppHelper.getRemoteString(
+                                            "grant_settings_permission",
+                                            this
+                                        )
+                                    )
+                                    break
+                                }
+                            }
+                        } else {
+                            MyApplication.permissionAllow11 = MyApplication.permissionAllow11!! + 1
+                        }
+                    }
+                }
 
                /* if (grantResults.isNotEmpty() && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED){

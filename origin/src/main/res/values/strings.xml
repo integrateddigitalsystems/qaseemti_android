@@ -22,7 +22,7 @@
     <string name="middle_name">Middle Name</string>
     <string name="LName">Last Name</string>
     <string name="email">Email</string>
-    <string name="civil_id_nb">Civil ID Nb</string>
+    <string name="civil_id_nb">Civil ID #</string>
     <string name="male">Male</string>
     <string name="register">REGISTER</string>
     <string name="female">Female</string>
@@ -264,4 +264,12 @@
     <string name="incorrect_password">Incorrect password</string>
     <string name="please_choose_link">Please choose service link</string>
     <string name="Apartment">Apartment</string>
+    <string name="SuggestedDeliveryTime">Suggested new delivery time:</string>
+    <string name="Reject">Reject</string>
+    <string name="NewDateAcepted">The New date is acccepted</string>
+    <string name="NewDateRejected">The New date is rejected</string>
+    <string name="grant_settings_permission">You have to grant permission manually in settings</string>
+    <string name="civil_id_length">Civil id length must be 12 number</string>
+    <string name="IBANLength">يجب ان يكون طول IBAN 30 </string>
+    <string name="preview">Preview</string>
 </resources>

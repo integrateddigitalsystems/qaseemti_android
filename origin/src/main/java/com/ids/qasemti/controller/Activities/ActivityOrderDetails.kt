@@ -34,6 +34,7 @@ import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.createDialog
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import kotlinx.android.synthetic.main.activity_order_details.*
+import kotlinx.android.synthetic.main.item_orders.*
 
 import kotlinx.android.synthetic.main.layout_border_data.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
@@ -41,6 +42,7 @@ import kotlinx.android.synthetic.main.layout_order_contact_tab.*
 import kotlinx.android.synthetic.main.layout_order_information.*
 import kotlinx.android.synthetic.main.layout_order_switch.*
 import kotlinx.android.synthetic.main.layout_request_new_time.*
+import kotlinx.android.synthetic.main.layout_request_new_time.tvDateExpected
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
@@ -331,6 +333,12 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                     llOrderSwitches.show()
                 }
             } else {
+                if(!MyApplication.selectedOrder!!.newDeliveryDate.isNullOrEmpty()){
+                    llSuggestedDate.show()
+                    tvSuggestedDate.text = MyApplication.selectedOrder!!.newDeliveryDate
+                }else {
+                    llSuggestedDate.hide()
+                }
                 llEditOrderTime.hide()
                 llOrderSwitches.hide()
             }
@@ -810,8 +818,43 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         llRatingOrder.setOnClickListener {
             showRatingDialog()
         }
+
+        btAcceptNewdate.onOneClick {
+            respondDate(1)
+        }
+
+        btRejectNewdate.onOneClick {
+            respondDate(0)
+        }
     }
 
+    fun accepted(res:ResponseMessage){
+        createDialog(this,res.message!!)
+        llSuggestedDate.hide()
+        loading.hide()
+    }
+
+    fun respondDate(accept : Int){
+        loading.show()
+        var newReq = RequestAcceptDate( MyApplication.selectedOrder!!.orderId!!.toInt(), accept)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.clAcceptNewDT(newReq)?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                    try {
+                        accepted(response.body()!!)
+                    } catch (E: java.lang.Exception) {
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
     fun setStatus() {
         var newReq = RequestUpdateOrder( MyApplication.selectedOrder!!.orderId!!.toInt(), onTrack, delivered, paid)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -833,7 +876,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
     fun sendSuggestedDate() {
         loading.show()
-        var newReq = RequestNewDeliveryDate( MyApplication.selectedOrder!!.orderId!!.toInt(), etOrderDetailDate.text.toString())
+        var newReq = RequestNewDeliveryDate(MyApplication.selectedOrder!!.orderId!!.toInt(), etOrderDetailDate.text.toString())
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.sp_send_new_dt(newReq)?.enqueue(object : Callback<ResponseDeliveryDate> {
                 override fun onResponse(
@@ -846,6 +889,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                             createDialog(this@ActivityOrderDetails,"Suggested date was sent")
                         }
                     } catch (E: java.lang.Exception) {
+                        loading.hide()
                     }
                 }
 

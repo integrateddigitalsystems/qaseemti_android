@@ -27,6 +27,7 @@
             android:background="@android:color/transparent"
             android:id="@+id/etLinkPassword"
             android:layout_width="match_parent"
+            android:padding="@dimen/normal_margin"
             android:maxLines="1"
             android:layout_toStartOf="@id/btTestPassword"
             android:layout_height="match_parent"

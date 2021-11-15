@@ -11,6 +11,10 @@ class ResponseDeliveryDate(
 
     @SerializedName("new_delivery_date")
     @Expose
-    var new_delivery_date : ResponseOrders
+    var new_delivery_date : String?=""
+
+   /* @SerializedName("new_delivery_date")
+    @Expose
+    var new_delivery_date : ResponseOrders*/
 ) {
 }

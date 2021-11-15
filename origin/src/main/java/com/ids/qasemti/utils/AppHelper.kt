@@ -48,8 +48,10 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
 import com.ids.qasemti.R
@@ -475,7 +477,7 @@ class AppHelper {
             val model = AppHelper.getDeviceName()
             val osVersion = AppHelper.getAndroidVersion()
 
-            val deviceToken = ""
+            var deviceToken = ""
             val deviceTypeId = ""
             var android_id = Settings.Secure.getString(
                 context.getContentResolver(),
@@ -496,6 +498,16 @@ class AppHelper {
             var isService = 1
             if (MyApplication.isClient)
                 isService = 0
+
+                    FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w("firebase_messaging", "Fetching FCM registration token failed", task.exception)
+                        return@OnCompleteListener
+                    }
+                    deviceToken = task.result
+
+                Log.wtf("myToken",deviceToken)
 
             var newReq = RequestUpdate(
                 MyApplication.deviceId,
@@ -531,6 +543,13 @@ class AppHelper {
                     override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
                     }
                 })
+
+
+                })
+
+
+
+
 
         }
 
@@ -722,6 +741,9 @@ class AppHelper {
 
 
         fun shareApp(activity: Activity) {
+
+
+
             val appPackageName = activity.packageName
             try {
                 activity.startActivity(

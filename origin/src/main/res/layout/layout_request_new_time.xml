@@ -53,7 +53,7 @@
                         android:layout_width="@dimen/small_icon"
                         android:layout_height="@dimen/small_icon"
                         android:layout_gravity="top"
-                        android:layout_marginTop="@dimen/mini_margin"
+                        android:layout_marginTop="2dp"
                         android:src="@drawable/wall_clock"
                         android:tint="@color/primary"
 
@@ -134,6 +134,121 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+
+             <LinearLayout
+                 android:visibility="gone"
+                 android:orientation="vertical"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/llSuggestedDate">
+
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginStart="@dimen/normal_margin"
+                     android:layout_marginTop="@dimen/normal_margin"
+                     android:orientation="horizontal"
+                     >
+
+                     <ImageView
+                         android:layout_marginTop="2dp"
+                         android:layout_width="@dimen/small_icon"
+                         android:layout_height="@dimen/small_icon"
+                         android:src="@drawable/wall_clock"
+                         android:tint="@color/primary"
+
+                         />
+
+
+                     <LinearLayout
+                         android:orientation="vertical"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+
+                         <com.ids.qasemti.custom.CustomTextViewBold
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:tag="SuggestedDeliveryTime"
+                             android:layout_marginStart="@dimen/normal_margin"
+                             android:text="@string/SuggestedDeliveryTime"
+                             android:textColor="@color/gray_font_title"
+                             android:textSize="@dimen/normal_font" />
+
+
+                         <com.ids.qasemti.custom.CustomTextViewMedium
+                             android:layout_marginStart="@dimen/normal_margin"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:layout_marginTop="@dimen/small_margin"
+                             android:layout_marginBottom="@dimen/small_margin"
+                             android:id="@+id/tvSuggestedDate"
+                             android:textColor="@color/gray_font_title"/>
+
+
+                     </LinearLayout>
+
+
+
+                 </LinearLayout>
+
+
+
+
+                 <LinearLayout
+                     android:orientation="horizontal"
+                     android:weightSum="2"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+
+
+                     <LinearLayout
+                         android:gravity="center"
+                         android:layout_marginEnd="@dimen/medium_margin"
+                         android:layout_marginTop="@dimen/medium_margin"
+                         android:layout_marginBottom="@dimen/medium_margin"
+                         android:background="@drawable/rounded_white_red_border"
+                         android:layout_weight="1"
+                         android:layout_width="match_parent"
+                         android:layout_height="@dimen/edit_text_height"
+                         >
+
+                         <com.ids.qasemti.custom.CustomTextViewMedium
+                             android:layout_width="match_parent"
+                             android:gravity="center"
+                             android:id="@+id/btRejectNewdate"
+                             android:layout_height="match_parent"
+                             android:text="@string/Reject"
+                             android:textColor="@color/primary"
+                             android:tag="Reject"/>
+
+                     </LinearLayout>
+
+                     <LinearLayout
+                         android:layout_marginEnd="@dimen/medium_margin"
+                         android:layout_marginTop="@dimen/medium_margin"
+                         android:background="@drawable/blue_rounded"
+                         android:layout_weight="1"
+                         android:layout_width="match_parent"
+                         android:layout_height="@dimen/edit_text_height"
+                         >
+
+                         <com.ids.qasemti.custom.CustomTextViewMedium
+                             android:layout_width="match_parent"
+                             android:gravity="center"
+                             android:id="@+id/btAcceptNewdate"
+                             android:layout_height="match_parent"
+                             android:text="@string/accept"
+                             android:textColor="@color/white"
+                             android:tag="accept"/>
+
+                     </LinearLayout>
+
+
+                 </LinearLayout>
+
+             </LinearLayout>
 
 
             <LinearLayout

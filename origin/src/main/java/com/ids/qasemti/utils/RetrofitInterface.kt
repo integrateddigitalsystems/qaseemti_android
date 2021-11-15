@@ -344,5 +344,10 @@ interface RetrofitInterface {
         @Body param : RequestNewDeliveryDate
     ):Call<ResponseDeliveryDate>
 
+    @POST("cl_accept_new_dt")
+    fun clAcceptNewDT(
+        @Body param : RequestAcceptDate
+    ):Call<ResponseMessage>
+
 
 }

@@ -234,6 +234,10 @@ class ResponseOrders(
     @Expose
     var vendorRate : String ?="",
 
+    @SerializedName("new_delivery_date")
+    @Expose
+    var newDeliveryDate : String ?="",
+
     var done : Boolean = false
 
 

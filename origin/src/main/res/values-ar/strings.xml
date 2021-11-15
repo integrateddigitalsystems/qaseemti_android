@@ -262,6 +262,17 @@
     <string name="take_photo">التقاط صورة</string>
     <string name="choose_from_gallery">اختيار صورة من المعرض</string>
     <string name="select_file">اختيار ملف</string>
-    <string name="incorrect_password">Incorrect password</string>
     <string name="Apartment">شقة</string>
+    <string name="SuggestedDeliveryTime">وقت التسليم الجديد المقترح:</string>
+    <string name="Reject">رفض</string>
+    <string name="NewDateAcepted">التاريخ الجديد مقبول</string>
+    <string name="NewDateRejected">التاريخ الجديد مرفوض</string>
+    <string name="incorrect_password">Incorrect password</string>
+    <string name="please_choose_link">Please choose service link</string>
+    <string name="grant_settings_permission">يجب عليك منح الإذن يدويًا في الإعدادات</string>
+    <string name="civil_id_length">يجب أن يكون طول الهوية المدنية 12 رقم</string>
+    <string name="IBANLength">يجب ان يكون طول IBAN 30 حرف</string>
+    <string name="preview">معاينة</string>
+
+
 </resources>
