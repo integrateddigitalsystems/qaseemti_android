@@ -413,6 +413,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             llSpSizeCap.hide()
         }
 
+
+        if(MyApplication.isEditService)
+            setEditData()
+
     }
 
 
@@ -808,8 +812,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                         if(arrayAllServices.size>0)
                            setServiceSpinner()
 
-                        if(MyApplication.isEditService)
-                            setEditData()
                     }catch (E: java.lang.Exception){
 
                     }
@@ -868,7 +870,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                 selectedQtyName.toRequestBody("text/plain".toMediaTypeOrNull()),
                 tvDescription.text.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
                 arrayBody,
-                MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull()),
+               MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull()),
                 selectedServiceId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
 
             )?.enqueue(object : Callback<ResponseMessage> {
@@ -1078,6 +1080,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
              }catch (e:Exception){}
 
              try{
+                 arrayImagesSelected.clear()
                  var images=MyApplication.selectedService!!.variations[0].images
                  if(images.size>0){
                     for (i in images.indices)
@@ -1122,6 +1125,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
          }
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+       // loading.hide()
     }
 
 }

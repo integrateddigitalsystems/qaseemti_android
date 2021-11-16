@@ -273,6 +273,11 @@
     <string name="civil_id_length">يجب أن يكون طول الهوية المدنية 12 رقم</string>
     <string name="IBANLength">يجب ان يكون طول IBAN 30 حرف</string>
     <string name="preview">معاينة</string>
+    <string name="review">مراجعة</string>
+    <string name="DiscountAmount">كمية الخصم</string>
+    <string name="NewTotal">المبلغ الجديد</string>
+    <string name="OldAmount">المبلغ القديم</string>
+    <string name="k_d">د.ك.</string>
 
 
 </resources>

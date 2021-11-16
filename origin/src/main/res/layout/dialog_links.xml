@@ -8,11 +8,52 @@
     android:layout_height="match_parent">
 
 
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="match_parent"
+        android:id="@+id/tvCouponTitle"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:text="Coupon added will result in the following discount: "/>
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/medium_margin"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:id="@+id/rvLinkServers"/>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/llCoupon"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height">
+
+        <Button
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:text="Apply Coupon"
+            android:tag="submit"
+            android:textAllCaps="false"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/blue_rounded"
+            android:layout_width="@dimen/bigger_card"
+            android:layout_height="match_parent"
+            android:id="@+id/btApply"/>
+
+        <Button
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:text="Proceed Without Coupon"
+            android:textAllCaps="false"
+            android:tag="submit"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/blue_rounded"
+            android:layout_width="@dimen/bigger_card"
+            android:layout_height="match_parent"
+            android:id="@+id/btProceed"/>
+    </LinearLayout>
 
     <RelativeLayout
         android:visibility="gone"

@@ -403,9 +403,10 @@
                     layout="@layout/layout_border_red" />
 
                 <RelativeLayout
+                    android:id="@+id/rlCoupon"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_35"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_marginTop="@dimen/medium_margin"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_white_background">
@@ -421,8 +422,9 @@
                             android:layout_width="@dimen/toolbar_height"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:tag="preview"
-                            android:text="@string/preview"
+                            android:id="@+id/btReviewCoupon"
+                            android:tag="review"
+                            android:text="@string/review"
                             android:textColor="@color/white"
                             android:textSize="@dimen/big_font" />
                     </LinearLayout>

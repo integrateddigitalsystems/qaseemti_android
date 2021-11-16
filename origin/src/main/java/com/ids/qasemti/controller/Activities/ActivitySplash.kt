@@ -37,6 +37,7 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppConstants.COORDINATES
+import com.ids.qasemti.utils.AppConstants.CURRENCY
 import com.ids.qasemti.utils.AppConstants.FIREBASE_COUNTRY_NAME_CODE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_ENABLE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LINKS
@@ -391,6 +392,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE),
             FirebaseLocalizeArray::class.java
         )
+        MyApplication.currency =  mFirebaseRemoteConfig!!.getString(CURRENCY)
         MyApplication.webLinks = Gson().fromJson(
             mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),
             FirebaseWebData::class.java

@@ -839,7 +839,6 @@
 
                 <EditText
                     android:textAlignment="viewStart"
-                    android:id="@+id/etCoupon"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_35"
                     android:layout_toStartOf="@id/tvApply"

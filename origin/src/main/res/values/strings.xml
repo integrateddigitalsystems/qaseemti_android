@@ -270,6 +270,11 @@
     <string name="NewDateRejected">The New date is rejected</string>
     <string name="grant_settings_permission">You have to grant permission manually in settings</string>
     <string name="civil_id_length">Civil id length must be 12 number</string>
-    <string name="IBANLength">يجب ان يكون طول IBAN 30 </string>
+    <string name="IBANLength">IBAN length must be 30 characters</string>
     <string name="preview">Preview</string>
+    <string name="review">Review</string>
+    <string name="DiscountAmount">Discount Amount</string>
+    <string name="NewTotal">New Amount</string>
+    <string name="OldAmount">Old Amount</string>
+    <string name="k_d">K.D.</string>
 </resources>

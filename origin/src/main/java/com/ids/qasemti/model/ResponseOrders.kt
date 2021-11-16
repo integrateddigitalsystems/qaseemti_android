@@ -238,6 +238,26 @@ class ResponseOrders(
     @Expose
     var newDeliveryDate : String ?="",
 
+    @SerializedName("old_total")
+    @Expose
+    var oldTotal : String ?="" ,
+
+    @SerializedName("coupon_code")
+    @Expose
+    var couponCode : String ?="" ,
+
+    @SerializedName("discount_amount")
+    @Expose
+    var discountAmount : String ?="" ,
+
+    @SerializedName("discount_type")
+    @Expose
+    var discounType : String ?="" ,
+
+    @SerializedName("total_discount_amount")
+    @Expose
+    var totalDiscountAmount : String ?="" ,
+
     var done : Boolean = false
 
 

@@ -1,12 +1,20 @@
 package com.ids.qasemti.controller.Activities
 
+import android.app.ActionBar
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.*
@@ -34,6 +42,9 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCallBack, ApiListener {
@@ -42,10 +53,17 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
     var selectedPaymentId: Int? = 0
     var selectedSlug: String? = ""
     var firstTime = true
-    var merchantId : String ?=""
-    var username : String ?=""
-    var apiKey : String ?=""
-    var refNum : String ?=""
+    var merchantId: String? = ""
+    var request: RequestPaymentOrder? = null
+    var reviewed: Boolean? = false
+    var username: String? = ""
+    var arrayOrderData: ArrayList<OrderData> = arrayListOf()
+    var arrayOrderCost: ArrayList<OrderData> = arrayListOf()
+
+    var adapterOrderData: AdapterOrderData? = null
+    var adapterOrderCost: AdapterOtherOrderData? = null
+    var apiKey: String? = ""
+    var refNum: String? = ""
     var orderId = "0"
 
     var arrayPaymentMethods: ArrayList<PaymentMethod> = arrayListOf()
@@ -103,56 +121,59 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         } catch (ex: Exception) {
         }
         fragMang = supportFragmentManager
-        var array: ArrayList<OrderData> = arrayListOf()
-        array.add(
+        arrayOrderData.clear()
+        arrayOrderData.add(
             OrderData(
                 AppHelper.getRemoteString("category", this),
                 if (orders.type != null && orders.type!!.isNotEmpty()) orders.type!! else ""
             )
         )
-        array.add(
+        arrayOrderData.add(
             OrderData(
                 AppHelper.getRemoteString("service", this),
                 if (orders.product!!.name != null && orders.product!!.name!!.isNotEmpty()) orders.product!!.name else ""
             )
         )
-        array.add(
+        arrayOrderData.add(
             OrderData(
                 AppHelper.getRemoteString("type", this),
                 if (orders.product!!.type != null && orders.product!!.types!!.isNotEmpty()) orders.product!!.types else ""
             )
         )
-        array.add(
+        arrayOrderData.add(
             OrderData(
                 AppHelper.getRemoteString("SizeCapacity", this),
                 if (orders.product!!.sizeCapacity != null && orders.product!!.sizeCapacity!!.isNotEmpty()) orders.product!!.sizeCapacity else ""
             )
         )
-        array.add(OrderData(AppHelper.getRemoteString("Quantity", this), "1"))
+        arrayOrderData.add(OrderData(AppHelper.getRemoteString("Quantity", this), "1"))
         rvDataBorder.layoutManager = LinearLayoutManager(this)
-        rvDataBorder.adapter = AdapterOrderData(array, this, this)
+        adapterOrderData = AdapterOrderData(arrayOrderData, this, this)
+        rvDataBorder.adapter = adapterOrderData
 
-        var array2: ArrayList<OrderData> = arrayListOf()
-        array2.add(
+        arrayOrderCost.clear()
+
+        arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("Subtotal", this),
                 if (orders.total != null && orders.total!!.isNotEmpty()) orders.total + " KWD" else ""
             )
         )
-        array2.add(
+        arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("AdditionalFees", this),
                 if (orders.shippingTotal != null && orders.shippingTotal!!.isNotEmpty()) orders.shippingTotal + " KWD" else ""
             )
         )
-        array2.add(
+        arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("TotalAmount", this),
                 if (orders.grand_total != null && orders.grand_total!!.isNotEmpty()) orders.grand_total + " KWD" else ""
             )
         )
         rvOtherData.layoutManager = LinearLayoutManager(this)
-        rvOtherData.adapter = AdapterOtherOrderData(array2, this, this)
+        adapterOrderCost = AdapterOtherOrderData(arrayOrderCost, this, this)
+        rvOtherData.adapter = adapterOrderCost
 
         loading.hide()
 
@@ -173,7 +194,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
         selectedSlug = arrayPaymentMethods.find { it.id == selectedPaymentId }!!.slug
         if (selectedSlug.equals("cod")) {
-            nextStep()
+            request = RequestPaymentOrder(orderId.toInt(), selectedPaymentId)
+            finalStep()
         } else {
             paymentGateway()
         }
@@ -231,8 +253,6 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         var testMode = MyApplication.payparams!!.params.find { it.key == "test_mode" }!!.value
 
 
-
-
         val analyticsEvent3 = Builder<Builder<Builder<*>>>(merchantId)
             .setMerchantId(merchantId)
             .setUsername(username)
@@ -240,7 +260,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             .setApikey(apiKey)
             .setOrderId(MyApplication.selectedPlaceOrder!!.productId!!.toString())
             .setTotalPrice(MyApplication.selectedPlaceOrder!!.price)
-            .setCurrencyCode("KWD")
+            .setCurrencyCode(MyApplication.currency)
             .setSuccessUrl(succURL)
             .setErrorUrl(errorURL)
             .setTestMode(testMode)
@@ -259,13 +279,243 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         UpaymentGateway.getInstance().track(analyticsEvent3, this)
     }
 
+    fun setCouponData(res: ResponsePreviewCoupon) {
+
+        arrayOrderCost.clear()
+        arrayOrderCost.add(
+            OrderData(
+                AppHelper.getRemoteString("Subtotal", this),
+                if (MyApplication.selectedOrder!!.total != null && MyApplication.selectedOrder!!.total!!.isNotEmpty()) MyApplication.selectedOrder!!.total + " KWD" else ""
+            )
+        )
+        arrayOrderCost.add(
+            OrderData(
+                AppHelper.getRemoteString("AdditionalFees", this),
+                if (MyApplication.selectedOrder!!.shippingTotal != null && MyApplication.selectedOrder!!.shippingTotal!!.isNotEmpty()) MyApplication.selectedOrder!!.shippingTotal + " KWD" else ""
+            )
+        )
+        arrayOrderCost.add(
+            OrderData(
+                AppHelper.getRemoteString("OldAmount", this),
+                if (res.oldTotal != null && res.oldTotal!!.isNotEmpty()) res.oldTotal + " KWD" else ""
+            )
+        )
+
+        arrayOrderCost.add(
+            OrderData(
+                AppHelper.getRemoteString("DiscountAmount", this),
+                if (res.totalDiscountAmount != null && res.totalDiscountAmount!!.isNotEmpty()) res.totalDiscountAmount + " KWD" else ""
+            )
+        )
+        arrayOrderCost.add(
+            OrderData(
+                AppHelper.getRemoteString("NewTotal", this),
+                if (res.newTotal != null && res.newTotal!!.isNotEmpty()) res.newTotal + " KWD" else ""
+            )
+        )
+
+        rvOtherData.layoutManager = LinearLayoutManager(this)
+        adapterOrderCost = AdapterOtherOrderData(arrayOrderCost, this, this)
+        rvOtherData.adapter = adapterOrderCost
+        reviewed = true
+
+    }
+
+    fun applyCoupon() {
+        loading.show()
+        var request = RequestCouponReview(
+            MyApplication.selectedOrder!!.orderId!!.toInt(),
+            etCoupon.text.toString(),
+            MyApplication.languageCode
+        )
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.applyCoupon(request)?.enqueue(object : Callback<ResponsePreviewCoupon> {
+                override fun onResponse(
+                    call: Call<ResponsePreviewCoupon>,
+                    response: Response<ResponsePreviewCoupon>
+                ) {
+                    try {
+                        loading.hide()
+                        if (response.body()!!.result!!.equals("1")) {
+                            updatePayment()
+                        } else {
+                            AppHelper.createYesNoDialog(
+                                this@ActivityPlaceOrder,
+                                "Place Order",
+                                "Different code",
+                                "Incorrect coupon code, do you want to move forward without coupon or try a different code ?"
+                            ) {
+                                updatePayment()
+                            }
+                        }
+                    } catch (E: java.lang.Exception) {
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponsePreviewCoupon>, throwable: Throwable) {
+                    loading.hide()
+
+                }
+            })
+    }
+
+    fun couponDialog(res: ResponsePreviewCoupon) {
+
+        var dialog = Dialog(this, R.style.Base_ThemeOverlay_AppCompat_Dialog)
+        //    dialog!!.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE)
+        dialog!!.setTitle(AppHelper.getRemoteString("please_choose_link", this))
+        dialog!!.setCanceledOnTouchOutside(false)
+        dialog!!.setContentView(R.layout.dialog_links)
+        dialog!!.setCancelable(false)
+        dialog!!.window!!.setLayout(
+            ActionBar.LayoutParams.MATCH_PARENT,
+            ActionBar.LayoutParams.WRAP_CONTENT
+        )
+        val rv: RecyclerView = dialog!!.findViewById(R.id.rvLinkServers)
+        var layout: LinearLayout = dialog.findViewById(R.id.llCoupon)
+        var btApply: Button = dialog.findViewById(R.id.btApply)
+        var btProceed: Button = dialog.findViewById(R.id.btProceed)
+        var Title: TextView = dialog.findViewById(R.id.tvCouponTitle)
+        layout.show()
+        Title.show()
+
+        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+        var arr: ArrayList<OrderData> = arrayListOf()
+        arr.add(
+            OrderData(
+                AppHelper.getRemoteString("OldAmount", this),
+                if (res.oldTotal != null && res.oldTotal!!.isNotEmpty()) res.oldTotal + " KWD" else ""
+            )
+        )
+
+        arr.add(
+            OrderData(
+                AppHelper.getRemoteString("DiscountAmount", this),
+                if (res.totalDiscountAmount != null && res.totalDiscountAmount!!.isNotEmpty()) res.totalDiscountAmount + " KWD" else ""
+            )
+        )
+        arr.add(
+            OrderData(
+                AppHelper.getRemoteString("NewTotal", this),
+                if (res.newTotal != null && res.newTotal!!.isNotEmpty()) res.newTotal + " KWD" else ""
+            )
+        )
+        rv.layoutManager = layoutManager
+        var adapter = AdapterOtherOrderData(arr, this, this)
+        rv.adapter = adapter
+
+        dialog!!.show()
+
+
+        btApply.onOneClick {
+            dialog.dismiss()
+            applyCoupon()
+        }
+
+        btProceed.onOneClick {
+            dialog.dismiss()
+            updatePayment()
+
+        }
+
+    }
+
+    fun reviewCoupon(type: Int) {
+        loading.show()
+        var request = RequestCouponReview(
+            MyApplication.selectedOrder!!.orderId!!.toInt(),
+            etCoupon.text.toString(),
+            MyApplication.languageCode
+        )
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.previewCoupon(request)?.enqueue(object : Callback<ResponsePreviewCoupon> {
+                override fun onResponse(
+                    call: Call<ResponsePreviewCoupon>,
+                    response: Response<ResponsePreviewCoupon>
+                ) {
+                    try {
+                        loading.hide()
+                        if (response.body()!!.result!!.equals("1")) {
+                            if (type == 1)
+                                setCouponData(response.body()!!)
+                            else if (type == 2) {
+                                couponDialog(response.body()!!)
+                            }
+                        } else {
+                            if (type == 1) {
+                                AppHelper.createDialog(
+                                    this@ActivityPlaceOrder,
+                                    response.body()!!.message!!
+                                )
+                                setData(MyApplication.selectedOrder!!)
+                            } else if (type == 2) {
+                                AppHelper.createYesNoDialog(
+                                    this@ActivityPlaceOrder,
+                                    "Place Order",
+                                    "Different code",
+                                    "Incorrect coupon code, do you want to move forward without coupon or try a different code ?"
+                                ) {
+                                    updatePayment()
+                                }
+                            }
+                        }
+                    } catch (E: java.lang.Exception) {
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponsePreviewCoupon>, throwable: Throwable) {
+                    loading.hide()
+
+                }
+            })
+    }
+
+    fun paymentCoupon(message: String, doAction: () -> Unit) {
+        val builder = AlertDialog.Builder(this)
+        builder
+            .setMessage(message)
+            .setCancelable(true)
+            .setNegativeButton("Proceed without Coupon") { dialog, _ ->
+                updatePayment()
+            }
+            .setPositiveButton("Apply Coupon") { dialog, _ ->
+                doAction()
+            }
+        val alert = builder.create()
+        alert.show()
+    }
+
     fun setListeners() {
 
-        btPLaceOrder.setOnClickListener {
+        btPLaceOrder.onOneClick {
             if (arrayPaymentMethods.count { it.selected } == 0)
                 AppHelper.createDialog(this, "Please choose payment method")
-            else
-                updatePayment()
+            else {
+
+                if (etCoupon.text.isNullOrEmpty())
+                    updatePayment()
+                else {
+                    if (reviewed!!) {
+                        reviewed = false
+                        paymentCoupon("Do you want to apply this coupon before placing order ?") {
+                            applyCoupon()
+                        }
+                    } else {
+                        reviewCoupon(2)
+                    }
+                }
+            }
+        }
+
+        btReviewCoupon.onOneClick {
+            if (etCoupon.text.isNullOrEmpty()) {
+                AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
+            } else {
+                reviewCoupon(1)
+            }
         }
     }
 
@@ -275,13 +525,12 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         //  loading.hide()
     }
 
-    fun updatePayment() {
+    fun finalStep() {
         if (orderId == "")
             orderId = "0"
         loading.show()
-        var request = RequestPaymentOrder(orderId.toInt(), selectedPaymentId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.updatePaymentOrder(request)?.enqueue(object : Callback<ResponseMessage> {
+            ?.updatePaymentOrder(request!!)?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(
                     call: Call<ResponseMessage>,
                     response: Response<ResponseMessage>
@@ -289,7 +538,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                     try {
                         loading.hide()
                         if (response.body()!!.result == 1) {
-                            paymentMethodStep()
+                            nextStep()
                         }
                     } catch (E: java.lang.Exception) {
 
@@ -301,6 +550,10 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
                 }
             })
+    }
+
+    fun updatePayment() {
+        paymentMethodStep()
     }
 
 
@@ -389,20 +642,73 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             if (firstTime) {
                 firstTime = false
                 nextStep()
+
+                var sha1 =
+                    AppHelper.sha256(merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + postUpayData.payMentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref)
+
+                var sha15 = sha1 + MyApplication.salt
+                var sha2 = AppHelper.sha256(sha15)
+                var bytes = org.apache.commons.codec.digest.DigestUtils.sha256(sha15)
+                var myJsonString = Gson().toJson(bytes)
+
+                var cal = Calendar.getInstance()
+                var pickedDate = cal.time
+                val myFormat = "yyyy-MM-dd" //Change as you need
+                var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
+                var date = sdf.format(cal.time)
+
+                request = RequestPaymentOrder(
+                    orderId.toInt(),
+                    selectedPaymentId,
+                    MyApplication.selectedOrder!!.grand_total,
+                    1,
+                    "paid",
+                    MyApplication.currency,
+                    postUpayData.ref,
+                    postUpayData.trackID,
+                    postUpayData.tranID,
+                    postUpayData.auth,
+                    sha2,
+                    date,
+                    postUpayData.cust_ref,
+                    "",
+                    ""
+                )
+                finalStep()
             }
+        } else {
 
-
-           // postUpayData.
             var sha1 =
-                AppHelper.sha256(merchantId + username + apiKey + "KWD" + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty +postUpayData.payMentId+ refNum + postUpayData.tranID + postUpayData.trackID + 100+postUpayData.cust_ref +postUpayData.auth)
+                AppHelper.sha256(merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + postUpayData.payMentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref)
 
             var sha15 = sha1 + MyApplication.salt
             var sha2 = AppHelper.sha256(sha15)
-            var bytes = org.apache.commons.codec.digest.DigestUtils.sha256(sha15)
-            var myJsonString = Gson().toJson(bytes)
-        } else {
+
+            var cal = Calendar.getInstance()
+            var pickedDate = cal.time
+            val myFormat = "yyyy-MM-dd" //Change as you need
+            var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
+            var date = sdf.format(cal.time)
             runOnUiThread(Runnable {
                 AppHelper.createDialog(this@ActivityPlaceOrder, postUpayData.result)
+                request = RequestPaymentOrder(
+                    orderId.toInt(),
+                    selectedPaymentId,
+                    MyApplication.selectedOrder!!.grand_total,
+                    1,
+                    "failed",
+                    MyApplication.currency,
+                    postUpayData.ref,
+                    postUpayData.trackID,
+                    postUpayData.tranID,
+                    postUpayData.auth,
+                    sha2,
+                    date,
+                    postUpayData.cust_ref,
+                    postUpayData.result,
+                    postUpayData.result
+                )
+                finalStep()
                 loading.hide()
             })
         }
@@ -417,16 +723,48 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         else
             message = MyApplication.payparams!!.errorCode.find { it.key == data }!!.codeEn
 
+        var sha1 =
+            AppHelper.sha256(merchantId + username + apiKey +  MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + "" + "" + "" + "" + "" + "")
+
+        var sha15 = sha1 + MyApplication.salt
+        var sha2 = AppHelper.sha256(sha15)
+
+        var cal = Calendar.getInstance()
+        var pickedDate = cal.time
+        val myFormat = "yyyy-MM-dd" //Change as you need
+        var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
+        var date = sdf.format(cal.time)
         runOnUiThread(Runnable {
-            AppHelper.createDialog(this@ActivityPlaceOrder, message!!)
+            request = RequestPaymentOrder(
+                MyApplication.selectedOrder!!.orderId!!.toInt(),
+                selectedPaymentId,
+                MyApplication.selectedOrder!!.product!!.qty,
+                0,
+                "failed",
+                MyApplication.currency,
+                "",
+                "",
+                "",
+                "",
+                sha2,
+                date,
+                "",
+                data,
+                data
+            )
+            var x = data
+            var y = sha2
+            finalStep()
             loading.hide()
         })
 
 
     }
 
+
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
         var orderData = response as ResponseOrders
+        MyApplication.selectedOrder = orderData
         setData(orderData)
         loading.hide()
     }

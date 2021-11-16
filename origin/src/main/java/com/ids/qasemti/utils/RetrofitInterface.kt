@@ -259,7 +259,7 @@ interface RetrofitInterface {
         @Body param : RequestUpdatePayment
     ):Call<ResponseMessage>
 
-    @POST("cl_update_order_payment")
+    @POST("cl_update_payment")
     fun updatePaymentOrder(
         @Body param : RequestPaymentOrder
     ):Call<ResponseMessage>
@@ -348,6 +348,16 @@ interface RetrofitInterface {
     fun clAcceptNewDT(
         @Body param : RequestAcceptDate
     ):Call<ResponseMessage>
+
+    @POST("cl_preview_coupon")
+    fun previewCoupon (
+        @Body param : RequestCouponReview
+    ):Call<ResponsePreviewCoupon>
+
+    @POST("cl_apply_coupon")
+    fun applyCoupon (
+        @Body param : RequestCouponReview
+    ):Call<ResponsePreviewCoupon>
 
 
 }
