@@ -1,6 +1,7 @@
 package com.ids.qasemti.controller.Activities
 
 import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
@@ -34,8 +35,6 @@ import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.createDialog
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import kotlinx.android.synthetic.main.activity_order_details.*
-import kotlinx.android.synthetic.main.item_orders.*
-
 import kotlinx.android.synthetic.main.layout_border_data.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.layout_order_contact_tab.*
@@ -286,6 +285,10 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
         btBackTool.onOneClick {
             super.onBackPressed()
+        }
+        if(MyApplication.isBroadcast){
+            MyApplication.isBroadcast = false
+            btAcceptOrder.show()
         }
 
         var type = intent.getIntExtra("type", 1)
@@ -587,11 +590,56 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
             })
     }
 
+    fun acceptOrder(orderId: Int, additional: Int) {
+        loading.show()
+
+        var newReq = RequestAcceptBroadccast(MyApplication.userId, orderId)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.acceptBroadcast(newReq)?.enqueue(object : Callback<ResponseUser> {
+                override fun onResponse(
+                    call: Call<ResponseUser>,
+                    response: Response<ResponseUser>
+                ) {
+                    try {
+                        accepted(response.body()!!.result!!)
+                    } catch (E: java.lang.Exception) {
+                        accepted(0)
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                    accepted(0)
+                }
+            })
+    }
+
+    fun showAcceptOrderPopup(context: Activity){
+        AppHelper.createYesNoDialog(
+            context,
+            AppHelper.getRemoteString("yes", context),
+            AppHelper.getRemoteString("cancel", context),
+            AppHelper.getRemoteString("sure_accept", context)
+        ) {
+            acceptOrder(
+                MyApplication.selectedOrder!!.orderId!!.toInt(),
+                MyApplication.selectedOrder!!.total!!.toDouble()
+                    .toInt() + MyApplication.selectedOrder!!.shippingTotal!!.toDouble().toInt()
+            )
+        }
+    }
     fun setListeners() {
         btBackTool.onOneClick {
             super.onBackPressed()
         }
-
+        btAcceptOrder.onOneClick {
+            if (MyApplication.selectedUser!!.active == 1)
+                showAcceptOrderPopup(this)
+            else
+                createDialog(
+                    this,
+                    AppHelper.getRemoteString("inactive_user_msg", this)
+                )
+        }
         btRenewOrder.onOneClick {
             try {
                 renewOrder()
@@ -825,6 +873,16 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
         btRejectNewdate.onOneClick {
             respondDate(0)
+        }
+    }
+
+    fun accepted(res: Int) {
+        if (res == 1) {
+            super.onBackPressed()
+            toast(AppHelper.getRemoteString("order_accept_succ",this))
+            loading.hide()
+        } else {
+            toast(AppHelper.getRemoteString("error_acc_order",this))
         }
     }
 

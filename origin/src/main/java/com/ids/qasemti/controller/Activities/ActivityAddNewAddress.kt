@@ -19,6 +19,17 @@ import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import kotlinx.android.synthetic.main.activity_new_address.*
+import kotlinx.android.synthetic.main.activity_new_address.etAddressName
+import kotlinx.android.synthetic.main.activity_new_address.etAddressProvince
+import kotlinx.android.synthetic.main.activity_new_address.etApartment
+import kotlinx.android.synthetic.main.activity_new_address.etArea
+import kotlinx.android.synthetic.main.activity_new_address.etAvenue
+import kotlinx.android.synthetic.main.activity_new_address.etBlock
+import kotlinx.android.synthetic.main.activity_new_address.etBuilding
+import kotlinx.android.synthetic.main.activity_new_address.etFloor
+import kotlinx.android.synthetic.main.activity_new_address.etMoreDetails
+import kotlinx.android.synthetic.main.activity_new_address.etStreet
+import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
@@ -40,6 +51,7 @@ class ActivityAddNewAddress : ActivityBase() {
         AppHelper.setAllTexts(rootLayout, this)
         init()
         listeners()
+        setHint()
 
     }
 
@@ -81,6 +93,15 @@ class ActivityAddNewAddress : ActivityBase() {
         finish()
     }
 
+    fun setHint(){
+        etAddressName.hint = etAddressName.hint.toString() + "*"
+        etAddressProvince.hint = etAddressProvince.hint.toString() + "*"
+        etBuilding.hint = etBuilding.hint.toString() + "*"
+        etArea.hint = etArea.hint.toString() + "*"
+        etBlock.hint = etBlock.hint.toString() + "*"
+        etFloor.hint = etFloor.hint.toString() + "*"
+        etStreet.hint = etStreet.hint.toString() + "*"
+    }
     fun addAddress() {
 
             loading.show()

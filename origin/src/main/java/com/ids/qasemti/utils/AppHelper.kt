@@ -4,7 +4,6 @@ package com.ids.qasemti.utils
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -33,7 +32,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.*
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -53,12 +51,12 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
-import com.google.gson.internal.LinkedTreeMap
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import me.grantland.widget.AutofitHelper
+import okhttp3.internal.and
 import org.apache.commons.codec.binary.Hex
 import retrofit2.Call
 import retrofit2.Callback
@@ -67,6 +65,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -590,6 +590,26 @@ class AppHelper {
         }
 
 
+        fun getSha256Hash(password: String): String? {
+            return try {
+                var digest: MessageDigest? = null
+                try {
+                    digest = MessageDigest.getInstance("SHA-256")
+                } catch (e1: NoSuchAlgorithmException) {
+                    e1.printStackTrace()
+                }
+                digest!!.reset()
+                bin2hex(digest.digest(password.toByteArray()))
+            } catch (ignored: java.lang.Exception) {
+                null
+            }
+        }
+
+        private fun bin2hex(data: ByteArray): String? {
+            val hex = StringBuilder(data.size * 2)
+            for (b in data) hex.append(String.format("%02x", b and 0xFF))
+            return hex.toString()
+        }
         fun formatNumber(num: Double, format: String): String {
             try {
                 val formatter = DecimalFormat(format, setInEnglish())

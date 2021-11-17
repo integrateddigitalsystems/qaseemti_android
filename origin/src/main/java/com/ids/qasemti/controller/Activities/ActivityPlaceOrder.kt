@@ -644,12 +644,12 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                 nextStep()
 
                 var sha1 =
-                    AppHelper.sha256(merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + postUpayData.payMentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref)
+                    AppHelper.getSha256Hash(merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + postUpayData.payMentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref)
 
                 var sha15 = sha1 + MyApplication.salt
-                var sha2 = AppHelper.sha256(sha15)
-                var bytes = org.apache.commons.codec.digest.DigestUtils.sha256(sha15)
-                var myJsonString = Gson().toJson(bytes)
+                var sha2 = AppHelper.getSha256Hash(sha15)
+              //  var bytes = org.apache.commons.codec.digest.DigestUtils.getSha256Hash(sha15)
+             //   var myJsonString = Gson().toJson(bytes)
 
                 var cal = Calendar.getInstance()
                 var pickedDate = cal.time
@@ -678,11 +678,12 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             }
         } else {
 
+            var str = merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + postUpayData.payMentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref
             var sha1 =
-                AppHelper.sha256(merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + postUpayData.payMentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref)
+                AppHelper.getSha256Hash(str)
 
             var sha15 = sha1 + MyApplication.salt
-            var sha2 = AppHelper.sha256(sha15)
+            var sha2 = AppHelper.getSha256Hash(sha15)
 
             var cal = Calendar.getInstance()
             var pickedDate = cal.time
@@ -723,12 +724,14 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         else
             message = MyApplication.payparams!!.errorCode.find { it.key == data }!!.codeEn
 
+        var str = merchantId + username + apiKey +  MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty
+        Log.wtf("tagSTR",str)
         var sha1 =
-            AppHelper.sha256(merchantId + username + apiKey +  MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty/* + "" + "" + "" + "" + "" + ""*/)
+            AppHelper.getSha256Hash(str/* + "" + "" + "" + "" + "" + ""*/)
      //   $token = hash("sha256",hash("sha256", $merchant_id.$merchant_username.$api_key.$currency.$order_number.$order_amount.$payment_id.$reference.$trans.$track.$authorization.$customer_ref).$salt);
 
         var sha15 = sha1 + MyApplication.salt
-        var sha2 = AppHelper.sha256(sha15)
+        var sha2 = AppHelper.getSha256Hash(sha15)
 
         var cal = Calendar.getInstance()
         var pickedDate = cal.time

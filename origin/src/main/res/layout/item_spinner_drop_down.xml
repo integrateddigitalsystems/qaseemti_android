@@ -1,4 +1,6 @@
+
 <com.ids.qasemti.custom.CustomTextViewMedium
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/service_information"
@@ -11,5 +13,4 @@
     android:paddingStart="@dimen/normal_margin"
     android:paddingEnd="@dimen/normal_margin"
     android:paddingTop="@dimen/small_margin"
-    android:paddingBottom="@dimen/small_margin"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    android:paddingBottom="@dimen/small_margin" />

@@ -286,7 +286,12 @@
     <string name="updateFail">فشل في التحديث</string>
     <string name="successfully_updated">تم تحديث بيانات الملف الشخصي بنجاح</string>
     <string name="update_error">خطأ في تحديث بيانات الملف الشخصي</string>
-
+    <string name="condition_purchase">بيع</string>
+    <string name="condition_rental">ايجار</string>
+    <string name="accept_terms">لقد قرأت وقبلت الشروط والأحكام</string>
+    <string name="FNameHint">الاسم ألأول *</string>
+    <string name="LNameHint">ألاسم الاخير *</string>
+    <string name="EmailHint">البريد الالكتروني *</string>
 
 
 </resources>

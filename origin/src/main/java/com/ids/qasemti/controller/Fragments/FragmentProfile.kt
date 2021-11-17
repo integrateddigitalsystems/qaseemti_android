@@ -661,6 +661,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             MyApplication.temporaryProfile = null
 
     }
+    fun setHint(){
+        etFirstNameProfile.hint = etFirstNameProfile.hint.toString() + "*"
+        etLastNameProfile.hint = etLastNameProfile.hint.toString() +"*"
+        etEmailProfile.hint = etEmailProfile.hint.toString() +"*"
+    }
 
     fun init() {
         //tvToolbarCurveTitle.setText(getString(R.string.profile))
@@ -679,6 +684,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             llProfilePercent.show()
             tvPercentageCompleted.show()
         }
+        setHint()
         getUserData()
 
 

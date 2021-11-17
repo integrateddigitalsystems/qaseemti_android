@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
@@ -40,7 +41,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
     var arraySpinnerTypes: ArrayList<ItemSpinner> = arrayListOf()
     var arraySpinnerSizes: ArrayList<ItemSpinner> = arrayListOf()
     private var selectedCategoryId = 1
-    private var selectedCategoryName = AppConstants.TYPE_PURCHASE
+    private var selectedCategoryName = ""
     private var selectedServiceId = 0
     private var selectedServiceName = ""
     private var selectedTypeId = 0
@@ -195,18 +196,26 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         var rbRental = dialog!!.findViewById<RadioButton>(R.id.rbRental)
         var rgCategory = dialog!!.findViewById<RadioGroup>(R.id.rgCategory)
 
+        if(selectedCategoryId ==1)
+            selectedCategoryId = R.id.rbPurchase
+        if(selectedCategoryName.isNullOrEmpty())
+            selectedCategoryName = getString(R.string.condition_purchase)
+        if (arrayAllServices.size > 0)
+            setServiceSpinner()
+        rgCategory.check(selectedCategoryId)
+        //rgCategory.get(selectedCategoryId).setSelected(true)
         rgCategory.setOnCheckedChangeListener { group, checkedId ->
             val rb = dialog!!.findViewById<View>(checkedId) as RadioButton
             if (checkedId == R.id.rbPurchase) {
-                selectedCategoryId = 1
-                selectedCategoryName == AppConstants.TYPE_PURCHASE
+                selectedCategoryId = checkedId
+                selectedCategoryName = getString(R.string.condition_purchase)
 
             } else {
-                selectedCategoryId = 2
-                selectedCategoryName == AppConstants.TYPE_RENTAL
+                selectedCategoryId = checkedId
+                selectedCategoryName = getString(R.string.condition_rental)
 
             }
-            selectedCategoryName = rb.text.toString()
+          //  selectedCategoryName = rb.text.toString()
             if (arrayAllServices.size > 0)
                 setServiceSpinner()
             /*
@@ -249,7 +258,9 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
     private fun setServiceSpinner() {
         arraySpinnerServices.clear()
         var arrayFiltered =
-            arrayAllServices.filter { it.type!!.lowercase() == selectedCategoryName.lowercase() }
+            arrayAllServices.filter {
+                it.type!!.lowercase() == selectedCategoryName.lowercase()
+            }
         for (i in arrayFiltered.indices) {
             if (arrayFiltered[i].name != null && arrayFiltered[i].name!!.isNotEmpty())
                 arraySpinnerServices.add(

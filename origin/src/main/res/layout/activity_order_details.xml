@@ -156,6 +156,21 @@
         android:layout_height="@dimen/edit_text_height"
         android:background="@drawable/rounded_white_red_border"/>
 
+        <Button
+            android:layout_marginBottom="@dimen/medium_margin"
+            android:id="@+id/btAcceptOrder"
+            android:layout_marginTop="@dimen/margin_start_end"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:textColor="@color/primary"
+            android:text="@string/accept"
+            android:tag="accept"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:background="@drawable/rounded_white_red_border"/>
+
 
    <EditText
        android:textAlignment="viewStart"
