@@ -724,7 +724,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             message = MyApplication.payparams!!.errorCode.find { it.key == data }!!.codeEn
 
         var sha1 =
-            AppHelper.sha256(merchantId + username + apiKey +  MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + "" + "" + "" + "" + "" + "")
+            AppHelper.sha256(merchantId + username + apiKey +  MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty/* + "" + "" + "" + "" + "" + ""*/)
+     //   $token = hash("sha256",hash("sha256", $merchant_id.$merchant_username.$api_key.$currency.$order_number.$order_amount.$payment_id.$reference.$trans.$track.$authorization.$customer_ref).$salt);
 
         var sha15 = sha1 + MyApplication.salt
         var sha2 = AppHelper.sha256(sha15)
