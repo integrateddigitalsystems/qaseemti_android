@@ -64,7 +64,7 @@
     <string name="apply_filters">تطبيق الاختيارات</string>
     <string name="reset">إعادة تعيين</string>
     <string name="order_date">تاريخ الطلب</string>
-    <string name="expected_delivery">تاريخ التوصيل المتوقع</string>
+    <string name="expected_delivery">تاريخ التسليم المتوقع</string>
     <string name="view_order_details">معاينة تفاصيل الطلب</string>
     <string name="accept">موافقة</string>
     <string name="water_tank">خزان ماء</string>
