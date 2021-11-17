@@ -9,12 +9,19 @@ import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import android.util.Log
+
 import com.google.firebase.installations.FirebaseInstallations
+
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.ids.qasemti.BuildConfig
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivitySplash
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.utils.AppConstants
+import com.ids.qasemti.utils.LocaleUtils
+
+import java.util.*
 
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
@@ -24,30 +31,37 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     override fun onNewToken(p0: String) {
         super.onNewToken(p0)
 
+
         FirebaseInstallations.getInstance().getToken(true).addOnCompleteListener {
             sendRegistrationToServer(it.result!!.token)
         }
+
+
     }
 
     private fun sendRegistrationToServer(token: String) {
-       // Actions.addDevice(this, token)
+
+        //Actions.addDevice(this, token)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 
-       // wtf("RECEIVED NOTIFICATION")
 
-      //  Log.wtf(TAG, "From: " + remoteMessage.getFrom()!!)
+        // Log.wtf(TAG, "From: " + remoteMessage?.getFrom()!!)
 
-        if (remoteMessage.data.size > 0) {
-            Log.wtf(TAG, "Message data payload: " + remoteMessage.getData())
+        if (remoteMessage.getData().size > 0) {
+            Log.wtf(TAG, "Message data payload: " + remoteMessage.data)
         }
 
-        if (remoteMessage.notification != null) {
-            Log.wtf(TAG, "Message Notification Body: " + remoteMessage.getNotification()!!.body!!)
-        }
+        try{
+            if (remoteMessage.notification != null) {
+                Log.wtf(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
+            }}catch (e:java.lang.Exception){}
 
-        var typeId :Int
+
+        try{Log.wtf("notification_data",remoteMessage.data.toString())}catch (e:java.lang.Exception ){}
+
+        var typeId = -1
         try {
             typeId = remoteMessage.data["typeId"]!!.toInt()
         } catch (e: Exception) {
@@ -55,7 +69,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             typeId = -1
         }
 
-        var recordId :Int
+        var recordId = -1
         try {
             recordId = remoteMessage.data["recordId"]!!.toInt()
         } catch (e: Exception) {
@@ -63,29 +77,39 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             recordId = -1
         }
 
-        var id :Int
+        var id = -1
         try {
-            id = remoteMessage.data["Id"]!!.toInt()
+            id = remoteMessage.data["id"]!!.toInt()
+            Log.wtf("notification_id",id.toString()+"aaa")
         } catch (e: Exception) {
             e.printStackTrace()
             id = -1
         }
 
-        var message : String
+        var message = ""
         try {
-            message = remoteMessage.data["message"] as String
+            message = remoteMessage.data["body"] as String
         } catch (e: Exception) {
             e.printStackTrace()
             message = ""
         }
 
-       // if (MyApplication.showNotifications){
+        var title = ""
+        try {
+            title = remoteMessage.data["title"] as String
+        } catch (e: Exception) {
+            e.printStackTrace()
+            title = ""
+        }
 
-            sendNotification(typeId, recordId, id, message)
-      // }
+        // setBadge(applicationContext, 0);
+       // if (MyApplication.getNotifications){
+
+            sendNotification(title, recordId, id, message)
+      //  }
     }
 
-    private fun sendNotification(typeId: Int, recordId: Int, id: Int, messageBody: String) {
+    private fun sendNotification(title: String, recordId: Int, id: Int, messageBody: String) {
 
         lateinit var intent: Intent
 
@@ -97,9 +121,17 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             e.printStackTrace()
         }
 
+        Log.wtf("notificationId",notificationId.toString())
+       // MyApplication.isNotficOpened = true
+        if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
+            LocaleUtils.setLocale(Locale("en"))
+        } else if (MyApplication.languageCode == AppConstants.LANG_ARABIC) {
+            LocaleUtils.setLocale(Locale("ar", "LB"))
+        }
         intent = Intent(this, ActivitySplash::class.java)
-        intent.putExtra("notificationId", notificationId)
+        intent.putExtra("notification_id", id)
         intent.putExtra("recordId", recordId)
+        intent.putExtra("text", messageBody)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, MyApplication.UNIQUE_REQUEST_CODE++, intent, PendingIntent.FLAG_ONE_SHOT)
 
@@ -109,9 +141,9 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
 
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val notificationBuilder = NotificationCompat.Builder(this, "CCIAZ_0001")
+        val notificationBuilder = NotificationCompat.Builder(this, BuildConfig.APPLICATION_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(resources.getString(R.string.app_name))
+            .setContentTitle(title)
             .setContentText(messageBody)
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
@@ -122,11 +154,14 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel("QASEMTI_0001", "QASEMTI", NotificationManager.IMPORTANCE_DEFAULT)
+            val channel = NotificationChannel(BuildConfig.APPLICATION_ID, "QASEEMTI", NotificationManager.IMPORTANCE_DEFAULT)
             notificationManager.createNotificationChannel(channel)
         }
         notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build())
     }
+
+
+
 
 
 }
