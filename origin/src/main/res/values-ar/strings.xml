@@ -271,13 +271,22 @@
     <string name="please_choose_link">Please choose service link</string>
     <string name="grant_settings_permission">يجب عليك منح الإذن يدويًا في الإعدادات</string>
     <string name="civil_id_length">يجب أن يكون طول الهوية المدنية 12 رقم</string>
-    <string name="IBANLength">يجب ان يكون طول IBAN 30 حرف</string>
+    <string name="IBANLength">ثلاثون حرفا Iban يجب ان يكون طول</string>
     <string name="preview">معاينة</string>
     <string name="review">مراجعة</string>
     <string name="DiscountAmount">كمية الخصم</string>
     <string name="NewTotal">المبلغ الجديد</string>
     <string name="OldAmount">المبلغ القديم</string>
     <string name="k_d">د.ك.</string>
+    <string name="takePhoto">أخذ صورة</string>
+    <string name="chooseGallery">اختيار صورة من المعرض</string>
+    <string name="selectFile">اختيار ملف</string>
+    <string name="typeFile">نوع الملف</string>
+    <string name="updateSucc">تم التحديث</string>
+    <string name="updateFail">فشل في التحديث</string>
+    <string name="successfully_updated">تم تحديث بيانات الملف الشخصي بنجاح</string>
+    <string name="update_error">خطأ في تحديث بيانات الملف الشخصي</string>
+
 
 
 </resources>

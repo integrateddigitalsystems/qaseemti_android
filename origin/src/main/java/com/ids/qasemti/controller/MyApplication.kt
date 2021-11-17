@@ -21,6 +21,7 @@ import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.MyApplication.Companion.isClient
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.AppConstants
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -76,6 +77,9 @@ class MyApplication : Application() {
             set(value) { sharedPreferencesEditor.putBoolean(AppConstants.SIGNED_IN, value).apply() }
 
         var selectedUser : User ?=null
+        var temporaryProfile : User ?=null
+        var tempProfilePic : File ?=null
+        var tempCivilId : File?=null
         var firstImage : Boolean ?=false
         var selectedService : ResponseService ?=null
         var selectedOrder : ResponseOrders?=null

@@ -20,4 +20,8 @@ class ResponseMessage {
     @SerializedName("product_id")
     @Expose
     var product_id: String? = ""
+
+    @SerializedName("token")
+    @Expose
+    var token : String ?=""
 }

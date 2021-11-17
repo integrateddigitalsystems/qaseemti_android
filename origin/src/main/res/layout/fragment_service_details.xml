@@ -81,6 +81,7 @@
                                 <com.ids.qasemti.custom.CustomTextViewMedium
                                     android:textColor="@color/seconday_use"
                                     android:text="@string/k_d"
+                                    android:tag="k_d"
                                     android:textSize="@dimen/small_font_2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

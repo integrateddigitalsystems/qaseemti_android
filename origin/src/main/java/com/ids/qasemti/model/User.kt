@@ -171,7 +171,7 @@ class User (
 
 
 
-    @SerializedName("civil_id ")
+    @SerializedName("civil_id")
     @Expose
     var civilId: String? = "" ,
 

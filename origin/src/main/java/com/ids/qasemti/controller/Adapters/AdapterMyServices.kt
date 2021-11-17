@@ -39,6 +39,14 @@ class AdapterMyServices(
         holder.title.text = items.get(position).name
         holder.qtPrice.typeface = AppHelper.getTypeFace(con)
         try {
+            if(!items.get(position).variations[0].sizeCapacity.isNullOrEmpty())
+                holder.quantity.text = items.get(position).variations[0].sizeCapacity.toString()
+            else
+                holder.quantity.text = ""
+        }catch (ex:Exception){
+            holder.quantity.text = ""
+        }
+        try {
             holder.qtPrice.text = items.get(position).variations[0].price.toString()
         }catch (ex:Exception){
             holder.qtPrice.text = ""
@@ -60,6 +68,7 @@ class AdapterMyServices(
         var title = itemView.findViewById<TextView>(R.id.tvServiceTitle)
         var image = itemView.findViewById<ImageView>(R.id.ivServiceLogo)
         var qtPrice = itemView.findViewById<TextView>(R.id.tvPriceQt)
+        var quantity = itemView.findViewById<TextView>(R.id.tvQty)
         var qtEarn = itemView.findViewById<TextView>(R.id.tvEarnQt)
 
         init {

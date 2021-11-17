@@ -167,7 +167,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         btBck.show()
         setTabs()
         if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
-            selectedCategoryName="بيع"
+            selectedCategoryName="شراء"
         getAllServices()
         setPickedImages()
 
@@ -223,7 +223,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             }
             if(MyApplication.languageCode==AppConstants.LANG_ARABIC){
                 if(selectedCategoryId==1){
-                    selectedCategoryName="بيع"
+                    selectedCategoryName="شراء"
                 }else{
                     selectedCategoryName="ايجار"
                 }
@@ -584,30 +584,30 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         var options = arrayOf<CharSequence>()
         if(!image!!) {
             var tempOp = arrayOf<CharSequence>(
-                "Take Photo",
-                "Choose from Gallery",
-                "Select File",
-                getString(R.string.cancel)
+                AppHelper.getRemoteString("takePhoto",this),
+                AppHelper.getRemoteString("chooseGallery",this),
+                AppHelper.getRemoteString("selectFile",this),
+                AppHelper.getRemoteString("cancel",this)
             )
             options = tempOp
         }else{
              var tempOp = arrayOf<CharSequence>(
-                "Take Photo",
-                "Choose from Gallery",
-                getString(R.string.cancel)
+                 AppHelper.getRemoteString("takePhoto",this),
+                 AppHelper.getRemoteString("chooseGallery",this),
+                 AppHelper.getRemoteString("cancel",this)
             )
             options = tempOp
         }
         image = false
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Choose Profile Pic")
+        builder.setTitle(AppHelper.getRemoteString("typeFile",this))
 
         builder.setItems(options) { dialog, item ->
             when {
-                options[item] == "Take Photo" -> pickImageFromCamera()
-                options[item] == "Choose from Gallery" -> pickImageFromGallery()
-                options[item] == "Select File" -> pickPDFFile()
-                options[item] == getString(R.string.cancel) -> dialog.dismiss()
+                options[item] ==  AppHelper.getRemoteString("takePhoto",this) -> pickImageFromCamera()
+                options[item] ==  AppHelper.getRemoteString("chooseGallery",this) -> pickImageFromGallery()
+                options[item] ==  AppHelper.getRemoteString("selectFile",this) -> pickPDFFile()
+                options[item] == AppHelper.getRemoteString("cancel",this)-> dialog.dismiss()
             }
         }
         builder.show()

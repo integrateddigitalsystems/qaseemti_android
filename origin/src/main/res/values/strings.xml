@@ -277,4 +277,13 @@
     <string name="NewTotal">New Amount</string>
     <string name="OldAmount">Old Amount</string>
     <string name="k_d">K.D.</string>
+    <string name="takePhoto">Take Photo</string>
+    <string name="chooseGallery">Choose from Gallery</string>
+    <string name="selectFile">Select File</string>
+    <string name="typeFile">Type of File</string>
+    <string name="updateSucc">Update Successful</string>
+    <string name="updateFail">Update Failed</string>
+    <string name="successfully_updated">Profile data successfully updated</string>
+    <string name="update_error">Error updating profile data</string>
+
 </resources>

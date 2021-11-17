@@ -32,10 +32,7 @@ import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityMapAddress
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestAddAddress
-import com.ids.qasemti.model.RequestUpdateLanguage
-import com.ids.qasemti.model.ResponseMessage
-import com.ids.qasemti.model.ResponseUser
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import com.jaiselrahman.filepicker.activity.FilePickerActivity
@@ -63,6 +60,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var selectedProfilePic: MultipartBody.Part? = null
     var selectedPhoto : String ?=""
     var gender = "female"
+    var tempProfile : String ?=null
     var  mPermissionResult : ActivityResultLauncher<Array<String>> ?=null
     var fromCam : Boolean ?= false
     var lat: Double? = 0.0
@@ -105,6 +103,12 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         AppHelper.setAllTexts(rootLayoutProfile, requireContext())
         init()
 
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
 
 
     }
@@ -237,18 +241,19 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
 
 
-        val options = arrayOf<CharSequence>("Take Photo",
-            "Choose from Gallery",
-            getString(R.string.cancel))
+
+        val options = arrayOf<CharSequence>(AppHelper.getRemoteString("takePhoto",requireContext()),
+            AppHelper.getRemoteString("chooseGallery",requireContext()),
+            AppHelper.getRemoteString("cancel",requireContext()))
 
         val builder = AlertDialog.Builder(context)
         builder.setTitle(AppHelper.getRemoteString("choose_file",requireActivity()))
 
         builder.setItems(options) { dialog, item ->
             when {
-                options[item] == "Take Photo" -> pickImageFromCamera()
-                options[item] == "Choose from Gallery" -> pickImageFromGallery()
-                options[item] == getString(R.string.cancel) -> dialog.dismiss()
+                options[item] ==  AppHelper.getRemoteString("takePhoto",requireContext()) -> pickImageFromCamera()
+                options[item] ==  AppHelper.getRemoteString("chooseGallery",requireContext()) -> pickImageFromGallery()
+                options[item] == AppHelper.getRemoteString("cancel",requireContext())-> dialog.dismiss()
             }
         }
         builder.show()
@@ -322,238 +327,338 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     }
 
-    fun setUserData() {
+    fun setUserData(user: User) {
         profilePercentage = 0
         // loading.show()
         // AppHelper.getUserInfo()
-        try {
-            etFirstNameProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.firstName)
-        } catch (ex: Exception) {
-            etFirstNameProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etMiddleNameProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.middleName)
-        } catch (ex: Exception) {
-            etMiddleNameProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etLastNameProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.lastName)
-        } catch (ex: Exception) {
-            etLastNameProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etEmailProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.email)
-        } catch (ex: Exception) {
-            etEmailProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etMobileProfile.text =
-                Editable.Factory.getInstance()
-                    .newEditable(MyApplication.selectedUser!!.mobileNumber)
-        } catch (ex: Exception) {
-            etMobileProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etCivilIdNbProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.civilId)
-        } catch (ex: Exception) {
-            etCivilIdNbProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etDateOfBirthProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.birthday)
-        } catch (ex: Exception) {
-            etDateOfBirthProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etAltContactNumberProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.altrNumb)
-        } catch (ex: Exception) {
-            etAltContactNumberProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etAddressProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.location)
-        } catch (ex: Exception) {
-            etAddressProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etAccountNumberProfile.text =
-                Editable.Factory.getInstance()
-                    .newEditable(MyApplication.selectedUser!!.accountNumber)
-        } catch (ex: Exception) {
-            etAccountNumberProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etBankNameProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.bankName)
-        } catch (ex: Exception) {
-            etBankNameProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etBranchNameProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.bankBranch)
-        } catch (ex: Exception) {
-            etBranchNameProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etDescriptionProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.desc)
-        } catch (ex: Exception) {
-            etDescriptionProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etCivilIdNbProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.civilId)
-        } catch (ex: Exception) {
-            etCivilIdNbProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etBranchNameProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.bankBranch)
-        } catch (ex: Exception) {
-            etBranchNameProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etIBANProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.IBAN)
-        } catch (ex: Exception) {
-            etIBANProfile.text = Editable.Factory.getInstance().newEditable("")
-        }
-        try {
-            etDateOfBirthProfile.text =
-                Editable.Factory.getInstance().newEditable(MyApplication.selectedUser!!.dob)
-        } catch (ex: Exception) {
-            etDateOfBirthProfile.text = Editable.Factory.getInstance().newEditable("")
+            try {
+                etFirstNameProfile.text =
+                    Editable.Factory.getInstance()
+                        .newEditable(user.firstName)
+            } catch (ex: Exception) {
+                etFirstNameProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etMiddleNameProfile.text =
+                    Editable.Factory.getInstance()
+                        .newEditable(user.middleName)
+            } catch (ex: Exception) {
+                etMiddleNameProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etLastNameProfile.text =
+                    Editable.Factory.getInstance()
+                        .newEditable(user.lastName)
+            } catch (ex: Exception) {
+                etLastNameProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etEmailProfile.text =
+                    Editable.Factory.getInstance().newEditable(user.email)
+            } catch (ex: Exception) {
+                etEmailProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etMobileProfile.text =
+                    Editable.Factory.getInstance()
+                        .newEditable(user.mobileNumber)
+            } catch (ex: Exception) {
+                etMobileProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etCivilIdNbProfile.text =
+                    Editable.Factory.getInstance().newEditable(user.civilId)
+            } catch (ex: Exception) {
+                etCivilIdNbProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etDateOfBirthProfile.text =
+                    Editable.Factory.getInstance()
+                        .newEditable(user.birthday)
+            } catch (ex: Exception) {
+                etDateOfBirthProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etAltContactNumberProfile.text =
+                    Editable.Factory.getInstance()
+                        .newEditable(user.altrNumb)
+            } catch (ex: Exception) {
+                etAltContactNumberProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etAddressProfile.text =
+                    Editable.Factory.getInstance()
+                        .newEditable(user.location)
+            } catch (ex: Exception) {
+                etAddressProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etAccountNumberProfile.text =
+                    Editable.Factory.getInstance()
+                        .newEditable(user.accountNumber)
+            } catch (ex: Exception) {
+                etAccountNumberProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etBankNameProfile.text =
+                    Editable.Factory.getInstance()
+                        .newEditable(user.bankName)
+            } catch (ex: Exception) {
+                etBankNameProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etBranchNameProfile.text =
+                    Editable.Factory.getInstance()
+                        .newEditable(user.bankBranch)
+            } catch (ex: Exception) {
+                etBranchNameProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etDescriptionProfile.text =
+                    Editable.Factory.getInstance().newEditable(user.desc)
+            } catch (ex: Exception) {
+                etDescriptionProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etCivilIdNbProfile.text =
+                    Editable.Factory.getInstance().newEditable(user.civilId)
+            } catch (ex: Exception) {
+                etCivilIdNbProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etBranchNameProfile.text =
+                    Editable.Factory.getInstance()
+                        .newEditable(user.bankBranch)
+            } catch (ex: Exception) {
+                etBranchNameProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etIBANProfile.text =
+                    Editable.Factory.getInstance().newEditable(user.IBAN)
+            } catch (ex: Exception) {
+                etIBANProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+            try {
+                etDateOfBirthProfile.text =
+                    Editable.Factory.getInstance().newEditable(user.dob)
+            } catch (ex: Exception) {
+                etDateOfBirthProfile.text = Editable.Factory.getInstance().newEditable("")
+            }
+
+        if(MyApplication.temporaryProfile==null) {
+            try {
+                if (!MyApplication.selectedUser!!.profilePicUrl.isNullOrEmpty())
+                    ivProfile.loadRoundedImage(MyApplication.selectedUser!!.profilePicUrl!!)
+            } catch (e: Exception) {
+            }
+        }else{
+            try {
+                var req =
+                    MyApplication.tempCivilId!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                selectedFile = MultipartBody.Part.createFormData(
+                    ApiParameters.CIVIL_ID_ATTACH,
+                    MyApplication.tempCivilId!!.name + "File",
+                    req
+                )
+            }catch (ex:java.lang.Exception){}
+
+            try{
+                ivProfile.loadRoundedLocalImage(MyApplication.tempProfilePic!!)
+                var req =
+                    MyApplication.tempProfilePic!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                selectedFile = MultipartBody.Part.createFormData(
+                    ApiParameters.CIVIL_ID_ATTACH,
+                    MyApplication.tempProfilePic!!.name + "File",
+                    req
+                )
+            }catch (ex:java.lang.Exception){}
         }
 
-        try {
-            if (!MyApplication.selectedUser!!.profilePicUrl.isNullOrEmpty())
-                ivProfile.loadRoundedImage(MyApplication.selectedUser!!.profilePicUrl!!)
-        } catch (e: Exception) {
-        }
-
-        try {
-            if (MyApplication.selectedUser!!.gender.equals("female")) {
+            try {
+                if (user.gender.equals("female")) {
+                    rbFemaleProfile.isChecked = true
+                    rbMaleProfile.isChecked = false
+                } else {
+                    rbFemaleProfile.isChecked = false
+                    rbMaleProfile.isChecked = true
+                }
+            } catch (ex: Exception) {
                 rbFemaleProfile.isChecked = true
                 rbMaleProfile.isChecked = false
-            } else {
-                rbFemaleProfile.isChecked = false
-                rbMaleProfile.isChecked = true
             }
-        } catch (ex: Exception) {
-            rbFemaleProfile.isChecked = true
-            rbMaleProfile.isChecked = false
-        }
 
-        try {
-            tvUsername.text =
-                MyApplication.selectedUser!!.firstName + " " + MyApplication.selectedUser!!.lastName
-        } catch (e: Exception) {
-        }
+            try {
+                tvUsername.text =
+                    user.firstName + " " + user.lastName
+            } catch (e: Exception) {
+            }
 
-        if (!MyApplication.isClient) {
-            if (!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
-                profilePercentage += 25
-            if (!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.middleName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty() && !MyApplication.selectedUser!!.email.isNullOrEmpty() && !MyApplication.selectedUser!!.dob.isNullOrEmpty() && !MyApplication.selectedUser!!.altrNumb.isNullOrEmpty() && (!MyApplication.selectedUser!!.civilId.isNullOrEmpty()|| !MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty()))
-                profilePercentage += 25
-            try{
-            if (MyApplication.selectedUser!!.addresses!!.size>0){
-                if(MyApplication.selectedUser!!.addresses!![0].addressId!=null && MyApplication.selectedUser!!.addresses!![0].addressName!=null)
-                   profilePercentage += 25
+            if (!MyApplication.isClient) {
+                if (!user.mobileNumber.isNullOrEmpty())
+                    profilePercentage += 25
+                if (!user.firstName.isNullOrEmpty() && !user.middleName.isNullOrEmpty() && !user.lastName.isNullOrEmpty() && !user.email.isNullOrEmpty() && !user.dob.isNullOrEmpty() && !user.altrNumb.isNullOrEmpty() && (!user.civilId.isNullOrEmpty() || !user.civilIdAttach.isNullOrEmpty()))
+                    profilePercentage += 25
+                try {
+                    if (MyApplication.selectedUser!!.addresses!!.size > 0) {
+                        if (MyApplication.selectedUser!!.addresses!![0].addressId != null && MyApplication.selectedUser!!.addresses!![0].addressName != null)
+                            profilePercentage += 25
 
-            }}catch (e:Exception){}
-            if (!MyApplication.selectedUser!!.accountNumber.isNullOrEmpty() && !MyApplication.selectedUser!!.bankName.isNullOrEmpty() && !MyApplication.selectedUser!!.bankBranch.isNullOrEmpty()  && !MyApplication.selectedUser!!.IBAN.isNullOrEmpty())
-                profilePercentage += 25
-        } else {
-            if (!MyApplication.selectedUser!!.mobileNumber.isNullOrEmpty())
-                profilePercentage += 25
-            if (!MyApplication.selectedUser!!.firstName.isNullOrEmpty() && !MyApplication.selectedUser!!.lastName.isNullOrEmpty())
-                profilePercentage += 25
-            if (!MyApplication.selectedUser!!.email.isNullOrEmpty())
-                profilePercentage += 25
-            if (!MyApplication.selectedUser!!.profilePicUrl.isNullOrEmpty())
-                profilePercentage += 25
-        }
+                    }
+                } catch (e: Exception) {
+                }
+                if (!user.accountNumber.isNullOrEmpty() && !user.bankName.isNullOrEmpty() && !user.bankBranch.isNullOrEmpty() && !user.IBAN.isNullOrEmpty())
+                    profilePercentage += 25
+            } else {
+                if (!user.mobileNumber.isNullOrEmpty())
+                    profilePercentage += 25
+                if (!user.firstName.isNullOrEmpty() && !user.lastName.isNullOrEmpty())
+                    profilePercentage += 25
+                if (!user.email.isNullOrEmpty())
+                    profilePercentage += 25
+                if (!user.profilePicUrl.isNullOrEmpty())
+                    profilePercentage += 25
+            }
 
-        try{
+            try {
 
-        pbComplete.setWeight(profilePercentage.toFloat())
-        pbNotComplete.setWeight(100f - profilePercentage.toFloat())
-        tvPercentageCompleted.text =
-            profilePercentage.toString() + " % " + AppHelper.getRemoteString(
-                "completed",
-                requireActivity()
-            )}catch (e:Exception){}
+                pbComplete.setWeight(profilePercentage.toFloat())
+                pbNotComplete.setWeight(100f - profilePercentage.toFloat())
+                tvPercentageCompleted.text =
+                    profilePercentage.toString() + " % " + AppHelper.getRemoteString(
+                        "completed",
+                        requireActivity()
+                    )
+            } catch (e: Exception) {
+            }
 
-        if(!MyApplication.isClient){
-            if(MyApplication.selectedUser!!.addresses!=null && MyApplication.selectedUser!!.addresses!!.size > 0){
-                if(MyApplication.selectedUser!!.addresses!![0].addressId!=null && MyApplication.selectedUser!!.addresses!![0].addressName!=null){
+            if (!MyApplication.isClient) {
+                if (MyApplication.selectedUser!!.addresses != null && MyApplication.selectedUser!!.addresses!!.size > 0) {
+                    if (MyApplication.selectedUser!!.addresses!![0].addressId != null && MyApplication.selectedUser!!.addresses!![0].addressName != null) {
 
-                linearAddressInfo.show()
+                        linearAddressInfo.show()
 
-                MyApplication.addNewAddress=false
-                btAddNewAddress.hide()
-            //    btAddNewAddress.text = AppHelper.getRemoteString("UpdateAddress",requireActivity())
-
-
-                try{
-                var myAddress= MyApplication.selectedUser!!.addresses!![0]
-                if(myAddress.addressName!=null && myAddress.addressName!="null")
-                    etAddressName!!.setText(myAddress.addressName)
-
-                if(myAddress.desc!=null && myAddress.desc!="null")
-                    etMoreDetails!!.setText(myAddress.desc)
-
-                if(myAddress.area!=null && myAddress.area!="null")
-                    etArea!!.setText(myAddress.area)
-
-                if(myAddress.block!=null && myAddress.block!="null")
-                    etBlock!!.setText(myAddress.block)
-
-                if(myAddress.avenue!=null && myAddress.avenue!="null")
-                    etAvenue!!.setText(myAddress.avenue)
-
-                if(myAddress.apartment!=null && myAddress.apartment!="null")
-                    etApartment!!.setText(myAddress.apartment)
-
-                if(myAddress.floor!=null && myAddress.floor!="null")
-                    etFloor!!.setText(myAddress.floor)
-
-                if(myAddress.bldg!=null && myAddress.bldg!="null")
-                    etBuilding!!.setText(myAddress.bldg)
-
-                if(myAddress.street!=null && myAddress.street!="null")
-                    etStreet!!.setText(myAddress.street)
-
-                 if(myAddress.province!=null && myAddress.province!="null")
-                    etAddressProvince!!.setText(myAddress.province)
-
-                }catch (e:java.lang.Exception){}
+                        MyApplication.addNewAddress = false
+                        btAddNewAddress.hide()
+                        //    btAddNewAddress.text = AppHelper.getRemoteString("UpdateAddress",requireActivity())
 
 
+                        try {
+                            var myAddress = MyApplication.selectedUser!!.addresses!![0]
+                            if (myAddress.addressName != null && myAddress.addressName != "null")
+                                etAddressName!!.setText(myAddress.addressName)
 
-                btUpdateAddress.show()
-                btUpdateAddress.setOnClickListener{
-                    startActivity(Intent(requireActivity(),ActivityMapAddress::class.java))
-                }}else{
-                    MyApplication.addNewAddress=true
-                    btAddNewAddress.text = AppHelper.getRemoteString("AddNewAddress",requireActivity())
+                            if (myAddress.desc != null && myAddress.desc != "null")
+                                etMoreDetails!!.setText(myAddress.desc)
+
+                            if (myAddress.area != null && myAddress.area != "null")
+                                etArea!!.setText(myAddress.area)
+
+                            if (myAddress.block != null && myAddress.block != "null")
+                                etBlock!!.setText(myAddress.block)
+
+                            if (myAddress.avenue != null && myAddress.avenue != "null")
+                                etAvenue!!.setText(myAddress.avenue)
+
+                            if (myAddress.apartment != null && myAddress.apartment != "null")
+                                etApartment!!.setText(myAddress.apartment)
+
+                            if (myAddress.floor != null && myAddress.floor != "null")
+                                etFloor!!.setText(myAddress.floor)
+
+                            if (myAddress.bldg != null && myAddress.bldg != "null")
+                                etBuilding!!.setText(myAddress.bldg)
+
+                            if (myAddress.street != null && myAddress.street != "null")
+                                etStreet!!.setText(myAddress.street)
+
+                            if (myAddress.province != null && myAddress.province != "null")
+                                etAddressProvince!!.setText(myAddress.province)
+
+                        } catch (e: java.lang.Exception) {
+                        }
+
+
+
+                        btUpdateAddress.show()
+                        btUpdateAddress.setOnClickListener {
+                            MyApplication.temporaryProfile = User(
+                                "",
+                                "",
+                                etMiddleNameProfile.text.toString(),
+                                etLastNameProfile.text.toString(),
+                                gender,
+                                etMobileProfile.text.toString(),
+                                etAltContactNumberProfile.text.toString(),
+                                etBankNameProfile.text.toString(),
+                                "",
+                                "",
+                                etAccountNumberProfile.text.toString(),
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                etDateOfBirthProfile.text.toString(),
+                                "",
+                                etFirstNameProfile.text.toString(),
+                                etEmailProfile.text.toString(),
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                etCivilIdNbProfile.text.toString(),
+                                "",
+                                "",
+                                etDateOfBirthProfile.text.toString(),
+                                0,
+                                null,
+                                0.0,
+                                0,
+                                0,
+                                0,
+                                etDescriptionProfile.text.toString(),
+                                etIBANProfile.text.toString(),
+                                etBranchNameProfile.text.toString(),
+                                arrayListOf()
+                            )
+                            startActivity(Intent(requireActivity(), ActivityMapAddress::class.java))
+                        }
+                    } else {
+                        MyApplication.addNewAddress = true
+                        btAddNewAddress.text =
+                            AppHelper.getRemoteString("AddNewAddress", requireActivity())
+                        linearAddressInfo.hide()
+                        btUpdateAddress.hide()
+                    }
+
+                } else {
+                    MyApplication.addNewAddress = true
+                    btAddNewAddress.text =
+                        AppHelper.getRemoteString("AddNewAddress", requireActivity())
                     linearAddressInfo.hide()
                     btUpdateAddress.hide()
                 }
-
-            }else{
-                MyApplication.addNewAddress=true
-                btAddNewAddress.text = AppHelper.getRemoteString("AddNewAddress",requireActivity())
-                linearAddressInfo.hide()
-                btUpdateAddress.hide()
             }
-        }
+
+
+        if(MyApplication.temporaryProfile!=null)
+            MyApplication.temporaryProfile = null
 
     }
 
@@ -581,11 +686,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     fun succUpdate(res: Int) {
         if (res == 1) {
-            AppHelper.createDialog(requireActivity(), "Update Successful")
+            AppHelper.createDialog(requireActivity(), AppHelper.getRemoteString("successfully_updated",requireContext()))
             loading.hide()
             getUserData()
         } else {
-            AppHelper.createDialog(requireActivity(), "Update Failed")
+            AppHelper.createDialog(requireActivity(),  AppHelper.getRemoteString("update_error",requireContext()))
         }
     }
 
@@ -606,7 +711,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
                     }
                     loading.hide()
-                    try{setUserData()}catch (e:Exception){}
+                    if(MyApplication.temporaryProfile!=null)
+                        try{setUserData(MyApplication.temporaryProfile!!)}catch (e:Exception){}
+                    else
+                        try{setUserData(MyApplication.selectedUser!!)}catch (e:Exception){}
                 }
 
                 override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
@@ -697,14 +805,16 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     }
 
                     var req = file!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                    if (!fromProfile!!)
+                    if (!fromProfile!!) {
 
+                        MyApplication.tempCivilId = file
                         selectedFile = MultipartBody.Part.createFormData(
                             ApiParameters.CIVIL_ID_ATTACH,
                             file.name + "File",
                             req
                         )
-                    else {
+                    } else {
+                        MyApplication.tempProfilePic = file
                         ivProfile.loadRoundedLocalImage(file)
                         selectedProfilePic = MultipartBody.Part.createFormData(
                             if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
