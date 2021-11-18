@@ -68,11 +68,11 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     var  mPermissionResult : ActivityResultLauncher<Array<String>>?=null
     private var selectedCategoryId=1
     private var selectedCategoryName=AppConstants.TYPE_PURCHASE
-    private var selectedServiceId=0
+    private var selectedServiceId=-1
     private var selectedServiceName=""
-    private var selectedTypeId=0
+    private var selectedTypeId=-1
     private var selectedTypeName=""
-    private var selectedSizeId=0
+    private var selectedSizeId=-1
     private var selectedSizeName=""
     private var selectedQtyId=0
     private var selectedQtyName=""
@@ -263,7 +263,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onItemClicked(view: View, position: Int) {
-       if(view.id==R.id.btPickFile && !MyApplication.isEditService){
+       if(view.id==R.id.btPickFile /*&& MyApplication.isEditService*/){
            requireFilePosition=position
            //pickFile(CODE_REQUIRED_FILES,true)
            type = CODE_REQUIRED_FILES
@@ -289,7 +289,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             }
             arraySpinnerServices.add(
                 0,
-                ItemSpinner(0, AppHelper.getRemoteString("please__select", this), "")
+                ItemSpinner(-1, AppHelper.getRemoteString("please__select", this), "")
             )
             selectedServiceId = 0
             val adapterServices =
@@ -351,7 +351,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                     arraySpinnerTypes.add(ItemSpinner(i, arrayTypes[i].types, ""))
             }
             arraySpinnerTypes.add(0,
-                ItemSpinner(0,AppHelper.getRemoteString("please__select",this),"")
+                ItemSpinner(-1,AppHelper.getRemoteString("please__select",this),"")
             )
         if(arraySpinnerTypes.size >1) {
             selectedTypeId = 0
@@ -381,7 +381,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
             }
         }else{
-            selectedTypeId = -1
+            selectedTypeId = -2
             llSpType.hide()
         }
 
@@ -403,8 +403,8 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                     arraySpinnerSizes.add(ItemSpinner(i, arrayTypes[i].sizeCapacity, ""))
             }
             arraySpinnerSizes.add(
-                0,
-                ItemSpinner(0, AppHelper.getRemoteString("please__select", this), "")
+                    0,
+                ItemSpinner(-1, AppHelper.getRemoteString("please__select", this), "")
             )
             if (arraySpinnerSizes.size > 1) {
                 selectedSizeId = 0
@@ -434,7 +434,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
                 }
             } else {
-                selectedSizeId = -1
+                selectedSizeId = -2
                 llSpSizeCap.hide()
             }
 
@@ -715,7 +715,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
     private fun setTab2(){
 
-        if(selectedService && selectedSize && selectedType ) {
+        if(selectedServiceId!=-1 && selectedSizeId!=-1 && selectedTypeId!=-1 ) {
             if (arrayImagesSelected.size == 0 && !MyApplication.isEditService)
                 createDialog(this, "Please upload image")
             else if (etStockAvailable.text.toString()
@@ -974,16 +974,19 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
 
     private fun checkData(){
+        loading.show()
         if(!MyApplication.isEditService){
         if((addServiceDone && arrayRequiredFiles.size==0) || (addServiceDone && arrayRequiredFiles.size>0 && countFilesUploaded == arrayRequiredFiles.size))
             createDialog(this, AppHelper.getRemoteString("services_is_inactive", this)) {
                 this@ActivityServiceInformation.onBackPressed()
             }
 
+            loading.hide()
         }else{
             var coutMultipart=arrayRequiredFiles.count { it.multipart != null }
             if((addServiceDone && arrayRequiredFiles.size==0) || (addServiceDone && arrayRequiredFiles.size>0 && countFilesUploaded == coutMultipart))
                 this@ActivityServiceInformation.onBackPressed()
+            loading.hide()
         }
     }
 
@@ -1013,7 +1016,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                                        uploadFiles(arrayRequiredFiles[i],MyApplication.selectedService!!.id!!.toInt())
                                    }
                                }
-                                loading.hide()
                                // this@ActivityServiceInformation.onBackPressed()
 
                             }else {

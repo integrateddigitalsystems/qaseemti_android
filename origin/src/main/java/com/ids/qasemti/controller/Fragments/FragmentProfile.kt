@@ -122,7 +122,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     }
 
-    fun setUpSpinner(){
+    fun setUpSpinner(user:User){
         arrayBankSpinner.clear()
         for (item in banks){
             arrayBankSpinner.add(ItemSpinner(item.id!!.toInt(),item.value,""))
@@ -146,14 +146,15 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             }
 
         }
+
         spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
-            it.id.toString() == MyApplication.selectedUser!!.bankId!!
+            it.id.toString() == user!!.bankId!!
         }))
 
         loading.hide()
     }
 
-    fun getBankList (){
+    fun getBankList (user:User){
             loading.show()
         var req = RequestLanguage(MyApplication.languageCode)
             RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -165,7 +166,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                         try {
                             banks.clear()
                             banks.addAll(response.body()!!.banks)
-                            setUpSpinner()
+                            setUpSpinner(user)
                         } catch (E: java.lang.Exception) {
                             loading.hide()
                         }
@@ -723,11 +724,12 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 }
             }
 
+        getBankList(user)
 
         if(MyApplication.temporaryProfile!=null)
             MyApplication.temporaryProfile = null
 
-        getBankList()
+
 
     }
     fun setHint(){
@@ -923,7 +925,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     if(etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30 )
                         updateServiceProfile()
                     else
-                        AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("IBANLength",requireActivity()))
+                        AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("iban_must_be_30",requireActivity()))
                 }else{
                     AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("civil_id_length",requireActivity()))
 

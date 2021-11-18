@@ -207,6 +207,7 @@
             android:background="@drawable/rounded_white_background">
 
             <Spinner
+                android:layout_toStartOf="@id/ivArrowCancel"
                 android:id="@+id/spCancelReason"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -215,6 +216,7 @@
                 />
 
             <ImageView
+                android:id="@+id/ivArrowCancel"
                 android:layout_marginEnd="@dimen/first_margin"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"

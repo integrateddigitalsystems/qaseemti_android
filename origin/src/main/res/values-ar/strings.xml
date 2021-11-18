@@ -292,6 +292,7 @@
     <string name="FNameHint">الاسم ألأول *</string>
     <string name="LNameHint">ألاسم الاخير *</string>
     <string name="EmailHint">البريد الالكتروني *</string>
+    <string name="are_you_sure_cancel">هل انت متأكد من الالغاء ؟</string>
 
 
 </resources>

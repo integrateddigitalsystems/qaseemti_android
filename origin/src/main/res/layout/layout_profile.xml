@@ -737,6 +737,7 @@
                     android:background="@drawable/rounded_white_background">
 
                     <Spinner
+                        android:layout_toStartOf="@id/ivArrowBank"
                         android:id="@+id/spBanks"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -745,6 +746,7 @@
                         />
 
                     <ImageView
+                        android:id="@+id/ivArrowBank"
                         android:layout_marginEnd="@dimen/first_margin"
                         android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"

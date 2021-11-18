@@ -99,7 +99,7 @@ class ActivityWeb: ActivityBase() {
         }
 
         if(MyApplication.fromSplash){
-            MyApplication.fromSplash = false
+
             llAcceptTerms.show()
             btBackTool.hide()
 
@@ -108,6 +108,7 @@ class ActivityWeb: ActivityBase() {
                     MyApplication.termsCondition = true
                     setResult(RESULT_OK, intent)
                     finish()
+                    MyApplication.fromSplash = false
                 }
             }
 

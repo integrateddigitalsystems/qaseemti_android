@@ -53,9 +53,9 @@ class AdapterRequiredFiles(
 
         init {
               btPickFile.setOnClickListener(this)
-            if(MyApplication.isEditService)
+            /*if(MyApplication.isEditService)
                 btPickFile.hide()
-            else
+            else*/
                 btPickFile.show()
         }
 
