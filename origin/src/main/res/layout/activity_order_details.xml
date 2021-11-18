@@ -172,7 +172,11 @@
             android:background="@drawable/rounded_white_red_border"/>
 
 
-   <EditText
+
+
+
+
+  <!-- <EditText
        android:textAlignment="viewStart"
        android:layout_marginTop="@dimen/normal_margin"
        android:padding="@dimen/normal_margin"
@@ -187,12 +191,46 @@
        android:textColorHint="@color/gray_font_light"
        android:layout_width="match_parent"
        android:layout_height="@dimen/edit_text_height"
-       android:background="@drawable/rounded_white_background"/>
+       android:background="@drawable/rounded_white_background"/>-->
+
+
+        <RelativeLayout
+
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:visibility="gone"
+            android:id="@+id/rlCancellationReason"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginBottom="@dimen/normal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:background="@drawable/rounded_white_background">
+
+            <Spinner
+                android:id="@+id/spCancelReason"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overlapAnchor="false"
+                android:background="@color/transparent"
+                />
+
+            <ImageView
+                android:layout_marginEnd="@dimen/first_margin"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/small_icon"
+                android:layout_height="@dimen/small_icon"
+                android:src="@drawable/arrow_right"
+                android:rotation="90"
+                android:tint="@color/gray_font_title"
+                app:tint="@color/gray_font_title"/>
+
+        </RelativeLayout>
 
     <LinearLayout
         android:visibility="gone"
         android:id="@+id/llCancelButtons"
-        android:layout_below="@id/etCancellationReason"
+        android:layout_below="@id/rlCancellationReason"
         android:weightSum="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
