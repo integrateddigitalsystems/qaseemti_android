@@ -92,7 +92,12 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
     fun setData(orders: ResponseOrders) {
 
-        tvLocationPlaceOrder.text = ""
+        if(!orders.shipping_address_name.equals("null")||!orders.shipping_address_name.isNullOrEmpty())
+            tvLocationPlaceOrder.text = orders.shipping_address_name
+        else
+            tvLocationPlaceOrder.text = AppHelper.getRemoteString("no_data", this)
+
+       /* tvLocationPlaceOrder.text = ""
         if (!orders.addressDescription.equals("null") && !orders.shipping_address_description.isNullOrEmpty()) {
             tvLocationPlaceOrder.text = orders.addressDescription + ","
         }
@@ -109,7 +114,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                 tvLocationPlaceOrder.text.toString() + orders.shipping_address_floor + ","
         }
         if (tvLocationPlaceOrder.text.isNullOrEmpty())
-            tvLocationPlaceOrder.text = AppHelper.getRemoteString("no_data", this)
+            tvLocationPlaceOrder.text = AppHelper.getRemoteString("no_data", this)*/
 
         try {
             tvOrderDate.text =

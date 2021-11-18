@@ -779,7 +779,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                     this,
                     AppHelper.getRemoteString("yes", this),
                     AppHelper.getRemoteString("cancel", this),
-                    "Are you sure you want to cancel ?"
+                    AppHelper.getRemoteString("are_you_sure_cancel",this)
                 ) {
 
                     loading.show()

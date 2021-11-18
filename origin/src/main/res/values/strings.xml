@@ -291,6 +291,7 @@
     <string name="FNameHint">First Name *</string>
     <string name="LNameHint">Last Name *</string>
     <string name="EmailHint">Email *</string>
+    <string name="are_you_sure_cancel">Are you sure you want to cancel ?</string>
 
 
 </resources>

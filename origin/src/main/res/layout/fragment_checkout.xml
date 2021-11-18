@@ -533,7 +533,7 @@
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
                                 android:src="@drawable/icon_dollar"
-                                app:tint="@color/primary" />
+                                android:tint="@color/primary" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:layout_width="wrap_content"
@@ -553,10 +553,11 @@
 
 
                             <ImageView
+                                android:tint="@color/primary"
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
                                 android:src="@drawable/icon_vehicules"
-                                app:tint="@color/primary" />
+                                />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:id="@+id/tvVariationType"
@@ -589,7 +590,7 @@
                                 android:layout_width="@dimen/normal_icon"
                                 android:layout_height="@dimen/normal_icon"
                                 android:src="@drawable/icon_label"
-                                app:tint="@color/primary" />
+                                android:tint="@color/primary" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:layout_width="wrap_content"
