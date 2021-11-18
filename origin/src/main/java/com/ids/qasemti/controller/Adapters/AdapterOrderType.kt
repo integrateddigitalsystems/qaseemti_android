@@ -336,6 +336,7 @@ class AdapterOrderType(
             holder.cancelReason.show()
             holder.upcomingSeperator.hide()
             holder.cancelorder.show()
+            holder.cancelReasonDetails.text = items.get(position).cancellationReason
             holder.credit.hide()
             holder.dateBorder.show()
             holder.track.hide()

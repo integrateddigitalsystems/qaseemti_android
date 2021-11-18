@@ -223,6 +223,10 @@ class User (
     @Expose
     var bankBranch : String ?="" ,
 
+    @SerializedName("bank_id")
+    @Expose
+    var bankId : String ?="" ,
+
 
     @SerializedName("addresses")
     @Expose

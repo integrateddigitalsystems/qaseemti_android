@@ -16,9 +16,9 @@ class RequestCancelOrder(
     @Expose
     var cancellationDate: String ?="" ,
 
-    @SerializedName("cancellation_reason")
+    @SerializedName("cancellation_reason_id")
     @Expose
-    var cancellationReason : String ?=""
+    var cancellationReason : Int ?=0
 
 ) {
 }

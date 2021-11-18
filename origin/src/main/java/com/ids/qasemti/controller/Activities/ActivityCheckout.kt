@@ -464,9 +464,16 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             )
         }
 
+        var type  = ""
+
+        if(MyApplication.selectedService!!.type.equals("بيع") || MyApplication.selectedService!!.type.equals("شراء") || MyApplication.selectedService!!.type.equals(AppConstants.TYPE_PURCHASE) )
+            type = AppConstants.TYPE_PURCHASE
+        else
+            type = AppConstants.TYPE_RENTAL
+
         MyApplication.selectedPlaceOrder = RequestPlaceOrder(
             MyApplication.userId,
-            MyApplication.selectedService!!.type!!,
+            type,
             MyApplication.selectedService!!.id!!.toInt(),
             MyApplication.selectedVariationType,
             MyApplication.selectedSize,

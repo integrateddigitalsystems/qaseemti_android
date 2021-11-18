@@ -194,7 +194,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
         selectedSlug = arrayPaymentMethods.find { it.id == selectedPaymentId }!!.slug
         if (selectedSlug.equals("cod")) {
-            request = RequestPaymentOrder(orderId.toInt(), selectedPaymentId)
+            request = RequestPaymentOrder(orderId.toInt(), selectedPaymentId.toString())
             finalStep()
         } else {
             paymentGateway()
@@ -659,7 +659,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
                 request = RequestPaymentOrder(
                     orderId.toInt(),
-                    selectedPaymentId,
+                    selectedPaymentId.toString(),
                     MyApplication.selectedOrder!!.grand_total,
                     1,
                     "paid",
@@ -694,7 +694,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                 AppHelper.createDialog(this@ActivityPlaceOrder, postUpayData.result)
                 request = RequestPaymentOrder(
                     orderId.toInt(),
-                    selectedPaymentId,
+                    selectedPaymentId.toString(),
                     MyApplication.selectedOrder!!.grand_total,
                     1,
                     "failed",
@@ -741,9 +741,9 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         runOnUiThread(Runnable {
             request = RequestPaymentOrder(
                 MyApplication.selectedOrder!!.orderId!!.toInt(),
-                selectedPaymentId,
+                "",
                 MyApplication.selectedOrder!!.product!!.qty,
-                0,
+                1,
                 "failed",
                 MyApplication.currency,
                 "",

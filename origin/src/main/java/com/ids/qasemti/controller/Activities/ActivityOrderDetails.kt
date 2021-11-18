@@ -26,6 +26,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Adapters.AdapterOrderData
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -34,12 +35,14 @@ import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.createDialog
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
+import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.layout_border_data.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.layout_order_contact_tab.*
 import kotlinx.android.synthetic.main.layout_order_information.*
 import kotlinx.android.synthetic.main.layout_order_switch.*
+import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.layout_request_new_time.*
 import kotlinx.android.synthetic.main.layout_request_new_time.tvDateExpected
 import kotlinx.android.synthetic.main.loading.*
@@ -49,12 +52,16 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
     var dialog: Dialog? = null
+    var cancelReasons : ArrayList<BankItem> = arrayListOf()
+    var arrayCancelSpinner : ArrayList<ItemSpinner> = arrayListOf()
     var orderId = 1
+    var selectedCancelReason : Int ?=0
     var onTrack: Int? = 0
     var typeSelected: String? = ""
     var delivered: Int? = 0
@@ -613,6 +620,61 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
             })
     }
 
+    fun setUpSpinner(){
+        arrayCancelSpinner.clear()
+        for (item in cancelReasons){
+            arrayCancelSpinner.add(ItemSpinner(item.id!!.toInt(),item.value,""))
+        }
+        arrayCancelSpinner.add(0,
+            ItemSpinner(0,AppHelper.getRemoteString("please__select",this),"")
+        )
+        selectedCancelReason = 0
+        val adapterServices = AdapterGeneralSpinner(this, R.layout.spinner_layout, arrayCancelSpinner,0)
+        spCancelReason.adapter = adapterServices
+        adapterServices.setDropDownViewResource(R.layout.item_spinner_drop_down)
+        spCancelReason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                selectedCancelReason = arrayCancelSpinner.get(position).id
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+        }
+       /* spBanks.setSelection(arrayCancelSpinner.indexOf(arrayCancelSpinner.find {
+            it.id.toString() == MyApplication.selectedUser!!.bankName!!
+        }))*/
+
+        loading.hide()
+    }
+
+    fun getCancelReason (){
+        loading.show()
+        var req = RequestLanguage(MyApplication.languageCode)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getCancelReason(req)?.enqueue(object : Callback<ResponseMainCancel> {
+                override fun onResponse(
+                    call: Call<ResponseMainCancel>,
+                    response: Response<ResponseMainCancel>
+                ) {
+                    try {
+                        cancelReasons.clear()
+                        cancelReasons.addAll(response.body()!!.banks)
+                        setUpSpinner()
+                    } catch (E: java.lang.Exception) {
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMainCancel>, throwable: Throwable) {
+                    loading.hide()
+
+                }
+            })
+
+    }
     fun showAcceptOrderPopup(context: Activity){
         AppHelper.createYesNoDialog(
             context,
@@ -713,7 +775,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         btSubmit.onOneClick {
             if(!MyApplication.isClient && MyApplication.selectedUser!!.active == 0){
                 createDialog(this,AppHelper.getRemoteString("inactive_user_msg",this))
-            }else  if (etCancellationReason.text.isNullOrEmpty()) {
+            }else  if (selectedCancelReason==0) {
                 createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
                 AppHelper.createYesNoDialog(
@@ -732,7 +794,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                             MyApplication.selectedOrder!!.orderId!!.toInt(),
                             MyApplication.userId,
                             dateNow,
-                            etCancellationReason.text.toString()
+                            selectedCancelReason
                         )
                     RetrofitClient.client?.create(RetrofitInterface::class.java)
                         ?.cancelOrder(
@@ -761,13 +823,13 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         }
         btDontCancel.onOneClick {
             btCancelOrder.show()
-            etCancellationReason.hide()
+            rlCancellationReason.hide()
             llCancelButtons.hide()
         }
         btCancelOrder.onOneClick {
-            etCancellationReason.text.clear()
             btCancelOrder.hide()
-            etCancellationReason.show()
+            rlCancellationReason.show()
+            getCancelReason()
             llCancelButtons.show()
 
         }
