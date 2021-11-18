@@ -635,13 +635,10 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         spCancelReason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 selectedCancelReason = arrayCancelSpinner.get(position).id
-
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-
             }
-
         }
        /* spBanks.setSelection(arrayCancelSpinner.indexOf(arrayCancelSpinner.find {
             it.id.toString() == MyApplication.selectedUser!!.bankName!!

@@ -53,10 +53,10 @@ class AdapterRequiredFiles(
 
         init {
               btPickFile.setOnClickListener(this)
-            if(MyApplication.isEditService)
+   /*         if(MyApplication.isEditService)
                 btPickFile.hide()
             else
-                btPickFile.show()
+                btPickFile.show()*/
         }
 
         override fun onClick(v: View) {
