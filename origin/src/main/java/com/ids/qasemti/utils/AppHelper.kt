@@ -28,6 +28,7 @@ import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
@@ -880,8 +881,13 @@ class AppHelper {
                 .setPositiveButton(positiveButton) { dialog, _ ->
                     doAction()
                 }
+
             val alert = builder.create()
             alert.show()
+/*            val messageView = alert.findViewById(android.R.id.message) as TextView
+            messageView.textDirection=View.TEXT_DIRECTION_LTR
+            messageView.gravity=Gravity.CENTER
+            messageView.layoutDirection=View.TEXT_ALIGNMENT_TEXT_START*/
 
         }
 
