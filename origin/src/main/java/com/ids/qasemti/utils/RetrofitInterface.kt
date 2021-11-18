@@ -1,7 +1,6 @@
 package com.ids.qasemti.utils
 
 
-import com.google.protobuf.Api
 import com.ids.qasemti.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -65,7 +64,7 @@ interface RetrofitInterface {
         @Part(ApiParameters.LATITUDE) latitude: RequestBody,
         @Part(ApiParameters.LONGITUDE) longitude: RequestBody,
         @Part(ApiParameters.ACCOUNT_NUMBER) accNumber: RequestBody,
-        @Part(ApiParameters.BANK_NAME) bankName: RequestBody,
+        @Part(ApiParameters.BANK_ID) bankId: RequestBody,
         @Part(ApiParameters.BANK_BRANCH) bankBranch: RequestBody,
         @Part(ApiParameters.IBAN) iban: RequestBody ,
         @Part(ApiParameters.DESCRIPTION) desc : RequestBody
@@ -358,6 +357,16 @@ interface RetrofitInterface {
     fun applyCoupon (
         @Body param : RequestCouponReview
     ):Call<ResponsePreviewCoupon>
+
+    @POST("get_banks_list")
+    fun getBankList (
+        @Body req : RequestLanguage
+    ):Call<ResponseMainBank>
+
+    @POST("get_cancellation_reason")
+    fun getCancelReason(
+        @Body req : RequestLanguage
+    ):Call<ResponseMainCancel>
 
 
 }

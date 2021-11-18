@@ -67,9 +67,20 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
         //  openDialog()
+
         getFirebasePrefs()
+
+
+
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        checkForUpdate()
+
+
+    }
 
     private fun showDialogUpdate(activity: Activity) {
 
@@ -411,7 +422,24 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             mFirebaseRemoteConfig!!.getString(FIREBASE_COUNTRY_NAME_CODE)
         MyApplication.salt = mFirebaseRemoteConfig!!.getString(FIREBASE_SALT)
         AppHelper.setAllTexts(rootLayout, this)
-        checkForUpdate()
+
+        if(MyApplication.termsCondition!!)
+            checkForUpdate()
+        else {
+            MyApplication.fromSplash = true
+            startActivityForResult(Intent(this, ActivityWeb::class.java)
+                .putExtra("webTitle", AppHelper.getRemoteString("TermsAndConditions",this))
+                .putExtra("webId",2), 1000)
+        }
+
+        //1D$q@semt!salT
+
+
+        var str = AppHelper.getSha256Hash("590c6f2246d9e51e07e0d937e59a65b2f978964a15cf6c045c24f9991ba2a2fa1D")!!
+        Log.wtf("testFirst", str)
+        Log.wtf("testFirst",str+MyApplication.salt)
+        Log.wtf("testFirst", AppHelper.getSha256Hash(str+MyApplication.salt))
+
     }
 
 

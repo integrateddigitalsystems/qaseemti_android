@@ -192,13 +192,19 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             AppHelper.setTextColor(this, etFromDate, R.color.gray_font)
             AppHelper.setTextColor(this, etFromTime, R.color.gray_font)
             rlFromDate.onOneClick {
-                var mcurrentDate = Calendar.getInstance()
+                val myFormat = "dd MMM yyyy" //Change as you need
+                var sdf =
+                    SimpleDateFormat(myFormat, Locale.ENGLISH)
+                var mcurrentDate =sdf.parse(etFromDate.text.toString())
                 var mYear = 0
                 var mMonth = 0
                 var mDay = 0
-                mYear = mcurrentDate[Calendar.YEAR]
-                mMonth = mcurrentDate[Calendar.MONTH]
-                mDay = mcurrentDate[Calendar.DAY_OF_MONTH]
+                var calTime = Calendar.getInstance()
+                var cal = Calendar.getInstance()
+                cal.time = mcurrentDate
+                mYear = cal[Calendar.YEAR]
+                mMonth = cal[Calendar.MONTH]
+                mDay = cal[Calendar.DAY_OF_MONTH]
 
                 val mDatePicker = DatePickerDialog(
                     this,
@@ -220,7 +226,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
                         selectedDate = etFromDate.text.toString() + " " + time
                     }, mYear, mMonth, mDay
                 )
-                mDatePicker.datePicker.minDate = mcurrentDate.time.time
+                mDatePicker.datePicker.minDate = calTime.time.time
                 mDatePicker.show()
             }
             rlFromTime.onOneClick {
@@ -285,15 +291,20 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             timePickerDialog.show()
         }
         rlToDate.onOneClick {
-            var mcurrentDate = Calendar.getInstance()
+            val myFormat = "dd MMM yyyy" //Change as you need
+            var sdf =
+                SimpleDateFormat(myFormat, Locale.ENGLISH)
+            var mcurrentDate =sdf.parse(etToDate.text.toString())
             var mYear = 0
             var mMonth = 0
             var mDay = 0
-            mYear = mcurrentDate[Calendar.YEAR]
-            mMonth = mcurrentDate[Calendar.MONTH]
-            mDay = mcurrentDate[Calendar.DAY_OF_MONTH]
+            var cal = Calendar.getInstance()
+            cal.time = mcurrentDate
+            mYear = cal[Calendar.YEAR]
+            mMonth = cal[Calendar.MONTH]
+            mDay = cal[Calendar.DAY_OF_MONTH]
 
-            mcurrentDate.set(mYear, mMonth, mDay)
+           // mcurrentDate.set(mYear, mMonth, mDay)
             val mDatePicker = DatePickerDialog(
                 this,
                 DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
@@ -388,7 +399,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
 
         btPlaceOrder.typeface = AppHelper.getTypeFace(this)
 
-        if (MyApplication.selectedService!!.type!!.trim().lowercase() == "rental") {
+        if (MyApplication.selectedService!!.type!!.trim().lowercase() == getString(R.string.condition_rental)) {
             tvFromTitle.show()
             tvToTitle.show()
             llToLayout.show()
@@ -453,9 +464,16 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             )
         }
 
+        var type  = ""
+
+        if(MyApplication.selectedService!!.type.equals("بيع") || MyApplication.selectedService!!.type.equals("شراء") || MyApplication.selectedService!!.type.equals(AppConstants.TYPE_PURCHASE) )
+            type = AppConstants.TYPE_PURCHASE
+        else
+            type = AppConstants.TYPE_RENTAL
+
         MyApplication.selectedPlaceOrder = RequestPlaceOrder(
             MyApplication.userId,
-            MyApplication.selectedService!!.type!!,
+            type,
             MyApplication.selectedService!!.id!!.toInt(),
             MyApplication.selectedVariationType,
             MyApplication.selectedSize,

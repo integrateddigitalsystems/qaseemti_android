@@ -3,6 +3,7 @@ package com.ids.qasemti.controller.Fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -98,14 +99,13 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
 
         arrayItems.clear()
-        if(selectedTypeName.isNotEmpty() && selectedSizeName.isNotEmpty()){
             var selectedVariation : ServiceVariation ?=null
             try {
                 selectedVariation = MyApplication.selectedService!!.variations.find {
-                    it.sizeCapacity == selectedSizeName && it.types == selectedTypeName
+                    ( if(it.sizeCapacity!=null) it.sizeCapacity == selectedSizeName else true ) && (if(it.types!=null) it.types == selectedTypeName else true)
                 }!!
             }catch (ex:Exception){
-
+                Log.wtf("error","error")
             }
             var arrayMedia : ArrayList<String> = arrayListOf()
             if(selectedVariation!=null)
@@ -120,7 +120,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
             }else{
                 arrayItems.add(SliderItem("",1,""))
             }
-        }
+
 
         adapterPager = AdapterMediaPager(requireActivity(),arrayItems,lifecycle,requireActivity().supportFragmentManager)
         vpMedia.adapter = adapterPager

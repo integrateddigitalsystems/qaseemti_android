@@ -11,7 +11,7 @@ class RequestPaymentOrder(
 
     @SerializedName("payment_id")
     @Expose
-    var payment_id : Int ?=0,
+    var payment_id : String ?="",
 
     @SerializedName("order_total")
     @Expose

@@ -53,6 +53,12 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        loading.show()
+        getOrders()
+        getData()
+    }
     fun getBroadcastedOrders() {
         var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -321,6 +327,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             }
         } else if (view.id == R.id.llViewOrderDetails) {
             AppHelper.onOneClick {
+                MyApplication.isBroadcast = true
                 MyApplication.selectedOrder = ordersArray[position]
                 startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
             }

@@ -158,6 +158,7 @@
                             android:background="@drawable/rounded_white_background">
 
                             <Spinner
+                                android:layout_toStartOf="@id/ivSpinnerTypeArrow"
                                 android:id="@+id/spServiceType"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -165,6 +166,7 @@
                                 />
 
                             <ImageView
+                                android:id="@+id/ivSpinnerTypeArrow"
                                 android:layout_marginEnd="@dimen/first_margin"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerInParent="true"
@@ -206,12 +208,14 @@
                             android:background="@drawable/rounded_white_background">
 
                             <Spinner
+                                android:layout_toStartOf="@id/ivSpinnerSizeArrow"
                                 android:id="@+id/spServiceSize"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@color/transparent" />
 
                             <ImageView
+                                android:id="@+id/ivSpinnerSizeArrow"
                                 android:layout_marginEnd="@dimen/first_margin"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerInParent="true"

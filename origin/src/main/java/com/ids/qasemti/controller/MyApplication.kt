@@ -44,6 +44,7 @@ class MyApplication : Application() {
         var relatedOrders : ArrayList<RelatedOrder> = arrayListOf()
         var renewed = false
         var completed = false
+        var isBroadcast = false
         var fromAccount = false
         var fromAdd : Boolean ?= false
         var submitted : Boolean ?=false
@@ -95,6 +96,7 @@ class MyApplication : Application() {
         var showLogs: Boolean = true
         var isClient : Boolean = false
         var isEditService : Boolean = false
+        var fromSplash : Boolean = false
         var fromFooterOrder : Boolean = true
         var localizeArray: FirebaseLocalizeArray ?= null
         var arrayCart : ArrayList<RequestPlaceOrder> = arrayListOf()
@@ -132,6 +134,9 @@ class MyApplication : Application() {
         var permissionAllow11  : Int?
             get() = sharedPreferences.getInt(AppConstants.PERMISSION,0)
             set(value) { sharedPreferencesEditor.putInt(AppConstants.PERMISSION, value!!).apply() }
+        var termsCondition  : Boolean?
+            get() = sharedPreferences.getBoolean(AppConstants.TERMS_CONDITIONS,false)
+            set(value) { sharedPreferencesEditor.putBoolean(AppConstants.TERMS_CONDITIONS, value!!).apply() }
 
 
     }

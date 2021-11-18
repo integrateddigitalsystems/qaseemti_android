@@ -20,6 +20,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,17 +31,21 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityMapAddress
+import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
+import com.ids.sampleapp.model.ItemSpinner
 import com.jaiselrahman.filepicker.activity.FilePickerActivity
 import com.jaiselrahman.filepicker.config.Configurations
 import com.jaiselrahman.filepicker.model.MediaFile
+import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.curve_layout_home.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.loading.*
+import kotlinx.android.synthetic.main.service_tab_1.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.MultipartBody.Part.Companion.createFormData
@@ -53,6 +58,7 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
@@ -65,11 +71,14 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var fromCam : Boolean ?= false
     var lat: Double? = 0.0
     var photoURI : Uri ?=null
+    var selectedBankId : Int ?=0
+    var arrayBankSpinner : ArrayList<ItemSpinner> = arrayListOf()
     var photoFile: File? = null
     val BLOCKED = -1
     var resultLauncher: ActivityResultLauncher<Intent>? = null
     var fromProfile: Boolean? = false
     var long: Double? = 0.0
+    var banks : ArrayList<BankItem> = arrayListOf()
     var profilePercentage = 0
     private val IMAGE_PICK_CODE = 1000
     private val CAMERA_CODE = 1003
@@ -110,6 +119,63 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     override fun onResume() {
         super.onResume()
 
+
+    }
+
+    fun setUpSpinner(){
+        arrayBankSpinner.clear()
+        for (item in banks){
+            arrayBankSpinner.add(ItemSpinner(item.id!!.toInt(),item.value,""))
+
+        }
+        arrayBankSpinner.add(0,
+            ItemSpinner(0,AppHelper.getRemoteString("please__select",requireContext()),"")
+        )
+        selectedBankId = 0
+        val adapterServices = AdapterGeneralSpinner(requireContext(), R.layout.spinner_layout, arrayBankSpinner,0)
+        spBanks.adapter = adapterServices
+        adapterServices.setDropDownViewResource(R.layout.item_spinner_drop_down)
+        spBanks.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                selectedBankId = arrayBankSpinner.get(position).id
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+        }
+        spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
+            it.id.toString() == MyApplication.selectedUser!!.bankId!!
+        }))
+
+        loading.hide()
+    }
+
+    fun getBankList (){
+            loading.show()
+        var req = RequestLanguage(MyApplication.languageCode)
+            RetrofitClient.client?.create(RetrofitInterface::class.java)
+                ?.getBankList(req)?.enqueue(object : Callback<ResponseMainBank> {
+                    override fun onResponse(
+                        call: Call<ResponseMainBank>,
+                        response: Response<ResponseMainBank>
+                    ) {
+                        try {
+                            banks.clear()
+                            banks.addAll(response.body()!!.banks)
+                            setUpSpinner()
+                        } catch (E: java.lang.Exception) {
+                            loading.hide()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseMainBank>, throwable: Throwable) {
+                        loading.hide()
+
+                    }
+                })
 
     }
 
@@ -399,13 +465,13 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             } catch (ex: Exception) {
                 etAccountNumberProfile.text = Editable.Factory.getInstance().newEditable("")
             }
-            try {
+            /*try {
                 etBankNameProfile.text =
                     Editable.Factory.getInstance()
                         .newEditable(user.bankName)
             } catch (ex: Exception) {
                 etBankNameProfile.text = Editable.Factory.getInstance().newEditable("")
-            }
+            }*/
             try {
                 etBranchNameProfile.text =
                     Editable.Factory.getInstance()
@@ -589,7 +655,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                 gender,
                                 etMobileProfile.text.toString(),
                                 etAltContactNumberProfile.text.toString(),
-                                etBankNameProfile.text.toString(),
+                                selectedBankId.toString(),
                                 "",
                                 "",
                                 etAccountNumberProfile.text.toString(),
@@ -635,6 +701,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                 etDescriptionProfile.text.toString(),
                                 etIBANProfile.text.toString(),
                                 etBranchNameProfile.text.toString(),
+                                selectedBankId.toString(),
                                 arrayListOf()
                             )
                             startActivity(Intent(requireActivity(), ActivityMapAddress::class.java))
@@ -660,6 +727,13 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         if(MyApplication.temporaryProfile!=null)
             MyApplication.temporaryProfile = null
 
+        getBankList()
+
+    }
+    fun setHint(){
+        etFirstNameProfile.hint = etFirstNameProfile.hint.toString() + "*"
+        etLastNameProfile.hint = etLastNameProfile.hint.toString() +"*"
+        etEmailProfile.hint = etEmailProfile.hint.toString() +"*"
     }
 
     fun init() {
@@ -679,6 +753,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             llProfilePercent.show()
             tvPercentageCompleted.show()
         }
+        setHint()
         getUserData()
 
 
@@ -945,7 +1020,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             etDateOfBirthProfile.text.toString(),
             etAddressProfile.text.toString(),
             etAccountNumberProfile.text.toString(),
-            etBankNameProfile.text.toString(),
+            selectedBankId.toString(),
             etBranchNameProfile.text.toString(),
             etDescriptionProfile.text.toString(),
             etIBANProfile.text.toString(),
@@ -1091,7 +1166,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         val accNum =
             etAccountNumberProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val bankname =
-            etBankNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            selectedBankId.toString().toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val bankBranch =
             etBranchNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val description =

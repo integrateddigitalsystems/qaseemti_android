@@ -18,6 +18,7 @@ object ApiParameters {
     const val LONGITUDE ="longtitude"
     const val ACCOUNT_NUMBER = "account_number"
     const val BANK_NAME ="bank_name"
+    const val BANK_ID ="bank_id"
     const val BANK_BRANCH = "bank_branch"
     const val IBAN = "iban"
     const val PROFILE_PIC="profile_pic"

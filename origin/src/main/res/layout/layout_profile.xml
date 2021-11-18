@@ -729,7 +729,34 @@
                 android:background="@drawable/rounded_white_background"
                 />
 
-            <EditText
+
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:background="@drawable/rounded_white_background">
+
+                    <Spinner
+                        android:id="@+id/spBanks"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:overlapAnchor="false"
+                        android:background="@color/transparent"
+                        />
+
+                    <ImageView
+                        android:layout_marginEnd="@dimen/first_margin"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_width="@dimen/small_icon"
+                        android:layout_height="@dimen/small_icon"
+                        android:src="@drawable/arrow_right"
+                        android:rotation="90"
+                        android:tint="@color/gray_font_title"
+                        app:tint="@color/gray_font_title"/>
+
+                </RelativeLayout>
+         <!--   <EditText
                 android:textAlignment="viewStart"
                 android:id="@+id/etBankNameProfile"
                 android:layout_width="match_parent"
@@ -745,7 +772,7 @@
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
-
+-->
             <EditText
                 android:textAlignment="viewStart"
                 android:id="@+id/etBranchNameProfile"

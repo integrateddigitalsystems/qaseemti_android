@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
@@ -167,7 +168,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         btBck.show()
         setTabs()
         if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
-            selectedCategoryName="شراء"
+            selectedCategoryName="بيع"
         getAllServices()
         setPickedImages()
 
@@ -223,7 +224,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             }
             if(MyApplication.languageCode==AppConstants.LANG_ARABIC){
                 if(selectedCategoryId==1){
-                    selectedCategoryName="شراء"
+                    selectedCategoryName="بيع"
                 }else{
                     selectedCategoryName="ايجار"
                 }
@@ -272,42 +273,63 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
     }
 
     private fun setServiceSpinner(){
-        arraySpinnerServices.clear()
-        var arrayFiltered=arrayAllServices.filter { it.type!!.lowercase()==selectedCategoryName.lowercase() }
-        for (i in arrayFiltered.indices){
-            if(arrayFiltered[i].name!=null && arrayFiltered[i].name!!.isNotEmpty())
-               arraySpinnerServices.add(ItemSpinner(arrayFiltered[i].id!!.toInt(),arrayFiltered[i].name,""))
-        }
-        arraySpinnerServices.add(0,
-            ItemSpinner(0,AppHelper.getRemoteString("please__select",this),"")
-        )
-        selectedServiceId = 0
-        val adapterServices = AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinnerServices,0)
-        spService.adapter = adapterServices
-        adapterServices.setDropDownViewResource(R.layout.item_spinner_drop_down)
-        spService.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-              selectedServiceId=arraySpinnerServices[position].id!!
-              selectedServiceName=arraySpinnerServices[position].name!!
-                if(position==0)
-                    selectedService = false
-                else
-                    selectedService = true
-              setTypeSpinner()
-              setSizeCapacitySpinner()
-              try{tvDescription.text=arrayFiltered.find {
-                  it.id!!.toInt() == selectedServiceId
-              }!!.desc}catch (e:Exception){}
-                if(!MyApplication.isEditService)
-                    getRequiredFiles()
+        try {
+            arraySpinnerServices.clear()
+            var arrayFiltered =
+                arrayAllServices.filter { it.type!!.lowercase() == selectedCategoryName.lowercase() }
+            for (i in arrayFiltered.indices) {
+                if (arrayFiltered[i].name != null && arrayFiltered[i].name!!.isNotEmpty())
+                    arraySpinnerServices.add(
+                        ItemSpinner(
+                            arrayFiltered[i].id!!.toInt(),
+                            arrayFiltered[i].name,
+                            ""
+                        )
+                    )
+            }
+            arraySpinnerServices.add(
+                0,
+                ItemSpinner(0, AppHelper.getRemoteString("please__select", this), "")
+            )
+            selectedServiceId = 0
+            val adapterServices =
+                AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinnerServices, 0)
+            spService.adapter = adapterServices
+            adapterServices.setDropDownViewResource(R.layout.item_spinner_drop_down)
+            spService.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedServiceId = arraySpinnerServices[position].id!!
+                    selectedServiceName = arraySpinnerServices[position].name!!
+                    if (position == 0)
+                        selectedService = false
+                    else
+                        selectedService = true
+                    setTypeSpinner()
+                    setSizeCapacitySpinner()
+                    try {
+                        tvDescription.text = arrayFiltered.find {
+                            it.id!!.toInt() == selectedServiceId
+                        }!!.desc
+                    } catch (e: Exception) {
+                    }
+                    if (!MyApplication.isEditService)
+                        getRequiredFiles()
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
+        }catch (ex:Exception){
+            Log.wtf("Except" , ex.toString())
         }
-
         loading.hide()
     }
 
@@ -367,55 +389,61 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
 
     private fun setSizeCapacitySpinner(){
-        var selectedArray=arrayAllServices.find { it.id==selectedServiceId.toString() }
-        var arrayTypes = arrayListOf<ServiceVariation>()
         try {
-            arrayTypes.addAll(selectedArray!!.variations.distinctBy { it.sizeCapacity })
-        }catch (ex:java.lang.Exception){}
+            var selectedArray = arrayAllServices.find { it.id == selectedServiceId.toString() }
+            var arrayTypes = arrayListOf<ServiceVariation>()
+            try {
+                arrayTypes.addAll(selectedArray!!.variations.distinctBy { it.sizeCapacity })
+            } catch (ex: java.lang.Exception) {
+            }
             llSpSizeCap.show()
             arraySpinnerSizes.clear()
             for (i in arrayTypes.indices) {
                 if (arrayTypes[i].sizeCapacity != null && arrayTypes[i].sizeCapacity!!.isNotEmpty())
                     arraySpinnerSizes.add(ItemSpinner(i, arrayTypes[i].sizeCapacity, ""))
             }
-            arraySpinnerSizes.add(0,
-                ItemSpinner(0,AppHelper.getRemoteString("please__select",this),"")
+            arraySpinnerSizes.add(
+                0,
+                ItemSpinner(0, AppHelper.getRemoteString("please__select", this), "")
             )
-        if(arraySpinnerSizes.size >1){
-            selectedSizeId = 0
-            val adapterSize =
-                AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinnerSizes, 0)
-            spSize.adapter = adapterSize
-            adapterSize.setDropDownViewResource(R.layout.item_spinner_drop_down)
-            spSize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View,
-                    position: Int,
-                    id: Long
-                ) {
-                    if(position==0)
-                        selectedSize = false
-                    else
-                        selectedSize = true
-                    selectedSizeId = arraySpinnerSizes[position].id!!
-                    selectedSizeName = arraySpinnerSizes[position].name!!
+            if (arraySpinnerSizes.size > 1) {
+                selectedSizeId = 0
+                val adapterSize =
+                    AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinnerSizes, 0)
+                spSize.adapter = adapterSize
+                adapterSize.setDropDownViewResource(R.layout.item_spinner_drop_down)
+                spSize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>,
+                        view: View,
+                        position: Int,
+                        id: Long
+                    ) {
+                        if (position == 0)
+                            selectedSize = false
+                        else
+                            selectedSize = true
+                        selectedSizeId = arraySpinnerSizes[position].id!!
+                        selectedSizeName = arraySpinnerSizes[position].name!!
+
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                    }
 
                 }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-
-                }
-
+            } else {
+                selectedSizeId = -1
+                llSpSizeCap.hide()
             }
-        }else{
-            selectedSizeId = -1
-            llSpSizeCap.hide()
+
+
+            if (MyApplication.isEditService)
+                setEditData()
+        }catch (ex:java.lang.Exception){
+            logw("Exc",ex.toString())
         }
-
-
-        if(MyApplication.isEditService)
-            setEditData()
 
     }
 
@@ -813,7 +841,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
                            setServiceSpinner()
 
                     }catch (E: java.lang.Exception){
-
+                       logw("exception_1",E.toString())
                     }
                 }
                 override fun onFailure(call: Call<ResponseMainServices>, throwable: Throwable) {

@@ -28,6 +28,13 @@ class ActivityWeb: ActivityBase() {
     }
 
 
+    override fun onBackPressed() {
+        if (!MyApplication.fromSplash) {
+            super.onBackPressed()
+        } else {
+            //Can't go back without accepting terms
+        }
+    }
 
     fun resultContact(req:Int){
         if(req==1){
@@ -89,6 +96,24 @@ class ActivityWeb: ActivityBase() {
         if(id==4){
             linearContact.show()
             wvData.hide()
+        }
+
+        if(MyApplication.fromSplash){
+            MyApplication.fromSplash = false
+            llAcceptTerms.show()
+            btBackTool.hide()
+
+            cbTermsConditions.setOnCheckedChangeListener { buttonView, isChecked ->
+                if(isChecked) {
+                    MyApplication.termsCondition = true
+                    setResult(RESULT_OK, intent)
+                    finish()
+                }
+            }
+
+            btProceed.onOneClick {
+
+            }
         }
 
         loadContent(selectedUrl!!,if(id==4) wvData2 else wvData)
