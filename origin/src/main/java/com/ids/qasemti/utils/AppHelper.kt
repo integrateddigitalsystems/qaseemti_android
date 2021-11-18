@@ -4,7 +4,6 @@ package com.ids.qasemti.utils
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -29,11 +28,11 @@ import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.*
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -53,7 +52,6 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
-import com.google.gson.internal.LinkedTreeMap
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
@@ -860,8 +858,13 @@ class AppHelper {
                 .setPositiveButton(positiveButton) { dialog, _ ->
                     doAction()
                 }
+
             val alert = builder.create()
             alert.show()
+/*            val messageView = alert.findViewById(android.R.id.message) as TextView
+            messageView.textDirection=View.TEXT_DIRECTION_LTR
+            messageView.gravity=Gravity.CENTER
+            messageView.layoutDirection=View.TEXT_ALIGNMENT_TEXT_START*/
 
         }
 

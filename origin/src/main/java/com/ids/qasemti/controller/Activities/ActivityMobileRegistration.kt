@@ -101,7 +101,7 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
             AppHelper.createDialog(this, AppHelper.getRemoteString("check_phone_number", this))
         }
         else {
-            AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("confirm",this),AppHelper.getRemoteString("edit",this),AppHelper.getRemoteString("login_alert_title",this).replace("phoned_number",MyApplication.selectedItemDialog+etPhone.text.toString())+"\n"+AppHelper.getRemoteString("login_alert_msg",this)){
+            AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("confirm",this),AppHelper.getRemoteString("edit",this),AppHelper.getRemoteString("login_alert_title",this).replace("phoned_number","\n"+MyApplication.selectedItemDialog+" "+etPhone.text.toString())+"\n"+AppHelper.getRemoteString("login_alert_msg",this)){
                 MyApplication.selectedPhone = MyApplication.selectedItemDialog.replace("+","").trim()+etPhone.text.toString()
                 loading.show()
                 updateDevice()

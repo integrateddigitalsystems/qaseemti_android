@@ -88,7 +88,9 @@
     </style>
 
 
-
+    <style name="AlertDialogCustom" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:layoutDirection">ltr</item>
+    </style>
 
 
 
