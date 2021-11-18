@@ -136,6 +136,38 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
              deleteCartItem(array[position].orderId!!.toInt())
            }
         }else{
+            var type = ""
+            if(array[position].type.equals("بيع") || array[position].type.equals("شراء") || array[position].type.equals(AppConstants.TYPE_PURCHASE) )
+                type = AppConstants.TYPE_PURCHASE
+            else
+                type = AppConstants.TYPE_RENTAL
+
+            MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+                MyApplication.userId,
+                type,
+                array.get(position).product!!.id,
+                type,
+                array.get(position).product!!.sizeCapacity,
+                array[position].deliveryDate,
+                if( array[position].addressname != null && array[position].addressname!!.isNotEmpty()) array[position].addressname else "",
+                array[position].addressLat,
+                array[position].addressLong,
+                array[position].addressStreet,
+                array[position].addressBuilding,
+                array[position].addressFloor,
+                array[position].addressDescription,
+                if (MyApplication.selectedUser!!.firstName != null && MyApplication.selectedUser!!.firstName!!.isNotEmpty()) MyApplication.selectedUser!!.firstName else "",
+                if (MyApplication.selectedUser!!.lastName != null && MyApplication.selectedUser!!.lastName!!.isNotEmpty()) MyApplication.selectedUser!!.lastName else "",
+                if (MyApplication.selectedUser!!.billingCompany != null && MyApplication.selectedUser!!.billingCompany!!.isNotEmpty()) MyApplication.selectedUser!!.billingCompany else "",
+                if (MyApplication.selectedUser!!.email != null && MyApplication.selectedUser!!.email!!.isNotEmpty()) MyApplication.selectedUser!!.email else "",
+                if (MyApplication.selectedUser!!.mobileNumber != null && MyApplication.selectedUser!!.mobileNumber!!.isNotEmpty()) MyApplication.selectedUser!!.mobileNumber else "",
+                array[position].product!!.name,
+                array[position].grand_total,
+                "",
+                if(array.get(position).addresses.size >0) array.get(position).addresses.get(0).addressId!!.toInt() else 0
+
+
+                )
             startActivity(Intent(requireContext(),ActivityPlaceOrder::class.java).putExtra(AppConstants.ORDER_ID,array[position].orderId))
         }
     }

@@ -191,6 +191,10 @@ class ResponseOrders(
     @Expose
     var type : String ?="" ,
 
+    @SerializedName("addresses")
+    @Expose
+    var addresses : ArrayList<Address> = arrayListOf()
+ ,
 
     @SerializedName("shipping_address_building")
     @Expose

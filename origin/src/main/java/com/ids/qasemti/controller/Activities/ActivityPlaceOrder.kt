@@ -263,8 +263,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             .setUsername(username)
             .setPassword(password)
             .setApikey(apiKey)
-            .setOrderId(MyApplication.selectedPlaceOrder!!.productId!!.toString())
-            .setTotalPrice(MyApplication.selectedPlaceOrder!!.price)
+            .setOrderId(MyApplication.selectedOrder!!.orderId)
+            .setTotalPrice(MyApplication.selectedOrder!!.grand_total)
             .setCurrencyCode(MyApplication.currency)
             .setSuccessUrl(succURL)
             .setErrorUrl(errorURL)
@@ -544,6 +544,8 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                         loading.hide()
                         if (response.body()!!.result == 1) {
                             nextStep()
+                        }else{
+                            AppHelper.createDialog(this@ActivityPlaceOrder,response.body()!!.message!!)
                         }
                     } catch (E: java.lang.Exception) {
 
@@ -663,7 +665,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                 var date = sdf.format(cal.time)
 
                 request = RequestPaymentOrder(
-                    orderId.toInt(),
+                    MyApplication.selectedOrder!!.orderId!!.toInt(),
                     selectedPaymentId.toString(),
                     MyApplication.selectedOrder!!.grand_total,
                     1,

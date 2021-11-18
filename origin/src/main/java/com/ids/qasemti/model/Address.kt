@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName
 
 class Address
      (
+
+    @SerializedName("address_id")
+    @Expose
+    var addressId : String ?="" ,
     @SerializedName("village")
     @Expose
     var village : String ?="" ,
