@@ -49,7 +49,7 @@ import retrofit2.Response
 import java.io.File
 
 
-class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
+class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiListener{
     var array : ArrayList<ServiceItem> = arrayListOf()
     private val CODE_IMAGE = 1001
     var fromCam = false
@@ -105,8 +105,14 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.actiivity_service_information)
         AppHelper.setAllTexts(rootLayout,this)
-        init()
-        listeners()
+        if(MyApplication.categories.size >0) {
+            selectedCategoryId = MyApplication.categories.find { it.valEn!!.lowercase().equals("purchase") }!!.id!!.toInt()
+            init()
+            listeners()
+        }else{
+            loading.show()
+            CallAPIs.getCategories(this,this)
+        }
     }
 
 
@@ -214,16 +220,16 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         rgCategory.setOnCheckedChangeListener { _, checkedId ->
             val rb = findViewById<View>(checkedId) as RadioButton
             if(checkedId==R.id.rbPurchase){
-                selectedCategoryId=1
+                selectedCategoryId=MyApplication.purchaseId!!
                 selectedCategoryName==AppConstants.TYPE_PURCHASE
 
             }else{
-                selectedCategoryId=2
+                selectedCategoryId=MyApplication.rentalId!!
                 selectedCategoryName==AppConstants.TYPE_RENTAL
 
             }
             if(MyApplication.languageCode==AppConstants.LANG_ARABIC){
-                if(selectedCategoryId==1){
+                if(selectedCategoryId==MyApplication.purchaseId!!){
                     selectedCategoryName="بيع"
                 }else{
                     selectedCategoryName="ايجار"
@@ -276,7 +282,9 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         try {
             arraySpinnerServices.clear()
             var arrayFiltered =
-                arrayAllServices.filter { it.type!!.lowercase() == selectedCategoryName.lowercase() }
+                arrayAllServices.filter {
+                    it.typeId!! == selectedCategoryId
+                }
             for (i in arrayFiltered.indices) {
                 if (arrayFiltered[i].name != null && arrayFiltered[i].name!!.isNotEmpty())
                     arraySpinnerServices.add(
@@ -348,7 +356,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             arraySpinnerTypes.clear()
             for (i in arrayTypes.indices) {
                 if (arrayTypes[i].types != null && arrayTypes[i].types!!.isNotEmpty())
-                    arraySpinnerTypes.add(ItemSpinner(i, arrayTypes[i].types, ""))
+                    arraySpinnerTypes.add(ItemSpinner(arrayTypes[i].typesId!!.toInt(), arrayTypes[i].types, ""))
             }
             arraySpinnerTypes.add(0,
                 ItemSpinner(-1,AppHelper.getRemoteString("please__select",this),"")
@@ -400,7 +408,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
             arraySpinnerSizes.clear()
             for (i in arrayTypes.indices) {
                 if (arrayTypes[i].sizeCapacity != null && arrayTypes[i].sizeCapacity!!.isNotEmpty())
-                    arraySpinnerSizes.add(ItemSpinner(i, arrayTypes[i].sizeCapacity, ""))
+                    arraySpinnerSizes.add(ItemSpinner(arrayTypes[i].sizeCapacityId!!.toInt(), arrayTypes[i].sizeCapacity, ""))
             }
             arraySpinnerSizes.add(
                     0,
@@ -791,10 +799,17 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
     private fun setDataPicked(){
         arrayData.clear()
+        if(MyApplication.languageCode==AppConstants.LANG_ENGLISH)
+            selectedCategoryName = MyApplication.categories.find { it.id!!.toInt() == selectedCategoryId }!!.valEn!!
+        else
+            selectedCategoryName = MyApplication.categories.find { it.id!!.toInt() == selectedCategoryId }!!.valAr!!
+
         arrayData.add(ServicesData(1, getString(R.string.category),selectedCategoryName, selectedCategoryId))
         arrayData.add(ServicesData(2, getString(R.string.service),selectedServiceName, selectedServiceId))
-        arrayData.add(ServicesData(3, getString(R.string.type),selectedTypeName, selectedTypeId))
-        arrayData.add(ServicesData(4, getString(R.string.SizeCapacity),selectedSizeName, selectedSizeId))
+        if(arraySpinnerTypes.size >1)
+            arrayData.add(ServicesData(3, getString(R.string.type),selectedTypeName, selectedTypeId))
+        if(arraySpinnerSizes.size >1)
+            arrayData.add(ServicesData(4, getString(R.string.SizeCapacity),selectedSizeName, selectedSizeId))
         arrayData.add(ServicesData(5, getString(R.string.Quantity),etStockAvailable.text.toString(), 1))
         var adapter = AdapterServicesData(arrayData, this, this)
         rvData.layoutManager = LinearLayoutManager(this)
@@ -891,16 +906,14 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.addService(
                 MyApplication.userId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
-                selectedCategoryName.toRequestBody("text/plain".toMediaTypeOrNull()),
-                selectedServiceName.toRequestBody("text/plain".toMediaTypeOrNull()),
-                selectedSizeName.toRequestBody("text/plain".toMediaTypeOrNull()),
-                selectedTypeName.toRequestBody("text/plain".toMediaTypeOrNull()),
+                selectedCategoryId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
+                selectedSizeId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
+                selectedTypeId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
                 selectedQtyName.toRequestBody("text/plain".toMediaTypeOrNull()),
-                tvDescription.text.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
                 arrayBody,
                MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull()),
                 selectedServiceId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
-
+                etStockAvailable.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             )?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
                     try{
@@ -1078,7 +1091,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
     private fun setEditData(){
          if(MyApplication.selectedService!=null){
-             if(MyApplication.selectedService!!.type == AppConstants.TYPE_PURCHASE){
+             if(MyApplication.selectedService!!.typeId == MyApplication.purchaseId){
                 rbPurchase.isChecked=true
              }
              else{
@@ -1156,6 +1169,18 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
        // loading.hide()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+       if(apiId == AppConstants.GET_CATEGORIES){
+           loading.hide()
+           selectedCategoryId = MyApplication.categories.find { it.valEn!!.lowercase().equals("purchase") }!!.id!!.toInt()
+           MyApplication.purchaseId = MyApplication.categories.find { it.valEn.equals("purchase") }!!.id!!.toInt()
+           MyApplication.rentalId = MyApplication.categories.find { it.valEn.equals("rental") }!!.id!!.toInt()
+           init()
+           listeners()
+       }
     }
 
 }

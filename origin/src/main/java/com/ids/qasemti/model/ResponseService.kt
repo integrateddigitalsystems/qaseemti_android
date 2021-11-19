@@ -9,6 +9,10 @@ class ResponseService(
     @Expose
     var id : String ?="" ,
 
+    @SerializedName("type_id")
+    @Expose
+    var typeId : Int ?=0 ,
+
     @SerializedName("type")
     @Expose
     var type : String ?="",

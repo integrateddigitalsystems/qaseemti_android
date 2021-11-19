@@ -65,7 +65,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var selectedFile: MultipartBody.Part? = null
     var selectedProfilePic: MultipartBody.Part? = null
     var selectedPhoto : String ?=""
-    var gender = "female"
+    var gender = ""
     var tempProfile : String ?=null
     var  mPermissionResult : ActivityResultLauncher<Array<String>> ?=null
     var fromCam : Boolean ?= false
@@ -129,7 +129,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
         }
         arrayBankSpinner.add(0,
-            ItemSpinner(0,AppHelper.getRemoteString("please__select",requireContext()),"")
+            ItemSpinner(-1,AppHelper.getRemoteString("please__select",requireContext()),"")
         )
         selectedBankId = 0
         val adapterServices = AdapterGeneralSpinner(requireContext(), R.layout.spinner_layout, arrayBankSpinner,0)
@@ -542,7 +542,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         }
 
             try {
-                if (user.gender.equals("female")) {
+                if (user.gender!!.lowercase().equals("female")) {
                     rbFemaleProfile.isChecked = true
                     rbMaleProfile.isChecked = false
                 } else {
@@ -550,8 +550,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     rbMaleProfile.isChecked = true
                 }
             } catch (ex: Exception) {
-                rbFemaleProfile.isChecked = true
-                rbMaleProfile.isChecked = false
+                rbFemaleProfile.isChecked = false
+                rbMaleProfile.isChecked = true
             }
 
             try {
@@ -573,7 +573,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     }
                 } catch (e: Exception) {
                 }
-                if (!user.accountNumber.isNullOrEmpty() && !user.bankName.isNullOrEmpty() && !user.bankBranch.isNullOrEmpty() && !user.IBAN.isNullOrEmpty())
+                if (!user.accountNumber.isNullOrEmpty() && !user.bankId.equals("-1") && !user.bankBranch.isNullOrEmpty() && !user.IBAN.isNullOrEmpty())
                     profilePercentage += 25
             } else {
                 if (!user.mobileNumber.isNullOrEmpty())
@@ -1145,6 +1145,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         var gender = "female"
         if (rbMaleProfile.isSelected) {
             gender = "male"
+        }else{
+            gender = "female"
         }
         val user = userId.toRequestBody("text/plain".toMediaTypeOrNull())
         val first =

@@ -29,13 +29,21 @@ class ServiceVariation(
     @Expose
     var sizeCapacity : String ?="" ,
 
+    @SerializedName("size-capacity_id")
+    @Expose
+    var sizeCapacityId : String ?="" ,
+
     @SerializedName("stock_quantity")
     @Expose
     var stockQuantity  : String ?=""  ,
 
     @SerializedName("types")
     @Expose
-    var types : String ?=""
+    var types : String ?="" ,
+
+    @SerializedName("types_id")
+    @Expose
+    var typesId : String ?=""
 
  ) {
 

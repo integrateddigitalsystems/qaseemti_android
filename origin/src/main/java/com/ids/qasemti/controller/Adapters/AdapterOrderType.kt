@@ -283,7 +283,7 @@ class AdapterOrderType(
             holder.canSep.hide()
             //holder.border.show() NEW_COLOR
             holder.rating.hide()
-            holder.track.show()
+            holder.track.hide()
             holder.credit.hide()
         }
         else if ( items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_UPCOMING) && !MyApplication.isClient) {

@@ -684,6 +684,7 @@
                 <ImageView
                     android:layout_width="@dimen/normal_icon"
                     android:layout_height="@dimen/normal_icon"
+                    android:tint="@color/primary"
                     android:src="@drawable/icon_dollar" />
 
                 <LinearLayout

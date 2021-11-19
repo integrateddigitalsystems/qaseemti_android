@@ -248,6 +248,49 @@ class CallAPIs {
 
         }
 
+        fun getCategories(
+            context: Context,
+            listener: ApiListener,
+        ) {
+            retro.getCategories()?.enqueue(object : Callback<ResponseMainCategories> {
+                override fun onResponse(
+                    call: Call<ResponseMainCategories>,
+                    response: Response<ResponseMainCategories>
+                ) {
+                    try {
+                        listener.onDataRetrieved(
+                            true,
+                            response.body()!!,
+                            AppConstants.GET_CATEGORIES
+                        )
+                    } catch (e: Exception) {
+                        try {
+                            listener.onDataRetrieved(
+                                false,
+                                ResponseUserStatus(),
+                                AppConstants.API_USER_STATUS
+                            )
+                        } catch (ex: Exception) {
+
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMainCategories>, throwable: Throwable) {
+                    try {
+                        listener.onDataRetrieved(
+                            false,
+                            ResponseUserStatus(),
+                            AppConstants.API_USER_STATUS
+                        )
+                    } catch (ex: Exception) {
+
+                    }
+                }
+            })
+        }
+
+
         fun getUserInfo(
             context: Context,
             listener: ApiListener,

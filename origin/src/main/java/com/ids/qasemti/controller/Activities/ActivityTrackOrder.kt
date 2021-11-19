@@ -246,52 +246,74 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         gmap = googleMap
-        gmap!!.setMinZoomPreference(10f)
+        gmap!!.setMinZoomPreference(1f)
         var latLngs: ArrayList<LatLng> = arrayListOf()
 
         var lan: Int = 0
         var long: Int = 1
 
-        var deliverToPosition = LatLng(
-            MyApplication.selectedOrder!!.shipping_address_latitude!!.toDouble(),
-            MyApplication.selectedOrder!!.shipping_address_longitude!!.toDouble()
-        )
-        latLngs.add(deliverToPosition)
+        var deliverToPosition : LatLng ?=null
+        try {
+            deliverToPosition = LatLng(
+                MyApplication.selectedOrder!!.shipping_latitude!!.toDouble(),
+                MyApplication.selectedOrder!!.shipping_longitude!!.toDouble()
+            )
+        }catch (ex:Exception){
+            deliverToPosition = LatLng(
+                33.85916355598623,
+                35.49256087672
+            )
+        }
+        latLngs.add(deliverToPosition!!)
 
 
 
+        doc!!.get().addOnFailureListener {  }
+        doc!!.get().addOnFailureListener {
+            var x= it
+            logw("FAILED","map Failed")
+            AppHelper.createDialog(this,AppHelper.getRemoteString("noTrackData",this)){
+                super.onBackPressed()
+            }
+        }
         doc!!.get().addOnSuccessListener { documentSnapshot ->
             val orderLoc = documentSnapshot.toObject<OrderLocation>()
-            var ny: LatLng? = null
-            if (orderLoc != null) {
-                ny = LatLng(
-                    orderLoc!!.order_laltitude!!.toDouble(),
-                    orderLoc!!.order_longitude!!.toDouble()
-                )
-            } else {
-                val user: MutableMap<String, String> = HashMap()
-                user["oder_id"] = MyApplication.selectedOrder!!.orderId!!
-                user["order_laltitude"] = LatLngCurr!!.latitude.toString()
-                user["order_longitude"] = LatLngCurr!!.longitude.toString()
-                doc!!.set(user)
-                ny = LatLngCurr
-            }
-            latLngs.add(ny!!)
-            for (item in latLngs) {
-                options.position(item);
-                options.title("someTitle");
-                options.snippet("someDesc");
-                markers.add(gmap!!.addMarker(options))
-            }
+            if(orderLoc!=null) {
+                var ny: LatLng? = null
+                if (orderLoc != null) {
+                    ny = LatLng(
+                        orderLoc!!.order_laltitude!!.toDouble(),
+                        orderLoc!!.order_longitude!!.toDouble()
+                    )
+                } else {
+                    val user: MutableMap<String, String> = HashMap()
+                    user["oder_id"] = MyApplication.selectedOrder!!.orderId!!
+                    user["order_laltitude"] = LatLngCurr!!.latitude.toString()
+                    user["order_longitude"] = LatLngCurr!!.longitude.toString()
+                    doc!!.set(user)
+                    ny = LatLngCurr
+                }
+                latLngs.add(ny!!)
+                for (item in latLngs) {
+                    options.position(item);
+                    options.title("someTitle");
+                    options.snippet("someDesc");
+                    markers.add(gmap!!.addMarker(options))
+                }
 
-            markers.get(1)
-                .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_vehicle))
-            //    markers.get(1).setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_map_vehicle,125,125)!!))
+                markers.get(1)
+                    .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_vehicle))
+                //    markers.get(1).setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_map_vehicle,125,125)!!))
 
-            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
+                gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
 
-            if (MyApplication.isClient) {
-                setClientListener()
+                if (MyApplication.isClient) {
+                    setClientListener()
+                }
+            }else{
+                AppHelper.createDialog(this,"No current track data for this order"){
+                    super.onBackPressed()
+                }
             }
         }
 

@@ -36,6 +36,7 @@ import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
+import com.ids.qasemti.utils.AppConstants.API_USER_STATUS
 import com.ids.qasemti.utils.AppConstants.COORDINATES
 import com.ids.qasemti.utils.AppConstants.CURRENCY
 import com.ids.qasemti.utils.AppConstants.FIREBASE_COUNTRY_NAME_CODE
@@ -327,6 +328,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
     fun nextStep() {
+        CallAPIs.getCategories(this, this)
         // getMobileConfig()
         /*MyApplication.isSignedIn = true
         MyApplication.userId = 41*/
@@ -478,17 +480,27 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        var res = response as ResponseUser
-        try {
-            if (res.user!!.suspended == 1 && MyApplication.isClient) {
-                AppHelper.createDialog(this, AppHelper.getRemoteString("suspended_user_msg", this))
-            } else {
-                startActivity(Intent(this, ActivityHome::class.java))
-                finish()
+
+        if(apiId==API_USER_STATUS) {
+            var res = response as ResponseUser
+            try {
+                if (res.user!!.suspended == 1 && MyApplication.isClient) {
+                    AppHelper.createDialog(
+                        this,
+                        AppHelper.getRemoteString("suspended_user_msg", this)
+                    )
+                } else {
+                    startActivity(Intent(this, ActivityHome::class.java))
+                    finish()
+                }
+            } catch (ex: Exception) {
+                Log.wtf("apiSplash", ex.toString())
+                startActivity(Intent(this, ActivityMobileRegistration::class.java))
             }
-        } catch (ex: Exception) {
-            Log.wtf("apiSplash", ex.toString())
-            startActivity(Intent(this, ActivityMobileRegistration::class.java))
+        }else{
+            MyApplication.categories = response as ArrayList<ResponseCategories>
+            MyApplication.purchaseId = MyApplication.categories.find { it.valEn.equals("purchase") }!!.id!!.toInt()
+            MyApplication.rentalId = MyApplication.categories.find { it.valEn.equals("rental") }!!.id!!.toInt()
         }
 
     }

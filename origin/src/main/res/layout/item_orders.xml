@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="@dimen/normal_icon_size"
+                android:tint="@color/primary"
                 android:layout_height="@dimen/normal_icon_size"
                  android:src="@drawable/icon_box_product"
                 android:layout_gravity="center_vertical"

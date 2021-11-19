@@ -48,6 +48,7 @@ class MyApplication : Application() {
         var fromAccount = false
         var fromAdd : Boolean ?= false
         var submitted : Boolean ?=false
+        var categories : ArrayList<ResponseCategories> = arrayListOf()
         var selectedTitle : String ?=""
         var bannedActs : ArrayList<Activity> = arrayListOf()
         var rental : Boolean ?=false
@@ -83,6 +84,8 @@ class MyApplication : Application() {
         var tempCivilId : File?=null
         var firstImage : Boolean ?=false
         var selectedService : ResponseService ?=null
+        var rentalId : Int ?=0
+        var purchaseId : Int ?=0
         var selectedOrder : ResponseOrders?=null
         var selectedPlaceOrder : RequestPlaceOrder ?=null
         var selectedAddress : ResponseAddress ?=null

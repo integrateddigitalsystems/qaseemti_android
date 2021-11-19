@@ -73,8 +73,11 @@ object AppConstants {
     const val API_USER_INFO = 3
     const val ORDER_BY_ID = 4
     const val MAP_SEARCH = 5
+    const val GET_CATEGORIES = 6
     const val TYPE_PURCHASE = "purchase"
     const val TYPE_RENTAL = "rental"
+    const val TYPE_RENTAL_ID ="343"
+    const val TYPE_PURCHASE_ID ="345"
 
     const val MEDIA_TYPE_IMAGE = 1
     const val MEDIA_TYPE_YOUTUBE = 2

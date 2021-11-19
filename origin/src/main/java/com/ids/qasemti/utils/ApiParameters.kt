@@ -13,6 +13,7 @@ object ApiParameters {
     const val GENDER = "gender"
     const val DATE_OF_BIRTH ="date_of_birth"
     const val ROLE = "role"
+    const val STOCK_QTY ="stock_qty"
     const val ADDRESS = "address"
     const val LATITUDE = "latitude"
     const val LONGITUDE ="longtitude"

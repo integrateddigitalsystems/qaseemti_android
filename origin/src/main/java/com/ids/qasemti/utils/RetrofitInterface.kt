@@ -156,14 +156,13 @@ interface RetrofitInterface {
     fun addService(
         @Part(ApiParameters.USER_ID) userId: RequestBody,
         @Part(ApiParameters.CATEGORY) category: RequestBody,
-        @Part(ApiParameters.PRODUCT_NAME) prod_name: RequestBody,
         @Part(ApiParameters.SIZE_CAPACITY) size_cap: RequestBody,
         @Part(ApiParameters.TYPE) type: RequestBody,
         @Part(ApiParameters.STOCK_STATUS) stock_status: RequestBody,
-        @Part(ApiParameters.PRODUCT_DESC) product_desc: RequestBody,
         @Part gallery: ArrayList<MultipartBody.Part>,
         @Part(ApiParameters.LANGUAGE) language: RequestBody,
-        @Part(ApiParameters.PRODUCT_ID) product_id: RequestBody
+        @Part(ApiParameters.PRODUCT_ID) product_id: RequestBody,
+        @Part(ApiParameters.STOCK_QTY) stock_qty : RequestBody
 
     ): Call<ResponseMessage>
 
@@ -367,6 +366,9 @@ interface RetrofitInterface {
     fun getCancelReason(
         @Body req : RequestLanguage
     ):Call<ResponseMainCancel>
+
+    @POST("get_categories")
+    fun getCategories():Call<ResponseMainCategories>
 
 
 }
