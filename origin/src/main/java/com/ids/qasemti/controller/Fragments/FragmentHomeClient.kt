@@ -202,8 +202,6 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
             CallAPIs.getCategories(requireActivity(),this)
 
 
-
-
         if (arrayAllServices.size > 0)
             setServiceSpinner()
 
