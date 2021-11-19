@@ -27,7 +27,7 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
         holder.viewOrder.setColorTypeface(con,R.color.new_black,"",false)
 
         if(!items.get(position).product!!.type.isNullOrEmpty()||items.get(position).product!!.type!="null")
-            holder.titleTop.text = AppHelper.getRemoteString("category",con)+" "+items.get(position).product!!.type
+            holder.titleTop.text = AppHelper.getRemoteString("category",con)+" "+if(items[position].product!!.type!=null) items[position].product!!.type else AppHelper.getRemoteString("no_data",con)
         else
             holder.titleTop.text = AppHelper.getRemoteString("category",con)+" "+AppHelper.getRemoteString("no_data",con)
 

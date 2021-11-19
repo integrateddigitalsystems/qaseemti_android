@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
-import androidx.core.view.get
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
@@ -28,7 +28,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class FragmentHomeClient : Fragment(), RVOnItemClickListener {
+class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
 
     var dialog: Dialog? = null
     var arrayAllServices: ArrayList<ResponseService> = arrayListOf()
@@ -40,7 +40,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
     var arraySpinnerServices: ArrayList<ItemSpinner> = arrayListOf()
     var arraySpinnerTypes: ArrayList<ItemSpinner> = arrayListOf()
     var arraySpinnerSizes: ArrayList<ItemSpinner> = arrayListOf()
-    private var selectedCategoryId = 1
+    private var selectedCategoryId = 0
     private var selectedCategoryName = ""
     private var selectedServiceId = 0
     private var selectedServiceName = ""
@@ -54,7 +54,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
     lateinit var spServices: Spinner
     lateinit var spType: Spinner
     lateinit var spServiceCapactity: Spinner
-
+    lateinit var rgCategory:RadioGroup
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -192,35 +192,15 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         spServiceCapactity = dialog!!.findViewById<Spinner>(R.id.spServiceCapactity)
         var btResetFilter = dialog!!.findViewById<Button>(R.id.btResetFilter)
         var btApplyFilter = dialog!!.findViewById<Button>(R.id.btApplyFilter)
-        var rbPurchase = dialog!!.findViewById<RadioButton>(R.id.rbPurchase)
-        var rbRental = dialog!!.findViewById<RadioButton>(R.id.rbRental)
-        var rgCategory = dialog!!.findViewById<RadioGroup>(R.id.rgCategory)
+/*        var rbPurchase = dialog!!.findViewById<RadioButton>(R.id.rbPurchase)
+        var rbRental = dialog!!.findViewById<RadioButton>(R.id.rbRental)*/
+        rgCategory = dialog!!.findViewById<RadioGroup>(R.id.rgCategory)
 
-        if(selectedCategoryId ==1)
-            selectedCategoryId = R.id.rbPurchase
-        if(selectedCategoryName.isNullOrEmpty())
-            selectedCategoryName = getString(R.string.condition_purchase)
-        if (arrayAllServices.size > 0)
-            setServiceSpinner()
-        rgCategory.check(selectedCategoryId)
-        //rgCategory.get(selectedCategoryId).setSelected(true)
-        rgCategory.setOnCheckedChangeListener { group, checkedId ->
-            val rb = dialog!!.findViewById<View>(checkedId) as RadioButton
-            if (checkedId == R.id.rbPurchase) {
-                selectedCategoryId = checkedId
-                selectedCategoryName = getString(R.string.condition_purchase)
+        if(MyApplication.categories.size>0){
+           setCategoriesDialog()
+        }else
+            CallAPIs.getCategories(requireActivity(),this)
 
-            } else {
-                selectedCategoryId = checkedId
-                selectedCategoryName = getString(R.string.condition_rental)
-
-            }
-          //  selectedCategoryName = rb.text.toString()
-            if (arrayAllServices.size > 0)
-                setServiceSpinner()
-            /*
-             Toast.makeText(applicationContext, rb.text, Toast.LENGTH_SHORT).show()*/
-        }
 
 
 
@@ -252,6 +232,33 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
         //btCancell!!.setOnClickListener { dialog!!.dismiss() }
         dialog!!.show()
 
+    }
+
+    private fun setCategoriesDialog(){
+        val params =
+            LinearLayout.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT, 1f)
+
+        for (i in MyApplication.categories.indices) {
+            val rbn = RadioButton(requireActivity())
+            rbn.id = MyApplication.categories[i].id!!.toInt()
+            rbn.text = MyApplication.categories[i].getName()
+            rbn.layoutParams = params
+            rgCategory.addView(rbn)
+        }
+        if(selectedCategoryId ==0) {
+            selectedCategoryId = MyApplication.categories[0].id!!.toInt()
+            selectedCategoryName = MyApplication.categories[0].getName()
+        }
+        if (arrayAllServices.size > 0)
+            setServiceSpinner()
+        rgCategory.check(selectedCategoryId)
+        rgCategory.setOnCheckedChangeListener { group, checkedId ->
+            val rb = dialog!!.findViewById<View>(checkedId) as RadioButton
+            selectedCategoryId = checkedId
+            selectedCategoryName = rb.text.toString()
+            if (arrayAllServices.size > 0)
+                setServiceSpinner()
+        }
     }
 
 
@@ -468,5 +475,10 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener {
             }
         }
 
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+       if(apiId == AppConstants.GET_CATEGORIES && dialog!=null)
+           setCategoriesDialog()
     }
 }
