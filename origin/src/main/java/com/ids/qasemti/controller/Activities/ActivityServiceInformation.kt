@@ -937,7 +937,18 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
                         else{
 
                            loading.hide()
-                            toast(AppHelper.getRemoteString("adding_error",this@ActivityServiceInformation))
+                           if(response.body()!!.message.isNullOrEmpty()) {
+                               toast(
+                                   AppHelper.getRemoteString(
+                                       "adding_error",
+                                       this@ActivityServiceInformation
+                                   )
+                               )
+                           }else{
+                               toast(
+                                   response.body()!!.message!!
+                               )
+                           }
                         }
                     }catch (E: java.lang.Exception){
                         loading.hide()
@@ -1175,6 +1186,9 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
        if(apiId == AppConstants.GET_CATEGORIES){
            loading.hide()
+           var res = response as ResponseMainCategories
+           MyApplication.categories.clear()
+           MyApplication.categories.addAll(res.categories)
            selectedCategoryId = MyApplication.categories.find { it.valEn!!.lowercase().equals("purchase") }!!.id!!.toInt()
            MyApplication.purchaseId = MyApplication.categories.find { it.valEn.equals("purchase") }!!.id!!.toInt()
            MyApplication.rentalId = MyApplication.categories.find { it.valEn.equals("rental") }!!.id!!.toInt()

@@ -32,10 +32,14 @@
                 android:visibility="gone"
                 android:id="@+id/llAcceptTerms"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height">
+                android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,15 +54,20 @@
                     android:tag="accept_terms"
                     android:text="@string/accept_terms"/>
 
+                </LinearLayout>
+
 
                 <Button
-                    android:visibility="gone"
+                    android:enabled="false"
+                    android:layout_marginBottom="@dimen/normal_margin"
+                    android:visibility="visible"
                     android:id="@+id/btProceed"
                     android:layout_marginStart="@dimen/mini_margin"
                     android:layout_marginEnd="@dimen/mini_margin"
-                    android:background="@drawable/rounded_white_red_border"
-                    android:textColor="@color/primary"
-                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/rounded_blue"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_height"
                     android:text="@string/apply"
                     android:tag="apply"/>

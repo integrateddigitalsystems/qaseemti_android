@@ -118,15 +118,18 @@ class ActivityWeb: ActivityBase() {
 
             cbTermsConditions.setOnCheckedChangeListener { buttonView, isChecked ->
                 if(isChecked) {
-                    MyApplication.termsCondition = true
-                    setResult(RESULT_OK, intent)
-                    finish()
-                    MyApplication.fromSplash = false
+                    btProceed.isEnabled = true
+                }else{
+                    btProceed.isEnabled = false
                 }
             }
 
             btProceed.onOneClick {
 
+                MyApplication.termsCondition = true
+                setResult(RESULT_OK, intent)
+                finish()
+                MyApplication.fromSplash = false
             }
         }
 

@@ -498,7 +498,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                 startActivity(Intent(this, ActivityMobileRegistration::class.java))
             }
         }else{
-            MyApplication.categories = response as ArrayList<ResponseCategories>
+            var res = response as ResponseMainCategories
+            MyApplication.categories.clear()
+            MyApplication.categories.addAll(res.categories)
             MyApplication.purchaseId = MyApplication.categories.find { it.valEn.equals("purchase") }!!.id!!.toInt()
             MyApplication.rentalId = MyApplication.categories.find { it.valEn.equals("rental") }!!.id!!.toInt()
         }
