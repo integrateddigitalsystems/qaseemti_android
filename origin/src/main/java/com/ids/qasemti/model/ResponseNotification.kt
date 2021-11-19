@@ -8,15 +8,16 @@ class ResponseNotification(
     @Expose
     var id : String?="",
 
+
     @SerializedName("date")
     @Expose
     var date : String ?="",
 
-    @SerializedName("title")
+    @SerializedName("title_en",alternate = ["title_ar","title"])
     @Expose
     var title : String ?="" ,
 
-    @SerializedName("body")
+    @SerializedName("body_en",alternate = ["body_ar","body"])
     @Expose
     var body : String ?="",
 
