@@ -10,8 +10,8 @@
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 22,
-      "versionName": "3.3",
+      "versionCode": 23,
+      "versionName": "3.4",
       "outputFile": "origin-qaseemati_client-release.apk"
     }
   ]
