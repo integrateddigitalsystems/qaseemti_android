@@ -107,8 +107,9 @@
                         android:text="@string/PaymentMethod" />
 
                     <com.ids.qasemti.custom.CustomTextViewMedium
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:gravity="center_vertical"
+                        android:layout_gravity="start"
                         android:id="@+id/tvPaymentMethod"
                         android:layout_height="@dimen/normal_icon"
                         android:textSize="@dimen/small_font_2"
