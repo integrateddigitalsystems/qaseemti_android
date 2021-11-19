@@ -526,6 +526,8 @@ class AppHelper {
                 isService
             )
 
+            logw("aaaaa",Gson().toJson(newReq))
+
 
             RetrofitClient.client?.create(RetrofitInterface::class.java)
                 ?.updateDevice(

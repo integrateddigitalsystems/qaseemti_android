@@ -31,9 +31,10 @@ class ActivityWeb: ActivityBase() {
     override fun onBackPressed() {
         if (!MyApplication.fromSplash) {
             super.onBackPressed()
-        } else {
-            //Can't go back without accepting terms
         }
+       /* else {
+            //Can't go back without accepting terms
+        }*/
     }
 
     fun resultContact(req:Int){
@@ -96,7 +97,19 @@ class ActivityWeb: ActivityBase() {
         if(id==4){
             linearContact.show()
             wvData.hide()
-        }
+            var name=""
+            name= if(MyApplication.selectedUser!!.firstName!=null) MyApplication.selectedUser!!.firstName!!+" " else ""+
+                  if(MyApplication.selectedUser!!.middleName!=null) MyApplication.selectedUser!!.middleName!!+" " else ""+
+                  if(MyApplication.selectedUser!!.lastName!=null) MyApplication.selectedUser!!.lastName!!+" " else ""
+
+            etFullNameContact.setText(name)
+            if(MyApplication.selectedUser!!.email!=null)
+                 etEmailContact.setText(MyApplication.selectedUser!!.email)
+
+            if(MyApplication.selectedUser!!.mobileNumber!=null)
+                etPhoneContact.setText(MyApplication.selectedUser!!.mobileNumber)
+
+          }
 
         if(MyApplication.fromSplash){
 

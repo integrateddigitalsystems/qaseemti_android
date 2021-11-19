@@ -42,10 +42,10 @@ class AdapterNotification(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-        var title = items.get(position).title
-        var body = items.get(position).body
+        var title = items[position].title
+        var body = items[position].body
 
-            holder.date.text = items.get(position).date
+            holder.date.text = items[position].date
             holder.title.text = title
             /*if (!items.get(position).image.isNullOrEmpty())
             Glide.with(con).load(items.get(position).image).into(holder.image);*/
@@ -54,7 +54,9 @@ class AdapterNotification(
 
 
         if(items.get(position).isViewed.equals("1")){
-            holder.viewed.setImageDrawable(con.getDrawable(R.drawable.circle_gray))
+            holder.viewed.setImageResource(R.drawable.circle_gray)
+        }else{
+            holder.viewed.setImageResource(R.drawable.circle_unread)
         }
 
         if (items.get(position).open) {

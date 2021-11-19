@@ -101,8 +101,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
                     try {
                         loading.hide()
                     }catch (ex: Exception){
-
-                    }
+                  }
                 }
             })
     }
@@ -145,10 +144,10 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
 
         AppHelper.onOneClick {
-            array.get(position).open = !array.get(position).open
-            if(array.get(position).isViewed.equals("0")){
-                markNotification(array.get(position).id!!.toInt())
-                array.get(position).isViewed = "1"
+            array[position].open = !array[position].open
+            if(array[position].isViewed.equals("0")){
+                markNotification(array[position].id!!.toInt())
+                array[position].isViewed = "1"
             }
             adapter!!.notifyItemChanged(position)
         }
