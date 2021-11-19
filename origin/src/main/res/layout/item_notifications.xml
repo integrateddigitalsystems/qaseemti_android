@@ -91,8 +91,7 @@
                     android:layout_width="@dimen/icon_2"
                     android:layout_height="@dimen/icon_2"
                     android:layout_marginEnd="@dimen/normal_margin"
-                    android:rotation="90"
-                    android:src="@drawable/arrow_right"
+                    android:src="@drawable/arrow_down"
                     app:tint="@color/gray_font_title" />
 
             </LinearLayout>

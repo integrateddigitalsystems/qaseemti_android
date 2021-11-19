@@ -127,7 +127,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
         setUpCurr()
         btPlaceOrder.onOneClick {
             if (locationSelected) {
-                if (MyApplication.selectedService!!.type!!.trim().lowercase() == "rental") {
+                if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find { it.valEn!!.lowercase().equals("rental") }!!.id!!.toInt())) {
 
                     if (!etToDate.text.isNullOrEmpty() && !etToTime.text.isNullOrEmpty()) {
                         if (rbNow.isChecked || checkGivenDate()) {
@@ -399,7 +399,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
 
         btPlaceOrder.typeface = AppHelper.getTypeFace(this)
 
-        if (MyApplication.selectedService!!.type!!.trim().lowercase() == getString(R.string.condition_rental)) {
+        if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find { it.valEn!!.lowercase().equals("rental") }!!.id!!.toInt())) {
             tvFromTitle.show()
             tvToTitle.show()
             llToLayout.show()

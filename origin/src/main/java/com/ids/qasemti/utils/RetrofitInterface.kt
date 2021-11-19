@@ -158,7 +158,6 @@ interface RetrofitInterface {
         @Part(ApiParameters.CATEGORY) category: RequestBody,
         @Part(ApiParameters.SIZE_CAPACITY) size_cap: RequestBody,
         @Part(ApiParameters.TYPE) type: RequestBody,
-        @Part(ApiParameters.STOCK_STATUS) stock_status: RequestBody,
         @Part gallery: ArrayList<MultipartBody.Part>,
         @Part(ApiParameters.LANGUAGE) language: RequestBody,
         @Part(ApiParameters.PRODUCT_ID) product_id: RequestBody,

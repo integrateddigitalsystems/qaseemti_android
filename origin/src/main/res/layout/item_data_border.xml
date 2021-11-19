@@ -17,6 +17,7 @@
             android:textAlignment="viewStart"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:maxLines="1"
             android:id="@+id/tvDataName"
             android:gravity="center_vertical|start"
             android:tag="category"
@@ -32,6 +33,7 @@
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:paddingStart="@dimen/first_margin"
             android:layout_width="match_parent"
+            android:maxLines="1"
             android:layout_height="match_parent"
             android:id="@+id/tvDataValue"
             android:textSize="@dimen/medium_font"

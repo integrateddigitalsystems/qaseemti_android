@@ -172,8 +172,7 @@
                                 android:layout_centerInParent="true"
                                 android:layout_width="@dimen/small_icon"
                                 android:layout_height="@dimen/small_icon"
-                                android:src="@drawable/arrow_right"
-                                android:rotation="90"
+                                android:src="@drawable/arrow_down"
                                 app:tint="@color/new_black"/>
 
                         </RelativeLayout>
@@ -221,8 +220,7 @@
                                 android:layout_centerInParent="true"
                                 android:layout_width="@dimen/small_icon"
                                 android:layout_height="@dimen/small_icon"
-                                android:src="@drawable/arrow_right"
-                                android:rotation="90"
+                                android:src="@drawable/arrow_down"
                                 app:tint="@color/new_black"/>
 
                         </RelativeLayout>

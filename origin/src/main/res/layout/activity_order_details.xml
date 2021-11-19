@@ -109,8 +109,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerInParent="true"
                     android:layout_marginEnd="@dimen/first_margin"
-                    android:rotation="90"
-                    android:src="@drawable/arrow_right"
+                    android:src="@drawable/arrow_down"
                     android:tint="@color/new_black" />
 
             </RelativeLayout>
@@ -222,8 +221,7 @@
                 android:layout_centerInParent="true"
                 android:layout_width="@dimen/small_icon"
                 android:layout_height="@dimen/small_icon"
-                android:src="@drawable/arrow_right"
-                android:rotation="90"
+                android:src="@drawable/arrow_down"
                 android:tint="@color/gray_font_title"
                 app:tint="@color/gray_font_title"/>
 

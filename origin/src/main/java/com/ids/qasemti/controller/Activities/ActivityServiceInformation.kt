@@ -905,11 +905,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
         }
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.addService(
-                MyApplication.userId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
+              MyApplication.userId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
                 selectedCategoryId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
                 selectedSizeId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
                 selectedTypeId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
-                selectedQtyName.toRequestBody("text/plain".toMediaTypeOrNull()),
                 arrayBody,
                MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull()),
                 selectedServiceId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
@@ -1023,7 +1022,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
             else
               stockStatus="intock"
         }catch (e:Exception){}
-        var req=RequestUpdateService(MyApplication.selectedService!!.id!!.toInt(),etStockAvailable.text.toString().toInt(),stockStatus)
+        var req=RequestUpdateService(MyApplication.selectedService!!.id!!.toInt(),etStockAvailable.text.toString().toInt())
 
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updateService(
@@ -1096,7 +1095,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
 
 
     private fun requiredFilesUploaded():Boolean{
-        return arrayRequiredFiles.count { it.selectedFileName=="" } == 0
+        return arrayRequiredFiles.count { it.selectedFileName.isNullOrEmpty() } == 0
     }
 
 
