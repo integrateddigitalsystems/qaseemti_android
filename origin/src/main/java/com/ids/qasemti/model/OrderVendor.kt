@@ -12,6 +12,10 @@ class OrderVendor(
     @Expose
     var available : String ?="" ,
 
+    @SerializedName("mobile_number")
+    @Expose
+    var mobileNum : String ?="" ,
+
     @SerializedName("birthday")
     @Expose
     var birthday : String ?="" ,

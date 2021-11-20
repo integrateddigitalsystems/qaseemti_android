@@ -1,6 +1,7 @@
 package com.ids.qasemti.controller.Fragments
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -284,8 +285,20 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         }
         else if (view.id == R.id.ivOrderCall) {
             AppHelper.onOneClick {
-                val intent = Intent(Intent.ACTION_DIAL)
-                startActivity(intent)
+                try {
+                    if (MyApplication.isClient) {
+                        val intent = Intent(Intent.ACTION_DIAL)
+                        intent.setData(Uri.parse("tel:" + ordersArray.get(position).customer!!.mobile_number));
+                        startActivity(intent)
+                    } else {
+                        val intent = Intent(Intent.ACTION_DIAL)
+                        intent.setData(Uri.parse("tel:" + ordersArray.get(position).vendor!!.mobileNum));
+                        startActivity(intent)
+                    }
+                }catch (ex:Exception){
+                    val intent = Intent(Intent.ACTION_DIAL)
+                    startActivity(intent)
+                }
             }
 
         }

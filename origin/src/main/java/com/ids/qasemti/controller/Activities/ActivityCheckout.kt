@@ -351,8 +351,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
         }
 
         llSetDateTime.onOneClick {
-            var up = -90
-            var down = 90
+            var up = -180
+            var down = 180
             if (open) {
                 ivOpenDateTime.animate().rotation(up.toFloat()).setDuration(400)
                 llTimeDate.hide()
