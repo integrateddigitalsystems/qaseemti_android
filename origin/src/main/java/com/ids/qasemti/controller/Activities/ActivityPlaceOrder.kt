@@ -142,7 +142,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         arrayOrderData.add(
             OrderData(
                 AppHelper.getRemoteString("type", this),
-                if (orders.product!!.type != null && orders.product!!.types!!.isNotEmpty()) orders.product!!.types else ""
+                if (MyApplication.selectedPlaceOrder!!.types != null && MyApplication.selectedPlaceOrder!!.types!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.types else ""
             )
         )
         arrayOrderData.add(
@@ -543,6 +543,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                     try {
                         loading.hide()
                         if (response.body()!!.result == 1) {
+                            toast(getString(R.string.knet_error))
                             nextStep()
                         }else{
                             AppHelper.createDialog(this@ActivityPlaceOrder,response.body()!!.message!!)

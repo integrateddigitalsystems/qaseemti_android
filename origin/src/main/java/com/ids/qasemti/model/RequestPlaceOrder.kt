@@ -109,12 +109,21 @@ class RequestPlaceOrder {
     @Expose
     var coupon: String? = ""
 
+    @SerializedName("date_from")
+    @Expose
+    var dateFrom: String? = ""
+
+    @SerializedName("date_to")
+    @Expose
+    var dateTo: String? = ""
+
     var title : String ?=""
     var price : String ?=""
 
     constructor(){
 
     }
+
 
     constructor(
         userId: Int?,
@@ -138,7 +147,8 @@ class RequestPlaceOrder {
         title : String ?,
         price : String ?,
         coupon : String ?,
-        address_id:Int
+        address_id:Int ,
+
     ) {
         this.userId = userId
         this.productCategory = productCategory
@@ -162,5 +172,58 @@ class RequestPlaceOrder {
         this.price = price
         this.address_id=address_id
         this.coupon=coupon
+    }
+
+
+    constructor(
+        userId: Int?,
+        productCategory: String?,
+        productId: Int?,
+        types: String?,
+        sizeCapacity: String?,
+        deliveryDate: String?,
+        addressName: String?,
+        latitude: String?,
+        longitude: String?,
+        street: String?,
+        building: String?,
+        floor: String?,
+        addressDescription: String?,
+        firstName: String?,
+        lastName: String?,
+        company: String?,
+        email: String?,
+        phone: String?,
+        title : String ?,
+        price : String ?,
+        coupon : String ?,
+        address_id:Int ,
+        dateFrom : String ?,
+        dateTo : String ?
+    ) {
+        this.userId = userId
+        this.productCategory = productCategory
+        this.productId = productId
+        this.types = types
+        this.sizeCapacity = sizeCapacity
+        this.deliveryDate = deliveryDate
+        this.addressName = addressName
+        this.latitude = latitude
+        this.longitude = longitude
+        this.street = street
+        this.building = building
+        this.floor = floor
+        this.addressDescription = addressDescription
+        this.firstName = firstName
+        this.lastName = lastName
+        this.company = company
+        this.email = email
+        this.phone = phone
+        this.title = title
+        this.price = price
+        this.address_id=address_id
+        this.coupon=coupon
+        this.dateFrom = dateFrom
+        this.dateTo = dateTo
     }
 }

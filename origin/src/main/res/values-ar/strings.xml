@@ -294,6 +294,7 @@
     <string name="EmailHint">البريد الالكتروني *</string>
     <string name="noTrackData">لا توجد بيانات المسار الحالية لهذا الطلب</string>
     <string name="are_you_sure_cancel">هل انت متأكد من الالغاء ؟</string>
+    <string name="knet_error">Knet خلل</string>
 
 
 </resources>
