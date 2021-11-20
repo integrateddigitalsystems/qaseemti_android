@@ -291,15 +291,18 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             timePickerDialog.show()
         }
         rlToDate.onOneClick {
-            val myFormat = "dd MMM yyyy" //Change as you need
-            var sdf =
-                SimpleDateFormat(myFormat, Locale.ENGLISH)
-            var mcurrentDate =sdf.parse(etToDate.text.toString())
             var mYear = 0
             var mMonth = 0
             var mDay = 0
+            val myFormat = "dd MMM yyyy" //Change as you need
+            var sdf =
+                SimpleDateFormat(myFormat, Locale.ENGLISH)
+            var mcurrentDate : Date ?=null
             var cal = Calendar.getInstance()
-            cal.time = mcurrentDate
+            if(!etToDate.text.isNullOrEmpty()) {
+                mcurrentDate = sdf.parse(etToDate.text.toString())
+                cal.time = mcurrentDate
+            }
             mYear = cal[Calendar.YEAR]
             mMonth = cal[Calendar.MONTH]
             mDay = cal[Calendar.DAY_OF_MONTH]

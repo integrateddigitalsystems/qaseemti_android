@@ -74,8 +74,14 @@ class ActivityAddNewAddress : ActivityBase() {
             long,
             etStreet.text.toString(),
             etFloor.text.toString(),
+            etMoreDetails.text.toString(),
+            etBuilding.text.toString(),
+            etArea.text.toString(),
+            etAvenue.text.toString(),
+            etApartment.text.toString(),
+            etBlock.text.toString(),
             etAddressProvince.text.toString(),
-            etBuilding.text.toString()
+            etAddressProvince.text.toString()
         )
           intent.putExtra("lat",latlng!!.latitude)
           intent.putExtra("long",latlng!!.longitude)
