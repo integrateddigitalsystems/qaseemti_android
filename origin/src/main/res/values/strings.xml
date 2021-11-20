@@ -293,6 +293,7 @@
     <string name="EmailHint">Email *</string>
     <string name="noTrackData">No current track data for this order</string>
     <string name="are_you_sure_cancel">Are you sure you want to cancel ?</string>
+    <string name="knet_error">Knet Error</string>
 
 
 </resources>

@@ -543,6 +543,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                     try {
                         loading.hide()
                         if (response.body()!!.result == 1) {
+                            toast(getString(R.string.knet_error))
                             nextStep()
                         }else{
                             AppHelper.createDialog(this@ActivityPlaceOrder,response.body()!!.message!!)
