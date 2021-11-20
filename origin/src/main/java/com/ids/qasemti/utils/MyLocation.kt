@@ -68,10 +68,10 @@ fun getLocation(context: Context, result: LocationResult): Boolean {
     } catch (ex: Exception) {
     }
 
-    if(!gps_enabled){
+  /*  if(!gps_enabled){
         context.startActivity( Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
         return false
-    }
+    }*/
 
     //don't start listeners if no provider is enabled
     if (!gps_enabled && !network_enabled){
