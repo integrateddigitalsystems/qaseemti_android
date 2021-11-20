@@ -337,6 +337,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
 
     override fun onResume() {
         super.onResume()
+        getCurrentLocation()
         mvLocation!!.onResume()
 
 

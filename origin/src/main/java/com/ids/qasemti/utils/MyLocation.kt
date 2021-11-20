@@ -3,6 +3,7 @@ package com.ids.qasemti.utils
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -62,9 +63,23 @@ fun getLocation(context: Context, result: LocationResult): Boolean {
     } catch (ex: Exception) {
     }
 
-    //don't start listeners if no provider is enabled
-    if (!gps_enabled && !network_enabled)
+    try {
+        network_enabled = lm!!.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    } catch (ex: Exception) {
+    }
+
+    if(!gps_enabled){
+        context.startActivity( Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
         return false
+    }
+
+    //don't start listeners if no provider is enabled
+    if (!gps_enabled && !network_enabled){
+
+        return false
+    }
+
+
 
     if (ActivityCompat.checkSelfPermission(context,
             Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
