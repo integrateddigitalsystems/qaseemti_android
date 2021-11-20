@@ -1010,9 +1010,17 @@ class AppHelper {
         }
 
         fun getAddressLoc(lat: Double, long: Double, con: Context): Address {
-            val myLocation = Geocoder(con, Locale.getDefault())
-            val myList = myLocation.getFromLocation(lat, long, 1)
-            val address = myList[0]
+
+
+            var address : Address ?=null
+            try {
+                val myLocation = Geocoder(con, Locale.getDefault())
+                val myList = myLocation.getFromLocation(lat, long, 1)
+                address = myList[0]
+            }catch (ex:Exception){
+                Log.wtf("LOCEX",ex.toString())
+
+            }
 
             return address!!
         }
@@ -1035,12 +1043,17 @@ class AppHelper {
         }
 
         fun getAddress(lat: Double, long: Double, con: Context): String {
-            val myLocation = Geocoder(con, Locale.getDefault())
-            val myList = myLocation.getFromLocation(lat, long, 1)
-            val address = myList[0]
-            var addressStr: String? = ""
+            var addressStr = ""
+            try {
+                val myLocation = Geocoder(con, Locale.getDefault())
+                val myList = myLocation.getFromLocation(lat, long, 1)
+                val address = myList[0]
 
-            addressStr += address.getAddressLine(0).toString()
+                addressStr += address.getAddressLine(0).toString()
+            }catch (ex:Exception){
+                logw("locEx",ex.toString())
+                return ""
+            }
 
             return addressStr!!
         }

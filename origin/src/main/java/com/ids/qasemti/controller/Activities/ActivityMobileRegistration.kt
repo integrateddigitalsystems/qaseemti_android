@@ -167,10 +167,12 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
                         MyApplication.deviceId = response.body()!!.deviceId!!
                         sendOTP()
                     } catch (E: java.lang.Exception) {
+                        loading.hide()
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                    loading.hide()
                 }
             })
     }

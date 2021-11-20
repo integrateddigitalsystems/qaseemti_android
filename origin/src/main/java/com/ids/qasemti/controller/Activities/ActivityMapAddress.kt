@@ -7,11 +7,14 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -49,6 +52,8 @@ import kotlinx.android.synthetic.main.fragment_orders.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.popup_location_search.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
@@ -398,13 +403,30 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
                     val lon = location.longitude
                     //toast("$lat --SLocRes-- $lon")
                     latLng = LatLng(lat, lon)
-                    MyApplication.selectedCurrentAddress = AppHelper.getAddressLoc(
-                        latLng!!.latitude,
-                        latLng!!.longitude,
-                        this@ActivityMapAddress
-                    )
+
 
                     if (firstTime!!) {
+                        var addressStr : String ?=""
+                        Thread{
+
+                            var address : Address?=null
+                            try {
+                                val myLocation = Geocoder(this@ActivityMapAddress, Locale.getDefault())
+                                val myList = myLocation.getFromLocation(lat, lon, 1)
+                                address = myList[0]
+                                addressStr += address.getAddressLine(0).toString()
+                            }catch (ex:Exception){
+                                Log.wtf("LOCEX",ex.toString())
+
+                            }
+
+                            runOnUiThread {
+                                etMapSearch.text = addressStr!!.toEditable()
+                                MyApplication.selectedCurrentAddress = address
+
+                            }
+                        }.start()
+
                         startLatLng = LatLng(location.latitude,location.longitude)
                         setUpMap()
                         /*  resultLauncher!!.launch(
@@ -475,7 +497,27 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
             google!!.moveCamera(CameraUpdateFactory.newLatLng(it))
             val marker = MarkerOptions()
             marker.position(it)
-            etMapSearch.text = AppHelper.getAddress(latLng!!.latitude,latLng!!.longitude,this).toEditable()
+
+            loading.show()
+            Thread{
+
+                var addressStr = ""
+                try {
+                    val myLocation = Geocoder(this, Locale.getDefault())
+                    val myList = myLocation.getFromLocation(latLng!!.latitude, latLng!!.longitude, 1)
+                    val address = myList[0]
+
+                    addressStr += address.getAddressLine(0).toString()
+                }catch (ex:Exception){
+                    logw("locEx",ex.toString())
+                }
+
+                runOnUiThread {
+                    etMapSearch.text = addressStr.toEditable()
+                    loading.hide()
+                }
+            }.start()
+
             google!!.clear()
             google!!.addMarker(marker)
             latLng = it

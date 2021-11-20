@@ -185,6 +185,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
 
     fun requestSucc(respone: ResponseVerification) {
         if (respone.result.equals("1")) {
+            AppHelper.updateDevice(this,respone.user!!.mobileNumber!!)
             if (respone.user != null ) {
                 if(!MyApplication.isClient){
                 if (respone.user!!.suspended == 1) {

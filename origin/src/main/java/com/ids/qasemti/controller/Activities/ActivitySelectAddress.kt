@@ -2,12 +2,13 @@ package com.ids.qasemti.controller.Activities
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,7 +17,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.ResponseAddress
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.activity_new_address.*
@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_select_address.*
 import kotlinx.android.synthetic.main.activity_select_address.rootLayout
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.util.*
 
 class ActivitySelectAddress : AppCompactBase() {
 
@@ -192,11 +193,32 @@ class ActivitySelectAddress : AppCompactBase() {
                     val lon = location.longitude
                     //toast("$lat --SLocRes-- $lon")
                     latLng = LatLng(lat, lon)
+
+
+                    Thread {
+                        var address : Address?=null
+                        try {
+                            val myLocation = Geocoder(this@ActivitySelectAddress, Locale.getDefault())
+                            val myList = myLocation.getFromLocation(lat, lon, 1)
+                            address = myList[0]
+                        }catch (ex:Exception){
+                            Log.wtf("LOCEX",ex.toString())
+
+                        }
+
+                        runOnUiThread {
+                            MyApplication.selectedCurrentAddress = address
+                        }
+                    }.start()
+
+
+
+                   /*
                     MyApplication.selectedCurrentAddress = AppHelper.getAddressLoc(
                         latLng!!.latitude,
                         latLng!!.longitude,
                         this@ActivitySelectAddress
-                    )
+                    )*/
 
                      if(firstTime) {
                          resultLauncher!!.launch(

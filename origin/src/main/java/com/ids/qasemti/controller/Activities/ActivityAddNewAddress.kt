@@ -169,32 +169,45 @@ class ActivityAddNewAddress : ActivityBase() {
 
     fun setUpData(ll:LatLng){
         var address: Address? = null
-        try {
-            latlng =ll
-            val myLocation = Geocoder(this, Locale.getDefault())
-            val myList =
-                myLocation.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
-            address = myList[0]
-        } catch (ex: Exception) {
+        Thread {
+            try {
+                try {
+                    latlng =ll
+                    val myLocation = Geocoder(this, Locale.getDefault())
+                    val myList =
+                        myLocation.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
+                    address = myList[0]
+                } catch (ex: Exception) {
 
-        }
-        try {
-            etStreet.text = address!!.thoroughfare.toEditable()
-        } catch (ex: Exception) {
-            etStreet.text.clear()
-        }
-        try {
-            etBuilding.text = address!!.premises.toEditable()
-        } catch (ex: Exception) {
-            etBuilding.text.clear()
-        }
-        try {
-            etAddressName.text = address!!.featureName.toEditable()
-        } catch (ex: Exception) {
-            etAddressName.text.clear()
-        }
+                }
+            }catch (ex:Exception){
+                Log.wtf("LOCEX",ex.toString())
 
-        editData(llAddForm)
+            }
+
+            runOnUiThread {
+                try {
+                    etStreet.text = address!!.thoroughfare.toEditable()
+                } catch (ex: Exception) {
+                    etStreet.text.clear()
+                }
+                try {
+                    etBuilding.text = address!!.premises.toEditable()
+                } catch (ex: Exception) {
+                    etBuilding.text.clear()
+                }
+                try {
+                    etAddressName.text = address!!.featureName.toEditable()
+                } catch (ex: Exception) {
+                    etAddressName.text.clear()
+                }
+
+                editData(llAddForm)
+            }
+        }.start()
+
+
+
     }
 
 

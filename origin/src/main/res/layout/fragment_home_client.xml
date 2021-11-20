@@ -124,6 +124,7 @@
                 android:id="@+id/btRegisterLogin"
                 android:layout_width="@dimen/button_width"
                 android:layout_marginBottom="@dimen/margin_start_end"
+                android:tag="Register_login"
                 android:layout_height="@dimen/bigger_edit_text"
                 android:background="@drawable/blue_rounded"
                 android:textColor="@color/white"
