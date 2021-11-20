@@ -164,7 +164,9 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
                 array[position].product!!.name,
                 array[position].grand_total,
                 "",
-                if(array.get(position).addresses.size >0) array.get(position).addresses.get(0).addressId!!.toInt() else 0
+                if(array.get(position).addresses.size >0) array.get(position).addresses.get(0).addressId!!.toInt() else 0,
+                array[position].product!!.booking_start_date,
+                array[position].product!!.booking_end_date
 
 
                 )

@@ -469,7 +469,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
 
         var type  = ""
 
-        if(MyApplication.selectedService!!.type.equals("بيع") || MyApplication.selectedService!!.type.equals("شراء") || MyApplication.selectedService!!.type.equals(AppConstants.TYPE_PURCHASE) )
+        if(MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find { it.valEn!!.lowercase().equals("purchase") }!!.id!!.toInt() ))
             type = AppConstants.TYPE_PURCHASE
         else
             type = AppConstants.TYPE_RENTAL
@@ -497,6 +497,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             MyApplication.selectedPrice,
             "",
             if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
+            etFromDate.text.toString(),
+            etToDate.text.toString()
 
 
             )
