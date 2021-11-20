@@ -126,6 +126,16 @@
                         android:layout_marginEnd="@dimen/normal_margin"
                         android:src="@drawable/arrow_down"
                         android:tint="@color/seconday_use" />
+                        <ImageView
+                            android:layout_gravity="end"
+                            android:id="@+id/ivCloseDateTime"
+                            android:rotation="180"
+                            android:visibility="gone"
+                            android:layout_width="@dimen/fab_margin"
+                            android:layout_height="@dimen/fab_margin"
+                            android:layout_marginEnd="@dimen/normal_margin"
+                            android:src="@drawable/arrow_down"
+                            android:tint="@color/seconday_use" />
                     </LinearLayout>
 
                 </LinearLayout>
