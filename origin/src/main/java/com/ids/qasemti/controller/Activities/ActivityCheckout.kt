@@ -511,84 +511,86 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 ) //Yes 24 hour time
                 timePickerDialog.show()
             }
-        }
 
+            rlToTime.onOneClick {
+                val mcurrentTime = Calendar.getInstance()
+                val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+                val minute = mcurrentTime[Calendar.MINUTE]
+                val myFormat = "dd/MM/yyyy" //Change as you need
+                val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+                val now = mcurrentTime.time
+                val nowDate = sdf.format(now)
+                val timePickerDialog = TimePickerDialog(
+                    this, R.style.DatePickerDialog,
+                    { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
-        rlToTime.onOneClick {
-            val mcurrentTime = Calendar.getInstance()
-            val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
-            val minute = mcurrentTime[Calendar.MINUTE]
-            val myFormat = "dd/MM/yyyy" //Change as you need
-            val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
-            val now = mcurrentTime.time
-            val nowDate = sdf.format(now)
-            val timePickerDialog = TimePickerDialog(
-                this, R.style.DatePickerDialog,
-                { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
-
-                    var time = String.format("%02d", selectedHour) + " : " + String.format(
-                        "%02d",
-                        selectedMinute
-                    )
-                    if (compareDates() == -1) {
-                        if (!compareTimes(selectedHour, selectedMinute)) {
-                            AppHelper.createDialog(this, "You cannot pick a time before selected")
+                        var time = String.format("%02d", selectedHour) + " : " + String.format(
+                            "%02d",
+                            selectedMinute
+                        )
+                        if (compareDates() == -1) {
+                            if (!compareTimes(selectedHour, selectedMinute)) {
+                                AppHelper.createDialog(this, "You cannot pick a time before selected")
+                            } else {
+                                etToTime.text = time.toEditable()
+                            }
                         } else {
                             etToTime.text = time.toEditable()
                         }
-                    } else {
-                        etToTime.text = time.toEditable()
-                    }
 
-                }, hour, minute, true
-            ) //Yes 24 hour time
-            timePickerDialog.show()
-        }
-        rlToDate.onOneClick {
-            var mYear = 0
-            var mMonth = 0
-            var mDay = 0
-            val myFormat = "yyyy-MM-dd" //Change as you need
-            var sdf =
-                SimpleDateFormat(myFormat, Locale.ENGLISH)
-            var mcurrentDate: Date? = null
-            var cal = Calendar.getInstance()
-            if (!etToDate.text.isNullOrEmpty()) {
-                mcurrentDate = sdf.parse(etToDate.text.toString())
-                cal.time = mcurrentDate
+                    }, hour, minute, true
+                ) //Yes 24 hour time
+                timePickerDialog.show()
             }
-            mYear = cal[Calendar.YEAR]
-            mMonth = cal[Calendar.MONTH]
-            mDay = cal[Calendar.DAY_OF_MONTH]
+            rlToDate.onOneClick {
+                var mYear = 0
+                var mMonth = 0
+                var mDay = 0
+                val myFormat = "yyyy-MM-dd" //Change as you need
+                var sdf =
+                    SimpleDateFormat(myFormat, Locale.ENGLISH)
+                var mcurrentDate: Date? = null
+                var cal = Calendar.getInstance()
+                if (!etToDate.text.isNullOrEmpty()) {
+                    mcurrentDate = sdf.parse(etToDate.text.toString())
+                    cal.time = mcurrentDate
+                }
+                mYear = cal[Calendar.YEAR]
+                mMonth = cal[Calendar.MONTH]
+                mDay = cal[Calendar.DAY_OF_MONTH]
 
-            // mcurrentDate.set(mYear, mMonth, mDay)
-            val mDatePicker = DatePickerDialog(
-                this,
-                DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
-                    val myCalendar = Calendar.getInstance()
-                    myCalendar[Calendar.YEAR] = selectedyear
-                    myCalendar[Calendar.MONTH] = selectedmonth
-                    myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                    val myFormat = "dd MMM yyyy" //Change as you need
-                    var sdf =
-                        SimpleDateFormat(myFormat, Locale.ENGLISH)
-                    var date = sdf.format(myCalendar.time)
-                    etToDate.text = date.toEditable()
-                }, mYear, mMonth, mDay
-            )
-            mDatePicker.datePicker.minDate = minRenewTo!!.time
-            mDatePicker.show()
-        }
+                // mcurrentDate.set(mYear, mMonth, mDay)
+                val mDatePicker = DatePickerDialog(
+                    this,
+                    DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
+                        val myCalendar = Calendar.getInstance()
+                        myCalendar[Calendar.YEAR] = selectedyear
+                        myCalendar[Calendar.MONTH] = selectedmonth
+                        myCalendar[Calendar.DAY_OF_MONTH] = selectedday
+                        val myFormat = "dd MMM yyyy" //Change as you need
+                        var sdf =
+                            SimpleDateFormat(myFormat, Locale.ENGLISH)
+                        var date = sdf.format(myCalendar.time)
+                        etToDate.text = date.toEditable()
+                    }, mYear, mMonth, mDay
+                )
+                mDatePicker.datePicker.minDate = minRenewTo!!.time
+                mDatePicker.show()
+            }
 
 
-        btPlaceOrder.text = AppHelper.getRemoteString("renew_order", this)
-        btPlaceOrder.onOneClick {
-            try {
-                renewOrder()
-            } catch (ex: Exception) {
-                Log.wtf("renewError", ex.toString())
+            btPlaceOrder.text = AppHelper.getRemoteString("renew_order", this)
+            btPlaceOrder.onOneClick {
+                try {
+                    renewOrder()
+                } catch (ex: Exception) {
+                    Log.wtf("renewError", ex.toString())
+                }
             }
         }
+
+
+
 
     }
 
