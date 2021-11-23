@@ -30,7 +30,7 @@ class MyApplication : Application() {
         var upcoming: Boolean ?=false
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
-        var renewing  = true
+        var renewing  = false
         var addNew : Boolean = true
         var selectedFragmentTag : String ?=""
         var currency : String ?=""
