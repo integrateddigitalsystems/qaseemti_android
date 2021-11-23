@@ -73,8 +73,8 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
         btServiceCheckout.typeface=AppHelper.getTypeFace(requireContext())
         btServiceCheckout.onOneClick {
             if(MyApplication.isSignedIn) {
-                MyApplication.selectedVariationType = selectedTypeName
-                MyApplication.selectedSize = selectedSizeName
+                MyApplication.selectedVariationType = selectedTypeId
+                MyApplication.selectedSize = selectedSizeId
                 startActivity(Intent(requireContext(), ActivityCheckout::class.java))
             }else{
                 (activity as ActivityHome?)!!.goRegistration(2,AppConstants.FRAGMENT_HOME_SP,FragmentHomeClient(),R.color.white)
@@ -158,7 +158,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
         arraySpinnerTypes.clear()
         for (i in arrayTypes.indices){
             if(arrayTypes[i].types!=null && arrayTypes[i].types!!.isNotEmpty())
-                arraySpinnerTypes.add(ItemSpinner(i,arrayTypes[i].types,""))
+                arraySpinnerTypes.add(ItemSpinner(arrayTypes[i].typesId!!.toInt(),arrayTypes[i].types,""))
         }
         val adapterTypes = AdapterGeneralSpinner(requireActivity(), R.layout.spinner_layout, arraySpinnerTypes,0)
         spServiceType.adapter = adapterTypes
@@ -191,7 +191,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
         arraySpinnerSizes.clear()
         for (i in arrayTypes.indices){
             if(arrayTypes[i].sizeCapacity!=null && arrayTypes[i].sizeCapacity!!.isNotEmpty())
-                arraySpinnerSizes.add(ItemSpinner(i,arrayTypes[i].sizeCapacity,""))
+                arraySpinnerSizes.add(ItemSpinner(arrayTypes[i].sizeCapacityId!!.toInt(),arrayTypes[i].sizeCapacity,""))
         }
         val adapterSize = AdapterGeneralSpinner(requireActivity(), R.layout.spinner_layout, arraySpinnerSizes,0)
         spServiceSize.adapter = adapterSize

@@ -4,6 +4,7 @@ import android.app.ActionBar
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -92,8 +93,15 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
     fun setData(orders: ResponseOrders) {
 
-        if(!orders.shipping_address_name.equals("null")||!orders.shipping_address_name.isNullOrEmpty())
+        if(!orders.shipping_address_name.equals("null")||!orders.shipping_address_name.isNullOrEmpty()) {
             tvLocationPlaceOrder.text = orders.shipping_address_name
+            tvLocationPlaceOrder.onOneClick {
+                val uri: String =
+                    java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", orders.shipping_latitude!!.toDouble(),  orders.shipping_longitude!!.toDouble())
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+               startActivity(intent)
+            }
+        }
         else
             tvLocationPlaceOrder.text = AppHelper.getRemoteString("no_data", this)
 
@@ -142,7 +150,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         arrayOrderData.add(
             OrderData(
                 AppHelper.getRemoteString("type", this),
-                if (MyApplication.selectedPlaceOrder!!.types != null && MyApplication.selectedPlaceOrder!!.types!!.isNotEmpty()) MyApplication.selectedPlaceOrder!!.types else ""
+                if (orders.product!!.types != null && orders.product!!.types!!.isNotEmpty()) orders.product!!.types else ""
             )
         )
         arrayOrderData.add(
@@ -244,7 +252,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         listProductPrice.add(MyApplication.selectedPlaceOrder!!.price!!)
 
         val listProductQuantity: MutableList<String> = java.util.ArrayList()
-        listProductQuantity.add(MyApplication.selectedPlaceOrder!!.sizeCapacity!!)
+        listProductQuantity.add(MyApplication.selectedOrder!!.product!!.sizeCapacity!!)
 
 
         merchantId = MyApplication.payparams!!.params.find { it.key == "merchant_id" }!!.value

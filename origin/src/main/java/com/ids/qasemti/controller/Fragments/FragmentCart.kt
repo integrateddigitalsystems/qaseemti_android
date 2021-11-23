@@ -144,10 +144,10 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
 
             MyApplication.selectedPlaceOrder = RequestPlaceOrder(
                 MyApplication.userId,
-                type,
+                type.toInt(),//MAKESURE
                 array.get(position).product!!.id,
-                type,
-                array.get(position).product!!.sizeCapacity,
+                type.toInt(),//MAKESURE
+                array.get(position).product!!.sizeCapacity!!.toInt(),//MAKESURE
                 array[position].deliveryDate,
                 if( array[position].addressname != null && array[position].addressname!!.isNotEmpty()) array[position].addressname else "",
                 array[position].addressLat,

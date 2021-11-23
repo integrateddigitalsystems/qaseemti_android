@@ -28,6 +28,8 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentOrders : Fragment(), RVOnItemClickListener {
@@ -251,7 +253,13 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
         if (view.id == R.id.llLocation) {
             if (view.id == R.id.llLocation) {
-                AppHelper.onOneClick {
+
+
+                val uri: String =
+                    java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", ordersArray.get(position).shipping_latitude!!.toDouble(),  ordersArray.get(position).shipping_longitude!!.toDouble())
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                requireActivity().startActivity(intent)
+               /* AppHelper.onOneClick {
                     MyApplication.selectedOrder = ordersArray.get(position)
                     if (!MyApplication.selectedOrder!!.customerLocation.isNullOrEmpty() && !MyApplication.selectedOrder!!.customerLocation.equals(
                             "null"
@@ -266,7 +274,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                                 .putExtra("seeOnly", true)
                         )
                     }
-                }
+                }*/
             }
         }
         else if (view.id == R.id.llViewOrderDetails) {

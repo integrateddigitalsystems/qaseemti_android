@@ -175,7 +175,7 @@ class User (
     @Expose
     var civilId: String? = "" ,
 
-    @SerializedName("civil_id_attach ")
+    @SerializedName("civil_id_attach")
     @Expose
     var civilIdAttach: String? = "" ,
 

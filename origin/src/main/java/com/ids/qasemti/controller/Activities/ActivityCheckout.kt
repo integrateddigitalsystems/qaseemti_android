@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TimePicker
 import com.google.android.gms.maps.model.LatLng
@@ -25,11 +26,13 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
+class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
     var open = true
     var REQUEST_LOCATION = 5
     var stamp: Long? = 0
+    var minRenewTime: Date? = null
+    var minRenewTo: Date? = null
     var pickedDate: Date? = null
     var update = false
     var fromHour: Int? = 0
@@ -44,7 +47,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
         stamp = Calendar.getInstance().timeInMillis
         MyApplication.selectedPlaceOrder = null
         init()
-        setListeners()
+
     }
 
 
@@ -74,7 +77,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
         AppHelper.setLogoTint(btDrawer, this, color)
         btDrawer.hide()
 
-       // AppHelper.setTextColor(this, tvPageTitle, color)
+        // AppHelper.setTextColor(this, tvPageTitle, color)
         AppHelper.setLogoTint(btBackTool, this, color)
         AppHelper.setLogoTint(btLogout, this, color)
         btBackTool.onOneClick {
@@ -127,7 +130,9 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
         setUpCurr()
         btPlaceOrder.onOneClick {
             if (locationSelected) {
-                if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find { it.valEn!!.lowercase().equals("rental") }!!.id!!.toInt())) {
+                if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find {
+                        it.valEn!!.lowercase().equals("rental")
+                    }!!.id!!.toInt())) {
 
                     if (!etToDate.text.isNullOrEmpty() && !etToTime.text.isNullOrEmpty()) {
                         if (rbNow.isChecked || checkGivenDate()) {
@@ -140,7 +145,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
                                     toast(getString(R.string.failure))
                                 }
                             }
-                        }else{
+                        } else {
                             AppHelper.createDialog(this, "Please select a later date or time")
                         }
                     } else {
@@ -160,10 +165,10 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
                             } catch (e: Exception) {
                                 toast(getString(R.string.failure))
                             }
-                        }else{
-                            CallAPIs.getUserInfo(this,this)
+                        } else {
+                            CallAPIs.getUserInfo(this, this)
                         }
-                    }else{
+                    } else {
                         AppHelper.createDialog(this, "Please select a later date or time")
                     }
                 }
@@ -195,7 +200,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
                 val myFormat = "dd MMM yyyy" //Change as you need
                 var sdf =
                     SimpleDateFormat(myFormat, Locale.ENGLISH)
-                var mcurrentDate =sdf.parse(etFromDate.text.toString())
+                var mcurrentDate = sdf.parse(etFromDate.text.toString())
                 var mYear = 0
                 var mMonth = 0
                 var mDay = 0
@@ -297,9 +302,9 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             val myFormat = "dd MMM yyyy" //Change as you need
             var sdf =
                 SimpleDateFormat(myFormat, Locale.ENGLISH)
-            var mcurrentDate : Date ?=null
+            var mcurrentDate: Date? = null
             var cal = Calendar.getInstance()
-            if(!etToDate.text.isNullOrEmpty()) {
+            if (!etToDate.text.isNullOrEmpty()) {
                 mcurrentDate = sdf.parse(etToDate.text.toString())
                 cal.time = mcurrentDate
             }
@@ -307,7 +312,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             mMonth = cal[Calendar.MONTH]
             mDay = cal[Calendar.DAY_OF_MONTH]
 
-           // mcurrentDate.set(mYear, mMonth, mDay)
+            // mcurrentDate.set(mYear, mMonth, mDay)
             val mDatePicker = DatePickerDialog(
                 this,
                 DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
@@ -354,8 +359,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             var up = -180
             var down = -180
             if (open) {
-               // ivOpenDateTime.animate().rotation(up.toFloat()).setDuration(400)
-                   ivOpenDateTime.hide()
+                // ivOpenDateTime.animate().rotation(up.toFloat()).setDuration(400)
+                ivOpenDateTime.hide()
                 ivCloseDateTime.show()
                 llTimeDate.hide()
             } else {
@@ -378,7 +383,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             val extras = data!!.extras
             if (extras != null) {
                 var address = extras.getString("address")
-              //  tvSelectedAddressCheck.setColorTypeface(this,R.color.gray_font_title,address!!,false)
+                //  tvSelectedAddressCheck.setColorTypeface(this,R.color.gray_font_title,address!!,false)
                 tvSelectedAddressCheck.text = address
                 locationSelected = true
                 try {
@@ -395,7 +400,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
 
     fun init() {
         setTintLogo(R.color.primary)
-      //  tvSelectedAddressCheck.setColorTypeface(this,R.color.gray_font_title,"",false)
+        //  tvSelectedAddressCheck.setColorTypeface(this,R.color.gray_font_title,"",false)
         tvPageTitle.textRemote("Checkout", this)
         tvPageTitle.setColorTypeface(this, R.color.primary, "", true)
         etFromDate.isFocusable = false;
@@ -406,19 +411,318 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
 
         btPlaceOrder.typeface = AppHelper.getTypeFace(this)
 
-        if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find { it.valEn!!.lowercase().equals("rental") }!!.id!!.toInt())) {
+        if (!MyApplication.renewing) {
+            if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find {
+                    it.valEn!!.lowercase().equals("rental")
+                }!!.id!!.toInt())) {
+                tvFromTitle.show()
+                tvToTitle.show()
+                llToLayout.show()
+            } else {
+                tvFromTitle.hide()
+                tvToTitle.hide()
+                llToLayout.hide()
+            }
+
+            setUpCurr()
+            setOrderSummary()
+            setListeners()
+        } else {
             tvFromTitle.show()
             tvToTitle.show()
             llToLayout.show()
-        } else {
-            tvFromTitle.hide()
-            tvToTitle.hide()
-            llToLayout.hide()
+            setUpRenting()
+            llAddresses.isEnabled = false
+
+            var current = Calendar.getInstance()
+            var simp = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+            var from = simp.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
+            var to = simp.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+            /* var from = simp.parse("2021-11-18")
+             var to = simp.parse("2021-11-21")*/
+
+
+            if (current.time.time < from.time || current.time.time > from.time && current.time.time < to.time) {
+                minRenewTime = from
+                minRenewTo = to
+            } else {
+                minRenewTime = current.time
+                minRenewTo = current.time
+            }
+
+            etFromDate.text = simp.format(minRenewTime).toEditable()
+            etToDate.text = simp.format(minRenewTo).toEditable()
+
+            rlFromDate.onOneClick {
+                var cal = Calendar.getInstance()
+                cal.time = minRenewTime
+                var mYear = cal[Calendar.YEAR]
+                var mMonth = cal[Calendar.MONTH]
+                var mDay = cal[Calendar.DAY_OF_MONTH]
+
+                val mDatePicker = DatePickerDialog(
+                    this,
+                    DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
+                        val myCalendar = Calendar.getInstance()
+                        myCalendar[Calendar.YEAR] = selectedyear
+                        myCalendar[Calendar.MONTH] = selectedmonth
+                        myCalendar[Calendar.DAY_OF_MONTH] = selectedday
+                        val myFormat = "yyyy-MM-dd" //Change as you need
+                        var sdf =
+                            SimpleDateFormat(myFormat, Locale.ENGLISH)
+                        pickedDate = myCalendar.time
+                        var date = sdf.format(myCalendar.time)
+                        etFromDate.text = date.toEditable()
+                        if (compareDates() == 1)
+                            etToDate.text = date.toEditable()
+                        var x = selectedDate
+                        var time = selectedDate!!.split(" ").get(3)
+                        selectedDate = etFromDate.text.toString() + " " + time
+                    }, mYear, mMonth, mDay
+                )
+                mDatePicker.datePicker.minDate = cal.time.time
+                mDatePicker.show()
+            }
+            rlFromTime.onOneClick {
+                // TODO Auto-generated method stub
+                val mcurrentTime = Calendar.getInstance()
+                val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+                val minute = mcurrentTime[Calendar.MINUTE]
+                val myFormat = "dd MMM yyyy" //Change as you need
+                val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+                val now = mcurrentTime.time
+                val nowDate = sdf.format(now)
+                val timePickerDialog = TimePickerDialog(
+                    this, R.style.DatePickerDialog,
+                    { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+
+                        fromHour = selectedHour
+                        fromMin = selectedMinute
+                        var time = String.format("%02d", selectedHour) + ":" + String.format(
+                            "%02d",
+                            selectedMinute
+                        )
+                        etFromTime.text = time.toEditable()
+                        var date =
+                            selectedDate!!.split(" ").get(0) + " " + selectedDate!!.split(" ")
+                                .get(1) + " " + selectedDate!!.split(" ").get(2)
+                        selectedDate = date + " " + time
+                    }, hour, minute, true
+                ) //Yes 24 hour time
+                timePickerDialog.show()
+            }
         }
 
-        setUpCurr()
-        setOrderSummary()
 
+        rlToTime.onOneClick {
+            val mcurrentTime = Calendar.getInstance()
+            val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+            val minute = mcurrentTime[Calendar.MINUTE]
+            val myFormat = "dd/MM/yyyy" //Change as you need
+            val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+            val now = mcurrentTime.time
+            val nowDate = sdf.format(now)
+            val timePickerDialog = TimePickerDialog(
+                this, R.style.DatePickerDialog,
+                { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+
+                    var time = String.format("%02d", selectedHour) + " : " + String.format(
+                        "%02d",
+                        selectedMinute
+                    )
+                    if (compareDates() == -1) {
+                        if (!compareTimes(selectedHour, selectedMinute)) {
+                            AppHelper.createDialog(this, "You cannot pick a time before selected")
+                        } else {
+                            etToTime.text = time.toEditable()
+                        }
+                    } else {
+                        etToTime.text = time.toEditable()
+                    }
+
+                }, hour, minute, true
+            ) //Yes 24 hour time
+            timePickerDialog.show()
+        }
+        rlToDate.onOneClick {
+            var mYear = 0
+            var mMonth = 0
+            var mDay = 0
+            val myFormat = "yyyy-MM-dd" //Change as you need
+            var sdf =
+                SimpleDateFormat(myFormat, Locale.ENGLISH)
+            var mcurrentDate: Date? = null
+            var cal = Calendar.getInstance()
+            if (!etToDate.text.isNullOrEmpty()) {
+                mcurrentDate = sdf.parse(etToDate.text.toString())
+                cal.time = mcurrentDate
+            }
+            mYear = cal[Calendar.YEAR]
+            mMonth = cal[Calendar.MONTH]
+            mDay = cal[Calendar.DAY_OF_MONTH]
+
+            // mcurrentDate.set(mYear, mMonth, mDay)
+            val mDatePicker = DatePickerDialog(
+                this,
+                DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
+                    val myCalendar = Calendar.getInstance()
+                    myCalendar[Calendar.YEAR] = selectedyear
+                    myCalendar[Calendar.MONTH] = selectedmonth
+                    myCalendar[Calendar.DAY_OF_MONTH] = selectedday
+                    val myFormat = "dd MMM yyyy" //Change as you need
+                    var sdf =
+                        SimpleDateFormat(myFormat, Locale.ENGLISH)
+                    var date = sdf.format(myCalendar.time)
+                    etToDate.text = date.toEditable()
+                }, mYear, mMonth, mDay
+            )
+            mDatePicker.datePicker.minDate = minRenewTo!!.time
+            mDatePicker.show()
+        }
+
+
+        btPlaceOrder.text = AppHelper.getRemoteString("renew_order", this)
+        btPlaceOrder.onOneClick {
+            try {
+                renewOrder()
+            } catch (ex: Exception) {
+                Log.wtf("renewError", ex.toString())
+            }
+        }
+
+    }
+
+
+    fun nextStepRenew() {
+
+        var type =
+            MyApplication.categories.find { it.valEn == MyApplication.selectedOrder!!.type }!!.id!!.toInt()
+        MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+            MyApplication.userId,
+            type,
+            MyApplication.selectedOrder!!.product!!.id!!.toInt(),
+            0,
+            0,
+            selectedDate,
+            if (MyApplication.selectedAddress!!.addressName != null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
+            MyApplication.selectedOrder!!.shipping_latitude,
+            MyApplication.selectedOrder!!.shipping_longitude,
+            if (MyApplication.selectedOrder!!.addressStreet != null && MyApplication.selectedOrder!!.addressStreet!!.isNotEmpty()) MyApplication.selectedOrder!!.addressStreet else "",
+            if (MyApplication.selectedOrder!!.addressBuilding != null && MyApplication.selectedOrder!!.addressBuilding!!.isNotEmpty()) MyApplication.selectedOrder!!.addressBuilding else "",
+            if (MyApplication.selectedOrder!!.addressFloor != null && MyApplication.selectedOrder!!.addressFloor!!.isNotEmpty()) MyApplication.selectedOrder!!.addressFloor else "",
+            if (MyApplication.selectedOrder!!.addressDescription != null && MyApplication.selectedOrder!!.addressDescription!!.isNotEmpty()) MyApplication.selectedOrder!!.addressDescription else "",
+            if (MyApplication.selectedUser!!.firstName != null && MyApplication.selectedUser!!.firstName!!.isNotEmpty()) MyApplication.selectedUser!!.firstName else "",
+            if (MyApplication.selectedUser!!.lastName != null && MyApplication.selectedUser!!.lastName!!.isNotEmpty()) MyApplication.selectedUser!!.lastName else "",
+            if (MyApplication.selectedUser!!.billingCompany != null && MyApplication.selectedUser!!.billingCompany!!.isNotEmpty()) MyApplication.selectedUser!!.billingCompany else "",
+            if (MyApplication.selectedUser!!.email != null && MyApplication.selectedUser!!.email!!.isNotEmpty()) MyApplication.selectedUser!!.email else "",
+            if (MyApplication.selectedUser!!.mobileNumber != null && MyApplication.selectedUser!!.mobileNumber!!.isNotEmpty()) MyApplication.selectedUser!!.mobileNumber else "",
+            if (MyApplication.selectedService!!.name!!.isNotEmpty()) MyApplication.selectedService!!.name else "",
+            MyApplication.selectedPrice,
+            "",
+            if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
+            etFromDate.text.toString(),
+            etToDate.text.toString()
+        )
+
+        startActivity(
+            Intent(
+                this,
+                ActivityPlaceOrder::class.java
+            )
+        )
+    }
+
+    fun renewOrder() {
+        try {
+            loading.show()
+        } catch (ex: java.lang.Exception) {
+
+        }
+        var vendorId = 0
+        try {
+            vendorId = MyApplication.selectedOrder!!.product!!.vendorId!!.toInt()
+        } catch (ex: java.lang.Exception) {
+
+        }
+        var storeName = ""
+        try {
+            storeName = MyApplication.selectedOrder!!.vendor!!.storeName!!
+        } catch (ex: java.lang.Exception) {
+
+        }
+        var cal = Calendar.getInstance()
+        var date = AppHelper.formatDate(cal.time, "dd/mm/yy hh:mm:ssss")
+        var req = RequestRenewOrder(
+            MyApplication.selectedOrder!!.customer!!.user_id!!.toInt(),
+            MyApplication.selectedOrder!!.orderId!!.toInt(),
+            vendorId,
+            MyApplication.selectedOrder!!.type,
+            MyApplication.selectedOrder!!.product!!.productId!!.toInt(),
+            MyApplication.selectedOrder!!.product!!.types,
+            MyApplication.selectedOrder!!.product!!.sizeCapacity,
+            MyApplication.selectedOrder!!.deliveryDate,
+            etFromDate.text.toString(),
+            etToDate.text.toString(),
+            MyApplication.selectedOrder!!.shipping_address_name,
+            MyApplication.selectedOrder!!.shipping_address_latitude!!.toDouble(),
+            MyApplication.selectedOrder!!.shipping_address_longitude!!.toDouble(),
+            MyApplication.selectedOrder!!.shipping_address_street,
+            MyApplication.selectedOrder!!.shipping_address_building,
+            MyApplication.selectedOrder!!.shipping_address_floor,
+            MyApplication.selectedOrder!!.shipping_address_description,
+            MyApplication.selectedOrder!!.customer!!.first_name,
+            MyApplication.selectedOrder!!.customer!!.last_name,
+            storeName,
+            MyApplication.selectedOrder!!.customer!!.email,
+            MyApplication.selectedOrder!!.customer!!.mobile_number
+        )
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.renewOrder(req)?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                    try {
+                        loading.hide()
+                        nextStepRenew()
+                        //nextStep(response.body()!!.result!!)
+                    } catch (E: java.lang.Exception) {
+
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
+
+    fun setUpRenting() {
+        try {
+            tvServiceName.text = MyApplication.selectedOrder!!.product!!.name!!
+        } catch (e: Exception) {
+        }
+        try {
+            tvServiceType.text = MyApplication.selectedOrder!!.product!!.type!!
+        } catch (e: Exception) {
+        }
+        try {
+            tvSizeCapacity.text = MyApplication.selectedOrder!!.product!!.sizeCapacity
+        } catch (e: Exception) {
+        }
+        try {
+            tvPrice.text = MyApplication.selectedOrder!!.grand_total
+        } catch (e: Exception) {
+        }
+        try {
+            tvVariationType.text = MyApplication.selectedOrder!!.product!!.types
+        } catch (e: Exception) {
+        }
+        try {
+            MyApplication.selectedOrder!!.product!!.sizeCapacity
+        } catch (e: Exception) {
+        }
     }
 
     private fun setOrderSummary() {
@@ -431,7 +735,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
         } catch (e: Exception) {
         }
         try {
-            tvSizeCapacity.text = MyApplication.selectedSize
+            tvSizeCapacity.text =
+                MyApplication.selectedService!!.variations.find { it.sizeCapacityId!!.toInt() == MyApplication.selectedSize!! }!!.sizeCapacity
         } catch (e: Exception) {
         }
         try {
@@ -439,11 +744,13 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
         } catch (e: Exception) {
         }
         try {
-            tvVariationType.text = MyApplication.selectedVariationType
+            tvVariationType.text =
+                MyApplication.selectedService!!.variations.find { it.typesId!!.toInt() == MyApplication.selectedVariationType!! }!!.types
         } catch (e: Exception) {
         }
         try {
-            tvSize.text = MyApplication.selectedSize
+            tvSize.text =
+                MyApplication.selectedService!!.variations.find { it.sizeCapacityId!!.toInt() == MyApplication.selectedSize!! }!!.sizeCapacity
         } catch (e: Exception) {
         }
     }
@@ -471,12 +778,13 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             )
         }
 
-        var type  = ""
+        var type = MyApplication.selectedService!!.typeId
 
-        if(MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find { it.valEn!!.lowercase().equals("purchase") }!!.id!!.toInt() ))
+
+        /*if(MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find { it.valEn!!.lowercase().equals("purchase") }!!.id!!.toInt() ))
             type = AppConstants.TYPE_PURCHASE
         else
-            type = AppConstants.TYPE_RENTAL
+            type = AppConstants.TYPE_RENTAL*/
 
         MyApplication.selectedPlaceOrder = RequestPlaceOrder(
             MyApplication.userId,
@@ -505,7 +813,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
             etToDate.text.toString()
 
 
-            )
+        )
         if (update) {
             var i = MyApplication.arrayCart.size - 1
             MyApplication.arrayCart[i] = MyApplication.selectedPlaceOrder!!
@@ -533,7 +841,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
                 ) {
                     try {
                         loading.hide()
-                        if(!response.body()!!.result.equals("0")) {
+                        if (!response.body()!!.result.equals("0")) {
                             if (response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_IN) {
                                 startActivity(
                                     Intent(
@@ -549,8 +857,11 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
                                         .putExtra(AppConstants.ORDER_ID, response.body()!!.orderId)
                                         .putExtra(AppConstants.SP_FOUND, false)
                                 )
-                        }else{
-                            AppHelper.createDialog(this@ActivityCheckout,response.body()!!.message!!)
+                        } else {
+                            AppHelper.createDialog(
+                                this@ActivityCheckout,
+                                response.body()!!.message!!
+                            )
                         }
 
                     } catch (E: java.lang.Exception) {
@@ -628,11 +939,11 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener,ApiListener {
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        if(success) {
+        if (success) {
             setPlacedOrder()
             placeOrder()
-        }else{
-            toast(AppHelper.getRemoteString("error_getting_data",this))
+        } else {
+            toast(AppHelper.getRemoteString("error_getting_data", this))
         }
 
     }

@@ -99,7 +99,11 @@ class RelatedOrder(
 
     @SerializedName("customer")
     @Expose
-    var customer : OrderCustomer ?=null
+    var customer : OrderCustomer ?=null ,
+
+    @SerializedName("grand_total")
+    @Expose
+    var grandTotal : String ?=""
 
 
 

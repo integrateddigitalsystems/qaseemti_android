@@ -30,6 +30,7 @@ class MyApplication : Application() {
         var upcoming: Boolean ?=false
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
+        var renewing  = true
         var addNew : Boolean = true
         var selectedFragmentTag : String ?=""
         var currency : String ?=""
@@ -90,10 +91,10 @@ class MyApplication : Application() {
         var selectedPlaceOrder : RequestPlaceOrder ?=null
         var selectedAddress : ResponseAddress ?=null
         var selectedCurrentAddress : Address ?=null
-        var selectedSize = ""
+        var selectedSize : Int ?=0
         var selectedPrice = ""
         var enableForeTracking = false
-        var selectedVariationType = ""
+        var selectedVariationType : Int ?=0
         var trackingActivity : Activity ?=null
         var fromOrderDetails : Boolean = false
         var showLogs: Boolean = true

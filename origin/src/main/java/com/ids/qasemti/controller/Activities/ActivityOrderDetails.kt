@@ -452,6 +452,16 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         } catch (e: Exception) {
         }
         try {
+            tvOrderAmountAdditional.text =
+                MyApplication.selectedOrder!!.shippingTotal!!.toString() + " " + MyApplication.selectedOrder!!.currency
+        } catch (e: Exception) {
+        }
+        try {
+            tvAmountOrderTotal.text =
+                MyApplication.selectedOrder!!.grand_total!!.toString() + " " + MyApplication.selectedOrder!!.currency
+        } catch (e: Exception) {
+        }
+        try {
             if (MyApplication.selectedOrder!!.paymentMethod != null && MyApplication.selectedOrder!!.paymentMethod!!.isNotEmpty())
                 tvPaymentMethod.text = MyApplication.selectedOrder!!.paymentMethod
         } catch (e: Exception) {
@@ -681,8 +691,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         ) {
             acceptOrder(
                 MyApplication.selectedOrder!!.orderId!!.toInt(),
-                MyApplication.selectedOrder!!.total!!.toDouble()
-                    .toInt() + MyApplication.selectedOrder!!.shippingTotal!!.toDouble().toInt()
+                MyApplication.selectedOrder!!.grand_total!!.toInt()
             )
         }
     }
@@ -700,10 +709,16 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                 )
         }
         btRenewOrder.onOneClick {
-            try {
+
+            MyApplication.renewing = true
+            startActivity(Intent(
+                this,
+                ActivityCheckout::class.java
+            ))
+            /*try {
                 renewOrder()
             } catch (e: Exception) {
-            }
+            }*/
         }
         llCall.onOneClick {
             val intent = Intent(Intent.ACTION_DIAL)

@@ -40,7 +40,7 @@ class AdapterSettlements(
         holder.viewOrder.show()
         holder.id.text = items.get(position).orderId.toString()
         holder.date.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy hh:mm")
-        holder.amount.text = items.get(position).total+" "+items.get(position).currency
+        holder.amount.text = items.get(position).grand_total+" "+items.get(position).currency
         holder.earn.text = items.get(position).earnings + " "+ items.get(position).currency
 
 

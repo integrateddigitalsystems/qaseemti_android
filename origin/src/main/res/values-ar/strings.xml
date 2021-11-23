@@ -295,6 +295,7 @@
     <string name="noTrackData">لا توجد بيانات المسار الحالية لهذا الطلب</string>
     <string name="are_you_sure_cancel">هل انت متأكد من الالغاء ؟</string>
     <string name="knet_error">Knet خلل</string>
+    <string name="AdditionalFeees">رسوم إضافية</string>
 
 
 </resources>

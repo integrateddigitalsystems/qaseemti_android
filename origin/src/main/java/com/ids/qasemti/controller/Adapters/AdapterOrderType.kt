@@ -90,7 +90,7 @@ class AdapterOrderType(
                 holder.paymentMethod.text = items[position].paymentMethod
         }catch (ex:java.lang.Exception){}
         try {
-            holder.orderCost.text = items[position].total!!+" "+items.get(position).currency
+            holder.orderCost.text = items[position].grand_total!!+" "+items.get(position).currency
         }catch (ex:Exception){ holder.orderCost.text =""}
         try{
             holder.cancelReasonDetails.text = items.get(position).cancellationReason
@@ -258,7 +258,8 @@ class AdapterOrderType(
         holder.cancelPerson.hide()
         holder.cancelReason.hide()
         holder.cancelorder.hide()
-        holder.phoneChat.show()
+        if(items.get(position).vendor!=null)
+            holder.phoneChat.show()
         holder.cancelBord.hide()
         holder.expectedDel.show()
         holder.orderAmount.show()

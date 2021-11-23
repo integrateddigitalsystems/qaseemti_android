@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.utils.AppHelper
 import kotlinx.android.synthetic.main.bottom_sheet_full_image.*
 
 
@@ -61,12 +62,22 @@ class FragmentBottomSheetImage : BottomSheetDialogFragment(){
 
 
     private fun loadImage(){
-        val options: RequestOptions = RequestOptions()
-            .fitCenter()
-            .placeholder(R.color.gray_background)
-            .error(R.color.gray_background)
-             Glide.with(this).load(MyApplication.selectedImage).apply(options)
-            .into(ivMedia)
+
+        if(!MyApplication.selectedImage.isNullOrEmpty()) {
+            val options: RequestOptions = RequestOptions()
+                .fitCenter()
+                .placeholder(R.color.gray_background)
+                .error(R.color.gray_background)
+            Glide.with(this).load(MyApplication.selectedImage).apply(options)
+                .into(ivMedia)
+        }else{
+            val options: RequestOptions = RequestOptions()
+                .fitCenter()
+                .placeholder(R.color.gray_background)
+                .error(R.color.gray_background)
+            Glide.with(this).load(MyApplication.tempCivilId).apply(options)
+                .into(ivMedia)
+        }
     }
 
 

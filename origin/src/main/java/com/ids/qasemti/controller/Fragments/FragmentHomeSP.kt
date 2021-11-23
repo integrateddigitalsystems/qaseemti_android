@@ -2,6 +2,7 @@ package com.ids.qasemti.controller.Fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
@@ -310,7 +313,12 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
         if (view.id == R.id.llLocation) {
             AppHelper.onOneClick {
-                MyApplication.selectedOrder = ordersArray[position]
+
+                val urii: String =
+                    java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", ordersArray.get(position).shipping_latitude!!.toDouble(),  ordersArray.get(position).shipping_longitude!!.toDouble())
+                val intentt = Intent(Intent.ACTION_VIEW, Uri.parse(urii))
+                requireActivity().startActivity(intentt)
+                /*MyApplication.selectedOrder = ordersArray[position]
                 if (!MyApplication.selectedOrder!!.customerLocation.isNullOrEmpty() && !MyApplication.selectedOrder!!.customerLocation.equals(
                         "null"
                     )
@@ -323,7 +331,12 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                             )
                             .putExtra("seeOnly", true)
                     )
-                }
+                }*/
+
+                val uri: String =
+                    java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", 34.12740650186874,  35.64961072519319)
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                requireActivity().startActivity(intent)
             }
         } else if (view.id == R.id.llViewOrderDetails) {
             AppHelper.onOneClick {

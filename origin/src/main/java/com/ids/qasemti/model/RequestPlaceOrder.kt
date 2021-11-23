@@ -10,19 +10,19 @@ class RequestPlaceOrder {
 
     @SerializedName("product_category")
     @Expose
-    var productCategory: String? = null
+    var productCategory: Int ? = null
 
     @SerializedName("product_id")
     @Expose
     var productId: Int? = null
 
-    @SerializedName("type")
+    @SerializedName("types")
     @Expose
-    var types: String? = null
+    var types: Int? = null
 
     @SerializedName("size_capacity")
     @Expose
-    var sizeCapacity: String? = null
+    var sizeCapacity: Int? = null
 
     @SerializedName("delivery_date")
     @Expose
@@ -127,10 +127,10 @@ class RequestPlaceOrder {
 
     constructor(
         userId: Int?,
-        productCategory: String?,
+        productCategory: Int?,
         productId: Int?,
-        types: String?,
-        sizeCapacity: String?,
+        types: Int?,
+        sizeCapacity: Int?,
         deliveryDate: String?,
         addressName: String?,
         latitude: String?,
@@ -177,10 +177,10 @@ class RequestPlaceOrder {
 
     constructor(
         userId: Int?,
-        productCategory: String?,
+        productCategory: Int?,
         productId: Int?,
-        types: String?,
-        sizeCapacity: String?,
+        types: Int?,
+        sizeCapacity: Int?,
         deliveryDate: String?,
         addressName: String?,
         latitude: String?,
