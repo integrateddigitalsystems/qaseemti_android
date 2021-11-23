@@ -542,8 +542,9 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         if (orderId == "")
             orderId = "0"
         loading.show()
+        var requests = RequestPaymentOrder(orderId.toInt(), selectedPaymentId.toString())
         RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.updatePaymentOrder(request!!)?.enqueue(object : Callback<ResponseMessage> {
+            ?.updatePaymentOrder(requests!!)?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(
                     call: Call<ResponseMessage>,
                     response: Response<ResponseMessage>
@@ -551,7 +552,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                     try {
                         loading.hide()
                         if (response.body()!!.result == 1) {
-                            toast(getString(R.string.knet_error))
+                            //toast(getString(R.string.knet_error))
                             nextStep()
                         }else{
                             AppHelper.createDialog(this@ActivityPlaceOrder,response.body()!!.message!!)

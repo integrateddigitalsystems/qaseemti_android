@@ -117,11 +117,59 @@ class RequestPlaceOrder {
     @Expose
     var dateTo: String? = ""
 
+    @SerializedName("type")
+    @Expose
+    var type : String ?=""
+
     var title : String ?=""
     var price : String ?=""
 
     constructor(){
 
+    }
+
+    constructor(
+        userId: Int?,
+        productCategory: Int?,
+        productId: Int?,
+        types: Int?,
+        sizeCapacity: Int?,
+        deliveryDate: String?,
+        addressName: String?,
+        latitude: String?,
+        longitude: String?,
+        street: String?,
+        building: String?,
+        floor: String?,
+        addressDescription: String?,
+        title : String ?,
+        address_id:Int ,
+        avenue : String ?,
+        area : String ?,
+        apartment : String ?,
+        block :String ?,
+        province : String ?
+
+    ) {
+        this.userId = userId
+        this.productCategory = productCategory
+        this.productId = productId
+        this.types = types
+        this.sizeCapacity = sizeCapacity
+        this.deliveryDate = deliveryDate
+        this.addressName = addressName
+        this.latitude = latitude
+        this.longitude = longitude
+        this.street = street
+        this.building = building
+        this.floor = floor
+        this.addressDescription = addressDescription
+        this.address_id=address_id
+        this.avenu = avenue
+        this.apartment = apartment
+        this.block = block
+        this.province = province
+        this.area = area
     }
 
 
@@ -148,6 +196,12 @@ class RequestPlaceOrder {
         price : String ?,
         coupon : String ?,
         address_id:Int ,
+        avenue : String ?,
+        area : String ?,
+        apartment : String ?,
+        block :String ?,
+        province : String ?,
+        type : String ?
 
     ) {
         this.userId = userId
@@ -172,6 +226,12 @@ class RequestPlaceOrder {
         this.price = price
         this.address_id=address_id
         this.coupon=coupon
+        this.avenu = avenue
+        this.apartment = apartment
+        this.block = block
+        this.province = province
+        this.type = type
+        this.area = area
     }
 
 

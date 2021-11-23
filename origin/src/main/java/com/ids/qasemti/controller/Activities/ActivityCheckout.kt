@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.TimePicker
 import com.google.android.gms.maps.model.LatLng
+import com.google.gson.Gson
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -802,19 +803,13 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             if (MyApplication.selectedAddress!!.bldg != null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
             if (MyApplication.selectedAddress!!.floor != null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
             if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
-            if (MyApplication.selectedUser!!.firstName != null && MyApplication.selectedUser!!.firstName!!.isNotEmpty()) MyApplication.selectedUser!!.firstName else "",
-            if (MyApplication.selectedUser!!.lastName != null && MyApplication.selectedUser!!.lastName!!.isNotEmpty()) MyApplication.selectedUser!!.lastName else "",
-            if (MyApplication.selectedUser!!.billingCompany != null && MyApplication.selectedUser!!.billingCompany!!.isNotEmpty()) MyApplication.selectedUser!!.billingCompany else "",
-            if (MyApplication.selectedUser!!.email != null && MyApplication.selectedUser!!.email!!.isNotEmpty()) MyApplication.selectedUser!!.email else "",
-            if (MyApplication.selectedUser!!.mobileNumber != null && MyApplication.selectedUser!!.mobileNumber!!.isNotEmpty()) MyApplication.selectedUser!!.mobileNumber else "",
             if (MyApplication.selectedService!!.name!!.isNotEmpty()) MyApplication.selectedService!!.name else "",
-            MyApplication.selectedPrice,
-            "",
             if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
             etFromDate.text.toString(),
-            etToDate.text.toString()
-
-
+            etToDate.text.toString(),
+            if (MyApplication.selectedAddress!!.avenue != null && MyApplication.selectedAddress!!.avenue!!.isNotEmpty()) MyApplication.selectedAddress!!.avenue else "",
+            if (MyApplication.selectedAddress!!.block != null && MyApplication.selectedAddress!!.block!!.isNotEmpty()) MyApplication.selectedAddress!!.block else "",
+            if (MyApplication.selectedAddress!!.province != null && MyApplication.selectedAddress!!.province!!.isNotEmpty()) MyApplication.selectedAddress!!.province else ""
         )
         if (update) {
             var i = MyApplication.arrayCart.size - 1
@@ -834,6 +829,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         //testing success scenario
 /*        MyApplication.selectedPlaceOrder!!.addressLatitude=""
         MyApplication.selectedPlaceOrder!!.addressLongitude=""*/
+        var jsonString = Gson().toJson(MyApplication.selectedPlaceOrder)
+        logw("JSONcheckout",jsonString)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.placeOrder(MyApplication.selectedPlaceOrder!!)?.enqueue(object :
                 Callback<ResponseOrderId> {
