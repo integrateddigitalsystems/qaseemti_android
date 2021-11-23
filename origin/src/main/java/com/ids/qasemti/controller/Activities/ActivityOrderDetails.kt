@@ -1083,9 +1083,9 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
 
         btSubmit.setOnClickListener {
-            if (etRatingText.text.toString().isEmpty()) {
+           /* if (etRatingText.text.toString().isEmpty()) {
                 etRatingText.startAnimation(shake)
-            } else if (rbOrder.rating == 0f)
+            } else*/ if (rbOrder.rating == 0f)
                 rbOrder.startAnimation(shake)
             else {
                 if (MyApplication.isClient) {
