@@ -188,9 +188,9 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                 adapter!!.notifyDataSetChanged()
             }
             tvTotalOrderCount.text = resSet!!.numberOfOrders.toString()
-            tvSettlementAmount.text = resSet!!.totalEarnings!!.toString()
+            tvSettlementAmount.text = resSet!!.totalEarnings!!.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator)
             try {
-              tvSettlementAmount.text = tvSettlementAmount.text.toString() + " "+"KWD"//resSet!!.settlements.get(0).relatedOrders.get(0).currency
+              tvSettlementAmount.text = tvSettlementAmount.text.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+"KWD"//resSet!!.settlements.get(0).relatedOrders.get(0).currency
             }catch (ex:Exception){
 
             }

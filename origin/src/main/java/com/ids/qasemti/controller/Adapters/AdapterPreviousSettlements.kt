@@ -13,10 +13,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.model.ResponseSettlement
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.hide
-import com.ids.qasemti.utils.show
-import com.ids.qasemti.utils.textRemote
+import com.ids.qasemti.utils.*
 import java.util.ArrayList
 
 class AdapterPreviousSettlements(
@@ -47,8 +44,8 @@ class AdapterPreviousSettlements(
 
         holder.id.text = items.get(position).reqId
         holder.date.text = AppHelper.formatDate(items.get(position).settlementReqDate!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy hh:mm")
-        holder.amount.text = items.get(position).total_amount+ " "+ items.get(position).relatedOrders.get(0).currency
-        holder.earn.text = items.get(position).totalEarnings+" "+items.get(position).relatedOrders.get(0).currency
+        holder.amount.text = items.get(position).total_amount!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator)+ " "+ items.get(position).relatedOrders.get(0).currency
+        holder.earn.text = items.get(position).totalEarnings!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator)+" "+items.get(position).relatedOrders.get(0).currency
 
 
     }
