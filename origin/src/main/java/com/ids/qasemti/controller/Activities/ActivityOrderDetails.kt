@@ -453,7 +453,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         }
         try {
             tvOrderAmountAdditional.text =
-                MyApplication.selectedOrder!!.shippingTotal!!.toString() + " " + MyApplication.selectedOrder!!.currency
+                MyApplication.selectedOrder!!.additional!!.toString() + " " + MyApplication.selectedOrder!!.currency
         } catch (e: Exception) {
         }
         try {
@@ -708,6 +708,12 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                     AppHelper.getRemoteString("inactive_user_msg", this)
                 )
         }
+        tvLocationOrderDeatils.onOneClick {
+            val uri: String =
+                java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", MyApplication.selectedOrder!!.shipping_latitude!!.toDouble(),   MyApplication.selectedOrder!!.shipping_longitude!!.toDouble())
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            startActivity(intent)
+        }
         btRenewOrder.onOneClick {
 
             MyApplication.renewing = true
@@ -721,8 +727,20 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
             }*/
         }
         llCall.onOneClick {
-            val intent = Intent(Intent.ACTION_DIAL)
-            startActivity(intent)
+            try {
+                if (!MyApplication.isClient) {
+                    val intent = Intent(Intent.ACTION_DIAL)
+                    intent.setData(Uri.parse("tel:" + MyApplication.selectedOrder!!.customer!!.mobile_number));
+                    startActivity(intent)
+                } else {
+                    val intent = Intent(Intent.ACTION_DIAL)
+                    intent.setData(Uri.parse("tel:" + MyApplication.selectedOrder!!.vendor!!.mobileNum));
+                    startActivity(intent)
+                }
+            }catch (ex:Exception){
+                val intent = Intent(Intent.ACTION_DIAL)
+                startActivity(intent)
+            }
         }
         llMessage.onOneClick {
             startActivity(Intent(this, ActivityChat::class.java))

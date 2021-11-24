@@ -175,7 +175,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("AdditionalFees", this),
-                if (orders.shippingTotal != null && orders.shippingTotal!!.isNotEmpty()) orders.shippingTotal + " KWD" else ""
+                if (orders.additional != null && orders.additional!!.isNotEmpty()) orders.additional + " KWD" else ""
             )
         )
         arrayOrderCost.add(

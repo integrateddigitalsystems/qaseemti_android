@@ -2,6 +2,7 @@ package com.ids.qasemti.controller.Fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,6 +69,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
                         try {
                             setData()
                         } catch (e: Exception) {
+                            logw("error",e.toString())
                         }
                     }
                 }
@@ -77,6 +79,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
                     try {
                         setData()
                     } catch (e: Exception) {
+                        logw("error",e.toString())
                     }
                 }
             })
@@ -126,19 +129,23 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
             rvServices.layoutManager = LinearLayoutManager(requireContext())
             rvServices.adapter = adapter
             rvServices.isNestedScrollingEnabled = false
-            if(array.size==0){
+            if(array.size == 0){
                 rvServices.hide()
                 tvNoData.show()
+            }else{
+                rvServices.show()
+                tvNoData.hide()
             }
             loading.hide()
         } catch (ex: Exception) {
-
+            logw("not working",ex.toString())
         }
     }
 
     override fun onItemClicked(view: View, position: Int) {
         MyApplication.selectedService=array[position]
         MyApplication.isEditService=true
+        logw("SERVICE_ID",MyApplication.selectedService!!.id.toString())
         startActivity(Intent(requireContext(), ActivityServiceInformation::class.java))
     }
 

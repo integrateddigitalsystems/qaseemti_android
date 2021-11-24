@@ -11,6 +11,10 @@ class ResponseUser (
 
     @SerializedName("user")
     @Expose
-    var user: User? = null
+    var user: User? = null ,
+
+    @SerializedName("user_id")
+    @Expose
+    var userId : String ?=""
 ){
 }

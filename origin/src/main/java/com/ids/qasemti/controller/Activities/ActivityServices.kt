@@ -52,12 +52,14 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
                         array.addAll(response.body()!!.responseService!!)
                         setData()
                     }catch (E: java.lang.Exception){
+                        logw("FIRST-SERVICE",E.toString())
                         array.clear()
                         setData()
                     }
                 }
                 override fun onFailure(call: Call<ResponseMainServices>, throwable: Throwable) {
                     array.clear()
+                    logw("FIRST-SERVICE",throwable.toString())
                     setData()
                 }
             })

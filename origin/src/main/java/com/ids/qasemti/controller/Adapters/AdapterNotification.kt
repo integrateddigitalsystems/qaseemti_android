@@ -31,8 +31,7 @@ class AdapterNotification(
     RecyclerView.Adapter<AdapterNotification.VHItem>() {
 
     var con = context
-    var up = 90
-    var down = -90
+    var up = 180
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
         return VHItem(
@@ -70,11 +69,11 @@ class AdapterNotification(
             else
                 holder.details.hide()
 
-            holder.arrow.animate().rotation(down.toFloat())
+            holder.arrow.animate().rotation(up.toFloat())
         } else {
             holder.details.hide()
             holder.image.hide()
-            holder.arrow.animate().rotation(up.toFloat())
+            holder.arrow.animate().rotation(0.0f)
         }
 
 

@@ -252,7 +252,6 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
 
     override fun onItemClicked(view: View, position: Int) {
         if (view.id == R.id.llLocation) {
-            if (view.id == R.id.llLocation) {
 
 
                 val uri: String =
@@ -275,7 +274,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                         )
                     }
                 }*/
-            }
+
         }
         else if (view.id == R.id.llViewOrderDetails) {
             AppHelper.onOneClick {
@@ -294,7 +293,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         else if (view.id == R.id.ivOrderCall) {
             AppHelper.onOneClick {
                 try {
-                    if (MyApplication.isClient) {
+                    if (!MyApplication.isClient) {
                         val intent = Intent(Intent.ACTION_DIAL)
                         intent.setData(Uri.parse("tel:" + ordersArray.get(position).customer!!.mobile_number));
                         startActivity(intent)

@@ -40,6 +40,10 @@ class ResponseOrders(
     @Expose
     var customerid : String ?= "" ,
 
+    @SerializedName("additional_cost")
+    @Expose
+    var additional : String ?="" ,
+
 
 
     @SerializedName("payment_method")
@@ -191,6 +195,10 @@ class ResponseOrders(
     @Expose
     var type : String ?="" ,
 
+    @SerializedName("type_id")
+    @Expose
+    var typeId : Int  ?=0 ,
+
     @SerializedName("addresses")
     @Expose
     var addresses : ArrayList<Address> = arrayListOf()
@@ -261,6 +269,14 @@ class ResponseOrders(
     @SerializedName("total_discount_amount")
     @Expose
     var totalDiscountAmount : String ?="" ,
+
+    @SerializedName("types_id")
+    @Expose
+    var typesId : Int   ?=0 ,
+
+    @SerializedName("size-capacity_id")
+    @Expose
+    var sizeCapacityId : Int ?=0 ,
 
     var done : Boolean = false
 

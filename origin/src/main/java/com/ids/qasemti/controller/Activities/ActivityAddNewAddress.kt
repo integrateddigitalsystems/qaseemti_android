@@ -202,11 +202,11 @@ class ActivityAddNewAddress : ActivityBase() {
                 } catch (ex: Exception) {
                     etBuilding.text.clear()
                 }
-                try {
+               /* try {
                     etAddressName.text = address!!.featureName.toEditable()
                 } catch (ex: Exception) {
                     etAddressName.text.clear()
-                }
+                }*/
 
                 editData(llAddForm)
             }

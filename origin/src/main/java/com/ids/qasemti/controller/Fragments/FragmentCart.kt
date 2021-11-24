@@ -144,10 +144,10 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
 
             MyApplication.selectedPlaceOrder = RequestPlaceOrder(
                 MyApplication.userId,
-                type.toInt(),//MAKESURE
+                array[position].typeId,//MAKESURE
                 array.get(position).product!!.id,
-                type.toInt(),//MAKESURE
-                array.get(position).product!!.sizeCapacity!!.toInt(),//MAKESURE
+                array[position].typesId,//MAKESURE
+                array[position].sizeCapacityId,//MAKESURE
                 array[position].deliveryDate,
                 if( array[position].addressname != null && array[position].addressname!!.isNotEmpty()) array[position].addressname else "",
                 array[position].addressLat,
@@ -156,14 +156,6 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
                 array[position].addressBuilding,
                 array[position].addressFloor,
                 array[position].addressDescription,
-                if (MyApplication.selectedUser!!.firstName != null && MyApplication.selectedUser!!.firstName!!.isNotEmpty()) MyApplication.selectedUser!!.firstName else "",
-                if (MyApplication.selectedUser!!.lastName != null && MyApplication.selectedUser!!.lastName!!.isNotEmpty()) MyApplication.selectedUser!!.lastName else "",
-                if (MyApplication.selectedUser!!.billingCompany != null && MyApplication.selectedUser!!.billingCompany!!.isNotEmpty()) MyApplication.selectedUser!!.billingCompany else "",
-                if (MyApplication.selectedUser!!.email != null && MyApplication.selectedUser!!.email!!.isNotEmpty()) MyApplication.selectedUser!!.email else "",
-                if (MyApplication.selectedUser!!.mobileNumber != null && MyApplication.selectedUser!!.mobileNumber!!.isNotEmpty()) MyApplication.selectedUser!!.mobileNumber else "",
-                array[position].product!!.name,
-                array[position].grand_total,
-                "",
                 if(array.get(position).addresses.size >0) array.get(position).addresses.get(0).addressId!!.toInt() else 0,
                 array[position].product!!.booking_start_date,
                 array[position].product!!.booking_end_date
