@@ -1099,10 +1099,10 @@ class AppHelper {
                 var ny: LatLng? = null
                 if (orderLoc != null) {
                     Log.wtf("there", "already")
-                    ny = LatLng(
-                        orderLoc!!.order_laltitude!!.toDouble(),
-                        orderLoc!!.order_longitude!!.toDouble()
-                    )
+                  /*  ny = LatLng(
+                        orderLoc.order_laltitude!!.toDouble(),
+                        orderLoc.order_longitude!!.toDouble()
+                    )*/
                 } else {
                     try {
                         val user: MutableMap<String, String> = HashMap()
@@ -1112,14 +1112,14 @@ class AppHelper {
                                 MyApplication.selectedCurrentAddress!!.latitude.toString()
                         } catch (ex: Exception) {
                             user["order_laltitude"] =
-                                "0.0"
+                                ""
                         }
                         try {
                             user["order_longitude"] =
                                 MyApplication.selectedCurrentAddress!!.longitude.toString()
                         } catch (ex: Exception) {
                             user["order_longitude"] =
-                                "0.0"
+                                ""
                         }
                         doc!!.set(user)
                     } catch (ex: Exception) {
