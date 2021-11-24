@@ -263,31 +263,16 @@ fun String.format(number:Double,format:String): String {
 
 fun String.formatNumber(format: String): String {
     return if(this==null || this == "null" ) {
-
         ""
     }
     else if(this=="0.0" ) {
-
         "0"
     }else if(this.isEmpty()){
         ""
     }
     else{
-
-
-        val d = 0.005
-        val df = DecimalFormat("0.00")
-        df.roundingMode = RoundingMode.HALF_EVEN
-
         var formatter = DecimalFormat(format, setInEnglish())
-
-        if(this.toInt()!=0) {
-            formatter.format(this)
-        }
-        else {
-            formatter = DecimalFormat(AppConstants.TwoDecimalThousandsSeparator, setInEnglish())
-            formatter.format(this)
-        }
+        formatter.format(this)
     }
 }
 
