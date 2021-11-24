@@ -403,12 +403,17 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
     private fun setOrderData() {
         tvDateExpected.setColorTypeface(this,R.color.gray_font_title,"",true)
         var array: ArrayList<OrderData> = arrayListOf()
-        array.add(OrderData(AppHelper.getRemoteString("category",this), MyApplication.selectedOrder!!.type))
+        var langType = ""
+        if(MyApplication.languageCode == AppConstants.LANG_ENGLISH){
+            langType = MyApplication.categories!!.find { it.id!!.toInt() == MyApplication.selectedOrder!!.typeId}!!.valEn!!
+        }else
+            langType = MyApplication.categories!!.find { it.id!!.toInt() == MyApplication.selectedOrder!!.typeId}!!.valAr!!
+        array.add(OrderData(AppHelper.getRemoteString("category",this),langType))
         array.add(OrderData(AppHelper.getRemoteString("service",this), MyApplication.selectedOrder!!.product!!.name))
         array.add(OrderData(AppHelper.getRemoteString("type",this), MyApplication.selectedOrder!!.product!!.types))
         array.add(OrderData(AppHelper.getRemoteString("SizeCapacity",this), MyApplication.selectedOrder!!.product!!.sizeCapacity))
         array.add(OrderData(AppHelper.getRemoteString("Quantity",this), MyApplication.selectedOrder!!.product!!.qty))
-        if (!MyApplication.selectedOrder!!.type.equals("purchase")) {
+        if (MyApplication.selectedOrder!!.typeId!=345) {
             array.add(
                 OrderData(
                     "Period",
