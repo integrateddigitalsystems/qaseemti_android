@@ -196,7 +196,7 @@ class LocationForeService : Service() {
 
     fun setUpDoc(order: ResponseOrders) {
         MyApplication.selectedOrderTrack = order
-        var doc = MyApplication.db!!.collection("table_order")
+         doc = MyApplication.db!!.collection("table_order")
             .document(order.orderId!!)
 
         doc!!.get().addOnSuccessListener { documentSnapshot ->
@@ -232,9 +232,6 @@ class LocationForeService : Service() {
                 }
             }
 
-            doc = MyApplication.db!!.collection("table_order")
-                .document(MyApplication.selectedOrder!!.orderId!!)
-
             try {
                 MyApplication.saveLocationTracking = true
                 setUpLocations()
@@ -256,6 +253,9 @@ class LocationForeService : Service() {
                 if (location != null) {
                     var lat = location.latitude
                     try{
+                    MyApplication.selectedCurrentAddress!!.latitude=lat
+                    MyApplication.selectedCurrentAddress!!.longitude=location.longitude}catch (e:Exception){}
+                    try{
                     doc!!.update("order_laltitude", lat.toString())
                     doc!!.update("order_longitude", location.longitude.toString())}catch (e:Exception){}
                 } else {
@@ -274,6 +274,9 @@ class LocationForeService : Service() {
 
 
             override fun onLocationChanged(location: Location) {
+                try{
+                MyApplication.selectedCurrentAddress!!.latitude=location.latitude
+                MyApplication.selectedCurrentAddress!!.longitude=location.longitude}catch (e:Exception){}
 
                 doc!!.update("order_laltitude", location.latitude.toString())
                 doc!!.update("order_longitude", location.longitude.toString())
