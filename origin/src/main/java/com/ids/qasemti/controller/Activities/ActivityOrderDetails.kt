@@ -55,7 +55,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
+class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
 
     var dialog: Dialog? = null
     var cancelReasons : ArrayList<BankItem> = arrayListOf()
@@ -392,7 +392,11 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
         }
 
         tvLocationOrderDeatils.setColorTypeface(this, R.color.primary, "", false)
-        setOrderData()
+
+
+        loading.show()
+        CallAPIs.getOrderByOrderId(MyApplication.selectedOrder!!.orderId!!.toInt(),this)
+        //setOrderData()
     }
 
 
@@ -487,7 +491,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
             AppHelper.setSwitchColor(swOnTrack,this)
         } catch (ex: java.lang.Exception) {
         }
-
+        loading.hide()
     }
 
 
@@ -986,7 +990,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
 
     fun respondDate(accept : Int){
         loading.show()
-        var newReq = RequestAcceptDate( MyApplication.selectedOrder!!.orderId!!.toInt(), accept)
+        var newReq = RequestAcceptDate( MyApplication.selectedOrder!!.orderId!!.toInt(), accept,)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.clAcceptNewDT(newReq)?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(
@@ -1036,7 +1040,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                     try {
                         loading.hide()
                         if(response.body()!!.result=="1"){
-                            createDialog(this@ActivityOrderDetails,"Suggested date was sent")
+                            createDialog(this@ActivityOrderDetails,AppHelper.getRemoteString("sugg_date_sent",this@ActivityOrderDetails))
                         }
                     } catch (E: java.lang.Exception) {
                         loading.hide()
@@ -1187,5 +1191,10 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener {
                     loading.hide()
                 }
             })
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+        MyApplication.selectedOrder = response as ResponseOrders
+        setOrderData()
     }
 }

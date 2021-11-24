@@ -299,6 +299,7 @@
     <string name="SettlementAmount">مبلغ\nالتسوية</string>
     <string name="TotalEarning">مجموع الأرباح</string>
     <string name="no_curr_track">لا يوجد معلومات</string>
+    <string name="sugg_date_sent">تم إرسال التاريخ المقترح</string>
 
 
 </resources>

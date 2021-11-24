@@ -11,7 +11,11 @@ class RequestAcceptDate(
 
     @SerializedName("accept")
     @Expose
-    var accept : Int ?=0
+    var accept : Int ?=0 ,
+
+    @SerializedName("language")
+    @Expose
+    var lang : String ?=""
 
 ) {
 }
