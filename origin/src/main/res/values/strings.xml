@@ -297,8 +297,7 @@
     <string name="AdditionalFeees">Additional fees</string>
     <string name="SettlementAmount">Settlement\nAmount</string>
     <string name="TotalEarning">Total Earning</string>
-
-
+    <string name="no_curr_track">No current track data for this order</string>
 
 
 </resources>

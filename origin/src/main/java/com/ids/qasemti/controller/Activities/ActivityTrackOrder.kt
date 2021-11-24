@@ -279,39 +279,45 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
         doc!!.get().addOnSuccessListener { documentSnapshot ->
             val orderLoc = documentSnapshot.toObject<OrderLocation>()
             if(orderLoc!=null) {
-                var ny: LatLng? = null
-                if (orderLoc != null) {
-                    ny = LatLng(
-                        orderLoc!!.order_laltitude!!.toDouble(),
-                        orderLoc!!.order_longitude!!.toDouble()
-                    )
-                } else {
-                    val user: MutableMap<String, String> = HashMap()
-                    user["oder_id"] = MyApplication.selectedOrder!!.orderId!!
-                    user["order_laltitude"] = LatLngCurr!!.latitude.toString()
-                    user["order_longitude"] = LatLngCurr!!.longitude.toString()
-                    doc!!.set(user)
-                    ny = LatLngCurr
-                }
-                latLngs.add(ny!!)
-                for (item in latLngs) {
-                    options.position(item);
-                    options.title("someTitle");
-                    options.snippet("someDesc");
-                    markers.add(gmap!!.addMarker(options))
-                }
+                try {
+                    var ny: LatLng? = null
+                    if (orderLoc != null) {
+                        ny = LatLng(
+                            orderLoc!!.order_laltitude!!.toDouble(),
+                            orderLoc!!.order_longitude!!.toDouble()
+                        )
+                    } else {
+                        val user: MutableMap<String, String> = HashMap()
+                        user["oder_id"] = MyApplication.selectedOrder!!.orderId!!
+                        user["order_laltitude"] = LatLngCurr!!.latitude.toString()
+                        user["order_longitude"] = LatLngCurr!!.longitude.toString()
+                        doc!!.set(user)
+                        ny = LatLngCurr
+                    }
+                    latLngs.add(ny!!)
+                    for (item in latLngs) {
+                        options.position(item);
+                        options.title("someTitle");
+                        options.snippet("someDesc");
+                        markers.add(gmap!!.addMarker(options))
+                    }
 
-                markers.get(1)
-                    .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_vehicle))
-                //    markers.get(1).setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_map_vehicle,125,125)!!))
+                    markers.get(1)
+                        .setIcon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_vehicle))
+                    //    markers.get(1).setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.icon_map_vehicle,125,125)!!))
 
-                gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
+                    gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
 
-                if (MyApplication.isClient) {
-                    setClientListener()
+                    if (MyApplication.isClient) {
+                        setClientListener()
+                    }
+                }catch (ex:Exception){
+                    AppHelper.createDialog(this,AppHelper.getRemoteString("no_curr_track",this)){
+                        super.onBackPressed()
+                    }
                 }
             }else{
-                AppHelper.createDialog(this,"No current track data for this order"){
+                AppHelper.createDialog(this,AppHelper.getRemoteString("no_curr_track",this)){
                     super.onBackPressed()
                 }
             }

@@ -298,6 +298,7 @@
     <string name="AdditionalFeees">رسوم إضافية</string>
     <string name="SettlementAmount">مبلغ\nالتسوية</string>
     <string name="TotalEarning">مجموع الأرباح</string>
+    <string name="no_curr_track">لا يوجد معلومات</string>
 
 
 </resources>
