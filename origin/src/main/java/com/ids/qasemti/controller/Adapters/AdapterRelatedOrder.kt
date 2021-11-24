@@ -11,6 +11,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.model.OrderData
 import com.ids.qasemti.model.RelatedOrder
+import com.ids.qasemti.utils.formatNumber
 import com.ids.qasemti.utils.hide
 import java.util.ArrayList
 
@@ -26,10 +27,10 @@ class AdapterRelatedOrder(val items: ArrayList<RelatedOrder>, private val itemCl
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-        holder.value.text = items.get(position).grandTotal+ " "+items.get(position).currency
+        holder.value.text = items.get(position).grandTotal!!.formatNumber("0.00")+ " "+items.get(position).currency
         holder.date.text = items.get(position).orderDate
-        holder.due.text = items.get(position).adminFees + " "+ items.get(position).currency
-        holder.earning.text = items.get(position).orderEarning + " "+ items.get(position).currency
+        holder.due.text = items.get(position).adminFees!!.formatNumber("0.00") + " "+ items.get(position).currency
+        holder.earning.text = items.get(position).orderEarning!!.formatNumber("0.00") + " "+ items.get(position).currency
         /*if(position==items.size-1&&done==false){
             holder.line.hide()
             done = true

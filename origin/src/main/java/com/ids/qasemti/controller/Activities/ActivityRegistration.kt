@@ -112,11 +112,18 @@ class ActivityRegistration : ActivityBase() , ApiListener{
     }
 
     fun nextStep() {
-        MyApplication.register = true
-        MyApplication.selectedPos=4
-        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
-        MyApplication.selectedFragment = FragmentAccount()
-        startActivity(Intent(this, ActivityAccountStatus::class.java))
+        if(!MyApplication.isClient) {
+            MyApplication.register = true
+            MyApplication.selectedPos = 4
+            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
+            MyApplication.selectedFragment = FragmentAccount()
+            startActivity(Intent(this, ActivityAccountStatus::class.java))
+        }else{
+            MyApplication.selectedPos = 2
+            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+            MyApplication.selectedFragment = FragmentHomeClient()
+            startActivity(Intent(this, ActivityAccountStatus::class.java))
+        }
     }
 
 
