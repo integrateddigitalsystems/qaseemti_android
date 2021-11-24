@@ -22,7 +22,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.utils.AppHelper.Companion.setInEnglish
 import java.io.File
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.*
 
 
@@ -243,6 +246,52 @@ fun String.capitalized(): String {
         else it.toString()
     }
 }
+
+fun String.format(number:Double,format:String): String {
+    return this.replaceFirstChar {
+        if (it.isLowerCase())
+            it.titlecase(Locale.getDefault())
+        else it.toString()
+    }
+
+
+
+
+
+
+}
+
+fun String.formatNumber(format: String): String {
+    return if(this==null || this == "null" ) {
+
+        ""
+    }
+    else if(this=="0.0" ) {
+
+        "0"
+    }else if(this.isEmpty()){
+        ""
+    }
+    else{
+
+
+        val d = 0.005
+        val df = DecimalFormat("0.00")
+        df.roundingMode = RoundingMode.HALF_EVEN
+
+        var formatter = DecimalFormat(format, setInEnglish())
+
+        if(this.toInt()!=0) {
+            formatter.format(this)
+        }
+        else {
+            formatter = DecimalFormat(AppConstants.TwoDecimalThousandsSeparator, setInEnglish())
+            formatter.format(this)
+        }
+    }
+}
+
+
 
 fun TextView.setColorTypeface(context: Context, color: Int,text:String,bold:Boolean) {
 
