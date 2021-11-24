@@ -147,16 +147,18 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
                         setBannerData(response.body()!!.banners)
 
                     } catch (E: java.lang.Exception) {
-                        loading.hide()
-                        setBannerData(arrayListOf())
+                        if(loading!=null)
+                            loading.hide()
+                        try{setBannerData(arrayListOf())}catch (e:Exception){}
 
 
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseMainBanner>, throwable: Throwable) {
-                    loading.hide()
-                    setBannerData(arrayListOf())
+                    if(loading!=null)
+                        loading.hide()
+                    try{setBannerData(arrayListOf())}catch (e:Exception){}
                 }
             })
     }
