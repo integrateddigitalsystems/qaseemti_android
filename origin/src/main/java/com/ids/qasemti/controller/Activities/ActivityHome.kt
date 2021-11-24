@@ -66,6 +66,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         init()
+      //  MyApplication.saveLocationTracking = false
 
         foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
         startServicing()
@@ -131,6 +132,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
     fun changeState(){
+
 
 
         if (!MyApplication.saveLocationTracking!!) {

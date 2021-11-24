@@ -39,6 +39,7 @@ class LocationForeService : Service() {
     var mLocationManager : LocationManager ?=null
     var doc: DocumentReference? = null
     private val localBinder = LocalBinder()
+    var firstTime : Boolean = true
     var LOCATION_REFRESH_DISTANCE = 5
     var LOCATION_REFRESH_TIME = 5000
     var timer : CountDownTimer?=null
@@ -193,8 +194,8 @@ class LocationForeService : Service() {
             override fun gotLocation(location: Location?) {
                 if (location != null) {
                     var lat = location.latitude
-                   /* doc!!.update("order_laltitude", lat.toString())
-                    doc!!.update("order_longitude", location.longitude.toString())*/
+                    doc!!.update("order_laltitude", location.latitude.toString())
+                    doc!!.update("order_longitude", location.longitude.toString())
                 } else {
                     Toast.makeText(applicationContext, "cannot detect location", Toast.LENGTH_SHORT)
                         .show()
@@ -273,10 +274,8 @@ class LocationForeService : Service() {
 
 
 
-        AppHelper.setUpDoc(MyApplication.selectedOrder!!)
-        doc = MyApplication.db!!.collection("table_order")
-            .document(MyApplication.selectedOrder!!.orderId!!)
-        doc!!.get().addOnCompleteListener(OnCompleteListener<DocumentSnapshot?> { task ->
+
+       /* doc!!.get().addOnCompleteListener(OnCompleteListener<DocumentSnapshot?> { task ->
             if (task.isSuccessful) {
                 val document = task.result
                 if (document.exists()) {
@@ -288,7 +287,7 @@ class LocationForeService : Service() {
                 //Log the error if the task is not successful
                 Log.d(TAG, "get failed with ", task.exception)
             }
-        })
+        })*/
 
 
 

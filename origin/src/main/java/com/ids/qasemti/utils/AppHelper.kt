@@ -1111,15 +1111,13 @@ class AppHelper {
                             user["order_laltitude"] =
                                 MyApplication.selectedCurrentAddress!!.latitude.toString()
                         } catch (ex: Exception) {
-                            user["order_laltitude"] =
-                                "0.0"
+
                         }
                         try {
                             user["order_longitude"] =
                                 MyApplication.selectedCurrentAddress!!.longitude.toString()
                         } catch (ex: Exception) {
-                            user["order_longitude"] =
-                                "0.0"
+
                         }
                         doc!!.set(user)
                     } catch (ex: Exception) {
