@@ -16,15 +16,20 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.toObject
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.OrderLocation
+import com.ids.qasemti.model.ResponseOrders
 import kotlinx.android.synthetic.main.activity_code_verification.*
+import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
 
@@ -39,7 +44,6 @@ class LocationForeService : Service() {
     var mLocationManager : LocationManager ?=null
     var doc: DocumentReference? = null
     private val localBinder = LocalBinder()
-    var firstTime : Boolean = true
     var LOCATION_REFRESH_DISTANCE = 5
     var LOCATION_REFRESH_TIME = 5000
     var timer : CountDownTimer?=null
@@ -189,13 +193,71 @@ class LocationForeService : Service() {
         configurationChange = true
     }
 
+
+    fun setUpDoc(order: ResponseOrders) {
+        MyApplication.selectedOrderTrack = order
+         doc = MyApplication.db!!.collection("table_order")
+            .document(order.orderId!!)
+
+        doc!!.get().addOnSuccessListener { documentSnapshot ->
+            val orderLoc = documentSnapshot.toObject<OrderLocation>()
+            var ny: LatLng? = null
+            if (orderLoc != null) {
+                Log.wtf("there", "already")
+                /*  ny = LatLng(
+                      orderLoc.order_laltitude!!.toDouble(),
+                      orderLoc.order_longitude!!.toDouble()
+                  )*/
+            } else {
+                try {
+                    val user: MutableMap<String, String> = HashMap()
+                    user["oder_id"] = order.orderId!!
+                    try {
+                        user["order_laltitude"] =
+                            MyApplication.selectedCurrentAddress!!.latitude.toString()
+                    } catch (ex: Exception) {
+                        user["order_laltitude"] =
+                            ""
+                    }
+                    try {
+                        user["order_longitude"] =
+                            MyApplication.selectedCurrentAddress!!.longitude.toString()
+                    } catch (ex: Exception) {
+                        user["order_longitude"] =
+                            ""
+                    }
+                    doc!!.set(user)
+                } catch (ex: Exception) {
+                    logw("error_database",ex.toString())
+                }
+            }
+
+            try {
+                MyApplication.saveLocationTracking = true
+                setUpLocations()
+            }catch (ex:Exception){
+                var x = ex
+                try{signInAnonymously()}catch (e:java.lang.Exception){}
+            }
+            startService(Intent(applicationContext, LocationForeService::class.java))
+
+        }
+
+    }
+
+
+
     fun setUpLocations() {
         val locationResult = object : MyLocation.LocationResult() {
             override fun gotLocation(location: Location?) {
                 if (location != null) {
                     var lat = location.latitude
-                    doc!!.update("order_laltitude", location.latitude.toString())
-                    doc!!.update("order_longitude", location.longitude.toString())
+                    try{
+                    MyApplication.selectedCurrentAddress!!.latitude=lat
+                    MyApplication.selectedCurrentAddress!!.longitude=location.longitude}catch (e:Exception){}
+                    try{
+                    doc!!.update("order_laltitude", lat.toString())
+                    doc!!.update("order_longitude", location.longitude.toString())}catch (e:Exception){}
                 } else {
                     Toast.makeText(applicationContext, "cannot detect location", Toast.LENGTH_SHORT)
                         .show()
@@ -212,6 +274,9 @@ class LocationForeService : Service() {
 
 
             override fun onLocationChanged(location: Location) {
+                try{
+                MyApplication.selectedCurrentAddress!!.latitude=location.latitude
+                MyApplication.selectedCurrentAddress!!.longitude=location.longitude}catch (e:Exception){}
 
                 doc!!.update("order_laltitude", location.latitude.toString())
                 doc!!.update("order_longitude", location.longitude.toString())
@@ -271,49 +336,9 @@ class LocationForeService : Service() {
     }
     fun subscribeToLocationUpdates() {
         Log.d(TAG, "subscribeToLocationUpdates()")
+        setUpDoc(MyApplication.selectedOrder!!)
 
 
-
-
-       /* doc!!.get().addOnCompleteListener(OnCompleteListener<DocumentSnapshot?> { task ->
-            if (task.isSuccessful) {
-                val document = task.result
-                if (document.exists()) {
-                    Log.d(TAG, "DocumentSnapshot data: " + document.data)
-                } else {
-                    Log.d(TAG, "No such document")
-                }
-            } else {
-                //Log the error if the task is not successful
-                Log.d(TAG, "get failed with ", task.exception)
-            }
-        })*/
-
-
-
-
-        try {
-            MyApplication.saveLocationTracking = true
-            setUpLocations()
-        }catch (ex:Exception){
-            var x = ex
-            try{signInAnonymously()}catch (e:java.lang.Exception){}
-        }
-
-        // Binding to this service doesn't actually trigger onStartCommand(). That is needed to
-        // ensure this Service can be promoted to a foreground service, i.e., the service needs to
-        // be officially started (which we do here).
-        startService(Intent(applicationContext, LocationForeService::class.java))
-
-
-        /*try {
-            // TODO: Step 1.5, Subscribe to location changes.
-            fusedLocationProviderClient.requestLocationUpdates(
-                locationRequest, locationCallback, Looper.getMainLooper())
-        } catch (unlikely: SecurityException) {
-            MyApplication.saveLocationTracking = false
-            Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
-        }*/
     }
 
     fun unsubscribeToLocationUpdates() {
