@@ -24,6 +24,15 @@ object AppConstants {
     const val SERVICES = 10
     const val FAILURE_REQUEST = 0
 
+    const val OneDecimal = "#,##0.0"
+    const val TwoDecimal = "#,##0.00"
+    const val ThreeDecimal = "#.000"
+    const val OneDecimalThousandsSeparator = "#,###.0"
+    const val OneDecimalSeparator = "#.0"
+    const val NoDecimalSeparator = "#"
+    const val TwoDecimalThousandsSeparator = "#,###.00"
+    const val ThreeDecimalThousandsSeparator = "#,##0.000"
+    const val NoDecimalThousandsSeparator = "#,###"
 
     const val LANG_ENGLISH = "en"
     const val LANG_ARABIC = "ar"

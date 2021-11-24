@@ -168,7 +168,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
             }
 
             tvTotalOrderCount.text = res!!.ordersCount.toString()
-            tvSettlementAmount.text = res!!.settlementAmount!!.toString() + " " +"KWD" //res!!.orders.get(position).currency
+            tvSettlementAmount.text = res!!.settlementAmount!!.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " " +"KWD" //res!!.orders.get(position).currency
             if(array.size==0){
                 btRequestSettlements.hide()
                 tvNoDataSet.show()

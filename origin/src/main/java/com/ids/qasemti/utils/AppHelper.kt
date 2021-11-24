@@ -623,11 +623,7 @@ class AppHelper {
             }
         }
 
-        fun setInEnglish(): DecimalFormatSymbols {
-            val custom = DecimalFormatSymbols(Locale.ENGLISH)
-            custom.decimalSeparator = '.'
-            return custom
-        }
+
 
 
         fun formatDate(
@@ -1134,6 +1130,13 @@ class AppHelper {
             }
 
         }
+
+        fun setInEnglish(): DecimalFormatSymbols {
+            val custom = DecimalFormatSymbols(Locale.ENGLISH)
+            custom.decimalSeparator = '.'
+            return custom
+        }
+
 
         fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 
