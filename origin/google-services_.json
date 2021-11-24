@@ -1,7 +1,6 @@
 {
   "project_info": {
     "project_number": "328830102641",
-    "firebase_url": "https://qasemati-95aa8-default-rtdb.firebaseio.com",
     "project_id": "qasemati-95aa8",
     "storage_bucket": "qasemati-95aa8.appspot.com"
   },
@@ -40,11 +39,10 @@
               "client_type": 3
             },
             {
-              "client_id": "328830102641-104n5iijag8epbqk2apif6d4fcl0674p.apps.googleusercontent.com",
+              "client_id": "328830102641-2pglak8irkg90ahtnndbfr6ckb3b08dj.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.qaemati.appsp",
-                "app_store_id": "1593413485"
+                "bundle_id": "com.ids.qasemati-client"
               }
             }
           ]
@@ -77,11 +75,10 @@
               "client_type": 3
             },
             {
-              "client_id": "328830102641-104n5iijag8epbqk2apif6d4fcl0674p.apps.googleusercontent.com",
+              "client_id": "328830102641-2pglak8irkg90ahtnndbfr6ckb3b08dj.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.qaemati.appsp",
-                "app_store_id": "1593413485"
+                "bundle_id": "com.ids.qasemati-client"
               }
             }
           ]

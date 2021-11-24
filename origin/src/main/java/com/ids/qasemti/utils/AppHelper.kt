@@ -1127,6 +1127,7 @@ class AppHelper {
                         }
                         doc!!.set(user)
                     } catch (ex: Exception) {
+                        logw("error_database",ex.toString())
                     }
                 }
 

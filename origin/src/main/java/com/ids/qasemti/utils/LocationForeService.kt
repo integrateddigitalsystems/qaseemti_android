@@ -10,22 +10,23 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.*
-import com.ids.qasemti.R
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.OrderLocation
 import kotlinx.android.synthetic.main.activity_code_verification.*
 import java.util.concurrent.TimeUnit
+
 
 class LocationForeService : Service() {
     /*
@@ -41,7 +42,7 @@ class LocationForeService : Service() {
     var LOCATION_REFRESH_DISTANCE = 5
     var LOCATION_REFRESH_TIME = 5000
     var timer : CountDownTimer?=null
-
+    private lateinit var auth: FirebaseAuth
     private lateinit var notificationManager: NotificationManager
 
     // TODO: Step 1.1, Review variables (no changes).
@@ -275,11 +276,29 @@ class LocationForeService : Service() {
         AppHelper.setUpDoc(MyApplication.selectedOrder!!)
         doc = MyApplication.db!!.collection("table_order")
             .document(MyApplication.selectedOrder!!.orderId!!)
+        doc!!.get().addOnCompleteListener(OnCompleteListener<DocumentSnapshot?> { task ->
+            if (task.isSuccessful) {
+                val document = task.result
+                if (document.exists()) {
+                    Log.d(TAG, "DocumentSnapshot data: " + document.data)
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            } else {
+                //Log the error if the task is not successful
+                Log.d(TAG, "get failed with ", task.exception)
+            }
+        })
+
+
+
+
         try {
             MyApplication.saveLocationTracking = true
             setUpLocations()
         }catch (ex:Exception){
             var x = ex
+            try{signInAnonymously()}catch (e:java.lang.Exception){}
         }
 
         // Binding to this service doesn't actually trigger onStartCommand(). That is needed to
@@ -319,6 +338,29 @@ class LocationForeService : Service() {
             Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
         }
     }
+
+
+    private fun signInAnonymously() {
+        // [START signin_anonymously]
+        auth = FirebaseAuth.getInstance()
+        auth.signInAnonymously()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    logw("auth", "signInAnonymously:success")
+                    val user = auth.currentUser
+                    setUpLocations()
+                } else {
+                    // If sign in fails, display a message to the user.
+                    logw("auth", "signInAnonymously:failure+"+task.exception)
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+
+                }
+            }
+        // [END signin_anonymously]
+    }
+
 
     /*
      * Generates a BIG_TEXT_STYLE Notification that represent latest location.

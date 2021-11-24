@@ -16,9 +16,13 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -27,7 +31,6 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.gson.Gson
 import com.ids.qasemti.BuildConfig
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Adapters.AdapterCountryCodes
 import com.ids.qasemti.controller.Adapters.AdapterServerLinks
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -61,6 +64,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
     var URLs: ArrayList<ServerLink> = arrayListOf()
     var dialog: Dialog? = null
     var mFirebaseRemoteConfig: FirebaseRemoteConfig? = null
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         // updateConfig(this)
         super.onCreate(savedInstanceState)
@@ -444,8 +448,60 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
     }
 
+    override fun onStart() {
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        updateUI(currentUser)
+        signInAnonymously()
+        super.onStart()
+    }
+
+    private fun linkAccount() {
+        // Create EmailAuthCredential with email and password
+        val credential = EmailAuthProvider.getCredential("", "")
+        // [START link_credential]
+        auth.currentUser!!.linkWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d("firebase_auth", "linkWithCredential:success")
+                    val user = task.result?.user
+                    updateUI(user)
+                } else {
+                    Log.w("firebase_auth", "linkWithCredential:failure", task.exception)
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                    updateUI(null)
+                }
+            }
+        // [END link_credential]
+    }
+
+    private fun updateUI(user: FirebaseUser?) {
+
+    }
+    private fun signInAnonymously() {
+        // [START signin_anonymously]
+        auth.signInAnonymously()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    logw("auth", "signInAnonymously:success")
+                    val user = auth.currentUser
+                    updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    logw("auth", "signInAnonymously:failure+"+task.exception)
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                    updateUI(null)
+                }
+            }
+        // [END signin_anonymously]
+    }
+
 
     private fun getFirebasePrefs() {
+        auth = FirebaseAuth.getInstance()
         MyApplication.db = Firebase.firestore
         mFirebaseRemoteConfig = Firebase.remoteConfig
         val configSettings = remoteConfigSettings {
@@ -463,11 +519,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         URLs.addAll(URLS.serverLink)
                         showDialog()
                     } else {
-                        if(MyApplication.BASE_URL.isEmpty()) {
-                            selectedURL = false
-                        }else{
-                            selectedURL = true
-                        }
+                        selectedURL = MyApplication.BASE_URL.isNotEmpty()
                         setUpRestFirebase()
                     }
 
