@@ -296,6 +296,8 @@
     <string name="are_you_sure_cancel">هل انت متأكد من الالغاء ؟</string>
     <string name="knet_error">Knet خلل</string>
     <string name="AdditionalFeees">رسوم إضافية</string>
+    <string name="SettlementAmount">مبلغ\nالتسوية</string>
+    <string name="TotalEarning">مجموع الأرباح</string>
 
 
 </resources>

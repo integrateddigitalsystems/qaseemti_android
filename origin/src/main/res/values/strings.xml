@@ -215,7 +215,7 @@
     <string name="settlement_request_number">Settlement Request Number</string>
     <string name="cancelDate">Cancellation date</string>
     <string name="settlement_date">Settlement date</string>
-    <string name="settlement_amount">Settlement amount</string>
+    <string name="settlement_amount">Settlement \n amount</string>
     <string name="earnings">Earnings</string>
     <string name="select_address">Select Address</string>
     <string name="order_accept_succ">Order Accepted Successfully</string>
@@ -295,6 +295,8 @@
     <string name="are_you_sure_cancel">Are you sure you want to cancel ?</string>
     <string name="knet_error">Knet Error</string>
     <string name="AdditionalFeees">Additional fees</string>
+    <string name="SettlementAmount">Settlement\nAmount</string>
+    <string name="TotalEarning">Total Earning</string>
 
 
 

@@ -202,6 +202,13 @@ class ActivityAddNewAddress : ActivityBase() {
                 } catch (ex: Exception) {
                     etBuilding.text.clear()
                 }
+                if(etStreet.text.toString().isEmpty() && !address!!.featureName.isNullOrEmpty()){
+                    try {
+                        etStreet.text = address!!.featureName.toEditable()
+                    } catch (ex: Exception) {
+                        etStreet.text.clear()
+                    }
+                }
                /* try {
                     etAddressName.text = address!!.featureName.toEditable()
                 } catch (ex: Exception) {

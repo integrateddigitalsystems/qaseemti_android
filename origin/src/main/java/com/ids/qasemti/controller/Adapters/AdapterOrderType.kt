@@ -131,76 +131,88 @@ class AdapterOrderType(
             AppHelper.setSwitchColor(holder.switchDelivered,con)
             AppHelper.setSwitchColor(holder.switchOnTrack,con)
         }
+        /*if(MyApplication.saveLocationTracking!!){
+            holder.switchOnTrack.isEnabled=false
+            AppHelper.setSwitchColor(holder.switchDelivered,con)
+        }*/
 
         holder.switchDelivered.setOnClickListener {
-            AppHelper.createSwitchDialog(
-                con,
-                AppHelper.getRemoteString("ok", con),
-                AppHelper.getRemoteString("cancel", con),
-                con.getString(
-                    R.string.are_you_sure_change_status
-                ),
-                holder.switchDelivered
-            ) {
-                var usedPos = position
-                var selectedOrd = items.get(position)
-                if (holder.switchDelivered.isChecked) {
 
-                    if(holder.switchPaid.isChecked){
-                        items.removeAt(position)
-                        if(usedPos>0)
-                            usedPos--
-                        notifyItemChanged(usedPos)
+
+                AppHelper.createSwitchDialog(
+                    con,
+                    AppHelper.getRemoteString("ok", con),
+                    AppHelper.getRemoteString("cancel", con),
+                    con.getString(
+                        R.string.are_you_sure_change_status
+                    ),
+                    holder.switchDelivered
+                ) {
+                    var usedPos = position
+                    var selectedOrd = items.get(position)
+                    if (holder.switchDelivered.isChecked) {
+
+                        if (holder.switchPaid.isChecked) {
+                            items.removeAt(position)
+                            if (usedPos > 0)
+                                usedPos--
+                            notifyItemChanged(usedPos)
+                        }
+                        holder.switchDelivered.isEnabled = false
+                        MyApplication.saveLocationTracking = false
+                        MyApplication.selectedOrder = selectedOrd
+                        (con as ActivityHome).changeState()
+                        delivered = 1
+                        AppHelper.setSwitchColor(holder.switchDelivered, con)
+                        holder.switchOnTrack.isEnabled = false
+                        AppHelper.setSwitchColor(holder.switchOnTrack, con)
+                    } else {
+                        delivered = 0
+                        AppHelper.setSwitchColor(holder.switchDelivered, con)
                     }
-                    holder.switchDelivered.isEnabled = false
-                    MyApplication.saveLocationTracking = false
-                    MyApplication.selectedOrder = selectedOrd
-                    (con as ActivityHome).changeState()
-                    delivered = 1
-                    AppHelper.setSwitchColor(holder.switchDelivered,con)
-                    holder.switchOnTrack.isEnabled=false
-                    AppHelper.setSwitchColor(holder.switchOnTrack,con)
-                } else {
-                    delivered = 0
-                    AppHelper.setSwitchColor(holder.switchDelivered,con)
+
+                    AppHelper.updateStatus(
+                        selectedOrd.orderId!!.toInt(),
+                        onTrack,
+                        delivered,
+                        paid
+                    )
                 }
 
-                AppHelper.updateStatus(
-                   selectedOrd.orderId!!.toInt(),
-                    onTrack,
-                    delivered,
-                    paid
-                )
-            }
         }
         holder.switchOnTrack.setOnClickListener {
-            AppHelper.createSwitchDialog(
-                con,
-                AppHelper.getRemoteString("ok", con),
-                AppHelper.getRemoteString("cancel", con),
-                con.getString(
-                    R.string.are_you_sure_change_status
-                ),
-                holder.switchOnTrack
-            ) {
-                if (holder.switchOnTrack.isChecked) {
-                    MyApplication.selectedOrder = items.get(position)
-                    MyApplication.saveLocationTracking = true
-                    (con as ActivityHome).changeState()
-                    AppHelper.setSwitchColor(holder.switchOnTrack,con)
-                    onTrack = 1
-                } else {
-                    onTrack = 0
-                    AppHelper.setSwitchColor(holder.switchOnTrack,con)
-                }
-                AppHelper.updateStatus(
-                    items.get(position).orderId!!.toInt(),
-                    onTrack,
-                    delivered,
-                    paid
-                )
 
-                //AppHelper.setUpDoc(items.get(position))
+            if(!MyApplication.saveLocationTracking!!) {
+                AppHelper.createSwitchDialog(
+                    con,
+                    AppHelper.getRemoteString("ok", con),
+                    AppHelper.getRemoteString("cancel", con),
+                    con.getString(
+                        R.string.are_you_sure_change_status
+                    ),
+                    holder.switchOnTrack
+                ) {
+                    if (holder.switchOnTrack.isChecked) {
+                        MyApplication.selectedOrder = items.get(position)
+                        MyApplication.saveLocationTracking = true
+                        (con as ActivityHome).changeState()
+                        AppHelper.setSwitchColor(holder.switchOnTrack, con)
+                        onTrack = 1
+                    } else {
+                        onTrack = 0
+                        AppHelper.setSwitchColor(holder.switchOnTrack, con)
+                    }
+                    AppHelper.updateStatus(
+                        items.get(position).orderId!!.toInt(),
+                        onTrack,
+                        delivered,
+                        paid
+                    )
+
+                    //AppHelper.setUpDoc(items.get(position))
+                }
+            }else{
+                holder.switchOnTrack.isChecked = !holder.switchOnTrack.isChecked
             }
         }
 

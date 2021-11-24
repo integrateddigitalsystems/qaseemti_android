@@ -211,7 +211,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <com.ids.qasemti.custom.CustomTextViewMedium
+                    <!--<com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settlement"
@@ -222,14 +222,14 @@
                         android:gravity="start"
                         android:textSize="@dimen/normal_font"
                         android:textColor="@color/white"
-                        />
+                        />-->
                     <com.ids.qasemti.custom.CustomTextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/amount"
-                        android:tag="amount"
+                        android:text="@string/SettlementAmount"
+                        android:tag="SettlementAmount"
                         android:id="@+id/tvBlock2TitleBottom"
-                        android:lineSpacingMultiplier="0.6"
+                        android:lineSpacingMultiplier="0.9"
                         android:textAlignment="viewStart"
                         android:layout_gravity="center_vertical"
                         android:gravity="start"

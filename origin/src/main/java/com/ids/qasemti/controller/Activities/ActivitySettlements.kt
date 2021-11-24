@@ -172,6 +172,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
             if(array.size==0){
                 btRequestSettlements.hide()
                 tvNoDataSet.show()
+                rvSettlements.hide()
 
             }else {
                 tvNoDataSet.hide()
@@ -204,8 +205,10 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
 
             if(arraySett.size==0){
                 tvNoDataSet.show()
+                rvSettlements.hide()
             }else{
                 tvNoDataSet.hide()
+                rvSettlements.show()
             }
 
         }
@@ -241,10 +244,13 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                     var tv = linearTabs.getChildAt(i) as TextView
                     setTabLayout(i, tv)
                     // setData(i)
-                    if (i == 0)
+                    if (i == 0) {
                         getOrders(i)
-                    else
+                        tvBlock2TitleBottom.text = AppHelper.getRemoteString("SettlementAmount",this)
+                    }else {
                         getSettlements(i)
+                        tvBlock2TitleBottom.text = AppHelper.getRemoteString("TotalEarning",this)
+                    }
                 }
             }
         }

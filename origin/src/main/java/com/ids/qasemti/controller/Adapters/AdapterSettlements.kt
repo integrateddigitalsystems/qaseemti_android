@@ -42,6 +42,7 @@ class AdapterSettlements(
         holder.date.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy hh:mm")
         holder.amount.text = items.get(position).grand_total+" "+items.get(position).currency
         holder.earn.text = items.get(position).earnings + " "+ items.get(position).currency
+        holder.duesText.text = items.get(position).adminFees + " "+items.get(position).currency
 
 
     }
