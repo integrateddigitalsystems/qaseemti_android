@@ -272,7 +272,7 @@ fun String.formatNumber(format: String): String {
     }
     else{
         var formatter = DecimalFormat(format, setInEnglish())
-        formatter.format(this)
+        formatter.format(this.toDouble())
     }
 }
 
