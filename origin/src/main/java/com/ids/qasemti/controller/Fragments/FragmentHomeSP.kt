@@ -132,7 +132,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         setListeners()
 
         if(MyApplication.selectedUser!!.available==null || MyApplication.selectedUser!!.available!!.isEmpty())
-            setAvailability(MyApplication.selectedUser!!.available!!.toInt())
+            setAvailability(0)
         else{
             getRating()
             getData()
