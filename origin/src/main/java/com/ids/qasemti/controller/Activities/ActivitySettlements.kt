@@ -168,7 +168,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
             }
 
             tvTotalOrderCount.text = res!!.ordersCount.toString()
-            tvSettlementAmount.text = res!!.settlementAmount!!.toString() + " " +"KWD" //res!!.orders.get(position).currency
+            tvSettlementAmount.text = res!!.settlementAmount!!.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " " +"KWD" //res!!.orders.get(position).currency
             if(array.size==0){
                 btRequestSettlements.hide()
                 tvNoDataSet.show()
@@ -190,9 +190,9 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                 adapter!!.notifyDataSetChanged()
             }
             tvTotalOrderCount.text = resSet!!.numberOfOrders.toString()
-            tvSettlementAmount.text = resSet!!.totalEarnings!!.toString()
+            tvSettlementAmount.text = resSet!!.totalEarnings!!.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator)
             try {
-              tvSettlementAmount.text = tvSettlementAmount.text.toString() + " "+"KWD"//resSet!!.settlements.get(0).relatedOrders.get(0).currency
+              tvSettlementAmount.text = tvSettlementAmount.text.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+"KWD"//resSet!!.settlements.get(0).relatedOrders.get(0).currency
             }catch (ex:Exception){
 
             }
