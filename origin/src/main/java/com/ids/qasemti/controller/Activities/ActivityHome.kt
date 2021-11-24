@@ -124,9 +124,9 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
     fun showLogout(show: Boolean) {
-        if (show)
+    /*    if (show)
             btLogout.show()
-        else
+        else*/
             btLogout.hide()
     }
 

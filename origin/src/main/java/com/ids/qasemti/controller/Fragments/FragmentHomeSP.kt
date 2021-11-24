@@ -86,7 +86,9 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     call: Call<ResponseCancel>,
                     response: Response<ResponseCancel>
                 ) {
-
+                    getRating()
+                    getData()
+                    getOrders()
                 }
 
                 override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
@@ -128,9 +130,14 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         (activity as ActivityHome?)!!.setTintLogo(R.color.primary)
      //   AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         setListeners()
-        getRating()
-        getData()
-        getOrders()
+
+        if(MyApplication.selectedUser!!.available==null || MyApplication.selectedUser!!.available!!.isEmpty())
+            setAvailability(MyApplication.selectedUser!!.available!!.toInt())
+        else{
+            getRating()
+            getData()
+            getOrders()
+        }
 
 
     }
@@ -201,7 +208,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             if (swAvailable.isChecked) {
                 rvOrders.show()
-                getOrders()
+               // getOrders()
                 setAvailability(1)
                 swAvailable.text = AppHelper.getRemoteString("available", requireContext())
                 llNodata.hide()

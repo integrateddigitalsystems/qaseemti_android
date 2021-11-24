@@ -4,12 +4,15 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterCountryCodes
@@ -116,7 +119,7 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
         val model = AppHelper.getDeviceName()
         val osVersion = AppHelper.getAndroidVersion()
 
-        val deviceToken = ""
+        var deviceToken = ""
         val deviceTypeId = ""
         var android_id = Settings.Secure.getString(
             getContentResolver(),
@@ -138,42 +141,56 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
         if (MyApplication.isClient)
             isService = 0
 
-        var newReq = RequestUpdate(
-            MyApplication.deviceId,
-            MyApplication.selectedPhone,
-            model,
-            osVersion,
-            deviceToken,
-            2,
-            imei,
-            generalNotification,
-            appVersion.toString(),
-            0,
-            lang,
-            MyApplication.userId,
-            isService
-        )
-
-
-        RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.updateDevice(
-                newReq
-            )?.enqueue(object : Callback<ResponseUpdate> {
-                override fun onResponse(
-                    call: Call<ResponseUpdate>,
-                    response: Response<ResponseUpdate>
-                ) {
-                    try {
-                        MyApplication.deviceId = response.body()!!.deviceId!!
-                        sendOTP()
-                    } catch (E: java.lang.Exception) {
-                        loading.hide()
-                    }
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(
+            OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(
+                        "firebase_messaging",
+                        "Fetching FCM registration token failed",
+                        task.exception
+                    )
+                    return@OnCompleteListener
                 }
+                deviceToken = task.result
 
-                override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
-                    loading.hide()
-                }
+
+                var newReq = RequestUpdate(
+                    MyApplication.deviceId,
+                    MyApplication.selectedPhone,
+                    model,
+                    osVersion,
+                    deviceToken,
+                    2,
+                    imei,
+                    generalNotification,
+                    appVersion.toString(),
+                    0,
+                    lang,
+                    MyApplication.userId,
+                    isService
+                )
+
+
+                RetrofitClient.client?.create(RetrofitInterface::class.java)
+                    ?.updateDevice(
+                        newReq
+                    )?.enqueue(object : Callback<ResponseUpdate> {
+                        override fun onResponse(
+                            call: Call<ResponseUpdate>,
+                            response: Response<ResponseUpdate>
+                        ) {
+                            try {
+                                MyApplication.deviceId = response.body()!!.deviceId!!
+                                sendOTP()
+                            } catch (E: Exception) {
+                                loading.hide()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                            loading.hide()
+                        }
+                    })
             })
     }
 

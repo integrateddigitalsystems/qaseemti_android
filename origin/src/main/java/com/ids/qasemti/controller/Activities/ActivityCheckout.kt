@@ -531,7 +531,10 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                         )
                         if (compareDates() == -1) {
                             if (!compareTimes(selectedHour, selectedMinute)) {
-                                AppHelper.createDialog(this, "You cannot pick a time before selected")
+                                AppHelper.createDialog(
+                                    this,
+                                    "You cannot pick a time before selected"
+                                )
                             } else {
                                 etToTime.text = time.toEditable()
                             }
@@ -591,8 +594,6 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         }
 
 
-
-
     }
 
 
@@ -602,10 +603,10 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             MyApplication.categories.find { it.valEn == MyApplication.selectedOrder!!.type }!!.id!!.toInt()
         MyApplication.selectedPlaceOrder = RequestPlaceOrder(
             MyApplication.userId,
-            type,
+            MyApplication.selectedOrder!!.typeId,
             MyApplication.selectedOrder!!.product!!.id!!.toInt(),
-            0,
-            0,
+            MyApplication.selectedOrder!!.typesId,
+            MyApplication.selectedOrder!!.sizeCapacityId,
             selectedDate,
             if (MyApplication.selectedAddress!!.addressName != null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
             MyApplication.selectedOrder!!.shipping_latitude,
@@ -614,14 +615,6 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             if (MyApplication.selectedOrder!!.addressBuilding != null && MyApplication.selectedOrder!!.addressBuilding!!.isNotEmpty()) MyApplication.selectedOrder!!.addressBuilding else "",
             if (MyApplication.selectedOrder!!.addressFloor != null && MyApplication.selectedOrder!!.addressFloor!!.isNotEmpty()) MyApplication.selectedOrder!!.addressFloor else "",
             if (MyApplication.selectedOrder!!.addressDescription != null && MyApplication.selectedOrder!!.addressDescription!!.isNotEmpty()) MyApplication.selectedOrder!!.addressDescription else "",
-            if (MyApplication.selectedUser!!.firstName != null && MyApplication.selectedUser!!.firstName!!.isNotEmpty()) MyApplication.selectedUser!!.firstName else "",
-            if (MyApplication.selectedUser!!.lastName != null && MyApplication.selectedUser!!.lastName!!.isNotEmpty()) MyApplication.selectedUser!!.lastName else "",
-            if (MyApplication.selectedUser!!.billingCompany != null && MyApplication.selectedUser!!.billingCompany!!.isNotEmpty()) MyApplication.selectedUser!!.billingCompany else "",
-            if (MyApplication.selectedUser!!.email != null && MyApplication.selectedUser!!.email!!.isNotEmpty()) MyApplication.selectedUser!!.email else "",
-            if (MyApplication.selectedUser!!.mobileNumber != null && MyApplication.selectedUser!!.mobileNumber!!.isNotEmpty()) MyApplication.selectedUser!!.mobileNumber else "",
-            if (MyApplication.selectedService!!.name!!.isNotEmpty()) MyApplication.selectedService!!.name else "",
-            MyApplication.selectedPrice,
-            "",
             if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
             etFromDate.text.toString(),
             etToDate.text.toString()
@@ -789,28 +782,52 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         else
             type = AppConstants.TYPE_RENTAL*/
 
-        MyApplication.selectedPlaceOrder = RequestPlaceOrder(
-            MyApplication.userId,
-            type,
-            MyApplication.selectedService!!.id!!.toInt(),
-            MyApplication.selectedVariationType,
-            MyApplication.selectedSize,
-            selectedDate,
-            if (MyApplication.selectedAddress!!.addressName != null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
-            lat,
-            long,
-            if (MyApplication.selectedAddress!!.street != null && MyApplication.selectedAddress!!.street!!.isNotEmpty()) MyApplication.selectedAddress!!.street else "",
-            if (MyApplication.selectedAddress!!.bldg != null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
-            if (MyApplication.selectedAddress!!.floor != null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
-            if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
-            if (MyApplication.selectedService!!.name!!.isNotEmpty()) MyApplication.selectedService!!.name else "",
-            if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
-            etFromDate.text.toString(),
-            etToDate.text.toString(),
-            if (MyApplication.selectedAddress!!.avenue != null && MyApplication.selectedAddress!!.avenue!!.isNotEmpty()) MyApplication.selectedAddress!!.avenue else "",
-            if (MyApplication.selectedAddress!!.block != null && MyApplication.selectedAddress!!.block!!.isNotEmpty()) MyApplication.selectedAddress!!.block else "",
-            if (MyApplication.selectedAddress!!.province != null && MyApplication.selectedAddress!!.province!!.isNotEmpty()) MyApplication.selectedAddress!!.province else ""
-        )
+        var x = etFromDate.text.toString()
+        var y = etToDate.text.toString()
+        if (type == 345) {
+            MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+                MyApplication.userId,
+                type,
+                MyApplication.selectedService!!.id!!.toInt(),
+                MyApplication.selectedVariationType,
+                MyApplication.selectedSize,
+                selectedDate,
+                if (MyApplication.selectedAddress!!.addressName != null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
+                lat,
+                long,
+                if (MyApplication.selectedAddress!!.street != null && MyApplication.selectedAddress!!.street!!.isNotEmpty()) MyApplication.selectedAddress!!.street else "",
+                if (MyApplication.selectedAddress!!.bldg != null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
+                if (MyApplication.selectedAddress!!.floor != null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
+                if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
+                if (MyApplication.selectedService!!.name!!.isNotEmpty()) MyApplication.selectedService!!.name else "",
+                if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
+                etFromDate.text.toString(),
+                etToDate.text.toString(),
+                if (MyApplication.selectedAddress!!.avenue != null && MyApplication.selectedAddress!!.avenue!!.isNotEmpty()) MyApplication.selectedAddress!!.avenue else "",
+                if (MyApplication.selectedAddress!!.block != null && MyApplication.selectedAddress!!.block!!.isNotEmpty()) MyApplication.selectedAddress!!.block else "",
+                if (MyApplication.selectedAddress!!.province != null && MyApplication.selectedAddress!!.province!!.isNotEmpty()) MyApplication.selectedAddress!!.province else ""
+            )
+        } else {
+
+            MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+                MyApplication.userId,
+                type,
+                MyApplication.selectedService!!.id!!.toInt(),
+                MyApplication.selectedVariationType,
+                MyApplication.selectedSize,
+                selectedDate,
+                if (MyApplication.selectedAddress!!.addressName != null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
+                lat,
+                long,
+                if (MyApplication.selectedAddress!!.street != null && MyApplication.selectedAddress!!.street!!.isNotEmpty()) MyApplication.selectedAddress!!.street else "",
+                if (MyApplication.selectedAddress!!.bldg != null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
+                if (MyApplication.selectedAddress!!.floor != null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
+                if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
+                MyApplication.selectedAddress!!.addressId!!.toInt(),
+                etFromDate.text.toString(),
+                etToDate.text.toString()
+            )
+        }
         if (update) {
             var i = MyApplication.arrayCart.size - 1
             MyApplication.arrayCart[i] = MyApplication.selectedPlaceOrder!!
@@ -830,7 +847,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 /*        MyApplication.selectedPlaceOrder!!.addressLatitude=""
         MyApplication.selectedPlaceOrder!!.addressLongitude=""*/
         var jsonString = Gson().toJson(MyApplication.selectedPlaceOrder)
-        logw("JSONcheckout",jsonString)
+        logw("JSONcheckout", jsonString)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.placeOrder(MyApplication.selectedPlaceOrder!!)?.enqueue(object :
                 Callback<ResponseOrderId> {

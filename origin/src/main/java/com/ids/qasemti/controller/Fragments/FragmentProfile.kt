@@ -815,6 +815,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     fun getUserData() {
         loading.show()
+        logw("USERID",MyApplication.userId.toString())
         var newReq = RequestUpdateLanguage(MyApplication.userId, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getUser(
