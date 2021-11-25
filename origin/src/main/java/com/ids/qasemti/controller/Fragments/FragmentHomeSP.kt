@@ -59,8 +59,14 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     override fun onResume() {
         super.onResume()
         loading.show()
-        getOrders()
-        getData()
+        if(MyApplication.selectedUser!!.available==null || MyApplication.selectedUser!!.available!!.isEmpty())
+            setAvailability(0)
+        else{
+            getRating()
+            getData()
+            getOrders()
+        }
+
     }
     fun getBroadcastedOrders() {
         var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
@@ -131,13 +137,6 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
      //   AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         setListeners()
 
-        if(MyApplication.selectedUser!!.available==null || MyApplication.selectedUser!!.available!!.isEmpty())
-            setAvailability(0)
-        else{
-            getRating()
-            getData()
-            getOrders()
-        }
 
 
     }

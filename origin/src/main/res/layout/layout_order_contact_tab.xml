@@ -223,18 +223,17 @@
             android:gravity="center"
             android:visibility="visible"
             android:orientation="vertical"
-            android:paddingTop="@dimen/normal_margin"
-            android:paddingBottom="@dimen/normal_margin"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/rate_button_size"
+            android:layout_height="@dimen/rate_button_size"
             android:background="@drawable/half_rounded_blue">
 
             <ImageView
                 android:layout_centerHorizontal="true"
                 android:id="@+id/ivRate"
                 android:tint="@color/white"
+                android:layout_centerInParent="true"
                 android:layout_width="@dimen/small_icon"
                 android:layout_height="@dimen/small_icon"
                 android:src="@drawable/icon_star"/>
@@ -244,6 +243,7 @@
                 android:layout_below="@id/ivRate"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/normal_margin"
+                android:layout_centerInParent="true"
                 android:paddingEnd="@dimen/normal_margin"
                 android:tag="rate"
                 android:textSize="@dimen/small_font_3"

@@ -370,4 +370,25 @@ interface RetrofitInterface {
     fun getCategories():Call<ResponseMainCategories>
 
 
+    @POST("sp_delete_gallery_image")
+    fun deleteGalleryImages(
+        @Part(ApiParameters.IMAGE_ID) imageId: RequestBody,
+        @Part(ApiParameters.PRODUCT_ID) productId: RequestBody
+    )
+
+    @Multipart
+    @POST("sp_add_gallery_image")
+    fun addGalleryImage(
+        @Part(ApiParameters.PRODUCT_ID) productId: RequestBody,
+        @Part file: MultipartBody.Part,
+        @Part(ApiParameters.VENDOR_ID) vendor_id: RequestBody
+
+    ): Call<ResponseMessage>
+
+
+    @POST("sp_get_product_gallery")
+    fun getProductGallery(
+
+    ):Call<ResponseGalleryImages>
+
 }

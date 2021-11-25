@@ -111,4 +111,5 @@
     <dimen name="order_card">100dp</dimen>
     <dimen name="notification_dimen">26dp</dimen>
     <dimen name="small_icon_2">10dp</dimen>
+    <dimen name="rate_button_size">45dp</dimen>
 </resources>
