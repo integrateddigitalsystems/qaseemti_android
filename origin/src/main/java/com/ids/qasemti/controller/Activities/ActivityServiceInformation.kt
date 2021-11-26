@@ -151,20 +151,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
             ),CODE_IMAGE)
         }
 
-        /*
-        mPermissionResult = onRequestPermissionsResult(ActivityResultContracts.RequestMultiplePermissions())
-        { result ->
-            var permission = false
-            for( item in result){
-                permission = item.value
-            }
-            if (permission) {
-              //  selectImage(this)
-                Log.e(ContentValues.TAG, "onActivityResult: PERMISSION GRANTED")
-            } else {
-                Log.e(ContentValues.TAG, "onActivityResult: PERMISSION DENIED")
-            }
-        }*/
     }
 
     private fun init(){
@@ -477,30 +463,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
     }
 
 
-    private fun pickFile(pickCode:Int,enableFiles:Boolean){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-            == PackageManager.PERMISSION_DENIED){
-             ActivityCompat.requestPermissions(this as Activity,
-                arrayOf( Manifest.permission.CAMERA),CODE_CAMERA)
-
-        }else{
-        val intent = Intent(this, FilePickerActivity::class.java)
-        intent.putExtra(
-            FilePickerActivity.CONFIGS, Configurations.Builder()
-                .setCheckPermission(true)
-               // .setSelectedMediaFiles(mediaFiles)
-                .enableImageCapture(true)
-                .setShowVideos(false)
-                .setSkipZeroSizeFiles(true)
-                .setMaxSelection(1)
-                .setShowFiles(enableFiles)
-                .setShowAudios(false)
-                .build()
-        )
-        startActivityForResult(intent,pickCode)
-        }
-
-    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         try {
@@ -546,15 +508,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
                     }
                 }
 
-               /* CODE_CAMERA ->{
-                    try{
-
-                    }catch (e:Exception){
-
-                    }
-                }*/
-
-
             }
         }catch (e: Exception){
 
@@ -573,31 +526,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
             .createIntent {
                startActivityForResult(it,type!!)
             }
-        /*   val pictureIntent = Intent(
-               MediaStore.ACTION_IMAGE_CAPTURE
-           ).addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
-           if (pictureIntent.resolveActivity(requireActivity().packageManager) != null) {
-               //Create a file to store the image
-               var photoFile: File? = null
-               try {
-                   photoFile = createImageFile()
-               } catch (ex: IOException) {
-               }// Error occurred while creating the File
-
-               if (photoFile != null) {
-                   val photoURI = FileProvider.getUriForFile(requireActivity(), "com.ids.qasemti.provider", photoFile)
-                   pictureIntent.putExtra(
-                       MediaStore.EXTRA_OUTPUT,
-                       photoURI
-                   )
-
-                   resultLauncher!!.launch(pictureIntent)
-                   *//*startActivityForResult(
-                    pictureIntent,
-                    PERMISSION_CODE_CAMERA
-                )*//*
-            }
-        }*/
     }
 
 
@@ -610,9 +538,9 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
     }
 
     fun pickPDFFile(){
-        var i = Intent(Intent.ACTION_GET_CONTENT);
+        var i = Intent(Intent.ACTION_GET_CONTENT)
         i.setType("application/pdf");
-        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.addCategory(Intent.CATEGORY_OPENABLE)
         startActivityForResult(i,type!!)
     }
 
@@ -658,10 +586,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
                 var permissioned = false
 
                 for(item in grantResults){
-                    if(item == PackageManager.PERMISSION_GRANTED)
-                        permissioned = true
-                    else
-                        permissioned = false
+                    permissioned = item == PackageManager.PERMISSION_GRANTED
                 }
                 if(permissioned) {
                     selectImage(this)
@@ -693,13 +618,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
                     }
                 }
 
-               /* if (grantResults.isNotEmpty() && grantResults[0] ==
-                    PackageManager.PERMISSION_GRANTED){
-                    pickFile(CODE_IMAGE,false)
-                }
-                else{
-                    Toast.makeText(this, AppHelper.getRemoteString("permission_denied",this), Toast.LENGTH_SHORT).show()
-                }*/
             }
 
         }

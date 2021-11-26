@@ -129,6 +129,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                     this
                 )
             ) { dialog, _ ->
+
                 nextStep()
 
             }
@@ -429,6 +430,12 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
         MyApplication.salt = mFirebaseRemoteConfig!!.getString(FIREBASE_SALT)
         AppHelper.setAllTexts(rootLayout, this)
 
+
+
+        //testing should be removed........................................................
+            MyApplication.BASE_URL = BuildConfig.BASE_URL
+
+
         if(MyApplication.termsCondition!!)
             checkForUpdate()
         else {
@@ -525,6 +532,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
                 } else {
+                    MyApplication.BASE_URL = BuildConfig.BASE_URL
                     nextStep()
                 }
             }
