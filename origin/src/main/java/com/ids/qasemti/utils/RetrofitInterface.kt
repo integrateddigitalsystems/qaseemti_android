@@ -369,5 +369,12 @@ interface RetrofitInterface {
     @POST("get_categories")
     fun getCategories():Call<ResponseMainCategories>
 
+    @POST("sp_add_gallery_image")
+    fun addGalleryImage(
+        @Part(ApiParameters.VENDOR_ID) filename: RequestBody,
+        @Part file: MultipartBody.Part,
+        @Part(ApiParameters.PRODUCT_ID) product_id: RequestBody
+    )
+
 
 }

@@ -34,6 +34,7 @@ object ApiParameters {
     const val PRODUCT_DESC = "product_desc"
     const val GALLERY = "gallery[]"
     const val PRODUCT_ID = "product_id"
+    const val VENDOR_ID = "vendor_id"
     const val LANGUAGE = "language"
     const val FILE = "file"
     const val FILE_NAME = "file_name"
