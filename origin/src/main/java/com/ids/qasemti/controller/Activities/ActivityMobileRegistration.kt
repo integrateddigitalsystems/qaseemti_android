@@ -37,7 +37,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
-class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
+class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener , ApiListener{
 
     var selectedCode = "961"
     var arrayCountries : ArrayList<CountryCodes> = arrayListOf()
@@ -107,7 +107,8 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
             AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("confirm",this),AppHelper.getRemoteString("edit",this),AppHelper.getRemoteString("login_alert_title",this).replace("phoned_number","\n"+MyApplication.selectedItemDialog+" "+etPhone.text.toString())+"\n"+AppHelper.getRemoteString("login_alert_msg",this)){
                 MyApplication.selectedPhone = MyApplication.selectedItemDialog.replace("+","").trim()+etPhone.text.toString()
                 loading.show()
-                updateDevice()
+                //updateDevice()
+                CallAPIs.updateDevice(this,this)
             }
         }
     }
@@ -252,5 +253,9 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener{
             MyApplication.selectedItemDialog=arrayCountries[position].code!!
             tvCountryCode.text = arrayCountries[position].code!!
 
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+        sendOTP()
     }
 }

@@ -185,7 +185,9 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
 
     fun requestSucc(respone: ResponseVerification) {
         if (respone.result.equals("1")) {
-            AppHelper.updateDevice(this,respone.user!!.mobileNumber!!)
+            MyApplication.selectedPhone = respone.user!!.mobileNumber!!
+            CallAPIs.updateDevice(this,this)
+           // AppHelper.updateDevice(this,respone.user!!.mobileNumber!!)
             if (respone.user != null ) {
                 if(!MyApplication.isClient){
                 if (respone.user!!.suspended == 1) {
@@ -271,7 +273,11 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        var res = response as ResponseUserStatus
+        try {
+            var res = response as ResponseUserStatus
+        }catch (ex:Exception){
+
+        }
 
     }
 }

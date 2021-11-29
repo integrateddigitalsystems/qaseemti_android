@@ -410,14 +410,28 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
             langType = MyApplication.categories!!.find { it.id!!.toInt() == MyApplication.selectedOrder!!.typeId}!!.valAr!!
         array.add(OrderData(AppHelper.getRemoteString("category",this),langType))
         array.add(OrderData(AppHelper.getRemoteString("service",this), MyApplication.selectedOrder!!.product!!.name))
-        array.add(OrderData(AppHelper.getRemoteString("type",this), MyApplication.selectedOrder!!.product!!.types))
-        array.add(OrderData(AppHelper.getRemoteString("SizeCapacity",this), MyApplication.selectedOrder!!.product!!.sizeCapacity))
+        array.add(OrderData(AppHelper.getRemoteString("type",this), try{if(!MyApplication.selectedOrder!!.product!!.types!!.isEmpty())MyApplication.selectedOrder!!.product!!.types else AppHelper.getRemoteString("no_data",this)}catch (ex:Exception){
+            AppHelper.getRemoteString("no_data",this)
+        }))
+        array.add(OrderData(AppHelper.getRemoteString("SizeCapacity",this),try{ if(!MyApplication.selectedOrder!!.product!!.sizeCapacity!!.isEmpty()) MyApplication.selectedOrder!!.product!!.types else AppHelper.getRemoteString("no_data",this)}catch (ex:Exception){
+            AppHelper.getRemoteString("no_data",this)
+        }))
         array.add(OrderData(AppHelper.getRemoteString("Quantity",this), MyApplication.selectedOrder!!.product!!.qty))
         if (MyApplication.selectedOrder!!.typeId!=345) {
             array.add(
                 OrderData(
                     "Period",
-                    MyApplication.selectedOrder!!.product!!.booking_start_date!! + "\n -" + MyApplication.selectedOrder!!.product!!.booking_end_date!!
+                    try {
+                        if (!MyApplication.selectedOrder!!.product!!.booking_start_date!!.isNullOrEmpty() && !MyApplication.selectedOrder!!.product!!.booking_end_date!!.isNullOrEmpty()) MyApplication.selectedOrder!!.product!!.booking_start_date!! + "\n -" + MyApplication.selectedOrder!!.product!!.booking_end_date!! else AppHelper.getRemoteString(
+                            "no_data",
+                            this
+                        )
+                    }catch (ex:Exception){
+                        AppHelper.getRemoteString(
+                            "no_data",
+                            this
+                        )
+                    }
                 )
             )
         }
@@ -427,8 +441,9 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
         rvDataBorder.adapter = AdapterOrderData(array, this, this)
 
         try {
-            tvLocationOrderDeatils.text = MyApplication.selectedOrder!!.shipping_address_name
+           tvLocationOrderDeatils.text = AppHelper.addressFromOrder(MyApplication.selectedOrder!!,this)
         } catch (e: Exception) {
+            tvLocationOrderDeatils.text = AppHelper.getRemoteString("no_data",this)
         }
         try {
             tvOrderCustomerName.text =
@@ -448,8 +463,9 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
         } catch (e: Exception) {
         }
         try {
-            tvExpectedOrderDateDeet.text = MyApplication.selectedOrder!!.deliveryDate
+            tvExpectedOrderDateDeet.text = if(!MyApplication.selectedOrder!!.deliveryDate!!.isEmpty()) MyApplication.selectedOrder!!.deliveryDate else AppHelper.getRemoteString("no_data",this)
         } catch (e: Exception) {
+            AppHelper.getRemoteString("no_data",this)
         }
         try {
             tvActualDeliveryTime.text = MyApplication.selectedOrder!!.deliveryDate

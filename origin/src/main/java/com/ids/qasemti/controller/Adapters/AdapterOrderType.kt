@@ -58,7 +58,9 @@ class AdapterOrderType(
             holder.locationText.setColorTypeface(con,R.color.primary,items.get(position).customerLocation!!,false) }
         catch (ex:Exception){ holder.name.text = "" }
 
-        try{holder.locationText.text=items.get(position).shipping_address_name!!}catch (e:Exception){}
+        try{holder.locationText.text=AppHelper.addressFromOrder(items.get(position),con)}catch (e:Exception){
+            holder.locationText.text=AppHelper.getRemoteString("no_date",con)
+        }
         try{
             holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MMM yyyy hh:mm")
         }catch (ex:java.lang.Exception){
@@ -104,7 +106,18 @@ class AdapterOrderType(
         }
 
         try {
-            onTrack= if(items.get(position).onTrack!!) 1 else 0
+           if(items.get(position).onTrack!!) {
+               onTrack=1
+               if(!MyApplication.saveLocationTracking!!) {
+                   MyApplication.selectedOrder = items.get(position)
+                   MyApplication.saveLocationTracking = true
+                   (con as ActivityHome).changeState()
+                   AppHelper.setSwitchColor(holder.switchOnTrack, con)
+                   onTrack = 1
+               }
+            }else{
+               onTrack=0
+            }
             holder.switchOnTrack.isChecked = items[position].onTrack!!
             AppHelper.setSwitchColor(holder.switchOnTrack,con)
         }catch (ex:Exception){}
@@ -359,6 +372,25 @@ class AdapterOrderType(
             holder.cancelBord.show()
         }
 
+        try {
+            if(!items.get(position).product!!.name!!.isEmpty())
+                holder.tvServiceName.text = items.get(position).product!!.name
+            else
+                holder.tvServiceName.text = AppHelper.getRemoteString("no_data",con)
+
+        }catch (ex:Exception){
+            holder.tvServiceName.text = AppHelper.getRemoteString("no_data",con)
+        }
+
+        try {
+            if(!items.get(position).product!!.name!!.isEmpty())
+                holder.tvServiceType.text = items.get(position).product!!.types
+            else
+                holder.tvServiceType.text = AppHelper.getRemoteString("no_data",con)
+
+        }catch (ex:Exception){
+            holder.tvServiceType.text = AppHelper.getRemoteString("no_data",con)
+        }
         holder.expected.typeface = AppHelper.getTypeFaceBold(con)
         holder.cancelReasonDetails.typeface = AppHelper.getTypeFace(con)
     }
@@ -409,6 +441,8 @@ class AdapterOrderType(
         var switchPaid = itemView.findViewById<SwitchCompat>(R.id.swPaid)
         var orderDetails = itemView.findViewById<TextView>(R.id.tvViewOrderDetails)
         var tvOrderDateValue = itemView.findViewById<TextView>(R.id.tvOrderDateValue)
+        var tvServiceName = itemView.findViewById<TextView>(R.id.tvServiceName)
+        var tvServiceType = itemView.findViewById<TextView>(R.id.tvServiceType)
 
 
         init {

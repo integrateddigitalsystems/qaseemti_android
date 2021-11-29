@@ -1,8 +1,13 @@
 package com.ids.qasemti.utils
 
 import android.content.Context
+import android.provider.Settings
+import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.ProgressBar
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import kotlinx.android.synthetic.main.layout_profile.*
@@ -14,6 +19,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CallAPIs {
 
@@ -398,6 +407,100 @@ class CallAPIs {
                 }
 
             })
+
+
+        }
+
+
+        fun updateDevice(context: Context,
+        listener: ApiListener){
+
+            val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
+            val cal = Calendar.getInstance()
+
+            val model = AppHelper.getDeviceName()
+            val osVersion = AppHelper.getAndroidVersion()
+
+            var deviceToken = ""
+            val deviceTypeId = ""
+            var android_id = Settings.Secure.getString(
+                context.getContentResolver(),
+                Settings.Secure.ANDROID_ID
+            );
+
+            val imei =
+                Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+
+            val registrationDate = dateFormat.format(cal.time)
+            val appVersion = AppHelper.getVersionNumber()
+
+            val generalNotification = 1
+            val isProduction = 1
+
+
+            val lang = MyApplication.languageCode
+            var isService = 1
+            if (MyApplication.isClient)
+                isService = 0
+
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(
+                            "firebase_messaging",
+                            "Fetching FCM registration token failed",
+                            task.exception
+                        )
+                        return@OnCompleteListener
+                    }
+                    deviceToken = task.result
+
+
+                    var newReq = RequestUpdate(
+                        MyApplication.deviceId,
+                        MyApplication.selectedPhone,
+                        model,
+                        osVersion,
+                        deviceToken,
+                        2,
+                        imei,
+                        generalNotification,
+                        appVersion.toString(),
+                        0,
+                        lang,
+                        MyApplication.userId,
+                        isService
+                    )
+
+
+                    RetrofitClient.client?.create(RetrofitInterface::class.java)
+                        ?.updateDevice(
+                            newReq
+                        )?.enqueue(object : Callback<ResponseUpdate> {
+                            override fun onResponse(
+                                call: Call<ResponseUpdate>,
+                                response: Response<ResponseUpdate>
+                            ) {
+                                try {
+                                    MyApplication.deviceId = response.body()!!.deviceId!!
+                                    listener.onDataRetrieved(
+                                        false,
+                                        arrayListOf<ResponseNominatim>(),
+                                        AppConstants.UPDATE_DEVICE
+                                    )
+                                    //sendOTP()
+                                } catch (E: Exception) {
+
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+
+                            }
+                        })
+                })
+
+
 
 
         }

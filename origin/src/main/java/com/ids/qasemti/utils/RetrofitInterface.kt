@@ -1,6 +1,7 @@
 package com.ids.qasemti.utils
 
 
+import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -127,6 +128,12 @@ interface RetrofitInterface {
     fun getServices(
         @Body param:RequestServices
     ): Call<ResponseMainServices>
+
+    @POST("sp_get_services")
+    fun getServices(
+        @Body param:RequestLanguage
+    ): Call<ResponseMainServices>
+
 
 
 
@@ -319,7 +326,7 @@ interface RetrofitInterface {
 
     @GET("json")
     fun getLocationNames(
-        @Query("input") input : String ,
+        @Query("latlng") latLng : String ,
         @Query("key") key : String
     ):Call<Any>
 
@@ -369,26 +376,21 @@ interface RetrofitInterface {
     @POST("get_categories")
     fun getCategories():Call<ResponseMainCategories>
 
-    @POST("sp_add_gallery_image")
-    fun addGalleryImage(
-        @Part(ApiParameters.VENDOR_ID) filename: RequestBody,
-        @Part file: MultipartBody.Part,
-        @Part(ApiParameters.PRODUCT_ID) product_id: RequestBody
-    )
 
 
+    @Multipart
     @POST("sp_delete_gallery_image")
     fun deleteGalleryImages(
-        @Part(ApiParameters.IMAGE_ID) imageId: RequestBody,
-        @Part(ApiParameters.PRODUCT_ID) productId: RequestBody
-    )
+        @Part(ApiParameters.IMAGE_ID) imageId : Int,
+        @Part(ApiParameters.PRODUCT_ID) productId : Int
+    ):Call<ResponseMessage>
 
     @Multipart
     @POST("sp_add_gallery_image")
     fun addGalleryImage(
-        @Part(ApiParameters.PRODUCT_ID) productId: RequestBody,
-        @Part file: MultipartBody.Part,
-        @Part(ApiParameters.VENDOR_ID) vendor_id: RequestBody
+        @Part(ApiParameters.VENDOR_ID) vendor_id: Int,
+        @Part(ApiParameters.PRODUCT_ID) product_id: Int,
+        @Part image: MultipartBody.Part
 
     ): Call<ResponseMessage>
 

@@ -39,8 +39,7 @@ object ApiParameters {
     const val FILE = "file"
     const val FILE_NAME = "file_name"
     const val FILE_ID = "file_id"
-
+    const val IMAGE = "image"
     const val IMAGE_ID = "image_id"
-    const val VENDOR_ID = "vedor_id"
 
 }

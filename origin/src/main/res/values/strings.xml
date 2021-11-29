@@ -37,6 +37,7 @@
     <string name="dumy_text_underline">Beirut, Bir hassan, J Bld 5th floor.Block B</string>
     <string name="verification">Verification</string>
     <string name="enter_the_6_digit_code_sent_to_you_from_qasemati">Enter the 4 digit code sent to you from Qasemti</string>
+    <string name="enter_4_digit">Enter the 4 digit code sent to you from Qasemti</string>
     <string name="resend_code_in">Resend code in</string>
     <string name="resend_code">Resend the code</string>
     <string name="verify">VERIFY</string>
@@ -76,7 +77,7 @@
     <string name="branch_name">Branch Name</string>
     <string name="iban">IBAN</string>
     <string name="Active">Active</string>
-    <string name="upcoming">Upcoming</string>
+    <string name="upcoming">Future</string>
     <string name="Completed">Completed</string>
     <string name="Cancelled">Cancelled</string>
     <string name="rate">Rate</string>
@@ -299,8 +300,11 @@
     <string name="TotalEarning">Total Earning</string>
     <string name="no_curr_track">No current track data for this order</string>
     <string name="sugg_date_sent">Suggested date was sent</string>
-
-
+    <string name="btn_arabic" translatable="false">عربي</string>
+    <string name="btn_english" translatable="false">English</string>
+    <string name="accept_order">Accept Order</string>
+    <string name="service_name">Service Name</string>
+    <string name="service_type">Service Type</string>
 
 
 </resources>

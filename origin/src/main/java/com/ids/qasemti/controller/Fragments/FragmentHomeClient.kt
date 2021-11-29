@@ -241,13 +241,13 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
         for (i in MyApplication.categories.indices) {
             val rbn = RadioButton(requireActivity())
             rbn.id = MyApplication.categories[i].id!!.toInt()
-            rbn.text = MyApplication.categories[i].getName()
+            rbn.text = MyApplication.categories[i].getName().capitalized()
             rbn.layoutParams = params
             rgCategory.addView(rbn)
         }
         if(selectedCategoryId ==0) {
             selectedCategoryId = MyApplication.categories[0].id!!.toInt()
-            selectedCategoryName = MyApplication.categories[0].getName()
+            selectedCategoryName = MyApplication.categories[0].getName().capitalized()
         }
         if (arrayAllServices.size > 0)
             setServiceSpinner()

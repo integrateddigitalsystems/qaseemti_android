@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -44,6 +45,7 @@ import com.ids.qasemti.utils.AppConstants.COORDINATES
 import com.ids.qasemti.utils.AppConstants.CURRENCY
 import com.ids.qasemti.utils.AppConstants.FIREBASE_COUNTRY_NAME_CODE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_ENABLE
+import com.ids.qasemti.utils.AppConstants.FIREBASE_GOVS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LINKS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LOCALIZE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_PARAMS
@@ -75,6 +77,29 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
         getFirebasePrefs()
 
+
+
+        var latty = "40.714224,-73.961452"
+        var latLng = LatLng(33.872525264390575, 35.49364099233594)
+        RetroFitMap2.client?.create(RetrofitInterface::class.java)
+            ?.getLocationNames(latty,getString(R.string.googleKey))?.enqueue(object : Callback<Any> {
+                override fun onResponse(
+                    call: Call<Any>,
+                    response: Response<Any>
+                ) {
+                    try {
+                        logw("succ","Success")
+                        //nextStep(response.body()!!.result!!)
+                    } catch (E: java.lang.Exception) {
+
+                       logw("error",E.toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<Any>, throwable: Throwable) {
+                    logw("error",throwable.toString())
+                }
+            })
 
 
     }
@@ -339,7 +364,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
         MyApplication.userId = 41*/
         Handler(Looper.getMainLooper()).postDelayed({
             if (MyApplication.firstTime) {
-                AppHelper.updateDevice(this, "")
+                MyApplication.selectedPhone = ""
+                CallAPIs.updateDevice(this,this)
+               // AppHelper.updateDevice(this, "")
                 MyApplication.firstTime = false
                 startActivity(Intent(this, ActivityChooseLanguage::class.java))
                 finish()
@@ -363,11 +390,15 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         }
                     }*/
 
-                    AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
+                    MyApplication.selectedPhone = MyApplication.phoneNumber
+                    CallAPIs.updateDevice(this,this)
+                    //AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
                     CallAPIs.getUserInfo(this, this)
 
                 } else {
-                    AppHelper.updateDevice(this, "")
+                    MyApplication.selectedPhone = ""
+                    CallAPIs.updateDevice(this,this)
+                    //AppHelper.updateDevice(this, "")
                     if (MyApplication.isClient) {
                         UpaymentGateway.init(this, "", "", true)
                         /*MyApplication.isSignedIn = true
@@ -406,6 +437,12 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             }
         } catch (e: Exception) {
         }
+       var list  = Gson().fromJson(
+        mFirebaseRemoteConfig!!.getString(FIREBASE_GOVS),
+        KuwaitGovs::class.java
+        )
+        MyApplication.kuwaitGovs.clear()
+        MyApplication.kuwaitGovs.addAll(list.list)
         MyApplication.localizeArray = Gson().fromJson(
             mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE),
             FirebaseLocalizeArray::class.java
@@ -533,7 +570,10 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
                 } else {
                     MyApplication.BASE_URL = BuildConfig.BASE_URL
-                    nextStep()
+                    //nextStep()
+                    AppHelper.createDialog(this,AppHelper.getRemoteString("error_getting_data",this)){
+                        getFirebasePrefs()
+                    }
                 }
             }
 

@@ -12,29 +12,23 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
-
-import com.ids.qasemti.controller.Activities.ActivityMapAddress
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
-import kotlinx.android.synthetic.main.fragment_orders.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.loading.*
-import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 import java.util.*
-import kotlin.collections.ArrayList
 
 class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     private var ordersArray: ArrayList<ResponseOrders> = arrayListOf()
-    var adapter :  AdapterOrders ?=null
+    var adapter: AdapterOrders? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -59,15 +53,16 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     override fun onResume() {
         super.onResume()
         loading.show()
-        if(MyApplication.selectedUser!!.available==null || MyApplication.selectedUser!!.available!!.isEmpty())
+        if (MyApplication.selectedUser!!.available == null || MyApplication.selectedUser!!.available!!.isEmpty())
             setAvailability(0)
-        else{
+        else {
             getRating()
             getData()
             getOrders()
         }
 
     }
+
     fun getBroadcastedOrders() {
         var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -113,7 +108,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 ) {
                     try {
                         if (response.body()!!.rate != null) {
-                            rbMainUser.rating =  AppHelper.getFloorRatingBar(response.body()!!.rate!!)
+                            rbMainUser.rating =
+                                AppHelper.getFloorRatingBar(response.body()!!.rate!!)
                             tvRatingValue.text = response.body()!!.rate.toString()
                         } else {
                             tvRatingValue.text = "0"
@@ -134,16 +130,19 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     fun init() {
         (activity as ActivityHome?)!!.showLogout(false)
         (activity as ActivityHome?)!!.setTintLogo(R.color.primary)
-     //   AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
+        //   AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         setListeners()
-
+        if (MyApplication.selectedUser!!.available.equals("1"))
+            swAvailable.isChecked = true
+        else
+            swAvailable.isChecked = false
 
 
     }
 
     fun getData() {
 
-       // loading.show()
+        // loading.show()
 
         var newReq = RequestUserStatus(MyApplication.userId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -183,7 +182,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 FragmentOrders(),
                 AppConstants.FRAGMENT_ORDER_FROM
             )
-            MyApplication.selectedTitle = AppHelper.getRemoteString("orders",requireContext())
+            MyApplication.selectedTitle = AppHelper.getRemoteString("orders", requireContext())
             MyApplication.typeSelected = 0
 
         }
@@ -194,7 +193,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 FragmentOrders(),
                 AppConstants.FRAGMENT_ORDER_FROM
             )
-            MyApplication.selectedTitle = AppHelper.getRemoteString("orders",requireContext())
+            MyApplication.selectedTitle = AppHelper.getRemoteString("orders", requireContext())
             MyApplication.typeSelected = 1
         }
         try {
@@ -207,7 +206,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             if (swAvailable.isChecked) {
                 rvOrders.show()
-               // getOrders()
+                // getOrders()
                 setAvailability(1)
                 swAvailable.text = AppHelper.getRemoteString("available", requireContext())
                 llNodata.hide()
@@ -292,9 +291,9 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     private fun setOrders() {
         try {
-            if(adapter!=null) {
+            if (adapter != null) {
                 adapter!!.notifyDataSetChanged()
-            }else{
+            } else {
                 adapter = AdapterOrders(ordersArray, this, requireContext())
                 rvOrders.adapter = adapter
                 var glm2 = GridLayoutManager(requireContext(), 1)
@@ -320,10 +319,20 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         if (view.id == R.id.llLocation) {
             AppHelper.onOneClick {
 
-                val urii: String =
-                    java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", ordersArray.get(position).shipping_latitude!!.toDouble(),  ordersArray.get(position).shipping_longitude!!.toDouble())
-                val intentt = Intent(Intent.ACTION_VIEW, Uri.parse(urii))
-                requireActivity().startActivity(intentt)
+
+                val urlAddress =
+                    "http://maps.google.com/maps?q=" + ordersArray.get(position).shipping_latitude!! + "," + ordersArray.get(position).shipping_longitude!! + "(" + "" + ")&iwloc=A&hl=es"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(urlAddress))
+                startActivity(intent)
+               /* val req: String =
+                    java.lang.String.format(
+                        Locale.ENGLISH,
+                        "geo:%f,%f",
+                        ordersArray.get(position).shipping_latitude!!.toDouble(),
+                        ordersArray.get(position).shipping_longitude!!.toDouble()
+                    )
+                val intentt = Intent(Intent.ACTION_VIEW, Uri.parse(req))
+                requireActivity().startActivity(intentt)*/
                 /*MyApplication.selectedOrder = ordersArray[position]
                 if (!MyApplication.selectedOrder!!.customerLocation.isNullOrEmpty() && !MyApplication.selectedOrder!!.customerLocation.equals(
                         "null"
@@ -339,10 +348,6 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     )
                 }*/
 
-                val uri: String =
-                    java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", 34.12740650186874,  35.64961072519319)
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-                requireActivity().startActivity(intent)
             }
         } else if (view.id == R.id.llViewOrderDetails) {
             AppHelper.onOneClick {
@@ -364,7 +369,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         }
     }
 
-    fun showAcceptOrderPopup(context: Activity,position: Int){
+    fun showAcceptOrderPopup(context: Activity, position: Int) {
         AppHelper.createYesNoDialog(
             context,
             AppHelper.getRemoteString("yes", context),

@@ -54,6 +54,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
     private val CODE_IMAGE = 1001
     var fromCam = false
     var type : Int ?=0
+    var countSelected =0
+    var deletedItems = 0
+    var oneFailure : Boolean = false
+    var requiredFileError : Boolean = false
     var selectedType : Boolean = false
     var selectedSize : Boolean = false
     var selectedService : Boolean = false
@@ -77,6 +81,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
     private var selectedQtyId=0
     private var selectedQtyName=""
     private var requireFilePosition=0
+    var arrayToDelete : ArrayList<Int> = arrayListOf()
     var arrayData: ArrayList<ServicesData> = arrayListOf()
     var arrayAllServices: ArrayList<ResponseService> = arrayListOf()
 
@@ -249,6 +254,77 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
 
     }
 
+    fun addImages (  position : Int ){
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.addGalleryImage(
+                MyApplication.selectedUser!!.userId!!.toInt()/*.toRequestBody("text/plain".toMediaTypeOrNull())*/,
+                MyApplication.selectedService!!.id!!.toInt()/*.toRequestBody("text/plain".toMediaTypeOrNull())*/,
+                arrayImagesSelected.get(position).multipart!!
+            )?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
+                    try{
+
+                        if(response.body()!!.result==1){
+                            countSelected++
+                            checkData()
+                            logw("ADD_RES","SUCCESS")
+                        }
+
+                        else {
+                            countSelected++
+                            checkData()
+                            oneFailure = true
+                        }
+                    }catch (E: java.lang.Exception){
+                        countSelected++
+                        checkData()
+                        oneFailure = true
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    countSelected++
+                    checkData()
+                    oneFailure = true
+                }
+            })
+    }
+
+    fun deleteImage ( id : Int , position : Int ){
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.deleteGalleryImages(
+              id,
+                MyApplication.selectedService!!.id!!.toInt()
+            )?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
+                    try{
+
+                        if(response.body()!!.result==1){
+                            deletedItems++
+                            checkData()
+                            logw("DELETE_RES","SUCCESS")
+                        }
+
+                        else {
+                            oneFailure = true
+                            deletedItems++
+                            checkData()
+                            toast("failed to delete gallery file")
+                        }
+                    }catch (E: java.lang.Exception){
+                        oneFailure = true
+                        deletedItems++
+                        checkData()
+                        toast("failed to delete gallery files")
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    oneFailure = true
+                    deletedItems++
+                    checkData()
+                    toast("failed to delete gallery files")
+                }
+            })
+    }
 
 
 
@@ -261,6 +337,12 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
            type = CODE_REQUIRED_FILES
            setUp()
           // selectImage(this,CODE_REQUIRED_FILES)
+       }else if(view.id == R.id.btRemove){
+           if (MyApplication.isEditService && arrayImagesSelected.get(position).multipart == null) {
+               arrayToDelete.add(arrayImagesSelected.get(position).id!!.toInt())
+           }
+           arrayImagesSelected.removeAt(position)
+           adapterSelectedImages!!.notifyDataSetChanged()
        }
     }
 
@@ -479,7 +561,19 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
                         }
                         tvPickedImage.text = file.name
                         var req=file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        selectedFileImage =  MultipartBody.Part.createFormData(ApiParameters.GALLERY, file.name+"File", req)
+                            if(MyApplication.isEditService){
+                                selectedFileImage = MultipartBody.Part.createFormData(
+                                    ApiParameters.IMAGE,
+                                    file.name + "File",
+                                    req
+                                )
+                            }else {
+                                selectedFileImage = MultipartBody.Part.createFormData(
+                                    ApiParameters.GALLERY,
+                                    file.name + "File",
+                                    req
+                                )
+                            }
                         arrayImagesSelected.add(FilesSelected(file.name,file,selectedFileImage))
                         adapterSelectedImages!!.notifyDataSetChanged()
                       } catch (e: Exception) {
@@ -642,7 +736,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
     private fun setTab2(){
 
         if(selectedServiceId!=-1 && selectedSizeId!=-1 && selectedTypeId!=-1 ) {
-            if (arrayImagesSelected.size == 0 && !MyApplication.isEditService)
+            if (arrayImagesSelected.size == 0)
                 createDialog(this, "Please upload image")
             else if (etStockAvailable.text.toString()
                     .isEmpty() || (!MyApplication.isEditService && etStockAvailable.text.toString() == "0")
@@ -682,6 +776,8 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
 
         if(arrayRequiredFiles.size>0 && !requiredFilesUploaded() && !MyApplication.isEditService)
             createDialog(this,"Please fill all Required files")
+        else if(arrayImagesSelected.size == 0)
+            createDialog(this,"Please fill Images")
         else if(etStockAvailable.text.toString().isEmpty() ||(!MyApplication.isEditService && etStockAvailable.text.toString() == "0"))
             createDialog(this,"Please fill stock available")
         else{
@@ -740,7 +836,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
     private fun setPickedImages(){
         arrayImagesSelected.clear()
         adapterSelectedImages = AdapterGridFiles(arrayImagesSelected, this, this)
-        rvSelectedImages.layoutManager = GridLayoutManager(this,3)
+        rvSelectedImages.layoutManager =GridLayoutManager(this,3)
         rvSelectedImages.adapter = adapterSelectedImages
         rvSelectedImages.isNestedScrollingEnabled = false
     }
@@ -761,7 +857,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
 
     fun getAllServices(){
         loading.show()
-        var newReq = RequestServices(1, MyApplication.languageCode)
+        var newReq = RequestLanguage( MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getServices(
                 newReq
@@ -898,16 +994,22 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
                         }
 
                         else {
-                            loading.hide()
+                            countFilesUploaded++
+                            requiredFileError = true
+                            checkData()
                             toast("failed to upload required files")
                         }
                     }catch (E: java.lang.Exception){
-                        loading.hide()
+                        countFilesUploaded++
+                        requiredFileError = true
+                        checkData()
                         toast("failed to upload required files")
                     }
                 }
                 override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
-                    loading.hide()
+                    countFilesUploaded++
+                    requiredFileError = true
+                    checkData()
                     toast("failed to upload required files")
                 }
             })
@@ -925,9 +1027,25 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
             loading.hide()
         }else{
             var coutMultipart=arrayRequiredFiles.count { it.multipart != null }
-            if((addServiceDone && arrayRequiredFiles.size==0) || (addServiceDone && arrayRequiredFiles.size>0 && countFilesUploaded == coutMultipart))
-                this@ActivityServiceInformation.onBackPressed()
-            loading.hide()
+            var countAdded = arrayImagesSelected.count { it.multipart !=null }
+            if((addServiceDone && arrayRequiredFiles.size==0  && deletedItems == arrayToDelete.size && countAdded == countSelected) || (addServiceDone && arrayRequiredFiles.size>0 && countFilesUploaded == coutMultipart && deletedItems == arrayToDelete.size && countAdded == countSelected)){
+
+                if(requiredFileError){
+                    loading.hide()
+                    toast("Error uploading required files")
+                }
+                else if(oneFailure) {
+                    toast("Error editing gallery files")
+                    loading.hide()
+                    this@ActivityServiceInformation.onBackPressed()
+                }else{
+                    toast("success")
+                    loading.hide()
+                    this@ActivityServiceInformation.onBackPressed()
+                }
+
+            }
+
         }
     }
 
@@ -951,18 +1069,32 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
                     try{
 
                         if(response.body()!!.result==1){
-                            if(arrayRequiredFiles.size > 0 && arrayRequiredFiles.count { it.multipart!=null }>0){
+                            if((arrayRequiredFiles.size > 0 && arrayRequiredFiles.count { it.multipart!=null }>0 )|| arrayToDelete.size >0 || (arrayImagesSelected.size >0 && arrayImagesSelected.count {  it.multipart!=null } >0 ) ){
                                for (i in arrayRequiredFiles.indices){
                                    if(arrayRequiredFiles[i].multipart!=null){
                                        uploadFiles(arrayRequiredFiles[i],MyApplication.selectedService!!.id!!.toInt())
                                    }
                                }
+                                if(arrayToDelete.size>0){
+                                   for(i in arrayToDelete.indices){
+                                       deleteImage(arrayToDelete.get(i),i)
+                                   }
+                                }
+
+                                for(i in arrayImagesSelected.indices){
+                                    if(arrayImagesSelected[i].multipart!=null){
+                                        addImages(i)
+                                    }
+                                }
+
                                // this@ActivityServiceInformation.onBackPressed()
 
                             }else {
-                                loading.hide()
-                                this@ActivityServiceInformation.onBackPressed()
-                            }
+                                    loading.hide()
+                                    this@ActivityServiceInformation.onBackPressed()
+                                }
+
+
                         }
 
                         else{
@@ -1052,10 +1184,10 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
 
              try{
                  arrayImagesSelected.clear()
-                 var images=MyApplication.selectedService!!.variations[0].images
+                 var images=MyApplication.selectedService!!.gallery
                  if(images.size>0){
                     for (i in images.indices)
-                      arrayImagesSelected.add(FilesSelected(images[i],null,null))
+                      arrayImagesSelected.add(FilesSelected(images.get(i).url,null,null,images.get(i).id!!.toInt()))
                  }
                       adapterSelectedImages!!.notifyDataSetChanged()
                  }
@@ -1090,7 +1222,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
              spType.isEnabled=false
              spSize.isEnabled=false
              spStock.isEnabled=false
-             btPickImage.isEnabled=false
              btNext2.text=AppHelper.getRemoteString("UpdateService",this)
 
          }

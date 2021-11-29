@@ -179,6 +179,129 @@
 
             </LinearLayout>
 
+
+            <include layout="@layout/separator" />
+
+
+            <LinearLayout
+                android:id="@+id/llNameType"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bigger_edit_text"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/medium_2"
+                android:paddingEnd="@dimen/medium_2">
+
+                <ImageView
+                    android:tint="@color/primary"
+                    android:layout_width="@dimen/normal_icon"
+                    android:layout_height="@dimen/normal_icon"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_box_product" />
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:layout_width="@dimen/normal_icon"
+                        android:layout_height="@dimen/normal_icon"
+                        android:layout_gravity="top"
+                        android:src="@drawable/wall_clock"
+                        app:tint="@color/primary"
+
+                        />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/normal_margin"
+
+                        android:orientation="vertical">
+
+
+                        <com.ids.qasemti.custom.CustomTextViewBold
+                            android:id="@+id/tvServiceNameTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:tag="@string/service_name"
+                            android:text="@string/service_name"
+                            android:textColor="@color/gray_font_title"
+                            android:textSize="@dimen/normal_font" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:id="@+id/tvServiceName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray_font"
+                            android:text="@string/no_data"
+                            android:tag="@string/no_data"
+                            android:textSize="@dimen/small_font_3" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/ivLogoExpected"
+                        android:layout_width="@dimen/small_icon"
+                        android:layout_height="@dimen/small_icon"
+                        android:layout_gravity="top"
+                        android:layout_marginTop="@dimen/mini_margin"
+                        android:src="@drawable/wall_clock"
+                        app:tint="@color/primary"
+
+                        />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/normal_margin"
+
+                        android:orientation="vertical">
+
+
+                        <com.ids.qasemti.custom.CustomTextViewBold
+                            android:id="@+id/tvServiceTypeTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="@string/service_type"
+                            android:textColor="@color/gray_font_title"
+                            android:textSize="@dimen/normal_font"
+                            />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:id="@+id/tvServiceType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no_data"
+                            android:tag="@string/no_data"
+                            android:textColor="@color/gray_font"
+                            android:textSize="@dimen/small_font_3" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
             <include layout="@layout/separator" />
 
 

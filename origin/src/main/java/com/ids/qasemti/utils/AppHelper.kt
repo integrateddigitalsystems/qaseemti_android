@@ -28,7 +28,6 @@ import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
@@ -1045,6 +1044,13 @@ class AppHelper {
                 val myList = myLocation.getFromLocation(lat, long, 1)
                 val address = myList[0]
 
+                // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+                val city: String =address.getLocality()
+                val state: String =address.getAdminArea()
+                val country: String =address.getCountryName()
+                val postalCode: String =address.getPostalCode()
+                val knownName: String =address.getFeatureName()
                 addressStr += address.getAddressLine(0).toString()
             }catch (ex:Exception){
                 logw("locEx",ex.toString())
@@ -1052,6 +1058,19 @@ class AppHelper {
             }
 
             return addressStr!!
+        }
+
+        fun addressFromOrder(res:ResponseOrders,con:Context): String {
+            try{
+                if(!res.shipping_province!!.isEmpty() || !res.shipping_area!!.isEmpty() || res.shipping_block!!.isEmpty() || !res.shipping_address_street!!.isEmpty())
+                    return res.shipping_province+","+res.shipping_area+","+res.shipping_block+","+res.shipping_address_street
+                else
+                    return getRemoteString("no_data",con)
+
+            }catch (ex:Exception){
+                return getRemoteString("no_data",con)
+            }
+
         }
 
         fun changeLanguage(context: Context, language: String) {

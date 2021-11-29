@@ -32,13 +32,27 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
             holder.titleTop.text = AppHelper.getRemoteString("category",con)+" "+AppHelper.getRemoteString("no_data",con)
 
         try{holder.category.text = items.get(position).product!!.name}catch (e:Exception){}
-        try{holder.expected.text = items[position].deliveryDate!!}catch (e:Exception){}
+
+        if(!items.get(position).product!!.types.isNullOrEmpty())
+            holder.category.text = holder.category.text.toString() + " ("+items.get(position).product!!.types+ ")"
+
+        try{holder.expected.text = if(!items[position].deliveryDate!!.isEmpty()){
+             items[position].deliveryDate
+        }else{
+           AppHelper.getRemoteString("no_data",con)
+        }}catch (e:Exception){
+            holder.expected.text = AppHelper.getRemoteString("no_data",con)
+        }
         try{holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-mm-dd hh:mm:ssss","dd MMM yyyy hh:mm")}catch (e:Exception){}
-        try{holder.tvLocation.text = items[position].shipping_address_name}catch (e:Exception){}
+        try{holder.tvLocation.text = AppHelper.addressFromOrder(items.get(position),con)}catch (e:Exception){
+            holder.tvLocation.text = AppHelper.getRemoteString("no_data",con)
+        }
         if(holder.tvLocation.text.isNullOrEmpty())
             holder.tvLocation.text = AppHelper.getRemoteString("no_data",con)
         try{holder.id.text ="# "+ items.get(position).orderId!!.toString()}catch (e:Exception){}
-        try{holder.expectedTitle.typeface = AppHelper.getTypeFaceBold(con)}catch (e:Exception){}
+        try{holder.expectedTitle.typeface = AppHelper.getTypeFaceBold(con)}catch (e:Exception){
+
+        }
         try{holder.tvLocation.setColorTypeface(con,R.color.primary,items.get(position).customerLocation!!,false)}catch (e:Exception){}
 
     }

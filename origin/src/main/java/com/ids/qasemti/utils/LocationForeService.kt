@@ -199,6 +199,9 @@ class LocationForeService : Service() {
          doc = MyApplication.db!!.collection("table_order")
             .document(order.orderId!!)
 
+
+
+
         doc!!.get().addOnSuccessListener { documentSnapshot ->
             val orderLoc = documentSnapshot.toObject<OrderLocation>()
             var ny: LatLng? = null
@@ -356,6 +359,7 @@ class LocationForeService : Service() {
                     Log.d(TAG, "Failed to remove Location Callback.")
                 }
             }
+            MyApplication.db!!.collection("table_order").document(MyApplication.selectedOrder!!.orderId!!).delete()
             MyApplication.saveLocationTracking = false
         } catch (unlikely: SecurityException) {
            MyApplication.saveLocationTracking = true

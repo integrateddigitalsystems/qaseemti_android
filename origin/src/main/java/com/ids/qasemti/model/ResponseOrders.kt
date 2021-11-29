@@ -32,6 +32,18 @@ class ResponseOrders(
     @Expose
     var shipping_longitude : String ?="" ,
 
+    @SerializedName("shipping_province")
+    @Expose
+    var shipping_province : String ?="" ,
+
+    @SerializedName("shipping_area")
+    @Expose
+    var shipping_area : String ?="" ,
+
+    @SerializedName("shipping_block")
+    @Expose
+    var shipping_block : String ?="" ,
+
     @SerializedName("total")
     @Expose
     var total : String ?="" ,
@@ -222,7 +234,7 @@ class ResponseOrders(
     @SerializedName("shipping_address_name")
     @Expose
     var shipping_address_name : String ?="" ,
-    @SerializedName("shipping_address_street")
+    @SerializedName("shipping_street")
     @Expose
     var shipping_address_street : String ?="" ,
 

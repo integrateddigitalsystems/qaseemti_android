@@ -164,8 +164,8 @@
             android:visibility="gone"
             android:layout_marginEnd="@dimen/margin_start_end"
             android:textColor="@color/primary"
-            android:text="@string/accept"
-            android:tag="accept"
+            android:text="@string/accept_order"
+            android:tag="accept_order"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"
             android:background="@drawable/rounded_white_red_border"/>

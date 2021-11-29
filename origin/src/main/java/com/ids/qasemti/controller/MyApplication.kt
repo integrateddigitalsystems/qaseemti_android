@@ -73,7 +73,7 @@ class MyApplication : Application() {
         var tintColor : Int = R.color.white
         var selectedImage:String ?=""
         var selectedVideo :String ?=""
-        var selectedPhone : String ?="03/123123"
+        var selectedPhone : String ?=""
         var clickable : Boolean ?= true
         var isSignedIn : Boolean
             get() = sharedPreferences.getBoolean(AppConstants.SIGNED_IN,false)!!
@@ -103,6 +103,7 @@ class MyApplication : Application() {
         var fromSplash : Boolean = false
         var fromFooterOrder : Boolean = true
         var localizeArray: FirebaseLocalizeArray ?= null
+        var kuwaitGovs : ArrayList<ResponseGovernant> = arrayListOf()
         var arrayCart : ArrayList<RequestPlaceOrder> = arrayListOf()
         var seletedPosCart = 0
         lateinit var sharedPreferences : SharedPreferences

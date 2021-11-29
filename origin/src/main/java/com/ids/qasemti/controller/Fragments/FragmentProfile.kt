@@ -37,9 +37,20 @@ import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import com.ids.sampleapp.model.ItemSpinner
 import com.jaiselrahman.filepicker.activity.FilePickerActivity
 import com.jaiselrahman.filepicker.model.MediaFile
+import kotlinx.android.synthetic.main.activity_new_address.*
 import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.curve_layout_home.*
 import kotlinx.android.synthetic.main.layout_profile.*
+import kotlinx.android.synthetic.main.layout_profile.etAddressName
+import kotlinx.android.synthetic.main.layout_profile.etAddressProvince
+import kotlinx.android.synthetic.main.layout_profile.etApartment
+import kotlinx.android.synthetic.main.layout_profile.etArea
+import kotlinx.android.synthetic.main.layout_profile.etAvenue
+import kotlinx.android.synthetic.main.layout_profile.etBlock
+import kotlinx.android.synthetic.main.layout_profile.etBuilding
+import kotlinx.android.synthetic.main.layout_profile.etFloor
+import kotlinx.android.synthetic.main.layout_profile.etMoreDetails
+import kotlinx.android.synthetic.main.layout_profile.etStreet
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.service_tab_1.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -54,6 +65,7 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
@@ -62,10 +74,12 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var selectedPhoto: String? = ""
     var gender = ""
     var tempProfile: String? = null
+    var selectedProvince : String ?=""
     var mPermissionResult: ActivityResultLauncher<Array<String>>? = null
     var fromCam: Boolean? = false
     var lat: Double? = 0.0
     var photoURI: Uri? = null
+    var arraySpinner : ArrayList<ItemSpinner> = arrayListOf()
     var selectedBankId: Int? = 0
     var arrayBankSpinner: ArrayList<ItemSpinner> = arrayListOf()
     var photoFile: File? = null
@@ -149,6 +163,48 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
             it.id.toString() == user!!.bankId!!
         }))
+
+            arraySpinner.clear()
+            for (item in MyApplication.kuwaitGovs) {
+                arraySpinner.add(ItemSpinner(item.govId!!.toInt(),
+                    if(MyApplication.languageCode == AppConstants.LANG_ENGLISH){
+                        item.govEn
+                    }else{
+                        item.govAr
+                    }
+                    , ""))
+
+            }
+            arraySpinner.add(
+                0,
+                ItemSpinner(-1, AppHelper.getRemoteString("please__select",requireContext()), "")
+            )
+            selectedProvince = ""
+            val adapterProvince =
+                AdapterGeneralSpinner(requireContext(), R.layout.spinner_layout, arraySpinner, 0)
+            spProvince.adapter = adapterProvince
+            adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
+            spProvince.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedProvince = arraySpinner.get(position).name
+
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+
+            }
+
+            /*spBanks.setSelection(arraySpinner.indexOf(arraySpinner.find {
+                it.id.toString() == user!!.bankId!!
+            }))*/
+
 
         loading.hide()
     }
@@ -674,7 +730,15 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                             etStreet!!.setText(myAddress.street)
 
                         if (myAddress.province != null && myAddress.province != "null")
-                            etAddressProvince!!.setText(myAddress.province)
+                            try {
+                                spProvinceProfile.setSelection(arraySpinner.indexOf(arraySpinner.find {
+                                    it.name!!.equals(myAddress.province)
+                                }
+                                )
+                                )
+                            }catch (ex:Exception){
+
+                            }
 
                     } catch (e: java.lang.Exception) {
                     }
@@ -815,7 +879,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     fun getUserData() {
         loading.show()
-        logw("USERID",MyApplication.userId.toString())
+        logw("MY-USER-ID",MyApplication.userId.toString())
         var newReq = RequestUpdateLanguage(MyApplication.userId, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getUser(
@@ -930,6 +994,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
                     var req = file!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                     if (!fromProfile!!) {
+                        tvCivilIdFile.show()
                         tvCivilIdFile.text = result.data!!.data!!.path
                         MyApplication.tempCivilId = file
                         tvCivilIdFile.onOneClick {
@@ -1149,14 +1214,16 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 //   var path = getPath(files.get(0).uri)
                 var file = AppHelper.getFile(requireActivity(), files[0].uri)
                 var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                if (!fromProfile!!)
+                if (!fromProfile!!) {
 
                     selectedFile = MultipartBody.Part.createFormData(
                         ApiParameters.CIVIL_ID_ATTACH,
                         file.name + "File",
                         req
                     )
-                else {
+                    tvCivilIdFile.show()
+                    tvCivilIdFile.text = file.name
+                }else {
                     ivProfile.loadRoundedLocalImage(file)
                     selectedProfilePic = MultipartBody.Part.createFormData(
                         if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
@@ -1326,7 +1393,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             etFloor.text.toString(),
             etMoreDetails.text.toString(),
             "",
-            etAddressProvince.text.toString(),
+            selectedProvince,
             etArea.text.toString(),
             etBlock.text.toString(),
             etAvenue.text.toString(),

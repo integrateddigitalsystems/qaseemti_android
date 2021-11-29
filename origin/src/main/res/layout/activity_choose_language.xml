@@ -32,11 +32,11 @@
             android:background="@drawable/rounded_white_red_border"
             android:layout_width="@dimen/logo_size_top_hight"
             android:layout_height="@dimen/button_height"
-            android:tag="lang_ar"
+            android:tag="btn_arabic"
             android:textColor="@color/gray_font_title"
             android:textSize="@dimen/normal_font"
             android:layout_marginBottom="@dimen/normal_margin"
-            android:text="@string/lang_ar"/>
+            android:text="@string/btn_arabic"/>
 
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:gravity="center"
@@ -46,9 +46,9 @@
             android:background="@drawable/rounded_white_red_border"
             android:layout_width="@dimen/logo_size_top_hight"
             android:layout_height="@dimen/button_height"
-            android:tag="lang_eng"
+            android:tag="btn_english"
             android:layout_marginTop="@dimen/normal_margin"
-            android:text="@string/lang_eng"/>
+            android:text="@string/btn_english"/>
     </LinearLayout>
 
       <!--  <ImageView

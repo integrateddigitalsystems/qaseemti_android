@@ -328,7 +328,7 @@
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:gravity="center"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:textColor="@color/primary"
                     android:textSize="@dimen/normal_font"
                     android:layout_width="match_parent"
@@ -554,6 +554,33 @@
                         android:background="@drawable/rounded_white_background"
                         />
 
+                    <RelativeLayout
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:background="@drawable/rounded_white_background">
+
+                        <Spinner
+                            android:layout_toStartOf="@id/ivArrowProvince"
+                            android:id="@+id/spProvinceProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:overlapAnchor="false"
+                            android:background="@color/transparent"
+                            />
+
+                        <ImageView
+                            android:layout_marginEnd="@dimen/first_margin"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:layout_width="@dimen/small_icon"
+                            android:id="@+id/ivArrowProvince"
+                            android:layout_height="@dimen/small_icon"
+                            android:src="@drawable/arrow_down"
+                            android:tint="@color/gray_font_title"
+                            app:tint="@color/gray_font_title"/>
+
+                    </RelativeLayout>
 
                     <EditText
                         android:textAlignment="viewStart"
@@ -562,6 +589,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/gray_font"
                         android:layout_marginTop="@dimen/normal_margin"
+                        android:visibility="gone"
                         android:id="@+id/etAddressProvince"
                         android:hint="@string/Province"
                         android:paddingStart="@dimen/normal_margin"

@@ -8,16 +8,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Fragments.FragmentAccount
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
+import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.activity_new_address.*
 import kotlinx.android.synthetic.main.activity_new_address.etAddressName
 import kotlinx.android.synthetic.main.activity_new_address.etAddressProvince
@@ -37,12 +40,15 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ActivityAddNewAddress : ActivityBase() {
 
     var REQUEST_CODE = 1005
     var from = ""
+    var arraySpinner : ArrayList<ItemSpinner> = arrayListOf()
+    var selectedProvince : String ?=""
     var latlng: LatLng? = null
     var resultLauncher: ActivityResultLauncher<Intent>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -238,6 +244,50 @@ class ActivityAddNewAddress : ActivityBase() {
 
         }
 
+    fun setUpSpinner(){
+            arraySpinner.clear()
+            for (item in MyApplication.kuwaitGovs) {
+                arraySpinner.add(ItemSpinner(item.govId!!.toInt(),
+                   if(MyApplication.languageCode == AppConstants.LANG_ENGLISH){
+                             item.govEn
+                   }else{
+                       item.govAr
+                   }
+                    , ""))
+
+            }
+        arraySpinner.add(
+                0,
+                ItemSpinner(-1, AppHelper.getRemoteString("please__select",this), "")
+            )
+            selectedProvince = ""
+            val adapterProvince =
+                AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinner, 0)
+            spProvince.adapter = adapterProvince
+        adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
+        spProvince.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedProvince = arraySpinner.get(position).name
+
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+
+            }
+
+            /*spBanks.setSelection(arraySpinner.indexOf(arraySpinner.find {
+                it.id.toString() == user!!.bankId!!
+            }))*/
+
+            loading.hide()
+    }
 
     private fun init() {
         val lat = MyApplication.latSelected
@@ -249,6 +299,7 @@ class ActivityAddNewAddress : ActivityBase() {
         }catch (ex:Exception){
 
         }
+        setUpSpinner()
 
         tvPageTitle.setColorTypeface(this,R.color.primary,AppHelper.getRemoteString("address",this),true)
         AppHelper.setLogoTint(btBackTool, this, R.color.primary)
@@ -304,7 +355,7 @@ class ActivityAddNewAddress : ActivityBase() {
             resultLauncher!!.launch(Intent(this, ActivityMapAddress::class.java))
         }
         btSaveAddress.onOneClick {
-            if (etAddressName.text.isNullOrEmpty() || etAddressProvince.text.isNullOrEmpty() || etBuilding.text.toString()
+            if (etAddressName.text.isNullOrEmpty() || selectedProvince.isNullOrEmpty() || etBuilding.text.toString()
                     .isNullOrEmpty() || etFloor.text.toString()
                     .isNullOrEmpty() || etStreet.text.isNullOrEmpty()
             ) {
@@ -324,7 +375,7 @@ class ActivityAddNewAddress : ActivityBase() {
         }
         btOnlyOnce.onOneClick {
 
-            if (etAddressName.text.isNullOrEmpty() || etAddressProvince.text.isNullOrEmpty() || etBuilding.text.toString()
+            if (etAddressName.text.isNullOrEmpty() || selectedProvince.isNullOrEmpty() || etBuilding.text.toString()
                     .isNullOrEmpty() || etFloor.text.toString()
                     .isNullOrEmpty() || etStreet.text.isNullOrEmpty()
             ) {

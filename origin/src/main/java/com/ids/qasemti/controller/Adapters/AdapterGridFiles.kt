@@ -38,12 +38,12 @@ class AdapterGridFiles(
         }
         else
             holder.ivSelectedFile.loadLocalImage(items[position].file!!)
-        holder.btRemove.setOnClickListener{
+        /*holder.btRemove.setOnClickListener{
             if(!MyApplication.isEditService){
                items.removeAt(position)
                notifyDataSetChanged()
             }
-        }
+        }*/
 
     }
 
@@ -58,6 +58,7 @@ class AdapterGridFiles(
 
         init {
           //  itemView.setOnClickListener(this)
+            btRemove.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {

@@ -8,7 +8,8 @@ import java.io.File
 class FilesSelected(
     var name : String ?="" ,
     var file : File?=null ,
-    var multipart : MultipartBody.Part ?=null
+    var multipart : MultipartBody.Part ?=null,
+    var id : Int ?=0
 
 ) {
 }
