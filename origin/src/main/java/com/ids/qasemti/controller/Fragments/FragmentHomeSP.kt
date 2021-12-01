@@ -132,10 +132,14 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         (activity as ActivityHome?)!!.setTintLogo(R.color.primary)
         //   AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         setListeners()
-        if (MyApplication.selectedUser!!.available.equals("1"))
-            swAvailable.isChecked = true
-        else
+        try {
+            if (MyApplication.selectedUser!!.available.equals("1"))
+                swAvailable.isChecked = true
+            else
+                swAvailable.isChecked = false
+        }catch (ex:Exception){
             swAvailable.isChecked = false
+        }
 
 
     }
@@ -199,9 +203,9 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         try {
             swAvailable.typeface = AppHelper.getTypeFace(requireContext())
             swAvailable.isChecked =
-                if (MyApplication.selectedUser!!.available == "0") false else true
+                if (MyApplication.selectedUser!!.available == "0" || MyApplication.selectedUser!!.available!!.isEmpty()) false else true
         } catch (ex: Exception) {
-
+            swAvailable.isChecked = false
         }
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             if (swAvailable.isChecked) {

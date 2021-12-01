@@ -324,7 +324,7 @@ interface RetrofitInterface {
     @POST("get_banners")
     fun getBanners():Call<ResponseMainBanner>
 
-    @GET("json")
+    @GET("geocode/json")
     fun getLocationNames(
         @Query("latlng") latLng : String ,
         @Query("key") key : String
