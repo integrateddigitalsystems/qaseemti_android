@@ -2,12 +2,15 @@ package com.ids.qasemti.utils
 
 import android.content.Context
 import android.provider.Settings
+import android.provider.Settings.Global.getString
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.ids.qasemti.R
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import kotlinx.android.synthetic.main.layout_profile.*
@@ -64,6 +67,7 @@ class CallAPIs {
                     mobile.toRequestBody("text/plain".toMediaTypeOrNull())
                 var type = "1"
                 var typeReq = type.toRequestBody()
+                var lang = MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull())
 
                 retro.updateClientProfile(
                     user,
@@ -72,7 +76,8 @@ class CallAPIs {
                     last,
                     email,
                     selectedProfilePic,
-                    typeReq
+                    typeReq,
+                    lang
 
 
                 )?.enqueue(object : Callback<ResponseUser> {
@@ -109,6 +114,44 @@ class CallAPIs {
             }
         }
 
+        fun getAddressName(
+            locationLatLng : String ,
+            con : Context ,
+            listener : ApiListener
+        ){
+            /*var latLng = LatLng(33.872525264390575, 35.49364099233594)*/
+            RetroFitMap2.client?.create(RetrofitInterface::class.java)
+                ?.getLocationNames(locationLatLng,con.getString(R.string.googleKey),true,MyApplication.languageCode)?.enqueue(object : Callback<ResponseGeoAddress> {
+                    override fun onResponse(
+                        call: Call<ResponseGeoAddress>,
+                        response: Response<ResponseGeoAddress>
+                    ) {
+                        try {
+                            listener.onDataRetrieved(
+                                true,
+                                response.body()!!,
+                                AppConstants.ADDRESS_GEO
+                            )
+                            //nextStep(response.body()!!.result!!)
+                        } catch (E: java.lang.Exception) {
+
+                            listener.onDataRetrieved(
+                                true,
+                                response.body()!!,
+                                AppConstants.ADDRESS_GEO
+                            )
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseGeoAddress>, throwable: Throwable) {
+                        listener.onDataRetrieved(
+                            false,
+                            ResponseGeoAddress(),
+                            AppConstants.ADDRESS_GEO
+                        )
+                    }
+                })
+        }
         fun updateProfileServiceProvider(
             context: Context,
             listener: ApiListener,
@@ -178,6 +221,7 @@ class CallAPIs {
             val description =
                 descrp.toRequestBody("text/plain".toMediaTypeOrNull())
             val iban = ibann.toRequestBody("text/plain".toMediaTypeOrNull())
+            var lang = MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull())
             var x = retro.updateProfile(
                 user,
                 first,
@@ -199,8 +243,8 @@ class CallAPIs {
                 bankname,
                 bankBranch,
                 iban,
-                description
-
+                description,
+                lang
             )
 
             retro.updateProfile(
@@ -224,7 +268,8 @@ class CallAPIs {
                 bankname,
                 bankBranch,
                 iban,
-                description
+                description,
+                lang
 
             )?.enqueue(object : Callback<ResponseUser> {
                 override fun onResponse(

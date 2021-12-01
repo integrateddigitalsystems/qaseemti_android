@@ -1,4 +1,3 @@
-
 package com.ids.qasemti.controller.Activities
 
 import android.content.Intent
@@ -43,12 +42,13 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ActivityAddNewAddress : ActivityBase() {
+class ActivityAddNewAddress : ActivityBase(), ApiListener {
 
     var REQUEST_CODE = 1005
     var from = ""
-    var arraySpinner : ArrayList<ItemSpinner> = arrayListOf()
-    var selectedProvince : String ?=""
+    var address: ResponseAddress? = null
+    var arraySpinner: ArrayList<ItemSpinner> = arrayListOf()
+    var selectedProvince: String? = ""
     var latlng: LatLng? = null
     var resultLauncher: ActivityResultLauncher<Intent>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,8 +89,8 @@ class ActivityAddNewAddress : ActivityBase() {
             etAddressProvince.text.toString(),
             etAddressProvince.text.toString()
         )
-          intent.putExtra("lat",latlng!!.latitude)
-          intent.putExtra("long",latlng!!.longitude)
+        intent.putExtra("lat", latlng!!.latitude)
+        intent.putExtra("long", latlng!!.longitude)
         //   var latLng = com.google.android.gms.maps.model.LatLng(array.get(position).lat!!.toDouble(), array.get(position).long!!.toDouble())
         intent.putExtra(
             "address",
@@ -105,7 +105,7 @@ class ActivityAddNewAddress : ActivityBase() {
         finish()
     }
 
-    fun setHint(){
+    fun setHint() {
         etAddressName.hint = etAddressName.hint.toString() + "*"
         etAddressProvince.hint = etAddressProvince.hint.toString() + "*"
         etBuilding.hint = etBuilding.hint.toString() + "*"
@@ -114,23 +114,27 @@ class ActivityAddNewAddress : ActivityBase() {
         etFloor.hint = etFloor.hint.toString() + "*"
         etStreet.hint = etStreet.hint.toString() + "*"
     }
+
     fun addAddress() {
 
-            loading.show()
-        var addressId=0
-        try{
-        if(!MyApplication.isClient && !MyApplication.addNewAddress)
-            addressId= MyApplication.selectedUser!!.addresses!![0].addressId!!.toInt()}catch (e:Exception){}
-        var lat :Double ?= 0.0
-        var long : Double ?=0.0
-        try{
+        loading.show()
+        var addressId = 0
+        try {
+            if (!MyApplication.isClient && !MyApplication.addNewAddress)
+                addressId = MyApplication.selectedUser!!.addresses!![0].addressId!!.toInt()
+        } catch (e: Exception) {
+        }
+        var lat: Double? = 0.0
+        var long: Double? = 0.0
+        try {
             lat = latlng!!.latitude
             long = latlng!!.longitude
-        }catch (ex:Exception){}
+        } catch (ex: Exception) {
+        }
 
         var newReq = RequestAddAddress(
             MyApplication.userId,
-           lat,
+            lat,
             long,
             addressId,
             etAddressName.text.toString(),
@@ -154,14 +158,19 @@ class ActivityAddNewAddress : ActivityBase() {
                     response: Response<ResponseMessage>
                 ) {
                     try {
-                        if(MyApplication.isClient)
+                        if (MyApplication.isClient)
                             setData()
-                        else{
-                            MyApplication.register=true
-                            MyApplication.selectedPos=4
+                        else {
+                            MyApplication.register = true
+                            MyApplication.selectedPos = 4
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
                             MyApplication.selectedFragment = FragmentAccount()
-                            startActivity(Intent(this@ActivityAddNewAddress,ActivityHome::class.java))
+                            startActivity(
+                                Intent(
+                                    this@ActivityAddNewAddress,
+                                    ActivityHome::class.java
+                                )
+                            )
                             finishAffinity()
 
                         }
@@ -179,56 +188,95 @@ class ActivityAddNewAddress : ActivityBase() {
 
     }
 
-    fun setUpData(ll:LatLng){
-        var address: Address? = null
-        Thread {
-            try {
-                try {
-                    latlng =ll
-                    val myLocation = Geocoder(this, Locale.getDefault())
-                    val myList =
-                        myLocation.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
-                    address = myList[0]
-                } catch (ex: Exception) {
+    fun setUpData(ll: LatLng) {
+        CallAPIs.getAddressName(ll.latitude.toString() + "," + ll.longitude, this, this)
+        /* var address: Address? = null
+         Thread {
+             try {
+                 try {
+                     latlng =ll
+                     val myLocation = Geocoder(this, Locale.getDefault())
+                     val myList =
+                         myLocation.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
+                     address = myList[0]
+                 } catch (ex: Exception) {
 
-                }
-            }catch (ex:Exception){
-                Log.wtf("LOCEX",ex.toString())
+                 }
+             }catch (ex:Exception){
+                 Log.wtf("LOCEX",ex.toString())
 
-            }
+             }
 
-            runOnUiThread {
-                try {
-                    etStreet.text = address!!.thoroughfare.toEditable()
-                } catch (ex: Exception) {
-                    etStreet.text.clear()
-                }
-                try {
-                    etBuilding.text = address!!.premises.toEditable()
-                } catch (ex: Exception) {
-                    etBuilding.text.clear()
-                }
-                if(etStreet.text.toString().isEmpty() && !address!!.featureName.isNullOrEmpty()){
-                    try {
-                        etStreet.text = address!!.featureName.toEditable()
-                    } catch (ex: Exception) {
-                        etStreet.text.clear()
-                    }
-                }
-               /* try {
+             runOnUiThread {
+                 try {
+                     etStreet.text = address!!.thoroughfare.toEditable()
+                 } catch (ex: Exception) {
+                     etStreet.text.clear()
+                 }
+                 try {
+                     etBuilding.text = address!!.premises.toEditable()
+                 } catch (ex: Exception) {
+                     etBuilding.text.clear()
+                 }
+                 if(etStreet.text.toString().isEmpty() && !address!!.featureName.isNullOrEmpty()){
+                     try {
+                         etStreet.text = address!!.featureName.toEditable()
+                     } catch (ex: Exception) {
+                         etStreet.text.clear()
+                     }
+                 }*//*
+               *//* try {
                     etAddressName.text = address!!.featureName.toEditable()
                 } catch (ex: Exception) {
                     etAddressName.text.clear()
-                }*/
+                }*//*
 
                 editData(llAddForm)
             }
         }.start()
-
+*/
 
 
     }
 
+    fun setFormData() {
+        try {
+            etStreet.text = address!!.street!!.toEditable()
+        } catch (ex: Exception) {
+            etStreet.text.clear()
+        }
+        try {
+            etArea.text = address!!.area!!.toEditable()
+        } catch (ex: Exception) {
+            etBuilding.text.clear()
+        }
+        try {
+            etAddressProvince.text = address!!.province!!.toEditable()
+        } catch (ex: Exception) {
+            etBuilding.text.clear()
+        }
+        try {
+            etBlock.text = address!!.block!!.toEditable()
+        } catch (ex: Exception) {
+            etBuilding.text.clear()
+        }
+        try {
+            etAvenue.text = address!!.avenue!!.toEditable()
+        } catch (ex: Exception) {
+            etBuilding.text.clear()
+        }
+        var indx = 0
+        indx = arraySpinner.indexOf(arraySpinner.find {
+            it.name.equals(address!!.province)
+        })
+        spProvince.setSelection(indx)
+
+
+        editData(llAddForm)
+
+
+
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
         super.onActivityResult(requestCode, resultCode, intent)
@@ -239,54 +287,57 @@ class ActivityAddNewAddress : ActivityBase() {
             val extras = intent.extras
             latlng = LatLng(extras!!.getDouble("lat"), extras.getDouble("long"))
             setUpData(latlng!!)
+        }
+
+
+    }
+
+    fun setUpSpinner() {
+        arraySpinner.clear()
+        for (item in MyApplication.kuwaitGovs) {
+            arraySpinner.add(
+                ItemSpinner(
+                    item.govId!!.toInt(),
+                    if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
+                        item.govEn
+                    } else {
+                        item.govAr
+                    }, ""
+                )
+            )
+
+        }
+        arraySpinner.add(
+            0,
+            ItemSpinner(-1, AppHelper.getRemoteString("please__select", this), "")
+        )
+        selectedProvince = ""
+        val adapterProvince =
+            AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinner, 0)
+        spProvince.adapter = adapterProvince
+        adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
+        spProvince.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                selectedProvince = arraySpinner.get(position).name
+
             }
 
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
 
         }
 
-    fun setUpSpinner(){
-            arraySpinner.clear()
-            for (item in MyApplication.kuwaitGovs) {
-                arraySpinner.add(ItemSpinner(item.govId!!.toInt(),
-                   if(MyApplication.languageCode == AppConstants.LANG_ENGLISH){
-                             item.govEn
-                   }else{
-                       item.govAr
-                   }
-                    , ""))
+        /*spBanks.setSelection(arraySpinner.indexOf(arraySpinner.find {
+            it.id.toString() == user!!.bankId!!
+        }))*/
 
-            }
-        arraySpinner.add(
-                0,
-                ItemSpinner(-1, AppHelper.getRemoteString("please__select",this), "")
-            )
-            selectedProvince = ""
-            val adapterProvince =
-                AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinner, 0)
-            spProvince.adapter = adapterProvince
-        adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
-        spProvince.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View,
-                    position: Int,
-                    id: Long
-                ) {
-                    selectedProvince = arraySpinner.get(position).name
-
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-
-                }
-
-            }
-
-            /*spBanks.setSelection(arraySpinner.indexOf(arraySpinner.find {
-                it.id.toString() == user!!.bankId!!
-            }))*/
-
-            loading.hide()
+        loading.hide()
     }
 
     private fun init() {
@@ -296,42 +347,60 @@ class ActivityAddNewAddress : ActivityBase() {
         btBackTool.show()
         try {
             from = intent.getStringExtra("from")!!
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
 
         }
         setUpSpinner()
 
-        tvPageTitle.setColorTypeface(this,R.color.primary,AppHelper.getRemoteString("address",this),true)
+        tvPageTitle.setColorTypeface(
+            this,
+            R.color.primary,
+            AppHelper.getRemoteString("address", this),
+            true
+        )
         AppHelper.setLogoTint(btBackTool, this, R.color.primary)
         if (MyApplication.fromProfile!!)
             btOnlyOnce.hide()
         else
             btOnlyOnce.show()
 
-        try{
+        try {
 
-        if(MyApplication.isClient){
-        if(from.equals("current")){
-            setUpData(LatLng(MyApplication.selectedCurrentAddress!!.latitude, MyApplication.selectedCurrentAddress!!.longitude))
-            btSaveAddress.text =AppHelper.getRemoteString("select_address",this)
-            btOnlyOnce.hide()
-        }else {
-            setUpData(LatLng(lat!!.toDouble(), long!!.toDouble()))
-        }}else{
-            btOnlyOnce.hide()
-            var lat=0.0
-            var long=0.0
-            try{ lat=intent.extras!!.getDouble("lat",0.0)}catch (e:Exception){}
-            try{ long=intent.extras!!.getDouble("long",0.0)}catch (e:Exception){}
-            latlng = LatLng(lat, long)
-            setUpData(latlng!!)
+            if (MyApplication.isClient) {
+                if (from.equals("current")) {
+                    setUpData(
+                        LatLng(
+                            MyApplication.selectedCurrentAddress!!.latitude,
+                            MyApplication.selectedCurrentAddress!!.longitude
+                        )
+                    )
+                    btSaveAddress.text = AppHelper.getRemoteString("select_address", this)
+                    btOnlyOnce.hide()
+                } else {
+                    setUpData(LatLng(lat!!.toDouble(), long!!.toDouble()))
+                }
+            } else {
+                btOnlyOnce.hide()
+                var lat = 0.0
+                var long = 0.0
+                try {
+                    lat = intent.extras!!.getDouble("lat", 0.0)
+                } catch (e: Exception) {
+                }
+                try {
+                    long = intent.extras!!.getDouble("long", 0.0)
+                } catch (e: Exception) {
+                }
+                latlng = LatLng(lat, long)
+                setUpData(latlng!!)
+            }
+
+        } catch (e: Exception) {
         }
-
-        }catch (e:Exception){}
 
     }
 
-    fun editData(v:View){
+    fun editData(v: View) {
         if (v is ViewGroup) {
             val vg = v as ViewGroup
             for (i in 0 until vg.childCount) {
@@ -347,7 +416,7 @@ class ActivityAddNewAddress : ActivityBase() {
     private fun listeners() {
         btBackTool.onOneClick { super.onBackPressed() }
         var title = intent.getStringExtra("mapTitle")
-    //    tvPageTitle.setColorTypeface(this, R.color.redPrimary, title!!, true)
+        //    tvPageTitle.setColorTypeface(this, R.color.redPrimary, title!!, true)
         btMapAddress.onOneClick {
             resultLauncher!!.launch(Intent(this, ActivityMapAddress::class.java))
         }
@@ -361,13 +430,14 @@ class ActivityAddNewAddress : ActivityBase() {
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
-                if(MyApplication.isClient){
-                MyApplication.fromAdd = true
-                if(from=="current"){
-                    setData()
-                }else{
-                    addAddress()
-                }}else{
+                if (MyApplication.isClient) {
+                    MyApplication.fromAdd = true
+                    if (from == "current") {
+                        setData()
+                    } else {
+                        addAddress()
+                    }
+                } else {
                     addAddress()
                 }
 
@@ -387,6 +457,11 @@ class ActivityAddNewAddress : ActivityBase() {
         }
 
 
+    }
 
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+
+        address = AppHelper.getAddressNames(response as ResponseGeoAddress)
+        setFormData()
     }
 }

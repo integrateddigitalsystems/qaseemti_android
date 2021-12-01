@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -18,6 +20,8 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
+import kotlinx.android.synthetic.main.activity_code_verification.*
+import kotlinx.android.synthetic.main.fragment_home_client.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
@@ -29,6 +33,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     private var ordersArray: ArrayList<ResponseOrders> = arrayListOf()
     var adapter: AdapterOrders? = null
+    var timer : CountDownTimer ?=null
+    var isTimer = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -53,12 +59,13 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     override fun onResume() {
         super.onResume()
         loading.show()
+        timer!!.start()
         if (MyApplication.selectedUser!!.available == null || MyApplication.selectedUser!!.available!!.isEmpty())
             setAvailability(0)
         else {
             getRating()
             getData()
-            getOrders()
+            getOrders(false)
         }
 
     }
@@ -89,7 +96,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 ) {
                     getRating()
                     getData()
-                    getOrders()
+                    getOrders(false)
                 }
 
                 override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
@@ -127,6 +134,21 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             })
     }
 
+    fun setUpTimer(){
+        timer = object : CountDownTimer(4000, 1015) {
+            override fun onTick(millisUntilFinished: Long) {
+                //logw("tick","second")
+            }
+
+            override fun onFinish() {
+                getRating()
+                getData()
+                isTimer = true
+                getOrders(isTimer)
+            }
+        }.start()
+    }
+
     fun init() {
         (activity as ActivityHome?)!!.showLogout(false)
         (activity as ActivityHome?)!!.setTintLogo(R.color.primary)
@@ -140,8 +162,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         }catch (ex:Exception){
             swAvailable.isChecked = false
         }
-
-
+        setUpTimer()
     }
 
     fun getData() {
@@ -177,7 +198,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     fun setListeners() {
 
         slRefreshBroad.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            getOrders()
+            getOrders(false)
         })
         rlActive.onOneClick {
             MyApplication.fromFooterOrder = false
@@ -224,10 +245,11 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         }
     }
 
-    fun getOrders() {
+    fun getOrders(timer:Boolean) {
 
         slRefreshBroad.isRefreshing = false
-        loading.show()
+        if(!timer)
+            loading.show()
         var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getBroadcastedOrders(newReq)?.enqueue(object : Callback<ResponseMainOrder> {
@@ -236,6 +258,10 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     response: Response<ResponseMainOrder>
                 ) {
                     try {
+                        if(ordersArray.size!=0 && rvOrders.canScrollVertically(-1)){
+                            if(ordersArray.size< response.body()!!.orders!!.size)
+                                Toast.makeText(requireContext(),"New Data Added", Toast.LENGTH_LONG).show()
+                        }
                         ordersArray.clear()
                         ordersArray.addAll(response.body()!!.orders)
                         setOrders()
@@ -263,7 +289,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         if (res == 1) {
             AppHelper.createDialog(requireActivity(), getString(R.string.order_accept_succ))
             loading.show()
-            getOrders()
+            getOrders(false)
             getData()
         } else {
             AppHelper.createDialog(requireActivity(), getString(R.string.error_acc_order))
@@ -284,17 +310,28 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                         accepted(response.body()!!.result!!)
                     } catch (E: java.lang.Exception) {
                         accepted(0)
+                        loading.hide()
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
                     accepted(0)
+                    loading.hide()
                 }
             })
     }
 
+    override fun onStop() {
+        super.onStop()
+        timer!!.cancel()
+    }
+    override fun onPause() {
+        super.onPause()
+        timer!!.cancel()
+    }
     private fun setOrders() {
         try {
+          //  ordersArray.add(ResponseOrders())
             if (adapter != null) {
                 adapter!!.notifyDataSetChanged()
             } else {
@@ -314,6 +351,10 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             loading.hide()
         } catch (ex: Exception) {
             loading.hide()
+        }
+        if(isTimer){
+            isTimer = false
+            timer!!.start()
         }
     }
 

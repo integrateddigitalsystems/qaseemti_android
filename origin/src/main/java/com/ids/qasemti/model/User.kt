@@ -203,7 +203,7 @@ class User (
 
     @SerializedName("suspended")
     @Expose
-    var suspended: Int? = 0 ,
+    var suspended: String? = "" ,
     @SerializedName("active")
     @Expose
     var active: Int? = 0 ,

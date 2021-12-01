@@ -74,32 +74,12 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
         //  openDialog()
+        CallAPIs.getAddressName("33.59608186012923,35.39359968155622",this,this)
+
+
 
         getFirebasePrefs()
 
-
-
-        var latty = "40.714224,-73.961452"
-        var latLng = LatLng(33.872525264390575, 35.49364099233594)
-        RetroFitMap2.client?.create(RetrofitInterface::class.java)
-            ?.getLocationNames(latty,getString(R.string.googleKey))?.enqueue(object : Callback<Any> {
-                override fun onResponse(
-                    call: Call<Any>,
-                    response: Response<Any>
-                ) {
-                    try {
-                        logw("succ","Success")
-                        //nextStep(response.body()!!.result!!)
-                    } catch (E: java.lang.Exception) {
-
-                       logw("error",E.toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<Any>, throwable: Throwable) {
-                    logw("error",throwable.toString())
-                }
-            })
 
 
     }
@@ -581,10 +561,13 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
 
+        if (apiId == AppConstants.ADDRESS_GEO) {
+
+        }else
         if(apiId==API_USER_STATUS) {
             var res = response as ResponseUser
             try {
-                if (res.user!!.suspended == 1 && MyApplication.isClient) {
+                if (res.user!!.suspended.equals("1") && MyApplication.isClient) {
                     AppHelper.createDialog(
                         this,
                         AppHelper.getRemoteString("suspended_user_msg", this)

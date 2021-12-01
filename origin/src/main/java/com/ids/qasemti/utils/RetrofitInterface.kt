@@ -1,7 +1,6 @@
 package com.ids.qasemti.utils
 
 
-import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -68,7 +67,8 @@ interface RetrofitInterface {
         @Part(ApiParameters.BANK_ID) bankId: RequestBody,
         @Part(ApiParameters.BANK_BRANCH) bankBranch: RequestBody,
         @Part(ApiParameters.IBAN) iban: RequestBody ,
-        @Part(ApiParameters.DESCRIPTION) desc : RequestBody
+        @Part(ApiParameters.DESCRIPTION) desc : RequestBody,
+        @Part(ApiParameters.LANGUAGE) lang : RequestBody
     ): Call<ResponseUser>
 
 
@@ -81,7 +81,8 @@ interface RetrofitInterface {
         @Part(ApiParameters.LAST_NAME) lastName: RequestBody,
         @Part(ApiParameters.EMAIL) email: RequestBody,
         @Part profile_pic: MultipartBody.Part,
-        @Part(ApiParameters.TYPE) type: RequestBody
+        @Part(ApiParameters.TYPE) type: RequestBody,
+        @Part(ApiParameters.LANGUAGE) lang : RequestBody
 
     ): Call<ResponseUser>
 
@@ -327,8 +328,10 @@ interface RetrofitInterface {
     @GET("geocode/json")
     fun getLocationNames(
         @Query("latlng") latLng : String ,
-        @Query("key") key : String
-    ):Call<Any>
+        @Query("key") key : String ,
+        @Query("sensor") sensor : Boolean,
+        @Query("language") lang : String
+    ):Call<ResponseGeoAddress>
 
     @POST("sp_get_orders")
     fun getOrderById(

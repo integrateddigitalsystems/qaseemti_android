@@ -1004,6 +1004,68 @@ class AppHelper {
             }
         }
 
+        fun getAddressNames (res : ResponseGeoAddress):ResponseAddress{
+            var street = ""
+            var block = ""
+            var avenue = ""
+            var kadaa = ""
+            var city = ""
+            var mohafaza = ""
+
+            res.results.forEach {
+                for(item in it.addressComponents){
+                    for(ty in item.types){
+                        if(street.isEmpty() && ty.contains("route")){
+                            street = item.longName!!.trim()
+
+                            if(street.equals("Unnamed Road")){
+                                street = ""
+                            }
+                        }
+
+                        if(block.isEmpty() && ty.contains("sublocality")){
+                            block = item.longName!!.trim()
+                        }
+
+                        if(avenue.isEmpty() && ty.contains("locality")){
+                            avenue = item.longName!!.trim()
+                        }
+
+                        if(city.isEmpty() && ty.contains("administrative_area_level_3")){
+                            city = item.longName!!.trim()
+                        }
+
+                        if(kadaa.isEmpty() && ty.contains("administrative_area_level_2")){
+                            kadaa = item.longName!!.trim()
+                        }
+
+                        if(mohafaza.isEmpty() && ty.contains("administrative_area_level_1")){
+                            mohafaza = item.longName!!.trim()
+                        }
+
+                        if(city.lowercase().equals("bayrut")) {
+                            city = "Beirut"
+                        }
+                        if(kadaa.lowercase().equals("bayrut")) {
+                            kadaa = "Beirut"
+                        }
+
+                        if( kadaa.isEmpty()) {
+                            kadaa = mohafaza
+                        }
+                        if (city.isEmpty()) {
+                            city = kadaa
+                        }
+
+
+                    }
+                }
+            }
+
+            return ResponseAddress("","","","",street,"","","",city,avenue,"",block,"",kadaa)
+
+        }
+
         fun getAddressLoc(lat: Double, long: Double, con: Context): Address {
 
 

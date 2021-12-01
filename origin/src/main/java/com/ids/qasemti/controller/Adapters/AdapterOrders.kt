@@ -26,10 +26,23 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
     override fun onBindViewHolder(holder: VHItem, position: Int) {
         holder.viewOrder.setColorTypeface(con,R.color.new_black,"",false)
 
-        if(!items.get(position).product!!.type.isNullOrEmpty()||items.get(position).product!!.type!="null")
-            holder.titleTop.text = AppHelper.getRemoteString("category",con)+" "+if(items[position].product!!.type!=null) items[position].product!!.type else AppHelper.getRemoteString("no_data",con)
-        else
-            holder.titleTop.text = AppHelper.getRemoteString("category",con)+" "+AppHelper.getRemoteString("no_data",con)
+        try {
+            if (!items.get(position).product!!.type.isNullOrEmpty() || items.get(position).product!!.type != "null")
+                holder.titleTop.text = AppHelper.getRemoteString(
+                    "category",
+                    con
+                ) + " " + if (items[position].product!!.type != null) items[position].product!!.type else AppHelper.getRemoteString(
+                    "no_data",
+                    con
+                )
+            else
+                holder.titleTop.text = AppHelper.getRemoteString(
+                    "category",
+                    con
+                ) + " " + AppHelper.getRemoteString("no_data", con)
+        }catch (ex:java.lang.Exception){
+            holder.titleTop.text =  AppHelper.getRemoteString("no_data", con)
+        }
 
         try{holder.category.text = items.get(position).product!!.name}catch (e:Exception){}
 

@@ -190,7 +190,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
            // AppHelper.updateDevice(this,respone.user!!.mobileNumber!!)
             if (respone.user != null ) {
                 if(!MyApplication.isClient){
-                if (respone.user!!.suspended == 1) {
+                if (respone.user!!.suspended.equals("1")) {
                     AppHelper.createDialog(this, AppHelper.getRemoteString("suspended_user_msg", this))
                 } else if(respone.user!!.approved == 1){
                     MyApplication.userId = respone.user!!.userId!!.toInt()

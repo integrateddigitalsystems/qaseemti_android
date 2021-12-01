@@ -11,7 +11,7 @@ class ResponseUserStatus(
 
     @SerializedName("suspended")
     @Expose
-    var suspended : Int ?= 0 ,
+    var suspended : String ?= "" ,
 
     @SerializedName("active")
     @Expose

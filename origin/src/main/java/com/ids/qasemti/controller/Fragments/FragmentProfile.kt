@@ -795,7 +795,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                             0,
                             null,
                             0.0,
-                            0,
+                            "0",
                             0,
                             0,
                             etDescriptionProfile.text.toString(),
@@ -866,9 +866,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             AppHelper.createDialog(
                 requireActivity(),
                 AppHelper.getRemoteString("successfully_updated", requireContext())
-            )
+            ){
+                requireActivity().onBackPressed()
+            }
             loading.hide()
-            getUserData()
+           // getUserData()
         } else {
             AppHelper.createDialog(
                 requireActivity(),
@@ -926,6 +928,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         val last = etLastNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val email = etEmailProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         val phone = etMobileProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        var lang = MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull())
         if (selectedProfilePic == null) {
             var empty = ""
             val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -944,7 +947,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 last,
                 email,
                 selectedProfilePic!!,
-                typeReq
+                typeReq,
+                lang
 
 
             )?.enqueue(object : Callback<ResponseUser> {
@@ -1318,6 +1322,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             selectedProfilePic = createFormData("attachment", "", attachmentEmpty)
         }
 
+        var lang = MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull())
 
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updateProfile(
@@ -1341,8 +1346,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 bankname,
                 bankBranch,
                 iban,
-                description
-
+                description,
+                lang
             )?.enqueue(object : Callback<ResponseUser> {
                 override fun onResponse(
                     call: Call<ResponseUser>,

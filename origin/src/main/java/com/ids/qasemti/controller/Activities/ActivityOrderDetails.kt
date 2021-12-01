@@ -1051,7 +1051,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
 
     fun sendSuggestedDate() {
         loading.show()
-        var newReq = RequestNewDeliveryDate(MyApplication.selectedOrder!!.orderId!!.toInt(), etOrderDetailDate.text.toString())
+        var newReq = RequestNewDeliveryDate(MyApplication.selectedOrder!!.orderId!!.toInt(), etOrderDetailDate.text.toString(),MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.sp_send_new_dt(newReq)?.enqueue(object : Callback<ResponseDeliveryDate> {
                 override fun onResponse(

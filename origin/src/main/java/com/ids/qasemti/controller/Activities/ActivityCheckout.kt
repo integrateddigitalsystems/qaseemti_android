@@ -140,8 +140,12 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                             update = MyApplication.selectedPlaceOrder != null
                             if (MyApplication.selectedUser != null) {
                                 try {
-                                    setPlacedOrder()
-                                    placeOrder()
+                                  // setPlacedOrder()
+                                    if(MyApplication.selectedAddress ==null )
+                                        CallAPIs.getAddressName(latLng!!.latitude.toString()+","+latLng!!.longitude.toString(),this,this)
+                                    else
+                                        setPlacedOrder()
+
                                 } catch (e: Exception) {
                                     toast(getString(R.string.failure))
                                 }
@@ -161,8 +165,10 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                         update = MyApplication.selectedPlaceOrder != null
                         if (MyApplication.selectedUser != null) {
                             try {
-                                setPlacedOrder()
-                                placeOrder()
+                                if(MyApplication.selectedAddress ==null )
+                                    CallAPIs.getAddressName(latLng!!.latitude.toString()+","+latLng!!.longitude.toString(),this,this)
+                                else
+                                    setPlacedOrder()
                             } catch (e: Exception) {
                                 toast(getString(R.string.failure))
                             }
@@ -752,6 +758,9 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
     }
 
     private fun setPlacedOrder() {
+
+
+        var type = MyApplication.selectedService!!.typeId
         var lat = ""
         var long = ""
         try {
@@ -760,21 +769,6 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         } catch (ex: Exception) {
 
         }
-        if (MyApplication.selectedAddress == null) {
-            var address = AppHelper.getAddressLoc(latLng!!.latitude, latLng!!.longitude, this)
-            MyApplication.selectedAddress = ResponseAddress(
-                "0",
-                address.featureName,
-                address.latitude.toString(),
-                address.longitude.toString(),
-                address.thoroughfare,
-                "",
-                "",
-                address.premises
-            )
-        }
-
-        var type = MyApplication.selectedService!!.typeId
 
 
         /*if(MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find { it.valEn!!.lowercase().equals("purchase") }!!.id!!.toInt() ))
@@ -837,6 +831,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         MyApplication.seletedPosCart = MyApplication.arrayCart.size - 1
 
         AppHelper.toGSOn(MyApplication.arrayCart)
+
+        placeOrder()
 
     }
 
@@ -955,12 +951,37 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        if (success) {
-            setPlacedOrder()
-            placeOrder()
-        } else {
-            toast(AppHelper.getRemoteString("error_getting_data", this))
-        }
 
+        if (apiId == AppConstants.ADDRESS_GEO) {
+
+            var addr = AppHelper.getAddressNames(response as ResponseGeoAddress)
+
+            var lat = ""
+            var long = ""
+            try {
+                lat = latLng!!.latitude.toString()
+                long = latLng!!.longitude.toString()
+            } catch (ex: Exception) {
+
+            }
+            if (MyApplication.selectedAddress == null) {
+                MyApplication.selectedAddress = addr
+                addr.lat = lat
+                addr.long = long
+            }
+
+            setPlacedOrder()
+
+        } else {
+            if (success) {
+                if(MyApplication.selectedAddress ==null )
+                    CallAPIs.getAddressName(latLng!!.latitude.toString()+","+latLng!!.longitude.toString(),this,this)
+                else
+                    setPlacedOrder()
+            } else {
+                toast(AppHelper.getRemoteString("error_getting_data", this))
+            }
+
+        }
     }
 }
