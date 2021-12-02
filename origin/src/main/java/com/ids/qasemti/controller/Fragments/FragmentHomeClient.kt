@@ -3,6 +3,7 @@ package com.ids.qasemti.controller.Fragments
 import android.app.ActionBar
 import android.app.Dialog
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
+    var adapter : AdapterServices ?=null
 
     var arraySpinnerServices: ArrayList<ItemSpinner> = arrayListOf()
     var arraySpinnerTypes: ArrayList<ItemSpinner> = arrayListOf()
@@ -50,6 +52,8 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
     private var selectedSizeName = ""
     private var selectedQtyId = 0
     private var selectedQtyName = ""
+    var timer : CountDownTimer?=null
+    var isTimer = false
 
     lateinit var spServices: Spinner
     lateinit var spType: Spinner
@@ -72,6 +76,19 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
 
     }
 
+    fun setUpTimer(){
+        timer = object : CountDownTimer(30000, 1015) {
+            override fun onTick(millisUntilFinished: Long) {
+                //logw("tick","second")
+            }
+
+            override fun onFinish() {
+                isTimer = true
+                getServices(isTimer)
+            }
+        }.start()
+    }
+
     fun init() {
 /*
         try {
@@ -90,6 +107,8 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
             btRegisterLogin.show()
             (activity as ActivityHome?)!!.showLogout(false)
         }
+
+
 
         btRegisterLogin.onOneClick {
             (activity as ActivityHome)!!.goRegistration(
@@ -110,10 +129,11 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
 
 
         AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "", R.color.white)
-        getServices()
+        getServices(false)
 
         getBanners()
 
+        setUpTimer()
 
     }
 
@@ -241,13 +261,13 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
         for (i in MyApplication.categories.indices) {
             val rbn = RadioButton(requireActivity())
             rbn.id = MyApplication.categories[i].id!!.toInt()
-            rbn.text = MyApplication.categories[i].getName()
+            rbn.text = MyApplication.categories[i].getName().capitalized()
             rbn.layoutParams = params
             rgCategory.addView(rbn)
         }
         if(selectedCategoryId ==0) {
             selectedCategoryId = MyApplication.categories[0].id!!.toInt()
-            selectedCategoryName = MyApplication.categories[0].getName()
+            selectedCategoryName = MyApplication.categories[0].getName().capitalized()
         }
         if (arrayAllServices.size > 0)
             setServiceSpinner()
@@ -375,8 +395,10 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
     }
 
 
-    fun getServices() {
-        loading.show()
+    fun getServices(timer:Boolean) {
+        if(!timer)
+            loading.show()
+
         var newReq = RequestLanguage(MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getClServices(
@@ -388,6 +410,10 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
                 ) {
                     try {
                         loading.hide()
+                        if(arrayAllServices.size >0 && rvServices.canScrollVertically(1)){
+                            if(arrayAllServices.size < response.body()!!.responseService!!.size)
+                                Toast.makeText(requireContext(),"New Data Added",Toast.LENGTH_SHORT).show()
+                        }
                         arrayAllServices.clear()
                         arrayFiltered.clear()
                         arrayAllServices.addAll(response.body()!!.responseService!!)
@@ -451,14 +477,44 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
                 btFilter.hide()
                 tvNoDataClient.show()
             } else {
-                tvNoDataClient.hide()
-                var adapter = AdapterServices(arrayFiltered, this, requireContext())
-                rvServices.layoutManager = LinearLayoutManager(requireContext())
-                rvServices.adapter = adapter
-                rvServices.isNestedScrollingEnabled = false
+                if (adapter != null) {
+                    adapter!!.notifyDataSetChanged()
+                } else {
+                    tvNoDataClient.hide()
+                    adapter = AdapterServices(arrayFiltered, this, requireContext())
+                    rvServices.layoutManager = LinearLayoutManager(requireContext())
+                    rvServices.adapter = adapter
+                    rvServices.isNestedScrollingEnabled = false
+                }
             }
 
+
         }catch (ex:Exception){}
+
+        if(isTimer){
+            isTimer = false
+            timer!!.start()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(MyApplication.selectedFragmentTag==AppConstants.FRAGMENT_SERVICE_DETAILS){
+            logw("nothing","nothing Happens")
+        }else{
+            AppHelper.setTitle(requireActivity(),"", "Services",R.color.white)
+        }
+        timer!!.start()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        timer!!.cancel()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        timer!!.cancel()
     }
     override fun onItemClicked(view: View, position: Int) {
 

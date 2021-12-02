@@ -37,15 +37,16 @@
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/small_margin"
                 android:id="@+id/btRemove"
-                android:background="@drawable/circle_gray"
-                android:padding="@dimen/small_margin">
-                <ImageButton
-                    android:layout_width="10dp"
-                    android:layout_height="@dimen/small_icon_2"
+                android:background="@drawable/circle_gray">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
 
 
-                    android:src="@drawable/close_x"
+
                     android:padding="4dp"
+                    android:src="@drawable/close_x"
 
                     />
             </LinearLayout>

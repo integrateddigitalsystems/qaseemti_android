@@ -50,7 +50,7 @@
         android:layout_centerVertical="true"
         />
 
-    <me.grantland.widget.AutofitTextView
+    <com.ids.qasemti.custom.CustomTextViewBold
         android:id="@+id/tvPageTitle"
         android:layout_width="match_parent"
         android:gravity="center"

@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 
 class RequestUpdateProfile(
 
+
+
     @SerializedName("user_id")
     @Expose
     var userId : Int ?=0 ,

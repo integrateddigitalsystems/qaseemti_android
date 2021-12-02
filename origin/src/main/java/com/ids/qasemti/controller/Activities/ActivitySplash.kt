@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -44,6 +45,7 @@ import com.ids.qasemti.utils.AppConstants.COORDINATES
 import com.ids.qasemti.utils.AppConstants.CURRENCY
 import com.ids.qasemti.utils.AppConstants.FIREBASE_COUNTRY_NAME_CODE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_ENABLE
+import com.ids.qasemti.utils.AppConstants.FIREBASE_GOVS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LINKS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LOCALIZE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_PARAMS
@@ -72,6 +74,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
         //  openDialog()
+        //CallAPIs.getAddressName("33.59608186012923,35.39359968155622",this,this)
+
+
 
         getFirebasePrefs()
 
@@ -339,7 +344,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
         MyApplication.userId = 41*/
         Handler(Looper.getMainLooper()).postDelayed({
             if (MyApplication.firstTime) {
-                AppHelper.updateDevice(this, "")
+                MyApplication.selectedPhone = ""
+                CallAPIs.updateDevice(this,this)
+               // AppHelper.updateDevice(this, "")
                 MyApplication.firstTime = false
                 startActivity(Intent(this, ActivityChooseLanguage::class.java))
                 finish()
@@ -363,11 +370,15 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         }
                     }*/
 
-                    AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
+                    MyApplication.selectedPhone = MyApplication.phoneNumber
+                    CallAPIs.updateDevice(this,this)
+                    //AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
                     CallAPIs.getUserInfo(this, this)
 
                 } else {
-                    AppHelper.updateDevice(this, "")
+                    MyApplication.selectedPhone = ""
+                    CallAPIs.updateDevice(this,this)
+                    //AppHelper.updateDevice(this, "")
                     if (MyApplication.isClient) {
                         UpaymentGateway.init(this, "", "", true)
                         /*MyApplication.isSignedIn = true
@@ -406,6 +417,12 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             }
         } catch (e: Exception) {
         }
+       var list  = Gson().fromJson(
+        mFirebaseRemoteConfig!!.getString(FIREBASE_GOVS),
+        KuwaitGovs::class.java
+        )
+        MyApplication.kuwaitGovs.clear()
+        MyApplication.kuwaitGovs.addAll(list.list)
         MyApplication.localizeArray = Gson().fromJson(
             mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE),
             FirebaseLocalizeArray::class.java
@@ -533,7 +550,10 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
                 } else {
                     MyApplication.BASE_URL = BuildConfig.BASE_URL
-                    nextStep()
+                    //nextStep()
+                    AppHelper.createDialog(this,AppHelper.getRemoteString("error_getting_data",this)){
+                        getFirebasePrefs()
+                    }
                 }
             }
 
@@ -541,10 +561,13 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
 
+        if (apiId == AppConstants.ADDRESS_GEO) {
+
+        }else
         if(apiId==API_USER_STATUS) {
             var res = response as ResponseUser
             try {
-                if (res.user!!.suspended == 1 && MyApplication.isClient) {
+                if (res.user!!.suspended.equals("1") && MyApplication.isClient) {
                     AppHelper.createDialog(
                         this,
                         AppHelper.getRemoteString("suspended_user_msg", this)

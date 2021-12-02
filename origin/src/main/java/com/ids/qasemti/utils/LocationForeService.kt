@@ -199,6 +199,9 @@ class LocationForeService : Service() {
          doc = MyApplication.db!!.collection("table_order")
             .document(order.orderId!!)
 
+
+
+
         doc!!.get().addOnSuccessListener { documentSnapshot ->
             val orderLoc = documentSnapshot.toObject<OrderLocation>()
             var ny: LatLng? = null
@@ -214,14 +217,14 @@ class LocationForeService : Service() {
                     user["oder_id"] = order.orderId!!
                     try {
                         user["order_laltitude"] =
-                            MyApplication.selectedCurrentAddress!!.latitude.toString()
+                            MyApplication.selectedCurrentAddress!!.lat.toString()
                     } catch (ex: Exception) {
                         user["order_laltitude"] =
                             ""
                     }
                     try {
                         user["order_longitude"] =
-                            MyApplication.selectedCurrentAddress!!.longitude.toString()
+                            MyApplication.selectedCurrentAddress!!.long.toString()
                     } catch (ex: Exception) {
                         user["order_longitude"] =
                             ""
@@ -253,8 +256,8 @@ class LocationForeService : Service() {
                 if (location != null) {
                     var lat = location.latitude
                     try{
-                    MyApplication.selectedCurrentAddress!!.latitude=lat
-                    MyApplication.selectedCurrentAddress!!.longitude=location.longitude}catch (e:Exception){}
+                    MyApplication.selectedCurrentAddress!!.lat=lat.toString()
+                    MyApplication.selectedCurrentAddress!!.long=location.longitude.toString()}catch (e:Exception){}
                     try{
                     doc!!.update("order_laltitude", lat.toString())
                     doc!!.update("order_longitude", location.longitude.toString())}catch (e:Exception){}
@@ -275,8 +278,8 @@ class LocationForeService : Service() {
 
             override fun onLocationChanged(location: Location) {
                 try{
-                MyApplication.selectedCurrentAddress!!.latitude=location.latitude
-                MyApplication.selectedCurrentAddress!!.longitude=location.longitude}catch (e:Exception){}
+                MyApplication.selectedCurrentAddress!!.lat=location.latitude.toString()
+                MyApplication.selectedCurrentAddress!!.long=location.longitude.toString()}catch (e:Exception){}
 
                 doc!!.update("order_laltitude", location.latitude.toString())
                 doc!!.update("order_longitude", location.longitude.toString())
@@ -356,6 +359,7 @@ class LocationForeService : Service() {
                     Log.d(TAG, "Failed to remove Location Callback.")
                 }
             }
+            MyApplication.db!!.collection("table_order").document(MyApplication.selectedOrder!!.orderId!!).delete()
             MyApplication.saveLocationTracking = false
         } catch (unlikely: SecurityException) {
            MyApplication.saveLocationTracking = true

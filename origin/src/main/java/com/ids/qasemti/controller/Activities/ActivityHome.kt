@@ -521,11 +521,20 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         AppHelper.setLogoTint(btBackTool, this, color)
     }
 
+  /*  fun setTitle(){
+            tvPageTitle.show()
+            tvPageTitle.text = AppHelper.getRemoteString("Services",this)
+
+    }*/
 
     fun checkBack() {
         if (getFragmentCount(fragMang) <= 1) {
             btBackTool.hide()
-            tvPageTitle.hide()
+            if(MyApplication.selectedFragmentTag==AppConstants.FRAGMENT_SERVICE_DETAILS){
+                setTitleAc(AppHelper.getRemoteString("Services",this),R.color.white)
+            }else {
+                tvPageTitle.hide()
+            }
         } else
             btBackTool.show()
     }

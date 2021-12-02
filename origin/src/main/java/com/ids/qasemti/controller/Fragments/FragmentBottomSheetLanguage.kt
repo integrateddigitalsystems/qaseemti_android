@@ -30,7 +30,7 @@ import retrofit2.Response
 import java.util.*
 
 
-class FragmentBottomSeetLanguage : BottomSheetDialogFragment(){
+class FragmentBottomSeetLanguage : BottomSheetDialogFragment(),ApiListener{
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(R.layout.bottom_sheet_language, container, false)
@@ -63,7 +63,8 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(){
         MyApplication.selectedFragmentTag=AppConstants.FRAGMENT_ACCOUNT
         LocaleUtils.setLocale(Locale("ar"))
         //sendUpdateLanguage()
-        AppHelper.updateDevice(requireContext(),MyApplication.selectedPhone!!)
+        CallAPIs.updateDevice(requireContext(),this)
+      //  AppHelper.updateDevice(requireContext(),MyApplication.selectedPhone!!)
         reloadActivity()
 
     }
@@ -76,7 +77,8 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(){
         MyApplication.selectedFragmentTag=AppConstants.FRAGMENT_ACCOUNT
         LocaleUtils.setLocale(Locale("en"))
        // sendUpdateLanguage()
-        AppHelper.updateDevice(requireContext(),MyApplication.selectedPhone!!)
+        CallAPIs.updateDevice(requireContext(),this)
+       // AppHelper.updateDevice(requireContext(),MyApplication.selectedPhone!!)
         reloadActivity()
     }
 
@@ -111,6 +113,10 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(){
                 override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
                 }
             })
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+
     }
 
 }

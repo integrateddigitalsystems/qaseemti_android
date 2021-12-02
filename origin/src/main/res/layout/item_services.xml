@@ -64,7 +64,7 @@
                 <com.ids.qasemti.custom.CustomTextViewBold
                     android:layout_width="wrap_content"
                     android:id="@+id/tvServiceTitle"
-                    android:maxLines="1"
+                    android:maxLines="3"
                     android:layout_marginStart="@dimen/big_margin"
                     android:text=""
                     android:textSize="@dimen/normal_font"
@@ -74,7 +74,7 @@
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="wrap_content"
                     android:id="@+id/tvQty"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:layout_marginStart="@dimen/big_margin"
                     android:text=""
                     android:textSize="@dimen/small_font"

@@ -108,7 +108,7 @@ class OrderCustomer(
 
     @SerializedName("user_id")
     @Expose
-    var user_id : String ?="" ,
+    var user_id : String ?="",
 
     @SerializedName("account_number")
     @Expose
@@ -120,19 +120,19 @@ class OrderCustomer(
 
     @SerializedName("account_name")
     @Expose
-    var account_name : String ?="" ,
+    var account_name : String ?="",
 
     @SerializedName("address")
     @Expose
-    var addresses : ArrayList<ResponseAddress> ,
+    var addresses : ArrayList<ResponseAddress> ?= arrayListOf(),
 
     @SerializedName("available")
     @Expose
-    var available : String ?="" ,
+    var available : String ?="",
 
     @SerializedName("bank_branch")
     @Expose
-    var bankBranch : String ?="" ,
+    var bankBranch : String ?="",
 
     @SerializedName("civil_id")
     @Expose
@@ -165,7 +165,7 @@ class OrderCustomer(
 
     @SerializedName("rate")
     @Expose
-    var rate: String ?="" ,
+    var rate: String ?="",
 
     @SerializedName("type")
     @Expose

@@ -28,7 +28,6 @@ import android.text.Editable
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
@@ -705,7 +704,7 @@ class AppHelper {
                     setLogoTint(imgAcc, context, R.color.primary)
                     setTextColor(context, tvAcc, R.color.primary)
                 }
-                AppConstants.FRAGMENT_HOME_CLIENT, AppConstants.FRAGMENT_HOME_SP -> {
+                AppConstants.FRAGMENT_HOME_CLIENT, AppConstants.FRAGMENT_HOME_SP , AppConstants.FRAGMENT_SERVICE_DETAILS -> {
                     MyApplication.selectedTitle = getRemoteString("Services", context)
                     setLogoTint(imgHom, context, R.color.primary)
                     setTextColor(context, tvHom, R.color.primary)
@@ -1005,6 +1004,84 @@ class AppHelper {
             }
         }
 
+        fun getAddressNames (res : ResponseGeoAddress):ResponseAddress{
+            var street = ""
+            var block = ""
+            var avenue = ""
+            var kadaa = ""
+            var city = ""
+            var mohafaza = ""
+
+            res.results.forEach {
+                for(item in it.addressComponents){
+                    for(ty in item.types){
+                        if(street.isEmpty() && ty.contains("route")){
+                            street = item.longName!!.trim()
+
+                            if(street.equals("Unnamed Road")){
+                                street = ""
+                            }
+                        }
+
+                        if(block.isEmpty() && ty.contains("sublocality")){
+                            block = item.longName!!.trim()
+                        }
+
+                        if(avenue.isEmpty() && ty.contains("locality")){
+                            avenue = item.longName!!.trim()
+                        }
+
+                        if(city.isEmpty() && ty.contains("administrative_area_level_3")){
+                            city = item.longName!!.trim()
+                        }
+
+                        if(kadaa.isEmpty() && ty.contains("administrative_area_level_2")){
+                            kadaa = item.longName!!.trim()
+                        }
+
+                        if(mohafaza.isEmpty() && ty.contains("administrative_area_level_1")){
+                            mohafaza = item.longName!!.trim()
+                        }
+
+                        if(city.lowercase().equals("bayrut")) {
+                            city = "Beirut"
+                        }
+                        if(kadaa.lowercase().equals("bayrut")) {
+                            kadaa = "Beirut"
+                        }
+
+                        if( kadaa.isEmpty()) {
+                            kadaa = mohafaza
+                        }
+                        if (city.isEmpty()) {
+                            city = kadaa
+                        }
+
+
+                    }
+                }
+            }
+
+            return ResponseAddress("","",MyApplication.selectedLatLngCall!!.latitude.toString(),MyApplication.selectedLatLngCall!!.longitude.toString(),street,"","","",city,avenue,"",block,"",kadaa)
+
+        }
+
+        fun getAddressText(add : ResponseAddress): String{
+            var str = ""
+            if(!add.province.isNullOrEmpty())
+                str += add.province + ","
+            if(!add.area.isNullOrEmpty())
+                str += add.area+","
+            if(!add.block.isNullOrEmpty())
+                str+= add.block+","
+            if(!add.street.isNullOrEmpty())
+                str+=add.street
+
+
+            return str
+
+        }
+
         fun getAddressLoc(lat: Double, long: Double, con: Context): Address {
 
 
@@ -1045,6 +1122,13 @@ class AppHelper {
                 val myList = myLocation.getFromLocation(lat, long, 1)
                 val address = myList[0]
 
+                // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+                val city: String =address.getLocality()
+                val state: String =address.getAdminArea()
+                val country: String =address.getCountryName()
+                val postalCode: String =address.getPostalCode()
+                val knownName: String =address.getFeatureName()
                 addressStr += address.getAddressLine(0).toString()
             }catch (ex:Exception){
                 logw("locEx",ex.toString())
@@ -1052,6 +1136,42 @@ class AppHelper {
             }
 
             return addressStr!!
+        }
+
+        fun addressFromOrder(res:ResponseOrders,type:Int,con:Context): String {
+
+            var str = ""
+
+            try {
+                if (type == 0 || !MyApplication.isClient) {
+
+                    if (!res.shipping_province!!.isNullOrEmpty())
+                        str += res.shipping_province!! + ","
+                    if (!res.shipping_area!!.isNullOrEmpty())
+                        str += res.shipping_area!! + ","
+                    if (!res.shipping_block!!.isNullOrEmpty())
+                        str += res.shipping_block!! + ","
+                    if (!res.shipping_address_street!!.isNullOrEmpty())
+                        str += res.shipping_address_street!!
+                } else {
+                    if (!res.vendor!!.addresses.get(0).province!!.isNullOrEmpty())
+                        str += res.vendor!!.addresses.get(0).province!! + ","
+                    if (!res.vendor!!.addresses.get(0).area!!.isNullOrEmpty())
+                        str += res.vendor!!.addresses.get(0).area!! + ","
+                    if (!res.vendor!!.addresses.get(0).block!!.isNullOrEmpty())
+                        str += res.vendor!!.addresses.get(0).block!! + ","
+                    if (!res.vendor!!.addresses.get(0).street!!.isNullOrEmpty())
+                        str += res.vendor!!.addresses.get(0).street!!
+                }
+            }catch (ex:java.lang.Exception){}
+
+
+            if(str.isEmpty()){
+                str = AppHelper.getRemoteString("no_data",con)
+            }
+
+            return str
+
         }
 
         fun changeLanguage(context: Context, language: String) {
@@ -1109,7 +1229,7 @@ class AppHelper {
                         user["oder_id"] = order.orderId!!
                         try {
                             user["order_laltitude"] =
-                                MyApplication.selectedCurrentAddress!!.latitude.toString()
+                                MyApplication.selectedCurrentAddress!!.lat.toString()
                         } catch (ex: Exception) {
                             user["order_laltitude"] =
                                 ""
@@ -1117,7 +1237,7 @@ class AppHelper {
                         }
                         try {
                             user["order_longitude"] =
-                                MyApplication.selectedCurrentAddress!!.longitude.toString()
+                                MyApplication.selectedCurrentAddress!!.long.toString()
                         } catch (ex: Exception) {
                             user["order_longitude"] =
                                 ""

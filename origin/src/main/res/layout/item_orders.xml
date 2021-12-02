@@ -84,6 +84,7 @@
                 android:id="@+id/tvOrderId"
                 android:layout_gravity="center_vertical"
                 android:gravity="end"
+                android:maxLines="1"
                 android:text="# 030303"
                 android:textColor="@color/primary"/>
 

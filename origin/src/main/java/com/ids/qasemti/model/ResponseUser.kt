@@ -15,6 +15,14 @@ class ResponseUser (
 
     @SerializedName("user_id")
     @Expose
-    var userId : String ?=""
+    var userId : String ?="" ,
+
+    @SerializedName("message")
+    @Expose
+    var message : String ?="" ,
+
+    @SerializedName("language")
+    @Expose
+    var lang : String ?=""
 ){
 }

@@ -1,6 +1,7 @@
 package com.ids.qasemti.utils
 
 
+import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -67,7 +68,8 @@ interface RetrofitInterface {
         @Part(ApiParameters.BANK_ID) bankId: RequestBody,
         @Part(ApiParameters.BANK_BRANCH) bankBranch: RequestBody,
         @Part(ApiParameters.IBAN) iban: RequestBody ,
-        @Part(ApiParameters.DESCRIPTION) desc : RequestBody
+        @Part(ApiParameters.DESCRIPTION) desc : RequestBody,
+        @Part(ApiParameters.LANGUAGE) lang : RequestBody
     ): Call<ResponseUser>
 
 
@@ -80,7 +82,8 @@ interface RetrofitInterface {
         @Part(ApiParameters.LAST_NAME) lastName: RequestBody,
         @Part(ApiParameters.EMAIL) email: RequestBody,
         @Part profile_pic: MultipartBody.Part,
-        @Part(ApiParameters.TYPE) type: RequestBody
+        @Part(ApiParameters.TYPE) type: RequestBody,
+        @Part(ApiParameters.LANGUAGE) lang : RequestBody
 
     ): Call<ResponseUser>
 
@@ -127,6 +130,12 @@ interface RetrofitInterface {
     fun getServices(
         @Body param:RequestServices
     ): Call<ResponseMainServices>
+
+    @POST("sp_get_services")
+    fun getServices(
+        @Body param:RequestLanguage
+    ): Call<ResponseMainServices>
+
 
 
 
@@ -317,11 +326,13 @@ interface RetrofitInterface {
     @POST("get_banners")
     fun getBanners():Call<ResponseMainBanner>
 
-    @GET("json")
+    @GET("geocode/json")
     fun getLocationNames(
-        @Query("input") input : String ,
-        @Query("key") key : String
-    ):Call<Any>
+        @Query("latlng") latLng : String ,
+        @Query("key") key : String ,
+        @Query("sensor") sensor : Boolean,
+        @Query("language") lang : String
+    ):Call<ResponseGeoAddress>
 
     @POST("sp_get_orders")
     fun getOrderById(
@@ -370,18 +381,20 @@ interface RetrofitInterface {
     fun getCategories():Call<ResponseMainCategories>
 
 
+
+    @Multipart
     @POST("sp_delete_gallery_image")
     fun deleteGalleryImages(
-        @Part(ApiParameters.IMAGE_ID) imageId: RequestBody,
-        @Part(ApiParameters.PRODUCT_ID) productId: RequestBody
-    )
+        @Part(ApiParameters.IMAGE_ID) imageId : Int,
+        @Part(ApiParameters.PRODUCT_ID) productId : Int
+    ):Call<ResponseMessage>
 
     @Multipart
     @POST("sp_add_gallery_image")
     fun addGalleryImage(
-        @Part(ApiParameters.PRODUCT_ID) productId: RequestBody,
-        @Part file: MultipartBody.Part,
-        @Part(ApiParameters.VENDOR_ID) vendor_id: RequestBody
+        @Part(ApiParameters.VENDOR_ID) vendor_id: Int,
+        @Part(ApiParameters.PRODUCT_ID) product_id: Int,
+        @Part image: MultipartBody.Part
 
     ): Call<ResponseMessage>
 

@@ -100,8 +100,8 @@
                     android:textColor="@color/gray_font_title"
                     android:textSize="@dimen/normal_font"
                     android:layout_height="wrap_content"
-                    android:text="@string/notifications"
-                    android:tag="notifications"
+                    android:text="@string/Notification"
+                    android:tag="Notification"
                     />
 
             </LinearLayout>
@@ -160,6 +160,7 @@
             android:layout_marginTop="@dimen/big_margin"
             android:text="@string/save"
             android:tag="save"
+            android:visibility="gone"
             android:layout_marginStart="@dimen/margin_start_end"
             android:layout_marginEnd="@dimen/margin_start_end"
             android:id="@+id/btSave"

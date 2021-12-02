@@ -4,16 +4,14 @@ package com.ids.qasemti.controller.Activities
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.core.widget.ImageViewCompat
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestNotificationUpdate
 import com.ids.qasemti.model.ResponseCancel
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.RetrofitClient
-import com.ids.qasemti.utils.RetrofitInterface
-import com.ids.qasemti.utils.onOneClick
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_account_status.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -66,6 +64,8 @@ class ActivityAccountStatus : ActivityBase() {
                     )
                 }
             }
+            if(btSave.visibility == View.GONE)
+                btSave.show()
             notfSelected = 1
            setNotificationType(1)
         }
@@ -98,6 +98,8 @@ class ActivityAccountStatus : ActivityBase() {
                     )
                 }
             }
+            if(btSave.visibility == View.GONE)
+                btSave.show()
             notfSelected = 0
             setNotificationType(0)
         }

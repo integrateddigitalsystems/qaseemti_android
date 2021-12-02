@@ -4,7 +4,7 @@
     <string name="hello">Hello 111</string>
     <string name="hello2">Hello 222</string>
     <string name="hello3">Hello 3333</string>
-    <string name="lang_ar">عربية</string>
+    <string name="lang_ar">عربي</string>
     <string name="lang_eng">انجليزية</string>
     <string name="enter_mobile_number">أدخل رقم هاتفك المحمول</string>
     <string name="mobile">هاتف</string>
@@ -32,6 +32,7 @@
     <string name="verification">تحقق</string>
     <string name="resend_code">إعادة إرسال الرمز</string>
     <string name="enter_the_6_digit_code_sent_to_you_from_qasemati">أدخل الرمز المكون من 4 أرقام المرسل إليك من قسيمتي</string>
+    <string name="enter_4_digit">أدخل الرمز المكون من 4 أرقام المرسل إليك من قسيمتي</string>
     <string name="resend_code_in">إعادة إرسال الرمز بعد</string>
     <string name="verify">تحقق</string>
     <string name="account_status">حالة الحساب</string>
@@ -226,7 +227,7 @@
     <string name="no_required_documents">لا توجد مستندات مطلوبة لمزود الخدمة هذا</string>
     <string name="submit">إرسال</string>
     <string name="dont_cancel">لا تلغي</string>
-    <string name="Province">مقاطعة</string>
+    <string name="Province">محافظة</string>
     <string name="Area">منطقة</string>
     <string name="Block">حي</string>
     <string name="Avenu">الجادة</string>
@@ -300,6 +301,9 @@
     <string name="TotalEarning">مجموع الأرباح</string>
     <string name="no_curr_track">لا يوجد معلومات</string>
     <string name="sugg_date_sent">تم إرسال التاريخ المقترح</string>
+    <string name="accept_order">الموافقة على الطلب</string>
+    <string name="service_name">Service Name</string>
+    <string name="service_type">Service Type</string>
 
 
 </resources>

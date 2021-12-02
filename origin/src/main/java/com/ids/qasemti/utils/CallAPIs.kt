@@ -1,8 +1,17 @@
 package com.ids.qasemti.utils
 
 import android.content.Context
+import android.provider.Settings
+import android.provider.Settings.Global.getString
+import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.ProgressBar
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.gson.Gson
+import com.ids.qasemti.R
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import kotlinx.android.synthetic.main.layout_profile.*
@@ -14,6 +23,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CallAPIs {
 
@@ -55,6 +68,7 @@ class CallAPIs {
                     mobile.toRequestBody("text/plain".toMediaTypeOrNull())
                 var type = "1"
                 var typeReq = type.toRequestBody()
+                var lang = MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull())
 
                 retro.updateClientProfile(
                     user,
@@ -63,7 +77,8 @@ class CallAPIs {
                     last,
                     email,
                     selectedProfilePic,
-                    typeReq
+                    typeReq,
+                    lang
 
 
                 )?.enqueue(object : Callback<ResponseUser> {
@@ -100,6 +115,46 @@ class CallAPIs {
             }
         }
 
+        fun getAddressName(
+            locationLatLng : LatLng ,
+            con : Context ,
+            listener : ApiListener
+        ){
+            /*var latLng = LatLng(33.872525264390575, 35.49364099233594)*/
+            var latLngStr = locationLatLng.latitude.toString() + ","+locationLatLng.longitude.toString()
+            RetroFitMap2.client?.create(RetrofitInterface::class.java)
+                ?.getLocationNames(latLngStr,con.getString(R.string.googleKey),true,MyApplication.languageCode)?.enqueue(object : Callback<ResponseGeoAddress> {
+                    override fun onResponse(
+                        call: Call<ResponseGeoAddress>,
+                        response: Response<ResponseGeoAddress>
+                    ) {
+                        MyApplication.selectedLatLngCall = locationLatLng
+                        try {
+                            listener.onDataRetrieved(
+                                true,
+                                response.body()!!,
+                                AppConstants.ADDRESS_GEO
+                            )
+                            //nextStep(response.body()!!.result!!)
+                        } catch (E: java.lang.Exception) {
+
+                            listener.onDataRetrieved(
+                                true,
+                                response.body()!!,
+                                AppConstants.ADDRESS_GEO
+                            )
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseGeoAddress>, throwable: Throwable) {
+                        listener.onDataRetrieved(
+                            false,
+                            ResponseGeoAddress(),
+                            AppConstants.ADDRESS_GEO
+                        )
+                    }
+                })
+        }
         fun updateProfileServiceProvider(
             context: Context,
             listener: ApiListener,
@@ -169,6 +224,7 @@ class CallAPIs {
             val description =
                 descrp.toRequestBody("text/plain".toMediaTypeOrNull())
             val iban = ibann.toRequestBody("text/plain".toMediaTypeOrNull())
+            var lang = MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull())
             var x = retro.updateProfile(
                 user,
                 first,
@@ -190,8 +246,8 @@ class CallAPIs {
                 bankname,
                 bankBranch,
                 iban,
-                description
-
+                description,
+                lang
             )
 
             retro.updateProfile(
@@ -215,7 +271,8 @@ class CallAPIs {
                 bankname,
                 bankBranch,
                 iban,
-                description
+                description,
+                lang
 
             )?.enqueue(object : Callback<ResponseUser> {
                 override fun onResponse(
@@ -398,6 +455,107 @@ class CallAPIs {
                 }
 
             })
+
+
+        }
+
+
+        fun updateDevice(context: Context,
+        listener: ApiListener){
+
+            val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
+            val cal = Calendar.getInstance()
+
+            val model = AppHelper.getDeviceName()
+            val osVersion = AppHelper.getAndroidVersion()
+
+            var deviceToken = ""
+            val deviceTypeId = ""
+            var android_id = Settings.Secure.getString(
+                context.getContentResolver(),
+                Settings.Secure.ANDROID_ID
+            );
+
+            val imei =
+                Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+
+            val registrationDate = dateFormat.format(cal.time)
+            val appVersion = AppHelper.getVersionNumber()
+
+            val generalNotification = 1
+            val isProduction = 1
+
+
+            val lang = MyApplication.languageCode
+            var isService = 1
+            if (MyApplication.isClient)
+                isService = 0
+
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(
+                            "firebase_messaging",
+                            "Fetching FCM registration token failed",
+                            task.exception
+                        )
+                        return@OnCompleteListener
+                    }
+                    deviceToken = task.result
+
+
+                    var newReq = RequestUpdate(
+                        MyApplication.deviceId,
+                        MyApplication.selectedPhone,
+                        model,
+                        osVersion,
+                        deviceToken,
+                        2,
+                        imei,
+                        generalNotification,
+                        appVersion.toString(),
+                        0,
+                        lang,
+                        MyApplication.userId
+                    )
+
+                    if(MyApplication.isClient){
+                        newReq.is_client = 1
+                    }else{
+                        newReq.isServiceProvider = 1
+                    }
+
+                    var jsonString = Gson().toJson(newReq)
+                    logw("UPDATE_JSON",jsonString)
+
+                    RetrofitClient.client?.create(RetrofitInterface::class.java)
+                        ?.updateDevice(
+                            newReq
+                        )?.enqueue(object : Callback<ResponseUpdate> {
+                            override fun onResponse(
+                                call: Call<ResponseUpdate>,
+                                response: Response<ResponseUpdate>
+                            ) {
+                                try {
+                                    MyApplication.deviceId = response.body()!!.deviceId!!
+                                    listener.onDataRetrieved(
+                                        false,
+                                        arrayListOf<ResponseNominatim>(),
+                                        AppConstants.UPDATE_DEVICE
+                                    )
+                                    //sendOTP()
+                                } catch (E: Exception) {
+
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+
+                            }
+                        })
+                })
+
+
 
 
         }

@@ -24,4 +24,8 @@ class ResponseMessage {
     @SerializedName("token")
     @Expose
     var token : String ?=""
+
+    @SerializedName("gallery")
+    @Expose
+    var gallery : ArrayList<GalleryItem> = arrayListOf()
 }

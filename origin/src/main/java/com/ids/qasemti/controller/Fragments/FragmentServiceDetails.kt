@@ -70,6 +70,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
         tvItalicNote.typeface = AppHelper.getTypeFaceItalic(requireContext())
 
 
+
         btServiceCheckout.typeface=AppHelper.getTypeFace(requireContext())
         btServiceCheckout.onOneClick {
             if(MyApplication.isSignedIn) {
@@ -77,7 +78,9 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
                 MyApplication.selectedSize = selectedSizeId
                 startActivity(Intent(requireContext(), ActivityCheckout::class.java))
             }else{
-                (activity as ActivityHome?)!!.goRegistration(2,AppConstants.FRAGMENT_HOME_SP,FragmentHomeClient(),R.color.white)
+                MyApplication.selectedNotSignedInType = selectedTypeId
+                MyApplication.selectedNotSignedInSize = selectedSizeId
+                (activity as ActivityHome?)!!.goRegistration(2,AppConstants.FRAGMENT_SERVICE_DETAILS,FragmentServiceDetails(),R.color.white)
             }
         }
         try{
@@ -176,6 +179,13 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
         }
 
+        if(MyApplication.selectedNotSignedInType!=-1) {
+            spServiceSize.setSelection(arraySpinnerTypes.indexOf(arraySpinnerTypes.find {
+                it.id == MyApplication.selectedNotSignedInType
+            }))
+            MyApplication.selectedNotSignedInType = -1
+        }
+
     }
 
 
@@ -208,6 +218,13 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
 
             }
 
+        }
+
+        if(MyApplication.selectedNotSignedInSize!=-1) {
+            spServiceSize.setSelection(arraySpinnerSizes.indexOf(arraySpinnerSizes.find {
+                it.id == MyApplication.selectedNotSignedInSize
+            }))
+            MyApplication.selectedNotSignedInSize = -1
         }
 
     }

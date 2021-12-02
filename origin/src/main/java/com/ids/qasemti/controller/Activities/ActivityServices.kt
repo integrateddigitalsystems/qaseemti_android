@@ -23,7 +23,7 @@ import retrofit2.Response
 import java.lang.Exception
 
 
-class ActivityServices : ActivityBase(),RVOnItemClickListener {
+class ActivityServices : ActivityBase(),RVOnItemClickListener,ApiListener {
     var array : ArrayList<ResponseService> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,11 +85,11 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
       //  btBck.setOnClickListener{super.onBackPressed()}
         btAdd.onOneClick{
 
-            if(MyApplication.selectedUser!!.active == 1)
+            loading.show()
+            if(MyApplication.selectedUser!!.active==1)
                 startActivity(Intent(this,ActivityServiceInformation::class.java))
             else
-                AppHelper.createDialog(this,AppHelper.getRemoteString("inactive_user_msg",this))
-
+                CallAPIs.getUserInfo(this,this)
 
             //  if(MyApplication.userStatus!!.online!=0){
 
@@ -117,5 +117,13 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener {
 
     override fun onItemClicked(view: View, position: Int) {
 
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+        loading.hide()
+        if(MyApplication.selectedUser!!.active == 1)
+            startActivity(Intent(this,ActivityServiceInformation::class.java))
+        else
+            AppHelper.createDialog(this,AppHelper.getRemoteString("inactive_user_msg",this))
     }
 }

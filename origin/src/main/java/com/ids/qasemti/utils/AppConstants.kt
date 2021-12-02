@@ -54,6 +54,7 @@ object AppConstants {
     const val FIREBASE_FORCE_UPDATE = "android_force_update"
     const val FIREBASE_VERSION_CODE = "android_version_code"
     const val FIREBASE_LOCALIZE = "localize_msg"
+    const val FIREBASE_GOVS = "governantes_kuwait"
     const val CURRENCY = "currency"
     const val FIREBASE_LINKS ="htmlPageUrls"
     const val COORDINATES = "kuwait_coordinates"
@@ -83,6 +84,8 @@ object AppConstants {
     const val ORDER_BY_ID = 4
     const val MAP_SEARCH = 5
     const val GET_CATEGORIES = 6
+    const val UPDATE_DEVICE =7
+    const val ADDRESS_GEO = 8
     const val TYPE_PURCHASE = "purchase"
     const val TYPE_RENTAL = "rental"
     const val TYPE_RENTAL_ID ="343"

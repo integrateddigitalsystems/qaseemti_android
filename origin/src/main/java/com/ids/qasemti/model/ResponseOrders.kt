@@ -6,71 +6,83 @@ import com.google.gson.annotations.SerializedName
 class ResponseOrders(
     @SerializedName("date")
     @Expose
-    var date : String ?="" ,
+    var date : String ?="",
 
     @SerializedName("order_id")
     @Expose
-    var orderId : String ?="" ,
+    var orderId : String ?="",
 
     @SerializedName("order_status")
     @Expose
-    var orderStatus : String ?="" ,
+    var orderStatus : String ?="",
 
     @SerializedName("currency")
     @Expose
-    var currency : String ?="" ,
+    var currency : String ?="",
 
     @SerializedName("shipping_total")
     @Expose
-    var shippingTotal : String ?="" ,
+    var shippingTotal : String ?="",
 
     @SerializedName("shipping_latitude")
     @Expose
-    var shipping_latitude : String ?="" ,
+    var shipping_latitude : String ?="",
 
     @SerializedName("shipping_longitude")
     @Expose
-    var shipping_longitude : String ?="" ,
+    var shipping_longitude : String ?="",
+
+    @SerializedName("shipping_province")
+    @Expose
+    var shipping_province : String ?="",
+
+    @SerializedName("shipping_area")
+    @Expose
+    var shipping_area : String ?="",
+
+    @SerializedName("shipping_block")
+    @Expose
+    var shipping_block : String ?="",
 
     @SerializedName("total")
     @Expose
-    var total : String ?="" ,
+    var total : String ?="",
 
     @SerializedName("customer_id")
     @Expose
-    var customerid : String ?= "" ,
+    var customerid : String ?= "",
 
     @SerializedName("additional_cost")
     @Expose
-    var additional : String ?="" ,
+    var additional : String ?="",
 
 
 
     @SerializedName("payment_method")
     @Expose
-    var paymentMethod : String ?="" ,
+    var paymentMethod : String ?="",
 
 
 
     @SerializedName("customer_location")
     @Expose
-    var customerLocation : String ?="" ,
+    var customerLocation : String ?="",
 
     @SerializedName("delivery_latitude")
     @Expose
-    var customerLat : String ?="" ,
+    var customerLat : String ?="",
 
     @SerializedName("delivery_longitude")
     @Expose
-    var customerLong : String ?="" ,
+    var customerLong : String ?="",
 
     @SerializedName("delivery_date")
     @Expose
-    var deliveryDate : String ?="" ,
+    var deliveryDate : String ?="",
 
     @SerializedName("actual_delivery_date")
     @Expose
-    var actual_delivery_date : String ?="" ,
+    var actual_delivery_date : String ?="",
 
 
     @SerializedName("earnings")
@@ -79,7 +91,7 @@ class ResponseOrders(
 
     @SerializedName("admin_fees")
     @Expose
-    var adminFees : String ?="" ,
+    var adminFees : String ?="",
 
     @SerializedName("paid")
     @Expose
@@ -87,11 +99,11 @@ class ResponseOrders(
 
     @SerializedName("grand_total")
     @Expose
-    var grand_total : String ?="" ,
+    var grand_total : String ?="",
 
     @SerializedName("on_track")
     @Expose
-    var onTrack : Boolean ?=false ,
+    var onTrack : Boolean ?=false,
 
     @SerializedName("delivered")
     @Expose
@@ -99,147 +111,147 @@ class ResponseOrders(
 
     @SerializedName("product")
     @Expose
-    var product : OrderProduct?=null ,
+    var product : OrderProduct?=OrderProduct(),
 
 
     @SerializedName("vendor")
     @Expose
-    var vendor : OrderVendor?=null ,
+    var vendor : OrderVendor?= OrderVendor(),
 
     @SerializedName("customer")
     @Expose
-    var customer : OrderCustomer ?=null ,
+    var customer : OrderCustomer ?= OrderCustomer(),
 
     @SerializedName("user_latitude")
     @Expose
-    var userLat : String ?="" ,
+    var userLat : String ?="",
 
     @SerializedName("user_longitude")
     @Expose
-    var userLong : String ?="" ,
+    var userLong : String ?="",
 
     @SerializedName("cancellation_date")
     @Expose
-    var cancellationDate : String ?="" ,
+    var cancellationDate : String ?="",
 
     @SerializedName("dfg_address_building")
     @Expose
-    var addressBuilding : String ?="" ,
+    var addressBuilding : String ?="",
 
 
     @SerializedName("dfg_address_description")
     @Expose
-    var addressDescription : String ?="" ,
+    var addressDescription : String ?="",
 
     @SerializedName("cancellation_reason")
     @Expose
-    var cancellationReason : String ?="" ,
+    var cancellationReason : String ?="",
 
     @SerializedName("cancelled_by_id")
     @Expose
-    var cancelledById : String ?="" ,
+    var cancelledById : String ?="",
 
     @SerializedName("cancelled_by_name")
     @Expose
-    var cancelledByName : String ?="" ,
+    var cancelledByName : String ?="",
 
     @SerializedName("cancelled_by_role")
     @Expose
-    var cancelledByRole : String ?="" ,
+    var cancelledByRole : String ?="",
 
     @SerializedName("dfg_address_floor")
     @Expose
-    var addressFloor : String ?="" ,
+    var addressFloor : String ?="",
 
     @SerializedName("dfg_address_latitude")
     @Expose
-    var addressLat : String ?="" ,
+    var addressLat : String ?="",
 
     @SerializedName("dfg_address_longitude")
     @Expose
-    var addressLong : String ?="" ,
+    var addressLong : String ?="",
 
     @SerializedName("dfg_address_name")
     @Expose
-    var addressname : String ?="" ,
+    var addressname : String ?="",
 
     @SerializedName("dfg_address_street")
     @Expose
-    var addressStreet : String ?="" ,
+    var addressStreet : String ?="",
 
     @SerializedName("dfg_email")
     @Expose
-    var dfgEmail : String ?="" ,
+    var dfgEmail : String ?="",
 
     @SerializedName("dfg_first_name")
     @Expose
-    var dfgFirstName : String ?="" ,
+    var dfgFirstName : String ?="",
 
     @SerializedName("dfg_last_name")
     @Expose
-    var dfgLastName : String ?="" ,
+    var dfgLastName : String ?="",
 
     @SerializedName("dfg_phone")
     @Expose
-    var dfgPhone : String ?="" ,
+    var dfgPhone : String ?="",
 
     @SerializedName("failed")
     @Expose
-    var failed :Boolean?=false ,
+    var failed :Boolean?=false,
 
     @SerializedName("payment_status")
     @Expose
-    var paymentStatus : String ?="" ,
+    var paymentStatus : String ?="",
 
     @SerializedName("type")
     @Expose
-    var type : String ?="" ,
+    var type : String ?="",
 
     @SerializedName("type_id")
     @Expose
-    var typeId : Int  ?=0 ,
+    var typeId : Int  ?=0,
 
     @SerializedName("addresses")
     @Expose
     var addresses : ArrayList<Address> = arrayListOf()
- ,
+    ,
 
     @SerializedName("shipping_address_building")
     @Expose
-    var shipping_address_building : String ?="" ,
+    var shipping_address_building : String ?="",
     @SerializedName("shipping_address_description")
     @Expose
-    var shipping_address_description : String ?="" ,
+    var shipping_address_description : String ?="",
     @SerializedName("shipping_address_floor")
     @Expose
-    var shipping_address_floor : String ?="" ,
+    var shipping_address_floor : String ?="",
     @SerializedName("shipping_address_latitude")
     @Expose
-    var shipping_address_latitude : String ?="" ,
+    var shipping_address_latitude : String ?="",
     @SerializedName("shipping_address_longitude")
     @Expose
-    var shipping_address_longitude : String ?="" ,
+    var shipping_address_longitude : String ?="",
     @SerializedName("shipping_address_name")
     @Expose
-    var shipping_address_name : String ?="" ,
-    @SerializedName("shipping_address_street")
+    var shipping_address_name : String ?="",
+    @SerializedName("shipping_street")
     @Expose
-    var shipping_address_street : String ?="" ,
+    var shipping_address_street : String ?="",
 
 
     @SerializedName("shipping_email")
     @Expose
-    var shipping_email : String ?="" ,
+    var shipping_email : String ?="",
     @SerializedName("shipping_first_name")
     @Expose
-    var shipping_first_name : String ?="" ,
+    var shipping_first_name : String ?="",
     @SerializedName("shipping_last_name")
     @Expose
-    var shipping_last_name : String ?="" ,
+    var shipping_last_name : String ?="",
 
     @SerializedName("shipping_phone")
     @Expose
-    var shipping_phone : String ?="" ,
+    var shipping_phone : String ?="",
 
 
     @SerializedName("vendor_rate")
@@ -252,31 +264,31 @@ class ResponseOrders(
 
     @SerializedName("old_total")
     @Expose
-    var oldTotal : String ?="" ,
+    var oldTotal : String ?="",
 
     @SerializedName("coupon_code")
     @Expose
-    var couponCode : String ?="" ,
+    var couponCode : String ?="",
 
     @SerializedName("discount_amount")
     @Expose
-    var discountAmount : String ?="" ,
+    var discountAmount : String ?="",
 
     @SerializedName("discount_type")
     @Expose
-    var discounType : String ?="" ,
+    var discounType : String ?="",
 
     @SerializedName("total_discount_amount")
     @Expose
-    var totalDiscountAmount : String ?="" ,
+    var totalDiscountAmount : String ?="",
 
     @SerializedName("types_id")
     @Expose
-    var typesId : Int   ?=0 ,
+    var typesId : Int   ?=0,
 
     @SerializedName("size-capacity_id")
     @Expose
-    var sizeCapacityId : Int ?=0 ,
+    var sizeCapacityId : Int ?=0,
 
     var done : Boolean = false
 

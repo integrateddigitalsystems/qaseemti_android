@@ -26,7 +26,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
 
-class FragmentMyServices : Fragment(), RVOnItemClickListener {
+class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
 
     var array: ArrayList<ResponseService> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,11 +110,23 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
         btAdd.onOneClick {
             //  if(MyApplication.userStatus!!.online!=0){
 
-            if(MyApplication.selectedUser!!.active == 1) {
+            loading.show()
+            /*if(MyApplication.selectedUser!!.active==1) {
+                requireActivity().startActivity(
+                    Intent(
+                        requireActivity(),
+                        ActivityServiceInformation::class.java
+                    )
+                )
                 MyApplication.isEditService=false
+            }else*/
+                CallAPIs.getUserInfo( requireActivity(),this)
+
+          /*  if(MyApplication.selectedUser!!.active == 1) {
+
                 startActivity(Intent(requireActivity(), ActivityServiceInformation::class.java))
             } else
-                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("inactive_user_msg",requireContext()))
+                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("inactive_user_msg",requireContext()))*/
 
             //  }
 
@@ -147,6 +159,15 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener {
         MyApplication.isEditService=true
         logw("SERVICE_ID",MyApplication.selectedService!!.id.toString())
         startActivity(Intent(requireContext(), ActivityServiceInformation::class.java))
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+        loading.hide()
+        if(MyApplication.selectedUser!!.active == 1) {
+            startActivity(Intent(requireContext(), ActivityServiceInformation::class.java))
+            MyApplication.isEditService=false
+        }else
+            AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("inactive_user_msg",requireActivity()))
     }
 
 

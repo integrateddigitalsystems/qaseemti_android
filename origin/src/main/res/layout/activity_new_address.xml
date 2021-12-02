@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/gray_bg"
     android:id="@+id/rootLayout"
@@ -22,6 +24,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
+        android:windowSoftInputMode="adjustResize"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingStart="@dimen/margin_start_end"
@@ -54,6 +57,7 @@
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
                 android:id="@+id/etAddressName"
+                android:inputType="text"
                 android:maxLines="1"
                 android:layout_marginTop="@dimen/margin_start_end"
                 android:hint="@string/AddressName"
@@ -64,7 +68,37 @@
                 />
 
 
+            <RelativeLayout
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@drawable/rounded_white_background">
+
+                <Spinner
+                    android:id="@+id/spProvince"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toStartOf="@id/ivArrowProvince"
+                    android:background="@color/transparent"
+                    android:overlapAnchor="false" />
+
+                <ImageView
+                    android:layout_marginEnd="@dimen/first_margin"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_width="@dimen/small_icon"
+                    android:id="@+id/ivArrowProvince"
+                    android:layout_height="@dimen/small_icon"
+                    android:src="@drawable/arrow_down"
+                    tools:ignore="UseAppTint"
+                    android:tint="@color/gray_font_title"
+                    app:tint="@color/gray_font_title"/>
+
+            </RelativeLayout>
+
             <EditText
+                android:inputType="text"
+                android:visibility="gone"
                 android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:minHeight="@dimen/edit_text_height"
@@ -90,6 +124,7 @@
                 android:textAllCaps="false"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_gravity="center_vertical"
+                android:inputType="text"
                 android:gravity="center_vertical"
                 android:background="@color/transparent"
                 android:textColor="@color/gray_font_light"
@@ -105,8 +140,10 @@
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/normal_margin"
+                android:maxLines="1"
                 android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/Street"
+                android:inputType="text"
                 android:id="@+id/etStreet"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="Street"
@@ -120,9 +157,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
+                android:maxLines="1"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
+                android:inputType="text"
                 android:hint="@string/Area"
                 android:id="@+id/etArea"
                 android:textColorHint="@color/gray_medium_2"
@@ -139,7 +178,9 @@
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
+                android:maxLines="1"
                 android:hint="@string/Building"
+                android:inputType="text"
                 android:id="@+id/etBuilding"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="Building"
@@ -154,11 +195,13 @@
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/normal_margin"
+                android:maxLines="1"
                 android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/Block"
                 android:id="@+id/etBlock"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="Block"
+                android:inputType="text"
                 android:textSize="@dimen/normal_font"
                 android:background="@drawable/rounded_white_background"
                 />
@@ -169,7 +212,9 @@
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
+                android:maxLines="1"
                 android:paddingStart="@dimen/normal_margin"
+                android:inputType="text"
                 android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/Floor"
                 android:id="@+id/etFloor"
@@ -183,7 +228,9 @@
                 android:textAlignment="viewStart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
+                android:maxLines="1"
                 android:textColor="@color/gray_font"
+                android:inputType="text"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
@@ -204,8 +251,10 @@
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/normal_margin"
+                android:maxLines="1"
                 android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/Apartment"
+                android:inputType="text"
                 android:id="@+id/etApartment"
                 android:textColorHint="@color/gray_medium_2"
                 android:tag="Apartment"
@@ -234,6 +283,32 @@
 
 
 
+            <Button
+                android:layout_marginBottom="@dimen/normal_margin"
+                android:id="@+id/btSaveAddress"
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_width="match_parent"
+                android:text="@string/SaveMyAddress"
+                android:textColor="@color/white"
+                android:tag="SaveMyAddress"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@drawable/blue_rounded"/>
+
+
+            <Button
+                android:id="@+id/btOnlyOnce"
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:layout_width="match_parent"
+                android:text="@string/UseOnce"
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:textColor="@color/primary"
+                android:tag="UseOnce"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@color/transparent"/>
+
 
 
 
@@ -244,31 +319,6 @@
 
 
 
-    <Button
-        android:layout_marginBottom="@dimen/normal_margin"
-        android:id="@+id/btSaveAddress"
-        android:layout_marginStart="@dimen/margin_start_end"
-        android:layout_marginEnd="@dimen/margin_start_end"
-        android:layout_marginTop="@dimen/medium_margin"
-        android:layout_width="match_parent"
-        android:text="@string/SaveMyAddress"
-        android:textColor="@color/white"
-        android:tag="SaveMyAddress"
-        android:layout_height="@dimen/edit_text_height"
-        android:background="@drawable/blue_rounded"/>
-
-
-    <Button
-        android:id="@+id/btOnlyOnce"
-        android:layout_marginStart="@dimen/margin_start_end"
-        android:layout_marginEnd="@dimen/margin_start_end"
-        android:layout_width="match_parent"
-        android:text="@string/UseOnce"
-        android:layout_marginBottom="@dimen/medium_margin"
-        android:textColor="@color/primary"
-        android:tag="UseOnce"
-        android:layout_height="@dimen/edit_text_height"
-        android:background="@color/transparent"/>
 
 
         </LinearLayout>

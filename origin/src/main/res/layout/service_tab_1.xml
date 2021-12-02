@@ -123,32 +123,32 @@
         android:tag="type"
         />
 
-    <RelativeLayout
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/edit_text_height"
-        android:background="@drawable/rounded_white_background">
-
-        <Spinner
-            android:id="@+id/spType"
+        <RelativeLayout
+            android:layout_marginTop="@dimen/small_margin"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overlapAnchor="false"
-            android:background="@color/transparent"
-            />
+            android:layout_height="@dimen/edit_text_height"
+            android:background="@drawable/rounded_white_background">
 
-        <ImageView
-            android:layout_marginEnd="@dimen/first_margin"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_width="@dimen/small_icon"
-            android:layout_height="@dimen/small_icon"
-            android:src="@drawable/arrow_down"
-            tools:ignore="UseAppTint"
-            android:tint="@color/gray_font_title"
-            app:tint="@color/gray_font_title"/>
+            <Spinner
+                android:id="@+id/spType"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overlapAnchor="false"
+                android:background="@color/transparent"
+                />
 
-    </RelativeLayout>
+            <ImageView
+                android:layout_marginEnd="@dimen/first_margin"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/small_icon"
+                android:layout_height="@dimen/small_icon"
+                android:src="@drawable/arrow_down"
+                tools:ignore="UseAppTint"
+                android:tint="@color/gray_font_title"
+                app:tint="@color/gray_font_title"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

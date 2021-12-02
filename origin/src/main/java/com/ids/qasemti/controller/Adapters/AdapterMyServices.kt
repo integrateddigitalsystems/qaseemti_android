@@ -42,7 +42,7 @@ class AdapterMyServices(
             if(!items.get(position).variations[0].sizeCapacity.isNullOrEmpty())
                 holder.quantity.text = items.get(position).variations[0].sizeCapacity.toString()
             else
-                holder.quantity.text = ""
+                holder.quantity.text = "55"
         }catch (ex:Exception){
             holder.quantity.text = ""
         }

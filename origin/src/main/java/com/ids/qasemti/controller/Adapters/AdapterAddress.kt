@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.model.ResponseAddress
+import com.ids.qasemti.utils.AppHelper
 
 import java.util.ArrayList
 
@@ -29,7 +30,7 @@ class AdapterAddress(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
         holder.tvAddressTitle.text = items[position].addressName
-        if(!items[position].desc.equals("null")&&!items[position].desc.isNullOrEmpty()){
+        /*if(!items[position].desc.equals("null")&&!items[position].desc.isNullOrEmpty()){
             holder.tvAddressBody.text = items[position].desc
         }
         if(!items[position].street.equals("null")&&!items[position].street.isNullOrEmpty()){
@@ -40,7 +41,8 @@ class AdapterAddress(
         }
         if(!items[position].floor.equals("null")&&!items[position].floor.isNullOrEmpty()){
             holder.tvAddressBody.text =  holder.tvAddressBody.text.toString()+","+items[position].floor
-        }
+        }*/
+        holder.tvAddressBody.text = AppHelper.getAddressText(items[position])
 
     }
 

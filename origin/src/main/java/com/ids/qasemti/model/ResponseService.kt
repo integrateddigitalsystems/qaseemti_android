@@ -66,6 +66,10 @@ class ResponseService(
     @Expose
     var variations : ArrayList<ServiceVariation> = arrayListOf() ,
 
+    @SerializedName("gallery")
+    @Expose
+    var gallery : ArrayList<GalleryItem> = arrayListOf() ,
+
 
     @SerializedName("gallery_of_images")
     @Expose

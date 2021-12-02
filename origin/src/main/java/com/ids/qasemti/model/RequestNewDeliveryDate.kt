@@ -11,6 +11,10 @@ class RequestNewDeliveryDate(
 
     @SerializedName("new_delivery_date")
     @Expose
-    var new_delivery_date : String ?=""
+    var new_delivery_date : String ?="" ,
+
+    @SerializedName("language")
+    @Expose
+    var lang : String ?=""
 ) {
 }
