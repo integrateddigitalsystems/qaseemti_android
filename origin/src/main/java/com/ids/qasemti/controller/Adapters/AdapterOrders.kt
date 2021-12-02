@@ -47,7 +47,7 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
         try{holder.category.text = items.get(position).product!!.name}catch (e:Exception){}
 
         if(!items.get(position).product!!.types.isNullOrEmpty())
-            holder.category.text = holder.category.text.toString() + " ("+items.get(position).product!!.types+ ")"
+            holder.category.text = holder.category.text.toString() /*+ " ("+items.get(position).product!!.types+ ")"*/
 
         try{holder.expected.text = if(!items[position].deliveryDate!!.isEmpty()){
              items[position].deliveryDate
@@ -57,7 +57,7 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
             holder.expected.text = AppHelper.getRemoteString("no_data",con)
         }
         try{holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-mm-dd hh:mm:ssss","dd MMM yyyy hh:mm")}catch (e:Exception){}
-        try{holder.tvLocation.text = AppHelper.addressFromOrder(items.get(position),con)}catch (e:Exception){
+        try{holder.tvLocation.text = AppHelper.addressFromOrder(items.get(position),1,con)}catch (e:Exception){
             holder.tvLocation.text = AppHelper.getRemoteString("no_data",con)
         }
         if(holder.tvLocation.text.isNullOrEmpty())

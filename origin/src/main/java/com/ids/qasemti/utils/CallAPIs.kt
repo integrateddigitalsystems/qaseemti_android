@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.gson.Gson
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
@@ -115,17 +116,19 @@ class CallAPIs {
         }
 
         fun getAddressName(
-            locationLatLng : String ,
+            locationLatLng : LatLng ,
             con : Context ,
             listener : ApiListener
         ){
             /*var latLng = LatLng(33.872525264390575, 35.49364099233594)*/
+            var latLngStr = locationLatLng.latitude.toString() + ","+locationLatLng.longitude.toString()
             RetroFitMap2.client?.create(RetrofitInterface::class.java)
-                ?.getLocationNames(locationLatLng,con.getString(R.string.googleKey),true,MyApplication.languageCode)?.enqueue(object : Callback<ResponseGeoAddress> {
+                ?.getLocationNames(latLngStr,con.getString(R.string.googleKey),true,MyApplication.languageCode)?.enqueue(object : Callback<ResponseGeoAddress> {
                     override fun onResponse(
                         call: Call<ResponseGeoAddress>,
                         response: Response<ResponseGeoAddress>
                     ) {
+                        MyApplication.selectedLatLngCall = locationLatLng
                         try {
                             listener.onDataRetrieved(
                                 true,
@@ -513,10 +516,17 @@ class CallAPIs {
                         appVersion.toString(),
                         0,
                         lang,
-                        MyApplication.userId,
-                        isService
+                        MyApplication.userId
                     )
 
+                    if(MyApplication.isClient){
+                        newReq.is_client = 1
+                    }else{
+                        newReq.isServiceProvider = 1
+                    }
+
+                    var jsonString = Gson().toJson(newReq)
+                    logw("UPDATE_JSON",jsonString)
 
                     RetrofitClient.client?.create(RetrofitInterface::class.java)
                         ?.updateDevice(

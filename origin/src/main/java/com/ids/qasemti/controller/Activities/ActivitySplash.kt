@@ -74,7 +74,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
         //  openDialog()
-        CallAPIs.getAddressName("33.59608186012923,35.39359968155622",this,this)
+        //CallAPIs.getAddressName("33.59608186012923,35.39359968155622",this,this)
 
 
 

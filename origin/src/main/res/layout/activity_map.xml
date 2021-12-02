@@ -103,17 +103,17 @@
         </LinearLayout>
 
         <Button
-            android:layout_marginBottom="@dimen/normal_icon_size"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_marginStart="@dimen/margin_start_end"
             android:id="@+id/btSavePosition"
-            android:layout_marginEnd="@dimen/margin_start_end"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:layout_marginBottom="@dimen/normal_icon_size"
             android:background="@drawable/blue_rounded"
-            android:textColor="@color/white"
+            android:tag="save"
             android:text="@string/save"
-            android:tag="save"/>
+            android:textColor="@color/white" />
 
 
         <androidx.recyclerview.widget.RecyclerView

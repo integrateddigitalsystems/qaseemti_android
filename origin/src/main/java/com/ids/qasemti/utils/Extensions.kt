@@ -21,6 +21,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Fragments.FragmentHomeClient
+import com.ids.qasemti.controller.Fragments.FragmentServiceDetails
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppHelper.Companion.setInEnglish
 import java.io.File
@@ -172,9 +174,17 @@ fun Any.replaceFragment(
     }
     MyApplication.selectedFragmentTag = myTag
     MyApplication.selectedFragment = myFragment
-    fragmentManager.beginTransaction()
-        .replace(container, myFragment, myTag)
-        .commit()
+
+    if(myTag == AppConstants.FRAGMENT_SERVICE_DETAILS){
+        fragmentManager.beginTransaction()
+            .replace(container, FragmentHomeClient(), AppConstants.FRAGMENT_HOME_CLIENT)
+            .commit()
+        addFragment(container,fragmentManager,myFragment,myTag)
+    }else{
+        fragmentManager.beginTransaction()
+            .replace(container, myFragment, myTag)
+            .commit()
+    }
 }
 /**
  * Used for Images Loading

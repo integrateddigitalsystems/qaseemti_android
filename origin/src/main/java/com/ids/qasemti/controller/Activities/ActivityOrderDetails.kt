@@ -441,13 +441,17 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
         rvDataBorder.adapter = AdapterOrderData(array, this, this)
 
         try {
-           tvLocationOrderDeatils.text = AppHelper.addressFromOrder(MyApplication.selectedOrder!!,this)
+           tvLocationOrderDeatils.text = AppHelper.addressFromOrder(MyApplication.selectedOrder!!,1,this)
         } catch (e: Exception) {
             tvLocationOrderDeatils.text = AppHelper.getRemoteString("no_data",this)
         }
         try {
+            if(!MyApplication.isClient)
             tvOrderCustomerName.text =
                 MyApplication.selectedOrder!!.customer!!.first_name + " " + MyApplication.selectedOrder!!.customer!!.last_name
+            else
+                tvOrderCustomerName.text =
+                    MyApplication.selectedOrder!!.vendor!!.firstName + " " + MyApplication.selectedOrder!!.vendor!!.lastName
         } catch (e: Exception) {
         }
         try {

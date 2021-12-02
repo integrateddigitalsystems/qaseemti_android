@@ -42,6 +42,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.CountryArray
+import com.ids.qasemti.model.ResponseGeoAddress
 import com.ids.qasemti.model.ResponseNominatim
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
@@ -66,8 +67,11 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
     var adapter: AdapterMapLocations? = null
     var dialog: Dialog? = null
     var send = 0
+    var fromIntent : Boolean = false
     var google : GoogleMap ?=null
     var firstTime: Boolean? = true
+    var toAdd : Boolean = false
+    var forCurr : Boolean ?= false
     var clearFlag = false
     var Loading: LinearLayout? = null
     var arrayMapLocs: ArrayList<ResponseNominatim> = arrayListOf()
@@ -258,27 +262,18 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
                     }
                     resultLauncher!!.launch(Intent(this, ActivityAddNewAddress::class.java))
                 } else {
-                    val intent = Intent()
-                    intent.putExtra("lat", latLng!!.latitude)
-                    intent.putExtra("long", latLng!!.longitude)
-                    intent.putExtra(
-                        "address",
-                        AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
-                    )
-                    setResult(RESULT_OK, intent)
-                    finish()
+                    fromIntent = true
+                    forCurr = false
+                    toAdd = false
+                    CallAPIs.getAddressName(latLng!!,this,this)
+
                 }
             } else {
+                fromIntent = false
+                forCurr = false
+                toAdd = true
+                CallAPIs.getAddressName(latLng!!,this,this)
 
-                startActivity(
-                    Intent(this, ActivityAddNewAddress::class.java)
-                        .putExtra("lat", latLng!!.latitude)
-                        .putExtra("long", latLng!!.longitude)
-                        .putExtra(
-                            "address",
-                            AppHelper.getAddress(latLng!!.latitude, latLng!!.longitude, this)
-                        )
-                )
 
 
             }
@@ -408,7 +403,13 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
 
                     if (firstTime!!) {
                         var addressStr : String ?=""
-                        Thread{
+                        forCurr = true
+                        fromIntent = false
+                        toAdd = false
+                        loading.show()
+                        CallAPIs.getAddressName(latLng!! , this@ActivityMapAddress , this@ActivityMapAddress)
+
+                        /*Thread{
 
                             var address : Address?=null
                             try {
@@ -426,7 +427,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
                                 MyApplication.selectedCurrentAddress = address
 
                             }
-                        }.start()
+                        }.start()*/
 
                         startLatLng = LatLng(location.latitude,location.longitude)
                         setUpMap()
@@ -496,11 +497,15 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
 
         google!!.setOnMapClickListener {
             google!!.moveCamera(CameraUpdateFactory.newLatLng(it))
+            latLng = LatLng(it.latitude,it.longitude)
             val marker = MarkerOptions()
             marker.position(it)
-
             loading.show()
-            Thread{
+            forCurr = false
+            fromIntent = false
+            toAdd = false
+            CallAPIs.getAddressName(latLng!!,this,this)
+            /*Thread{
 
                 var addressStr = ""
                 try {
@@ -517,7 +522,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
                     etMapSearch.text = addressStr.toEditable()
                     loading.hide()
                 }
-            }.start()
+            }.start()*/
 
             google!!.clear()
             google!!.addMarker(marker)
@@ -528,7 +533,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
 
     override fun onMapReady(googleMap: GoogleMap) {
         gmap = googleMap
-        gmap!!.setMinZoomPreference(10f)
+        gmap!!.setMinZoomPreference(9f)
 
         if (!seeOnly) {
             google = gmap
@@ -606,10 +611,44 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        arrayMapLocs.clear()
-        arrayMapLocs.addAll(response as ArrayList<ResponseNominatim>)
 
-        setData()
+        if(apiId == AppConstants.ADDRESS_GEO){
+            var addr = AppHelper.getAddressNames(response as ResponseGeoAddress)
+            var str = AppHelper.getAddressText(addr)
+            if(toAdd){
+                toAdd = false
+                startActivity(
+                    Intent(this, ActivityAddNewAddress::class.java)
+                        .putExtra("lat",MyApplication.selectedLatLngCall!!.latitude)
+                        .putExtra("long", MyApplication.selectedLatLngCall!!.longitude)
+                        .putExtra(
+                            "address",
+                            str
+                        )
+                )
+            }else if(fromIntent){
+                fromIntent = false
+                val intent = Intent()
+                intent.putExtra("lat", MyApplication.selectedLatLngCall!!.latitude)
+                intent.putExtra("long",MyApplication.selectedLatLngCall!!.longitude)
+                intent.putExtra(
+                    "address",
+                    str
+                )
+                setResult(RESULT_OK, intent)
+                finish()
+            } else if(forCurr!!) {
+                MyApplication.selectedCurrentAddress = addr
+                forCurr = false
+            }
+            etMapSearch.text = str.toEditable()
+            loading.hide()
+        }else {
+            arrayMapLocs.clear()
+            arrayMapLocs.addAll(response as ArrayList<ResponseNominatim>)
+
+            setData()
+        }
 
 
     }

@@ -142,7 +142,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                                 try {
                                   // setPlacedOrder()
                                     if(MyApplication.selectedAddress ==null )
-                                        CallAPIs.getAddressName(latLng!!.latitude.toString()+","+latLng!!.longitude.toString(),this,this)
+                                        CallAPIs.getAddressName(latLng!!,this,this)
                                     else
                                         setPlacedOrder()
 
@@ -166,7 +166,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                         if (MyApplication.selectedUser != null) {
                             try {
                                 if(MyApplication.selectedAddress ==null )
-                                    CallAPIs.getAddressName(latLng!!.latitude.toString()+","+latLng!!.longitude.toString(),this,this)
+                                    CallAPIs.getAddressName(latLng!!,this,this)
                                 else
                                     setPlacedOrder()
                             } catch (e: Exception) {
@@ -975,7 +975,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         } else {
             if (success) {
                 if(MyApplication.selectedAddress ==null )
-                    CallAPIs.getAddressName(latLng!!.latitude.toString()+","+latLng!!.longitude.toString(),this,this)
+                    CallAPIs.getAddressName(latLng!!,this,this)
                 else
                     setPlacedOrder()
             } else {

@@ -2,6 +2,7 @@ package com.ids.qasemti.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import retrofit2.Response
 
 class OrderVendor(
     @SerializedName("altr_numb")
@@ -90,6 +91,10 @@ class OrderVendor(
 
     @SerializedName("type")
     @Expose
-    var type : String ?=""
+    var type : String ?="" ,
+
+    @SerializedName("addresses")
+    @Expose
+    var addresses : ArrayList<ResponseAddress> = arrayListOf()
 ) {
 }

@@ -189,7 +189,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
     }
 
     fun setUpData(ll: LatLng) {
-        CallAPIs.getAddressName(ll.latitude.toString() + "," + ll.longitude, this, this)
+        CallAPIs.getAddressName(ll, this, this)
         /* var address: Address? = null
          Thread {
              try {
@@ -263,11 +263,11 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
         try {
             etAvenue.text = address!!.avenue!!.toEditable()
         } catch (ex: Exception) {
-            etBuilding.text.clear()
+            etAvenue.text.clear()
         }
         var indx = 0
         indx = arraySpinner.indexOf(arraySpinner.find {
-            it.name.equals(address!!.province)
+            it.name!!.contains(address!!.province!!) || address!!.province!!.contains(it.name!!)
         })
         spProvince.setSelection(indx)
 
@@ -323,7 +323,10 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
                 position: Int,
                 id: Long
             ) {
-                selectedProvince = arraySpinner.get(position).name
+                if(position==0)
+                    selectedProvince = ""
+                else
+                    selectedProvince = arraySpinner.get(position).name
 
             }
 
@@ -341,8 +344,9 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
     }
 
     private fun init() {
-        val lat = MyApplication.latSelected
-        val long = MyApplication.longSelected
+        val lat = MyApplication.selectedLatLngCall!!.latitude
+        val long = MyApplication.selectedLatLngCall!!.longitude
+        latlng = LatLng(lat,long)
         btDrawer.hide()
         btBackTool.show()
         try {
@@ -370,8 +374,9 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
                 if (from.equals("current")) {
                     setUpData(
                         LatLng(
-                            MyApplication.selectedCurrentAddress!!.latitude,
-                            MyApplication.selectedCurrentAddress!!.longitude
+                            MyApplication.selectedCurrentAddress!!.lat!!.toDouble(),
+                            MyApplication.selectedCurrentAddress!!.long!!.toDouble()
+
                         )
                     )
                     btSaveAddress.text = AppHelper.getRemoteString("select_address", this)
@@ -391,7 +396,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
                     long = intent.extras!!.getDouble("long", 0.0)
                 } catch (e: Exception) {
                 }
-                latlng = LatLng(lat, long)
+                latlng = LatLng(MyApplication.selectedLatLngCall!!.latitude, MyApplication.selectedLatLngCall!!.longitude)
                 setUpData(latlng!!)
             }
 

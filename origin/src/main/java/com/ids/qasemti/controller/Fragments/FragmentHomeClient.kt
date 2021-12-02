@@ -108,6 +108,8 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
             (activity as ActivityHome?)!!.showLogout(false)
         }
 
+
+
         btRegisterLogin.onOneClick {
             (activity as ActivityHome)!!.goRegistration(
                 2,
@@ -486,6 +488,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
                 }
             }
 
+
         }catch (ex:Exception){}
 
         if(isTimer){
@@ -496,6 +499,11 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
 
     override fun onResume() {
         super.onResume()
+        if(MyApplication.selectedFragmentTag==AppConstants.FRAGMENT_SERVICE_DETAILS){
+            logw("nothing","nothing Happens")
+        }else{
+            AppHelper.setTitle(requireActivity(),"", "Services",R.color.white)
+        }
         timer!!.start()
     }
 

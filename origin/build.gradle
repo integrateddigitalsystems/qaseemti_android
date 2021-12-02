@@ -142,6 +142,7 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.13'
     implementation 'com.github.dhaval2404:imagepicker:2.1'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.13.0'
 
 
     implementation "io.grpc:grpc-okhttp:1.32.2"

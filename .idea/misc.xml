@@ -3,13 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_map.xml" value="0.12083333333333333" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_new_address.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_order_details.xml" value="0.171875" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_register.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_select_address.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_services.xml" value="0.18854166666666666" />
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_order_not_cancelled.xml" value="0.33528550512445093" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_service_details.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_order_not_cancelled.xml" value="0.9" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_orders.xml" value="0.9" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_order_contact_tab.xml" value="0.75" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_profile.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_request_new_time.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/toolbar.xml" value="0.171875" />
       </map>
     </option>
   </component>

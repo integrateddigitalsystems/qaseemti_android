@@ -861,12 +861,12 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     }
 
-    fun succUpdate(res: Int) {
-        if (res == 1) {
+    fun succUpdate(res: ResponseUser) {
+        if (res.result == 1) {
             AppHelper.createDialog(
                 requireActivity(),
-                AppHelper.getRemoteString("successfully_updated", requireContext())
-            ){
+                AppHelper.getRemoteString("successfully_updated",requireContext()))
+            {
                 requireActivity().onBackPressed()
             }
             loading.hide()
@@ -874,8 +874,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         } else {
             AppHelper.createDialog(
                 requireActivity(),
-                AppHelper.getRemoteString("update_error", requireContext())
-            )
+                res.message!!)
+
+            loading.hide()
         }
     }
 
@@ -958,7 +959,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 ) {
                     try {
                         loading.hide()
-                        succUpdate(response.body()!!.result!!)
+                        succUpdate(response.body()!!)
                     } catch (E: java.lang.Exception) {
                         loading.hide()
                     }
@@ -1206,8 +1207,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 if (extras != null) {
                     lat = extras.getDouble("lat")
                     long = extras.getDouble("long")
-                    etAddressProfile.text = Editable.Factory.getInstance()
-                        .newEditable(AppHelper.getAddress(lat!!, long!!, requireContext()))
+                    /*etAddressProfile.text = Editable.Factory.getInstance()
+                        .newEditable(AppHelper.getAddress(lat!!, long!!, requireContext()))*/
                 }
 
             }
@@ -1354,7 +1355,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     response: Response<ResponseUser>
                 ) {
                     try {
-                        succUpdate(response.body()!!.result!!)
+                        succUpdate(response.body()!!)
                     } catch (E: java.lang.Exception) {
                         loading.hide()
                     }
@@ -1375,7 +1376,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         var res = response as ResponseUser
         selectedProfilePic = null
         selectedFile = null
-        succUpdate(res.result!!)
+        succUpdate(res)
     }
 
 

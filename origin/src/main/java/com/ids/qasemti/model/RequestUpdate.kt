@@ -1,5 +1,6 @@
 package com.ids.qasemti.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -38,11 +39,13 @@ class RequestUpdate(
     @Expose
     var language : String ?="",
     @SerializedName("user_id")
-    @Expose
     var userId : Int ?=0,
     @SerializedName("is_service_provider")
-    @Expose
-    var isServiceProvider : Int ?=0
+    @JsonIgnore
+    var  isServiceProvider : Int ?=null  ,
+    @SerializedName("is_client")
+    @JsonIgnore
+    var is_client : Int ?=null
 ) {
     fun sameUpdate(req:RequestUpdate):Boolean{
         if(req.deviceId==this.deviceId && req.mobileNumber.equals(this.mobileNumber) && req.model.equals(this.model) && req.osVersion.equals(this.osVersion) && req.deviceToken.equals(this.deviceToken) && req.deviceTypeId == this.deviceTypeId && req.imei.equals(this.imei) && req.generalNotificationEnabled==this.generalNotificationEnabled&& req.applicationVersionNumber.equals(this.applicationVersionNumber) && req.badge!!.equals(this.badge) && req.language!!.equals(this.language) && req.userId==this.userId && req.isServiceProvider == this.isServiceProvider)

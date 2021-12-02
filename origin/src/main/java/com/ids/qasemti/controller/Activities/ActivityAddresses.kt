@@ -181,7 +181,8 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
                 intent.putExtra("long", array.get(position).long!!.toDouble())
                 var addr = ""
                 MyApplication.selectedAddress = array.get(position)
-                if (!array.get(position).desc.equals("null") && !array.get(position).desc.isNullOrEmpty()) {
+                addr = AppHelper.getAddressText(MyApplication.selectedAddress!!)
+                /*if (!array.get(position).desc.equals("null") && !array.get(position).desc.isNullOrEmpty()) {
                     addr = array.get(position).desc!!
                 }
                 if (!array.get(position).street.equals("null") && !array.get(position).street.isNullOrEmpty()) {
@@ -192,7 +193,7 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
                 }
                 if (!array.get(position).floor.equals("null") && !array.get(position).floor.isNullOrEmpty()) {
                     addr = addr + "," + array.get(position).floor
-                }
+                }*/
                 intent.putExtra(
                     "address",
                     addr

@@ -13,6 +13,7 @@ import android.os.Build
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ids.qasemti.R
 
@@ -90,11 +91,14 @@ class MyApplication : Application() {
         var selectedOrder : ResponseOrders?=null
         var selectedPlaceOrder : RequestPlaceOrder ?=null
         var selectedAddress : ResponseAddress ?=null
-        var selectedCurrentAddress : Address ?=null
+        var selectedCurrentAddress : ResponseAddress ?=null
         var selectedSize : Int ?=0
+        var selectedLatLngCall : LatLng ?=null
         var selectedPrice = ""
         var enableForeTracking = false
         var selectedVariationType : Int ?=0
+        var selectedNotSignedInType : Int ?= -1
+        var selectedNotSignedInSize : Int ?= -1
         var trackingActivity : Activity ?=null
         var fromOrderDetails : Boolean = false
         var showLogs: Boolean = true

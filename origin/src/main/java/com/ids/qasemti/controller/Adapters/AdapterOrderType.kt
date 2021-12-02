@@ -17,6 +17,7 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.layout_order_switch.*
+import org.w3c.dom.Text
 import java.util.*
 
 class AdapterOrderType(
@@ -58,8 +59,8 @@ class AdapterOrderType(
             holder.locationText.setColorTypeface(con,R.color.primary,items.get(position).customerLocation!!,false) }
         catch (ex:Exception){ holder.name.text = "" }
 
-        try{holder.locationText.text=AppHelper.addressFromOrder(items.get(position),con)}catch (e:Exception){
-            holder.locationText.text=AppHelper.getRemoteString("no_date",con)
+        try{holder.locationText.text=AppHelper.addressFromOrder(items.get(position),0,con)}catch (e:Exception){
+            holder.locationText.text=AppHelper.getRemoteString("no_data",con)
         }
         try{
             holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MMM yyyy hh:mm")
@@ -383,13 +384,33 @@ class AdapterOrderType(
         }
 
         try {
-            if(!items.get(position).product!!.name!!.isEmpty())
-                holder.tvServiceType.text = items.get(position).product!!.types
+            if(!items.get(position).product!!.types!!.isEmpty())
+                holder.tvServiceType.text = AppHelper.getRemoteString("category",con)  + ": " + items.get(position).product!!.types
             else
-                holder.tvServiceType.text = AppHelper.getRemoteString("no_data",con)
+                holder.tvServiceType.text =AppHelper.getRemoteString("category",con)  + ": " +AppHelper.getRemoteString("no_data",con)
 
         }catch (ex:Exception){
-            holder.tvServiceType.text = AppHelper.getRemoteString("no_data",con)
+            holder.tvServiceType.text = AppHelper.getRemoteString("category",con)  + ": "+AppHelper.getRemoteString("no_data",con)
+        }
+
+        try {
+            if(!items.get(position).product!!.sizeCapacity!!.isEmpty())
+                holder.tvServiceSize.text =  items.get(position).product!!.sizeCapacity
+            else
+                holder.tvServiceSize.text  = AppHelper.getRemoteString("no_data",con)
+
+        }catch (ex:Exception){
+            holder.tvServiceSize.text = AppHelper.getRemoteString("no_data",con)
+        }
+
+        try {
+            if(!items.get(position).product!!.type!!.isEmpty())
+                holder.tvServiceCategory.text = AppHelper.getRemoteString("category",con) + ": " + items.get(position).product!!.type
+            else
+                holder.tvServiceCategory.text =AppHelper.getRemoteString("category",con)  + ": " +AppHelper.getRemoteString("no_data",con)
+
+        }catch (ex:Exception){
+            holder.tvServiceCategory.text = AppHelper.getRemoteString("category",con)  + ": "+AppHelper.getRemoteString("no_data",con)
         }
         holder.expected.typeface = AppHelper.getTypeFaceBold(con)
         holder.cancelReasonDetails.typeface = AppHelper.getTypeFace(con)
@@ -443,6 +464,8 @@ class AdapterOrderType(
         var tvOrderDateValue = itemView.findViewById<TextView>(R.id.tvOrderDateValue)
         var tvServiceName = itemView.findViewById<TextView>(R.id.tvServiceName)
         var tvServiceType = itemView.findViewById<TextView>(R.id.tvServiceType)
+        var tvServiceCategory = itemView.findViewById<TextView>(R.id.tvCategoryOrder)
+        var tvServiceSize = itemView.findViewById<TextView>(R.id.tvServiceSize)
 
 
         init {

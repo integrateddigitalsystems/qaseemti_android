@@ -1,6 +1,7 @@
 package com.ids.qasemti.utils
 
 
+import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

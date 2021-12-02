@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.model.ResponseGeoAddress
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.activity_new_address.*
@@ -27,7 +28,7 @@ import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 
-class ActivitySelectAddress : AppCompactBase() {
+class ActivitySelectAddress : AppCompactBase() , ApiListener {
 
     var latLng: LatLng? = null
     var REQUEST_LOCATION = 1005
@@ -193,9 +194,11 @@ class ActivitySelectAddress : AppCompactBase() {
                     val lon = location.longitude
                     //toast("$lat --SLocRes-- $lon")
                     latLng = LatLng(lat, lon)
+                    loading.show()
 
 
-                    Thread {
+
+                   /* Thread {
                         var address : Address?=null
                         try {
                             val myLocation = Geocoder(this@ActivitySelectAddress, Locale.getDefault())
@@ -209,7 +212,7 @@ class ActivitySelectAddress : AppCompactBase() {
                         runOnUiThread {
                             MyApplication.selectedCurrentAddress = address
                         }
-                    }.start()
+                    }.start()*/
 
 
 
@@ -221,13 +224,10 @@ class ActivitySelectAddress : AppCompactBase() {
                     )*/
 
                      if(firstTime) {
-                         resultLauncher!!.launch(
-                             Intent(
-                                 this@ActivitySelectAddress,
-                                 ActivityAddNewAddress::class.java
-                             ).putExtra("from", "current")
-                         )
+                         var latLng = LatLng(lat,lon)
                          firstTime = false
+                         CallAPIs.getAddressName(latLng,this@ActivitySelectAddress,this@ActivitySelectAddress)
+
                      }
 
 
@@ -270,5 +270,20 @@ class ActivitySelectAddress : AppCompactBase() {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+
+        if(success) {
+
+            MyApplication.selectedCurrentAddress = AppHelper.getAddressNames(response as ResponseGeoAddress)
+            resultLauncher!!.launch(
+                Intent(
+                    this@ActivitySelectAddress,
+                    ActivityAddNewAddress::class.java
+                ).putExtra("from", "current")
+            )
+            loading.hide()
+        }
     }
 }

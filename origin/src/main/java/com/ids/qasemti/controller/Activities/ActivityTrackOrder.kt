@@ -28,6 +28,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
+import com.ids.qasemti.model.ResponseGeoAddress
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_track_order.*
 import kotlinx.android.synthetic.main.loading.*
@@ -35,7 +36,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 
 
-class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
+class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback , ApiListener{
 
     var gmap: GoogleMap? = null
     var LatLngCurr: LatLng? = null
@@ -335,11 +336,7 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
                     val lon = location.longitude
                     //toast("$lat --SLocRes-- $lon")
                     LatLngCurr = LatLng(lat, lon)
-                    MyApplication.selectedCurrentAddress = AppHelper.getAddressLoc(
-                        LatLngCurr!!.latitude,
-                        LatLngCurr!!.longitude,
-                        this@ActivityTrackOrder
-                    )
+                    CallAPIs.getAddressName( LatLngCurr!!,this@ActivityTrackOrder,this@ActivityTrackOrder)
                     try {
                         doc!!.update("order_laltitude", location.latitude.toString())
                         doc!!.update("order_longitude", location.longitude.toString())
@@ -428,6 +425,14 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback {
         }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+
+        if(success){
+            MyApplication.selectedCurrentAddress = AppHelper.getAddressNames(response as ResponseGeoAddress)
+        }
 
     }
 }

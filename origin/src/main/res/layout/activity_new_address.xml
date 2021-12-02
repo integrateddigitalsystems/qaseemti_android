@@ -75,13 +75,12 @@
                 android:background="@drawable/rounded_white_background">
 
                 <Spinner
-                    android:layout_toStartOf="@id/ivArrowProvince"
                     android:id="@+id/spProvince"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:overlapAnchor="false"
+                    android:layout_toStartOf="@id/ivArrowProvince"
                     android:background="@color/transparent"
-                    />
+                    android:overlapAnchor="false" />
 
                 <ImageView
                     android:layout_marginEnd="@dimen/first_margin"
@@ -230,6 +229,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:maxLines="1"
+                android:textColor="@color/gray_font"
                 android:inputType="text"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/normal_margin"
