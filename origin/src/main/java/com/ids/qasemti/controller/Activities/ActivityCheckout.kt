@@ -451,16 +451,28 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 from = simp.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
             }catch (ex:Exception){
                 try{
-
+                    from = simp2.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
                 }catch (ex:Exception){
-                    from = Calendar.getInstance().time
+                    try{
+                        from = simp3.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
+                    }catch (ex:Exception){
+                        from = Calendar.getInstance().time
+                    }
                 }
 
             }
             try {
-                to = simp2.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+                to = simp.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
             }catch (ex:Exception){
-                to = Calendar.getInstance().time
+                try{
+                    to = simp2.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+                }catch (ex:Exception){
+                    try{
+                        to = simp3.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+                    }catch (ex:Exception){
+                        to = Calendar.getInstance().time
+                    }
+                }
 
             }
             /* var from = simp.parse("2021-11-18")
