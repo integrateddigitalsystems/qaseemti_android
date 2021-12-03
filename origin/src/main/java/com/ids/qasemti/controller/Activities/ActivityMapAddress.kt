@@ -513,9 +513,9 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
 
     fun setUpMap(){
         latLng = startLatLng
-        google!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        google!!.moveCamera(CameraUpdateFactory.newLatLng(latLng!!))
         val markerOptions = MarkerOptions()
-        markerOptions.position(latLng)
+        markerOptions.position(latLng!!)
         google!!.addMarker(markerOptions)
 
         google!!.setOnMapClickListener {
@@ -604,7 +604,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
         } else {
             AppHelper.createDialog(this, "No location date connected to selected order")
             latLng = LatLng(33.8658486, 35.5483189)
-            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng!!))
         }
 
     }

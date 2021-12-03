@@ -190,8 +190,8 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingStart="@dimen/medium_2"
-                android:paddingEnd="@dimen/medium_2">
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin">
 
                 <ImageView
                     android:tint="@color/primary"
@@ -221,31 +221,51 @@
 
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/normal_margin"
 
                         android:orientation="vertical">
 
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
                         <com.ids.qasemti.custom.CustomTextViewBold
-                            android:id="@+id/tvCategoryOrder"
+                            android:id="@+id/tvCategoryOrderTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:tag="@string/category"
                             android:text="@string/category"
                             android:textColor="@color/gray_font_title"
-                            android:textSize="@dimen/small_font" />
+                            android:textSize="@dimen/small_font_2" />
 
 
-                        <com.ids.qasemti.custom.CustomTextViewBold
+                            <com.ids.qasemti.custom.CustomTextViewMedium
+                                android:id="@+id/tvCategoryOrder"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:tag="no_data"
+                                android:text="@string/no_data"
+                                android:textColor="@color/gray_font"
+                                android:textSize="@dimen/small_font_2"
+                                />
+
+
+                        </LinearLayout>
+
+
+                        <me.grantland.widget.AutofitTextView
                             android:id="@+id/tvServiceName"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
+                            android:maxLines="2"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/gray_font"
+                            android:textColor="@color/gray_font_title"
                             android:text="@string/no_data"
                             android:tag="@string/no_data"
-                            android:textSize="@dimen/small_font" />
+                            android:textSize="@dimen/small_font_3" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -272,32 +292,59 @@
 
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/normal_margin"
 
                         android:orientation="vertical">
 
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.ids.qasemti.custom.CustomTextViewBold
+                                android:id="@+id/tvServiceTypeTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/type"
+                                android:tag="type"
+                                android:textColor="@color/gray_font_title"
+                                android:textSize="@dimen/small_font_2" />
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:id="@+id/tvServiceType"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:maxLines="1"
-                            android:tag="category"
-                            android:text="@string/category"
-                            android:textColor="@color/gray_font_title"
-                            android:textSize="@dimen/small_font"
+                            android:tag="no_data"
+                            android:text="@string/no_data"
+                            android:textColor="@color/gray_font"
+                            android:textSize="@dimen/small_font_2"
                             />
-
+                        </LinearLayout>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <com.ids.qasemti.custom.CustomTextViewBold
+                                android:id="@+id/tvServiceSizeTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/SizeCapacity"
+                                android:tag="SizeCapacity"
+                                android:textColor="@color/gray_font_title"
+                                android:textSize="@dimen/small_font_2" />
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:id="@+id/tvServiceSize"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/no_data"
                             android:tag="@string/no_data"
+                            android:maxLines="1"
                             android:textColor="@color/gray_font"
-                            android:textSize="@dimen/small_font" />
+                            android:textSize="@dimen/small_font_2" />
+                        </LinearLayout>
 
                     </LinearLayout>
                 </LinearLayout>

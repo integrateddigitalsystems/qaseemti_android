@@ -182,9 +182,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             selectedProvince = ""
             val adapterProvince =
                 AdapterGeneralSpinner(requireContext(), R.layout.spinner_layout, arraySpinner, 0)
-            spProvince.adapter = adapterProvince
+            spProvinceProfile.adapter = adapterProvince
             adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
-            spProvince.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        spProvinceProfile.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>,
                     view: View,
@@ -205,6 +205,17 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 it.id.toString() == user!!.bankId!!
             }))*/
 
+        spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
+            it.id.toString() == user!!.bankId!!
+        }))
+        selectedProvince = user.addresses!!.get(0).province
+        spProvinceProfile.setSelection(
+            arraySpinner.indexOf(
+                arraySpinner.find {
+                    it.name.equals(selectedProvince)
+                }
+            )
+        )
 
         loading.hide()
     }

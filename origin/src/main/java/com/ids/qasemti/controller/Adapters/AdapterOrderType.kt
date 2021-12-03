@@ -385,35 +385,36 @@ class AdapterOrderType(
 
         try {
             if(!items.get(position).product!!.types!!.isEmpty())
-                holder.tvServiceType.text = AppHelper.getRemoteString("type",con)  + ": " + items.get(position).product!!.types
+                holder.tvServiceType.text = ": " + items.get(position).product!!.types
             else
-                holder.tvServiceType.text =AppHelper.getRemoteString("type",con)  + ": " +AppHelper.getRemoteString("no_data",con)
+                holder.tvServiceType.text =": " +AppHelper.getRemoteString("no_data",con)
 
         }catch (ex:Exception){
-            holder.tvServiceType.text = AppHelper.getRemoteString("type",con)  + ": "+AppHelper.getRemoteString("no_data",con)
+            holder.tvServiceType.text = ": "+AppHelper.getRemoteString("no_data",con)
         }
 
         try {
             if(!items.get(position).product!!.sizeCapacity!!.isEmpty())
-                holder.tvServiceSize.text =  AppHelper.getRemoteString("SizeCapacity",con) + ": "+items.get(position).product!!.sizeCapacity
+                holder.tvServiceSize.text =  ": "+items.get(position).product!!.sizeCapacity
             else
-                holder.tvServiceSize.text =  AppHelper.getRemoteString("SizeCapacity",con)+ ": "+  AppHelper.getRemoteString("no_data",con)
+                holder.tvServiceSize.text =  ": "+  AppHelper.getRemoteString("no_data",con)
 
         }catch (ex:Exception){
-            holder.tvServiceSize.text =AppHelper.getRemoteString("SizeCapacity",con)+ ": "+AppHelper.getRemoteString("no_data",con)
+            holder.tvServiceSize.text =": "+AppHelper.getRemoteString("no_data",con)
         }
 
         try {
             if(!items.get(position).product!!.type!!.isEmpty())
-                holder.tvServiceCategory.text = AppHelper.getRemoteString("category",con) + ": " + items.get(position).product!!.type
+                holder.tvServiceCategory.text = ": " + items.get(position).product!!.type
             else
-                holder.tvServiceCategory.text =AppHelper.getRemoteString("category",con)  + ": " +AppHelper.getRemoteString("no_data",con)
+                holder.tvServiceCategory.text =": " +AppHelper.getRemoteString("no_data",con)
 
         }catch (ex:Exception){
-            holder.tvServiceCategory.text = AppHelper.getRemoteString("category",con)  + ": "+AppHelper.getRemoteString("no_data",con)
+            holder.tvServiceCategory.text = ": "+AppHelper.getRemoteString("no_data",con)
         }
         holder.expected.typeface = AppHelper.getTypeFaceBold(con)
         holder.cancelReasonDetails.typeface = AppHelper.getTypeFace(con)
+        holder.tvServiceName.setColorTypeface(con,R.color.gray_font_title,"",true)
     }
 
     override fun getItemCount(): Int {

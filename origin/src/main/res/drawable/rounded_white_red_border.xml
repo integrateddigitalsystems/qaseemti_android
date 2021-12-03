@@ -3,7 +3,7 @@
 
 <shape android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <corners android:radius="@dimen/big_radius"/>
+    <corners android:radius="@dimen/normal_margin"/>
     <stroke android:width="0.5dp" android:color="@color/primary" />
     <solid android:color="@color/white"/>
 

@@ -73,7 +73,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="@dimen/normal_font"
-            android:buttonTint="@color/new_black"
+            android:buttonTint="@color/primary"
             android:checked="true"
             android:tag="PushNotifications"
             android:id="@+id/rbNotification"
@@ -87,7 +87,7 @@
             android:textSize="@dimen/normal_font"
             android:textColor="@color/gray_font"
             android:id="@+id/rbSMS"
-            android:buttonTint="@color/new_black"
+            android:buttonTint="@color/primary"
             android:tag="sms"
             android:text="@string/sms"/>
     </RadioGroup>

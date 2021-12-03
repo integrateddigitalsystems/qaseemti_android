@@ -293,7 +293,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:background="@drawable/rounded_end_button_corner_blue"
+                android:background="@drawable/rounded_end_button_primary"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
                 <ImageView

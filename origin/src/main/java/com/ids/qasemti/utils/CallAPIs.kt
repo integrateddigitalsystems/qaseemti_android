@@ -476,8 +476,9 @@ class CallAPIs {
                 Settings.Secure.ANDROID_ID
             );
 
+            var pre = if(MyApplication.isClient) "cl_" else "sp_"
             val imei =
-                Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+                pre+Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
 
             val registrationDate = dateFormat.format(cal.time)
             val appVersion = AppHelper.getVersionNumber()

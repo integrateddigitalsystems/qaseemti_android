@@ -67,7 +67,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         var time = String.format("%02d", cal.get(Calendar.HOUR_OF_DAY)) + ":" + String.format(
             "%02d",
             cal.get(Calendar.MINUTE)
-        )
+        )+":00"
         fromHour = cal.get(Calendar.HOUR_OF_DAY)
         fromMin = cal.get(Calendar.MINUTE)
         etFromTime.text = time.toEditable()
@@ -90,7 +90,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
         try {
             var sdf =
-                SimpleDateFormat("yyyy-MMM-dd", Locale.ENGLISH)
+                SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
             var dateFrom = etFromDate.text.toString()
             var dateTo = etToDate.text.toString()
 
@@ -107,7 +107,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
     fun checkGivenDate(): Boolean {
         var sdf =
-            SimpleDateFormat("yyyy-MMM-dd HH:mm:ssss", Locale.ENGLISH)
+            SimpleDateFormat("yyyy-MM-dd HH:mm:ssss", Locale.ENGLISH)
         var date = sdf.parse(selectedDate)
 
         if (Calendar.getInstance().time.time > date.time) {
@@ -225,7 +225,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                         myCalendar[Calendar.YEAR] = selectedyear
                         myCalendar[Calendar.MONTH] = selectedmonth
                         myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                        val myFormat = "yyyy-MMM-dd" //Change as you need
+                        val myFormat = "yyyy-MM-dd" //Change as you need
                         var sdf =
                             SimpleDateFormat(myFormat, Locale.ENGLISH)
                         pickedDate = myCalendar.time
@@ -259,9 +259,6 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                         var time = String.format("%02d", selectedHour) + ":" + String.format(
                             "%02d",
                             selectedMinute
-                        )+":" + String.format(
-                        "%02d",
-                        selectedMinute
                         )+":00"
                         etFromTime.text = time.toEditable()
                         var date =

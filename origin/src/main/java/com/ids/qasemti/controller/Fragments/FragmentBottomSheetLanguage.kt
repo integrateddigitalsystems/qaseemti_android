@@ -46,6 +46,13 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(),ApiListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayout,requireContext())
+        if(MyApplication.languageCode == AppConstants.LANG_ARABIC){
+            tvEnglish.setBackgroundResource(R.drawable.rounded_white_red_border)
+            tvArabic.setBackgroundResource(R.drawable.rounded_red_background)
+        }else{
+            tvEnglish.setBackgroundResource(R.drawable.rounded_red_background)
+            tvArabic.setBackgroundResource(R.drawable.rounded_white_red_border)
+        }
         tvEnglish.onOneClick{
             if(MyApplication.languageCode == AppConstants.LANG_ARABIC)
                 setEnglish()
