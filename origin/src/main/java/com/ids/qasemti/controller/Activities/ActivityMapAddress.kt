@@ -63,15 +63,6 @@ import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.gms.common.api.ApiException
 
 
-
-
-
-
-
-
-
-
-
 class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
     PlacesAutoCompleteAdapter.ClickListener, ApiListener, RVOnItemClickListener {
 

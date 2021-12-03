@@ -60,12 +60,29 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         super.onResume()
         loading.show()
         timer!!.start()
-        if (MyApplication.selectedUser!!.available == null || MyApplication.selectedUser!!.available!!.isEmpty())
-            setAvailability(0)
+        checkCallData()
+    }
+
+    private fun checkCallData(){
+        if (MyApplication.selectedUser!!.available == null || MyApplication.selectedUser!!.available!!.isEmpty()){
+            setAvailability(1)
+            swAvailable.text = AppHelper.getRemoteString("available", requireContext())
+            swAvailable.isChecked=true
+        }
         else {
-            getRating()
-            getData()
-            getOrders(false)
+            if(MyApplication.selectedUser!!.available=="1"){
+                getRating()
+                getData()
+                getOrders(false)
+            }else{
+                loading.hide()
+                slRefreshBroad.hide()
+                llNodata.show()
+                tvNoDataHome.hide()
+                swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
+                if(timer!=null)
+                    timer!!.cancel()
+            }
         }
 
     }
@@ -94,9 +111,11 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     call: Call<ResponseCancel>,
                     response: Response<ResponseCancel>
                 ) {
-                    getRating()
-                    getData()
-                    getOrders(false)
+                    if(available ==1){
+                       getRating()
+                       getData()
+                       getOrders(false)
+                    }
                 }
 
                 override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
@@ -135,7 +154,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     }
 
     fun setUpTimer(){
-        timer = object : CountDownTimer(4000, 1015) {
+        timer = object : CountDownTimer(30000, 1015) {
             override fun onTick(millisUntilFinished: Long) {
                 //logw("tick","second")
             }
@@ -154,14 +173,6 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         (activity as ActivityHome?)!!.setTintLogo(R.color.primary)
         //   AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         setListeners()
-        try {
-            if (MyApplication.selectedUser!!.available.equals("1"))
-                swAvailable.isChecked = true
-            else
-                swAvailable.isChecked = false
-        }catch (ex:Exception){
-            swAvailable.isChecked = false
-        }
         setUpTimer()
     }
 
@@ -223,20 +234,19 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         }
         try {
             swAvailable.typeface = AppHelper.getTypeFace(requireContext())
-            swAvailable.isChecked =
-                if (MyApplication.selectedUser!!.available == "0" || MyApplication.selectedUser!!.available!!.isEmpty()) false else true
+            swAvailable.isChecked =MyApplication.selectedUser!!.available != "0"
         } catch (ex: Exception) {
             swAvailable.isChecked = false
         }
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             if (swAvailable.isChecked) {
-                rvOrders.show()
+                slRefreshBroad.show()
                 // getOrders()
                 setAvailability(1)
                 swAvailable.text = AppHelper.getRemoteString("available", requireContext())
                 llNodata.hide()
             } else {
-                rvOrders.hide()
+                slRefreshBroad.hide()
                 llNodata.show()
                 tvNoDataHome.hide()
                 setAvailability(0)
@@ -268,7 +278,10 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     } catch (E: java.lang.Exception) {
                         try {
                             loading.hide()
-                            setOrders()
+                            if(swAvailable.isChecked)
+                               setOrders()
+                            else
+                               setNotAvailable()
                         } catch (ex: Exception) {
 
                         }
@@ -278,6 +291,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
                     try {
                         loading.hide()
+                        if(!swAvailable.isChecked)
+                            setNotAvailable()
                     } catch (ex: Exception) {
 
                     }
@@ -330,6 +345,9 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         timer!!.cancel()
     }
     private fun setOrders() {
+       if(swAvailable.isChecked){
+
+
         try {
           //  ordersArray.add(ResponseOrders())
             if (adapter != null) {
@@ -343,7 +361,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             }
 
             if (ordersArray.size == 0) {
-                rvOrders.hide()
+                slRefreshBroad.hide()
                 llNodata.hide()
                 tvNoDataHome.show()
             }
@@ -355,8 +373,22 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         if(isTimer){
             isTimer = false
             timer!!.start()
+        }}else{
+           loading.hide()
+           setNotAvailable()
         }
     }
+
+    private fun setNotAvailable(){
+        loading.hide()
+        slRefreshBroad.hide()
+        llNodata.show()
+        tvNoDataHome.hide()
+        swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
+        if(timer!=null)
+            timer!!.cancel()
+    }
+
 
     override fun onItemClicked(view: View, position: Int) {
 
