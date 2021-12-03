@@ -30,9 +30,9 @@ class ActivityChooseLanguage : ActivityBase() {
         }
 
 
-        logoClient.onOneClick {
+  /*      logoClient.onOneClick {
             startActivity(Intent(this,ActivityHome::class.java))
-        }
+        }*/
 
     }
 
@@ -55,16 +55,35 @@ class ActivityChooseLanguage : ActivityBase() {
         }
         MyApplication.selectedPos = 2
         Handler(Looper.getMainLooper()).postDelayed({
-            if(MyApplication.isSignedIn || MyApplication.isClient) {
-               AppHelper.goHome(this)
-            }else{
-                MyApplication.isSignedIn = true
-                startActivity(Intent(this, ActivityMobileRegistration::class.java))
-            }
+        if(MyApplication.termsCondition!!){
+            goNext()
+        }
+
+        else {
+            MyApplication.fromSplash = true
+            startActivityForResult(Intent(this, ActivityWeb::class.java)
+                .putExtra("webTitle", AppHelper.getRemoteString("TermsAndConditions",this))
+                .putExtra("webId",2), 1000)
+        }
+
+
         }, 500)
 
 
     }
 
+    private fun goNext(){
+        if(MyApplication.isSignedIn || MyApplication.isClient) {
+            AppHelper.goHome(this)
+        }else{
+            startActivity(Intent(this, ActivityMobileRegistration::class.java))
+        }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        goNext()
+
+
+    }
 }

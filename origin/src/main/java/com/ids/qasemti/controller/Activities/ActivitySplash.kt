@@ -339,9 +339,6 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
     fun nextStep() {
         CallAPIs.getCategories(this, this)
-        // getMobileConfig()
-        /*MyApplication.isSignedIn = true
-        MyApplication.userId = 41*/
         Handler(Looper.getMainLooper()).postDelayed({
             if (MyApplication.firstTime) {
                 MyApplication.selectedPhone = ""
@@ -451,16 +448,16 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
         //testing should be removed........................................................
             MyApplication.BASE_URL = BuildConfig.BASE_URL
+            checkForUpdate()
 
-
-        if(MyApplication.termsCondition!!)
+   /*     if(MyApplication.termsCondition!!)
             checkForUpdate()
         else {
             MyApplication.fromSplash = true
             startActivityForResult(Intent(this, ActivityWeb::class.java)
                 .putExtra("webTitle", AppHelper.getRemoteString("TermsAndConditions",this))
                 .putExtra("webId",2), 1000)
-        }
+        }*/
 
         //1D$q@semt!salT
 
@@ -579,6 +576,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             } catch (ex: Exception) {
                 Log.wtf("apiSplash", ex.toString())
                 startActivity(Intent(this, ActivityMobileRegistration::class.java))
+                finish()
             }
         }else{
             var res = response as ResponseMainCategories

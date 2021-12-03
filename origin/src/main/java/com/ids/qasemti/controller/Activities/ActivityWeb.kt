@@ -117,11 +117,7 @@ class ActivityWeb: ActivityBase() {
             btBackTool.hide()
 
             cbTermsConditions.setOnCheckedChangeListener { buttonView, isChecked ->
-                if(isChecked) {
-                    btProceed.isEnabled = true
-                }else{
-                    btProceed.isEnabled = false
-                }
+                btProceed.isEnabled = isChecked
             }
 
             btProceed.onOneClick {
