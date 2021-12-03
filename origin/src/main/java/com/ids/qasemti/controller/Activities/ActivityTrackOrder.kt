@@ -300,7 +300,7 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback , ApiListener{
                         options.position(item);
                         options.title("someTitle");
                         options.snippet("someDesc");
-                        markers.add(gmap!!.addMarker(options))
+                        markers.add(gmap!!.addMarker(options)!!)
                     }
 
                     markers.get(1)
