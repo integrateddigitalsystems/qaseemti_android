@@ -27,11 +27,11 @@ class RequestRenewOrder(
 
     @SerializedName("types")
     @Expose
-    var types : String ?="" ,
+    var types : Int ?=0 ,
 
     @SerializedName("size_capacity")
     @Expose
-    var sizeCap : String ?="" ,
+    var sizeCap : Int ?=0 ,
 
     @SerializedName("delivery_date")
     @Expose
@@ -49,49 +49,53 @@ class RequestRenewOrder(
     @Expose
     var addressName : String ?="" ,
 
-    @SerializedName("address_latitude")
+    @SerializedName("latitude")
     @Expose
     var addressLat : Double ?=0.0 ,
 
-    @SerializedName("address_longitude")
+    @SerializedName("longitude")
     @Expose
     var addressLong : Double ?=0.0 ,
 
-    @SerializedName("address_street")
+    @SerializedName("street")
     @Expose
     var addressStreet : String ?="" ,
 
-    @SerializedName("address_building")
+    @SerializedName("building")
     @Expose
     var addressBldg : String ?="" ,
 
-    @SerializedName("address_floor")
+    @SerializedName("floor")
     @Expose
     var addressFloor : String ?="" ,
 
-    @SerializedName("address_description")
+    @SerializedName("description")
     @Expose
-    var addressDesc : String ?="" ,
+    var addressDesc : String ?=""
+    ,
 
-    @SerializedName("first_name")
+    @SerializedName("province")
     @Expose
-    var firstName : String ?="" ,
+    var province : String ?=""
 
-    @SerializedName("last_name")
-    @Expose
-    var lastName : String ?="" ,
+    ,
 
-    @SerializedName("company")
+    @SerializedName("area")
     @Expose
-    var company : String ?="" ,
+    var area : String ?="",
 
-    @SerializedName("email")
+    @SerializedName("block")
     @Expose
-    var email : String ?="" ,
+    var block : String ?="",
 
-    @SerializedName("phone")
+    @SerializedName("avenu")
     @Expose
-    var phone : String ?=""
+    var avenue : String ?="",
+
+    @SerializedName("apartment")
+    @Expose
+    var apt : String ?=""
+
 
 
 

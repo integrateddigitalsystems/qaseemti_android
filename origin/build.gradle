@@ -54,8 +54,8 @@ android {
             dimension "color"
             minSdkVersion 21
             targetSdkVersion 30
-            versionCode 30
-            versionName '4.2'
+            versionCode 31
+            versionName '4.3'
         }
 
 
@@ -70,8 +70,8 @@ android {
             dimension "color"
             minSdkVersion 21
             targetSdkVersion 30
-            versionCode 30
-            versionName '4.2'
+            versionCode 31
+            versionName '4.3'
         }
     }
 

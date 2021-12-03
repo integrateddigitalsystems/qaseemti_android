@@ -1,6 +1,7 @@
 package com.ids.qasemti.controller.Activities
 
 import android.Manifest
+import android.R.attr
 import android.app.ActionBar
 import android.app.Activity
 import android.app.Dialog
@@ -55,6 +56,20 @@ import kotlinx.android.synthetic.main.popup_location_search.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 import kotlin.collections.ArrayList
+import android.R.attr.apiKey
+import androidx.fragment.app.FragmentActivity
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.gms.common.api.ApiException
+
+
+
+
+
+
+
+
+
 
 
 class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
@@ -65,8 +80,9 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
     var resultLauncher: ActivityResultLauncher<Intent>? = null
     var mAutoCompleteAdapter: PlacesAutoCompleteAdapter? = null
     var adapter: AdapterMapLocations? = null
-    var dialog: Dialog? = null
+    var myDialog: Dialog? = null
     var send = 0
+    var placeClient : PlacesClient ?=null
     var fromIntent : Boolean = false
     var google : GoogleMap ?=null
     var firstTime: Boolean? = true
@@ -98,7 +114,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
         mvLocation.onCreate(mapViewBundle);
 
         init()
-        //  initGooglePlacesApi()
+
 
 
     }
@@ -108,35 +124,29 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
         override fun afterTextChanged(s: Editable) {
         }
 
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            MyApplication.placesList.clear()
+        }
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
             mAutoCompleteAdapter!!.getFilter().filter(s.toString());
             if (s.toString() != "") {
+
                 mAutoCompleteAdapter!!.getFilter().filter(s.toString())
-                if (rv_place_results.getVisibility() === View.GONE) {
-                    rv_place_results.setVisibility(View.VISIBLE)
-                }
+                Recycle!!.show()
+
             } else {
-                if (rv_place_results.getVisibility() === View.VISIBLE) {
-                    rv_place_results.setVisibility(View.GONE)
-                }
+                Recycle!!.hide()
             }
         }
     }
 
     fun initGooglePlacesApi() {
 
-        Places.initialize(this, getString(R.string.googleKey))
-        etMapSearch.addTextChangedListener(filterTextWatcher)
-        etMapSearch.show()
+        // Initialize the SDK
+        // Initialize the SDK
 
 
-        mAutoCompleteAdapter = PlacesAutoCompleteAdapter(this)
-        rv_place_results.setLayoutManager(LinearLayoutManager(this));
-        //mAutoCompleteAdapter.setClickListener(this);
-        Places.initialize(this, getString(R.string.googleKey))
-        rv_place_results.setAdapter(mAutoCompleteAdapter);
-        mAutoCompleteAdapter!!.notifyDataSetChanged();
         /* RetroFitMap.client?.create(RetrofitInterface::class.java)
              ?.getLocationNames("Beirut",getString(R.string.googleKey))?.enqueue(object :
                  Callback<Any> {
@@ -160,7 +170,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
 
 
     private fun showPopUp() {
-        dialog = Dialog(this, R.style.Base_ThemeOverlay_AppCompat_Dialog)
+        var dialog = Dialog(this, R.style.Base_ThemeOverlay_AppCompat_Dialog)
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog!!.setCanceledOnTouchOutside(false)
         dialog!!.setContentView(R.layout.popup_location_search)
@@ -171,6 +181,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
         )
         dialog!!.window!!.setBackgroundDrawableResource(R.color.transparent)
 
+        myDialog = dialog
 
         var hide = dialog!!.findViewById<FloatingActionButton>(R.id.btClose)
         searchEdit = dialog!!.findViewById(R.id.etSearchLocation)
@@ -186,7 +197,19 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
             searchEdit!!.text.clear()
         }
 
-        searchEdit!!.addTextChangedListener(object : TextWatcher {
+        Places.initialize(this, getString(R.string.googleKey))
+        searchEdit!!.addTextChangedListener(filterTextWatcher)
+        searchEdit!!.show()
+
+        mAutoCompleteAdapter = PlacesAutoCompleteAdapter(this,this)
+        Recycle!!.setLayoutManager(LinearLayoutManager(this));
+        //mAutoCompleteAdapter.setClickListener(this);
+        Places.initialize(this, getString(R.string.googleKey))
+        placeClient = Places.createClient(this);
+        Recycle!!.setAdapter(mAutoCompleteAdapter);
+        mAutoCompleteAdapter!!.notifyDataSetChanged();
+
+        /*searchEdit!!.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(
                 s: CharSequence, start: Int,
@@ -203,7 +226,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
                     Recycle!!.hide()
                     clear.show()
                     Loading!!.show()
-                    CallAPIs.getMapLocations(s.toString(), this@ActivityMapAddress, Loading!!)
+                    //CallAPIs.getMapLocations(s.toString(), this@ActivityMapAddress, Loading!!)
                 } else {
                     clear.hide()
                     Recycle!!.hide()
@@ -215,7 +238,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
 
             }
         })
-
+*/
         dialog!!.show()
     }
 
@@ -662,22 +685,38 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
     }
 
     override fun onItemClicked(view: View, position: Int) {
-        if (arrayMapLocs.size > 0) {
-            latLng = LatLng(
-                arrayMapLocs.get(position).lat!!.toDouble(),
-                arrayMapLocs.get(position).lon!!.toDouble()
-            )
-            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-            val marker = MarkerOptions()
-            marker.position(latLng)
-            gmap!!.clear()
-            gmap!!.addMarker(marker)
-            rv_place_results.hide()
-            etMapSearch.text.clear()
-            etMapSearch.text = arrayMapLocs.get(position).displayName!!.toEditable()
-            hideSoftKeyboard()
-            dialog!!.dismiss()
+        try {
+            var id = MyApplication.placesList.get(position)
+            val placeFields: List<Place.Field> =
+                Arrays.asList(Place.Field.LAT_LNG, Place.Field.NAME)
+            val request = FetchPlaceRequest.newInstance(id, placeFields)
+            placeClient!!.fetchPlace(request).addOnSuccessListener { response ->
+                val place: Place = response.getPlace()
+                fromIntent = false
+                forCurr = false
+                toAdd = false
+                loading.show()
+                latLng = place.latLng
+                gmap!!.moveCamera(CameraUpdateFactory.newLatLng(place.latLng))
+                val marker = MarkerOptions()
+                marker.position(place.latLng)
+                gmap!!.clear()
+                gmap!!.addMarker(marker)
+                hideSoftKeyboard()
+                myDialog!!.dismiss()
+                CallAPIs.getAddressName(place.latLng, this, this)
+
+            }.addOnFailureListener { exception ->
+                if (exception is ApiException) {
+                    val apiException = exception as ApiException
+                    val statusCode = apiException.statusCode
+                    // TODO: Handle error with given status code.
+                }
+            }
+        }catch (ex:Exception){
+            logw("corrdinates-exception",ex.toString())
         }
+
     }
 
 }

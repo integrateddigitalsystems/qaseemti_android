@@ -14,6 +14,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.Places
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ids.qasemti.R
 
@@ -99,6 +100,7 @@ class MyApplication : Application() {
         var selectedVariationType : Int ?=0
         var selectedNotSignedInType : Int ?= -1
         var selectedNotSignedInSize : Int ?= -1
+        var placesList : ArrayList<String> = arrayListOf()
         var trackingActivity : Activity ?=null
         var fromOrderDetails : Boolean = false
         var showLogs: Boolean = true

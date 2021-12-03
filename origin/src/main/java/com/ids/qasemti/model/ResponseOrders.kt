@@ -290,6 +290,14 @@ class ResponseOrders(
     @Expose
     var sizeCapacityId : Int ?=0,
 
+    @SerializedName("shipping_Apartment")
+    @Expose
+    var shippingApartment : String ?="" ,
+
+    @SerializedName("shipping_avenu")
+    @Expose
+    var shippingAvenu : String ?="" ,
+
     var done : Boolean = false
 
 
