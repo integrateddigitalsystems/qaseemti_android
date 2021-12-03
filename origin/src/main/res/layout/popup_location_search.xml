@@ -49,6 +49,13 @@
     <include
         layout="@layout/loading" />
 
+       <!-- <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />-->
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="@dimen/medium_margin"
         android:layout_width="match_parent"

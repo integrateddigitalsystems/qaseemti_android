@@ -237,6 +237,7 @@
                             android:textColor="@color/gray_font_title"
                             android:textSize="@dimen/small_font" />
 
+
                         <com.ids.qasemti.custom.CustomTextViewBold
                             android:id="@+id/tvServiceName"
                             android:layout_width="wrap_content"

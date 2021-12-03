@@ -597,8 +597,8 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
             vendorId,
             MyApplication.selectedOrder!!.type,
             MyApplication.selectedOrder!!.product!!.productId!!.toInt(),
-            MyApplication.selectedOrder!!.product!!.types,
-            MyApplication.selectedOrder!!.product!!.sizeCapacity,
+            MyApplication.selectedOrder!!.product!!.types.toInt(),
+            MyApplication.selectedOrder!!.product!!.sizeCapacity!!.toInt(),
             MyApplication.selectedOrder!!.deliveryDate,
             date,
             date,
@@ -609,11 +609,6 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
             MyApplication.selectedOrder!!.shipping_address_building,
             MyApplication.selectedOrder!!.shipping_address_floor,
             MyApplication.selectedOrder!!.shipping_address_description,
-            MyApplication.selectedOrder!!.customer!!.first_name,
-            MyApplication.selectedOrder!!.customer!!.last_name,
-            storeName,
-            MyApplication.selectedOrder!!.customer!!.email,
-            MyApplication.selectedOrder!!.customer!!.mobile_number
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.renewOrder(req)?.enqueue(object : Callback<ResponseMessage> {
@@ -1015,7 +1010,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
 
     fun respondDate(accept : Int){
         loading.show()
-        var newReq = RequestAcceptDate( MyApplication.selectedOrder!!.orderId!!.toInt(), accept,)
+        var newReq = RequestAcceptDate( MyApplication.selectedOrder!!.orderId!!.toInt(), accept,MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.clAcceptNewDT(newReq)?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(

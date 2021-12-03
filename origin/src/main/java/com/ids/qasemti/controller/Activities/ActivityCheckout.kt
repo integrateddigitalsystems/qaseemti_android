@@ -60,7 +60,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
     fun setUpCurr() {
         var cal = Calendar.getInstance()
         pickedDate = cal.time
-        val myFormat = "dd MMM yyyy" //Change as you need
+        val myFormat = "yyyy-MM-dd" //Change as you need
         var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
         var date = sdf.format(cal.time)
         etFromDate.text = date.toEditable()
@@ -90,7 +90,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
         try {
             var sdf =
-                SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+                SimpleDateFormat("yyyy-MMM-dd", Locale.ENGLISH)
             var dateFrom = etFromDate.text.toString()
             var dateTo = etToDate.text.toString()
 
@@ -107,7 +107,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
     fun checkGivenDate(): Boolean {
         var sdf =
-            SimpleDateFormat("dd MMM yyyy HH:mm", Locale.ENGLISH)
+            SimpleDateFormat("yyyy-MMM-dd HH:mm:ssss", Locale.ENGLISH)
         var date = sdf.parse(selectedDate)
 
         if (Calendar.getInstance().time.time > date.time) {
@@ -204,7 +204,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             AppHelper.setTextColor(this, etFromDate, R.color.gray_font)
             AppHelper.setTextColor(this, etFromTime, R.color.gray_font)
             rlFromDate.onOneClick {
-                val myFormat = "dd MMM yyyy" //Change as you need
+                val myFormat = "yyyy-MM-dd" //Change as you need
                 var sdf =
                     SimpleDateFormat(myFormat, Locale.ENGLISH)
                 var mcurrentDate = sdf.parse(etFromDate.text.toString())
@@ -225,7 +225,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                         myCalendar[Calendar.YEAR] = selectedyear
                         myCalendar[Calendar.MONTH] = selectedmonth
                         myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                        val myFormat = "dd MMM yyyy" //Change as you need
+                        val myFormat = "yyyy-MMM-dd" //Change as you need
                         var sdf =
                             SimpleDateFormat(myFormat, Locale.ENGLISH)
                         pickedDate = myCalendar.time
@@ -234,7 +234,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                         if (compareDates() == 1)
                             etToDate.text = date.toEditable()
                         var x = selectedDate
-                        var time = selectedDate!!.split(" ").get(3)
+                        var time = selectedDate!!.split(" ").get(1)
                         selectedDate = etFromDate.text.toString() + " " + time
                     }, mYear, mMonth, mDay
                 )
@@ -246,7 +246,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 val mcurrentTime = Calendar.getInstance()
                 val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
                 val minute = mcurrentTime[Calendar.MINUTE]
-                val myFormat = "dd MMM yyyy" //Change as you need
+                val myFormat = "yyyy-MM-dd" //Change as you need
                 val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
                 val now = mcurrentTime.time
                 val nowDate = sdf.format(now)
@@ -259,11 +259,13 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                         var time = String.format("%02d", selectedHour) + ":" + String.format(
                             "%02d",
                             selectedMinute
-                        )
+                        )+":" + String.format(
+                        "%02d",
+                        selectedMinute
+                        )+":00"
                         etFromTime.text = time.toEditable()
                         var date =
-                            selectedDate!!.split(" ").get(0) + " " + selectedDate!!.split(" ")
-                                .get(1) + " " + selectedDate!!.split(" ").get(2)
+                            selectedDate!!.split(" ").get(0)
                         selectedDate = date + " " + time
                     }, hour, minute, true
                 ) //Yes 24 hour time
@@ -284,10 +286,10 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 this, R.style.DatePickerDialog,
                 { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
-                    var time = String.format("%02d", selectedHour) + " : " + String.format(
+                    var time = String.format("%02d", selectedHour) + ":" + String.format(
                         "%02d",
                         selectedMinute
-                    )
+                    )+":"+"00"
                     if (compareDates() == -1) {
                         if (!compareTimes(selectedHour, selectedMinute)) {
                             AppHelper.createDialog(this, "You cannot pick a time before selected")
@@ -306,7 +308,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             var mYear = 0
             var mMonth = 0
             var mDay = 0
-            val myFormat = "dd MMM yyyy" //Change as you need
+            val myFormat = "yyyy-MM-dd" //Change as you need
             var sdf =
                 SimpleDateFormat(myFormat, Locale.ENGLISH)
             var mcurrentDate: Date? = null
@@ -327,7 +329,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                     myCalendar[Calendar.YEAR] = selectedyear
                     myCalendar[Calendar.MONTH] = selectedmonth
                     myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                    val myFormat = "dd MMM yyyy" //Change as you need
+                    val myFormat = "yyyy-MM-dd" //Change as you need
                     var sdf =
                         SimpleDateFormat(myFormat, Locale.ENGLISH)
                     var date = sdf.format(myCalendar.time)
@@ -441,15 +443,29 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             setUpRenting()
             llAddresses.isEnabled = false
 
+
             var current = Calendar.getInstance()
-            var simp = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-            var from = simp.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
-            var to = simp.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+            var simp = SimpleDateFormat("yyyy-MM-dd hh:mm:ssss", Locale.ENGLISH)
+            var simp2 = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+            var simp3= SimpleDateFormat ("dd MMM yyyy",Locale.ENGLISH)
+            var from : Date ?=null
+            var to : Date ?=null
+            try {
+                from = simp.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
+            }catch (ex:Exception){
+                from = Calendar.getInstance().time
+            }
+            try {
+                to = simp2.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+            }catch (ex:Exception){
+                to = Calendar.getInstance().time
+
+            }
             /* var from = simp.parse("2021-11-18")
              var to = simp.parse("2021-11-21")*/
 
 
-            if (current.time.time < from.time || current.time.time > from.time && current.time.time < to.time) {
+            if (current.time.time < from!!.time || current.time.time > from!!.time && current.time.time < to!!.time) {
                 minRenewTime = from
                 minRenewTo = to
             } else {
@@ -495,7 +511,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 val mcurrentTime = Calendar.getInstance()
                 val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
                 val minute = mcurrentTime[Calendar.MINUTE]
-                val myFormat = "dd MMM yyyy" //Change as you need
+                val myFormat = "yyyy-MM-dd" //Change as you need
                 val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
                 val now = mcurrentTime.time
                 val nowDate = sdf.format(now)
@@ -510,10 +526,15 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                             selectedMinute
                         )
                         etFromTime.text = time.toEditable()
-                        var date =
-                            selectedDate!!.split(" ").get(0) + " " + selectedDate!!.split(" ")
-                                .get(1) + " " + selectedDate!!.split(" ").get(2)
-                        selectedDate = date + " " + time
+                        if(!selectedDate.isNullOrEmpty()){
+                            var date =
+                                selectedDate!!.split(" ").get(0) + " " + selectedDate!!.split(" ")
+                                    .get(1) + " " + selectedDate!!.split(" ").get(2)
+                            selectedDate = date + " " + time
+                        }else{
+                            selectedDate =  time
+                        }
+
                     }, hour, minute, true
                 ) //Yes 24 hour time
                 timePickerDialog.show()
@@ -577,7 +598,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                         myCalendar[Calendar.YEAR] = selectedyear
                         myCalendar[Calendar.MONTH] = selectedmonth
                         myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                        val myFormat = "dd MMM yyyy" //Change as you need
+                        val myFormat = "yyyy-MM-dd" //Change as you need
                         var sdf =
                             SimpleDateFormat(myFormat, Locale.ENGLISH)
                         var date = sdf.format(myCalendar.time)
@@ -595,6 +616,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                     renewOrder()
                 } catch (ex: Exception) {
                     Log.wtf("renewError", ex.toString())
+                    loading.hide()
                 }
             }
         }
@@ -652,6 +674,13 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         } catch (ex: java.lang.Exception) {
 
         }
+
+        var typeId = if(MyApplication.selectedOrder!!.product!!.typesId.isNullOrEmpty()) 0 else MyApplication.selectedOrder!!.product!!.typesId!!.toInt()
+        var sizeId =if(MyApplication.selectedOrder!!.product!!.sizeCapacityId.isNullOrEmpty()) 0 else MyApplication.selectedOrder!!.product!!.sizeCapacityId!!.toInt()
+
+        var smp = SimpleDateFormat("yyyy-MM-dd hh:mm:ssss")
+        var toSmp = SimpleDateFormat("yyyy-MM-dd")
+
         var cal = Calendar.getInstance()
         var date = AppHelper.formatDate(cal.time, "dd/mm/yy hh:mm:ssss")
         var req = RequestRenewOrder(
@@ -660,23 +689,23 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             vendorId,
             MyApplication.selectedOrder!!.type,
             MyApplication.selectedOrder!!.product!!.productId!!.toInt(),
-            MyApplication.selectedOrder!!.product!!.types,
-            MyApplication.selectedOrder!!.product!!.sizeCapacity,
-            MyApplication.selectedOrder!!.deliveryDate,
-            etFromDate.text.toString(),
-            etToDate.text.toString(),
+            typeId,
+            sizeId,
+            toSmp.format(smp.parse(MyApplication.selectedOrder!!.deliveryDate)),
+            toSmp.format(smp.parse(etFromDate.text.toString())),
+            toSmp.format(smp.parse(etToDate.text.toString())),
             MyApplication.selectedOrder!!.shipping_address_name,
-            MyApplication.selectedOrder!!.shipping_address_latitude!!.toDouble(),
-            MyApplication.selectedOrder!!.shipping_address_longitude!!.toDouble(),
+            35.0078688,
+            37.9990099,
             MyApplication.selectedOrder!!.shipping_address_street,
             MyApplication.selectedOrder!!.shipping_address_building,
             MyApplication.selectedOrder!!.shipping_address_floor,
             MyApplication.selectedOrder!!.shipping_address_description,
-            MyApplication.selectedOrder!!.customer!!.first_name,
-            MyApplication.selectedOrder!!.customer!!.last_name,
-            storeName,
-            MyApplication.selectedOrder!!.customer!!.email,
-            MyApplication.selectedOrder!!.customer!!.mobile_number
+            MyApplication.selectedOrder!!.shipping_province,
+            MyApplication.selectedOrder!!.shipping_area,
+            MyApplication.selectedOrder!!.shipping_block,
+            MyApplication.selectedOrder!!.shippingAvenu ,
+            MyApplication.selectedOrder!!.shippingApartment
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.renewOrder(req)?.enqueue(object : Callback<ResponseMessage> {
@@ -686,7 +715,12 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 ) {
                     try {
                         loading.hide()
-                        nextStepRenew()
+                        if(response.body()!!.result==1){
+                            AppHelper.createDialog(this@ActivityCheckout ,AppHelper.getRemoteString("success",this@ActivityCheckout))
+                        }else{
+                            AppHelper.createDialog(this@ActivityCheckout ,response.body()!!.message!!)
+                        }
+                        //nextStepRenew()
                         //nextStep(response.body()!!.result!!)
                     } catch (E: java.lang.Exception) {
 

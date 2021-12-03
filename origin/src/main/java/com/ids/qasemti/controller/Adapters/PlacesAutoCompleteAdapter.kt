@@ -1,5 +1,6 @@
 package com.ids.qasemti.controller.Adapters
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.text.style.CharacterStyle
@@ -21,6 +22,9 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.utils.AppHelper
 import java.util.*
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
@@ -28,7 +32,7 @@ import java.util.concurrent.TimeoutException
 import kotlin.collections.ArrayList
 
 
-class PlacesAutoCompleteAdapter(private val mContext: Context) :
+class PlacesAutoCompleteAdapter(private val mContext: Activity , private val itemClickListener: RVOnItemClickListener) :
     RecyclerView.Adapter<PlacesAutoCompleteAdapter.PredictionHolder?>(),
     Filterable {
     private var mResultList: ArrayList<PlaceAutocomplete>? = ArrayList()
@@ -110,8 +114,10 @@ class PlacesAutoCompleteAdapter(private val mContext: Context) :
         return if (autocompletePredictions.isSuccessful()) {
             val findAutocompletePredictionsResponse: FindAutocompletePredictionsResponse =
                 autocompletePredictions.getResult()
+            MyApplication.placesList.clear()
             if (findAutocompletePredictionsResponse != null) for (prediction in findAutocompletePredictionsResponse.autocompletePredictions) {
                 Log.i(TAG, prediction.placeId)
+               MyApplication.placesList.add(prediction.placeId)
                 resultList.add(
                     PlaceAutocomplete(
                         prediction.placeId,
@@ -152,8 +158,7 @@ class PlacesAutoCompleteAdapter(private val mContext: Context) :
         val address: TextView
         val area: TextView
         private val mRow: LinearLayout
-        override fun onClick(v: View) {
-            val item = mResultList!![adapterPosition]
+        override fun onClick(v: View) {/*val item = mResultList!![adapterPosition]
             if (v.id == R.id.place_item_view) {
                 val placeId = item.placeId.toString()
                 val placeFields = Arrays.asList(
@@ -171,7 +176,9 @@ class PlacesAutoCompleteAdapter(private val mContext: Context) :
                         Toast.makeText(mContext, exception.message + "", Toast.LENGTH_SHORT).show()
                     }
                 }
-            }
+            }*/
+         //   AppHelper.createDialog(mContext!!,"Done")
+            itemClickListener.onItemClicked(v, layoutPosition)
         }
 
         init {
