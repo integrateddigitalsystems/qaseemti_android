@@ -239,25 +239,33 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             swAvailable.isChecked = false
         }
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
-            if (swAvailable.isChecked) {
-                slRefreshBroad.show()
-                // getOrders()
-                setAvailability(1)
-                swAvailable.text = AppHelper.getRemoteString("available", requireContext())
-                llNodata.hide()
-            } else {
-                slRefreshBroad.hide()
-                llNodata.show()
-                tvNoDataHome.hide()
-                setAvailability(0)
-                swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
+            try {
+                if (swAvailable.isChecked) {
+                    slRefreshBroad.show()
+                    // getOrders()
+                    setAvailability(1)
+                    swAvailable.text = AppHelper.getRemoteString("available", requireContext())
+                    llNodata.hide()
+                } else {
+                    slRefreshBroad.hide()
+                    llNodata.show()
+                    tvNoDataHome.hide()
+                    setAvailability(0)
+                    swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
+                }
+            }catch (ex:Exception){
+
             }
         }
     }
 
     fun getOrders(timer:Boolean) {
 
-        slRefreshBroad.isRefreshing = false
+        try {
+            slRefreshBroad.isRefreshing = false
+        }catch (ex:Exception){
+
+        }
         if(!timer)
             loading.show()
         var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
@@ -345,37 +353,42 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         timer!!.cancel()
     }
     private fun setOrders() {
-       if(swAvailable.isChecked){
-
-
         try {
-          //  ordersArray.add(ResponseOrders())
-            if (adapter != null) {
-                adapter!!.notifyDataSetChanged()
+            if (swAvailable.isChecked) {
+
+
+                try {
+                    //  ordersArray.add(ResponseOrders())
+                    if (adapter != null) {
+                        adapter!!.notifyDataSetChanged()
+                    } else {
+                        adapter = AdapterOrders(ordersArray, this, requireContext())
+                        rvOrders.adapter = adapter
+                        var glm2 = GridLayoutManager(requireContext(), 1)
+                        rvOrders.layoutManager = glm2
+
+                    }
+
+                    if (ordersArray.size == 0) {
+                        slRefreshBroad.hide()
+                        llNodata.hide()
+                        tvNoDataHome.show()
+                    }
+
+                    loading.hide()
+                } catch (ex: Exception) {
+                    loading.hide()
+                }
+                if (isTimer) {
+                    isTimer = false
+                    timer!!.start()
+                }
             } else {
-                adapter = AdapterOrders(ordersArray, this, requireContext())
-                rvOrders.adapter = adapter
-                var glm2 = GridLayoutManager(requireContext(), 1)
-                rvOrders.layoutManager = glm2
-
+                loading.hide()
+                setNotAvailable()
             }
+        }catch (ex:Exception){
 
-            if (ordersArray.size == 0) {
-                slRefreshBroad.hide()
-                llNodata.hide()
-                tvNoDataHome.show()
-            }
-
-            loading.hide()
-        } catch (ex: Exception) {
-            loading.hide()
-        }
-        if(isTimer){
-            isTimer = false
-            timer!!.start()
-        }}else{
-           loading.hide()
-           setNotAvailable()
         }
     }
 

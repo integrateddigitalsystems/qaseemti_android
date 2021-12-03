@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearService3"
     android:orientation="vertical"
-    android:visibility="gone"
+    android:visibility="visible"
     android:layout_height="match_parent">
 
 
@@ -122,9 +122,9 @@
             android:textColor="@color/white"
             android:layout_marginEnd="@dimen/small_margin"
             android:background="@drawable/rounded_red_background"
-            android:text="@string/previews"
+            android:text="@string/Previous"
             android:id="@+id/btPreviews2"
-            android:tag="previews"
+            android:tag="Previous"
             android:textAllCaps="false"
             />
 

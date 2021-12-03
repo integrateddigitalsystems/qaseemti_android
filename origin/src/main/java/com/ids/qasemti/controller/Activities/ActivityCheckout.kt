@@ -450,7 +450,12 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             try {
                 from = simp.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
             }catch (ex:Exception){
-                from = Calendar.getInstance().time
+                try{
+
+                }catch (ex:Exception){
+                    from = Calendar.getInstance().time
+                }
+
             }
             try {
                 to = simp2.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
@@ -525,8 +530,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                         etFromTime.text = time.toEditable()
                         if(!selectedDate.isNullOrEmpty()){
                             var date =
-                                selectedDate!!.split(" ").get(0) + " " + selectedDate!!.split(" ")
-                                    .get(1) + " " + selectedDate!!.split(" ").get(2)
+                                selectedDate!!.split(" ").get(0)
                             selectedDate = date + " " + time
                         }else{
                             selectedDate =  time

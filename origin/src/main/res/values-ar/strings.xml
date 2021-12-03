@@ -304,6 +304,7 @@
     <string name="accept_order">الموافقة على الطلب</string>
     <string name="service_name">Service Name</string>
     <string name="service_type">Service Type</string>
+    <string name="Previous">الرجوع</string>
 
 
 </resources>

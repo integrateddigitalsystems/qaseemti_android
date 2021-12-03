@@ -48,9 +48,13 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(),ApiListener{
         AppHelper.setAllTexts(rootLayout,requireContext())
         if(MyApplication.languageCode == AppConstants.LANG_ARABIC){
             tvEnglish.setBackgroundResource(R.drawable.rounded_white_red_border)
+            AppHelper.setTextColor(requireActivity(),tvEnglish,R.color.primary)
+            AppHelper.setTextColor(requireActivity(),tvArabic,R.color.white)
             tvArabic.setBackgroundResource(R.drawable.rounded_red_background)
         }else{
             tvEnglish.setBackgroundResource(R.drawable.rounded_red_background)
+            AppHelper.setTextColor(requireActivity(),tvArabic,R.color.primary)
+            AppHelper.setTextColor(requireActivity(),tvEnglish,R.color.white)
             tvArabic.setBackgroundResource(R.drawable.rounded_white_red_border)
         }
         tvEnglish.onOneClick{
