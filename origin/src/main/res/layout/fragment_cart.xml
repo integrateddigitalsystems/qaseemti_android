@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_bg"
+
     android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/llCurve"
@@ -23,16 +28,18 @@
         layout="@layout/toolbar" />
     </LinearLayout>-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="@dimen/medium_push"
-        android:layout_marginStart="@dimen/card_new_margin"
-        android:layout_marginEnd="@dimen/card_new_margin"
-        android:layout_below="@id/llCurve"
-        android:id="@+id/rvCart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/llCurve"
+            android:layout_marginStart="@dimen/card_new_margin"
+            android:layout_marginTop="@dimen/medium_push"
+            android:layout_marginEnd="@dimen/card_new_margin"
+            android:visibility="visible" />
 
     <include
         layout="@layout/loading" />
-</RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>

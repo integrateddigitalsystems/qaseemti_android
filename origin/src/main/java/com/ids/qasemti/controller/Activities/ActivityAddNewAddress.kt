@@ -267,7 +267,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
         }
         var indx = 0
         indx = arraySpinner.indexOf(arraySpinner.find {
-            it.name!!.equals(address!!.province!!)
+            it.name!!.contains(address!!.province!!) || address!!.province!!.contains(it.name!!)
         })
         spProvince.setSelection(indx)
 
