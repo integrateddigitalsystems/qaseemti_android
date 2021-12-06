@@ -5,11 +5,15 @@ import android.app.Activity
 import com.ids.qasemti.BuildConfig
 
 import android.app.Application
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.location.Address
+import android.location.Location
 import android.os.Build
+import android.util.Log
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
@@ -17,12 +21,15 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityHome
 
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.MyApplication.Companion.isClient
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.AppConstants
+import com.ids.qasemti.utils.LocationForeService
+import com.ids.qasemti.utils.toText
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -48,6 +55,7 @@ class MyApplication : Application() {
         var renewed = false
         var completed = false
         var isBroadcast = false
+        var serviceContext : Activity ?=null
         var fromAccount = false
         var fromAdd : Boolean ?= false
         var submitted : Boolean ?=false
@@ -72,6 +80,7 @@ class MyApplication : Application() {
         var fromProfile : Boolean ?= false
         var position : Int =0
         var db : FirebaseFirestore?=null
+        var foregroundOnlyLocationService: LocationForeService? = null
         var tintColor : Int = R.color.white
         var selectedImage:String ?=""
         var selectedVideo :String ?=""
@@ -148,9 +157,13 @@ class MyApplication : Application() {
         var termsCondition  : Boolean?
             get() = sharedPreferences.getBoolean(AppConstants.TERMS_CONDITIONS,false)
             set(value) { sharedPreferencesEditor.putBoolean(AppConstants.TERMS_CONDITIONS, value!!).apply() }
+        var trackOrderId : Int ?
+        get() = sharedPreferences.getInt(AppConstants.TRACKING_ORDER_ID,0)
+        set(value) { sharedPreferencesEditor.putInt(AppConstants.TRACKING_ORDER_ID,value!!).apply()}
 
 
     }
+
 
 
     override fun onCreate() {

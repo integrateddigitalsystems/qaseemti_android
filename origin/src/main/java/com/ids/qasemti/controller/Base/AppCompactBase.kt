@@ -1,14 +1,23 @@
 package com.ids.qasemti.controller.Base
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.LocaleUtils
 
 import java.util.*
+import com.ids.qasemti.utils.Restarter
+
+
+
 
 
 open class AppCompactBase : AppCompatActivity() {
@@ -27,6 +36,36 @@ open class AppCompactBase : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        val restartServiceIntent = Intent(
+            applicationContext, this.javaClass
+        )
+        restartServiceIntent.setPackage(packageName)
+
+        val restartServicePendingIntent: PendingIntent = PendingIntent.getService(
+            applicationContext,
+            1,
+            restartServiceIntent,
+            PendingIntent.FLAG_ONE_SHOT
+        )
+        val alarmService: AlarmManager =
+            applicationContext.getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmService.set(
+            AlarmManager.ELAPSED_REALTIME,
+            SystemClock.elapsedRealtime() + 1,
+            restartServicePendingIntent
+        )
+       /* if(MyApplication.saveLocationTracking!!) {
+            val broadcastIntent = Intent()
+            broadcastIntent.setAction("restartservice")
+            broadcastIntent.setClass(this, Restarter::class.java)
+            this.sendBroadcast(broadcastIntent)
+        }*/
 
     }
 

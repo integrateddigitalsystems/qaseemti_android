@@ -49,6 +49,7 @@ object AppConstants {
     const val MAPPING ="mapping"
     const val PERMISSION ="permission"
     const val TERMS_CONDITIONS = "termsConditions"
+    const val TRACKING_ORDER_ID = "trackingOrderId"
     const val REQUEST_LOCATION_PERMISSION = 111
     const val NOTF_TYPE = "notf_type"
     const val FIREBASE_FORCE_UPDATE = "android_force_update"

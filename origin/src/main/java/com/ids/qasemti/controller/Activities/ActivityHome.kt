@@ -30,6 +30,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.controller.MyApplication.Companion.foregroundOnlyLocationService
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppConstants.FRAGMENT_ACCOUNT
 import com.ids.qasemti.utils.AppConstants.FRAGMENT_CART
@@ -52,7 +53,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     private var foregroundOnlyLocationServiceBound = false
     private lateinit var drawerLayout: DrawerLayout
     var selectedPos = 2
-    private var foregroundOnlyLocationService: LocationForeService? = null
+
     var foregrounfLocationService: CurrentLocationService? = null
     private lateinit var foregroundOnlyBroadcastReceiver: ForegroundOnlyBroadcastReceiver
     private var ordersArray: ArrayList<String> = arrayListOf()
@@ -69,7 +70,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
       //  MyApplication.saveLocationTracking = false
 
         foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
-        startServicing()
+     //   startServicing()
 
     }
 
@@ -131,11 +132,12 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             btLogout.hide()
     }
 
-    fun changeState(){
+    fun changeState(track:Boolean){
 
 
 
-        if (!MyApplication.saveLocationTracking!!) {
+        if (!track) {
+            MyApplication.saveLocationTracking = false
             try {
                 foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
             }catch (ex:Exception){}
@@ -143,10 +145,16 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             try {
                 // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
                 if (foregroundPermissionApproved()) {
+                    MyApplication.saveLocationTracking = true
                     foregroundOnlyLocationService?.subscribeToLocationUpdates()
-                        ?: Log.d(TAG, "Service Not Bound")
+                        ?: run{
+                            Log.d(TAG, "Service Not Bound")
+                            MyApplication.saveLocationTracking = false
+                        }
                 } else {
-                    requestForegroundPermissions()
+                    AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("ok",this),AppHelper.getRemoteString("cancel",this),AppHelper.getRemoteString("permission_background_android",this)){
+                        requestForegroundPermissions()
+                    }
                 }
             } catch (ex: Exception) {
             }
@@ -496,6 +504,12 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
                 MyApplication.selectedFragment = FragmentHomeSP()
             }
+            MyApplication.saveLocationTracking = false
+            try {
+               foregroundOnlyLocationService!!.unsubscribeToLocationUpdates()
+            }catch (ex:Exception){
+
+            }
             MyApplication.selectedPos = 2
             context.finishAffinity()
             startActivity(
@@ -562,8 +576,9 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                     // Request permission
                     ActivityCompat.requestPermissions(
                         this@ActivityHome,
-                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION),
                         REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+
                     )
                 }
                 .show()
@@ -645,6 +660,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
            )*/
         //   sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
+        MyApplication.serviceContext = this
         val serviceIntent = Intent(this, LocationForeService::class.java)
         bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
 
@@ -684,6 +700,9 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             val binder = service as LocationForeService.LocalBinder
             foregroundOnlyLocationService = binder.foreService
             foregroundOnlyLocationServiceBound = true
+            if(MyApplication.saveLocationTracking!!)
+                changeState(true)
+         //   changeState()
         }
 
         override fun onServiceDisconnected(name: ComponentName) {

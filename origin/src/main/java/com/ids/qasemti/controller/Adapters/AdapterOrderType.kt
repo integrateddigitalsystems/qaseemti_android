@@ -109,12 +109,15 @@ class AdapterOrderType(
         try {
            if(items.get(position).onTrack!!) {
                onTrack=1
-               if(!MyApplication.saveLocationTracking!!) {
-                   MyApplication.selectedOrder = items.get(position)
-                   MyApplication.saveLocationTracking = true
-                   (con as ActivityHome).changeState()
-                   AppHelper.setSwitchColor(holder.switchOnTrack, con)
-                   onTrack = 1
+               if(!items.get(position).delivered!!) {
+                   if (!MyApplication.saveLocationTracking!!) {
+                       MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
+                       (con as ActivityHome).changeState(true)
+                       AppHelper.setSwitchColor(holder.switchOnTrack, con)
+                       onTrack = 1
+                   }
+               }else{
+                   MyApplication.saveLocationTracking = false
                }
             }else{
                onTrack=0
@@ -174,8 +177,8 @@ class AdapterOrderType(
                         }
                         holder.switchDelivered.isEnabled = false
                         MyApplication.saveLocationTracking = false
-                        MyApplication.selectedOrder = selectedOrd
-                        (con as ActivityHome).changeState()
+                        MyApplication.trackOrderId = selectedOrd.orderId!!.toInt()
+                        (con as ActivityHome).changeState(false)
                         delivered = 1
                         AppHelper.setSwitchColor(holder.switchDelivered, con)
                         holder.switchOnTrack.isEnabled = false
@@ -208,8 +211,8 @@ class AdapterOrderType(
                 ) {
                     if (holder.switchOnTrack.isChecked) {
                         MyApplication.selectedOrder = items.get(position)
-                        MyApplication.saveLocationTracking = true
-                        (con as ActivityHome).changeState()
+                        MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
+                        (con as ActivityHome).changeState(true)
                         AppHelper.setSwitchColor(holder.switchOnTrack, con)
                         onTrack = 1
                     } else {

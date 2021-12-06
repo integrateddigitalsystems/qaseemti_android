@@ -12,6 +12,7 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.*
@@ -71,7 +72,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         );
         init()
         setTabs()
-        setTabLayout(typeSelected)
+     //   setTabLayout(typeSelected)
         //  setData(true)
 
     }
@@ -392,10 +393,11 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
             }else{
                 tvNoData.hide()
                 slRefresh.isRefreshing = false
+                var glm2 = LinearLayoutManager(requireContext())
+                rvOrderDetails.layoutManager = glm2
                 adapter = AdapterOrderType(ordersArray, this, requireActivity())
                 rvOrderDetails.adapter = adapter
-                var glm2 = GridLayoutManager(requireContext(), 1)
-                rvOrderDetails.layoutManager = glm2
+
             }
         } catch (ex: Exception) {
 

@@ -143,7 +143,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
             etFloor.text.toString(),
             etMoreDetails.text.toString(),
             "",
-            etAddressProvince.text.toString(),
+            selectedProvince,
             etArea.text.toString(),
             etBlock.text.toString(),
             etAvenue.text.toString(),

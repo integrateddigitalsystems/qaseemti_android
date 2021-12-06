@@ -31,6 +31,7 @@ import com.ids.qasemti.controller.Adapters.AdapterOrderData
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.controller.MyApplication.Companion.foregroundOnlyLocationService
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.createDialog
@@ -73,7 +74,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
     private val TAG = "ActivityOrderDetails"
     private val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
     // Provides location updates for while-in-use feature.
-    private var foregroundOnlyLocationService: LocationForeService? = null
+
 
     // Listens for location broadcasts from ForegroundOnlyLocationService.
     private lateinit var foregroundOnlyBroadcastReceiver: ForegroundOnlyBroadcastReceiver
@@ -106,6 +107,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
         )*/
      //   sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
+        MyApplication.serviceContext = this
         val serviceIntent = Intent(this, LocationForeService::class.java)
         bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
 
@@ -143,6 +145,8 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
             val binder = service as LocationForeService.LocalBinder
             foregroundOnlyLocationService = binder.foreService
             foregroundOnlyLocationServiceBound = true
+            if(MyApplication.saveLocationTracking!!)
+                changeState(true)
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
@@ -158,7 +162,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
 
 
         foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
-        startServicing()
+     //  startServicing()
         init()
     }
 
@@ -186,10 +190,11 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
     }
 
 
-    fun changeState(){
+    fun changeState(track : Boolean){
 
 
-        if (!MyApplication.saveLocationTracking!!) {
+        if (!track) {
+            MyApplication.saveLocationTracking = false
             try {
                 foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
             }catch (ex:Exception){}
@@ -197,15 +202,17 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
             try {
                 // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
                 if (foregroundPermissionApproved()) {
+                    MyApplication.saveLocationTracking = true
                     foregroundOnlyLocationService?.subscribeToLocationUpdates()
                         ?: Log.d(TAG, "Service Not Bound")
                 } else {
-                    requestForegroundPermissions()
+                    AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("ok",this),AppHelper.getRemoteString("cancel",this),AppHelper.getRemoteString("permission_background_android",this)){
+                        requestForegroundPermissions()
+                    }
                 }
             } catch (ex: Exception) {
             }
         }
-
     }
     // TODO: Step 1.0, Review Permissions: Method requests permissions.
     private fun requestForegroundPermissions() {
@@ -413,7 +420,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
         array.add(OrderData(AppHelper.getRemoteString("type",this), try{if(!MyApplication.selectedOrder!!.product!!.types!!.isEmpty())MyApplication.selectedOrder!!.product!!.types else AppHelper.getRemoteString("no_data",this)}catch (ex:Exception){
             AppHelper.getRemoteString("no_data",this)
         }))
-        array.add(OrderData(AppHelper.getRemoteString("SizeCapacity",this),try{ if(!MyApplication.selectedOrder!!.product!!.sizeCapacity!!.isEmpty()) MyApplication.selectedOrder!!.product!!.types else AppHelper.getRemoteString("no_data",this)}catch (ex:Exception){
+        array.add(OrderData(AppHelper.getRemoteString("SizeCapacity",this),try{ if(!MyApplication.selectedOrder!!.product!!.sizeCapacity!!.isEmpty()) MyApplication.selectedOrder!!.product!!.sizeCapacity else AppHelper.getRemoteString("no_data",this)}catch (ex:Exception){
             AppHelper.getRemoteString("no_data",this)
         }))
         array.add(OrderData(AppHelper.getRemoteString("Quantity",this), MyApplication.selectedOrder!!.product!!.qty))
@@ -901,7 +908,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
             ) {
                 if (swOnTrack.isChecked) {
                     MyApplication.saveLocationTracking = true
-                    changeState()
+                    changeState(true)
                     AppHelper.setSwitchColor(swOnTrack,this)
                     onTrack = 1
                 } else {
@@ -966,7 +973,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
                     }
                     swDelivered.isEnabled = false
                     MyApplication.saveLocationTracking = false
-                    changeState()
+                    changeState(false)
                     AppHelper.setSwitchColor(swDelivered,this)
                     delivered = 1
                 } else {

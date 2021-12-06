@@ -524,6 +524,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
                 MyApplication.selectedService = arrayFiltered.get(position)
                 MyApplication.rental = position == 2
                 MyApplication.position = position
+
                 (requireActivity() as ActivityHome?)!!.addFrag(
                     FragmentServiceDetails(),
                     AppConstants.FRAGMENT_SERVICE_DETAILS

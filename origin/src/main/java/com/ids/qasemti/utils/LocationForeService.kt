@@ -17,17 +17,14 @@ import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.toObject
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
-import com.ids.qasemti.model.ResponseOrders
 import kotlinx.android.synthetic.main.activity_code_verification.*
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
@@ -141,7 +138,7 @@ class LocationForeService : Service() {
             stopSelf()
         }
         // Tells the system not to recreate the service after it's been killed.
-        return START_NOT_STICKY
+        return START_STICKY
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -184,8 +181,24 @@ class LocationForeService : Service() {
         return true
     }
 
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        super.onTaskRemoved(rootIntent)
+        val intent = Intent("com.android.ServiceStopped")
+        sendBroadcast(intent)
+    }
+
+    override fun onStart(intent: Intent?, startId: Int) {
+        subscribeToLocationUpdates()
+    }
+
+
     override fun onDestroy() {
         Log.d(TAG, "onDestroy()")
+
+       /* val broadcastIntent = Intent()
+        broadcastIntent.action = "restartservice"
+        broadcastIntent.setClass(this, Restarter::class.java)
+        this.sendBroadcast(broadcastIntent)*/
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -194,10 +207,10 @@ class LocationForeService : Service() {
     }
 
 
-    fun setUpDoc(order: ResponseOrders) {
-        MyApplication.selectedOrderTrack = order
+    fun setUpDoc(orderId: Int) {
+        //MyApplication.selectedOrderTrack = order
          doc = MyApplication.db!!.collection("table_order")
-            .document(order.orderId!!)
+            .document(orderId.toString())
 
 
 
@@ -214,7 +227,7 @@ class LocationForeService : Service() {
             } else {
                 try {
                     val user: MutableMap<String, String> = HashMap()
-                    user["oder_id"] = order.orderId!!
+                    user["oder_id"] = orderId.toString()
                     try {
                         user["order_laltitude"] =
                             MyApplication.selectedCurrentAddress!!.lat.toString()
@@ -269,8 +282,9 @@ class LocationForeService : Service() {
 
         }
 
-        val myLocation = MyLocation()
-        myLocation.getLocation(this, locationResult)
+      //  val myLocation = MyLocation()
+
+        //myLocation.getLocation(this, locationResult)
 
 
         locationListenerGps = object : LocationListener {
@@ -278,6 +292,7 @@ class LocationForeService : Service() {
 
             override fun onLocationChanged(location: Location) {
                 try{
+                logw("UPDATE_DESTORY",location.latitude.toString()+","+location.longitude.toString())
                 MyApplication.selectedCurrentAddress!!.lat=location.latitude.toString()
                 MyApplication.selectedCurrentAddress!!.long=location.longitude.toString()}catch (e:Exception){}
 
@@ -317,35 +332,38 @@ class LocationForeService : Service() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(
-                applicationContext as Activity,
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ), 111
+            mLocationManager!!.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME.toLong(),
+                LOCATION_REFRESH_DISTANCE.toFloat(), locationListenerGps!!
             )
-            return
         }
-        mLocationManager!!.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME.toLong(),
-            LOCATION_REFRESH_DISTANCE.toFloat(), locationListenerGps!!
-        )
+
 
     }
     fun subscribeToLocationUpdates() {
         Log.d(TAG, "subscribeToLocationUpdates()")
-        setUpDoc(MyApplication.selectedOrder!!)
+        setUpDoc(MyApplication.trackOrderId!!)
 
 
     }
 
     fun unsubscribeToLocationUpdates() {
         Log.d(TAG, "unsubscribeToLocationUpdates()")
+
+
+
+
+
+
+
+
+
+
 
         try {
             // TODO: Step 1.6, Unsubscribe to location changes.
