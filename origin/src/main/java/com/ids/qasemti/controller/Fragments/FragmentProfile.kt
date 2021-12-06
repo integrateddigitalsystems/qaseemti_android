@@ -1067,13 +1067,22 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
                 }
             btSaveProfile.onOneClick {
-                if (etFirstNameProfile.text.isNullOrEmpty() || etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty())
-                    AppHelper.createDialog(
-                        requireActivity(),
-                        AppHelper.getRemoteString("fill_all_field", requireContext())
-                    )
+                if (etFirstNameProfile.text.isNullOrEmpty() || etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty() || !AppHelper.isEmailValid(etEmailProfile.text.toString())) {
+                    if(!AppHelper.isEmailValid(etEmailProfile.text.toString())){
+                            AppHelper.createDialog(
+                                requireActivity(),
+                                AppHelper.getRemoteString("email_valid_error", requireContext())
+                            )
+                        }else {
+                        AppHelper.createDialog(
+                            requireActivity(),
+                            AppHelper.getRemoteString("fill_all_field", requireContext())
+                        )
+                    }
+                }
                 else if (!MyApplication.isClient) {
                     var x = etCivilIdNbProfile.text
+                   /* if((!etAccountNumberProfile.text.toString().isNullOrEmpty() || !etBranchNameProfile.text.isNullOrEmpty() || selectedBankId!=0 || !etIBANProfile.text.isNullOrEmpty()) && (etAccountNumberProfile.text.toString().isNullOrEmpty() || selectedBankId!=0 || etIBANProfile.text.isNullOrEmpty()))*/
                     if (etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length == 12) {
 
                         if (etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30)

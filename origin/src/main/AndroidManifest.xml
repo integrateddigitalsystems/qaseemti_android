@@ -34,14 +34,6 @@
             android:exported="true"
             android:foregroundServiceType="location" />-->
 
-        <receiver
-            android:name=".utils.Restarter"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="restartservice" />
-            </intent-filter>
-        </receiver>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -136,14 +128,10 @@
 
         <service
             android:name=".utils.LocationForeService"
-            android:process=":MYPROCESS"
-            android:isolatedProcess="true"
-            android:stopWithTask="false">
-            <intent-filter>
-                <action android:name="PackageName.ServiceName" />
-            </intent-filter>
-        </service>
-
+            android:stopWithTask="true"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="location"/>
 
         <activity
             android:name=".controller.Activities.ActivityChat"

@@ -136,6 +136,7 @@ class AdapterOrderType(
             AppHelper.setSwitchColor(holder.switchDelivered,con)
         }catch (ex:java.lang.Exception){}
 
+        holder.switchOnTrack.isEnabled = true
         if(paid==1) {
             holder.switchPaid.isChecked = true
             holder.switchPaid.isEnabled = false

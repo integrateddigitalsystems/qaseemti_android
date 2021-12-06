@@ -823,10 +823,10 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
                 this, R.style.DatePickerDialog,
                 { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
-                    var time = String.format("%02d", selectedHour) + " : " + String.format(
+                    var time = String.format("%02d", selectedHour) + ":" + String.format(
                         "%02d",
                         selectedMinute
-                    )
+                    )+":00"
                     etOrderDetailTime.text = time.toEditable()
                 }, hour, minute, false
             ) //Yes 24 hour time
@@ -1057,7 +1057,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener,ApiListener {
 
     fun sendSuggestedDate() {
         loading.show()
-        var newReq = RequestNewDeliveryDate(MyApplication.selectedOrder!!.orderId!!.toInt(), etOrderDetailDate.text.toString(),MyApplication.languageCode)
+        var newReq = RequestNewDeliveryDate(MyApplication.selectedOrder!!.orderId!!.toInt(), etOrderDetailDate.text.toString()+" "+etOrderDetailTime.text.toString(),MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.sp_send_new_dt(newReq)?.enqueue(object : Callback<ResponseDeliveryDate> {
                 override fun onResponse(
