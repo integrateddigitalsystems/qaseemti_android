@@ -15,6 +15,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
+import kotlinx.android.synthetic.main.activity_code_verification.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.fragment_notifications.*
 import kotlinx.android.synthetic.main.loading.*
@@ -144,12 +145,19 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
 
         AppHelper.onOneClick {
-            array[position].open = !array[position].open
-            if(array[position].isViewed.equals("0")){
-                markNotification(array[position].id!!.toInt())
-                array[position].isViewed = "1"
+            btVerifyCode.onOneClick {
+                if (AppHelper.isOnline(requireContext())) {
+                    array[position].open = !array[position].open
+                    if (array[position].isViewed.equals("0")) {
+                        markNotification(array[position].id!!.toInt())
+                        array[position].isViewed = "1"
+                    }
+                    adapter!!.notifyItemChanged(position)
+                } else {
+                    AppHelper.createDialog(requireActivity(), getString(R.string.no_internet))
+                }
+
             }
-            adapter!!.notifyItemChanged(position)
         }
     }
 }

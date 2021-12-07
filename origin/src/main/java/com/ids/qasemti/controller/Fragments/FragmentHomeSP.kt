@@ -239,23 +239,28 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             swAvailable.isChecked = false
         }
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
-            try {
-                if (swAvailable.isChecked) {
-                    slRefreshBroad.show()
-                    // getOrders()
-                    setAvailability(1)
-                    swAvailable.text = AppHelper.getRemoteString("available", requireContext())
-                    llNodata.hide()
-                } else {
-                    slRefreshBroad.hide()
-                    llNodata.show()
-                    tvNoDataHome.hide()
-                    setAvailability(0)
-                    swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
-                }
-            }catch (ex:Exception){
+            if (AppHelper.isOnline(requireActivity())) {
+                try {
+                    if (swAvailable.isChecked) {
+                        slRefreshBroad.show()
+                        // getOrders()
+                        setAvailability(1)
+                        swAvailable.text = AppHelper.getRemoteString("available", requireContext())
+                        llNodata.hide()
+                    } else {
+                        slRefreshBroad.hide()
+                        llNodata.show()
+                        tvNoDataHome.hide()
+                        setAvailability(0)
+                        swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
+                    }
+                }catch (ex:Exception){
 
+                }
+            }else{
+                AppHelper.createDialog(requireActivity(),getString(R.string.no_internet))
             }
+
         }
     }
 
@@ -466,11 +471,16 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             AppHelper.getRemoteString("cancel", context),
             AppHelper.getRemoteString("sure_accept", context)
         ) {
-            acceptOrder(
-                ordersArray[position].orderId!!.toInt(),
-                ordersArray[position].total!!.toDouble()
-                    .toInt() + ordersArray[position].shippingTotal!!.toDouble().toInt()
-            )
+            if (AppHelper.isOnline(requireActivity())) {
+                acceptOrder(
+                    ordersArray[position].orderId!!.toInt(),
+                    ordersArray[position].total!!.toDouble()
+                        .toInt() + ordersArray[position].shippingTotal!!.toDouble().toInt()
+                )
+            }else{
+                AppHelper.createDialog(requireActivity(),getString(R.string.no_internet))
+            }
+
         }
     }
 }

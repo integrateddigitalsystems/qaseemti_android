@@ -38,70 +38,81 @@ class ActivityAccountStatus : ActivityBase() {
         }
 
         llNotificationStatus.onOneClick {
-            if(notfSelected==0 || notfSelected==-1){
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    ImageViewCompat.setImageTintList(
-                        ivNotificationStatus,
-                        ColorStateList.valueOf(getResources().getColor(R.color.primary, getTheme()))
-                    )
-                    ImageViewCompat.setImageTintList(
-                        ivMessageStatus,
-                        ColorStateList.valueOf(getResources().getColor(R.color.gray_tint, getTheme()))
-                    )
-                }
-                else {
-                    ImageViewCompat.setImageTintList(
-                        ivNotificationStatus,
-                        ColorStateList.valueOf(
-                            getResources().getColor(R.color.primary)
+
+
+            if (AppHelper.isOnline(this)) {
+                if(notfSelected==0 || notfSelected==-1){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        ImageViewCompat.setImageTintList(
+                            ivNotificationStatus,
+                            ColorStateList.valueOf(getResources().getColor(R.color.primary, getTheme()))
                         )
-                    )
-                    ImageViewCompat.setImageTintList(
-                        ivMessageStatus,
-                        ColorStateList.valueOf(
-                            getResources().getColor(R.color.gray_tint)
+                        ImageViewCompat.setImageTintList(
+                            ivMessageStatus,
+                            ColorStateList.valueOf(getResources().getColor(R.color.gray_tint, getTheme()))
                         )
-                    )
+                    }
+                    else {
+                        ImageViewCompat.setImageTintList(
+                            ivNotificationStatus,
+                            ColorStateList.valueOf(
+                                getResources().getColor(R.color.primary)
+                            )
+                        )
+                        ImageViewCompat.setImageTintList(
+                            ivMessageStatus,
+                            ColorStateList.valueOf(
+                                getResources().getColor(R.color.gray_tint)
+                            )
+                        )
+                    }
                 }
+                if(btSave.visibility == View.GONE)
+                    btSave.show()
+                notfSelected = 1
+                setNotificationType(1)
+            }else{
+                AppHelper.createDialog(this,getString(R.string.no_internet))
             }
-            if(btSave.visibility == View.GONE)
-                btSave.show()
-            notfSelected = 1
-           setNotificationType(1)
         }
 
         llMessageStatus.onOneClick {
-            if(notfSelected==1 || notfSelected==-1){
+            if (AppHelper.isOnline(this)) {
+                if(notfSelected==1 || notfSelected==-1){
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    ImageViewCompat.setImageTintList(
-                        ivNotificationStatus,
-                        ColorStateList.valueOf(getResources().getColor(R.color.gray_tint, getTheme()))
-                    )
-                    ImageViewCompat.setImageTintList(
-                        ivMessageStatus,
-                        ColorStateList.valueOf(getResources().getColor(R.color.primary, getTheme()))
-                    )
-                }
-                else {
-                    ImageViewCompat.setImageTintList(
-                        ivNotificationStatus,
-                        ColorStateList.valueOf(
-                            getResources().getColor(R.color.gray_tint)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        ImageViewCompat.setImageTintList(
+                            ivNotificationStatus,
+                            ColorStateList.valueOf(getResources().getColor(R.color.gray_tint, getTheme()))
                         )
-                    )
-                    ImageViewCompat.setImageTintList(
-                        ivMessageStatus,
-                        ColorStateList.valueOf(
-                            getResources().getColor(R.color.primary)
+                        ImageViewCompat.setImageTintList(
+                            ivMessageStatus,
+                            ColorStateList.valueOf(getResources().getColor(R.color.primary, getTheme()))
                         )
-                    )
+                    }
+                    else {
+                        ImageViewCompat.setImageTintList(
+                            ivNotificationStatus,
+                            ColorStateList.valueOf(
+                                getResources().getColor(R.color.gray_tint)
+                            )
+                        )
+                        ImageViewCompat.setImageTintList(
+                            ivMessageStatus,
+                            ColorStateList.valueOf(
+                                getResources().getColor(R.color.primary)
+                            )
+                        )
+                    }
                 }
+                if(btSave.visibility == View.GONE)
+                    btSave.show()
+                notfSelected = 0
+                setNotificationType(0)
+            }else{
+                AppHelper.createDialog(this,getString(R.string.no_internet))
             }
-            if(btSave.visibility == View.GONE)
-                btSave.show()
-            notfSelected = 0
-            setNotificationType(0)
+
         }
 
     }

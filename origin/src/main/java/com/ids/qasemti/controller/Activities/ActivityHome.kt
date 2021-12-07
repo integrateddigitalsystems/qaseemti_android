@@ -70,6 +70,8 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         MyApplication.saveLocationTracking = false
 
         foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
+
+
      //   startServicing()
 
     }
@@ -140,6 +142,9 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             MyApplication.saveLocationTracking = false
             try {
                 foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+                val intent = Intent()
+                intent.setClass(this, LocationForeService::class.java)
+                stopService(intent)
             }catch (ex:Exception){}
         } else {
             try {
@@ -507,8 +512,11 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             MyApplication.saveLocationTracking = false
             try {
                foregroundOnlyLocationService!!.unsubscribeToLocationUpdates()
+                val intent = Intent()
+                intent.setClass(this, LocationForeService::class.java)
+                stopService(intent)
             }catch (ex:Exception){
-
+                logw("error",ex.toString())
             }
             MyApplication.selectedPos = 2
             context.finishAffinity()
@@ -576,7 +584,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                     // Request permission
                     ActivityCompat.requestPermissions(
                         this@ActivityHome,
-                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION),
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_BACKGROUND_LOCATION),
                         REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
 
                     )

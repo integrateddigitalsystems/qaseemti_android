@@ -38,7 +38,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
         pvCode.requestFocus()
         pvCode.showKeyboard(true)
 
-        tvTitleVerf.onOneClick {
+        /*tvTitleVerf.onOneClick {
             if (MyApplication.isClient) {
                 MyApplication.userId = 51
                 MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
@@ -51,9 +51,9 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
             MyApplication.isSignedIn = true
             startActivity(Intent(this, ActivityHome::class.java))
             finish()
-        }
+        }*/
 
-        tvCodeSentVef.onOneClick {
+       /* tvCodeSentVef.onOneClick {
             if (MyApplication.isClient) {
                 MyApplication.userId = 51
             } else {
@@ -62,7 +62,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
             MyApplication.isSignedIn = true
             startActivity(Intent(this, ActivityRegistration::class.java))
             finish()
-        }
+        }*/
 
         if (MyApplication.isClient) {
             btVerifyCode.hide()
@@ -71,7 +71,13 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
                 super.onBackPressed()
             }
             btRegisterVerf.onOneClick {
-                verifyOTP()
+
+                if (AppHelper.isOnline(this)) {
+                    verifyOTP()
+                }else{
+                    AppHelper.createDialog(this,getString(R.string.no_internet))
+                }
+
                 //startActivity(Intent(this,ActivityAccountStatus::class.java))
             }
         } else {
@@ -79,7 +85,12 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
             llClientVerfCode.hide()
 
             btVerifyCode.onOneClick {
-                verifyOTP()
+                if (AppHelper.isOnline(this@ActivityCodeVerification)) {
+                    verifyOTP()
+                }else{
+                    AppHelper.createDialog(this@ActivityCodeVerification,getString(R.string.no_internet))
+                }
+
                 //startActivity(Intent(this,ActivityAccountStatus::class.java))
             }
 
@@ -113,20 +124,24 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
                     R.color.new_black
                 )
                 tvTimerTitle.onOneClick {
-                    if (first) {
-                        tvTimerTitle.text = AppHelper.getRemoteString(
-                            "resend_code_in",
-                            this@ActivityCodeVerification
-                        )
-                        AppHelper.setTextColor(
-                            this@ActivityCodeVerification,
-                            tvTimerTitle,
-                            R.color.gray_font_title
-                        )
+                    if (AppHelper.isOnline(this@ActivityCodeVerification)) {
+                        if (first) {
+                            tvTimerTitle.text = AppHelper.getRemoteString(
+                                "resend_code_in",
+                                this@ActivityCodeVerification
+                            )
+                            AppHelper.setTextColor(
+                                this@ActivityCodeVerification,
+                                tvTimerTitle,
+                                R.color.gray_font_title
+                            )
 
-                        time = 59
-                        this.start()
-                        sendOTP()
+                            time = 59
+                            this.start()
+                            sendOTP()
+                        }
+                    }else{
+                        AppHelper.createDialog(this@ActivityCodeVerification,getString(R.string.no_internet))
                     }
                 }
             }
@@ -145,7 +160,12 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
                 before: Int, count: Int
             ) {
                 if (s.length == 4) {
-                    verifyOTP()
+                    if (AppHelper.isOnline(this@ActivityCodeVerification)) {
+                        verifyOTP()
+                    }else{
+                        AppHelper.createDialog(this@ActivityCodeVerification,getString(R.string.no_internet))
+                    }
+
                 }
 
             }

@@ -199,11 +199,22 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
                 createDialog(this,"Please fill all Required files")
             else{
 
-                addService()
+                if (AppHelper.isOnline(this)) {
+                    addService()
+
+                }else{
+                    AppHelper.createDialog(this,getString(R.string.no_internet))
+                }
+
 
             }}else{
                 addServiceDone=true
-                updateService()
+                if (AppHelper.isOnline(this)) {
+                    updateService()
+                }else{
+                    AppHelper.createDialog(this,getString(R.string.no_internet))
+                }
+
             }
         }
 

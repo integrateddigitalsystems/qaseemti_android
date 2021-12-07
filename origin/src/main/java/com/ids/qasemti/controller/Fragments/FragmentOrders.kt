@@ -33,7 +33,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class FragmentOrders : Fragment(), RVOnItemClickListener {
+class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
 
     var ordersArray: ArrayList<ResponseOrders> = arrayListOf()
     var adapter: AdapterOrderType? = null
@@ -49,6 +49,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
             MyApplication.renewed = false
             setTabLayout(0)
         }else if(MyApplication.completed){
+            MyApplication.completed = false
             setTabLayout(2)
         }else{
             setTabLayout(typeSelected)
@@ -255,10 +256,9 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
         if (view.id == R.id.llLocation) {
 
 
-                val uri: String =
-                    java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", ordersArray.get(position).shipping_latitude!!.toDouble(),  ordersArray.get(position).shipping_longitude!!.toDouble())
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-                requireActivity().startActivity(intent)
+            val intent=Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("geo:0,0?q="+ordersArray.get(position).shipping_latitude!!+","+ordersArray.get(position).shipping_longitude!!+"("+ordersArray.get(position).addressname+")")
+            startActivity(intent)
                /* AppHelper.onOneClick {
                     MyApplication.selectedOrder = ordersArray.get(position)
                     if (!MyApplication.selectedOrder!!.customerLocation.isNullOrEmpty() && !MyApplication.selectedOrder!!.customerLocation.equals(
@@ -395,7 +395,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
                 slRefresh.isRefreshing = false
                 var glm2 = LinearLayoutManager(requireContext())
                 rvOrderDetails.layoutManager = glm2
-                adapter = AdapterOrderType(ordersArray, this, requireActivity())
+                adapter = AdapterOrderType(ordersArray, this, this,requireActivity(),loading)
                 rvOrderDetails.adapter = adapter
 
             }
@@ -428,5 +428,9 @@ class FragmentOrders : Fragment(), RVOnItemClickListener {
             getOrders()
         else
             getClientOrders()
+    }
+
+    override fun reload() {
+        getOrders()
     }
 }

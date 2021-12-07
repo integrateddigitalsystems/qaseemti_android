@@ -23,12 +23,15 @@ import java.util.*
 class AdapterOrderType(
     val items: ArrayList<ResponseOrders>,
     private val itemClickListener: RVOnItemClickListener,
-    context: Activity
+    val reloader : ReloadData ,
+    context: Activity ,
+    loading : LinearLayout
 ) :
     RecyclerView.Adapter<AdapterOrderType.VHItem>() {
 
     var con = context
     var delivered = 0
+    var loading = loading
     var onTrack = 0
     var paid = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
@@ -170,12 +173,13 @@ class AdapterOrderType(
                     var selectedOrd = items.get(position)
                     if (holder.switchDelivered.isChecked) {
 
-                        if (holder.switchPaid.isChecked) {
-                            items.removeAt(position)
+                        /*if (holder.switchPaid.isChecked) {
+                            *//*items.removeAt(position)
                             if (usedPos > 0)
                                 usedPos--
-                            notifyItemChanged(usedPos)
-                        }
+                            notifyItemChanged(usedPos)*//*
+                            reloader.reload()
+                        }*/
                         holder.switchDelivered.isEnabled = false
                         MyApplication.saveLocationTracking = false
                         MyApplication.trackOrderId = selectedOrd.orderId!!.toInt()
@@ -189,11 +193,15 @@ class AdapterOrderType(
                         AppHelper.setSwitchColor(holder.switchDelivered, con)
                     }
 
+                    var x = holder.switchOnTrack
+
                     AppHelper.updateStatus(
-                        selectedOrd.orderId!!.toInt(),
-                        onTrack,
-                        delivered,
-                        paid
+                        items.get(position).orderId!!.toInt(),
+                        holder.switchOnTrack.isChecked,
+                        holder.switchDelivered.isChecked,
+                        holder.switchPaid.isChecked ,
+                        reloader ,
+                        loading
                     )
                 }
 
@@ -221,10 +229,12 @@ class AdapterOrderType(
                         AppHelper.setSwitchColor(holder.switchOnTrack, con)
                     }
                     AppHelper.updateStatus(
-                        items.get(position).orderId!!.toInt(),
-                        onTrack,
-                        delivered,
-                        paid
+                       items.get(position).orderId!!.toInt(),
+                        holder.switchOnTrack.isChecked,
+                        holder.switchDelivered.isChecked,
+                        holder.switchPaid.isChecked,
+                        reloader,
+                        loading
                     )
 
                     //AppHelper.setUpDoc(items.get(position))
@@ -252,8 +262,8 @@ class AdapterOrderType(
 
 
 
-                    if(holder.switchDelivered.isChecked){
-                        items.removeAt(position)
+                   /* if(holder.switchDelivered.isChecked){
+                       *//* items.removeAt(position)
                         if(usedPos>0) {
                             usedPos--
                             notifyItemRemoved(usedPos)
@@ -261,9 +271,12 @@ class AdapterOrderType(
                             notifyDataSetChanged()
                         }
 
-
-                    }
+*//*
+                        reloader.reload()
+                    }*/
                     holder.switchPaid.isEnabled = false
+                    MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
+                    (con as ActivityHome).changeState(false)
                     MyApplication.saveLocationTracking = false
                     paid = 1
                     AppHelper.setSwitchColor(holder.switchPaid,con)
@@ -272,10 +285,12 @@ class AdapterOrderType(
                     AppHelper.setSwitchColor(holder.switchPaid,con)
                 }
                 AppHelper.updateStatus(
-                   selectOrder!!.orderId!!.toInt(),
-                    onTrack,
-                    delivered,
-                    paid
+                    items.get(position).orderId!!.toInt(),
+                    holder.switchOnTrack.isChecked,
+                    holder.switchDelivered.isChecked,
+                    holder.switchPaid.isChecked,
+                    reloader,
+                    loading
                 )
             }
         }

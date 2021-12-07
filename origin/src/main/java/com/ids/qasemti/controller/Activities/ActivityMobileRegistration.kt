@@ -90,10 +90,10 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener , ApiL
 
         btLoginClient.onOneClick {
             validateRegistration()
-       }
+        }
 
         btLogin.onOneClick {
-           validateRegistration()
+            validateRegistration()
         }
     }
 
@@ -249,9 +249,9 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener , ApiL
     override fun onItemClicked(view: View, position: Int) {
 
 
-            dialog!!.dismiss()
-            MyApplication.selectedItemDialog=arrayCountries[position].code!!
-            tvCountryCode.text = arrayCountries[position].code!!
+        dialog!!.dismiss()
+        MyApplication.selectedItemDialog=arrayCountries[position].code!!
+        tvCountryCode.text = arrayCountries[position].code!!
 
     }
 

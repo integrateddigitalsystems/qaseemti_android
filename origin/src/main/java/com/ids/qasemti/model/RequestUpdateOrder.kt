@@ -11,15 +11,15 @@ class RequestUpdateOrder(
 
     @SerializedName("on_track")
     @Expose
-    var onTrack : Int ?=0 ,
+    var onTrack : Boolean ?=false ,
 
     @SerializedName("delivered")
     @Expose
-    var delivered : Int ?=0 ,
+    var delivered : Boolean ?=false ,
 
     @SerializedName("paid")
     @Expose
-    var paid : Int ?=0
+    var paid : Boolean ?=false
 
  ) {
 }

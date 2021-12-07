@@ -306,6 +306,10 @@
     <string name="service_name">Service Name</string>
     <string name="service_type">Service Type</string>
     <string name="Previous">Previous</string>
+    <string name="permission_background_android">This app collects location data to enable client app tracking order feature ,even when the app is closed or not in use.\n\n  if you want to enable these features please press OK.\n\n By pressing CANCEL the client will not be able to track your location.</string>
+    <string name="must_enter_Address_First">You must enter your Address First !</string>
+    <string name="view_orders">View Orders</string>
+    <string name="no_internet">Internet connection unavailable , please check your connection.</string>
 
 
 </resources>

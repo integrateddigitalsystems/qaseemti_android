@@ -211,14 +211,25 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
             it.id.toString() == user!!.bankId!!
         }))
-        selectedProvince = user.addresses!!.get(0).province
-        spProvinceProfile.setSelection(
-            arraySpinner.indexOf(
-                arraySpinner.find {
-                    it.name.equals(selectedProvince)
+
+
+        if (MyApplication.selectedUser!!.addresses!!.get(0).province != null && MyApplication.selectedUser!!.addresses!!.get(0).province != "null") {
+            try {
+                var indx = arraySpinner.indexOf(arraySpinner.find {
+                    it.name!!.equals(MyApplication.selectedUser!!.addresses!!.get(0).province)
                 }
-            )
-        )
+                )
+                if(indx !=0) {
+                    spProvinceProfile.setSelection(indx)
+                    selectedProvince = arraySpinner.get(indx).name
+                    spProvinceProfile.isEnabled = false
+                }else{
+                    spProvinceProfile.isEnabled = true
+                }
+            } catch (ex: Exception) {
+
+            }
+        }
 
         loading.hide()
     }
@@ -719,43 +730,52 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
                         try {
                             var myAddress = MyApplication.selectedUser!!.addresses!![0]
-                            if (myAddress.addressName != null && myAddress.addressName != "null")
+                            if (myAddress.addressName != null && myAddress.addressName != "null") {
                                 etAddressName!!.setText(myAddress.addressName)
+                                etAddressName.isEnabled = false
+                            }
 
-                            if (myAddress.desc != null && myAddress.desc != "null")
+                            if (myAddress.desc != null && myAddress.desc != "null") {
                                 etMoreDetails!!.setText(myAddress.desc)
+                                etMoreDetails.isEnabled = false
+                            }
 
-                            if (myAddress.area != null && myAddress.area != "null")
+                            if (myAddress.area != null && myAddress.area != "null") {
                                 etArea!!.setText(myAddress.area)
+                                etArea.isEnabled = false
+                            }
 
-                            if (myAddress.block != null && myAddress.block != "null")
+                            if (myAddress.block != null && myAddress.block != "null") {
                                 etBlock!!.setText(myAddress.block)
+                                etBlock.isEnabled = false
+                            }
 
-                            if (myAddress.avenue != null && myAddress.avenue != "null")
+                            if (myAddress.avenue != null && myAddress.avenue != "null") {
                                 etAvenue!!.setText(myAddress.avenue)
+                                etAvenue.isEnabled = false
+                            }
 
-                            if (myAddress.apartment != null && myAddress.apartment != "null")
+                            if (myAddress.apartment != null && myAddress.apartment != "null") {
                                 etApartment!!.setText(myAddress.apartment)
+                                etApartment.isEnabled = false
+                            }
 
-                            if (myAddress.floor != null && myAddress.floor != "null")
+                            if (myAddress.floor != null && myAddress.floor != "null") {
                                 etFloor!!.setText(myAddress.floor)
+                                etFloor.isEnabled = false
+                            }
 
-                            if (myAddress.bldg != null && myAddress.bldg != "null")
+                            if (myAddress.bldg != null && myAddress.bldg != "null") {
                                 etBuilding!!.setText(myAddress.bldg)
+                                etBuilding.isEnabled = false
+                            }
 
-                            if (myAddress.street != null && myAddress.street != "null")
+                            if (myAddress.street != null && myAddress.street != "null") {
                                 etStreet!!.setText(myAddress.street)
+                                etStreet.isEnabled = false
+                            }
 
-                            if (myAddress.province != null && myAddress.province != "null")
-                                try {
-                                    spProvinceProfile.setSelection(arraySpinner.indexOf(arraySpinner.find {
-                                        it.name!!.equals(myAddress.province)
-                                    }
-                                    )
-                                    )
-                                } catch (ex: Exception) {
 
-                                }
 
                         } catch (e: java.lang.Exception) {
                         }
@@ -1067,40 +1087,50 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
                 }
             btSaveProfile.onOneClick {
-                if (etFirstNameProfile.text.isNullOrEmpty() || etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty() || !AppHelper.isEmailValid(etEmailProfile.text.toString())) {
-                    if(!AppHelper.isEmailValid(etEmailProfile.text.toString())){
-                            AppHelper.createDialog(
-                                requireActivity(),
-                                AppHelper.getRemoteString("email_valid_error", requireContext())
-                            )
-                        }else {
+
+                if (AppHelper.isOnline(requireActivity())) {
+
+
+                    if (etFirstNameProfile.text.isNullOrEmpty() || etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty() || !AppHelper.isEmailValid(
+                            etEmailProfile.text.toString()
+                        )
+                    ) {
+
                         AppHelper.createDialog(
                             requireActivity(),
                             AppHelper.getRemoteString("fill_all_field", requireContext())
                         )
-                    }
-                }
-                else if (!MyApplication.isClient) {
-                    var x = etCivilIdNbProfile.text
-                   /* if((!etAccountNumberProfile.text.toString().isNullOrEmpty() || !etBranchNameProfile.text.isNullOrEmpty() || selectedBankId!=0 || !etIBANProfile.text.isNullOrEmpty()) && (etAccountNumberProfile.text.toString().isNullOrEmpty() || selectedBankId!=0 || etIBANProfile.text.isNullOrEmpty()))*/
-                    if (etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length == 12) {
 
-                        if (etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30)
-                            updateServiceProfile()
-                        else
-                            AppHelper.createDialog(
-                                requireActivity(),
-                                AppHelper.getRemoteString("iban_must_be_30", requireActivity())
-                            )
-                    } else {
+                    } else if (!AppHelper.isEmailValid(etEmailProfile.text.toString())) {
                         AppHelper.createDialog(
                             requireActivity(),
-                            AppHelper.getRemoteString("civil_id_length", requireActivity())
+                            AppHelper.getRemoteString("email_valid_error", requireContext())
                         )
+                    } else if (!MyApplication.isClient) {
+                        var x = etCivilIdNbProfile.text
+                        /* if((!etAccountNumberProfile.text.toString().isNullOrEmpty() || !etBranchNameProfile.text.isNullOrEmpty() || selectedBankId!=0 || !etIBANProfile.text.isNullOrEmpty()) && (etAccountNumberProfile.text.toString().isNullOrEmpty() || selectedBankId!=0 || etIBANProfile.text.isNullOrEmpty()))*/
+                        if (etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length == 12) {
 
-                    }
-                } else
-                    updateClientProfile()
+                            if (etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30)
+                                updateServiceProfile()
+                            else
+                                AppHelper.createDialog(
+                                    requireActivity(),
+                                    AppHelper.getRemoteString("iban_must_be_30", requireActivity())
+                                )
+                        } else {
+                            AppHelper.createDialog(
+                                requireActivity(),
+                                AppHelper.getRemoteString("civil_id_length", requireActivity())
+                            )
+
+                        }
+                    } else
+                        updateClientProfile()
+                }else{
+
+                AppHelper.createDialog(requireActivity(),getString(R.string.no_internet))
+                }
             }
 
 

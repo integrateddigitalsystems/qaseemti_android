@@ -29,105 +29,105 @@ import java.io.File
 
 class ActivityRegistration : ActivityBase() , ApiListener{
 
-    var body1: MultipartBody.Part? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
-        AppHelper.setAllTexts(rootLayoutRegistration, this)
-        AppHelper.setLogoTint(logo_main, this, R.color.white)
+  var body1: MultipartBody.Part? = null
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_register)
+    AppHelper.setAllTexts(rootLayoutRegistration, this)
+    AppHelper.setLogoTint(logo_main, this, R.color.white)
 
-        if (MyApplication.isClient) {
-            rlNoLogo.show()
-            llTopService.hide()
-            tvRegisterTitle.hide()
-        } else {
-            rlNoLogo.hide()
-            llTopService.show()
-            tvRegisterTitle.show()
-        }
-
-
-
-        btRegister.onOneClick {
-            if (etFirstName.text.isNullOrEmpty() || etLastName.text.isNullOrEmpty() || etEmail.text.isNullOrEmpty()) {
-                AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
-            } else if (!AppHelper.isEmailValid(etEmail.text.toString())) {
-                AppHelper.createDialog(this, AppHelper.getRemoteString("email_valid_error", this))
-            } else {
-                if (!MyApplication.isClient){
-                    var selectedProfilePic : MultipartBody.Part ?=null
-                    if (selectedProfilePic == null) {
-                        var empty = ""
-                        val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                        selectedProfilePic =
-                            MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
-                    }
-                    CallAPIs.updateProfileServiceProvider(
-                        this,
-                        this,
-                        loading,
-                        0.0,
-                      0.0,
-                        "",
-                        etFirstName.text.toString(),
-                       "",
-                        etLastName.text.toString(),
-                        etEmail.text.toString(),
-                        MyApplication.selectedPhone!!,
-                        "",
-                       "",
-                      "",
-                        "",
-                        "",
-                       "",
-                        "",
-                      "",
-                        "",
-                        selectedProfilePic!!,
-                        selectedProfilePic!!
-                    )
-                }else {
-                    var selectedProfilePic : MultipartBody.Part ?=null
-                    if (selectedProfilePic == null) {
-                        var empty = ""
-                        val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                        selectedProfilePic =
-                            MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
-                    }
-                    CallAPIs.updateProfileClient(
-                      this,
-                        this,
-                        loading,
-                        etFirstName.text.toString(),
-                        etLastName.text.toString(),
-                        etEmail.text.toString(),
-                        MyApplication.selectedPhone!!,
-                        selectedProfilePic!!
-                    )
-                }
-            }
-        }
-    }
-
-    fun nextStep() {
-        if(!MyApplication.isClient) {
-            MyApplication.register = true
-            MyApplication.selectedPos = 4
-            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
-            MyApplication.selectedFragment = FragmentAccount()
-            startActivity(Intent(this, ActivityAccountStatus::class.java))
-        }else{
-            MyApplication.selectedPos = 2
-            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
-            MyApplication.selectedFragment = FragmentHomeClient()
-            startActivity(Intent(this, ActivityAccountStatus::class.java))
-        }
+    if (MyApplication.isClient) {
+      rlNoLogo.show()
+      llTopService.hide()
+      tvRegisterTitle.hide()
+    } else {
+      rlNoLogo.hide()
+      llTopService.show()
+      tvRegisterTitle.show()
     }
 
 
-    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        nextStep()
+
+    btRegister.onOneClick {
+      if (etFirstName.text.isNullOrEmpty() || etLastName.text.isNullOrEmpty() || etEmail.text.isNullOrEmpty()) {
+        AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
+      } else if (!AppHelper.isEmailValid(etEmail.text.toString())) {
+        AppHelper.createDialog(this, AppHelper.getRemoteString("email_valid_error", this))
+      } else {
+        if (!MyApplication.isClient){
+          var selectedProfilePic : MultipartBody.Part ?=null
+          if (selectedProfilePic == null) {
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedProfilePic =
+              MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+          }
+          CallAPIs.updateProfileServiceProvider(
+            this,
+            this,
+            loading,
+            0.0,
+            0.0,
+            "",
+            etFirstName.text.toString(),
+            "",
+            etLastName.text.toString(),
+            etEmail.text.toString(),
+            MyApplication.selectedPhone!!,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            selectedProfilePic!!,
+            selectedProfilePic!!
+          )
+        }else {
+          var selectedProfilePic : MultipartBody.Part ?=null
+          if (selectedProfilePic == null) {
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedProfilePic =
+              MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+          }
+          CallAPIs.updateProfileClient(
+            this,
+            this,
+            loading,
+            etFirstName.text.toString(),
+            etLastName.text.toString(),
+            etEmail.text.toString(),
+            MyApplication.selectedPhone!!,
+            selectedProfilePic!!
+          )
+        }
+      }
     }
+  }
+
+  fun nextStep() {
+    if(!MyApplication.isClient) {
+      MyApplication.register = true
+      MyApplication.selectedPos = 4
+      MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
+      MyApplication.selectedFragment = FragmentAccount()
+      startActivity(Intent(this, ActivityAccountStatus::class.java))
+    }else{
+      MyApplication.selectedPos = 2
+      MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+      MyApplication.selectedFragment = FragmentHomeClient()
+      startActivity(Intent(this, ActivityAccountStatus::class.java))
+    }
+  }
+
+
+  override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+    nextStep()
+  }
 }

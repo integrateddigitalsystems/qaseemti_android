@@ -305,6 +305,10 @@
     <string name="service_name">Service Name</string>
     <string name="service_type">Service Type</string>
     <string name="Previous">الرجوع</string>
+    <string name="permission_background_android">يجمع هذا التطبيق بيانات الموقع لتمكين ميزة تتبع تطبيق العميل ، حتى عندما يكون التطبيق مغلقًا أو غير مستخدم. \n \n إذا كنت ترغب في تمكين هذه الميزات ، يرجى الضغط على موافق. \n \n بالضغط على إلغاء ، لن يفعل العميل تكون قادرة على تتبع موقعك.</string>
+    <string name="must_enter_Address_First">يجب عليك إدخال عنوانك أولاً!</string>
+    <string name="view_orders">معاينة الطلبات</string>
+    <string name="no_internet">اتصال الإنترنت غير متوفر ، يرجى التحقق من الاتصال الخاص بك.</string>
 
 
 </resources>

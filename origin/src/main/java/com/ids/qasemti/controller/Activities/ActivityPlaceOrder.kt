@@ -94,11 +94,21 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
     fun setData(orders: ResponseOrders) {
 
         if(!orders.shipping_address_name.equals("null")||!orders.shipping_address_name.isNullOrEmpty()) {
-            tvLocationPlaceOrder.text = orders.shipping_address_name
+            var str = ""
+            if(!orders.shipping_province.isNullOrEmpty())
+                str += orders.shipping_province + ","
+            if(!orders.shipping_area.isNullOrEmpty())
+                str += orders.shipping_area+","
+            if(!orders.shipping_block.isNullOrEmpty())
+                str+= orders.shipping_block+","
+            if(!orders.shipping_address_street.isNullOrEmpty())
+                str+=orders.shipping_address_street
+            if(str.isEmpty())
+                str = AppHelper.getRemoteString("no_data",this)
+            tvLocationPlaceOrder.text = str
             tvLocationPlaceOrder.onOneClick {
-                val uri: String =
-                    java.lang.String.format(Locale.ENGLISH, "geo:%f,%f", orders.shipping_latitude!!.toDouble(),  orders.shipping_longitude!!.toDouble())
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                val intent=Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse("geo:0,0?q="+orders.shipping_latitude!!+","+orders.shipping_longitude!!+"("+orders.addressname+")")
                startActivity(intent)
             }
         }
@@ -424,12 +434,22 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
         btApply.onOneClick {
             dialog.dismiss()
-            applyCoupon()
+            if (AppHelper.isOnline(this)) {
+                applyCoupon()
+            }else{
+                AppHelper.createDialog(this,getString(R.string.no_internet))
+            }
+
         }
 
         btProceed.onOneClick {
             dialog.dismiss()
-            updatePayment()
+            if (AppHelper.isOnline(this)) {
+                updatePayment()
+            }else{
+                AppHelper.createDialog(this,getString(R.string.no_internet))
+            }
+
 
         }
 
@@ -504,30 +524,39 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
     fun setListeners() {
 
         btPLaceOrder.onOneClick {
-            if (arrayPaymentMethods.count { it.selected } == 0)
-                AppHelper.createDialog(this, "Please choose payment method")
-            else {
-
-                if (etCoupon.text.isNullOrEmpty())
-                    updatePayment()
+            if (AppHelper.isOnline(this)) {
+                if (arrayPaymentMethods.count { it.selected } == 0)
+                    AppHelper.createDialog(this, "Please choose payment method")
                 else {
-                    if (reviewed!!) {
-                        reviewed = false
-                        paymentCoupon("Do you want to apply this coupon before placing order ?") {
-                            applyCoupon()
+
+                    if (etCoupon.text.isNullOrEmpty())
+                        updatePayment()
+                    else {
+                        if (reviewed!!) {
+                            reviewed = false
+                            paymentCoupon("Do you want to apply this coupon before placing order ?") {
+                                applyCoupon()
+                            }
+                        } else {
+                            reviewCoupon(2)
                         }
-                    } else {
-                        reviewCoupon(2)
                     }
                 }
+            }else{
+                AppHelper.createDialog(this,getString(R.string.no_internet))
             }
+
         }
 
         btReviewCoupon.onOneClick {
-            if (etCoupon.text.isNullOrEmpty()) {
-                AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
-            } else {
-                reviewCoupon(1)
+            if (AppHelper.isOnline(this)) {
+                if (etCoupon.text.isNullOrEmpty()) {
+                    AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
+                } else {
+                    reviewCoupon(1)
+                }
+            }else{
+                AppHelper.createDialog(this,getString(R.string.no_internet))
             }
         }
     }

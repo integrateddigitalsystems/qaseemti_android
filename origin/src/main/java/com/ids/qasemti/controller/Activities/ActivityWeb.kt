@@ -133,13 +133,19 @@ class ActivityWeb: ActivityBase() {
 
         btContactWeb.onOneClick {
 
-            if(etFullNameContact.text.isNullOrEmpty()||etEmailContact.text.isNullOrEmpty()||etPhoneContact.text.isNullOrEmpty()||etMessageContact.text.isNullOrEmpty()||etSubjectContact.text.isNullOrEmpty()){
-                AppHelper.createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
-            }else if(!AppHelper.isEmailValid(etEmailContact.text.toString())){
-                AppHelper.createDialog(this,AppHelper.getRemoteString("email_valid_error",this))
+            if (AppHelper.isOnline(this)) {
+                if(etFullNameContact.text.isNullOrEmpty()||etEmailContact.text.isNullOrEmpty()||etPhoneContact.text.isNullOrEmpty()||etMessageContact.text.isNullOrEmpty()||etSubjectContact.text.isNullOrEmpty()){
+                    AppHelper.createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
+                }else if(!AppHelper.isEmailValid(etEmailContact.text.toString())){
+                    AppHelper.createDialog(this,AppHelper.getRemoteString("email_valid_error",this))
+                }else{
+                    sendContact()
+                }
             }else{
-                sendContact()
+                AppHelper.createDialog(this,getString(R.string.no_internet))
             }
+
+
         }
 
     }

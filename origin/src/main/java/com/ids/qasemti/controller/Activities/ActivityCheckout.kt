@@ -626,7 +626,12 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             btPlaceOrder.text = AppHelper.getRemoteString("renew_order", this)
             btPlaceOrder.onOneClick {
                 try {
-                    renewOrder()
+                    if (AppHelper.isOnline(this)) {
+                        renewOrder()
+                    }else{
+                        AppHelper.createDialog(this,getString(R.string.no_internet))
+                    }
+
                 } catch (ex: Exception) {
                     Log.wtf("renewError", ex.toString())
                     loading.hide()
@@ -842,9 +847,9 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
                 if (MyApplication.selectedService!!.name!!.isNotEmpty()) MyApplication.selectedService!!.name else "",
                 if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
-                etFromDate.text.toString(),
-                etToDate.text.toString(),
                 if (MyApplication.selectedAddress!!.avenue != null && MyApplication.selectedAddress!!.avenue!!.isNotEmpty()) MyApplication.selectedAddress!!.avenue else "",
+                if (MyApplication.selectedAddress!!.area != null && MyApplication.selectedAddress!!.area!!.isNotEmpty()) MyApplication.selectedAddress!!.area else "",
+                if (MyApplication.selectedAddress!!.apartment != null && MyApplication.selectedAddress!!.apartment!!.isNotEmpty()) MyApplication.selectedAddress!!.apartment else "",
                 if (MyApplication.selectedAddress!!.block != null && MyApplication.selectedAddress!!.block!!.isNotEmpty()) MyApplication.selectedAddress!!.block else "",
                 if (MyApplication.selectedAddress!!.province != null && MyApplication.selectedAddress!!.province!!.isNotEmpty()) MyApplication.selectedAddress!!.province else ""
             )
@@ -879,7 +884,12 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
         AppHelper.toGSOn(MyApplication.arrayCart)
 
-        placeOrder()
+        if (AppHelper.isOnline(this)) {
+            placeOrder()
+        }else{
+            AppHelper.createDialog(this,getString(R.string.no_internet))
+        }
+
 
     }
 
@@ -950,7 +960,12 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 )
             }
             .setPositiveButton(ok) { dialog, _ ->
-                broadcastOutOfRange(res.orderId!!)
+                if (AppHelper.isOnline(this)) {
+                    broadcastOutOfRange(res.orderId!!)
+                }else{
+                    AppHelper.createDialog(this,getString(R.string.no_internet))
+                }
+
             }
         val alert = builder.create()
         alert.show()

@@ -110,7 +110,16 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
         btAdd.onOneClick {
             //  if(MyApplication.userStatus!!.online!=0){
 
-            loading.show()
+
+
+            if (AppHelper.isOnline(requireActivity())) {
+                loading.show()
+                CallAPIs.getUserInfo( requireActivity(),this)
+            }else{
+                AppHelper.createDialog(requireActivity(),getString(R.string.no_internet))
+            }
+
+
             /*if(MyApplication.selectedUser!!.active==1) {
                 requireActivity().startActivity(
                     Intent(
@@ -120,7 +129,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
                 )
                 MyApplication.isEditService=false
             }else*/
-                CallAPIs.getUserInfo( requireActivity(),this)
+
 
           /*  if(MyApplication.selectedUser!!.active == 1) {
 
@@ -163,11 +172,23 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
         loading.hide()
-        if(MyApplication.selectedUser!!.active == 1) {
-            startActivity(Intent(requireContext(), ActivityServiceInformation::class.java))
-            MyApplication.isEditService=false
-        }else
-            AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("inactive_user_msg",requireActivity()))
+        if(success) {
+            if (MyApplication.selectedUser!!.active == 1) {
+                if(MyApplication.selectedUser!!.addresses!!.size>0) {
+                    startActivity(Intent(requireContext(), ActivityServiceInformation::class.java))
+                    MyApplication.isEditService = false
+                }else{
+                    AppHelper.createDialog(
+                        requireActivity(),
+                        AppHelper.getRemoteString("must_enter_Address_First", requireActivity())
+                    )
+                }
+            } else
+                AppHelper.createDialog(
+                    requireActivity(),
+                    AppHelper.getRemoteString("inactive_user_msg", requireActivity())
+                )
+        }
     }
 
 

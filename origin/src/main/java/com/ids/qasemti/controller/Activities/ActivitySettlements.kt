@@ -96,7 +96,12 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
         btBck.onOneClick { super.onBackPressed() }
 
         btRequestSettlements.onOneClick {
-            postSettlement()
+            if (AppHelper.isOnline(this)) {
+              postSettlement()
+            }else{
+                AppHelper.createDialog(this,getString(R.string.no_internet))
+            }
+
         }
     }
 

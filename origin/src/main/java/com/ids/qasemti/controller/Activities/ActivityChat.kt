@@ -65,7 +65,12 @@ class ActivityChat : ActivityBase(), RVOnItemClickListener {
             if (etMessage.text.isNullOrEmpty()) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
-                sendChat()
+                if (AppHelper.isOnline(this)) {
+                    sendChat()
+                }else{
+                    AppHelper.createDialog(this,getString(R.string.no_internet))
+                }
+
             }
         }
 

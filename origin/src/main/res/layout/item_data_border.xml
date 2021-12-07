@@ -17,7 +17,6 @@
             android:textAlignment="viewStart"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:maxLines="1"
             android:id="@+id/tvDataName"
             android:gravity="center_vertical|start"
             android:tag="category"

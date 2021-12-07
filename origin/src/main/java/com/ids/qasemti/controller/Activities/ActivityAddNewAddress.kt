@@ -269,7 +269,14 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
         indx = arraySpinner.indexOf(arraySpinner.find {
             it.name!!.contains(address!!.province!!) || address!!.province!!.contains(it.name!!)
         })
-        spProvince.setSelection(indx)
+        if(indx>0) {
+            spProvince.setSelection(indx)
+            selectedProvince =arraySpinner.get(indx).name
+            spProvince.isEnabled = false
+        }else{
+            spProvince.isEnabled = true
+        }
+
 
 
         editData(llAddForm)
@@ -440,10 +447,20 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
                     if (from == "current") {
                         setData()
                     } else {
-                        addAddress()
+                        if (AppHelper.isOnline(this)) {
+                            addAddress()
+                        }else{
+                            AppHelper.createDialog(this,getString(R.string.no_internet))
+                        }
+
                     }
                 } else {
-                    addAddress()
+                    if (AppHelper.isOnline(this)) {
+                        addAddress()
+                    }else{
+                        AppHelper.createDialog(this,getString(R.string.no_internet))
+                    }
+
                 }
 
             }

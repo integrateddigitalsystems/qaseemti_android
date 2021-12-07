@@ -18,6 +18,9 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.location.Address
 import android.location.Geocoder
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
@@ -75,6 +78,10 @@ import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
+import androidx.core.content.ContextCompat.getSystemService
+
+
+
 
 
 /**
@@ -283,7 +290,26 @@ class AppHelper {
             }
         }
 
-        fun updateStatus(orderId: Int, onTrack: Int, delivered: Int, paid: Int) {
+        fun isOnline(context: Context): Boolean {
+            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val nw      = connectivityManager.activeNetwork ?: return false
+                val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+                return when {
+                    actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                    actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                    //for other device how are able to connect with Ethernet
+                    actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                    //for check internet over Bluetooth
+                    actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+                    else -> false
+                }
+            } else {
+                return connectivityManager.activeNetworkInfo?.isConnected ?: false
+            }
+        }
+        fun updateStatus(orderId: Int, onTrack: Boolean, delivered: Boolean, paid: Boolean,rel : ReloadData,loading : LinearLayout) {
+            loading.show()
             var newReq = RequestUpdateOrder(orderId, onTrack, delivered, paid)
             RetrofitClient.client?.create(RetrofitInterface::class.java)
                 ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
@@ -292,14 +318,14 @@ class AppHelper {
                         response: Response<ResponseUpdate>
                     ) {
                         try {
-                            Log.wtf("", "")
+                            rel.reload()
                         } catch (E: java.lang.Exception) {
-                            Log.wtf("", "")
+                            Log.wtf("Exp", E.toString())
                         }
                     }
 
                     override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
-                        Log.wtf("", "")
+                        Log.wtf("Exp", throwable.toString())
                     }
                 })
         }

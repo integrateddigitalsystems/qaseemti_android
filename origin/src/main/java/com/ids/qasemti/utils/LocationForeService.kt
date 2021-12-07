@@ -377,12 +377,19 @@ class LocationForeService : Service() {
                     Log.d(TAG, "Failed to remove Location Callback.")
                 }
             }
-            MyApplication.db!!.collection("table_order").document(MyApplication.selectedOrder!!.orderId!!).delete()
+            try {
+                MyApplication.db!!.collection("table_order")
+                    .document(MyApplication.trackOrderId!!.toString()).delete()
+            }catch (ex:Exception){
+                logw("LOCATION_FAIL","DELETION ERROR")
+            }
             MyApplication.saveLocationTracking = false
         } catch (unlikely: SecurityException) {
            MyApplication.saveLocationTracking = true
             Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
         }
+
+        this.stopSelf()
     }
 
 
@@ -422,7 +429,8 @@ class LocationForeService : Service() {
         //      4. Build and issue the notification
 
         // 0. Get data
-        val mainNotificationText = location?.toText() ?: AppHelper.getRemoteString("collecting_loc",this)
+       // val mainNotificationText = location?.toText() ?: AppHelper.getRemoteString("collecting_loc",this)
+        val mainNotificationText = AppHelper.getRemoteString("collecting_loc",this)
         val titleText = getString(R.string.app_name)
 
         // 1. Create Notification Channel for O+ and beyond devices (26+).
@@ -473,13 +481,8 @@ class LocationForeService : Service() {
             .setOngoing(true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .addAction(
-                R.drawable.logo, getString(R.string.available),
+                R.drawable.logo, getString(R.string.view_orders),
                 activityPendingIntent
-            )
-            .addAction(
-                R.drawable.close_x,
-                getString(R.string.no_data),
-                servicePendingIntent
             )
             .build()
     }

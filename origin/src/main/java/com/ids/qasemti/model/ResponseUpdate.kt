@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 class ResponseUpdate(
     @SerializedName("result")
     @Expose
-    var result: Double? = 0.0,
+    var result: Int? = 0,
 
     @SerializedName("device_id")
     @Expose

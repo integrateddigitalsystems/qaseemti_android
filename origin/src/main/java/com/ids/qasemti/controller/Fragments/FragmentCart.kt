@@ -133,7 +133,12 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
         if(view.id == R.id.ivDeleteItem){
             AppHelper.createYesNoDialog(requireActivity(),AppHelper.getRemoteString("yes",requireContext()),AppHelper.getRemoteString("cancel",requireContext()),AppHelper.getRemoteString("are_you_sure_delete",requireContext())) {
-             deleteCartItem(array[position].orderId!!.toInt())
+
+                if (AppHelper.isOnline(requireContext())) {
+                    deleteCartItem(array[position].orderId!!.toInt())
+                }else{
+                    AppHelper.createDialog(requireActivity(),getString(R.string.no_internet))
+                }
            }
         }else{
             var type = ""
