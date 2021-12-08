@@ -258,7 +258,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
                 }
             }else{
-                AppHelper.createDialog(requireActivity(),getString(R.string.no_internet))
+                swAvailable.isChecked = !swAvailable.isChecked
+                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
             }
 
         }
@@ -375,19 +376,24 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     }
 
                     if (ordersArray.size == 0) {
-                        slRefreshBroad.hide()
+                        rvOrders.hide()
                         llNodata.hide()
                         tvNoDataHome.show()
+                    }else{
+                        rvOrders.show()
+                        tvNoDataHome.hide()
                     }
 
                     loading.hide()
+
+                    if (isTimer) {
+                        isTimer = false
+                        timer!!.start()
+                    }
                 } catch (ex: Exception) {
                     loading.hide()
                 }
-                if (isTimer) {
-                    isTimer = false
-                    timer!!.start()
-                }
+
             } else {
                 loading.hide()
                 setNotAvailable()
@@ -478,7 +484,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                         .toInt() + ordersArray[position].shippingTotal!!.toDouble().toInt()
                 )
             }else{
-                AppHelper.createDialog(requireActivity(),getString(R.string.no_internet))
+                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
             }
 
         }

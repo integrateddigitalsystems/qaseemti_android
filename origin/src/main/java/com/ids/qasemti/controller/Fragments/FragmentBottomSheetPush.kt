@@ -13,9 +13,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestNotificationUpdate
 import com.ids.qasemti.model.ResponseCancel
-import com.ids.qasemti.utils.AppHelper
-import com.ids.qasemti.utils.RetrofitClient
-import com.ids.qasemti.utils.RetrofitInterface
+import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.bottom_sheet_language.*
 import kotlinx.android.synthetic.main.bottom_sheet_language.rootLayout
 import kotlinx.android.synthetic.main.fragment_account.*
@@ -26,7 +24,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class FragmentBottomSheetPush : BottomSheetDialogFragment() {
+class FragmentBottomSheetPush : BottomSheetDialogFragment() , ApiListener{
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +43,15 @@ class FragmentBottomSheetPush : BottomSheetDialogFragment() {
 
     fun listeners() {
 
+        swAvailable.setOnCheckedChangeListener { compoundButton, b ->
+            MyApplication.generalNotificaiton = if(swAvailable.isChecked) 1 else 0
+            if(AppHelper.isOnline(requireContext())){
+                CallAPIs.updateDevice(requireContext(),this)
+            }else{
+                swAvailable.isChecked = !swAvailable.isChecked
+                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
+            }
+        }
         try {
 
             if ( MyApplication.selectedUser!!.notificationType!!.toInt() == 1) {
@@ -96,6 +103,10 @@ class FragmentBottomSheetPush : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayout, requireContext())
         listeners()
+
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
 
     }
 }

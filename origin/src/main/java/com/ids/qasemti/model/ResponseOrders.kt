@@ -1,5 +1,6 @@
 package com.ids.qasemti.model
 
+import android.location.Address
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -213,8 +214,7 @@ class ResponseOrders(
 
     @SerializedName("addresses")
     @Expose
-    var addresses : ArrayList<Address> = arrayListOf()
-    ,
+    var addresses : ArrayList<ResponseAddress> = arrayListOf(),
 
     @SerializedName("shipping_address_building")
     @Expose
@@ -292,11 +292,11 @@ class ResponseOrders(
 
     @SerializedName("shipping_Apartment")
     @Expose
-    var shippingApartment : String ?="" ,
+    var shippingApartment : String ?="",
 
     @SerializedName("shipping_avenu")
     @Expose
-    var shippingAvenu : String ?="" ,
+    var shippingAvenu : String ?="",
 
     var done : Boolean = false
 

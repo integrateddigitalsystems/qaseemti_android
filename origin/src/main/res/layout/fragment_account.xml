@@ -7,7 +7,8 @@
     android:id="@+id/rootLayout"
     android:background="@color/gray_bg"
     >
-
+<include
+    layout="@layout/loading" />
 
     <com.ids.qasemti.custom.CustomTextViewBold
         android:layout_width="wrap_content"

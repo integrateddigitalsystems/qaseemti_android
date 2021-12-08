@@ -8,13 +8,9 @@ class RequestNotifications(
     @Expose
     var lang : String ?="" ,
 
-    @SerializedName("user_id")
+    @SerializedName("mobile_number")
     @Expose
-    var userId : Int ?=0 ,
-
-    @SerializedName("device_id")
-    @Expose
-    var deviceId : Int ?=0,
+    var userId : String ?="" ,
 
     @SerializedName("mobile_notification_id")
     @Expose

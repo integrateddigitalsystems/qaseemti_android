@@ -310,6 +310,11 @@
     <string name="must_enter_Address_First">You must enter your Address First !</string>
     <string name="view_orders">View Orders</string>
     <string name="no_internet">Internet connection unavailable , please check your connection.</string>
+    <string name="Different_Code">Different code</string>
+    <string name="incorrect_coupon_forwad_without">Incorrect coupon code, do you want to move forward without coupon or try a different code ?</string>
+    <string name="Proceed_without_Coupon">Proceed without Coupon</string>
+    <string name="Apply_Coupon">Apply Coupon</string>
+    <string name="apply_coupon_befor_placing">Do you want to apply this coupon before placing order ?</string>
 
 
 </resources>

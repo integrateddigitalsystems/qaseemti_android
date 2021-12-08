@@ -116,7 +116,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
                 loading.show()
                 CallAPIs.getUserInfo( requireActivity(),this)
             }else{
-                AppHelper.createDialog(requireActivity(),getString(R.string.no_internet))
+                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
             }
 
 

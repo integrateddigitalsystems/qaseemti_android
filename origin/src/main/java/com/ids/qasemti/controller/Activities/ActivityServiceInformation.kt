@@ -72,11 +72,11 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
     var  mPermissionResult : ActivityResultLauncher<Array<String>>?=null
     private var selectedCategoryId=1
     private var selectedCategoryName=AppConstants.TYPE_PURCHASE
-    private var selectedServiceId=-1
+    private var selectedServiceId:Int ?=null
     private var selectedServiceName=""
-    private var selectedTypeId=-1
+    private var selectedTypeId:Int ?=null
     private var selectedTypeName=""
-    private var selectedSizeId=-1
+    private var selectedSizeId:Int ?=null
     private var selectedSizeName=""
     private var selectedQtyId=0
     private var selectedQtyName=""
@@ -203,7 +203,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
                     addService()
 
                 }else{
-                    AppHelper.createDialog(this,getString(R.string.no_internet))
+                    AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
                 }
 
 
@@ -212,7 +212,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
                 if (AppHelper.isOnline(this)) {
                     updateService()
                 }else{
-                    AppHelper.createDialog(this,getString(R.string.no_internet))
+                    AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
                 }
 
             }
@@ -468,7 +468,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
 
             }
         }else{
-            selectedTypeId = -2
             llSpType.hide()
         }
 
@@ -521,7 +520,6 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
 
                 }
             } else {
-                selectedSizeId = -2
                 llSpSizeCap.hide()
             }
 
@@ -746,7 +744,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
 
     private fun setTab2(){
 
-        if(selectedServiceId!=-1 && selectedSizeId!=-1 && selectedTypeId!=-1 ) {
+        if(selectedServiceId!=-1 && (selectedSizeId==null || (  selectedSizeId!=null && selectedSizeId!=-1)) && (selectedTypeId ==null ||( selectedTypeId !=null && selectedTypeId!=-1 ))) {
             if (arrayImagesSelected.size == 0)
                 createDialog(this, "Please upload image")
             else if (etStockAvailable.text.toString()
@@ -830,11 +828,11 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
             selectedCategoryName = MyApplication.categories.find { it.id!!.toInt() == selectedCategoryId }!!.valAr!!
 
         arrayData.add(ServicesData(1, getString(R.string.category),selectedCategoryName, selectedCategoryId))
-        arrayData.add(ServicesData(2, getString(R.string.service),selectedServiceName, selectedServiceId))
+        arrayData.add(ServicesData(2, getString(R.string.service),selectedServiceName, selectedServiceId!!))
         if(arraySpinnerTypes.size >1)
-            arrayData.add(ServicesData(3, getString(R.string.type),selectedTypeName, selectedTypeId))
+            arrayData.add(ServicesData(3, getString(R.string.type),selectedTypeName, selectedTypeId!!))
         if(arraySpinnerSizes.size >1)
-            arrayData.add(ServicesData(4, getString(R.string.SizeCapacity),selectedSizeName, selectedSizeId))
+            arrayData.add(ServicesData(4, getString(R.string.SizeCapacity),selectedSizeName, selectedSizeId!!))
         arrayData.add(ServicesData(5, getString(R.string.Quantity),etStockAvailable.text.toString(), 1))
         var adapter = AdapterServicesData(arrayData, this, this)
         rvData.layoutManager = LinearLayoutManager(this)

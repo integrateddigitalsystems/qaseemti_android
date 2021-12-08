@@ -132,42 +132,62 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
 
     override fun onItemClicked(view: View, position: Int) {
         if(view.id == R.id.ivDeleteItem){
-            AppHelper.createYesNoDialog(requireActivity(),AppHelper.getRemoteString("yes",requireContext()),AppHelper.getRemoteString("cancel",requireContext()),AppHelper.getRemoteString("are_you_sure_delete",requireContext())) {
+            AppHelper.onOneClick {
+                AppHelper.createYesNoDialog(
+                    requireActivity(),
+                    AppHelper.getRemoteString("yes", requireContext()),
+                    AppHelper.getRemoteString("cancel", requireContext()),
+                    AppHelper.getRemoteString("are_you_sure_delete", requireContext())
+                ) {
 
-                if (AppHelper.isOnline(requireContext())) {
-                    deleteCartItem(array[position].orderId!!.toInt())
-                }else{
-                    AppHelper.createDialog(requireActivity(),getString(R.string.no_internet))
+                    if (AppHelper.isOnline(requireContext())) {
+                        deleteCartItem(array[position].orderId!!.toInt())
+                    } else {
+                        AppHelper.createDialog(
+                            requireActivity(),
+                            AppHelper.getRemoteString("no_internet", requireContext())
+                        )
+                    }
                 }
-           }
-        }else{
-            var type = ""
-            if(array[position].type.equals("بيع") || array[position].type.equals("شراء") || array[position].type.equals(AppConstants.TYPE_PURCHASE) )
-                type = AppConstants.TYPE_PURCHASE
-            else
-                type = AppConstants.TYPE_RENTAL
+            }
+        }else {
+            AppHelper.onOneClick {
+                var type = ""
+                if (array[position].type.equals("بيع") || array[position].type.equals("شراء") || array[position].type.equals(
+                        AppConstants.TYPE_PURCHASE
+                    )
+                )
+                    type = AppConstants.TYPE_PURCHASE
+                else
+                    type = AppConstants.TYPE_RENTAL
 
-            MyApplication.selectedPlaceOrder = RequestPlaceOrder(
-                MyApplication.userId,
-                array[position].typeId,//MAKESURE
-                array.get(position).product!!.id,
-                array[position].typesId,//MAKESURE
-                array[position].sizeCapacityId,//MAKESURE
-                array[position].deliveryDate,
-                if( array[position].addressname != null && array[position].addressname!!.isNotEmpty()) array[position].addressname else "",
-                array[position].addressLat,
-                array[position].addressLong,
-                array[position].addressStreet,
-                array[position].addressBuilding,
-                array[position].addressFloor,
-                array[position].addressDescription,
-                if(array.get(position).addresses.size >0) array.get(position).addresses.get(0).addressId!!.toInt() else 0,
-                array[position].product!!.booking_start_date,
-                array[position].product!!.booking_end_date
+                MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+                    MyApplication.userId,
+                    array[position].typeId,//MAKESURE
+                    array.get(position).product!!.id,
+                    array[position].typesId,//MAKESURE
+                    array[position].sizeCapacityId,//MAKESURE
+                    array[position].deliveryDate,
+                    if (array[position].addressname != null && array[position].addressname!!.isNotEmpty()) array[position].addressname else "",
+                    array[position].addressLat,
+                    array[position].addressLong,
+                    array[position].addressStreet,
+                    array[position].addressBuilding,
+                    array[position].addressFloor,
+                    array[position].addressDescription,
+                    if (array.get(position).addresses.size > 0) array.get(position).addresses.get(0).addressId!!.toInt() else 0,
+                    array[position].product!!.booking_start_date,
+                    array[position].product!!.booking_end_date
 
 
                 )
-            startActivity(Intent(requireContext(),ActivityPlaceOrder::class.java).putExtra(AppConstants.ORDER_ID,array[position].orderId))
+                startActivity(
+                    Intent(requireContext(), ActivityPlaceOrder::class.java).putExtra(
+                        AppConstants.ORDER_ID,
+                        array[position].orderId
+                    )
+                )
+            }
         }
     }
 }

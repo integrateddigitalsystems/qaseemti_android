@@ -629,7 +629,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                     if (AppHelper.isOnline(this)) {
                         renewOrder()
                     }else{
-                        AppHelper.createDialog(this,getString(R.string.no_internet))
+                        AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
                     }
 
                 } catch (ex: Exception) {
@@ -887,7 +887,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         if (AppHelper.isOnline(this)) {
             placeOrder()
         }else{
-            AppHelper.createDialog(this,getString(R.string.no_internet))
+            AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
         }
 
 
@@ -963,7 +963,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 if (AppHelper.isOnline(this)) {
                     broadcastOutOfRange(res.orderId!!)
                 }else{
-                    AppHelper.createDialog(this,getString(R.string.no_internet))
+                    AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
                 }
 
             }

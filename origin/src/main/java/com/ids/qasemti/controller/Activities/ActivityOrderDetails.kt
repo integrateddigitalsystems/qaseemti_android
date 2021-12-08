@@ -368,9 +368,11 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             if (!MyApplication.isClient) {
 
                 if (MyApplication.selectedOrder!!.vendor == null || MyApplication.selectedOrder!!.vendor!!.userId == null) {
-                    llOrderSwitches.hide()
-                    btCancelOrder.hide()
-                    llDetailsCallMessage.hide()
+
+                       llOrderSwitches.hide()
+                       btCancelOrder.hide()
+                       llDetailsCallMessage.hide()
+
                 } else {
                     llEditOrderTime.show()
                     btCancelOrder.show()
@@ -380,7 +382,11 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             } else {
                 if (!MyApplication.selectedOrder!!.newDeliveryDate.isNullOrEmpty()) {
                     llSuggestedDate.show()
-                    tvSuggestedDate.text = MyApplication.selectedOrder!!.newDeliveryDate
+                    try {
+                        tvSuggestedDate.text = MyApplication.selectedOrder!!.newDeliveryDate
+                    }catch (ex:Exception){
+
+                    }
                 } else {
                     llSuggestedDate.hide()
                 }
@@ -797,8 +803,8 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
                     MyApplication.selectedOrder!!.orderId!!.toInt(),
                     MyApplication.selectedOrder!!.grand_total!!.toInt()
                 )
-            }else{
-                AppHelper.createDialog(this,getString(R.string.no_internet))
+            } else {
+                AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
             }
 
         }
@@ -886,8 +892,14 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
         btSendRequest.onOneClick {
             if (etOrderDetailDate.text.toString().isEmpty())
                 createDialog(this, "Please enter suggested date")
-            else
-                sendSuggestedDate()
+            else {
+                if (AppHelper.isOnline(this)) {
+                    sendSuggestedDate()
+                } else {
+                    AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
+                }
+            }
+
         }
 
         rlCheckoutTime.onOneClick {
@@ -967,7 +979,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
                     }
                 }
             } else {
-                AppHelper.createDialog(this, getString(R.string.no_internet))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
             }
         }
         btDontCancel.onOneClick {
@@ -984,91 +996,105 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
         }
 
         swOnTrack.setOnClickListener {
+            if(AppHelper.isOnline(this)) {
+                AppHelper.createSwitchDialog(
+                    this,
+                    AppHelper.getRemoteString("ok", this),
+                    AppHelper.getRemoteString("cancel", this),
+                    getString(
+                        R.string.are_you_sure_change_status
+                    ),
+                    swOnTrack
+                ) {
+                    if (swOnTrack.isChecked) {
+                        MyApplication.saveLocationTracking = true
+                        changeState(true)
+                        AppHelper.setSwitchColor(swOnTrack, this)
+                        onTrack = 1
+                    } else {
+                        AppHelper.setSwitchColor(swOnTrack, this)
+                        onTrack = 0
+                    }
+                    setStatus()
 
-            AppHelper.createSwitchDialog(
-                this,
-                AppHelper.getRemoteString("ok", this),
-                AppHelper.getRemoteString("cancel", this),
-                getString(
-                    R.string.are_you_sure_change_status
-                ),
-                swOnTrack
-            ) {
-                if (swOnTrack.isChecked) {
-                    MyApplication.saveLocationTracking = true
-                    changeState(true)
-                    AppHelper.setSwitchColor(swOnTrack, this)
-                    onTrack = 1
-                } else {
-                    AppHelper.setSwitchColor(swOnTrack, this)
-                    onTrack = 0
+                    // MyApplication.trackingActivity = this
+                    //  AppHelper.setUpDoc(MyApplication.selectedOrder!!, this)
                 }
-                setStatus()
-
-                // MyApplication.trackingActivity = this
-                //  AppHelper.setUpDoc(MyApplication.selectedOrder!!, this)
+            }else{
+                swOnTrack.isChecked = !swOnTrack.isChecked
+                AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
             }
-
 
         }
         swPaid.setOnClickListener {
-            AppHelper.createSwitchDialog(
-                this,
-                AppHelper.getRemoteString("ok", this),
-                AppHelper.getRemoteString("cancel", this),
-                getString(
-                    R.string.are_you_sure_change_status
-                ),
-                swPaid
-            ) {
-                if (swPaid.isChecked) {
+            if(AppHelper.isOnline(this)) {
+                AppHelper.createSwitchDialog(
+                    this,
+                    AppHelper.getRemoteString("ok", this),
+                    AppHelper.getRemoteString("cancel", this),
+                    getString(
+                        R.string.are_you_sure_change_status
+                    ),
+                    swPaid
+                ) {
+                    if (swPaid.isChecked) {
 
-                    if (swDelivered.isChecked) {
-                        createDialog(this, "This order is now completed") {
-                            MyApplication.renewed = false
-                            MyApplication.completed = true
-                            super.onBackPressed()
+                        if (swDelivered.isChecked) {
+                            createDialog(this, "This order is now completed") {
+                                MyApplication.renewed = false
+                                MyApplication.completed = true
+                                super.onBackPressed()
+                            }
                         }
+                        swPaid.isEnabled = false
+                        AppHelper.setSwitchColor(swPaid, this)
+                        paid = 1
+                    } else {
+                        AppHelper.setSwitchColor(swPaid, this)
+                        paid = 0
                     }
-                    swPaid.isEnabled = false
-                    AppHelper.setSwitchColor(swPaid, this)
-                    paid = 1
-                } else {
-                    AppHelper.setSwitchColor(swPaid, this)
-                    paid = 0
+                    setStatus()
                 }
-                setStatus()
+            }else{
+                swPaid.isChecked = !swPaid.isChecked
+                AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
             }
         }
         swDelivered.setOnClickListener {
 
-            AppHelper.createSwitchDialog(
-                this,
-                AppHelper.getRemoteString("ok", this),
-                AppHelper.getRemoteString("cancel", this),
-                getString(
-                    R.string.are_you_sure_change_status
-                ),
-                swDelivered
-            ) {
-                if (swDelivered.isChecked) {
-                    if (swPaid.isChecked) {
-                        createDialog(this, "This order is now completed") {
-                            MyApplication.renewed = false
-                            MyApplication.completed = true
-                            super.onBackPressed()
+            if (AppHelper.isOnline(this)) {
+                AppHelper.createSwitchDialog(
+                    this,
+                    AppHelper.getRemoteString("ok", this),
+                    AppHelper.getRemoteString("cancel", this),
+                    getString(
+                        R.string.are_you_sure_change_status
+                    ),
+                    swDelivered
+                ) {
+                    if (swDelivered.isChecked) {
+                        if (swPaid.isChecked) {
+                            createDialog(this, "This order is now completed") {
+                                MyApplication.renewed = false
+                                MyApplication.completed = true
+                                super.onBackPressed()
+                            }
                         }
+                        swDelivered.isEnabled = false
+                        MyApplication.saveLocationTracking = false
+                        changeState(false)
+                        AppHelper.setSwitchColor(swDelivered, this)
+                        delivered = 1
+                    } else {
+                        AppHelper.setSwitchColor(swDelivered, this)
+                        delivered = 0
                     }
-                    swDelivered.isEnabled = false
-                    MyApplication.saveLocationTracking = false
-                    changeState(false)
-                    AppHelper.setSwitchColor(swDelivered, this)
-                    delivered = 1
-                } else {
-                    AppHelper.setSwitchColor(swDelivered, this)
-                    delivered = 0
+                    setStatus()
                 }
-                setStatus()
+            } else {
+                swDelivered.isChecked = !swDelivered.isChecked
+                AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
+
             }
 
         }
@@ -1079,11 +1105,21 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
         }
 
         btAcceptNewdate.onOneClick {
-            respondDate(1)
+            if (AppHelper.isOnline(this)) {
+                respondDate(1)
+            } else {
+                AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
+            }
+
         }
 
         btRejectNewdate.onOneClick {
-            respondDate(0)
+            if (AppHelper.isOnline(this)) {
+                respondDate(0)
+            } else {
+                AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
+            }
+
         }
     }
 

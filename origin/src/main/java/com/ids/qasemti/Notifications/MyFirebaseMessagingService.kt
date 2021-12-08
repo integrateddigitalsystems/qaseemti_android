@@ -59,7 +59,9 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             }}catch (e:java.lang.Exception){}
 
 
-        try{Log.wtf("notification_data",remoteMessage.data.toString())}catch (e:java.lang.Exception ){}
+        try{Log.wtf("notification_data",remoteMessage.data.toString())}catch (e:java.lang.Exception ){
+            Log.wtf("crashNotf",e.toString())
+        }
 
         var typeId = -1
         try {
@@ -103,10 +105,10 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         }
 
         // setBadge(applicationContext, 0);
-       // if (MyApplication.getNotifications){
+        if (MyApplication.generalNotificaiton==1){
 
             sendNotification(title, recordId, id, message)
-      //  }
+       }
     }
 
     private fun sendNotification(title: String, recordId: Int, id: Int, messageBody: String) {

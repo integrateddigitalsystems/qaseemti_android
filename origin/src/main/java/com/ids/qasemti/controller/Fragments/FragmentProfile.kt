@@ -129,109 +129,121 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     }
 
     fun setUpSpinner(user: User) {
-        arrayBankSpinner.clear()
-        for (item in banks) {
-            arrayBankSpinner.add(ItemSpinner(item.id!!.toInt(), item.value, ""))
-
-        }
-        arrayBankSpinner.add(
-            0,
-            ItemSpinner(-1, AppHelper.getRemoteString("please__select", requireContext()), "")
-        )
-        selectedBankId = 0
-        val adapterServices =
-            AdapterGeneralSpinner(requireContext(), R.layout.spinner_layout, arrayBankSpinner, 0)
-        spBanks.adapter = adapterServices
-        adapterServices.setDropDownViewResource(R.layout.item_spinner_drop_down)
-        spBanks.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                selectedBankId = arrayBankSpinner.get(position).id
+        try {
+            arrayBankSpinner.clear()
+            for (item in banks) {
+                arrayBankSpinner.add(ItemSpinner(item.id!!.toInt(), item.value, ""))
 
             }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
-        }
-
-        spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
-            it.id.toString() == user!!.bankId!!
-        }))
-
-        arraySpinner.clear()
-        for (item in MyApplication.kuwaitGovs) {
-            arraySpinner.add(
-                ItemSpinner(
-                    item.govId!!.toInt(),
-                    if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
-                        item.govEn
-                    } else {
-                        item.govAr
-                    }, ""
-                )
+            arrayBankSpinner.add(
+                0,
+                ItemSpinner(-1, AppHelper.getRemoteString("please__select", requireContext()), "")
             )
+            selectedBankId = 0
+            val adapterServices =
+                AdapterGeneralSpinner(
+                    requireContext(),
+                    R.layout.spinner_layout,
+                    arrayBankSpinner,
+                    0
+                )
+            spBanks.adapter = adapterServices
+            adapterServices.setDropDownViewResource(R.layout.item_spinner_drop_down)
+            spBanks.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedBankId = arrayBankSpinner.get(position).id
 
-        }
-        arraySpinner.add(
-            0,
-            ItemSpinner(-1, AppHelper.getRemoteString("please__select", requireContext()), "")
-        )
-        selectedProvince = ""
-        val adapterProvince =
-            AdapterGeneralSpinner(requireContext(), R.layout.spinner_layout, arraySpinner, 0)
-        spProvinceProfile.adapter = adapterProvince
-        adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
-        spProvinceProfile.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                selectedProvince = arraySpinner.get(position).name
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
 
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
+            spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
+                it.id.toString() == user!!.bankId!!
+            }))
+
+            arraySpinner.clear()
+            for (item in MyApplication.kuwaitGovs) {
+                arraySpinner.add(
+                    ItemSpinner(
+                        item.govId!!.toInt(),
+                        if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
+                            item.govEn
+                        } else {
+                            item.govAr
+                        }, ""
+                    )
+                )
+
+            }
+            arraySpinner.add(
+                0,
+                ItemSpinner(-1, AppHelper.getRemoteString("please__select", requireContext()), "")
+            )
+            selectedProvince = ""
+            val adapterProvince =
+                AdapterGeneralSpinner(requireContext(), R.layout.spinner_layout, arraySpinner, 0)
+            spProvinceProfile.adapter = adapterProvince
+            adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
+            spProvinceProfile.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedProvince = arraySpinner.get(position).name
+
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
 
             }
 
-        }
-
-        /*spBanks.setSelection(arraySpinner.indexOf(arraySpinner.find {
+            /*spBanks.setSelection(arraySpinner.indexOf(arraySpinner.find {
             it.id.toString() == user!!.bankId!!
         }))*/
 
-        spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
-            it.id.toString() == user!!.bankId!!
-        }))
+            spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
+                it.id.toString() == user!!.bankId!!
+            }))
 
 
-        if (MyApplication.selectedUser!!.addresses!!.get(0).province != null && MyApplication.selectedUser!!.addresses!!.get(0).province != "null") {
-            try {
-                var indx = arraySpinner.indexOf(arraySpinner.find {
-                    it.name!!.equals(MyApplication.selectedUser!!.addresses!!.get(0).province)
+            if (MyApplication.selectedUser!!.addresses!!.get(0).province != null && MyApplication.selectedUser!!.addresses!!.get(
+                    0
+                ).province != "null"
+            ) {
+                try {
+                    var indx = arraySpinner.indexOf(arraySpinner.find {
+                        it.name!!.equals(MyApplication.selectedUser!!.addresses!!.get(0).province)
+                    }
+                    )
+                    if (indx != 0) {
+                        spProvinceProfile.setSelection(indx)
+                        selectedProvince = arraySpinner.get(indx).name
+                        spProvinceProfile.isEnabled = false
+                    } else {
+                        spProvinceProfile.isEnabled = true
+                    }
+                } catch (ex: Exception) {
+
                 }
-                )
-                if(indx !=0) {
-                    spProvinceProfile.setSelection(indx)
-                    selectedProvince = arraySpinner.get(indx).name
-                    spProvinceProfile.isEnabled = false
-                }else{
-                    spProvinceProfile.isEnabled = true
-                }
-            } catch (ex: Exception) {
-
             }
-        }
 
-        loading.hide()
+            loading.hide()
+        }catch (ex:Exception){
+
+        }
     }
 
     fun getBankList(user: User) {
@@ -1129,7 +1141,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                         updateClientProfile()
                 }else{
 
-                AppHelper.createDialog(requireActivity(),getString(R.string.no_internet))
+                    AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
                 }
             }
 

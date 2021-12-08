@@ -30,6 +30,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
 
     var array: ArrayList<ResponseNotification> = arrayListOf()
     var adapter: AdapterNotification? = null
+    var notfNum : Int ?=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +55,10 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
         rvNotifications.layoutManager = LinearLayoutManager(context)
         adapter = AdapterNotification(array, this, requireContext())
         rvNotifications.adapter = adapter
+        notfNum = array!!.count {
+            it.isViewed.equals("0")
+        }
+        (activity as ActivityHome).setNotNumber(notfNum!!)
         if(array.size==0){
             tvNoData.show()
         }else{
@@ -76,7 +81,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
         }catch (ex:Exception){
 
         }
-        var newReq = RequestNotifications(MyApplication.languageCode,MyApplication.userId,MyApplication.deviceId,0,40,1)
+        var newReq = RequestNotifications(MyApplication.languageCode, MyApplication.selectedUser!!.mobileNumber,0,10,1)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getNotifications(
                 newReq
@@ -125,7 +130,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
     }
 
     fun markNotification(notfId : Int ){
-        var newReq = MarkNotification(MyApplication.deviceId,MyApplication.userId,notfId)
+        var newReq = MarkNotification(MyApplication.phoneNumber,notfId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.markNotification(
                 newReq
@@ -134,9 +139,11 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
                     call: Call<ResponseUpdate>,
                     response: Response<ResponseUpdate>
                 ) {
+                    logw("notfID",notfId.toString())
                 }
 
                 override fun onFailure(call: Call<ResponseUpdate>, t: Throwable) {
+                    logw("notfID",t.toString())
 
                 }
 
@@ -145,19 +152,19 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
 
         AppHelper.onOneClick {
-            btVerifyCode.onOneClick {
                 if (AppHelper.isOnline(requireContext())) {
                     array[position].open = !array[position].open
                     if (array[position].isViewed.equals("0")) {
                         markNotification(array[position].id!!.toInt())
+                     //   notfNum = notfNum!!.minus(1)
+                     //   (activity as ActivityHome).setNotNumber(notfNum!!)
                         array[position].isViewed = "1"
                     }
                     adapter!!.notifyItemChanged(position)
                 } else {
-                    AppHelper.createDialog(requireActivity(), getString(R.string.no_internet))
+                    AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
                 }
 
-            }
         }
     }
 }

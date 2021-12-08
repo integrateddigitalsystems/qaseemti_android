@@ -171,9 +171,14 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
     override fun onItemClicked(view: View, position: Int) {
 
         if(view.id==R.id.btDeleteAddress){
-            AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("yes",this),AppHelper.getRemoteString("Cancel",this),AppHelper.getRemoteString("are_you_sure_delete",this)){
-                deleteAddress(array.get(position).addressId!!.toInt())
+            if (AppHelper.isOnline(this)) {
+                AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("yes",this),AppHelper.getRemoteString("Cancel",this),AppHelper.getRemoteString("are_you_sure_delete",this)){
+                    deleteAddress(array.get(position).addressId!!.toInt())
+                }
+            }else{
+                AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
             }
+
         }else {
             if (!MyApplication.fromProfile!!) {
                 val intent = Intent()

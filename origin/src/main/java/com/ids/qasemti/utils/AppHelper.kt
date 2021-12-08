@@ -914,6 +914,22 @@ class AppHelper {
 
         }
 
+        fun createFixedDialog(c: Activity, message: String,doAction: () -> Unit) {
+
+
+            var ok = getRemoteString("ok", c)
+
+            val builder = AlertDialog.Builder(c)
+            builder
+                .setMessage(message)
+                .setCancelable(false)
+                .setNegativeButton(ok) { dialog, _ ->
+                    doAction()
+                }
+            val alert = builder.create()
+            alert.show()
+
+        }
 
 
         fun createDialog(c: Activity, message: String,doAction: () -> Unit) {

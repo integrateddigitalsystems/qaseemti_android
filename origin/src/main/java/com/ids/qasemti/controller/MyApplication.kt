@@ -160,6 +160,9 @@ class MyApplication : Application() {
         var trackOrderId : Int ?
         get() = sharedPreferences.getInt(AppConstants.TRACKING_ORDER_ID,0)
         set(value) { sharedPreferencesEditor.putInt(AppConstants.TRACKING_ORDER_ID,value!!).apply()}
+        var generalNotificaiton : Int ?
+        get() = sharedPreferences.getInt(AppConstants.GENERAL_NOTF,1)
+        set(value) { sharedPreferencesEditor.putInt(AppConstants.GENERAL_NOTF,value!!)}
 
 
     }

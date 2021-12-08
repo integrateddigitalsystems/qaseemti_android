@@ -159,6 +159,7 @@ class AdapterOrderType(
 
         holder.switchDelivered.setOnClickListener {
 
+            if(AppHelper.isOnline(con)) {
 
                 AppHelper.createSwitchDialog(
                     con,
@@ -199,16 +200,63 @@ class AdapterOrderType(
                         items.get(position).orderId!!.toInt(),
                         holder.switchOnTrack.isChecked,
                         holder.switchDelivered.isChecked,
-                        holder.switchPaid.isChecked ,
-                        reloader ,
+                        holder.switchPaid.isChecked,
+                        reloader,
                         loading
                     )
                 }
+            } else{
+                holder.switchDelivered.isChecked = !holder.switchDelivered.isChecked
+                AppHelper.createDialog(con,AppHelper.getRemoteString("no_internet",con))
+            }
 
         }
         holder.switchOnTrack.setOnClickListener {
 
-            if(!MyApplication.saveLocationTracking!!) {
+            if(AppHelper.isOnline(con)) {
+                if (!MyApplication.saveLocationTracking!!) {
+                    AppHelper.createSwitchDialog(
+                        con,
+                        AppHelper.getRemoteString("ok", con),
+                        AppHelper.getRemoteString("cancel", con),
+                        con.getString(
+                            R.string.are_you_sure_change_status
+                        ),
+                        holder.switchOnTrack
+                    ) {
+                        if (holder.switchOnTrack.isChecked) {
+                            MyApplication.selectedOrder = items.get(position)
+                            MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
+                            (con as ActivityHome).changeState(true)
+                            AppHelper.setSwitchColor(holder.switchOnTrack, con)
+                            onTrack = 1
+                        } else {
+                            onTrack = 0
+                            AppHelper.setSwitchColor(holder.switchOnTrack, con)
+                        }
+                        AppHelper.updateStatus(
+                            items.get(position).orderId!!.toInt(),
+                            holder.switchOnTrack.isChecked,
+                            holder.switchDelivered.isChecked,
+                            holder.switchPaid.isChecked,
+                            reloader,
+                            loading
+                        )
+
+                        //AppHelper.setUpDoc(items.get(position))
+                    }
+                } else {
+                    holder.switchOnTrack.isChecked = !holder.switchOnTrack.isChecked
+                }
+            }else{
+                holder.switchOnTrack.isChecked = !holder.switchOnTrack.isChecked
+                AppHelper.createDialog(con,AppHelper.getRemoteString("no_internet",con))
+            }
+        }
+
+        holder.switchPaid.setOnClickListener {
+
+            if(AppHelper.isOnline(con)) {
                 AppHelper.createSwitchDialog(
                     con,
                     AppHelper.getRemoteString("ok", con),
@@ -216,53 +264,14 @@ class AdapterOrderType(
                     con.getString(
                         R.string.are_you_sure_change_status
                     ),
-                    holder.switchOnTrack
+                    holder.switchPaid
                 ) {
-                    if (holder.switchOnTrack.isChecked) {
-                        MyApplication.selectedOrder = items.get(position)
-                        MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
-                        (con as ActivityHome).changeState(true)
-                        AppHelper.setSwitchColor(holder.switchOnTrack, con)
-                        onTrack = 1
-                    } else {
-                        onTrack = 0
-                        AppHelper.setSwitchColor(holder.switchOnTrack, con)
-                    }
-                    AppHelper.updateStatus(
-                       items.get(position).orderId!!.toInt(),
-                        holder.switchOnTrack.isChecked,
-                        holder.switchDelivered.isChecked,
-                        holder.switchPaid.isChecked,
-                        reloader,
-                        loading
-                    )
-
-                    //AppHelper.setUpDoc(items.get(position))
-                }
-            }else{
-                holder.switchOnTrack.isChecked = !holder.switchOnTrack.isChecked
-            }
-        }
-
-        holder.switchPaid.setOnClickListener {
-
-            AppHelper.createSwitchDialog(
-                con,
-                AppHelper.getRemoteString("ok", con),
-                AppHelper.getRemoteString("cancel", con),
-                con.getString(
-                    R.string.are_you_sure_change_status
-                ),
-                holder.switchPaid
-            ) {
-                var usedPos = position
-                var selectOrder = items.get(position)
-                if (holder.switchPaid.isChecked) {
+                    var usedPos = position
+                    var selectOrder = items.get(position)
+                    if (holder.switchPaid.isChecked) {
 
 
-
-
-                   /* if(holder.switchDelivered.isChecked){
+                        /* if(holder.switchDelivered.isChecked){
                        *//* items.removeAt(position)
                         if(usedPos>0) {
                             usedPos--
@@ -274,24 +283,28 @@ class AdapterOrderType(
 *//*
                         reloader.reload()
                     }*/
-                    holder.switchPaid.isEnabled = false
-                    MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
-                    (con as ActivityHome).changeState(false)
-                    MyApplication.saveLocationTracking = false
-                    paid = 1
-                    AppHelper.setSwitchColor(holder.switchPaid,con)
-                } else {
-                    paid= 0
-                    AppHelper.setSwitchColor(holder.switchPaid,con)
+                        holder.switchPaid.isEnabled = false
+                        MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
+                        (con as ActivityHome).changeState(false)
+                        MyApplication.saveLocationTracking = false
+                        paid = 1
+                        AppHelper.setSwitchColor(holder.switchPaid, con)
+                    } else {
+                        paid = 0
+                        AppHelper.setSwitchColor(holder.switchPaid, con)
+                    }
+                    AppHelper.updateStatus(
+                        items.get(position).orderId!!.toInt(),
+                        holder.switchOnTrack.isChecked,
+                        holder.switchDelivered.isChecked,
+                        holder.switchPaid.isChecked,
+                        reloader,
+                        loading
+                    )
                 }
-                AppHelper.updateStatus(
-                    items.get(position).orderId!!.toInt(),
-                    holder.switchOnTrack.isChecked,
-                    holder.switchDelivered.isChecked,
-                    holder.switchPaid.isChecked,
-                    reloader,
-                    loading
-                )
+            }else{
+                holder.switchPaid.isChecked = !holder.switchPaid.isChecked
+                AppHelper.createDialog(con,AppHelper.getRemoteString("no_internet",con))
             }
         }
 

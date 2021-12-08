@@ -364,9 +364,9 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                         } else {
                             AppHelper.createYesNoDialog(
                                 this@ActivityPlaceOrder,
-                                "Place Order",
-                                "Different code",
-                                "Incorrect coupon code, do you want to move forward without coupon or try a different code ?"
+                                AppHelper.getRemoteString("PlaceOrder",this@ActivityPlaceOrder),
+                                AppHelper.getRemoteString("Different_Code",this@ActivityPlaceOrder),
+                                AppHelper.getRemoteString("incorrect_coupon_forwad_without",this@ActivityPlaceOrder)
                             ) {
                                 updatePayment()
                             }
@@ -437,7 +437,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             if (AppHelper.isOnline(this)) {
                 applyCoupon()
             }else{
-                AppHelper.createDialog(this,getString(R.string.no_internet))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
             }
 
         }
@@ -447,7 +447,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             if (AppHelper.isOnline(this)) {
                 updatePayment()
             }else{
-                AppHelper.createDialog(this,getString(R.string.no_internet))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
             }
 
 
@@ -486,9 +486,9 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                             } else if (type == 2) {
                                 AppHelper.createYesNoDialog(
                                     this@ActivityPlaceOrder,
-                                    "Place Order",
-                                    "Different code",
-                                    "Incorrect coupon code, do you want to move forward without coupon or try a different code ?"
+                                    AppHelper.getRemoteString("PlaceOrder",this@ActivityPlaceOrder),
+                                    AppHelper.getRemoteString("Different_Code",this@ActivityPlaceOrder),
+                                    AppHelper.getRemoteString("incorrect_coupon_forwad_without",this@ActivityPlaceOrder)
                                 ) {
                                     updatePayment()
                                 }
@@ -511,10 +511,10 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         builder
             .setMessage(message)
             .setCancelable(true)
-            .setNegativeButton("Proceed without Coupon") { dialog, _ ->
+            .setNegativeButton(AppHelper.getRemoteString("Proceed_without_Coupon",this)) { dialog, _ ->
                 updatePayment()
             }
-            .setPositiveButton("Apply Coupon") { dialog, _ ->
+            .setPositiveButton(AppHelper.getRemoteString("Apply_Coupon",this)) { dialog, _ ->
                 doAction()
             }
         val alert = builder.create()
@@ -526,7 +526,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         btPLaceOrder.onOneClick {
             if (AppHelper.isOnline(this)) {
                 if (arrayPaymentMethods.count { it.selected } == 0)
-                    AppHelper.createDialog(this, "Please choose payment method")
+                    AppHelper.createDialog(this, AppHelper.getRemoteString("Please choose payment method",this))
                 else {
 
                     if (etCoupon.text.isNullOrEmpty())
@@ -534,16 +534,25 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                     else {
                         if (reviewed!!) {
                             reviewed = false
-                            paymentCoupon("Do you want to apply this coupon before placing order ?") {
-                                applyCoupon()
+                            paymentCoupon(AppHelper.getRemoteString("apply_coupon_befor_placing",this)) {
+                                if (AppHelper.isOnline(this)) {
+                                    applyCoupon()
+                                }else{
+                                    AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
+                                }
                             }
                         } else {
-                            reviewCoupon(2)
+                            if (AppHelper.isOnline(this)) {
+                                reviewCoupon(2)
+                            }else{
+                                AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
+                            }
+
                         }
                     }
                 }
             }else{
-                AppHelper.createDialog(this,getString(R.string.no_internet))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
             }
 
         }
@@ -556,7 +565,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                     reviewCoupon(1)
                 }
             }else{
-                AppHelper.createDialog(this,getString(R.string.no_internet))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
             }
         }
     }

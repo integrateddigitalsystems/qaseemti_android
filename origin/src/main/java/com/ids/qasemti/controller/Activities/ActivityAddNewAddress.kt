@@ -300,54 +300,56 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
     }
 
     fun setUpSpinner() {
-        arraySpinner.clear()
-        for (item in MyApplication.kuwaitGovs) {
-            arraySpinner.add(
-                ItemSpinner(
-                    item.govId!!.toInt(),
-                    if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
-                        item.govEn
-                    } else {
-                        item.govAr
-                    }, ""
+        try {
+            arraySpinner.clear()
+            for (item in MyApplication.kuwaitGovs) {
+                arraySpinner.add(
+                    ItemSpinner(
+                        item.govId!!.toInt(),
+                        if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
+                            item.govEn
+                        } else {
+                            item.govAr
+                        }, ""
+                    )
                 )
+
+            }
+            arraySpinner.add(
+                0,
+                ItemSpinner(-1, AppHelper.getRemoteString("please__select", this), "")
             )
+            selectedProvince = ""
+            val adapterProvince =
+                AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinner, 0)
+            spProvince.adapter = adapterProvince
+            adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
+            spProvince.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (position == 0)
+                        selectedProvince = ""
+                    else
+                        selectedProvince = arraySpinner.get(position).name
 
-        }
-        arraySpinner.add(
-            0,
-            ItemSpinner(-1, AppHelper.getRemoteString("please__select", this), "")
-        )
-        selectedProvince = ""
-        val adapterProvince =
-            AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinner, 0)
-        spProvince.adapter = adapterProvince
-        adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
-        spProvince.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                if(position==0)
-                    selectedProvince = ""
-                else
-                    selectedProvince = arraySpinner.get(position).name
+                }
 
-            }
+                override fun onNothingSelected(p0: AdapterView<*>?) {
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
 
             }
 
-        }
-
-        /*spBanks.setSelection(arraySpinner.indexOf(arraySpinner.find {
+            /*spBanks.setSelection(arraySpinner.indexOf(arraySpinner.find {
             it.id.toString() == user!!.bankId!!
         }))*/
 
-        loading.hide()
+            loading.hide()
+        }catch (ex:Exception){}
     }
 
     private fun init() {
@@ -450,7 +452,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
                         if (AppHelper.isOnline(this)) {
                             addAddress()
                         }else{
-                            AppHelper.createDialog(this,getString(R.string.no_internet))
+                            AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
                         }
 
                     }
@@ -458,7 +460,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
                     if (AppHelper.isOnline(this)) {
                         addAddress()
                     }else{
-                        AppHelper.createDialog(this,getString(R.string.no_internet))
+                        AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
                     }
 
                 }

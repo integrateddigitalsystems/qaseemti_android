@@ -309,6 +309,11 @@
     <string name="must_enter_Address_First">يجب عليك إدخال عنوانك أولاً!</string>
     <string name="view_orders">معاينة الطلبات</string>
     <string name="no_internet">اتصال الإنترنت غير متوفر ، يرجى التحقق من الاتصال الخاص بك.</string>
+    <string name="Different_Code">الرمز مختلف</string>
+    <string name="incorrect_coupon_forwad_without">رمز القسيمة غير صحيح ، هل تريد المضي قدمًا بدون قسيمة أو تجربة رمز مختلف؟</string>
+    <string name="Proceed_without_Coupon">المتابعة بدون القسيمة</string>
+    <string name="Apply_Coupon">تطبيق القسيمة</string>
+    <string name="apply_coupon_befor_placing">هل تريد تطبيق هذه القسيمة قبل تقديم الطلب؟</string>
 
 
 </resources>

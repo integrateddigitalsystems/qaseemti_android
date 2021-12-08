@@ -219,21 +219,31 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback , ApiListener{
     }
 
     fun setClientListener() {
-        doc!!.addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, e ->
-            val orderLoc = snapshot!!.toObject<OrderLocation>()
-            val ny = LatLng(
-                orderLoc!!.order_laltitude!!.toDouble(),
-                orderLoc!!.order_longitude!!.toDouble()
-            )
+        try {
+            doc!!.addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, e ->
+                val orderLoc = snapshot!!.toObject<OrderLocation>()
+                if (orderLoc != null) {
+                    val ny = LatLng(
+                        orderLoc!!.order_laltitude!!.toDouble(),
+                        orderLoc!!.order_longitude!!.toDouble()
+                    )
 
-            gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
-            markers.get(1).position = ny
+                    gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
+                    markers.get(1).position = ny
 
 
-            //  markerMoving!!.setPosition(ny);
-            /*val markerOptions = MarkerOptions()
+                    //  markerMoving!!.setPosition(ny);
+                    /*val markerOptions = MarkerOptions()
             markerOptions.position(ny)
             gmap!!.addMarker(markerOptions)*/
+                }else{
+                    AppHelper.createFixedDialog(this,AppHelper.getRemoteString("no_curr_track",this)){
+                        super.onBackPressed()
+                    }
+                }
+            }
+        }catch (ex:Exception){
+
         }
     }
 
@@ -313,12 +323,12 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback , ApiListener{
                         setClientListener()
                     }
                 }catch (ex:Exception){
-                    AppHelper.createDialog(this,AppHelper.getRemoteString("no_curr_track",this)){
+                    AppHelper.createFixedDialog(this,AppHelper.getRemoteString("no_curr_track",this)){
                         super.onBackPressed()
                     }
                 }
             }else{
-                AppHelper.createDialog(this,AppHelper.getRemoteString("no_curr_track",this)){
+                AppHelper.createFixedDialog(this,AppHelper.getRemoteString("no_curr_track",this)){
                     super.onBackPressed()
                 }
             }

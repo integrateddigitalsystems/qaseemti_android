@@ -75,7 +75,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
                 if (AppHelper.isOnline(this)) {
                     verifyOTP()
                 }else{
-                    AppHelper.createDialog(this,getString(R.string.no_internet))
+                    AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
                 }
 
                 //startActivity(Intent(this,ActivityAccountStatus::class.java))
@@ -88,7 +88,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
                 if (AppHelper.isOnline(this@ActivityCodeVerification)) {
                     verifyOTP()
                 }else{
-                    AppHelper.createDialog(this@ActivityCodeVerification,getString(R.string.no_internet))
+                    AppHelper.createDialog(this@ActivityCodeVerification,AppHelper.getRemoteString("no_internet",this@ActivityCodeVerification))
                 }
 
                 //startActivity(Intent(this,ActivityAccountStatus::class.java))
@@ -141,7 +141,8 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
                             sendOTP()
                         }
                     }else{
-                        AppHelper.createDialog(this@ActivityCodeVerification,getString(R.string.no_internet))
+
+                        AppHelper.createDialog(this@ActivityCodeVerification,AppHelper.getRemoteString("no_internet",this@ActivityCodeVerification))
                     }
                 }
             }
@@ -163,7 +164,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
                     if (AppHelper.isOnline(this@ActivityCodeVerification)) {
                         verifyOTP()
                     }else{
-                        AppHelper.createDialog(this@ActivityCodeVerification,getString(R.string.no_internet))
+                        AppHelper.createDialog(this@ActivityCodeVerification,AppHelper.getRemoteString("no_internet",this@ActivityCodeVerification))
                     }
 
                 }

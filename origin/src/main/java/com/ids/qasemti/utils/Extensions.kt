@@ -290,19 +290,23 @@ fun String.formatNumber(format: String): String {
 
 fun TextView.setColorTypeface(context: Context, color: Int,text:String,bold:Boolean) {
 
-    this.show()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        this.setTextColor(ContextCompat.getColor(context, color))
-    } else {
-        this.setTextColor(context.resources.getColor(color))
-    }
-    if(!bold) {
-        this.typeface = AppHelper.getTypeFace(context)
-    }else{
-        this.typeface = AppHelper.getTypeFaceBold(context)
-    }
-    if(!text.isNullOrEmpty()){
-        this.text = text
+    try {
+        this.show()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            this.setTextColor(ContextCompat.getColor(context, color))
+        } else {
+            this.setTextColor(context.resources.getColor(color))
+        }
+        if (!bold) {
+            this.typeface = AppHelper.getTypeFace(context)
+        } else {
+            this.typeface = AppHelper.getTypeFaceBold(context)
+        }
+        if (!text.isNullOrEmpty()) {
+            this.text = text
+        }
+    }catch (ex:Exception){
+
     }
 
 }

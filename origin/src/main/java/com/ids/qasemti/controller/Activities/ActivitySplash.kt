@@ -59,6 +59,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.log
 
 
 class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
@@ -264,8 +265,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
     fun getMobileConfig() {
         var newReq = RequestNotifications(
             MyApplication.languageCode,
-            MyApplication.userId,
-            MyApplication.deviceId,
+            MyApplication.selectedUser!!.mobileNumber,
             0,
             10,
             1
@@ -338,6 +338,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
     fun nextStep() {
+        logw("Step","7")
         CallAPIs.getCategories(this, this)
         Handler(Looper.getMainLooper()).postDelayed({
             if (MyApplication.firstTime) {
@@ -348,6 +349,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                 startActivity(Intent(this, ActivityChooseLanguage::class.java))
                 finish()
             } else {
+                logw("Step","9")
                 if (MyApplication.isSignedIn) {
 
                     if (MyApplication.isClient) {
@@ -411,8 +413,10 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         MyApplication.BASE_URL =
                             BASE_URLS!!.android!!.maxByOrNull { it.version!! }!!.url!!
                 }
+                logw("Step","5")
             }
         } catch (e: Exception) {
+            logw("Step","4")
         }
        var list  = Gson().fromJson(
         mFirebaseRemoteConfig!!.getString(FIREBASE_GOVS),
@@ -443,6 +447,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             mFirebaseRemoteConfig!!.getString(FIREBASE_COUNTRY_NAME_CODE)
         MyApplication.salt = mFirebaseRemoteConfig!!.getString(FIREBASE_SALT)
         AppHelper.setAllTexts(rootLayout, this)
+        logw("Step","6")
 
 
 
@@ -529,9 +534,11 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             minimumFetchIntervalInSeconds = 0
         }
         mFirebaseRemoteConfig!!.setConfigSettingsAsync(configSettings)
+        logw("Step","1")
         mFirebaseRemoteConfig!!.fetchAndActivate()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    logw("Step","2")
                     var URLS = Gson().fromJson(
                         mFirebaseRemoteConfig!!.getString(AppConstants.MULTI_LINKS),
                         MultiLink::class.java
@@ -546,6 +553,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
                 } else {
+                    logw("Step","3")
                     MyApplication.BASE_URL = BuildConfig.BASE_URL
                     //nextStep()
                     AppHelper.createDialog(this,AppHelper.getRemoteString("error_getting_data",this)){
@@ -558,10 +566,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
 
-        if (apiId == AppConstants.ADDRESS_GEO) {
+        if (apiId == AppConstants.ADDRESS_GEO || apiId == AppConstants.UPDATE_DEVICE) {
 
-        }else
-        if(apiId==API_USER_STATUS) {
+        }else if(apiId==API_USER_STATUS) {
             var res = response as ResponseUser
             try {
                 if (res.user!!.suspended.equals("1") && MyApplication.isClient) {
@@ -579,11 +586,15 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                 finish()
             }
         }else{
-            var res = response as ResponseMainCategories
-            MyApplication.categories.clear()
-            MyApplication.categories.addAll(res.categories)
-            MyApplication.purchaseId = MyApplication.categories.find { it.valEn.equals("purchase") }!!.id!!.toInt()
-            MyApplication.rentalId = MyApplication.categories.find { it.valEn.equals("rental") }!!.id!!.toInt()
+            try {
+                var res = response as ResponseMainCategories
+                MyApplication.categories.clear()
+                MyApplication.categories.addAll(res.categories)
+                MyApplication.purchaseId =
+                    MyApplication.categories.find { it.valEn.equals("purchase") }!!.id!!.toInt()
+                MyApplication.rentalId =
+                    MyApplication.categories.find { it.valEn.equals("rental") }!!.id!!.toInt()
+            }catch (ex:Exception){}
         }
 
     }

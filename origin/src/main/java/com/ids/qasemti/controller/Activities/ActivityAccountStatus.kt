@@ -72,7 +72,7 @@ class ActivityAccountStatus : ActivityBase() {
                 notfSelected = 1
                 setNotificationType(1)
             }else{
-                AppHelper.createDialog(this,getString(R.string.no_internet))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
             }
         }
 
@@ -110,7 +110,7 @@ class ActivityAccountStatus : ActivityBase() {
                 notfSelected = 0
                 setNotificationType(0)
             }else{
-                AppHelper.createDialog(this,getString(R.string.no_internet))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
             }
 
         }

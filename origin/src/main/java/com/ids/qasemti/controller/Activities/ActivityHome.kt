@@ -31,6 +31,8 @@ import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.controller.MyApplication.Companion.foregroundOnlyLocationService
+import com.ids.qasemti.model.RequestNotifications
+import com.ids.qasemti.model.ResponseNotification
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppConstants.FRAGMENT_ACCOUNT
 import com.ids.qasemti.utils.AppConstants.FRAGMENT_CART
@@ -41,7 +43,11 @@ import com.ids.qasemti.utils.AppHelper.Companion.resetIcons
 import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.home_container.*
 import kotlinx.android.synthetic.main.layout_footer_shadow.*
+import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.system.exitProcess
 
 
@@ -52,6 +58,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     private val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
     private var foregroundOnlyLocationServiceBound = false
     private lateinit var drawerLayout: DrawerLayout
+    var notfNum : Int ?= 0
     var selectedPos = 2
 
     var foregrounfLocationService: CurrentLocationService? = null
@@ -67,6 +74,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         init()
+        //getNotf()
         MyApplication.saveLocationTracking = false
 
         foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
@@ -672,6 +680,36 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         val serviceIntent = Intent(this, LocationForeService::class.java)
         bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
 
+    }
+
+    fun setNotNumber(num : Int){
+        if(num ==0 )
+            tvNumberNotfUnread.hide()
+        else
+            tvNumberNotfUnread.text = num.toString()
+    }
+
+    fun getNotf(){
+        var newReq = RequestNotifications(MyApplication.languageCode,MyApplication.selectedUser!!.mobileNumber,0,40,1)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getNotifications(
+                newReq
+            )?.enqueue(object : Callback<ArrayList<ResponseNotification>> {
+                override fun onResponse(call: Call<ArrayList<ResponseNotification>>, response: Response<ArrayList<ResponseNotification>>) {
+                    try{
+                        notfNum = response.body()!!.count {
+                            it.isViewed.equals("0")
+                        }
+                        setNotNumber(notfNum!!)
+
+                    }catch (E: java.lang.Exception){
+                        setNotNumber(0)
+                    }
+                }
+                override fun onFailure(call: Call<ArrayList<ResponseNotification>>, throwable: Throwable) {
+                    setNotNumber(0)
+                }
+            })
     }
 
     override fun onResume() {

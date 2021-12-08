@@ -362,6 +362,7 @@ class CallAPIs {
                 ) {
                     try {
                         MyApplication.selectedUser = response.body()!!.user
+                        //MyApplication.generalNotificaiton = MyApplication.selectedUser.notificationType
                         listener.onDataRetrieved(
                             true,
                             response.body()!!,
@@ -483,7 +484,6 @@ class CallAPIs {
             val registrationDate = dateFormat.format(cal.time)
             val appVersion = AppHelper.getVersionNumber()
 
-            val generalNotification = 1
             val isProduction = 1
 
 
@@ -513,7 +513,7 @@ class CallAPIs {
                         deviceToken,
                         2,
                         imei,
-                        generalNotification,
+                        MyApplication.generalNotificaiton,
                         appVersion.toString(),
                         0,
                         lang,

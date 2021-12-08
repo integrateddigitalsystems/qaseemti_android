@@ -142,7 +142,7 @@ class ActivityWeb: ActivityBase() {
                     sendContact()
                 }
             }else{
-                AppHelper.createDialog(this,getString(R.string.no_internet))
+                AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
             }
 
 

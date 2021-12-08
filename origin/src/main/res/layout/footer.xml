@@ -160,12 +160,52 @@
         android:orientation="vertical">
 
 
+        <!--<RelativeLayout
+            android:layout_width="@dimen/normal_icon_size"
+            android:layout_height="@dimen/normal_icon_size">
+
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_alignParentEnd="true"
+                android:visibility="gone"
+                android:id="@+id/tvNumberNotfUnread"
+                android:layout_width="wrap_content"
+                android:textColor="@color/white"
+                android:text="1"
+                android:textSize="5sp"
+                android:padding="4dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/primary_circle"/>-->
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/ivFooterNotifications"
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
-            android:src="@drawable/footer_notifications"
-            android:layout_gravity="center"/>
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:src="@drawable/footer_notifications" />
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="-5dp"
+                android:visibility="gone"
+                android:id="@+id/tvNumberNotfUnread"
+                android:gravity="center"
+                android:layout_width="@dimen/small_icon_1"
+                android:textColor="@color/white"
+                android:text="1"
+                android:textSize="8sp"
+                android:layout_height="@dimen/small_icon_1"
+                android:background="@drawable/primary_circle"/>
+
+        </LinearLayout>
+
+        <!--</RelativeLayout>-->
 
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:id="@+id/tvFooterNotifications"
