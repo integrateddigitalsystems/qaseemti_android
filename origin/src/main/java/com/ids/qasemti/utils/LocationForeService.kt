@@ -23,9 +23,11 @@ import com.google.firebase.firestore.ktx.toObject
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
+import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
 import kotlinx.android.synthetic.main.activity_code_verification.*
+import kotlinx.android.synthetic.main.footer.*
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
@@ -452,11 +454,15 @@ class LocationForeService : Service() {
 
         // 3. Set up main Intent/Pending Intents for notification.
         var launchActivityIntent:Intent ?=null
-        if(MyApplication.fromOrderDetails!!) {
+       /* if(MyApplication.fromOrderDetails!!) {
             launchActivityIntent = Intent(this, ActivityOrderDetails::class.java)
-        }else{
+        }else{*/
+        MyApplication.selectedPos = 3
+        MyApplication.selectedFragment = FragmentOrders()
+        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+        MyApplication.tintColor = R.color.primary
             launchActivityIntent = Intent(this, ActivityHome::class.java)
-        }
+       // }
 
         val cancelIntent = Intent(this, LocationForeService::class.java)
         cancelIntent.putExtra(EXTRA_CANCEL_LOCATION_TRACKING_FROM_NOTIFICATION, true)

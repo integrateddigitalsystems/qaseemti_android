@@ -13,6 +13,7 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_code_verification.*
+import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.fragment_orders.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -201,6 +202,19 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
     fun nextStep() {
         MyApplication.phoneNumber = MyApplication.selectedPhone
         MyApplication.isSignedIn = true
+        if(MyApplication.isClient){
+            MyApplication.selectedPos = 2
+            MyApplication.defaultIcon = ivFooterHome
+            MyApplication.tintColor = R.color.primary
+            MyApplication.selectedFragment = FragmentHomeClient()
+            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+        }else{
+            MyApplication.selectedPos = 2
+            MyApplication.defaultIcon = ivFooterHome
+            MyApplication.tintColor = R.color.primary
+            MyApplication.selectedFragment = FragmentHomeSP()
+            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+        }
         startActivity(Intent(this, ActivityHome::class.java))
     }
 

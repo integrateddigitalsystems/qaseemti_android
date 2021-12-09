@@ -16,9 +16,16 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ids.qasemti.BuildConfig
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivitySplash
+import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.AppConstants
+import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE
+import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_NORMAL
+import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_ORDERS
+import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_SERVICE
+import com.ids.qasemti.utils.CallAPIs
 import com.ids.qasemti.utils.LocaleUtils
 
 import java.util.*
@@ -49,6 +56,9 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         // Log.wtf(TAG, "From: " + remoteMessage?.getFrom()!!)
 
+       // ActivityHome().getNotf()
+
+
         if (remoteMessage.getData().size > 0) {
             Log.wtf(TAG, "Message data payload: " + remoteMessage.data)
         }
@@ -65,10 +75,15 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         var typeId = -1
         try {
-            typeId = remoteMessage.data["typeId"]!!.toInt()
+            typeId = remoteMessage.data["type"]!!.toInt()
         } catch (e: Exception) {
             e.printStackTrace()
             typeId = -1
+        }
+
+
+        if(typeId == NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE){
+            CallAPIs.getUserInfo()
         }
 
         var recordId = -1
@@ -107,11 +122,11 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         // setBadge(applicationContext, 0);
         if (MyApplication.generalNotificaiton==1){
 
-            sendNotification(title, recordId, id, message)
+            sendNotification(title, typeId, id, message)
        }
     }
 
-    private fun sendNotification(title: String, recordId: Int, id: Int, messageBody: String) {
+    private fun sendNotification(title: String, typeId: Int, id: Int, messageBody: String) {
 
         lateinit var intent: Intent
 
@@ -132,7 +147,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         }
         intent = Intent(this, ActivitySplash::class.java)
         intent.putExtra("notification_id", id)
-        intent.putExtra("recordId", recordId)
+        intent.putExtra("typeId", typeId)
         intent.putExtra("text", messageBody)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, MyApplication.UNIQUE_REQUEST_CODE++, intent, PendingIntent.FLAG_ONE_SHOT)
@@ -140,6 +155,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         /*Intent backIntent = new Intent(this, SplashActivity.class);
         backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivities(this, UNIQUE_REQUEST_CODE++, new Intent[] {backIntent, intent}, PendingIntent.FLAG_ONE_SHOT);*/
+
 
 
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)

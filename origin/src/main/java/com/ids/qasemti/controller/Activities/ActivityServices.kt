@@ -89,7 +89,7 @@ class ActivityServices : ActivityBase(),RVOnItemClickListener,ApiListener {
             if(MyApplication.selectedUser!!.active==1)
                 startActivity(Intent(this,ActivityServiceInformation::class.java))
             else
-                CallAPIs.getUserInfo(this,this)
+                CallAPIs.getUserInfo(this)
 
             //  if(MyApplication.userStatus!!.online!=0){
 

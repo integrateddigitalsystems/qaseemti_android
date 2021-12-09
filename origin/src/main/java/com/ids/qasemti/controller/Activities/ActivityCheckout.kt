@@ -173,7 +173,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                                 toast(getString(R.string.failure))
                             }
                         } else {
-                            CallAPIs.getUserInfo(this, this)
+                            CallAPIs.getUserInfo(this)
                         }
                     } else {
                         AppHelper.createDialog(this, "Please select a later date or time")

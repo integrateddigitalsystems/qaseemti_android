@@ -7,6 +7,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.mtp.MtpConstants
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -37,6 +38,8 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
+import com.ids.qasemti.controller.Fragments.FragmentNotifications
+import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
@@ -53,6 +56,7 @@ import com.ids.qasemti.utils.AppConstants.FIREBASE_SALT
 import com.upayments.track.UpaymentGateway
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.dialog_links.*
+import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -78,9 +82,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
         //CallAPIs.getAddressName("33.59608186012923,35.39359968155622",this,this)
 
 
-
         getFirebasePrefs()
-
 
 
     }
@@ -259,9 +261,10 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             })
     }
 
-    fun setUpActivities (){
+    fun setUpActivities() {
         MyApplication.bannedActs.add(ActivitySettlements())
     }
+
     fun getMobileConfig() {
         var newReq = RequestNotifications(
             MyApplication.languageCode,
@@ -317,8 +320,8 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
     fun showDialog() {
 
         dialog = Dialog(this, R.style.Base_ThemeOverlay_AppCompat_Dialog)
-    //    dialog!!.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE)
-        dialog!!.setTitle(AppHelper.getRemoteString("please_choose_link",this))
+        //    dialog!!.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE)
+        dialog!!.setTitle(AppHelper.getRemoteString("please_choose_link", this))
         dialog!!.setCanceledOnTouchOutside(false)
         dialog!!.setContentView(R.layout.dialog_links)
         dialog!!.setCancelable(false)
@@ -338,27 +341,98 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
     fun nextStep() {
-        logw("Step","7")
         CallAPIs.getCategories(this, this)
         Handler(Looper.getMainLooper()).postDelayed({
             if (MyApplication.firstTime) {
                 MyApplication.selectedPhone = ""
-                CallAPIs.updateDevice(this,this)
-               // AppHelper.updateDevice(this, "")
+                CallAPIs.updateDevice(this, this)
+                // AppHelper.updateDevice(this, "")
                 MyApplication.firstTime = false
                 startActivity(Intent(this, ActivityChooseLanguage::class.java))
                 finish()
             } else {
-                logw("Step","9")
+
                 if (MyApplication.isSignedIn) {
 
+                    var type = 0
+                    try {
+                        type = intent.getIntExtra("typeId", 0)
+                    } catch (ex: Exception) {
+                    }
+
                     if (MyApplication.isClient) {
-                        UpaymentGateway.init(this, "", "", true)
-                        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
-                        MyApplication.selectedFragment = FragmentHomeClient()
+
+                        try {
+                            UpaymentGateway.init(this, "", "", true)
+                        }catch (ex:Exception){}
+                        if (type == AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE) {
+                            MyApplication.selectedPos = 3
+                            MyApplication.defaultIcon = ivFooterNotifications
+                            MyApplication.selectedFragment = FragmentNotifications()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
+                            MyApplication.tintColor = R.color.primary
+                        } else if (type == AppConstants.NOTF_TYPE_ORDERS) {
+                            MyApplication.selectedPos = 1
+                            MyApplication.defaultIcon = ivFooterOrder
+                            MyApplication.tintColor = R.color.primary
+                            MyApplication.selectedFragment = FragmentOrders()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                        } else if (type == AppConstants.NOTF_TYPE_SERVICE) {
+                            MyApplication.selectedPos = 2
+                            MyApplication.defaultIcon = ivFooterHome
+                            MyApplication.tintColor = R.color.primary
+                            MyApplication.selectedFragment = FragmentHomeClient()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+                        } else if (type == AppConstants.NOTF_TYPE_NORMAL) {
+                            MyApplication.selectedPos = 3
+                            MyApplication.defaultIcon = ivFooterNotifications
+                            MyApplication.selectedFragment = FragmentNotifications()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
+                            MyApplication.tintColor = R.color.primary
+                        } else if(type == 0 ){
+                            MyApplication.selectedPos = 2
+                            MyApplication.defaultIcon = ivFooterHome
+                            MyApplication.tintColor = R.color.primary
+                            MyApplication.selectedFragment = FragmentHomeClient()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+                        }
+
+
                     } else {
-                        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
-                        MyApplication.selectedFragment = FragmentHomeSP()
+
+
+                        if (type == AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE) {
+                            MyApplication.selectedPos = 3
+                            MyApplication.defaultIcon = ivFooterNotifications
+                            MyApplication.selectedFragment = FragmentNotifications()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
+                            MyApplication.tintColor = R.color.primary
+                        } else if (type == AppConstants.NOTF_TYPE_ORDERS) {
+                            MyApplication.selectedPos = 2
+                            MyApplication.defaultIcon = ivFooterHome
+                            MyApplication.selectedFragment = FragmentHomeSP()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+                            MyApplication.tintColor = R.color.primary
+                        } else if (type == AppConstants.NOTF_TYPE_SERVICE) {
+                            MyApplication.selectedPos = 2
+                            MyApplication.defaultIcon = ivFooterHome
+                            MyApplication.tintColor = R.color.primary
+                            MyApplication.selectedFragment = FragmentHomeSP()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+
+                        } else if (type == AppConstants.NOTF_TYPE_NORMAL) {
+                            MyApplication.selectedPos = 3
+                            MyApplication.defaultIcon = ivFooterNotifications
+                            MyApplication.selectedFragment = FragmentNotifications()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
+                            MyApplication.tintColor = R.color.primary
+                        } else if(type ==0 ) {
+                            MyApplication.selectedPos = 2
+                            MyApplication.defaultIcon = ivFooterHome
+                            MyApplication.tintColor = R.color.primary
+                            MyApplication.selectedFragment = FragmentHomeSP()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+                        }
                     }
                     MyApplication.isSignedIn = true
                     /*if(MyApplication.userId==0){
@@ -370,13 +444,13 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                     }*/
 
                     MyApplication.selectedPhone = MyApplication.phoneNumber
-                    CallAPIs.updateDevice(this,this)
+                    CallAPIs.updateDevice(this, this)
                     //AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
-                    CallAPIs.getUserInfo(this, this)
+                    CallAPIs.getUserInfo(this)
 
                 } else {
                     MyApplication.selectedPhone = ""
-                    CallAPIs.updateDevice(this,this)
+                    CallAPIs.updateDevice(this, this)
                     //AppHelper.updateDevice(this, "")
                     if (MyApplication.isClient) {
                         UpaymentGateway.init(this, "", "", true)
@@ -413,14 +487,12 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         MyApplication.BASE_URL =
                             BASE_URLS!!.android!!.maxByOrNull { it.version!! }!!.url!!
                 }
-                logw("Step","5")
             }
         } catch (e: Exception) {
-            logw("Step","4")
         }
-       var list  = Gson().fromJson(
-        mFirebaseRemoteConfig!!.getString(FIREBASE_GOVS),
-        KuwaitGovs::class.java
+        var list = Gson().fromJson(
+            mFirebaseRemoteConfig!!.getString(FIREBASE_GOVS),
+            KuwaitGovs::class.java
         )
         MyApplication.kuwaitGovs.clear()
         MyApplication.kuwaitGovs.addAll(list.list)
@@ -428,7 +500,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             mFirebaseRemoteConfig!!.getString(FIREBASE_LOCALIZE),
             FirebaseLocalizeArray::class.java
         )
-        MyApplication.currency =  mFirebaseRemoteConfig!!.getString(CURRENCY)
+        MyApplication.currency = mFirebaseRemoteConfig!!.getString(CURRENCY)
         MyApplication.webLinks = Gson().fromJson(
             mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),
             FirebaseWebData::class.java
@@ -447,30 +519,28 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             mFirebaseRemoteConfig!!.getString(FIREBASE_COUNTRY_NAME_CODE)
         MyApplication.salt = mFirebaseRemoteConfig!!.getString(FIREBASE_SALT)
         AppHelper.setAllTexts(rootLayout, this)
-        logw("Step","6")
-
 
 
         //testing should be removed........................................................
-            MyApplication.BASE_URL = BuildConfig.BASE_URL
-            checkForUpdate()
+        MyApplication.BASE_URL = BuildConfig.BASE_URL
+        checkForUpdate()
 
-   /*     if(MyApplication.termsCondition!!)
-            checkForUpdate()
-        else {
-            MyApplication.fromSplash = true
-            startActivityForResult(Intent(this, ActivityWeb::class.java)
-                .putExtra("webTitle", AppHelper.getRemoteString("TermsAndConditions",this))
-                .putExtra("webId",2), 1000)
-        }*/
+        /*     if(MyApplication.termsCondition!!)
+                 checkForUpdate()
+             else {
+                 MyApplication.fromSplash = true
+                 startActivityForResult(Intent(this, ActivityWeb::class.java)
+                     .putExtra("webTitle", AppHelper.getRemoteString("TermsAndConditions",this))
+                     .putExtra("webId",2), 1000)
+             }*/
 
         //1D$q@semt!salT
 
 
-        var str = AppHelper.getSha256Hash("590c6f2246d9e51e07e0d937e59a65b2f978964a15cf6c045c24f9991ba2a2fa1D")!!
-        Log.wtf("testFirst", str)
-        Log.wtf("testFirst",str+MyApplication.salt)
-        Log.wtf("testFirst", AppHelper.getSha256Hash(str+MyApplication.salt))
+        /* var str = AppHelper.getSha256Hash("590c6f2246d9e51e07e0d937e59a65b2f978964a15cf6c045c24f9991ba2a2fa1D")!!
+         Log.wtf("testFirst", str)
+         Log.wtf("testFirst",str+MyApplication.salt)
+         Log.wtf("testFirst", AppHelper.getSha256Hash(str+MyApplication.salt))*/
 
     }
 
@@ -494,8 +564,10 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                     updateUI(user)
                 } else {
                     Log.w("firebase_auth", "linkWithCredential:failure", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     updateUI(null)
                 }
             }
@@ -505,6 +577,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
     private fun updateUI(user: FirebaseUser?) {
 
     }
+
     private fun signInAnonymously() {
         // [START signin_anonymously]
         auth.signInAnonymously()
@@ -516,9 +589,11 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
-                    logw("auth", "signInAnonymously:failure+"+task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
+                    logw("auth", "signInAnonymously:failure+" + task.exception)
+                    Toast.makeText(
+                        baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     updateUI(null)
                 }
             }
@@ -534,11 +609,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             minimumFetchIntervalInSeconds = 0
         }
         mFirebaseRemoteConfig!!.setConfigSettingsAsync(configSettings)
-        logw("Step","1")
         mFirebaseRemoteConfig!!.fetchAndActivate()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    logw("Step","2")
                     var URLS = Gson().fromJson(
                         mFirebaseRemoteConfig!!.getString(AppConstants.MULTI_LINKS),
                         MultiLink::class.java
@@ -553,10 +626,12 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
                 } else {
-                    logw("Step","3")
                     MyApplication.BASE_URL = BuildConfig.BASE_URL
                     //nextStep()
-                    AppHelper.createDialog(this,AppHelper.getRemoteString("error_getting_data",this)){
+                    AppHelper.createDialog(
+                        this,
+                        AppHelper.getRemoteString("error_getting_data", this)
+                    ) {
                         getFirebasePrefs()
                     }
                 }
@@ -568,7 +643,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
         if (apiId == AppConstants.ADDRESS_GEO || apiId == AppConstants.UPDATE_DEVICE) {
 
-        }else if(apiId==API_USER_STATUS) {
+        } else if (apiId == API_USER_STATUS) {
             var res = response as ResponseUser
             try {
                 if (res.user!!.suspended.equals("1") && MyApplication.isClient) {
@@ -585,7 +660,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                 startActivity(Intent(this, ActivityMobileRegistration::class.java))
                 finish()
             }
-        }else{
+        } else {
             try {
                 var res = response as ResponseMainCategories
                 MyApplication.categories.clear()
@@ -594,7 +669,8 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                     MyApplication.categories.find { it.valEn.equals("purchase") }!!.id!!.toInt()
                 MyApplication.rentalId =
                     MyApplication.categories.find { it.valEn.equals("rental") }!!.id!!.toInt()
-            }catch (ex:Exception){}
+            } catch (ex: Exception) {
+            }
         }
 
     }

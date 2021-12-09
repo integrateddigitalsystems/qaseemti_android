@@ -74,7 +74,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         init()
-        //getNotf()
+        getNotf()
         MyApplication.saveLocationTracking = false
 
         foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
@@ -685,8 +685,10 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     fun setNotNumber(num : Int){
         if(num ==0 )
             tvNumberNotfUnread.hide()
-        else
+        else {
             tvNumberNotfUnread.text = num.toString()
+            tvNumberNotfUnread.show()
+        }
     }
 
     fun getNotf(){

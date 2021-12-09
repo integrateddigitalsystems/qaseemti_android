@@ -349,7 +349,6 @@ class CallAPIs {
 
 
         fun getUserInfo(
-            context: Context,
             listener: ApiListener,
         ) {
             var newReq = RequestUpdateLanguage(MyApplication.userId, MyApplication.languageCode)
@@ -388,6 +387,37 @@ class CallAPIs {
                             ResponseUserStatus(),
                             AppConstants.API_USER_STATUS
                         )
+                    } catch (ex: Exception) {
+
+                    }
+                }
+            })
+        }
+
+        fun getUserInfo() {
+            var newReq = RequestUpdateLanguage(MyApplication.userId, MyApplication.languageCode)
+            retro.getUser(
+                newReq
+            )?.enqueue(object : Callback<ResponseUser> {
+                override fun onResponse(
+                    call: Call<ResponseUser>,
+                    response: Response<ResponseUser>
+                ) {
+                    try {
+                        MyApplication.selectedUser = response.body()!!.user
+                        //MyApplication.generalNotificaiton = MyApplication.selectedUser.notificationType
+                    } catch (e: Exception) {
+                        try {
+                            logw("excNotf",e.toString())
+                        } catch (ex: Exception) {
+
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                    try {
+                        logw("excNotf",throwable.toString())
                     } catch (ex: Exception) {
 
                     }
