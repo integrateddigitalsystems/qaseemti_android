@@ -24,11 +24,13 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityMapAddress
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
+import com.ids.qasemti.controller.Adapters.AdapterGridFiles
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
@@ -70,9 +72,12 @@ import kotlin.collections.ArrayList
 
 class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var selectedFile: MultipartBody.Part? = null
+    var selectedFile2: MultipartBody.Part? = null
     var selectedProfilePic: MultipartBody.Part? = null
+    var adapterSelectedImages : AdapterGridFiles ?=null
     var selectedPhoto: String? = ""
     var gender = ""
+    var arraySelectedImage: ArrayList<FilesSelected> = arrayListOf()
     var tempProfile: String? = null
     var selectedProvince: String? = ""
     var mPermissionResult: ActivityResultLauncher<Array<String>>? = null
@@ -98,6 +103,20 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
 
     override fun onItemClicked(view: View, position: Int) {
+
+
+        if(position == 0){
+            selectedFile = null
+            arraySelectedImage!!.removeAt(position)
+            adapterSelectedImages!!.notifyDataSetChanged()
+        }else{
+            selectedFile2 = null
+            arraySelectedImage!!.removeAt(position)
+            adapterSelectedImages!!.notifyDataSetChanged()
+        }
+
+        if(arraySelectedImage.size ==0 )
+            rvCivilIdData.hide()
 
     }
 
@@ -170,78 +189,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 it.id.toString() == user!!.bankId!!
             }))
 
-            arraySpinner.clear()
-            for (item in MyApplication.kuwaitGovs) {
-                arraySpinner.add(
-                    ItemSpinner(
-                        item.govId!!.toInt(),
-                        if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
-                            item.govEn
-                        } else {
-                            item.govAr
-                        }, ""
-                    )
-                )
-
-            }
-            arraySpinner.add(
-                0,
-                ItemSpinner(-1, AppHelper.getRemoteString("please__select", requireContext()), "")
-            )
-            selectedProvince = ""
-            val adapterProvince =
-                AdapterGeneralSpinner(requireContext(), R.layout.spinner_layout, arraySpinner, 0)
-            spProvinceProfile.adapter = adapterProvince
-            adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
-            spProvinceProfile.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View,
-                    position: Int,
-                    id: Long
-                ) {
-                    selectedProvince = arraySpinner.get(position).name
-
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-
-                }
-
-            }
-
-            /*spBanks.setSelection(arraySpinner.indexOf(arraySpinner.find {
-            it.id.toString() == user!!.bankId!!
-        }))*/
-
-            spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
-                it.id.toString() == user!!.bankId!!
-            }))
-
-
-            if (MyApplication.selectedUser!!.addresses!!.get(0).province != null && MyApplication.selectedUser!!.addresses!!.get(
-                    0
-                ).province != "null"
-            ) {
-                try {
-                    var indx = arraySpinner.indexOf(arraySpinner.find {
-                        it.name!!.equals(MyApplication.selectedUser!!.addresses!!.get(0).province)
-                    }
-                    )
-                    if (indx != 0) {
-                        spProvinceProfile.setSelection(indx)
-                        selectedProvince = arraySpinner.get(indx).name
-                        spProvinceProfile.isEnabled = false
-                    } else {
-                        spProvinceProfile.isEnabled = true
-                    }
-                } catch (ex: Exception) {
-
-                }
-            }
 
             loading.hide()
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
 
         }
     }
@@ -500,7 +450,78 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     }
 
+    fun setUpSpinnerGovs(user: User){
+        arraySpinner.clear()
+        for (item in MyApplication.kuwaitGovs) {
+            arraySpinner.add(
+                ItemSpinner(
+                    item.govId!!.toInt(),
+                    if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
+                        item.govEn
+                    } else {
+                        item.govAr
+                    }, ""
+                )
+            )
+
+        }
+        arraySpinner.add(
+            0,
+            ItemSpinner(-1, AppHelper.getRemoteString("please__select", requireContext()), "")
+        )
+        selectedProvince = ""
+        val adapterProvince =
+            AdapterGeneralSpinner(requireContext(), R.layout.spinner_layout, arraySpinner, 0)
+        spProvinceProfile.adapter = adapterProvince
+        adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
+        spProvinceProfile.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                selectedProvince = arraySpinner.get(position).name
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+        }
+
+        /*spBanks.setSelection(arraySpinner.indexOf(arraySpinner.find {
+        it.id.toString() == user!!.bankId!!
+    }))*/
+
+
+
+
+        if (MyApplication.selectedUser!!.addresses!!.get(0).province != null && MyApplication.selectedUser!!.addresses!!.get(
+                0
+            ).province != "null"
+        ) {
+            try {
+                var indx = arraySpinner.indexOf(arraySpinner.find {
+                    it.name!!.equals(MyApplication.selectedUser!!.addresses!!.get(0).province)
+                }
+                )
+                if (indx != 0) {
+                    spProvinceProfile.setSelection(indx)
+                    selectedProvince = arraySpinner.get(indx).name
+                    spProvinceProfile.isEnabled = false
+                } else {
+                    spProvinceProfile.isEnabled = true
+                }
+            } catch (ex: Exception) {
+
+            }
+        }
+
+    }
     fun setUserData(user: User) {
+        setUpSpinnerGovs(user)
         try {
             profilePercentage = 0
             // loading.show()
@@ -600,22 +621,39 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 etCivilIdNbProfile.text = Editable.Factory.getInstance().newEditable("")
             }
             try {
-                if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty()) {
-                    tvCivilIdFile.show()
-                    tvCivilIdFile.text =
-                        MyApplication.selectedUser!!.civilIdAttach
-                    tvCivilIdFile.onOneClick {
-                        try {
-                            val i = Intent(Intent.ACTION_VIEW)
-                            i.data = Uri.parse(tvCivilIdFile.text.toString())
-                            startActivity(i)
-                        } catch (ex: Exception) {
-                            Log.wtf("ExceptionCIVIL", ex.toString())
-                        }
+                /*if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty()) {*/
+
+                arraySelectedImage.clear()
+                if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty())
+                    arraySelectedImage.add(FilesSelected(MyApplication.selectedUser!!.civilIdAttach,null,null,1))
+                if(!MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty())
+                    arraySelectedImage.add(FilesSelected(MyApplication.selectedUser!!.civilAttachBack,null,null,2))
+
+                if(arraySelectedImage.size==0)
+                    rvCivilIdData.hide()
+                else
+                    rvCivilIdData.show()
+
+                adapterSelectedImages =
+                    AdapterGridFiles(arraySelectedImage, this, requireActivity(),true)
+                rvCivilIdData.layoutManager = GridLayoutManager(requireContext(), 3)
+                rvCivilIdData.adapter = adapterSelectedImages
+                rvCivilIdData.isNestedScrollingEnabled = false
+                /*tvCivilIdFile.show()
+                tvCivilIdFile.text =
+                    MyApplication.selectedUser!!.civilIdAttach
+                tvCivilIdFile.onOneClick {
+                    try {
+                        val i = Intent(Intent.ACTION_VIEW)
+                        i.data = Uri.parse(tvCivilIdFile.text.toString())
+                        startActivity(i)
+                    } catch (ex: Exception) {
+                        Log.wtf("ExceptionCIVIL", ex.toString())
                     }
-                } else {
-                    tvCivilIdFile.hide()
-                }
+                }*/
+                /* } else {
+                     //tvCivilIdFile.hide()
+                 }*/
             } catch (ex: Exception) {
 
             }
@@ -788,7 +826,6 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                             }
 
 
-
                         } catch (e: java.lang.Exception) {
                         }
 
@@ -840,6 +877,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                 etCivilIdNbProfile.text.toString(),
                                 "",
                                 "",
+                                "",
                                 etDateOfBirthProfile.text.toString(),
                                 0,
                                 null,
@@ -878,497 +916,220 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 MyApplication.temporaryProfile = null
 
 
-        }catch(ex:Exception) {
+        } catch (ex: Exception) {
 
-            }
         }
+    }
 
-        fun setHint() {
-            etFirstNameProfile.hint = etFirstNameProfile.hint.toString() + "*"
-            etLastNameProfile.hint = etLastNameProfile.hint.toString() + "*"
-            etEmailProfile.hint = etEmailProfile.hint.toString() + "*"
+    fun setHint() {
+        etFirstNameProfile.hint = etFirstNameProfile.hint.toString() + "*"
+        etLastNameProfile.hint = etLastNameProfile.hint.toString() + "*"
+        etEmailProfile.hint = etEmailProfile.hint.toString() + "*"
+    }
+
+    fun init() {
+        //tvToolbarCurveTitle.setText(getString(R.string.profile))
+        (activity as ActivityHome?)!!.showBack(R.color.white)
+        arraySelectedImage.clear()
+        AppHelper.setTitle(
+            requireActivity(), MyApplication.selectedTitle!!, "", R.color.white
+        )
+        rbFemaleProfile.isSelected = true
+        // (activity as ActivityHome?)!!.showLogout(false)
+        tvToolbarCurveTitle.visibility = View.GONE
+        listeners()
+        if (MyApplication.isClient) {
+            showClientFields()
+            llProfilePercent.hide()
+            tvPercentageCompleted.hide()
+        } else {
+            llProfilePercent.show()
+            tvPercentageCompleted.show()
         }
+        setHint()
+        getUserData()
 
-        fun init() {
-            //tvToolbarCurveTitle.setText(getString(R.string.profile))
-            (activity as ActivityHome?)!!.showBack(R.color.white)
-            AppHelper.setTitle(
-                requireActivity(), MyApplication.selectedTitle!!, "", R.color.white
+
+    }
+
+    fun succUpdate(res: ResponseUser) {
+        if (res.result == 1) {
+            AppHelper.createDialog(
+                requireActivity(),
+                AppHelper.getRemoteString("successfully_updated", requireContext())
             )
-            rbFemaleProfile.isSelected = true
-            // (activity as ActivityHome?)!!.showLogout(false)
-            tvToolbarCurveTitle.visibility = View.GONE
-            listeners()
-            if (MyApplication.isClient) {
-                showClientFields()
-                llProfilePercent.hide()
-                tvPercentageCompleted.hide()
-            } else {
-                llProfilePercent.show()
-                tvPercentageCompleted.show()
+            {
+                requireActivity().onBackPressed()
             }
-            setHint()
-            getUserData()
+            loading.hide()
+            // getUserData()
+        } else {
+            AppHelper.createDialog(
+                requireActivity(),
+                res.message!!
+            )
 
-
+            loading.hide()
         }
+    }
 
-        fun succUpdate(res: ResponseUser) {
-            if (res.result == 1) {
-                AppHelper.createDialog(
-                    requireActivity(),
-                    AppHelper.getRemoteString("successfully_updated", requireContext())
-                )
-                {
-                    requireActivity().onBackPressed()
-                }
-                loading.hide()
-                // getUserData()
-            } else {
-                AppHelper.createDialog(
-                    requireActivity(),
-                    res.message!!
-                )
+    fun getUserData() {
+        loading.show()
+        logw("MY-USER-ID", MyApplication.userId.toString())
+        var newReq = RequestUpdateLanguage(MyApplication.userId, MyApplication.languageCode)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getUser(
+                newReq
+            )?.enqueue(object : Callback<ResponseUser> {
+                override fun onResponse(
+                    call: Call<ResponseUser>,
+                    response: Response<ResponseUser>
+                ) {
+                    try {
+                        MyApplication.selectedUser = response.body()!!.user
+                    } catch (e: Exception) {
 
-                loading.hide()
-            }
-        }
+                    }
 
-        fun getUserData() {
-            loading.show()
-            logw("MY-USER-ID", MyApplication.userId.toString())
-            var newReq = RequestUpdateLanguage(MyApplication.userId, MyApplication.languageCode)
-            RetrofitClient.client?.create(RetrofitInterface::class.java)
-                ?.getUser(
-                    newReq
-                )?.enqueue(object : Callback<ResponseUser> {
-                    override fun onResponse(
-                        call: Call<ResponseUser>,
-                        response: Response<ResponseUser>
-                    ) {
+                    if (MyApplication.temporaryProfile != null)
                         try {
-                            MyApplication.selectedUser = response.body()!!.user
+                            setUserData(MyApplication.temporaryProfile!!)
                         } catch (e: Exception) {
-
                         }
-
-                        if (MyApplication.temporaryProfile != null)
-                            try {
-                                setUserData(MyApplication.temporaryProfile!!)
-                            } catch (e: Exception) {
-                            }
-                        else
-                            try {
-                                setUserData(MyApplication.selectedUser!!)
-                            } catch (e: Exception) {
-                            }
-                    }
-
-                    override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
-                        loading.hide()
-                    }
-                })
-        }
-
-        fun updateClient() {
-            try {
-                loading.show()
-            } catch (ex: java.lang.Exception) {
-
-            }
-
-            val user =
-                MyApplication.userId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val first =
-                etFirstNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val last =
-                etLastNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val email =
-                etEmailProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val phone =
-                etMobileProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            var lang = MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull())
-            if (selectedProfilePic == null) {
-                var empty = ""
-                val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                selectedProfilePic = createFormData("profile_pic", "", attachmentEmpty)
-            }
-            var type = "1"
-            var typeReq = type.toRequestBody()
-
-
-            RetrofitClient.client?.create(RetrofitInterface::class.java)
-                ?.updateClientProfile(
-                    user,
-                    phone,
-                    first,
-                    last,
-                    email,
-                    selectedProfilePic!!,
-                    typeReq,
-                    lang
-
-
-                )?.enqueue(object : Callback<ResponseUser> {
-                    override fun onResponse(
-                        call: Call<ResponseUser>,
-                        response: Response<ResponseUser>
-                    ) {
+                    else
                         try {
-                            loading.hide()
-                            succUpdate(response.body()!!)
-                        } catch (E: java.lang.Exception) {
-                            loading.hide()
+                            setUserData(MyApplication.selectedUser!!)
+                        } catch (e: Exception) {
                         }
-                    }
+                }
 
-                    override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
+
+    fun updateClient() {
+        try {
+            loading.show()
+        } catch (ex: java.lang.Exception) {
+
+        }
+
+        val user =
+            MyApplication.userId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val first =
+            etFirstNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val last =
+            etLastNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val email =
+            etEmailProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val phone =
+            etMobileProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        var lang = MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull())
+        if (selectedProfilePic == null) {
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedProfilePic = createFormData("profile_pic", "", attachmentEmpty)
+        }
+        var type = "1"
+        var typeReq = type.toRequestBody()
+
+
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.updateClientProfile(
+                user,
+                phone,
+                first,
+                last,
+                email,
+                selectedProfilePic!!,
+                typeReq,
+                lang
+
+
+            )?.enqueue(object : Callback<ResponseUser> {
+                override fun onResponse(
+                    call: Call<ResponseUser>,
+                    response: Response<ResponseUser>
+                ) {
+                    try {
+                        loading.hide()
+                        succUpdate(response.body()!!)
+                    } catch (E: java.lang.Exception) {
                         loading.hide()
                     }
-                })
-
-        }
-
-
-        fun listeners() {
-
-
-            resultLauncher =
-                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                    if (result.resultCode == Activity.RESULT_OK) {
-
-                        var file: File? = null
-                        if (fromCam!!) {
-                            file = File(result.data!!.data!!.path)
-                            fromCam = false
-                        } else {
-                            try {
-                                /*   val files: ArrayList<MediaFile> =
-                                       result.data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!*/
-                                //   var path = getPath(files.get(0).uri)
-                                file = AppHelper.getFile(requireActivity(), result.data!!.data!!)
-
-
-                            } catch (e: Exception) {
-                                Log.wtf("tag", "tag")
-                            }
-                        }
-
-                        var req = file!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        if (!fromProfile!!) {
-                            tvCivilIdFile.show()
-                            tvCivilIdFile.text = result.data!!.data!!.path
-                            MyApplication.tempCivilId = file
-                            tvCivilIdFile.onOneClick {
-                                MyApplication.selectedImage = ""
-                                val bottom_fragment = FragmentBottomSheetImage()
-                                bottom_fragment.show(
-                                    requireActivity().supportFragmentManager,
-                                    "frag_image"
-                                )
-                            }
-                            selectedFile = MultipartBody.Part.createFormData(
-                                ApiParameters.CIVIL_ID_ATTACH,
-                                file.name + "File",
-                                req
-                            )
-                        } else {
-                            MyApplication.tempProfilePic = file
-                            ivProfile.loadRoundedLocalImage(file)
-                            selectedProfilePic = MultipartBody.Part.createFormData(
-                                if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
-                                file.name + "File",
-                                req
-                            )
-                        }
-                    }
-
-                    /*  if (requestCode == 1000) {
-                          if (resultCode == Activity.RESULT_OK) {
-                              val extras = data!!.extras
-                              if (extras != null) {
-                                  lat = extras.getDouble("lat")
-                                  long = extras.getDouble("long")
-                                  etAddressProfile.text = Editable.Factory.getInstance()
-                                      .newEditable(AppHelper.getAddress(lat!!, long!!, requireContext()))
-                              }
-
-                          }
-                      } else {*/
-
                 }
-            btSaveProfile.onOneClick {
 
-                if (AppHelper.isOnline(requireActivity())) {
-
-
-                    if (etFirstNameProfile.text.isNullOrEmpty() || etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty() || !AppHelper.isEmailValid(
-                            etEmailProfile.text.toString()
-                        )
-                    ) {
-
-                        AppHelper.createDialog(
-                            requireActivity(),
-                            AppHelper.getRemoteString("fill_all_field", requireContext())
-                        )
-
-                    } else if (!AppHelper.isEmailValid(etEmailProfile.text.toString())) {
-                        AppHelper.createDialog(
-                            requireActivity(),
-                            AppHelper.getRemoteString("email_valid_error", requireContext())
-                        )
-                    } else if (!MyApplication.isClient) {
-                        var x = etCivilIdNbProfile.text
-                        /* if((!etAccountNumberProfile.text.toString().isNullOrEmpty() || !etBranchNameProfile.text.isNullOrEmpty() || selectedBankId!=0 || !etIBANProfile.text.isNullOrEmpty()) && (etAccountNumberProfile.text.toString().isNullOrEmpty() || selectedBankId!=0 || etIBANProfile.text.isNullOrEmpty()))*/
-                        if (etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length == 12) {
-
-                            if (etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30)
-                                updateServiceProfile()
-                            else
-                                AppHelper.createDialog(
-                                    requireActivity(),
-                                    AppHelper.getRemoteString("iban_must_be_30", requireActivity())
-                                )
-                        } else {
-                            AppHelper.createDialog(
-                                requireActivity(),
-                                AppHelper.getRemoteString("civil_id_length", requireActivity())
-                            )
-
-                        }
-                    } else
-                        updateClientProfile()
-                }else{
-
-                    AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
+                override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                    loading.hide()
                 }
-            }
+            })
+
+    }
 
 
-            rbMaleProfile.onOneClick {
-                gender = "male"
-            }
-            rbFemaleProfile.onOneClick {
-                gender = "female"
-            }
-
-            llAddressProfile.setOnClickListener {
-                startActivityForResult(
-                    Intent(requireContext(), ActivityMapAddress::class.java),
-                    1000
-                )
-            }
-            ibUploadFile.setOnClickListener {
-                pickFile(1, false)
-            }
-            ivProfile.setOnClickListener {
-                pickFile(1, true)
-            }
-
-            etDateOfBirthProfile.onOneClick {
-                var mcurrentDate = Calendar.getInstance()
-                var mYear = 0
-                var mMonth = 0
-                var mDay = 0
-                mYear = mcurrentDate!![Calendar.YEAR]
-                mMonth = mcurrentDate!![Calendar.MONTH]
-                mDay = mcurrentDate!![Calendar.DAY_OF_MONTH]
-
-                mcurrentDate.set(mYear, mMonth, mDay)
-                val mDatePicker = DatePickerDialog(
-                    requireContext(),
-                    DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
-                        val myCalendar = Calendar.getInstance()
-                        myCalendar[Calendar.YEAR] = selectedyear
-                        myCalendar[Calendar.MONTH] = selectedmonth
-                        myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                        val myFormat = "dd/MM/yyyy" //Change as you need
-                        var sdf =
-                            SimpleDateFormat(myFormat, Locale.ENGLISH)
-                        var date = sdf.format(myCalendar.time)
-                        etDateOfBirthProfile.text =
-                            (String.format("%02d", selectedday) + "/" + String.format(
-                                "%02d",
-                                selectedmonth
-                            ) + "/" + String.format("%02d", selectedyear)).toEditable()
-                    }, mYear, mMonth, mDay
-                )
-                var cal = mcurrentDate.add(Calendar.YEAR, -18)
-                mDatePicker.datePicker.maxDate = mcurrentDate.time.time
-                mDatePicker.show()
-            }
-
-            btAddNewAddress.onOneClick {
-                MyApplication.temporaryProfile = User(
-                    "",
-                    "",
-                    etMiddleNameProfile.text.toString(),
-                    etLastNameProfile.text.toString(),
-                    gender,
-                    etMobileProfile.text.toString(),
-                    etAltContactNumberProfile.text.toString(),
-                    selectedBankId.toString(),
-                    "",
-                    "",
-                    etAccountNumberProfile.text.toString(),
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    etDateOfBirthProfile.text.toString(),
-                    "",
-                    etFirstNameProfile.text.toString(),
-                    etEmailProfile.text.toString(),
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    etCivilIdNbProfile.text.toString(),
-                    "",
-                    "",
-                    etDateOfBirthProfile.text.toString(),
-                    0,
-                    null,
-                    0.0,
-                    "0",
-                    0,
-                    0,
-                    etDescriptionProfile.text.toString(),
-                    etIBANProfile.text.toString(),
-                    etBranchNameProfile.text.toString(),
-                    selectedBankId.toString(),
-                    arrayListOf()
-                )
-                startActivity(Intent(requireActivity(), ActivityMapAddress::class.java))
-            }
-        }
-
-        private fun updateServiceProfile() {
-            if (selectedProfilePic == null) {
-                var empty = ""
-                val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                selectedProfilePic =
-                    MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
-            }
-            if (selectedFile == null) {
-                var empty = ""
-                val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                selectedFile =
-                    MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
-            }
-            CallAPIs.updateProfileServiceProvider(
-                requireContext(),
-                this,
-                loading,
-                lat!!,
-                long!!,
-                gender,
-                etFirstNameProfile.text.toString(),
-                etMiddleNameProfile.text.toString(),
-                etLastNameProfile.text.toString(),
-                etEmailProfile.text.toString(),
-                etMobileProfile.text.toString(),
-                etAltContactNumberProfile.text.toString(),
-                etCivilIdNbProfile.text.toString(),
-                etDateOfBirthProfile.text.toString(),
-                etAddressProfile.text.toString(),
-                etAccountNumberProfile.text.toString(),
-                selectedBankId.toString(),
-                etBranchNameProfile.text.toString(),
-                etDescriptionProfile.text.toString(),
-                etIBANProfile.text.toString(),
-                selectedFile!!,
-                selectedProfilePic!!
-            )
-
-            if (!MyApplication.addNewAddress)
-                updateAddress()
-        }
-
-        private fun updateClientProfile() {
-            if (selectedProfilePic == null) {
-                var empty = ""
-                val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                selectedProfilePic =
-                    MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
-            }
-            CallAPIs.updateProfileClient(
-                requireContext(),
-                this,
-                loading,
-                etFirstNameProfile.text.toString(),
-                etLastNameProfile.text.toString(),
-                etEmailProfile.text.toString(),
-                etMobileProfile.text.toString(),
-                selectedProfilePic!!
-            )
-        }
+    fun listeners() {
 
 
-        fun getPath(uri: Uri?): String? {
-            println("IM IN getPath")
-            val projection = arrayOf(MediaStore.Images.Media.DATA)
-            val cursor: Cursor =
-                requireActivity().getContentResolver().query(uri!!, projection, null, null, null)!!
-            val column_index: Int = cursor
-                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            cursor.moveToFirst()
-            return cursor.getString(column_index)
-        }
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
 
-        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            super.onActivityResult(requestCode, resultCode, data)
-
-
-            if (requestCode == 1000) {
-                if (resultCode == Activity.RESULT_OK) {
-                    val extras = data!!.extras
-                    if (extras != null) {
-                        lat = extras.getDouble("lat")
-                        long = extras.getDouble("long")
-                        /*etAddressProfile.text = Editable.Factory.getInstance()
-                            .newEditable(AppHelper.getAddress(lat!!, long!!, requireContext()))*/
-                    }
-
-                }
-            } else {
-                try {
-                    val files: ArrayList<MediaFile> =
-                        data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!
-                    //   var path = getPath(files.get(0).uri)
-                    var file = AppHelper.getFile(requireActivity(), files[0].uri)
-                    var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                    if (!fromProfile!!) {
-
-                        selectedFile = MultipartBody.Part.createFormData(
-                            ApiParameters.CIVIL_ID_ATTACH,
-                            file.name + "File",
-                            req
-                        )
-                        tvCivilIdFile.show()
-                        tvCivilIdFile.text = file.name
+                    var file: File? = null
+                    if (fromCam!!) {
+                        file = File(result.data!!.data!!.path)
+                        fromCam = false
                     } else {
+                        try {
+                            /*   val files: ArrayList<MediaFile> =
+                                   result.data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!*/
+                            //   var path = getPath(files.get(0).uri)
+                            file = AppHelper.getFile(requireActivity(), result.data!!.data!!)
+
+
+                        } catch (e: Exception) {
+                            Log.wtf("tag", "tag")
+                        }
+                    }
+
+                    var req = file!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                    if (!fromProfile!!) {
+                        /* tvCivilIdFile.show()
+                         tvCivilIdFile.text = result.data!!.data!!.path
+                         MyApplication.tempCivilId = file
+                         tvCivilIdFile.onOneClick {
+                             MyApplication.selectedImage = ""
+                             val bottom_fragment = FragmentBottomSheetImage()
+                             bottom_fragment.show(
+                                 requireActivity().supportFragmentManager,
+                                 "frag_image"
+                             )
+                         }*/
+                             if(selectedFile==null) {
+                                 selectedFile = MultipartBody.Part.createFormData(
+                                     ApiParameters.CIVIL_ID_ATTACH,
+                                     file.name + "File",
+                                     req
+                                 )
+                                 arraySelectedImage.add(FilesSelected("", file, selectedFile, 1))
+                                 arraySelectedImage.sortBy { it.id }
+                                 rvCivilIdData.show()
+                                 adapterSelectedImages!!.notifyDataSetChanged()
+                             }else if(selectedFile2 == null){
+                                 selectedFile2 = MultipartBody.Part.createFormData(
+                                     ApiParameters.CIVIL_ATTACH_BACK,
+                                     file.name + "File",
+                                     req
+                                 )
+                                 arraySelectedImage.add(FilesSelected("", file, selectedFile, 2))
+                                 arraySelectedImage.sortBy { it.id }
+                                 adapterSelectedImages!!.notifyDataSetChanged()
+                                 rvCivilIdData.show()
+                             }
+                    } else {
+                        MyApplication.tempProfilePic = file
                         ivProfile.loadRoundedLocalImage(file)
                         selectedProfilePic = MultipartBody.Part.createFormData(
                             if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
@@ -1376,195 +1137,504 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                             req
                         )
                     }
-
-                } catch (e: Exception) {
                 }
-            }
-        }
 
-        private fun pickFile(pickCode: Int, from: Boolean) {
+                /*  if (requestCode == 1000) {
+                      if (resultCode == Activity.RESULT_OK) {
+                          val extras = data!!.extras
+                          if (extras != null) {
+                              lat = extras.getDouble("lat")
+                              long = extras.getDouble("long")
+                              etAddressProfile.text = Editable.Factory.getInstance()
+                                  .newEditable(AppHelper.getAddress(lat!!, long!!, requireContext()))
+                          }
 
-            /*val intent = Intent(requireContext(), FilePickerActivity::class.java)
-            intent.putExtra(
-                FilePickerActivity.CONFIGS, Configurations.Builder()
-                    .setCheckPermission(true)
-                    // .setSelectedMediaFiles(mediaFiles)
-                    // .enableImageCapture(true)
-                    .setShowImages(true)
-                    .setShowVideos(false)
-                    .setSkipZeroSizeFiles(true)
-                    .setMaxSelection(1)
-                    .setShowFiles(false)
-                    .setShowAudios(false)
-                    .build()
-            )*/
-            fromProfile = from
-            openChooser()
-            //  startActivityForResult(intent, pickCode)
-
-        }
-
-        fun updateProfile() {
-            try {
-                loading.show()
-            } catch (ex: java.lang.Exception) {
+                      }
+                  } else {*/
 
             }
-            var userId = MyApplication.userId.toString()
-            var rolev = "vendor"
-            var latt = lat.toString()
-            var longg = long.toString()
-            var add = "Sidon, Sidon District, South Governorate, 1600, Lebanon"
-            var gender = "female"
-            if (rbMaleProfile.isSelected) {
-                gender = "male"
+        btSaveProfile.onOneClick {
+
+            if (AppHelper.isOnline(requireActivity())) {
+
+
+                if (etFirstNameProfile.text.isNullOrEmpty() || etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty() || !AppHelper.isEmailValid(
+                        etEmailProfile.text.toString()
+                    )
+                ) {
+
+                    AppHelper.createDialog(
+                        requireActivity(),
+                        AppHelper.getRemoteString("fill_all_field", requireContext())
+                    )
+
+                } else if (!AppHelper.isEmailValid(etEmailProfile.text.toString())) {
+                    AppHelper.createDialog(
+                        requireActivity(),
+                        AppHelper.getRemoteString("email_valid_error", requireContext())
+                    )
+                } else if (!MyApplication.isClient) {
+                    var x = etCivilIdNbProfile.text
+                    /* if((!etAccountNumberProfile.text.toString().isNullOrEmpty() || !etBranchNameProfile.text.isNullOrEmpty() || selectedBankId!=0 || !etIBANProfile.text.isNullOrEmpty()) && (etAccountNumberProfile.text.toString().isNullOrEmpty() || selectedBankId!=0 || etIBANProfile.text.isNullOrEmpty()))*/
+                    if (etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length == 12) {
+
+                        if (etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30)
+                            updateServiceProfile()
+                        else
+                            AppHelper.createDialog(
+                                requireActivity(),
+                                AppHelper.getRemoteString("iban_must_be_30", requireActivity())
+                            )
+                    } else {
+                        AppHelper.createDialog(
+                            requireActivity(),
+                            AppHelper.getRemoteString("civil_id_length", requireActivity())
+                        )
+
+                    }
+                } else
+                    updateClientProfile()
             } else {
-                gender = "female"
+
+                AppHelper.createDialog(
+                    requireActivity(),
+                    AppHelper.getRemoteString("no_internet", requireContext())
+                )
             }
-            val user = userId.toRequestBody("text/plain".toMediaTypeOrNull())
-            val first =
-                etFirstNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val middle =
-                etMiddleNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val last =
-                etLastNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val email =
-                etEmailProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val phone =
-                etMobileProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val altNUm = etAltContactNumberProfile.text.toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-            val civilId =
-                etCivilIdNbProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val genderr = gender.toRequestBody("text/plain".toMediaTypeOrNull())
-            val dob =
-                etDateOfBirthProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val role = rolev.toRequestBody("text/plain".toMediaTypeOrNull())
-            val address =
-                etAddressProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val lat = latt.toRequestBody("text/plain".toMediaTypeOrNull())
-            val long = longg.toRequestBody("text/plain".toMediaTypeOrNull())
-            val accNum =
-                etAccountNumberProfile.text.toString()
-                    .toRequestBody("text/plain".toMediaTypeOrNull())
-            val bankname =
-                selectedBankId.toString().toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val bankBranch =
-                etBranchNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val description =
-                etDescriptionProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            val iban = etIBANProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-            if (selectedFile == null) {
-                var empty = ""
-                val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                selectedFile = createFormData("attachment", "", attachmentEmpty)
-            }
-            if (selectedProfilePic == null) {
-                var empty = ""
-                val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                selectedProfilePic = createFormData("attachment", "", attachmentEmpty)
-            }
-
-            var lang = MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull())
-
-            RetrofitClient.client?.create(RetrofitInterface::class.java)
-                ?.updateProfile(
-                    user,
-                    first,
-                    middle,
-                    last,
-                    email,
-                    phone,
-                    altNUm,
-                    civilId,
-                    selectedFile!!,
-                    genderr,
-                    dob,
-                    role,
-                    selectedFile!!,
-                    address,
-                    lat,
-                    long,
-                    accNum,
-                    bankname,
-                    bankBranch,
-                    iban,
-                    description,
-                    lang
-                )?.enqueue(object : Callback<ResponseUser> {
-                    override fun onResponse(
-                        call: Call<ResponseUser>,
-                        response: Response<ResponseUser>
-                    ) {
-                        try {
-                            succUpdate(response.body()!!)
-                        } catch (E: java.lang.Exception) {
-                            loading.hide()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
-                        loading.hide()
-                    }
-                })
-        }
-
-        private fun showClientFields() {
-            etMiddleNameProfile.hide()
-            linearProviderInfo.hide()
-        }
-
-        override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-            var res = response as ResponseUser
-            selectedProfilePic = null
-            selectedFile = null
-            succUpdate(res)
         }
 
 
-        fun updateAddress() {
-            var addressId = 0
-            try {
-                if (!MyApplication.isClient && !MyApplication.addNewAddress)
-                    addressId = MyApplication.selectedUser!!.addresses!![0].addressId!!.toInt()
-            } catch (e: java.lang.Exception) {
-            }
+        rbMaleProfile.onOneClick {
+            gender = "male"
+        }
+        rbFemaleProfile.onOneClick {
+            gender = "female"
+        }
 
-            var newReq = RequestAddAddress(
-                MyApplication.userId,
-                MyApplication.selectedUser!!.addresses!![0].lat!!.toDouble(),
-                MyApplication.selectedUser!!.addresses!![0].long!!.toDouble(),
-                addressId,
-                etAddressName.text.toString(),
-                etStreet.text.toString(),
-                etBuilding.text.toString(),
-                etFloor.text.toString(),
-                etMoreDetails.text.toString(),
-                "",
-                selectedProvince,
-                etArea.text.toString(),
-                etBlock.text.toString(),
-                etAvenue.text.toString(),
-                etApartment.text.toString()
+        llAddressProfile.setOnClickListener {
+            startActivityForResult(
+                Intent(requireContext(), ActivityMapAddress::class.java),
+                1000
             )
-            RetrofitClient.client?.create(RetrofitInterface::class.java)
-                ?.addClAddress(
-                    newReq
-                )?.enqueue(object : Callback<ResponseMessage> {
-                    override fun onResponse(
-                        call: Call<ResponseMessage>,
-                        response: Response<ResponseMessage>
-                    ) {
-
-                    }
-
-                    override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
-
-                    }
-                })
+        }
+        ibUploadFile.setOnClickListener {
+            if(arraySelectedImage.size<2)
+                pickFile(1, false)
 
         }
+        ivProfile.setOnClickListener {
+            pickFile(1, true)
+        }
+
+        etDateOfBirthProfile.onOneClick {
+            var mcurrentDate = Calendar.getInstance()
+            var mYear = 0
+            var mMonth = 0
+            var mDay = 0
+            mYear = mcurrentDate!![Calendar.YEAR]
+            mMonth = mcurrentDate!![Calendar.MONTH]
+            mDay = mcurrentDate!![Calendar.DAY_OF_MONTH]
+
+            mcurrentDate.set(mYear, mMonth, mDay)
+            val mDatePicker = DatePickerDialog(
+                requireContext(),
+                DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
+                    val myCalendar = Calendar.getInstance()
+                    myCalendar[Calendar.YEAR] = selectedyear
+                    myCalendar[Calendar.MONTH] = selectedmonth
+                    myCalendar[Calendar.DAY_OF_MONTH] = selectedday
+                    val myFormat = "dd/MM/yyyy" //Change as you need
+                    var sdf =
+                        SimpleDateFormat(myFormat, Locale.ENGLISH)
+                    var date = sdf.format(myCalendar.time)
+                    etDateOfBirthProfile.text =
+                        (String.format("%02d", selectedday) + "/" + String.format(
+                            "%02d",
+                            selectedmonth
+                        ) + "/" + String.format("%02d", selectedyear)).toEditable()
+                }, mYear, mMonth, mDay
+            )
+            var cal = mcurrentDate.add(Calendar.YEAR, -18)
+            mDatePicker.datePicker.maxDate = mcurrentDate.time.time
+            mDatePicker.show()
+        }
+
+        btAddNewAddress.onOneClick {
+            MyApplication.temporaryProfile = User(
+                "",
+                "",
+                etMiddleNameProfile.text.toString(),
+                etLastNameProfile.text.toString(),
+                gender,
+                etMobileProfile.text.toString(),
+                etAltContactNumberProfile.text.toString(),
+                selectedBankId.toString(),
+                "",
+                "",
+                etAccountNumberProfile.text.toString(),
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                etDateOfBirthProfile.text.toString(),
+                "",
+                etFirstNameProfile.text.toString(),
+                etEmailProfile.text.toString(),
+                "",
+                "",
+                "",
+                "",
+                "",
+                etCivilIdNbProfile.text.toString(),
+                "",
+                "",
+                "",
+                etDateOfBirthProfile.text.toString(),
+                0,
+                null,
+                0.0,
+                "0",
+                0,
+                0,
+                etDescriptionProfile.text.toString(),
+                etIBANProfile.text.toString(),
+                etBranchNameProfile.text.toString(),
+                selectedBankId.toString(),
+                arrayListOf()
+            )
+            startActivity(Intent(requireActivity(), ActivityMapAddress::class.java))
+        }
+    }
+
+    private fun updateServiceProfile() {
+        if (selectedProfilePic == null) {
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedProfilePic =
+                MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+        }
+        if (selectedFile == null) {
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedFile =
+                MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+        }
+        if (selectedFile2 == null) {
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedFile2 =
+                MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+        }
+        CallAPIs.updateProfileServiceProvider(
+            requireContext(),
+            this,
+            loading,
+            lat!!,
+            long!!,
+            gender,
+            etFirstNameProfile.text.toString(),
+            etMiddleNameProfile.text.toString(),
+            etLastNameProfile.text.toString(),
+            etEmailProfile.text.toString(),
+            etMobileProfile.text.toString(),
+            etAltContactNumberProfile.text.toString(),
+            etCivilIdNbProfile.text.toString(),
+            etDateOfBirthProfile.text.toString(),
+            etAddressProfile.text.toString(),
+            etAccountNumberProfile.text.toString(),
+            selectedBankId.toString(),
+            etBranchNameProfile.text.toString(),
+            etDescriptionProfile.text.toString(),
+            etIBANProfile.text.toString(),
+            selectedFile!!,
+            selectedProfilePic!!,
+            selectedFile2!!
+        )
+
+        if (!MyApplication.addNewAddress)
+            updateAddress()
+    }
+
+    private fun updateClientProfile() {
+        if (selectedProfilePic == null) {
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedProfilePic =
+                MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+        }
+        CallAPIs.updateProfileClient(
+            requireContext(),
+            this,
+            loading,
+            etFirstNameProfile.text.toString(),
+            etLastNameProfile.text.toString(),
+            etEmailProfile.text.toString(),
+            etMobileProfile.text.toString(),
+            selectedProfilePic!!
+        )
+    }
+
+
+    fun getPath(uri: Uri?): String? {
+        println("IM IN getPath")
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor: Cursor =
+            requireActivity().getContentResolver().query(uri!!, projection, null, null, null)!!
+        val column_index: Int = cursor
+            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor.moveToFirst()
+        return cursor.getString(column_index)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+
+        if (requestCode == 1000) {
+            if (resultCode == Activity.RESULT_OK) {
+                val extras = data!!.extras
+                if (extras != null) {
+                    lat = extras.getDouble("lat")
+                    long = extras.getDouble("long")
+                    /*etAddressProfile.text = Editable.Factory.getInstance()
+                        .newEditable(AppHelper.getAddress(lat!!, long!!, requireContext()))*/
+                }
+
+            }
+        } else {
+            try {
+                val files: ArrayList<MediaFile> =
+                    data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!
+                //   var path = getPath(files.get(0).uri)
+                var file = AppHelper.getFile(requireActivity(), files[0].uri)
+                var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                if (!fromProfile!!) {
+
+                    selectedFile = MultipartBody.Part.createFormData(
+                        ApiParameters.CIVIL_ID_ATTACH,
+                        file.name + "File",
+                        req
+                    )
+                    //tvCivilIdFile.show()
+                    //  tvCivilIdFile.text = file.name
+                } else {
+                    ivProfile.loadRoundedLocalImage(file)
+                    selectedProfilePic = MultipartBody.Part.createFormData(
+                        if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
+                        file.name + "File",
+                        req
+                    )
+                }
+
+            } catch (e: Exception) {
+            }
+        }
+    }
+
+    private fun pickFile(pickCode: Int, from: Boolean) {
+
+        /*val intent = Intent(requireContext(), FilePickerActivity::class.java)
+        intent.putExtra(
+            FilePickerActivity.CONFIGS, Configurations.Builder()
+                .setCheckPermission(true)
+                // .setSelectedMediaFiles(mediaFiles)
+                // .enableImageCapture(true)
+                .setShowImages(true)
+                .setShowVideos(false)
+                .setSkipZeroSizeFiles(true)
+                .setMaxSelection(1)
+                .setShowFiles(false)
+                .setShowAudios(false)
+                .build()
+        )*/
+        fromProfile = from
+        openChooser()
+        //  startActivityForResult(intent, pickCode)
 
     }
+
+    fun updateProfile() {
+        try {
+            loading.show()
+        } catch (ex: java.lang.Exception) {
+
+        }
+        var userId = MyApplication.userId.toString()
+        var rolev = "vendor"
+        var latt = lat.toString()
+        var longg = long.toString()
+        var add = "Sidon, Sidon District, South Governorate, 1600, Lebanon"
+        var gender = "female"
+        if (rbMaleProfile.isSelected) {
+            gender = "male"
+        } else {
+            gender = "female"
+        }
+        val user = userId.toRequestBody("text/plain".toMediaTypeOrNull())
+        val first =
+            etFirstNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val middle =
+            etMiddleNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val last =
+            etLastNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val email =
+            etEmailProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val phone =
+            etMobileProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val altNUm = etAltContactNumberProfile.text.toString()
+            .toRequestBody("text/plain".toMediaTypeOrNull())
+        val civilId =
+            etCivilIdNbProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val genderr = gender.toRequestBody("text/plain".toMediaTypeOrNull())
+        val dob =
+            etDateOfBirthProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val role = rolev.toRequestBody("text/plain".toMediaTypeOrNull())
+        val address =
+            etAddressProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val lat = latt.toRequestBody("text/plain".toMediaTypeOrNull())
+        val long = longg.toRequestBody("text/plain".toMediaTypeOrNull())
+        val accNum =
+            etAccountNumberProfile.text.toString()
+                .toRequestBody("text/plain".toMediaTypeOrNull())
+        val bankname =
+            selectedBankId.toString().toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val bankBranch =
+            etBranchNameProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val description =
+            etDescriptionProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val iban = etIBANProfile.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        if (selectedFile == null) {
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedFile = createFormData("attachment", "", attachmentEmpty)
+        }
+        if (selectedProfilePic == null) {
+            var empty = ""
+            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            selectedProfilePic = createFormData("attachment", "", attachmentEmpty)
+        }
+
+        var lang = MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull())
+
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.updateProfile(
+                user,
+                first,
+                middle,
+                last,
+                email,
+                phone,
+                altNUm,
+                civilId,
+                selectedFile!!,
+                genderr,
+                dob,
+                role,
+                selectedFile!!,
+                address,
+                lat,
+                long,
+                accNum,
+                bankname,
+                bankBranch,
+                iban,
+                description,
+                lang,
+                selectedFile2!!
+            )?.enqueue(object : Callback<ResponseUser> {
+                override fun onResponse(
+                    call: Call<ResponseUser>,
+                    response: Response<ResponseUser>
+                ) {
+                    try {
+                        succUpdate(response.body()!!)
+                    } catch (E: java.lang.Exception) {
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseUser>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
+
+    private fun showClientFields() {
+        etMiddleNameProfile.hide()
+        linearProviderInfo.hide()
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+        var res = response as ResponseUser
+        selectedProfilePic = null
+        selectedFile = null
+        succUpdate(res)
+    }
+
+
+    fun updateAddress() {
+        var addressId = 0
+        try {
+            if (!MyApplication.isClient && !MyApplication.addNewAddress)
+                addressId = MyApplication.selectedUser!!.addresses!![0].addressId!!.toInt()
+        } catch (e: java.lang.Exception) {
+        }
+
+        var newReq = RequestAddAddress(
+            MyApplication.userId,
+            MyApplication.selectedUser!!.addresses!![0].lat!!.toDouble(),
+            MyApplication.selectedUser!!.addresses!![0].long!!.toDouble(),
+            addressId,
+            etAddressName.text.toString(),
+            etStreet.text.toString(),
+            etBuilding.text.toString(),
+            etFloor.text.toString(),
+            etMoreDetails.text.toString(),
+            "",
+            selectedProvince,
+            etArea.text.toString(),
+            etBlock.text.toString(),
+            etAvenue.text.toString(),
+            etApartment.text.toString()
+        )
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.addClAddress(
+                newReq
+            )?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+
+                }
+            })
+
+    }
+
+}

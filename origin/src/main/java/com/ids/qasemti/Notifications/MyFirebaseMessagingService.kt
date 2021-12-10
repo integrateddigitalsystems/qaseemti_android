@@ -82,7 +82,11 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             typeId = -1
         }
         logw("ACTIVATE_NOW","NOTIFICATION ACT")
-        CallAPIs.getUserInfo()
+        try {
+            CallAPIs.getUserInfo()
+        }catch (ex:java.lang.Exception){
+            logw("ACTIVATE_NOW","CATCH NOTIFICATION ACT DONE")
+        }
         logw("ACTIVATE_NOW","NOTIFICATION ACT DONE")
 
         if(typeId == NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE){

@@ -289,51 +289,54 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            <LinearLayout
+                <LinearLayout
 
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/normal_margin"
-
-
-                >
-
-
-
-                <EditText
-                    android:inputType="number"
-                    android:id="@+id/etCivilIdNbProfile"
-                    android:layout_width="0dp"
-                    android:maxLength="12"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_height"
-                    android:textColor="@color/gray_font"
-                    android:paddingStart="@dimen/normal_margin"
-                    android:paddingEnd="@dimen/normal_margin"
-                    android:maxLines="1"
-                    android:textAlignment="viewStart"
-                    android:textColorHint="@color/gray_medium_2"
-                    android:textSize="@dimen/normal_font"
-                    android:background="@drawable/rounded_white_background"
-                    android:hint="@string/civil_id_nb"
-                    android:tag="civil_id_nb"
-                    />
-
-                <ImageButton
-                    android:id="@+id/ibUploadFile"
-                    android:layout_width="@dimen/edit_text_height"
-                    android:layout_height="@dimen/edit_text_height"
-                    android:background="@drawable/icon_attach"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/new_black"
-
-                    />
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:orientation="horizontal"
 
 
-            </LinearLayout>
+                    >
 
-                <com.ids.qasemti.custom.CustomTextViewMedium
+
+                    <EditText
+                        android:id="@+id/etCivilIdNbProfile"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_white_background"
+                        android:hint="@string/civil_id_nb"
+                        android:inputType="number"
+                        android:maxLength="12"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/normal_margin"
+                        android:paddingEnd="@dimen/normal_margin"
+                        android:tag="civil_id_nb"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/gray_font"
+                        android:textColorHint="@color/gray_medium_2"
+                        android:textSize="@dimen/normal_font" />
+
+                    <ImageButton
+                        android:id="@+id/ibUploadFile"
+                        android:layout_width="@dimen/edit_text_height"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_gravity="center"
+                        android:background="@drawable/icon_attach"
+                        android:backgroundTint="@color/new_black"
+
+                        />
+
+
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rvCivilIdData"/>
+               <!-- <com.ids.qasemti.custom.CustomTextViewMedium
                     android:gravity="center"
                     android:visibility="visible"
                     android:textColor="@color/primary"
@@ -341,7 +344,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
-                    android:id="@+id/tvCivilIdFile"/>
+                    android:id="@+id/tvCivilIdFile"/>-->
 
                <!-- <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="match_parent"
