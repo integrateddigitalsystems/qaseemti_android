@@ -69,7 +69,8 @@ interface RetrofitInterface {
         @Part(ApiParameters.BANK_BRANCH) bankBranch: RequestBody,
         @Part(ApiParameters.IBAN) iban: RequestBody ,
         @Part(ApiParameters.DESCRIPTION) desc : RequestBody,
-        @Part(ApiParameters.LANGUAGE) lang : RequestBody
+        @Part(ApiParameters.LANGUAGE) lang : RequestBody ,
+        @Part civil_id_attach_back: MultipartBody.Part
     ): Call<ResponseUser>
 
 

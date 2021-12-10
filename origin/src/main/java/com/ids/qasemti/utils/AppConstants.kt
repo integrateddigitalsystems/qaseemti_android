@@ -107,6 +107,8 @@ object AppConstants {
     const val NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE = 2
     const val NOTF_TYPE_NORMAL = 3
     const val NOTF_TYPE_SERVICE = 4
+    const val NOTF_TYPE_ACCEPT_ORDER = 5
+    const val NOTF_TYPE_SUGGEST_NEW_DATE = 6
 
     const val PAYMENT_SUCCESS = "CAPTURED"
 }

@@ -22,7 +22,15 @@ class RequestNotifications(
 
     @SerializedName("page")
     @Expose
-    var page : Int ?=0
+    var page : Int ?=0 ,
+
+    @SerializedName("is_sp")
+    @Expose
+    var isSp : Int ?=0 ,
+
+    @SerializedName("is_cl")
+    @Expose
+    var isCl : Int ?=0
 
 ) {
 }

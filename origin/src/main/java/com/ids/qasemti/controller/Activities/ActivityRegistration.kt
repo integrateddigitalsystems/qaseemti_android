@@ -85,6 +85,7 @@ class ActivityRegistration : ActivityBase() , ApiListener{
             "",
             "",
             selectedProfilePic!!,
+            selectedProfilePic!!,
             selectedProfilePic!!
           )
         }else {

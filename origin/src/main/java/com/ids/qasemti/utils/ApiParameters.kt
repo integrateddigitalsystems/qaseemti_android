@@ -31,6 +31,7 @@ object ApiParameters {
     const val TYPE = "type"
     const val STOCK_STATUS = "stock_status"
     const val DESCRIPTION = "description"
+    const val CIVIL_ATTACH_BACK = "civil_id_attach_back"
     const val PRODUCT_DESC = "product_desc"
     const val GALLERY = "gallery[]"
     const val PRODUCT_ID = "product_id"

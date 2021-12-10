@@ -174,7 +174,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
         loading.hide()
         if(success) {
             if (MyApplication.selectedUser!!.active == 1) {
-                if(MyApplication.selectedUser!!.addresses!!.size>0) {
+                if(MyApplication.selectedUser!!.addresses!!.size>0 && !MyApplication.selectedUser!!.addresses!!.get(0).addressName.isNullOrEmpty()) {
                     startActivity(Intent(requireContext(), ActivityServiceInformation::class.java))
                     MyApplication.isEditService = false
                 }else{

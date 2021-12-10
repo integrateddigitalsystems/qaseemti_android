@@ -88,6 +88,14 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
             10,
             1
         )
+
+        if(MyApplication.isClient){
+            newReq.isCl = 1
+            newReq.isSp = 0
+        }else{
+            newReq.isCl = 0
+            newReq.isSp = 1
+        }
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getNotifications(
                 newReq

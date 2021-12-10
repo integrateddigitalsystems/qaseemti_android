@@ -14,7 +14,7 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_home.xml" value="0.1796875" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_map.xml" value="0.12083333333333333" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_new_address.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_order_details.xml" value="0.171875" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_order_details.xml" value="0.1" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_place_order.xml" value="0.15052083333333333" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_register.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_select_address.xml" value="0.18854166666666666" />
@@ -29,6 +29,8 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/home_container.xml" value="0.1796875" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_address.xml" value="0.75" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_data_border.xml" value="0.14895833333333333" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_grid_files.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_notifications.xml" value="0.1" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_order_not_cancelled.xml" value="0.5611764705882353" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_orders.xml" value="0.5212649945474372" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_other_data.xml" value="0.13645833333333332" />

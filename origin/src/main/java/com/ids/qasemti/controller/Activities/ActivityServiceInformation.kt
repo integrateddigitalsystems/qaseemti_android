@@ -24,6 +24,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.*
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
@@ -49,7 +50,7 @@ import retrofit2.Response
 import java.io.File
 
 
-class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiListener{
+class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , ApiListener{
     var array : ArrayList<ServiceItem> = arrayListOf()
     private val CODE_IMAGE = 1001
     var fromCam = false
@@ -160,6 +161,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
 
     private fun init(){
 
+        getSupportActionBar()!!.hide();
         arrayAllServices.clear()
         selectedCategoryName= AppHelper.getRemoteString("purchase",this)
         btBck.show()
@@ -844,7 +846,7 @@ class ActivityServiceInformation : ActivityBase(), RVOnItemClickListener , ApiLi
 
     private fun setPickedImages(){
         arrayImagesSelected.clear()
-        adapterSelectedImages = AdapterGridFiles(arrayImagesSelected, this, this)
+        adapterSelectedImages = AdapterGridFiles(arrayImagesSelected, this, this,false)
         rvSelectedImages.layoutManager =GridLayoutManager(this,3)
         rvSelectedImages.adapter = adapterSelectedImages
         rvSelectedImages.isNestedScrollingEnabled = false

@@ -179,6 +179,10 @@ class User (
     @Expose
     var civilIdAttach: String? = "" ,
 
+    @SerializedName("civil_id_attach_back")
+    @Expose
+    var civilAttachBack : String ?="" ,
+
     @SerializedName("profile_pic_url")
     @Expose
     var profilePicUrl: String? = "" ,

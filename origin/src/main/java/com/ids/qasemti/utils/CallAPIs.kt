@@ -177,7 +177,8 @@ class CallAPIs {
             descrp: String,
             ibann: String,
             selectedFile: MultipartBody.Part,
-            selectedProf: MultipartBody.Part
+            selectedProf: MultipartBody.Part,
+            selectedFile2:MultipartBody.Part
 
         ) {
             try {
@@ -247,7 +248,7 @@ class CallAPIs {
                 bankBranch,
                 iban,
                 description,
-                lang
+                lang,selectedFile2!!
             )
 
             retro.updateProfile(
@@ -272,7 +273,8 @@ class CallAPIs {
                 bankBranch,
                 iban,
                 description,
-                lang
+                lang,
+                selectedFile2
 
             )?.enqueue(object : Callback<ResponseUser> {
                 override fun onResponse(
