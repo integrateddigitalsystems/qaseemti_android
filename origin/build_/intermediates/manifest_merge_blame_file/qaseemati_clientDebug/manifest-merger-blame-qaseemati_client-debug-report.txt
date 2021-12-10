@@ -1,0 +1,860 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.ids.qasemti"
+4    android:versionCode="32"
+5    android:versionName="4.4" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="30" />
+9-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+11-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:6:5-79
+11-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:6:22-76
+12    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+12-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:7:5-80
+12-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:7:22-78
+13    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+13-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:8:5-78
+13-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:8:22-76
+14    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+14-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:9:5-97
+14-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:9:22-95
+15    <uses-permission android:name="android.permission.INTERNET" />
+15-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:10:5-67
+15-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:10:22-64
+16    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+16-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:11:5-80
+16-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:11:22-77
+17    <uses-permission android:name="android.permission.CAMERA" />
+17-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:12:5-65
+17-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:12:22-62
+18    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+18-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:13:5-81
+18-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:13:22-78
+19    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+19-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:14:5-77
+19-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:14:22-74
+20    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+20-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:15:5-84
+20-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:15:22-82
+21
+22    <queries>
+22-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:9:5-19:15
+23
+24        <!-- Query Camera Packages -->
+25        <intent>
+25-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:12:9-14:18
+26            <action android:name="android.media.action.IMAGE_CAPTURE" />
+26-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:13:13-73
+26-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:13:21-70
+27        </intent>
+28        <!-- Query Open Document -->
+29        <intent>
+29-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:16:9-18:18
+30            <action android:name="android.intent.action.OPEN_DOCUMENT_TREE" />
+30-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:17:13-79
+30-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:17:21-76
+31        </intent>
+32        <!-- Needs to be explicitly declared on Android R+ -->
+33        <package android:name="com.google.android.apps.maps" />
+33-->[com.google.android.gms:play-services-maps:18.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\fc787f10cefd14dab48dd30136f4f1be\transformed\jetified-play-services-maps-18.0.0\AndroidManifest.xml:33:9-64
+33-->[com.google.android.gms:play-services-maps:18.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\fc787f10cefd14dab48dd30136f4f1be\transformed\jetified-play-services-maps-18.0.0\AndroidManifest.xml:33:18-61
+34    </queries>
+35
+36    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+36-->[:payment] C:\Users\j.haidar\Documents\GitHub\qaseemti_android\payment\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-76
+36-->[:payment] C:\Users\j.haidar\Documents\GitHub\qaseemti_android\payment\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:22-73
+37
+38    <uses-feature
+38-->[com.google.android.gms:play-services-maps:18.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\fc787f10cefd14dab48dd30136f4f1be\transformed\jetified-play-services-maps-18.0.0\AndroidManifest.xml:26:5-28:35
+39        android:glEsVersion="0x00020000"
+39-->[com.google.android.gms:play-services-maps:18.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\fc787f10cefd14dab48dd30136f4f1be\transformed\jetified-play-services-maps-18.0.0\AndroidManifest.xml:27:9-41
+40        android:required="true" />
+40-->[com.google.android.gms:play-services-maps:18.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\fc787f10cefd14dab48dd30136f4f1be\transformed\jetified-play-services-maps-18.0.0\AndroidManifest.xml:28:9-32
+41
+42    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+42-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:23:5-68
+42-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:23:22-65
+43    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+43-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:25:5-82
+43-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:25:22-79
+44    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+44-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:26:5-110
+44-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:26:22-107
+45
+46    <application
+46-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:18:5-225:19
+47        android:name="com.ids.qasemti.controller.MyApplication"
+47-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:19:9-49
+48        android:allowBackup="false"
+48-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:20:9-36
+49        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+49-->[androidx.core:core:1.7.0] C:\Users\j.haidar\.gradle\caches\transforms-3\cd5c45d7fd52abd48527a1af1fcd6a48\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
+50        android:debuggable="true"
+51        android:hardwareAccelerated="true"
+51-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:27:9-43
+52        android:icon="@mipmap/ic_launcher"
+52-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:21:9-43
+53        android:label="@string/app_name"
+53-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:22:9-41
+54        android:largeHeap="true"
+54-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:23:9-33
+55        android:requestLegacyExternalStorage="true"
+55-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:29:9-52
+56        android:roundIcon="@mipmap/ic_launcher"
+56-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:24:9-48
+57        android:supportsRtl="true"
+57-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:25:9-35
+58        android:theme="@style/AppTheme"
+58-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:28:9-40
+59        android:usesCleartextTraffic="true" >
+59-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:30:9-44
+60
+61        <!--
+62            <service
+63            android:name=".utils.LocationUpdatesService"
+64            android:enabled="true"
+65            android:exported="true"
+66            android:foregroundServiceType="location" />
+67        -->
+68
+69        <provider
+70            android:name="androidx.core.content.FileProvider"
+70-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:39:13-62
+71            android:authorities="com.ids.qasemti.provider"
+71-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:40:13-60
+72            android:exported="false"
+72-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:41:13-37
+73            android:grantUriPermissions="true" >
+73-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:42:13-47
+74            <meta-data
+74-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:43:13-45:58
+75                android:name="android.support.FILE_PROVIDER_PATHS"
+75-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:44:17-67
+76                android:resource="@xml/provider_paths" />
+76-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:45:17-55
+77        </provider>
+78
+79        <meta-data
+79-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:47:9-49:69
+80            android:name="com.google.android.gms.version"
+80-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:48:13-58
+81            android:value="@integer/google_play_services_version" />
+81-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:49:13-66
+82
+83<!--              The API key for Google Maps-based APIs. -->
+84
+85
+86        <!--
+87                 <activity
+88                 android:name=".controller.Activities.ActivityHome"
+89                  android:screenOrientation="portrait"
+90                 android:theme="@style/AppTheme.NoActionBar" >
+91             </activity>
+92        -->
+93
+94        <activity
+94-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:63:9-65:52
+95            android:name="com.ids.qasemti.controller.Activities.ActivityChooseLanguage"
+95-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:64:13-73
+96            android:screenOrientation="portrait" />
+96-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:65:13-49
+97        <activity
+97-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:67:9-71:52
+98            android:name="com.ids.qasemti.controller.Activities.ActivityAddNewAddress"
+98-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:68:13-72
+99            android:configChanges="orientation|keyboardHidden"
+99-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:70:13-63
+100            android:screenOrientation="portrait"
+100-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:71:13-49
+101            android:windowSoftInputMode="stateHidden|adjustResize" />
+101-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:69:13-67
+102        <activity
+102-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:72:9-75:52
+103            android:name="com.ids.qasemti.controller.Activities.ActivityMobileRegistration"
+103-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:73:13-77
+104            android:configChanges="orientation|keyboardHidden"
+104-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:74:13-63
+105            android:screenOrientation="portrait" />
+105-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:75:13-49
+106        <activity
+106-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:77:9-81:52
+107            android:name="com.ids.qasemti.controller.Activities.ActivityRegistration"
+107-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:78:13-71
+108            android:configChanges="orientation|keyboardHidden"
+108-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:80:13-63
+109            android:screenOrientation="portrait"
+109-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:81:13-49
+110            android:windowSoftInputMode="stateHidden|adjustResize" />
+110-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:79:13-67
+111        <activity
+111-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:84:9-87:52
+112            android:name="com.ids.qasemti.controller.Activities.ActivityAddresses"
+112-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:85:13-68
+113            android:configChanges="orientation|keyboardHidden"
+113-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:86:13-63
+114            android:screenOrientation="portrait" />
+114-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:87:13-49
+115        <activity
+115-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:88:9-91:52
+116            android:name="com.ids.qasemti.controller.Activities.ActivityTrackOrder"
+116-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:89:13-69
+117            android:configChanges="orientation|keyboardHidden"
+117-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:90:13-63
+118            android:screenOrientation="portrait" />
+118-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:91:13-49
+119        <activity
+119-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:92:9-95:52
+120            android:name="com.ids.qasemti.controller.Activities.ActivityContactUs"
+120-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:93:13-68
+121            android:configChanges="orientation|keyboardHidden"
+121-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:94:13-63
+122            android:screenOrientation="portrait" />
+122-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:95:13-49
+123        <!--
+124            <activity
+125            android:name="com.ids.qasemti.controller.Activities.Activ"
+126            android:screenOrientation="portrait"
+127            android:theme="@style/AppTheme.NoActionBar"/>
+128        -->
+129
+130
+131        <!--
+132            <activity android:name=".controller.Activities.ActivityMap"
+133            android:screenOrientation="portrait"/>
+134        -->
+135        <activity
+135-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:104:9-106:51
+136            android:name="com.ids.qasemti.controller.Activities.ActivityAccountStatus"
+136-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:105:13-72
+137            android:screenOrientation="portrait" />
+137-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:106:13-49
+138        <activity
+138-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:107:9-110:52
+139            android:name="com.ids.qasemti.controller.Activities.ActivityMap"
+139-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:108:13-62
+140            android:configChanges="orientation|keyboardHidden"
+140-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:109:13-63
+141            android:screenOrientation="portrait" />
+141-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:110:13-49
+142        <activity
+142-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:112:9-114:52
+143            android:name="com.ids.qasemti.controller.Activities.ActivityServices"
+143-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:113:13-67
+144            android:screenOrientation="portrait" />
+144-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:114:13-49
+145        <activity
+145-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:116:9-120:52
+146            android:name="com.ids.qasemti.controller.Activities.ActivityServiceInformation"
+146-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:117:13-77
+147            android:configChanges="orientation|keyboardHidden"
+147-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:118:13-63
+148            android:screenOrientation="portrait"
+148-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:120:13-49
+149            android:windowSoftInputMode="stateHidden" />
+149-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:119:13-54
+150        <activity
+150-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:122:9-124:52
+151            android:name="com.ids.qasemti.controller.Activities.ActivitySettlements"
+151-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:123:13-70
+152            android:screenOrientation="portrait" />
+152-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:124:13-49
+153
+154        <service
+154-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:126:9-128:43
+155            android:name="com.ids.qasemti.utils.CurrentLocationService"
+155-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:127:13-57
+156            android:stopWithTask="true" />
+156-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:128:13-40
+157        <service
+157-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:130:9-135:55
+158            android:name="com.ids.qasemti.utils.LocationForeService"
+158-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:131:13-54
+159            android:enabled="true"
+159-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:133:13-35
+160            android:exported="false"
+160-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:134:13-37
+161            android:foregroundServiceType="location"
+161-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:135:13-53
+162            android:stopWithTask="false" />
+162-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:132:13-41
+163
+164        <activity
+164-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:137:9-139:52
+165            android:name="com.ids.qasemti.controller.Activities.ActivityChat"
+165-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:138:13-63
+166            android:screenOrientation="portrait" />
+166-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:139:13-49
+167        <activity
+167-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:140:9-142:52
+168            android:name="com.ids.qasemti.controller.Activities.ActivityCurrentLocation"
+168-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:141:13-74
+169            android:screenOrientation="portrait" />
+169-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:142:13-49
+170        <activity
+170-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:143:9-145:52
+171            android:name="com.ids.qasemti.controller.Activities.ActivityWeb"
+171-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:144:13-62
+172            android:screenOrientation="portrait" />
+172-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:145:13-49
+173
+174        <!--
+175             <activity
+176             android:name=".controller.Activities.ActivityRelatedOrders"
+177             android:screenOrientation="portrait" />
+178        -->
+179        <activity
+179-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:152:9-156:52
+180            android:name="com.ids.qasemti.controller.Activities.ActivityMapAddress"
+180-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:153:13-69
+181            android:configChanges="orientation|keyboardHidden"
+181-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:154:13-63
+182            android:screenOrientation="portrait"
+182-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:156:13-49
+183            android:theme="@style/AppTheme.NoActionBar" />
+183-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:155:13-56
+184        <activity
+184-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:157:9-161:58
+185            android:name="com.ids.qasemti.controller.Activities.ActivitySelectAddress"
+185-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:158:13-72
+186            android:configChanges="orientation|keyboardHidden"
+186-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:159:13-63
+187            android:screenOrientation="portrait"
+187-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:160:13-49
+188            android:theme="@style/AppTheme.NoActionBar" />
+188-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:161:13-56
+189        <activity
+189-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:163:9-165:52
+190            android:name="com.ids.qasemti.controller.Activities.ActivityPlaceOrder"
+190-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:164:13-69
+191            android:screenOrientation="portrait" />
+191-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:165:13-49
+192        <activity
+192-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:166:9-171:15
+193            android:name="com.ids.qasemti.controller.Activities.ActivityCodeVerification"
+193-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:167:13-75
+194            android:screenOrientation="portrait"
+194-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:168:13-49
+195            android:windowSoftInputMode="stateVisible" />
+195-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:169:13-55
+196        <activity
+196-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:172:9-176:58
+197            android:name="com.ids.qasemti.controller.Activities.ActivityHome"
+197-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:173:13-63
+198            android:screenOrientation="portrait"
+198-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:174:13-49
+199            android:theme="@style/AppTheme.NoActionBar"
+199-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:176:13-56
+200            android:windowSoftInputMode="stateHidden|adjustResize" />
+200-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:175:13-67
+201        <activity
+201-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:177:9-180:58
+202            android:name="com.ids.qasemti.controller.Activities.ActivityMapLocation"
+202-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:178:13-70
+203            android:screenOrientation="portrait"
+203-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:179:13-49
+204            android:theme="@style/AppTheme.NoActionBar" />
+204-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:180:13-56
+205        <activity
+205-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:181:9-185:58
+206            android:name="com.ids.qasemti.controller.Activities.ActivityOrderDetails"
+206-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:182:13-71
+207            android:configChanges="orientation|keyboardHidden"
+207-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:183:13-63
+208            android:screenOrientation="portrait"
+208-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:184:13-49
+209            android:theme="@style/AppTheme.NoActionBar" />
+209-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:185:13-56
+210        <activity
+210-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:187:9-190:58
+211            android:name="com.ids.qasemti.controller.Activities.ActivityRelatedOrders"
+211-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:188:13-72
+212            android:screenOrientation="portrait"
+212-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:189:13-49
+213            android:theme="@style/AppTheme.NoActionBar" />
+213-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:190:13-56
+214        <activity
+214-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:192:9-195:58
+215            android:name="com.ids.qasemti.controller.Activities.ActivityCheckout"
+215-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:193:13-67
+216            android:screenOrientation="portrait"
+216-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:194:13-49
+217            android:theme="@style/AppTheme.NoActionBar" />
+217-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:195:13-56
+218        <activity
+218-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:197:9-206:20
+219            android:name="com.ids.qasemti.controller.Activities.ActivitySplash"
+219-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:199:13-65
+220            android:screenOrientation="portrait"
+220-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:200:13-49
+221            android:windowSoftInputMode="stateHidden|adjustResize" >
+221-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:198:13-67
+222            <intent-filter>
+222-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:201:13-205:29
+223                <action android:name="android.intent.action.MAIN" />
+223-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:202:17-69
+223-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:202:25-66
+224
+225                <category android:name="android.intent.category.LAUNCHER" />
+225-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:204:17-77
+225-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:204:27-74
+226            </intent-filter>
+227        </activity>
+228
+229        <meta-data
+229-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:209:9-211:71
+230            android:name="com.google.android.geo.API_KEY"
+230-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:210:13-58
+231            android:value="AIzaSyCKeZJUtvoCxtgf5Pjm3kQy_5yScjUst5U" />
+231-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:211:13-68
+232        <meta-data
+232-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:47:9-49:69
+233            android:name="com.google.android.gms.version"
+233-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:48:13-58
+234            android:value="@integer/google_play_services_version" />
+234-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:49:13-66
+235
+236        <service android:name="com.ids.qasemti.Notifications.MyFirebaseMessagingService" >
+236-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:219:9-223:19
+236-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:219:18-74
+237            <intent-filter>
+237-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:220:13-222:29
+238                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+238-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:221:17-78
+238-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:221:25-75
+239            </intent-filter>
+240        </service>
+241
+242        <provider
+242-->[com.google.firebase:firebase-perf:20.0.4] C:\Users\j.haidar\.gradle\caches\transforms-3\f7f321cef2e7a08386a1ea64b21261b2\transformed\jetified-firebase-perf-20.0.4\AndroidManifest.xml:14:9-18:39
+243            android:name="com.google.firebase.perf.provider.FirebasePerfProvider"
+243-->[com.google.firebase:firebase-perf:20.0.4] C:\Users\j.haidar\.gradle\caches\transforms-3\f7f321cef2e7a08386a1ea64b21261b2\transformed\jetified-firebase-perf-20.0.4\AndroidManifest.xml:15:13-82
+244            android:authorities="com.ids.qasemti.firebaseperfprovider"
+244-->[com.google.firebase:firebase-perf:20.0.4] C:\Users\j.haidar\.gradle\caches\transforms-3\f7f321cef2e7a08386a1ea64b21261b2\transformed\jetified-firebase-perf-20.0.4\AndroidManifest.xml:16:13-72
+245            android:exported="false"
+245-->[com.google.firebase:firebase-perf:20.0.4] C:\Users\j.haidar\.gradle\caches\transforms-3\f7f321cef2e7a08386a1ea64b21261b2\transformed\jetified-firebase-perf-20.0.4\AndroidManifest.xml:17:13-37
+246            android:initOrder="101" />
+246-->[com.google.firebase:firebase-perf:20.0.4] C:\Users\j.haidar\.gradle\caches\transforms-3\f7f321cef2e7a08386a1ea64b21261b2\transformed\jetified-firebase-perf-20.0.4\AndroidManifest.xml:18:13-36
+247
+248        <service
+248-->[com.google.firebase:firebase-perf:20.0.4] C:\Users\j.haidar\.gradle\caches\transforms-3\f7f321cef2e7a08386a1ea64b21261b2\transformed\jetified-firebase-perf-20.0.4\AndroidManifest.xml:20:9-26:19
+249            android:name="com.google.firebase.components.ComponentDiscoveryService"
+249-->[com.google.firebase:firebase-perf:20.0.4] C:\Users\j.haidar\.gradle\caches\transforms-3\f7f321cef2e7a08386a1ea64b21261b2\transformed\jetified-firebase-perf-20.0.4\AndroidManifest.xml:21:13-84
+250            android:directBootAware="true"
+250-->[com.google.firebase:firebase-common:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\b95135d66eb528d521dd35bd0e98396a\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:35:13-43
+251            android:exported="false" >
+251-->[com.google.firebase:firebase-perf:20.0.4] C:\Users\j.haidar\.gradle\caches\transforms-3\f7f321cef2e7a08386a1ea64b21261b2\transformed\jetified-firebase-perf-20.0.4\AndroidManifest.xml:22:13-37
+252            <meta-data
+252-->[com.google.firebase:firebase-perf:20.0.4] C:\Users\j.haidar\.gradle\caches\transforms-3\f7f321cef2e7a08386a1ea64b21261b2\transformed\jetified-firebase-perf-20.0.4\AndroidManifest.xml:23:13-25:85
+253                android:name="com.google.firebase.components:com.google.firebase.perf.FirebasePerfRegistrar"
+253-->[com.google.firebase:firebase-perf:20.0.4] C:\Users\j.haidar\.gradle\caches\transforms-3\f7f321cef2e7a08386a1ea64b21261b2\transformed\jetified-firebase-perf-20.0.4\AndroidManifest.xml:24:17-109
+254                android:value="com.google.firebase.components.ComponentRegistrar" />
+254-->[com.google.firebase:firebase-perf:20.0.4] C:\Users\j.haidar\.gradle\caches\transforms-3\f7f321cef2e7a08386a1ea64b21261b2\transformed\jetified-firebase-perf-20.0.4\AndroidManifest.xml:25:17-82
+255            <meta-data
+255-->[com.google.firebase:firebase-config-ktx:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\9b5c0c315d023268fe9180831de7f48e\transformed\jetified-firebase-config-ktx-21.0.1\AndroidManifest.xml:15:13-17:85
+256                android:name="com.google.firebase.components:com.google.firebase.remoteconfig.ktx.FirebaseRemoteConfigKtxRegistrar"
+256-->[com.google.firebase:firebase-config-ktx:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\9b5c0c315d023268fe9180831de7f48e\transformed\jetified-firebase-config-ktx-21.0.1\AndroidManifest.xml:16:17-132
+257                android:value="com.google.firebase.components.ComponentRegistrar" />
+257-->[com.google.firebase:firebase-config-ktx:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\9b5c0c315d023268fe9180831de7f48e\transformed\jetified-firebase-config-ktx-21.0.1\AndroidManifest.xml:17:17-82
+258            <meta-data
+258-->[com.google.firebase:firebase-firestore-ktx:24.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\4432786b799afc0c96d74206208973b6\transformed\jetified-firebase-firestore-ktx-24.0.0\AndroidManifest.xml:15:13-17:85
+259                android:name="com.google.firebase.components:com.google.firebase.firestore.ktx.FirebaseFirestoreKtxRegistrar"
+259-->[com.google.firebase:firebase-firestore-ktx:24.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\4432786b799afc0c96d74206208973b6\transformed\jetified-firebase-firestore-ktx-24.0.0\AndroidManifest.xml:16:17-126
+260                android:value="com.google.firebase.components.ComponentRegistrar" />
+260-->[com.google.firebase:firebase-firestore-ktx:24.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\4432786b799afc0c96d74206208973b6\transformed\jetified-firebase-firestore-ktx-24.0.0\AndroidManifest.xml:17:17-82
+261            <meta-data
+261-->[com.google.firebase:firebase-auth-ktx:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f6ba04b33cbae1811fbaa172d793a373\transformed\jetified-firebase-auth-ktx-21.0.1\AndroidManifest.xml:11:13-13:85
+262                android:name="com.google.firebase.components:com.google.firebase.auth.ktx.FirebaseAuthKtxRegistrar"
+262-->[com.google.firebase:firebase-auth-ktx:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f6ba04b33cbae1811fbaa172d793a373\transformed\jetified-firebase-auth-ktx-21.0.1\AndroidManifest.xml:12:17-116
+263                android:value="com.google.firebase.components.ComponentRegistrar" />
+263-->[com.google.firebase:firebase-auth-ktx:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f6ba04b33cbae1811fbaa172d793a373\transformed\jetified-firebase-auth-ktx-21.0.1\AndroidManifest.xml:13:17-82
+264            <meta-data
+264-->[com.google.firebase:firebase-common-ktx:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\d1b5fbf9855ea3f3ba6db0a9e69c213a\transformed\jetified-firebase-common-ktx-20.0.0\AndroidManifest.xml:15:13-17:85
+265                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonKtxRegistrar"
+265-->[com.google.firebase:firebase-common-ktx:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\d1b5fbf9855ea3f3ba6db0a9e69c213a\transformed\jetified-firebase-common-ktx-20.0.0\AndroidManifest.xml:16:17-113
+266                android:value="com.google.firebase.components.ComponentRegistrar" />
+266-->[com.google.firebase:firebase-common-ktx:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\d1b5fbf9855ea3f3ba6db0a9e69c213a\transformed\jetified-firebase-common-ktx-20.0.0\AndroidManifest.xml:17:17-82
+267            <meta-data
+267-->[com.google.firebase:firebase-firestore:24.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\5031b62d972888a31bfeb705aa1e6b31\transformed\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:20:13-22:85
+268                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+268-->[com.google.firebase:firebase-firestore:24.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\5031b62d972888a31bfeb705aa1e6b31\transformed\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:21:17-111
+269                android:value="com.google.firebase.components.ComponentRegistrar" />
+269-->[com.google.firebase:firebase-firestore:24.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\5031b62d972888a31bfeb705aa1e6b31\transformed\jetified-firebase-firestore-24.0.0\AndroidManifest.xml:22:17-82
+270            <meta-data
+270-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:52:13-54:85
+271                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+271-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:53:17-119
+272                android:value="com.google.firebase.components.ComponentRegistrar" />
+272-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:54:17-82
+273            <meta-data
+273-->[com.google.firebase:firebase-crashlytics:18.2.5] C:\Users\j.haidar\.gradle\caches\transforms-3\ee0053cbe43be2eaffc003ebf1d978db\transformed\jetified-firebase-crashlytics-18.2.5\AndroidManifest.xml:18:13-20:85
+274                android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar"
+274-->[com.google.firebase:firebase-crashlytics:18.2.5] C:\Users\j.haidar\.gradle\caches\transforms-3\ee0053cbe43be2eaffc003ebf1d978db\transformed\jetified-firebase-crashlytics-18.2.5\AndroidManifest.xml:19:17-115
+275                android:value="com.google.firebase.components.ComponentRegistrar" />
+275-->[com.google.firebase:firebase-crashlytics:18.2.5] C:\Users\j.haidar\.gradle\caches\transforms-3\ee0053cbe43be2eaffc003ebf1d978db\transformed\jetified-firebase-crashlytics-18.2.5\AndroidManifest.xml:20:17-82
+276            <meta-data
+276-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:77:13-79:85
+277                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+277-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:78:17-109
+278                android:value="com.google.firebase.components.ComponentRegistrar" />
+278-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:79:17-82
+279            <meta-data
+279-->[com.google.firebase:firebase-config:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\6bb4be38f62c44a3d9a41a240f01b30b\transformed\jetified-firebase-config-21.0.1\AndroidManifest.xml:32:13-34:85
+280                android:name="com.google.firebase.components:com.google.firebase.remoteconfig.RemoteConfigRegistrar"
+280-->[com.google.firebase:firebase-config:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\6bb4be38f62c44a3d9a41a240f01b30b\transformed\jetified-firebase-config-21.0.1\AndroidManifest.xml:33:17-117
+281                android:value="com.google.firebase.components.ComponentRegistrar" />
+281-->[com.google.firebase:firebase-config:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\6bb4be38f62c44a3d9a41a240f01b30b\transformed\jetified-firebase-config-21.0.1\AndroidManifest.xml:34:17-82
+282            <meta-data
+282-->[com.google.firebase:firebase-abt:21.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\1c56a816859f693fa8b86451b8df6b58\transformed\jetified-firebase-abt-21.0.0\AndroidManifest.xml:13:13-15:85
+283                android:name="com.google.firebase.components:com.google.firebase.abt.component.AbtRegistrar"
+283-->[com.google.firebase:firebase-abt:21.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\1c56a816859f693fa8b86451b8df6b58\transformed\jetified-firebase-abt-21.0.0\AndroidManifest.xml:14:17-109
+284                android:value="com.google.firebase.components.ComponentRegistrar" />
+284-->[com.google.firebase:firebase-abt:21.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\1c56a816859f693fa8b86451b8df6b58\transformed\jetified-firebase-abt-21.0.0\AndroidManifest.xml:15:17-82
+285            <meta-data
+285-->[com.google.android.gms:play-services-measurement-api:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\df48affb08b362ce6b8a94a82fd4e2ca\transformed\jetified-play-services-measurement-api-20.0.0\AndroidManifest.xml:30:13-32:85
+286                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+286-->[com.google.android.gms:play-services-measurement-api:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\df48affb08b362ce6b8a94a82fd4e2ca\transformed\jetified-play-services-measurement-api-20.0.0\AndroidManifest.xml:31:17-139
+287                android:value="com.google.firebase.components.ComponentRegistrar" />
+287-->[com.google.android.gms:play-services-measurement-api:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\df48affb08b362ce6b8a94a82fd4e2ca\transformed\jetified-play-services-measurement-api-20.0.0\AndroidManifest.xml:32:17-82
+288            <meta-data
+288-->[com.google.firebase:firebase-installations:17.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\4f25a83904fe251be0428b481726ab22\transformed\jetified-firebase-installations-17.0.0\AndroidManifest.xml:18:13-20:85
+289                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+289-->[com.google.firebase:firebase-installations:17.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\4f25a83904fe251be0428b481726ab22\transformed\jetified-firebase-installations-17.0.0\AndroidManifest.xml:19:17-127
+290                android:value="com.google.firebase.components.ComponentRegistrar" />
+290-->[com.google.firebase:firebase-installations:17.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\4f25a83904fe251be0428b481726ab22\transformed\jetified-firebase-installations-17.0.0\AndroidManifest.xml:20:17-82
+291            <meta-data
+291-->[com.google.firebase:firebase-datatransport:18.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\0b9f34a30b812b36aff3d732b2e72148\transformed\jetified-firebase-datatransport-18.1.1\AndroidManifest.xml:28:13-30:85
+292                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+292-->[com.google.firebase:firebase-datatransport:18.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\0b9f34a30b812b36aff3d732b2e72148\transformed\jetified-firebase-datatransport-18.1.1\AndroidManifest.xml:29:17-115
+293                android:value="com.google.firebase.components.ComponentRegistrar" />
+293-->[com.google.firebase:firebase-datatransport:18.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\0b9f34a30b812b36aff3d732b2e72148\transformed\jetified-firebase-datatransport-18.1.1\AndroidManifest.xml:30:17-82
+294        </service>
+295
+296        <activity
+296-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:22:9-25:68
+297            android:name="com.github.dhaval2404.imagepicker.ImagePickerActivity"
+297-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:23:13-81
+298            android:screenOrientation="unspecified"
+298-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:24:13-52
+299            android:theme="@style/Theme.Transparent.ImagePicker" />
+299-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:25:13-65
+300        <activity
+300-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:26:9-29:72
+301            android:name="com.yalantis.ucrop.UCropActivity"
+301-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:27:13-60
+302            android:screenOrientation="portrait"
+302-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:28:13-49
+303            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+303-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:29:13-69
+304
+305        <provider
+305-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:31:9-39:20
+306            android:name="com.github.dhaval2404.imagepicker.ImagePickerFileProvider"
+306-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:32:13-85
+307            android:authorities="com.ids.qasemti.imagepicker.provider"
+307-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:33:13-72
+308            android:exported="false"
+308-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:34:13-37
+309            android:grantUriPermissions="true" >
+309-->[com.github.dhaval2404:imagepicker:2.1] C:\Users\j.haidar\.gradle\caches\transforms-3\45f58dc29ab1d860ab24bbc19f98423c\transformed\jetified-imagepicker-2.1\AndroidManifest.xml:35:13-47
+310            <meta-data
+310-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:43:13-45:58
+311                android:name="android.support.FILE_PROVIDER_PATHS"
+311-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:44:17-67
+312                android:resource="@xml/image_picker_provider_paths" />
+312-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:45:17-55
+313        </provider>
+314        <provider
+314-->[com.github.jaiselrahman:FilePicker:1.3.2] C:\Users\j.haidar\.gradle\caches\transforms-3\cf4385bc8efcf0b1c759267f63334236\transformed\jetified-FilePicker-1.3.2\AndroidManifest.xml:14:9-22:20
+315            android:name="com.jaiselrahman.filepicker.utils.FilePickerProvider"
+315-->[com.github.jaiselrahman:FilePicker:1.3.2] C:\Users\j.haidar\.gradle\caches\transforms-3\cf4385bc8efcf0b1c759267f63334236\transformed\jetified-FilePicker-1.3.2\AndroidManifest.xml:15:13-80
+316            android:authorities="com.ids.qasemti.filepicker.provider"
+316-->[com.github.jaiselrahman:FilePicker:1.3.2] C:\Users\j.haidar\.gradle\caches\transforms-3\cf4385bc8efcf0b1c759267f63334236\transformed\jetified-FilePicker-1.3.2\AndroidManifest.xml:16:13-71
+317            android:exported="false"
+317-->[com.github.jaiselrahman:FilePicker:1.3.2] C:\Users\j.haidar\.gradle\caches\transforms-3\cf4385bc8efcf0b1c759267f63334236\transformed\jetified-FilePicker-1.3.2\AndroidManifest.xml:17:13-37
+318            android:grantUriPermissions="true" >
+318-->[com.github.jaiselrahman:FilePicker:1.3.2] C:\Users\j.haidar\.gradle\caches\transforms-3\cf4385bc8efcf0b1c759267f63334236\transformed\jetified-FilePicker-1.3.2\AndroidManifest.xml:18:13-47
+319            <meta-data
+319-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:43:13-45:58
+320                android:name="android.support.FILE_PROVIDER_PATHS"
+320-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:44:17-67
+321                android:resource="@xml/com_jaiselrahman_filepicker_provider_paths" />
+321-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:45:17-55
+322        </provider>
+323
+324        <activity
+324-->[com.github.jaiselrahman:FilePicker:1.3.2] C:\Users\j.haidar\.gradle\caches\transforms-3\cf4385bc8efcf0b1c759267f63334236\transformed\jetified-FilePicker-1.3.2\AndroidManifest.xml:24:9-26:59
+325            android:name="com.jaiselrahman.filepicker.activity.FilePickerActivity"
+325-->[com.github.jaiselrahman:FilePicker:1.3.2] C:\Users\j.haidar\.gradle\caches\transforms-3\cf4385bc8efcf0b1c759267f63334236\transformed\jetified-FilePicker-1.3.2\AndroidManifest.xml:25:13-83
+326            android:theme="@style/AppTheme.NoActionBar" />
+326-->[com.github.jaiselrahman:FilePicker:1.3.2] C:\Users\j.haidar\.gradle\caches\transforms-3\cf4385bc8efcf0b1c759267f63334236\transformed\jetified-FilePicker-1.3.2\AndroidManifest.xml:26:13-56
+327        <activity
+327-->[:payment] C:\Users\j.haidar\Documents\GitHub\qaseemti_android\payment\build\intermediates\merged_manifest\debug\AndroidManifest.xml:20:9-31:20
+328            android:name="com.upayments.activity.ActivityWeb"
+328-->[:payment] C:\Users\j.haidar\Documents\GitHub\qaseemti_android\payment\build\intermediates\merged_manifest\debug\AndroidManifest.xml:21:13-62
+329            android:label="@string/app_name"
+329-->[:payment] C:\Users\j.haidar\Documents\GitHub\qaseemti_android\payment\build\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-45
+330            android:theme="@style/customUpaymentsTheme" >
+330-->[:payment] C:\Users\j.haidar\Documents\GitHub\qaseemti_android\payment\build\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-56
+331
+332            <!-- <intent-filter> -->
+333            <!-- <action android:name="android.intent.action.MAIN" /> -->
+334
+335
+336            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+337            <!-- </intent-filter> -->
+338        </activity>
+339        <activity
+339-->[com.google.android.libraries.places:places:2.5.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c937520ef529e6c5ad82cd63988b06e5\transformed\jetified-places-2.5.0\AndroidManifest.xml:14:9-20:20
+340            android:name="com.google.android.libraries.places.widget.AutocompleteActivity"
+340-->[com.google.android.libraries.places:places:2.5.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c937520ef529e6c5ad82cd63988b06e5\transformed\jetified-places-2.5.0\AndroidManifest.xml:15:13-91
+341            android:exported="false"
+341-->[com.google.android.libraries.places:places:2.5.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c937520ef529e6c5ad82cd63988b06e5\transformed\jetified-places-2.5.0\AndroidManifest.xml:16:13-37
+342            android:label="@string/places_autocomplete_label"
+342-->[com.google.android.libraries.places:places:2.5.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c937520ef529e6c5ad82cd63988b06e5\transformed\jetified-places-2.5.0\AndroidManifest.xml:17:13-62
+343            android:theme="@style/PlacesAutocompleteOverlay"
+343-->[com.google.android.libraries.places:places:2.5.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c937520ef529e6c5ad82cd63988b06e5\transformed\jetified-places-2.5.0\AndroidManifest.xml:18:13-61
+344            android:windowSoftInputMode="adjustResize" >
+344-->[com.google.android.libraries.places:places:2.5.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c937520ef529e6c5ad82cd63988b06e5\transformed\jetified-places-2.5.0\AndroidManifest.xml:19:13-55
+345        </activity> <!-- Needs to be explicitly declared on P+ -->
+346        <uses-library
+346-->[com.google.android.gms:play-services-maps:18.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\fc787f10cefd14dab48dd30136f4f1be\transformed\jetified-play-services-maps-18.0.0\AndroidManifest.xml:39:9-41:40
+347            android:name="org.apache.http.legacy"
+347-->[com.google.android.gms:play-services-maps:18.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\fc787f10cefd14dab48dd30136f4f1be\transformed\jetified-play-services-maps-18.0.0\AndroidManifest.xml:40:13-50
+348            android:required="false" />
+348-->[com.google.android.gms:play-services-maps:18.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\fc787f10cefd14dab48dd30136f4f1be\transformed\jetified-play-services-maps-18.0.0\AndroidManifest.xml:41:13-37
+349
+350        <receiver
+350-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:28:9-35:20
+351            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+351-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:29:13-78
+352            android:exported="true"
+352-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:30:13-36
+353            android:permission="com.google.android.c2dm.permission.SEND" >
+353-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:31:13-73
+354            <intent-filter>
+354-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:32:13-34:29
+355                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+355-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:33:17-81
+355-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:33:25-78
+356            </intent-filter>
+357        </receiver>
+358        <!--
+359             FirebaseMessagingService performs security checks at runtime,
+360             but set to not exported to explicitly avoid allowing another app to call it.
+361        -->
+362        <service
+362-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:41:9-48:19
+363            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+363-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:42:13-82
+364            android:directBootAware="true"
+364-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:43:13-43
+365            android:exported="false" >
+365-->[com.google.firebase:firebase-messaging:23.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\48f4b096addb47ff7bed5385be963d4e\transformed\jetified-firebase-messaging-23.0.0\AndroidManifest.xml:44:13-37
+366            <intent-filter android:priority="-500" >
+366-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:220:13-222:29
+367                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+367-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:221:17-78
+367-->C:\Users\j.haidar\Documents\GitHub\qaseemti_android\origin\src\main\AndroidManifest.xml:221:25-75
+368            </intent-filter>
+369        </service>
+370
+371        <activity
+371-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:27:9-44:20
+372            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+372-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:28:13-80
+373            android:excludeFromRecents="true"
+373-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:29:13-46
+374            android:exported="true"
+374-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:30:13-36
+375            android:launchMode="singleTask"
+375-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:31:13-44
+376            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+376-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:32:13-72
+377            <intent-filter>
+377-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:33:13-43:29
+378                <action android:name="android.intent.action.VIEW" />
+378-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:34:17-69
+378-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:34:25-66
+379
+380                <category android:name="android.intent.category.DEFAULT" />
+380-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:36:17-76
+380-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:36:27-73
+381                <category android:name="android.intent.category.BROWSABLE" />
+381-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:37:17-78
+381-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:37:27-75
+382
+383                <data
+383-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:39:17-42:51
+384                    android:host="firebase.auth"
+384-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:40:21-49
+385                    android:path="/"
+385-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:41:21-37
+386                    android:scheme="genericidp" />
+386-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:42:21-48
+387            </intent-filter>
+388        </activity>
+389        <activity
+389-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:45:9-62:20
+390            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+390-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:46:13-79
+391            android:excludeFromRecents="true"
+391-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:47:13-46
+392            android:exported="true"
+392-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:48:13-36
+393            android:launchMode="singleTask"
+393-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:49:13-44
+394            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+394-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:50:13-72
+395            <intent-filter>
+395-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:51:13-61:29
+396                <action android:name="android.intent.action.VIEW" />
+396-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:34:17-69
+396-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:34:25-66
+397
+398                <category android:name="android.intent.category.DEFAULT" />
+398-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:36:17-76
+398-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:36:27-73
+399                <category android:name="android.intent.category.BROWSABLE" />
+399-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:37:17-78
+399-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:37:27-75
+400
+401                <data
+401-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:39:17-42:51
+402                    android:host="firebase.auth"
+402-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:40:21-49
+403                    android:path="/"
+403-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:41:21-37
+404                    android:scheme="recaptcha" />
+404-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:42:21-48
+405            </intent-filter>
+406        </activity>
+407
+408        <service
+408-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:64:9-73:19
+409            android:name="com.google.firebase.auth.api.fallback.service.FirebaseAuthFallbackService"
+409-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:65:13-101
+410            android:enabled="true"
+410-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:66:13-35
+411            android:exported="false" >
+411-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:67:13-37
+412            <intent-filter>
+412-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:68:13-72:29
+413                <action android:name="com.google.firebase.auth.api.gms.service.START" />
+413-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:69:17-89
+413-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:69:25-86
+414
+415                <category android:name="android.intent.category.DEFAULT" />
+415-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:36:17-76
+415-->[com.google.firebase:firebase-auth:21.0.1] C:\Users\j.haidar\.gradle\caches\transforms-3\f0d4220d516e6e0889ab719b94e23ecc\transformed\jetified-firebase-auth-21.0.1\AndroidManifest.xml:36:27-73
+416            </intent-filter>
+417        </service>
+418
+419        <activity
+419-->[com.google.android.gms:play-services-base:17.5.0] C:\Users\j.haidar\.gradle\caches\transforms-3\03e636fcb4356ae137e6dc1bf79a11a0\transformed\jetified-play-services-base-17.5.0\AndroidManifest.xml:23:9-26:75
+420            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+420-->[com.google.android.gms:play-services-base:17.5.0] C:\Users\j.haidar\.gradle\caches\transforms-3\03e636fcb4356ae137e6dc1bf79a11a0\transformed\jetified-play-services-base-17.5.0\AndroidManifest.xml:24:13-79
+421            android:exported="false"
+421-->[com.google.android.gms:play-services-base:17.5.0] C:\Users\j.haidar\.gradle\caches\transforms-3\03e636fcb4356ae137e6dc1bf79a11a0\transformed\jetified-play-services-base-17.5.0\AndroidManifest.xml:25:13-37
+422            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+422-->[com.google.android.gms:play-services-base:17.5.0] C:\Users\j.haidar\.gradle\caches\transforms-3\03e636fcb4356ae137e6dc1bf79a11a0\transformed\jetified-play-services-base-17.5.0\AndroidManifest.xml:26:13-72
+423
+424        <provider
+424-->[com.google.firebase:firebase-common:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\b95135d66eb528d521dd35bd0e98396a\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:26:9-31:39
+425            android:name="com.google.firebase.provider.FirebaseInitProvider"
+425-->[com.google.firebase:firebase-common:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\b95135d66eb528d521dd35bd0e98396a\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:27:13-77
+426            android:authorities="com.ids.qasemti.firebaseinitprovider"
+426-->[com.google.firebase:firebase-common:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\b95135d66eb528d521dd35bd0e98396a\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:28:13-72
+427            android:directBootAware="true"
+427-->[com.google.firebase:firebase-common:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\b95135d66eb528d521dd35bd0e98396a\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:29:13-43
+428            android:exported="false"
+428-->[com.google.firebase:firebase-common:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\b95135d66eb528d521dd35bd0e98396a\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:30:13-37
+429            android:initOrder="100" />
+429-->[com.google.firebase:firebase-common:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\b95135d66eb528d521dd35bd0e98396a\transformed\jetified-firebase-common-20.0.0\AndroidManifest.xml:31:13-36
+430
+431        <receiver
+431-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:29:9-33:20
+432            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+432-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:30:13-85
+433            android:enabled="true"
+433-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:31:13-35
+434            android:exported="false" >
+434-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:32:13-37
+435        </receiver>
+436
+437        <service
+437-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:35:9-38:40
+438            android:name="com.google.android.gms.measurement.AppMeasurementService"
+438-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:36:13-84
+439            android:enabled="true"
+439-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:37:13-35
+440            android:exported="false" />
+440-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:38:13-37
+441        <service
+441-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:39:9-43:72
+442            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+442-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:40:13-87
+443            android:enabled="true"
+443-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:41:13-35
+444            android:exported="false"
+444-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:42:13-37
+445            android:permission="android.permission.BIND_JOB_SERVICE" />
+445-->[com.google.android.gms:play-services-measurement:20.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\78c100df4a8e3f6137eaa9e5c8b1f4af\transformed\jetified-play-services-measurement-20.0.0\AndroidManifest.xml:43:13-69
+446
+447        <provider
+447-->[androidx.emoji2:emoji2:1.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c731c1f3491230e7eedc4ac7162e44d3\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
+448            android:name="androidx.startup.InitializationProvider"
+448-->[androidx.emoji2:emoji2:1.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c731c1f3491230e7eedc4ac7162e44d3\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:27:13-67
+449            android:authorities="com.ids.qasemti.androidx-startup"
+449-->[androidx.emoji2:emoji2:1.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c731c1f3491230e7eedc4ac7162e44d3\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:28:13-68
+450            android:exported="false" >
+450-->[androidx.emoji2:emoji2:1.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c731c1f3491230e7eedc4ac7162e44d3\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:29:13-37
+451            <meta-data
+451-->[androidx.emoji2:emoji2:1.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c731c1f3491230e7eedc4ac7162e44d3\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
+452                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+452-->[androidx.emoji2:emoji2:1.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c731c1f3491230e7eedc4ac7162e44d3\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:32:17-75
+453                android:value="androidx.startup" />
+453-->[androidx.emoji2:emoji2:1.0.0] C:\Users\j.haidar\.gradle\caches\transforms-3\c731c1f3491230e7eedc4ac7162e44d3\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:33:17-49
+454            <meta-data
+454-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\j.haidar\.gradle\caches\transforms-3\d339224e7e9b933b1cac632ef7bc16ad\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
+455                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+455-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\j.haidar\.gradle\caches\transforms-3\d339224e7e9b933b1cac632ef7bc16ad\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
+456                android:value="androidx.startup" />
+456-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\j.haidar\.gradle\caches\transforms-3\d339224e7e9b933b1cac632ef7bc16ad\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
+457        </provider>
+458
+459        <service
+459-->[com.google.android.datatransport:transport-backend-cct:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\250b8899ec895e16e65b743a0ff659d1\transformed\jetified-transport-backend-cct-3.1.1\AndroidManifest.xml:29:9-35:19
+460            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+460-->[com.google.android.datatransport:transport-backend-cct:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\250b8899ec895e16e65b743a0ff659d1\transformed\jetified-transport-backend-cct-3.1.1\AndroidManifest.xml:30:13-103
+461            android:exported="false" >
+461-->[com.google.android.datatransport:transport-backend-cct:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\250b8899ec895e16e65b743a0ff659d1\transformed\jetified-transport-backend-cct-3.1.1\AndroidManifest.xml:31:13-37
+462            <meta-data
+462-->[com.google.android.datatransport:transport-backend-cct:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\250b8899ec895e16e65b743a0ff659d1\transformed\jetified-transport-backend-cct-3.1.1\AndroidManifest.xml:32:13-34:39
+463                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+463-->[com.google.android.datatransport:transport-backend-cct:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\250b8899ec895e16e65b743a0ff659d1\transformed\jetified-transport-backend-cct-3.1.1\AndroidManifest.xml:33:17-94
+464                android:value="cct" />
+464-->[com.google.android.datatransport:transport-backend-cct:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\250b8899ec895e16e65b743a0ff659d1\transformed\jetified-transport-backend-cct-3.1.1\AndroidManifest.xml:34:17-36
+465        </service>
+466        <service
+466-->[com.google.android.datatransport:transport-runtime:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\b0ed6e0f41c8309b72143d93c8ea63e7\transformed\jetified-transport-runtime-3.1.1\AndroidManifest.xml:26:9-30:19
+467            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+467-->[com.google.android.datatransport:transport-runtime:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\b0ed6e0f41c8309b72143d93c8ea63e7\transformed\jetified-transport-runtime-3.1.1\AndroidManifest.xml:27:13-117
+468            android:exported="false"
+468-->[com.google.android.datatransport:transport-runtime:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\b0ed6e0f41c8309b72143d93c8ea63e7\transformed\jetified-transport-runtime-3.1.1\AndroidManifest.xml:28:13-37
+469            android:permission="android.permission.BIND_JOB_SERVICE" >
+469-->[com.google.android.datatransport:transport-runtime:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\b0ed6e0f41c8309b72143d93c8ea63e7\transformed\jetified-transport-runtime-3.1.1\AndroidManifest.xml:29:13-69
+470        </service>
+471
+472        <receiver
+472-->[com.google.android.datatransport:transport-runtime:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\b0ed6e0f41c8309b72143d93c8ea63e7\transformed\jetified-transport-runtime-3.1.1\AndroidManifest.xml:32:9-34:40
+473            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+473-->[com.google.android.datatransport:transport-runtime:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\b0ed6e0f41c8309b72143d93c8ea63e7\transformed\jetified-transport-runtime-3.1.1\AndroidManifest.xml:33:13-132
+474            android:exported="false" />
+474-->[com.google.android.datatransport:transport-runtime:3.1.1] C:\Users\j.haidar\.gradle\caches\transforms-3\b0ed6e0f41c8309b72143d93c8ea63e7\transformed\jetified-transport-runtime-3.1.1\AndroidManifest.xml:34:13-37
+475    </application>
+476
+477</manifest>

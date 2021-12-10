@@ -225,9 +225,11 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
            // AppHelper.updateDevice(this,respone.user!!.mobileNumber!!)
             if (respone.user != null ) {
                 if(!MyApplication.isClient){
+                    var fullNameEmail=""
+                    try{fullNameEmail = respone.user!!.firstName + respone.user!!.lastName!!+respone.user!!.email}catch (e:Exception){}
                 if (respone.user!!.suspended.equals("1")) {
                     AppHelper.createDialog(this, AppHelper.getRemoteString("suspended_user_msg", this))
-                } else if(respone.user!!.approved == 1){
+                } else if(!fullNameEmail.isEmpty()){
                     MyApplication.userId = respone.user!!.userId!!.toInt()
                     MyApplication.selectedUser = respone.user!!
                    nextStep()

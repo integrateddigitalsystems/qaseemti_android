@@ -456,13 +456,21 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         UpaymentGateway.init(this, "", "", true)
                         /*MyApplication.isSignedIn = true
                         MyApplication.userId = 41*/
-                        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+                        MyApplication.selectedPos = 2
+                        MyApplication.defaultIcon = ivFooterHome
+                        MyApplication.tintColor = R.color.primary
                         MyApplication.selectedFragment = FragmentHomeClient()
+                        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
 
                         startActivity(Intent(this, ActivityHome::class.java))
                         finish()
                         // CallAPIs.getUserInfo(this,this)
                     } else {
+                        MyApplication.selectedPos = 2
+                        MyApplication.defaultIcon = ivFooterHome
+                        MyApplication.tintColor = R.color.primary
+                        MyApplication.selectedFragment = FragmentHomeSP()
+                        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
                         startActivity(Intent(this, ActivityMobileRegistration::class.java))
                         finish()
                     }

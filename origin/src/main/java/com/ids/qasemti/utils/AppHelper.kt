@@ -3,7 +3,9 @@ package com.ids.qasemti.utils
 
 import android.Manifest
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.AlertDialog
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -1033,6 +1035,19 @@ class AppHelper {
             }
 
 
+        }
+
+        fun isAppForground(mContext: Context): Boolean {
+            val am: ActivityManager =
+                mContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            val tasks: List<ActivityManager.RunningTaskInfo> = am.getRunningTasks(1)
+            if (!tasks.isEmpty()) {
+                val topActivity: ComponentName = tasks[0].topActivity!!
+                if (!topActivity.getPackageName().equals(mContext.packageName)) {
+                    return false
+                }
+            }
+            return true
         }
 
         fun getFloorRatingBar(rate: Double): Float {

@@ -182,7 +182,7 @@ class CallAPIs {
         ) {
             try {
                 loading.show()
-            } catch (ex: java.lang.Exception) {
+            } catch (ex: Exception) {
 
             }
             var userId = MyApplication.userId.toString()
@@ -285,7 +285,7 @@ class CallAPIs {
                             response.body()!!,
                             AppConstants.UPDATE_PROFILE_SERVICE_PROVIDER
                         )
-                    } catch (E: java.lang.Exception) {
+                    } catch (E: Exception) {
                         listener.onDataRetrieved(
                             false,
                             ResponseUser(),
@@ -405,6 +405,7 @@ class CallAPIs {
                 ) {
                     try {
                         MyApplication.selectedUser = response.body()!!.user
+                        logw("MY_USER_ID",MyApplication.selectedUser!!.userId.toString())
                         //MyApplication.generalNotificaiton = MyApplication.selectedUser.notificationType
                     } catch (e: Exception) {
                         try {

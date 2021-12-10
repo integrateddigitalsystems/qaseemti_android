@@ -27,6 +27,7 @@ import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_ORDERS
 import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_SERVICE
 import com.ids.qasemti.utils.CallAPIs
 import com.ids.qasemti.utils.LocaleUtils
+import com.ids.qasemti.utils.logw
 
 import java.util.*
 
@@ -80,10 +81,12 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             e.printStackTrace()
             typeId = -1
         }
-
+        logw("ACTIVATE_NOW","NOTIFICATION ACT")
+        CallAPIs.getUserInfo()
+        logw("ACTIVATE_NOW","NOTIFICATION ACT DONE")
 
         if(typeId == NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE){
-            CallAPIs.getUserInfo()
+
         }
 
         var recordId = -1
