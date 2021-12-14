@@ -299,7 +299,8 @@ interface RetrofitInterface {
         @Part(ApiParameters.FILE_NAME) filename: RequestBody,
         @Part file: MultipartBody.Part,
         @Part(ApiParameters.PRODUCT_ID) product_id: RequestBody,
-        @Part(ApiParameters.FILE_ID) fileId: RequestBody
+        @Part(ApiParameters.FILE_ID) fileId: RequestBody,
+        @Part(ApiParameters.LANGUAGE) lang : String
 
     ): Call<ResponseMessage>
 
@@ -395,7 +396,8 @@ interface RetrofitInterface {
     fun addGalleryImage(
         @Part(ApiParameters.VENDOR_ID) vendor_id: Int,
         @Part(ApiParameters.PRODUCT_ID) product_id: Int,
-        @Part image: MultipartBody.Part
+        @Part image: MultipartBody.Part,
+        @Part (ApiParameters.LANGUAGE) lang : String
 
     ): Call<ResponseMessage>
 

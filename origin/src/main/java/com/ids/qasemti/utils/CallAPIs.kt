@@ -493,6 +493,99 @@ class CallAPIs {
 
         }
 
+        fun updateDevice(context: Context){
+
+            val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
+            val cal = Calendar.getInstance()
+
+            val model = AppHelper.getDeviceName()
+            val osVersion = AppHelper.getAndroidVersion()
+
+            var deviceToken = ""
+            val deviceTypeId = ""
+            var android_id = Settings.Secure.getString(
+                context.getContentResolver(),
+                Settings.Secure.ANDROID_ID
+            );
+
+            var pre = if(MyApplication.isClient) "cl_" else "sp_"
+            val imei =
+                pre+Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+
+            val registrationDate = dateFormat.format(cal.time)
+            val appVersion = AppHelper.getVersionNumber()
+
+            val isProduction = 1
+
+
+            val lang = MyApplication.languageCode
+            var isService = 1
+            if (MyApplication.isClient)
+                isService = 0
+
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(
+                            "firebase_messaging",
+                            "Fetching FCM registration token failed",
+                            task.exception
+                        )
+                        return@OnCompleteListener
+                    }
+                    deviceToken = task.result
+
+
+                    var newReq = RequestUpdate(
+                        MyApplication.deviceId,
+                        "0",
+                        model,
+                        osVersion,
+                        "",
+                        2,
+                        imei,
+                        MyApplication.generalNotificaiton,
+                        appVersion.toString(),
+                        0,
+                        lang,
+                        0
+                    )
+
+                    if(MyApplication.isClient){
+                        newReq.is_client = 1
+                    }else{
+                        newReq.isServiceProvider = 1
+                    }
+
+                    var jsonString = Gson().toJson(newReq)
+                    logw("UPDATE_JSON",jsonString)
+
+                    RetrofitClient.client?.create(RetrofitInterface::class.java)
+                        ?.updateDevice(
+                            newReq
+                        )?.enqueue(object : Callback<ResponseUpdate> {
+                            override fun onResponse(
+                                call: Call<ResponseUpdate>,
+                                response: Response<ResponseUpdate>
+                            ) {
+                                try {
+
+                                    //sendOTP()
+                                } catch (E: Exception) {
+
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+
+                            }
+                        })
+                })
+
+
+
+
+        }
 
         fun updateDevice(context: Context,
         listener: ApiListener){

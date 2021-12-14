@@ -196,7 +196,7 @@
     <string name="share">نشر</string>
     <string name="MyAddresses">عناويني</string>
     <string name="inApp">في التطبيق</string>
-    <string name="viewRelatedOrders">عرض الطلبات ذات الصلة</string>
+    <string name="view_related_orders">عرض الطلبات ذات الصلة</string>
     <string name="Related_orders_settlement">أوامر التسوية ذات الصلة </string>
     <string name="not_available">غير متوفر</string>
     <string name="Registration">التسجيل</string>

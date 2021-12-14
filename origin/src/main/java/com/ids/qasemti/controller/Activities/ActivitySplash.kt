@@ -360,6 +360,16 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                     } catch (ex: Exception) {
                     }
 
+                    var orderId = -1
+                    try{
+                        orderId = intent.getIntExtra("order_id",-1)
+                    }catch (ex:Exception){
+
+                    }
+
+                  /*  orderId = 7851
+                    type = AppConstants.NOTF_TYPE_ACCEPT_ORDER*/
+
                     if (MyApplication.isClient) {
 
                         try {
@@ -372,11 +382,11 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
                             MyApplication.tintColor = R.color.primary
                         } else if (type == AppConstants.NOTF_TYPE_ORDERS) {
-                            MyApplication.selectedPos = 1
-                            MyApplication.defaultIcon = ivFooterOrder
+                            MyApplication.selectedPos = 2
+                            MyApplication.defaultIcon = ivFooterHome
                             MyApplication.tintColor = R.color.primary
-                            MyApplication.selectedFragment = FragmentOrders()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                            MyApplication.selectedFragment = FragmentHomeSP()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
                         } else if (type == AppConstants.NOTF_TYPE_SERVICE) {
                             MyApplication.selectedPos = 2
                             MyApplication.defaultIcon = ivFooterHome
@@ -394,12 +404,24 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
                             MyApplication.selectedFragment = FragmentOrders()
+                            if(orderId!=-1){
+                                MyApplication.selectedOrderId = orderId
+                                MyApplication.toDetails = true
+                            }else{
+                                MyApplication.toDetails = false
+                            }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
                         }else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
                             MyApplication.selectedFragment = FragmentOrders()
+                            if(orderId!=-1){
+                                MyApplication.selectedOrderId = orderId
+                                MyApplication.toDetails = true
+                            }else{
+                                MyApplication.toDetails = false
+                            }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
                         } else if(type == 0 ){
                             MyApplication.selectedPos = 2
@@ -443,11 +465,23 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
                             MyApplication.selectedFragment = FragmentOrders()
+                            if(orderId!=-1){
+                                MyApplication.selectedOrderId = orderId
+                                MyApplication.toDetails = true
+                            }else{
+                                MyApplication.toDetails = false
+                            }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
                         } else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
+                            if(orderId!=-1){
+                                MyApplication.selectedOrderId = orderId
+                                MyApplication.toDetails = true
+                            }else{
+                                MyApplication.toDetails = false
+                            }
                             MyApplication.selectedFragment = FragmentOrders()
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
                         }else if(type ==0 ) {

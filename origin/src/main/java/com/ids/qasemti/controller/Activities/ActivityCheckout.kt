@@ -663,7 +663,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             if (MyApplication.selectedOrder!!.addressDescription != null && MyApplication.selectedOrder!!.addressDescription!!.isNotEmpty()) MyApplication.selectedOrder!!.addressDescription else "",
             if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
             etFromDate.text.toString(),
-            etToDate.text.toString()
+            etToDate.text.toString(),
+            MyApplication.languageCode
         )
 
         startActivity(
@@ -723,7 +724,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             MyApplication.selectedOrder!!.shipping_area,
             MyApplication.selectedOrder!!.shipping_block,
             MyApplication.selectedOrder!!.shippingAvenu ,
-            MyApplication.selectedOrder!!.shippingApartment
+            MyApplication.selectedOrder!!.shippingApartment,
+            MyApplication.languageCode
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.renewOrder(req)?.enqueue(object : Callback<ResponseMessage> {
@@ -851,7 +853,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 if (MyApplication.selectedAddress!!.area != null && MyApplication.selectedAddress!!.area!!.isNotEmpty()) MyApplication.selectedAddress!!.area else "",
                 if (MyApplication.selectedAddress!!.apartment != null && MyApplication.selectedAddress!!.apartment!!.isNotEmpty()) MyApplication.selectedAddress!!.apartment else "",
                 if (MyApplication.selectedAddress!!.block != null && MyApplication.selectedAddress!!.block!!.isNotEmpty()) MyApplication.selectedAddress!!.block else "",
-                if (MyApplication.selectedAddress!!.province != null && MyApplication.selectedAddress!!.province!!.isNotEmpty()) MyApplication.selectedAddress!!.province else ""
+                if (MyApplication.selectedAddress!!.province != null && MyApplication.selectedAddress!!.province!!.isNotEmpty()) MyApplication.selectedAddress!!.province else "",
+                MyApplication.languageCode
             )
         } else {
 
@@ -871,7 +874,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
                 MyApplication.selectedAddress!!.addressId!!.toInt(),
                 etFromDate.text.toString(),
-                etToDate.text.toString()
+                etToDate.text.toString(),
+                MyApplication.languageCode
             )
         }
         if (update) {
@@ -975,7 +979,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
     fun broadcastOutOfRange(orderId: String) {
         loading.show()
-        var req = RequestOrderId(orderId.toInt())
+        var req = RequestOrderId(orderId.toInt(),MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.broadcastOutofRange(req)?.enqueue(object :
                 Callback<ResponseOrderId> {

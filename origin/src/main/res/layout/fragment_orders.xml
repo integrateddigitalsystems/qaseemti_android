@@ -75,8 +75,8 @@
             android:layout_weight="1"
             android:text="@string/upcoming"/>
         <me.grantland.widget.AutofitTextView
-            android:layout_marginStart="@dimen/small_margin"
-            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_marginStart="@dimen/mini_margin"
+            android:layout_marginEnd="@dimen/mini_margin"
             android:maxLines="1"
             android:layout_width="match_parent"
             android:id="@+id/tvCompleted"

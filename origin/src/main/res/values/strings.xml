@@ -197,7 +197,7 @@
     <string name="share">Share</string>
     <string name="MyAddresses">My Addresses</string>
     <string name="inApp">In App</string>
-    <string name="viewRelatedOrders">View Related Orders</string>
+    <string name="view_related_orders">View Related Orders</string>
     <string name="Related_orders_settlement">Related Orders of settlement </string>
     <string name="not_available">Not Available</string>
     <string name="Registration">Registration</string>

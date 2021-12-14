@@ -45,14 +45,23 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
 
     override fun onResume() {
         super.onResume()
-        if (MyApplication.renewed == true) {
-            MyApplication.renewed = false
-            setTabLayout(0)
-        }else if(MyApplication.completed){
-            MyApplication.completed = false
-            setTabLayout(2)
-        }else{
-            setTabLayout(typeSelected)
+
+        if(MyApplication.toDetails){
+            MyApplication.toDetails = false
+            startActivity(
+                Intent(requireActivity(), ActivityOrderDetails::class.java)
+                    .putExtra("orderId", MyApplication.selectedOrderId)
+            )
+        }else {
+            if (MyApplication.renewed == true) {
+                MyApplication.renewed = false
+                setTabLayout(0)
+            } else if (MyApplication.completed) {
+                MyApplication.completed = false
+                setTabLayout(2)
+            } else {
+                setTabLayout(typeSelected)
+            }
         }
 
     }

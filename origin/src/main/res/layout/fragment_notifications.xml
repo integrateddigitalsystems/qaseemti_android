@@ -23,11 +23,11 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:visibility="gone"
-        android:id="@+id/tvNoData"
         android:textSize="@dimen/header_font"
         android:text="@string/no_data"
         android:tag="no_data"
-        android:textColor="@color/primary"/>
+        android:textColor="@color/primary"
+        android:id="@+id/tvNoData"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginStart="@dimen/card_new_margin"

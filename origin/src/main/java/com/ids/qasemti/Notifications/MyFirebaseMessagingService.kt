@@ -153,7 +153,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             LocaleUtils.setLocale(Locale("ar", "LB"))
         }
         intent = Intent(this, ActivitySplash::class.java)
-        intent.putExtra("notification_id", id)
+        intent.putExtra("order_id", id)
         intent.putExtra("typeId", typeId)
         intent.putExtra("text", messageBody)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

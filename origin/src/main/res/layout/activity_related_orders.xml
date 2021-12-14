@@ -76,6 +76,7 @@
 
 
                 <ImageView
+                    android:tint="@color/primary"
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:src="@drawable/icon_myearning"/>
@@ -109,6 +110,7 @@
 
 
                 <ImageView
+                    android:tint="@color/primary"
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:src="@drawable/icon_mydues"/>

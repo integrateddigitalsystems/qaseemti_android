@@ -94,7 +94,11 @@ class RequestRenewOrder(
 
     @SerializedName("apartment")
     @Expose
-    var apt : String ?=""
+    var apt : String ?="" ,
+
+    @SerializedName("language")
+    @Expose
+    var lang : String ?=""
 
 
 

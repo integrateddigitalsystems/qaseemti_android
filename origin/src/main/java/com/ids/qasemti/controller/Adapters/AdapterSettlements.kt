@@ -39,6 +39,10 @@ class AdapterSettlements(
         holder.date.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy hh:mm")
         try{holder.amount.text = items.get(position).grand_total!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator)+" "+items.get(position).currency}catch (e:Exception){}
         try{holder.earn.text = items.get(position).earnings!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+ items.get(position).currency}catch (e:Exception){}
+        try{holder.addCost.text = items.get(position).additional!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+ items.get(position).currency}catch (e:Exception){}
+        if(items.get(position).additional!!.isNullOrEmpty() || items.get(position).equals("0")){
+            holder.addCostLayout.hide()
+        }
         holder.duesText.text = items.get(position).adminFees!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+items.get(position).currency
 
 
@@ -60,6 +64,8 @@ class AdapterSettlements(
         var date = itemView.findViewById<TextView>(R.id.tvOrderDateSett)
         var amount = itemView.findViewById<TextView>(R.id.tvSettAmount)
         var earn = itemView.findViewById<TextView>(R.id.tvEarnSett)
+        var addCost = itemView.findViewById<TextView>(R.id.tvAdditionalCost)
+        var addCostLayout = itemView.findViewById<LinearLayout>(R.id.llAdditionalfees)
         var duesText = itemView.findViewById<TextView>(R.id.tvSettDues)
 
 

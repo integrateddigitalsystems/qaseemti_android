@@ -42,6 +42,8 @@ class MyApplication : Application() {
         var renewing  = false
         var addNew : Boolean = true
         var selectedFragmentTag : String ?=""
+        var toDetails : Boolean =false
+        var selectedOrderId : Int ?=0
         var currency : String ?=""
         var fromOrderPlaced  =false
         var webLinks : FirebaseWebData ?=null

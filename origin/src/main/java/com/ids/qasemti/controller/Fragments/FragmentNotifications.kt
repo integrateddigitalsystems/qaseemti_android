@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.AdapterNotification
@@ -96,6 +97,10 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
             newReq.isCl = 0
             newReq.isSp = 1
         }
+
+        logw("NOTFREQ",Gson().toJson(newReq))
+
+
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getNotifications(
                 newReq

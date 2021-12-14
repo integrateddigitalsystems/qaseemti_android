@@ -28,6 +28,7 @@
             android:layout_height="90dp"
             app:cardElevation="@dimen/mini_margin"
             android:elevation="@dimen/mini_margin"
+            android:visibility="gone"
             app:cardCornerRadius="@dimen/bigger_radius"
             android:layout_marginStart="@dimen/margin_start_end"
             android:layout_marginEnd="@dimen/margin_start_end"
@@ -64,6 +65,7 @@
             android:fillViewport="true">-->
 
             <LinearLayout
+                android:id="@+id/listHomeClient"
                 android:layout_below="@id/linearHomeClient"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

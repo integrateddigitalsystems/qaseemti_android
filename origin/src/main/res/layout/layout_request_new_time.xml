@@ -377,7 +377,7 @@
                                 android:layout_height="@dimen/icon_2"
                                 android:layout_marginEnd="@dimen/normal_margin"
                                 android:src="@drawable/icon_hourglass"
-                                app:tint="@color/new_black" />
+                                android:tint="@color/new_black" />
                         </LinearLayout>
 
                     </RelativeLayout>

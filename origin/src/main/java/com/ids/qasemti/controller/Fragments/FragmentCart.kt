@@ -60,7 +60,7 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
         }catch (ex: Exception){
 
         }
-        var newReq = RequestOrderId(orderID)
+        var newReq = RequestOrderId(orderID,MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.deleteCartItem(
                 newReq
@@ -105,14 +105,23 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
             })
     }
     fun setData(){
-        try {
-            adapter = AdapterCart(array, this, requireContext())
-            rvCart.layoutManager = LinearLayoutManager(requireContext())
-            rvCart.adapter = adapter
-            rvCart.isNestedScrollingEnabled = false
-            loading.hide()
-        }catch (ex:Exception){
 
+        try {
+            if(array.size > 0) {
+                adapter = AdapterCart(array, this, requireContext())
+                rvCart.layoutManager = LinearLayoutManager(requireContext())
+                rvCart.adapter = adapter
+                rvCart.isNestedScrollingEnabled = false
+                tvNoCartData.hide()
+                rvCart.show()
+                loading.hide()
+            }else{
+                tvNoCartData.show()
+                rvCart.hide()
+                loading.hide()
+            }
+        }catch (ex:Exception){
+            loading.hide()
         }
     }
 
@@ -177,7 +186,8 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
                     array[position].addressDescription,
                     if (array.get(position).addresses.size > 0) array.get(position).addresses.get(0).addressId!!.toInt() else 0,
                     array[position].product!!.booking_start_date,
-                    array[position].product!!.booking_end_date
+                    array[position].product!!.booking_end_date,
+                    MyApplication.languageCode
 
 
                 )

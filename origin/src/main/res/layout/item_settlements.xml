@@ -143,6 +143,44 @@
         <include layout="@layout/separator" />
 
         <LinearLayout
+            android:id="@+id/llAdditionalfees"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settlement_inside_item_hight"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/margin_start_end"
+            android:paddingEnd="@dimen/margin_start_end">
+
+            <ImageView
+                android:layout_width="@dimen/icon"
+                android:layout_height="@dimen/icon"
+                android:src="@drawable/ic_settlement"
+                android:tint="@color/primary" />
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:id="@+id/tvAdditionalTitle"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/AdditionalFeees"
+                android:tag="AdditionalFeees"
+                android:textColor="@color/gray_font_title" />
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10 KWD"
+                android:id="@+id/tvAdditionalCost"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/normal_font" />
+
+
+        </LinearLayout>
+        <include layout="@layout/separator" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/settlement_inside_item_hight"
             android:layout_gravity="center_vertical"

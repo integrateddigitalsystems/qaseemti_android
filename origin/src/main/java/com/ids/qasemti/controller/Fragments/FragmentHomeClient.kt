@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import android.widget.LinearLayout
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
@@ -27,6 +28,16 @@ import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.google.android.youtube.player.internal.v
+
+import com.google.android.youtube.player.internal.r
+
+import com.google.android.youtube.player.internal.t
+
+import com.google.android.youtube.player.internal.l
+
+
+
 
 
 class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
@@ -141,15 +152,25 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
         if (arrayItems.size > 0) {
             var array =
                 arrayItems.filter { it.bannerImageURL != "false" && !it.bannerImageURL.isNullOrEmpty() } as ArrayList
-            var adapterPager = AdapterAdsPager(
-                requireActivity(),
-                array,
-                lifecycle,
-                requireActivity().supportFragmentManager
-            )
-            vpAdsClient.adapter = adapterPager
+            if(array.size >0) {
+                var adapterPager = AdapterAdsPager(
+                    requireActivity(),
+                    array,
+                    lifecycle,
+                    requireActivity().supportFragmentManager
+                )
+                vpAdsClient.adapter = adapterPager
+            }else{
+                linearHomeClient.hide()
+                val p = listHomeClient.getLayoutParams() as ViewGroup.MarginLayoutParams
+                p.setMargins(0, -130, 0, 0)
+                listHomeClient.requestLayout()
+            }
         } else {
             linearHomeClient.hide()
+            val p = listHomeClient.getLayoutParams() as ViewGroup.MarginLayoutParams
+            p.setMargins(0, 65, 0, 0)
+            listHomeClient.requestLayout()
         }
     }
 

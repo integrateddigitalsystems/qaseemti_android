@@ -25,6 +25,8 @@ import com.ids.qasemti.controller.Adapters.*
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Base.AppCompactBase
+import com.ids.qasemti.controller.Fragments.FragmentHomeSP
+import com.ids.qasemti.controller.Fragments.FragmentMyServices
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
@@ -34,6 +36,7 @@ import com.ids.sampleapp.model.ItemSpinner
 import com.jaiselrahman.filepicker.activity.FilePickerActivity
 import com.jaiselrahman.filepicker.config.Configurations
 import kotlinx.android.synthetic.main.actiivity_service_information.*
+import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.no_logo_layout.btBck
@@ -169,11 +172,19 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
         if(MyApplication.languageCode==AppConstants.LANG_ARABIC)
             selectedCategoryName="بيع"
         getAllServices()
-        setPickedImages()
+
 
 
     }
 
+    override fun onBackPressed() {
+        MyApplication.selectedPos = 0
+        MyApplication.defaultIcon = ivProductFooter
+        MyApplication.tintColor = R.color.primary
+        MyApplication.selectedFragment = FragmentMyServices()
+        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_MY_SERVICES
+        super.onBackPressed()
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun listeners(){
@@ -272,7 +283,8 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
             ?.addGalleryImage(
                 MyApplication.selectedUser!!.userId!!.toInt()/*.toRequestBody("text/plain".toMediaTypeOrNull())*/,
                 MyApplication.selectedService!!.id!!.toInt()/*.toRequestBody("text/plain".toMediaTypeOrNull())*/,
-                arrayImagesSelected.get(position).multipart!!
+                arrayImagesSelected.get(position).multipart!!,
+                MyApplication.languageCode
             )?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
                     try{
@@ -355,7 +367,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
                arrayToDelete.add(arrayImagesSelected.get(position).id!!.toInt())
            }
            arrayImagesSelected.removeAt(position)
-           adapterSelectedImages!!.notifyDataSetChanged()
+           setPickedImages()
        }
     }
 
@@ -586,7 +598,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
                                 )
                             }
                         arrayImagesSelected.add(FilesSelected(file.name,file,selectedFileImage))
-                        adapterSelectedImages!!.notifyDataSetChanged()
+                        setPickedImages()
                       } catch (e: Exception) {
                     }
                 }
@@ -844,12 +856,21 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
 
 
 
+
+
     private fun setPickedImages(){
-        arrayImagesSelected.clear()
-        adapterSelectedImages = AdapterGridFiles(arrayImagesSelected, this, this,false)
-        rvSelectedImages.layoutManager =GridLayoutManager(this,3)
-        rvSelectedImages.adapter = adapterSelectedImages
-        rvSelectedImages.isNestedScrollingEnabled = false
+        try {
+            if(adapterSelectedImages==null) {
+                adapterSelectedImages = AdapterGridFiles(arrayImagesSelected, this, this, false)
+                rvSelectedImages.layoutManager = GridLayoutManager(this, 3)
+                rvSelectedImages.adapter = adapterSelectedImages
+                rvSelectedImages.isNestedScrollingEnabled = false
+            }else{
+                adapterSelectedImages!!.notifyDataSetChanged()
+            }
+        }catch (ex:Exception){
+           logw("ServiceInformationError",ex.toString())
+        }
     }
 
     private fun setRequiredFiles(){
@@ -994,7 +1015,8 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
                 requiredFiles.getFileTitle()!!.toRequestBody("text/plain".toMediaTypeOrNull()),
                 requiredFiles.multipart!!,
                 product_id.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
-                requiredFiles.id!!.toRequestBody("text/plain".toMediaTypeOrNull())
+                requiredFiles.id!!.toRequestBody("text/plain".toMediaTypeOrNull()),
+                MyApplication.languageCode
             )?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(call: Call<ResponseMessage>, response: Response<ResponseMessage>) {
                     try{
@@ -1200,7 +1222,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
                     for (i in images.indices)
                       arrayImagesSelected.add(FilesSelected(images.get(i).url,null,null,images.get(i).id!!.toInt()))
                  }
-                      adapterSelectedImages!!.notifyDataSetChanged()
+                      setPickedImages()
                  }
              catch (e:Exception){}
 

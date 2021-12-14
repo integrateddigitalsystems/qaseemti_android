@@ -528,6 +528,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             }
             MyApplication.selectedPos = 2
             context.finishAffinity()
+            CallAPIs.updateDevice(this)
             startActivity(
                 Intent(
                     context,

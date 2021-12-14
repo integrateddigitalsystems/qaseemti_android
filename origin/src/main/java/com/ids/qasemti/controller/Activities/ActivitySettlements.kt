@@ -190,16 +190,21 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
             }
 
         } else {
-            if(adapter!=null) {
+
+            try{
                 array.clear()
                 adapter!!.notifyDataSetChanged()
-            }
-            tvTotalOrderCount.text = resSet!!.numberOfOrders.toString()
-            tvSettlementAmount.text = resSet!!.totalEarnings!!.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator)
-            try {
-              tvSettlementAmount.text = tvSettlementAmount.text.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+"KWD"//resSet!!.settlements.get(0).relatedOrders.get(0).currency
             }catch (ex:Exception){
 
+            }
+            try {
+                tvTotalOrderCount.text = resSet!!.numberOfOrders.toString()
+                tvSettlementAmount.text = resSet!!.totalEarnings!!.toString()
+                    .formatNumber(AppConstants.TwoDecimalThousandsSeparator)
+              tvSettlementAmount.text = tvSettlementAmount.text.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+"KWD"//resSet!!.settlements.get(0).relatedOrders.get(0).currency
+            }catch (ex:Exception){
+                tvTotalOrderCount.text = "0"
+                tvSettlementAmount.text = "0 KWD"
             }
             btRequestSettlements.hide()
             MyApplication.upcoming = true
@@ -236,7 +241,8 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                     )
                 }else{
                     MyApplication.selectedOrder = array.get(position)
-                    startActivity(Intent(this,ActivityOrderDetails::class.java))
+                    startActivity(Intent(this,ActivityOrderDetails::class.java)
+                        .putExtra("orderId", MyApplication.selectedOrder!!.orderId!!.toInt()))
                 }
             }
         }

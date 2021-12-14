@@ -114,9 +114,14 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             arraySelectedImage!!.removeAt(position)
             adapterSelectedImages!!.notifyDataSetChanged()
         }
+        if(arraySelectedImage.size<2){
+            ibUploadFile.show()
+        }
 
-        if(arraySelectedImage.size ==0 )
+        if(arraySelectedImage.size ==0) {
             rvCivilIdData.hide()
+
+        }
 
     }
 
@@ -639,6 +644,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 rvCivilIdData.layoutManager = GridLayoutManager(requireContext(), 3)
                 rvCivilIdData.adapter = adapterSelectedImages
                 rvCivilIdData.isNestedScrollingEnabled = false
+                if(arraySelectedImage.size ==2)
+                    ibUploadFile.hide()
                 /*tvCivilIdFile.show()
                 tvCivilIdFile.text =
                     MyApplication.selectedUser!!.civilIdAttach
@@ -805,7 +812,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                 etAvenue.isEnabled = false
                             }
 
-                            if (myAddress.apartment != null && myAddress.apartment != "null") {
+                            if (myAddress.apartment != null && myAddress.apartment != "null" && !myAddress.apartment!!.isEmpty()) {
                                 etApartment!!.setText(myAddress.apartment)
                                 etApartment.isEnabled = false
                             }
@@ -1117,6 +1124,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                  arraySelectedImage.sortBy { it.id }
                                  rvCivilIdData.show()
                                  adapterSelectedImages!!.notifyDataSetChanged()
+                                 if(arraySelectedImage.size ==2){
+                                     ibUploadFile.hide()
+                                 }
                              }else if(selectedFile2 == null){
                                  selectedFile2 = MultipartBody.Part.createFormData(
                                      ApiParameters.CIVIL_ATTACH_BACK,
@@ -1126,6 +1136,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                  arraySelectedImage.add(FilesSelected("", file, selectedFile, 2))
                                  arraySelectedImage.sortBy { it.id }
                                  adapterSelectedImages!!.notifyDataSetChanged()
+                                 if(arraySelectedImage.size ==2){
+                                     ibUploadFile.hide()
+                                 }
                                  rvCivilIdData.show()
                              }
                     } else {

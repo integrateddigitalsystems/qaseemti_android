@@ -321,7 +321,20 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             btAcceptOrder.show()
         }
 
-        var type = intent.getIntExtra("type", 1)
+        try {
+            var type = intent.getIntExtra("type", 1)
+        }catch (ex:Exception){}
+
+        tvLocationOrderDeatils.setColorTypeface(this, R.color.primary, "", false)
+
+
+        loading.show()
+        CallAPIs.getOrderByOrderId(orderId, this)
+        //setOrderData()
+    }
+
+
+    private fun setOrderData() {
         try {
             typeSelected = MyApplication.selectedOrder!!.orderStatus
         } catch (e: Exception) {
@@ -369,9 +382,9 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
 
                 if (MyApplication.selectedOrder!!.vendor == null || MyApplication.selectedOrder!!.vendor!!.userId == null) {
 
-                       llOrderSwitches.hide()
-                       btCancelOrder.hide()
-                       llDetailsCallMessage.hide()
+                    llOrderSwitches.hide()
+                    btCancelOrder.hide()
+                    llDetailsCallMessage.hide()
 
                 } else {
                     llEditOrderTime.show()
@@ -433,16 +446,6 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             btRenewOrder.hide()
         }
 
-        tvLocationOrderDeatils.setColorTypeface(this, R.color.primary, "", false)
-
-
-        loading.show()
-        CallAPIs.getOrderByOrderId(MyApplication.selectedOrder!!.orderId!!.toInt(), this)
-        //setOrderData()
-    }
-
-
-    private fun setOrderData() {
         tvDateExpected.setColorTypeface(this, R.color.gray_font_title, "", true)
         var array: ArrayList<OrderData> = arrayListOf()
         var langType = ""
@@ -686,6 +689,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             MyApplication.selectedOrder!!.shipping_address_building,
             MyApplication.selectedOrder!!.shipping_address_floor,
             MyApplication.selectedOrder!!.shipping_address_description,
+            MyApplication.languageCode
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.renewOrder(req)?.enqueue(object : Callback<ResponseMessage> {
@@ -1365,7 +1369,12 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        MyApplication.selectedOrder = response as ResponseOrders
-        setOrderData()
+        try {
+            MyApplication.selectedOrder = response as ResponseOrders
+            setOrderData()
+        }catch (ex:Exception){
+            logw("OrderError",ex.toString())
+            loading.hide()
+        }
     }
 }

@@ -33,7 +33,7 @@ class AdapterPreviousSettlements(
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
 
-        holder.details.text = AppHelper.getRemoteString("view_order_details", con)
+        holder.details.text = AppHelper.getRemoteString("view_related_orders", con)
 
 
         holder.idTitle.show()

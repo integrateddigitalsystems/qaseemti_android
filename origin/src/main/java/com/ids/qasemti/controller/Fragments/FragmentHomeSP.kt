@@ -454,7 +454,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             AppHelper.onOneClick {
                 MyApplication.isBroadcast = true
                 MyApplication.selectedOrder = ordersArray[position]
-                startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
+                startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java)
+                    .putExtra("orderId", MyApplication.selectedOrder!!.orderId!!.toInt()))
             }
         } else if (view.id == R.id.btAcceptOrder) {
             AppHelper.onOneClick {

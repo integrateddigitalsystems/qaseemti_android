@@ -283,12 +283,15 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/first_margin"
         >
+
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginStart="@dimen/card_new_margin"
-            android:layout_marginEnd="@dimen/card_new_margin"
+            android:id="@+id/rvSettlements"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/rvSettlements"/>
+            android:layout_marginStart="@dimen/card_new_margin"
+            android:layout_marginEnd="@dimen/card_new_margin" />
+
+
 
          <com.ids.qasemti.custom.CustomTextViewMedium
         android:layout_width="match_parent"
