@@ -42,6 +42,8 @@ class AdapterSettlements(
         try{holder.addCost.text = items.get(position).additional!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+ items.get(position).currency}catch (e:Exception){}
         if(items.get(position).additional!!.isNullOrEmpty() || items.get(position).equals("0")){
             holder.addCostLayout.hide()
+        }else{
+            holder.addCostLayout.show()
         }
         holder.duesText.text = items.get(position).adminFees!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+items.get(position).currency
 

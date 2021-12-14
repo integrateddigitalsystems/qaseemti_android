@@ -74,7 +74,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var selectedFile: MultipartBody.Part? = null
     var selectedFile2: MultipartBody.Part? = null
     var selectedProfilePic: MultipartBody.Part? = null
-    var adapterSelectedImages : AdapterGridFiles ?=null
+    var adapterSelectedImages: AdapterGridFiles? = null
     var selectedPhoto: String? = ""
     var gender = ""
     var arraySelectedImage: ArrayList<FilesSelected> = arrayListOf()
@@ -105,20 +105,20 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     override fun onItemClicked(view: View, position: Int) {
 
 
-        if(position == 0){
+        if (position == 0) {
             selectedFile = null
             arraySelectedImage!!.removeAt(position)
             adapterSelectedImages!!.notifyDataSetChanged()
-        }else{
+        } else {
             selectedFile2 = null
             arraySelectedImage!!.removeAt(position)
             adapterSelectedImages!!.notifyDataSetChanged()
         }
-        if(arraySelectedImage.size<2){
+        if (arraySelectedImage.size < 2) {
             ibUploadFile.show()
         }
 
-        if(arraySelectedImage.size ==0) {
+        if (arraySelectedImage.size == 0) {
             rvCivilIdData.hide()
 
         }
@@ -455,7 +455,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     }
 
-    fun setUpSpinnerGovs(user: User){
+    fun setUpSpinnerGovs(user: User) {
         arraySpinner.clear()
         for (item in MyApplication.kuwaitGovs) {
             arraySpinner.add(
@@ -525,6 +525,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         }
 
     }
+
     fun setUserData(user: User) {
         setUpSpinnerGovs(user)
         try {
@@ -630,21 +631,35 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
                 arraySelectedImage.clear()
                 if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty())
-                    arraySelectedImage.add(FilesSelected(MyApplication.selectedUser!!.civilIdAttach,null,null,1))
-                if(!MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty())
-                    arraySelectedImage.add(FilesSelected(MyApplication.selectedUser!!.civilAttachBack,null,null,2))
+                    arraySelectedImage.add(
+                        FilesSelected(
+                            MyApplication.selectedUser!!.civilIdAttach,
+                            null,
+                            null,
+                            1
+                        )
+                    )
+                if (!MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty())
+                    arraySelectedImage.add(
+                        FilesSelected(
+                            MyApplication.selectedUser!!.civilAttachBack,
+                            null,
+                            null,
+                            2
+                        )
+                    )
 
-                if(arraySelectedImage.size==0)
+                if (arraySelectedImage.size == 0)
                     rvCivilIdData.hide()
                 else
                     rvCivilIdData.show()
 
                 adapterSelectedImages =
-                    AdapterGridFiles(arraySelectedImage, this, requireActivity(),true)
+                    AdapterGridFiles(arraySelectedImage, this, requireActivity(), true)
                 rvCivilIdData.layoutManager = GridLayoutManager(requireContext(), 3)
                 rvCivilIdData.adapter = adapterSelectedImages
                 rvCivilIdData.isNestedScrollingEnabled = false
-                if(arraySelectedImage.size ==2)
+                if (arraySelectedImage.size == 2)
                     ibUploadFile.hide()
                 /*tvCivilIdFile.show()
                 tvCivilIdFile.text =
@@ -1114,33 +1129,38 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                  "frag_image"
                              )
                          }*/
-                             if(selectedFile==null) {
-                                 selectedFile = MultipartBody.Part.createFormData(
-                                     ApiParameters.CIVIL_ID_ATTACH,
-                                     file.name + "File",
-                                     req
-                                 )
-                                 arraySelectedImage.add(FilesSelected("", file, selectedFile, 1))
-                                 arraySelectedImage.sortBy { it.id }
-                                 rvCivilIdData.show()
-                                 adapterSelectedImages!!.notifyDataSetChanged()
-                                 if(arraySelectedImage.size ==2){
-                                     ibUploadFile.hide()
-                                 }
-                             }else if(selectedFile2 == null){
-                                 selectedFile2 = MultipartBody.Part.createFormData(
-                                     ApiParameters.CIVIL_ATTACH_BACK,
-                                     file.name + "File",
-                                     req
-                                 )
-                                 arraySelectedImage.add(FilesSelected("", file, selectedFile, 2))
-                                 arraySelectedImage.sortBy { it.id }
-                                 adapterSelectedImages!!.notifyDataSetChanged()
-                                 if(arraySelectedImage.size ==2){
-                                     ibUploadFile.hide()
-                                 }
-                                 rvCivilIdData.show()
-                             }
+                        var firstFile = false
+                        if (arraySelectedImage.size > 0 && arraySelectedImage.get(0).id == 2)
+                            firstFile = true
+                        else if (arraySelectedImage.size == 0)
+                            firstFile = true
+                        if (selectedFile == null && firstFile) {
+                            selectedFile = MultipartBody.Part.createFormData(
+                                ApiParameters.CIVIL_ID_ATTACH,
+                                file.name + "File",
+                                req
+                            )
+                            arraySelectedImage.add(FilesSelected("", file, selectedFile, 1))
+                            arraySelectedImage.sortBy { it.id }
+                            rvCivilIdData.show()
+                            adapterSelectedImages!!.notifyDataSetChanged()
+                            if (arraySelectedImage.size == 2) {
+                                ibUploadFile.hide()
+                            }
+                        } else if (selectedFile2 == null) {
+                            selectedFile2 = MultipartBody.Part.createFormData(
+                                ApiParameters.CIVIL_ATTACH_BACK,
+                                file.name + "File",
+                                req
+                            )
+                            arraySelectedImage.add(FilesSelected("", file, selectedFile, 2))
+                            arraySelectedImage.sortBy { it.id }
+                            adapterSelectedImages!!.notifyDataSetChanged()
+                            if (arraySelectedImage.size == 2) {
+                                ibUploadFile.hide()
+                            }
+                            rvCivilIdData.show()
+                        }
                     } else {
                         MyApplication.tempProfilePic = file
                         ivProfile.loadRoundedLocalImage(file)
@@ -1231,7 +1251,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             )
         }
         ibUploadFile.setOnClickListener {
-            if(arraySelectedImage.size<2)
+            if (arraySelectedImage.size < 2)
                 pickFile(1, false)
 
         }
@@ -1260,11 +1280,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     var sdf =
                         SimpleDateFormat(myFormat, Locale.ENGLISH)
                     var date = sdf.format(myCalendar.time)
-                    etDateOfBirthProfile.text =
-                        (String.format("%02d", selectedday) + "/" + String.format(
-                            "%02d",
-                            selectedmonth
-                        ) + "/" + String.format("%02d", selectedyear)).toEditable()
+                    etDateOfBirthProfile.text = date.toEditable()
                 }, mYear, mMonth, mDay
             )
             var cal = mcurrentDate.add(Calendar.YEAR, -18)

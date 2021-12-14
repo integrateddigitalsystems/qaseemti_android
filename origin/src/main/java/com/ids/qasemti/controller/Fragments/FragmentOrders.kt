@@ -292,9 +292,10 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                 MyApplication.rental = position == 1
                 MyApplication.rental = position == 1
                 mainArray
+                var x = ordersArray.get(position).orderId
                 startActivity(
                     Intent(requireActivity(), ActivityOrderDetails::class.java)
-                        .putExtra("orderId", ordersArray.get(position).orderId)
+                        .putExtra("orderId", ordersArray.get(position).orderId!!.toInt())
                         .putExtra("type", typeSelected)
                 )
 

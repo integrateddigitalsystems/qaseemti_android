@@ -319,6 +319,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
         if (MyApplication.isBroadcast) {
             MyApplication.isBroadcast = false
             btAcceptOrder.show()
+            llEditOrderTime.hide()
         }
 
         try {
@@ -525,9 +526,16 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             if (!MyApplication.isClient)
                 tvOrderCustomerName.text =
                     MyApplication.selectedOrder!!.customer!!.first_name + " " + MyApplication.selectedOrder!!.customer!!.last_name
-            else
-                tvOrderCustomerName.text =
-                    MyApplication.selectedOrder!!.vendor!!.firstName + " " + MyApplication.selectedOrder!!.vendor!!.lastName
+            else {
+                 if(MyApplication.selectedOrder!!.vendor!=null){
+                   try{
+                      tvOrderCustomerName.text = MyApplication.selectedOrder!!.vendor!!.firstName!! + " " + MyApplication.selectedOrder!!.vendor!!.lastName}catch (e:Exception){
+                       tvOrderCustomerName.text = AppHelper.getRemoteString("pending_service_provider",this)
+                   }
+                }else{
+                   tvOrderCustomerName.text = AppHelper.getRemoteString("pending_service_provider",this)
+                }
+            }
         } catch (e: Exception) {
         }
         try {

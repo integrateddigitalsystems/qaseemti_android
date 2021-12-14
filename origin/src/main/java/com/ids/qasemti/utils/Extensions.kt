@@ -220,7 +220,7 @@ fun View.onOneClick(doAction: () -> Unit){
             doAction()
             Handler(Looper.getMainLooper()).postDelayed({
                 MyApplication.clickable = true
-            }, 500)
+            }, 800)
         }
     }
 

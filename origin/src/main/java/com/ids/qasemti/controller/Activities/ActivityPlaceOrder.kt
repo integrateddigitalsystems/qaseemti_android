@@ -779,10 +779,12 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         else
             message = MyApplication.payparams!!.errorCode.find { it.key == data }!!.codeEn
 
-        var str = merchantId + username + apiKey +  MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty
+        AppHelper.createDialog(this,message!!)
+
+       /* var str = merchantId + username + apiKey +  MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty
         Log.wtf("tagSTR",str)
         var sha1 =
-            AppHelper.getSha256Hash(str/* + "" + "" + "" + "" + "" + ""*/)
+            AppHelper.getSha256Hash(str*//* + "" + "" + "" + "" + "" + ""*//*)
      //   $token = hash("sha256",hash("sha256", $merchant_id.$merchant_username.$api_key.$currency.$order_number.$order_amount.$payment_id.$reference.$trans.$track.$authorization.$customer_ref).$salt);
 
         var sha15 = sha1 + MyApplication.salt
@@ -813,12 +815,13 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             )
             var x = data
             var y = sha2
-            finalStep()
+            finalStep()*/
             loading.hide()
-        })
+
+        }
 
 
-    }
+
 
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {

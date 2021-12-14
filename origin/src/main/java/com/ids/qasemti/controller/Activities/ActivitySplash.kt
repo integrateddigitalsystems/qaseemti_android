@@ -374,7 +374,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
                         try {
                             UpaymentGateway.init(this, "", "", true)
-                        }catch (ex:Exception){}
+                        }catch (ex:Exception){
+                            logw("UpaymError",ex.toString())
+                        }
                         if (type == AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE) {
                             MyApplication.selectedPos = 3
                             MyApplication.defaultIcon = ivFooterNotifications

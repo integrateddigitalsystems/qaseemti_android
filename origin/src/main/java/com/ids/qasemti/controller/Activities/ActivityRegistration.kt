@@ -31,6 +31,7 @@ class ActivityRegistration : ActivityBase() , ApiListener{
 
   var body1: MultipartBody.Part? = null
   override fun onCreate(savedInstanceState: Bundle?) {
+
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_register)
     AppHelper.setAllTexts(rootLayoutRegistration, this)
@@ -129,6 +130,12 @@ class ActivityRegistration : ActivityBase() , ApiListener{
 
 
   override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-    nextStep()
+    if(apiId==AppConstants.UPDATE_PROFILE_CLIENT || apiId==AppConstants.UPDATE_PROFILE_SERVICE_PROVIDER){
+      CallAPIs.getUserInfo(this)
+    }else{
+      nextStep()
+    }
+
+
   }
 }
