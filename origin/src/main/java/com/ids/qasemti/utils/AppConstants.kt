@@ -30,7 +30,7 @@ object AppConstants {
     const val OneDecimalThousandsSeparator = "#,###.0"
     const val OneDecimalSeparator = "#.0"
     const val NoDecimalSeparator = "#"
-    const val TwoDecimalThousandsSeparator = "#,###.00"
+    const val TwoDecimalThousandsSeparator = "#,##0.00"
     const val ThreeDecimalThousandsSeparator = "#,##0.000"
     const val NoDecimalThousandsSeparator = "#,###"
 

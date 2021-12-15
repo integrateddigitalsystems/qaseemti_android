@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.RequestJOrderid
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
@@ -498,6 +499,9 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             etToTime.text = timeFormatter.format(minRenewTo).toEditable()
             etToDate.text = viewFormatter.format(minRenewTo).toEditable()
 
+            etFromTime.isEnabled = false
+            etToTime.isEnabled = false
+
             /*rlFromDate.onOneClick {
                 var cal = Calendar.getInstance()
                 cal.time = minRenewTime
@@ -972,11 +976,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             .setMessage(AppHelper.getRemoteString("find_service_provider_msg", this))
             .setCancelable(true)
             .setNegativeButton(cancel) { dialog, _ ->
-                startActivity(
-                    Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java)
-                        .putExtra(AppConstants.SP_FOUND, false)
-                        .putExtra(AppConstants.ORDER_ID, res.orderId)
-                )
+                dontBroadcastOutOfRange(res.orderId!!)
+
             }
             .setPositiveButton(ok) { dialog, _ ->
                 if (AppHelper.isOnline(this)) {
@@ -989,6 +990,51 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         val alert = builder.create()
         alert.show()
 
+    }
+
+    fun failedStep(orderId: String){
+        loading.hide()
+        startActivity(
+            Intent(this@ActivityCheckout, ActivityPlaceOrder::class.java)
+                .putExtra(AppConstants.SP_FOUND, false)
+                .putExtra(AppConstants.ORDER_ID, orderId)
+        )
+    }
+    fun dontBroadcastOutOfRange(orderId: String) {
+        loading.show()
+        var req = RequestJOrderid(orderId.toInt())
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.dontBroadcast(req)?.enqueue(object :
+                Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                    try{
+                        if(response.body()!!.result==1)
+                            failedStep(orderId)
+                        else {
+                            loading.hide()
+                            AppHelper.createDialog(
+                                this@ActivityCheckout,
+                                AppHelper.getRemoteString(
+                                    "error_getting_data",
+                                    this@ActivityCheckout
+                                )
+                            )
+                        }
+
+                    }catch (ex:Exception){
+                        loading.hide()
+                        AppHelper.createDialog(this@ActivityCheckout,AppHelper.getRemoteString("error_getting_data",this@ActivityCheckout))
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                    AppHelper.createDialog(this@ActivityCheckout,AppHelper.getRemoteString("error_getting_data",this@ActivityCheckout))
+                }
+            })
     }
 
 

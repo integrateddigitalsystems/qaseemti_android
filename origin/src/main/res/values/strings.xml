@@ -30,7 +30,7 @@
     <string name="alternate_contact_number">Alternate Contact Number</string>
     <string name="please_fill_the_below_fields_to_register">Please fill the below fields to register</string>
     <string name="available">Available</string>
-    <string name="client_s_rating">Client\'s Rating</string>
+    <string name="ClientsRating">Client\'s Rating</string>
     <string name="enter_verification_code">Enter Verification Code</string>
     <string name="active_n_order">Active \n Orders</string>
     <string name="upcoming_orders">Upcoming \n Orders</string>
@@ -212,7 +212,7 @@
     <string name="success">Success</string>
     <string name="failure">Failure</string>
     <string name="submit_review">Submit Review</string>
-    <string name="previous_settlements">Previous Settlements</string>
+    <string name="PreviousSettlements">Previous Settlements</string>
     <string name="settlement_request_number">Settlement Request Number</string>
     <string name="cancelDate">Cancellation date</string>
     <string name="settlement_date">Settlement date</string>
@@ -315,6 +315,7 @@
     <string name="Proceed_without_Coupon">Proceed without Coupon</string>
     <string name="Apply_Coupon">Apply Coupon</string>
     <string name="apply_coupon_befor_placing">Do you want to apply this coupon before placing order ?</string>
+    <string name="TotalOrderCount">Total Order\nCount</string>
 
 
 </resources>

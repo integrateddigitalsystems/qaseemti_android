@@ -2,6 +2,7 @@ package com.ids.qasemti.utils
 
 
 import com.google.android.gms.maps.model.LatLng
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.RequestJOrderid
 import com.ids.qasemti.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -401,6 +402,10 @@ interface RetrofitInterface {
         @Part (ApiParameters.LANGUAGE) lang : String
 
     ): Call<ResponseMessage>
+
+    @POST("dont_broadcast_order_outofrange")
+    fun dontBroadcast(req : RequestJOrderid):Call<ResponseMessage>
+
 
 
     @POST("sp_get_product_gallery")

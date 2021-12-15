@@ -20,13 +20,14 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_related_orders.xml" value="0.67" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_select_address.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_services.xml" value="0.18854166666666666" />
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_settlement.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/activity_settlement.xml" value="0.33" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/bottom_sheet_language.xml" value="0.22" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/footer.xml" value="0.67" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_account.xml" value="0.10885416666666667" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_cart.xml" value="0.1703125" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_checkout.xml" value="0.67" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_home_client.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_notifications.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_orders.xml" value="0.623229461756374" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_service_details.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragmentbottom_push_notification.xml" value="0.18854166666666666" />
@@ -41,7 +42,7 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_orders.xml" value="0.5212649945474372" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_other_data.xml" value="0.75" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_settlements.xml" value="0.6243455497382199" />
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_home_orders.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_home_orders.xml" value="0.25" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_order_contact_tab.xml" value="0.33" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_profile.xml" value="0.2957516339869281" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_request_new_time.xml" value="0.43847874720357943" />

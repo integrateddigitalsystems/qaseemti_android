@@ -74,7 +74,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         init()
-        //getNotf()
+     //   getNotf()
         MyApplication.saveLocationTracking = false
 
         foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()

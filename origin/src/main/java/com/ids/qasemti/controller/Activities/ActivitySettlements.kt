@@ -34,8 +34,11 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settlement)
         AppHelper.setAllTexts(rootLayout, this)
+        MyApplication.settlementTabSelected =0
         init()
         listeners()
+
+
     }
 
     private fun init() {
@@ -173,7 +176,11 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
             }
 
             tvTotalOrderCount.text = res!!.ordersCount.toString()
-            tvSettlementAmount.text = res!!.settlementAmount!!.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " " +"KWD" //res!!.orders.get(position).currency
+        //    if(res!!.settlementAmount!=0)
+                tvSettlementAmount.text = res!!.settlementAmount!!.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " " +"KWD" //res!!.orders.get(position).currency
+            /*else
+                tvSettlementAmount.text = res!!.settlementAmount!!.toString()*/
+
             if(array.size==0){
                 btRequestSettlements.hide()
                 tvNoDataSet.show()
@@ -199,9 +206,11 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
             }
             try {
                 tvTotalOrderCount.text = resSet!!.numberOfOrders.toString()
-                tvSettlementAmount.text = resSet!!.totalEarnings!!.toString()
-                    .formatNumber(AppConstants.TwoDecimalThousandsSeparator)
-              tvSettlementAmount.text = tvSettlementAmount.text.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+"KWD"//resSet!!.settlements.get(0).relatedOrders.get(0).currency
+               // if(resSet!!.totalEarnings!!.toInt()!=0)
+                    tvSettlementAmount.text = resSet!!.totalEarnings!!.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator)+ " "+"KWD"
+                /*else
+                    tvSettlementAmount.text = resSet!!.totalEarnings!!.toString() + " "+"KWD"*/
+
             }catch (ex:Exception){
                 tvTotalOrderCount.text = "0"
                 tvSettlementAmount.text = "0 KWD"

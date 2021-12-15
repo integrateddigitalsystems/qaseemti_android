@@ -46,7 +46,7 @@
     <string name="email_valid_error">الرجاء ادخال بريد الكتروني صحيح</string>
     <string name="select_get_notified">الرجاء اختيار كيف تريد اخبارك</string>
     <string name="available">متوفر</string>
-    <string name="client_s_rating">تقييم العملاء</string>
+    <string name="ClientsRating">تقييم العملاء</string>
     <string name="active_n_order">طلب /n فعال</string>
     <string name="upcoming_orders">طلبات قادمة</string>
     <string name="dumy_text_underline">بيروت , بئر حسن , بناية ج الطابق الخامس</string>
@@ -216,7 +216,7 @@
     <string name="earnings">أرباح</string>
     <string name="select_address">حدد العنوان</string>
     <string name="submit_review">إرسال المراجعة</string>
-    <string name="previous_settlements">التسويات السابقة</string>
+    <string name="PreviousSettlements">التسويات السابقة</string>
     <string name="settlement_request_number">رقم طلب التسوية</string>
     <string name="order_accept_succ">تم قبول الطلب بنجاح</string>
     <string name="error_acc_order">خطأ في قبول الطلب</string>
@@ -314,6 +314,6 @@
     <string name="Proceed_without_Coupon">المتابعة بدون القسيمة</string>
     <string name="Apply_Coupon">تطبيق القسيمة</string>
     <string name="apply_coupon_befor_placing">هل تريد تطبيق هذه القسيمة قبل تقديم الطلب؟</string>
-
+    <string name="TotalOrderCount">إجمالي عدد\nالطلبات</string>
 
 </resources>

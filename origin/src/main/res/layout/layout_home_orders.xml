@@ -68,8 +68,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_start_end"
-                android:tag="client_s_rating"
-                android:text="@string/client_s_rating"
+                android:tag="ClientsRating"
+                android:text="@string/ClientsRating"
                 android:textColor="@color/gray_font"
                 android:textSize="@dimen/normal_font"
 
