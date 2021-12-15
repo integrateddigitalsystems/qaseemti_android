@@ -190,9 +190,13 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
             }
 
-            spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
-                it.id.toString() == user!!.bankId!!
-            }))
+            try {
+                spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
+                    it.id.toString() == user!!.bankId!!
+                }))
+            }catch (ex:Exception){
+                logw("bankId?","NO BANK ID")
+            }
 
 
             loading.hide()
@@ -939,7 +943,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
 
         } catch (ex: Exception) {
-
+            loading.hide()
         }
     }
 

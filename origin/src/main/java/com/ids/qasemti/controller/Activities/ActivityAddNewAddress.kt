@@ -94,7 +94,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
         //   var latLng = com.google.android.gms.maps.model.LatLng(array.get(position).lat!!.toDouble(), array.get(position).long!!.toDouble())
         intent.putExtra(
             "address",
-            etAddressProvince.text.toString() + " ," + etStreet.text.toString() + " ," + etBuilding.text.toString() + " ," + etFloor.text.toString()
+            selectedProvince + " ," + etArea.text.toString() + " ," + etBlock.text.toString() + " ," + etStreet.text.toString()
         )
         MyApplication.submitted = true
         intent.putExtra(

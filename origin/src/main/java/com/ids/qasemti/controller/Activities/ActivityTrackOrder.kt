@@ -257,7 +257,7 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback , ApiListener{
 
     override fun onMapReady(googleMap: GoogleMap) {
         gmap = googleMap
-        gmap!!.setMinZoomPreference(1f)
+        gmap!!.setMinZoomPreference(8f)
         var latLngs: ArrayList<LatLng> = arrayListOf()
 
         var lan: Int = 0

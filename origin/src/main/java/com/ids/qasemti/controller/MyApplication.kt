@@ -40,6 +40,7 @@ class MyApplication : Application() {
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
         var renewing  = false
+        var myAddress : String ?=""
         var addNew : Boolean = true
         var selectedFragmentTag : String ?=""
         var toDetails : Boolean =false

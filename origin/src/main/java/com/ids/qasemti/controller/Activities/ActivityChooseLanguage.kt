@@ -54,7 +54,6 @@ class ActivityChooseLanguage : ActivityBase() {
             MyApplication.selectedFragment = FragmentHomeSP()
         }
         MyApplication.selectedPos = 2
-        Handler(Looper.getMainLooper()).postDelayed({
         if(MyApplication.termsCondition!!){
             goNext()
         }
@@ -67,7 +66,7 @@ class ActivityChooseLanguage : ActivityBase() {
         }
 
 
-        }, 500)
+
 
 
     }

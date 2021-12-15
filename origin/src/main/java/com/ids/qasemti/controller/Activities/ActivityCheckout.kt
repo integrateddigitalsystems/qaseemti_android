@@ -19,6 +19,7 @@ import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import kotlinx.android.synthetic.main.activity_new_address.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
+import kotlinx.android.synthetic.main.layout_order_contact_tab.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
@@ -32,17 +33,19 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
     var open = true
     var REQUEST_LOCATION = 5
     var stamp: Long? = 0
-    var sendFormat : String ="yyyy-MM-dd"
-    var viewFormat : String ="dd/MM/yyyy"
+    var sendFormat: String = "yyyy-MM-dd"
+    var viewFormat: String = "dd/MM/yyyy"
+    var timeFormat : String = "hh:mm"
     var sendFormatter = SimpleDateFormat(sendFormat, Locale.ENGLISH)
-    var viewFormatter = SimpleDateFormat(viewFormat , Locale.ENGLISH)
+    var viewFormatter = SimpleDateFormat(viewFormat, Locale.ENGLISH)
     var mainFormatter = SimpleDateFormat("yyyy-MM-dd hh:mm")
-    var lastFormatter = SimpleDateFormat ("dd MMM yyyy",Locale.ENGLISH)
+    var lastFormatter = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+    var timeFormatter = SimpleDateFormat(timeFormat, Locale.ENGLISH)
     var minRenewTime: Date? = null
     var minRenewTo: Date? = null
     var pickedDate: Date? = null
-    var selectedFrom : String ?=""
-    var selectedTo : String ?=""
+    var selectedFrom: String? = ""
+    var selectedTo: String? = ""
     var update = false
     var fromHour: Int? = 0
     var fromMin: Int? = 0
@@ -70,10 +73,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         pickedDate = cal.time
         var date = sendFormatter.format(cal.time)
         etFromDate.text = date.toEditable()
-        var time = String.format("%02d", cal.get(Calendar.HOUR_OF_DAY)) + ":" + String.format(
-            "%02d",
-            cal.get(Calendar.MINUTE)
-        )
+        var time = cal.get(Calendar.HOUR_OF_DAY).toString().formatNumber("00") + ":"+cal.get(Calendar.MINUTE).toString().formatNumber("00")
         fromHour = cal.get(Calendar.HOUR_OF_DAY)
         fromMin = cal.get(Calendar.MINUTE)
         etFromTime.text = time.toEditable()
@@ -145,9 +145,9 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                             update = MyApplication.selectedPlaceOrder != null
                             if (MyApplication.selectedUser != null) {
                                 try {
-                                  // setPlacedOrder()
-                                    if(MyApplication.selectedAddress ==null )
-                                        CallAPIs.getAddressName(latLng!!,this,this)
+                                    // setPlacedOrder()
+                                    if (MyApplication.selectedAddress == null)
+                                        CallAPIs.getAddressName(latLng!!, this, this)
                                     else
                                         setPlacedOrder()
 
@@ -170,8 +170,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                         update = MyApplication.selectedPlaceOrder != null
                         if (MyApplication.selectedUser != null) {
                             try {
-                                if(MyApplication.selectedAddress ==null )
-                                    CallAPIs.getAddressName(latLng!!,this,this)
+                                if (MyApplication.selectedAddress == null)
+                                    CallAPIs.getAddressName(latLng!!, this, this)
                                 else
                                     setPlacedOrder()
                             } catch (e: Exception) {
@@ -257,10 +257,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
                         fromHour = selectedHour
                         fromMin = selectedMinute
-                        var time = String.format("%02d", selectedHour) + ":" + String.format(
-                            "%02d",
-                            selectedMinute
-                        )
+
+                        var time = selectedHour.toString().formatNumber("00") + ":" + selectedMinute.toString().formatNumber("00")
                         etFromTime.text = time.toEditable()
                         var date =
                             selectedDate!!.split(" ").get(0)
@@ -287,7 +285,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                     var time = String.format("%02d", selectedHour) + ":" + String.format(
                         "%02d",
                         selectedMinute
-                    )+":"+"00"
+                    ) + ":" + "00"
                     if (compareDates() == -1) {
                         if (!compareTimes(selectedHour, selectedMinute)) {
                             AppHelper.createDialog(this, "You cannot pick a time before selected")
@@ -378,20 +376,23 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
     }
 
 
+    fun setDataAddr(){
+        tvSelectedAddressCheck.text = MyApplication.myAddress
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == RESULT_OK) {
             val extras = data!!.extras
             if (extras != null) {
-                var address = extras.getString("address")
                 //  tvSelectedAddressCheck.setColorTypeface(this,R.color.gray_font_title,address!!,false)
-                tvSelectedAddressCheck.text = address
                 locationSelected = true
                 try {
                     var lat = extras.getDouble("lat")
                     var long = extras.getDouble("long")
                     latLng = LatLng(lat, long)
+                    setDataAddr()
                 } catch (ex: Exception) {
                 }
             }
@@ -430,6 +431,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             setOrderSummary()
             setListeners()
         } else {
+            MyApplication.renewing = false
             tvFromTitle.show()
             tvToTitle.show()
             llToLayout.show()
@@ -439,17 +441,20 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
             var current = Calendar.getInstance()
 
-            var from : Date ?=null
-            var to : Date ?=null
+            var from: Date? = null
+            var to: Date? = null
             try {
-                from = mainFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
-            }catch (ex:Exception){
-                try{
-                    from = sendFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
-                }catch (ex:Exception){
-                    try{
-                        from = lastFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
-                    }catch (ex:Exception){
+                from =
+                    mainFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
+            } catch (ex: Exception) {
+                try {
+                    from =
+                        sendFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
+                } catch (ex: Exception) {
+                    try {
+                        from =
+                            lastFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
+                    } catch (ex: Exception) {
                         from = Calendar.getInstance().time
                     }
                 }
@@ -457,13 +462,15 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             }
             try {
                 to = mainFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
-            }catch (ex:Exception){
-                try{
-                    to = sendFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
-                }catch (ex:Exception){
-                    try{
-                        to = lastFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
-                    }catch (ex:Exception){
+            } catch (ex: Exception) {
+                try {
+                    to =
+                        sendFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+                } catch (ex: Exception) {
+                    try {
+                        to =
+                            lastFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+                    } catch (ex: Exception) {
                         to = Calendar.getInstance().time
                     }
                 }
@@ -472,22 +479,26 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             /* var from = simp.parse("2021-11-18")
              var to = simp.parse("2021-11-21")*/
 
+            minRenewTime = to
+            minRenewTo = to
 
-            if (current.time.time < from!!.time || current.time.time > from!!.time && current.time.time < to!!.time) {
+            /*if (current.time.time < from!!.time || current.time.time > from!!.time && current.time.time < to!!.time) {
                 minRenewTime = from
                 minRenewTo = to
             } else {
                 minRenewTime = current.time
                 minRenewTo = current.time
-            }
+            }*/
 
-            selectedFrom =sendFormatter.format(minRenewTime)
-                selectedTo = sendFormatter.format(minRenewTo)
+            selectedFrom = sendFormatter.format(minRenewTime)
+            selectedTo = sendFormatter.format(minRenewTo)
 
             etFromDate.text = viewFormatter.format(minRenewTime).toEditable()
+            etFromTime.text = timeFormatter.format(minRenewTime).toEditable()
+            etToTime.text = timeFormatter.format(minRenewTo).toEditable()
             etToDate.text = viewFormatter.format(minRenewTo).toEditable()
 
-            rlFromDate.onOneClick {
+            /*rlFromDate.onOneClick {
                 var cal = Calendar.getInstance()
                 cal.time = minRenewTime
                 var mYear = cal[Calendar.YEAR]
@@ -517,8 +528,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 )
                 mDatePicker.datePicker.minDate = cal.time.time
                 mDatePicker.show()
-            }
-            rlFromTime.onOneClick {
+            }*/
+            /*rlFromTime.onOneClick {
                 // TODO Auto-generated method stub
                 val mcurrentTime = Calendar.getInstance()
                 val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
@@ -535,18 +546,18 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                             selectedMinute
                         )
                         etFromTime.text = time.toEditable()
-                        if(!selectedDate.isNullOrEmpty()){
+                        if (!selectedDate.isNullOrEmpty()) {
                             var date =
                                 selectedDate!!.split(" ").get(0)
                             selectedDate = date + " " + time
-                        }else{
-                            selectedDate =  time
+                        } else {
+                            selectedDate = time
                         }
 
                     }, hour, minute, true
                 ) //Yes 24 hour time
                 timePickerDialog.show()
-            }
+            }*/
 
             rlToTime.onOneClick {
                 val mcurrentTime = Calendar.getInstance()
@@ -612,14 +623,24 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 mDatePicker.show()
             }
 
+            var addr = ""
+            if (!MyApplication.selectedOrder!!.shipping_province.isNullOrEmpty())
+                addr = addr + MyApplication.selectedOrder!!.shipping_province + ","
+            if (!MyApplication.selectedOrder!!.shipping_area.isNullOrEmpty())
+                addr = addr + MyApplication.selectedOrder!!.shipping_area + ","
+            if (!MyApplication.selectedOrder!!.shipping_block.isNullOrEmpty())
+                addr = addr + MyApplication.selectedOrder!!.shipping_block + ","
+            if (!MyApplication.selectedOrder!!.shipping_address_street.isNullOrEmpty())
+                addr = addr + MyApplication.selectedOrder!!.shipping_address_street
 
+            tvSelectedAddressCheck.text = addr
             btPlaceOrder.text = AppHelper.getRemoteString("renew_order", this)
             btPlaceOrder.onOneClick {
                 try {
                     if (AppHelper.isOnline(this)) {
                         renewOrder()
-                    }else{
-                        AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
+                    } else {
+                        AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
                     }
 
                 } catch (ex: Exception) {
@@ -684,9 +705,10 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
         }
 
-        var typeId = if(MyApplication.selectedOrder!!.product!!.typesId.isNullOrEmpty()) 0 else MyApplication.selectedOrder!!.product!!.typesId!!.toInt()
-        var sizeId =if(MyApplication.selectedOrder!!.product!!.sizeCapacityId.isNullOrEmpty()) 0 else MyApplication.selectedOrder!!.product!!.sizeCapacityId!!.toInt()
-
+        var typeId =
+            if (MyApplication.selectedOrder!!.product!!.typesId.isNullOrEmpty()) 0 else MyApplication.selectedOrder!!.product!!.typesId!!.toInt()
+        var sizeId =
+            if (MyApplication.selectedOrder!!.product!!.sizeCapacityId.isNullOrEmpty()) 0 else MyApplication.selectedOrder!!.product!!.sizeCapacityId!!.toInt()
 
 
         var cal = Calendar.getInstance()
@@ -699,12 +721,12 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             MyApplication.selectedOrder!!.product!!.productId!!.toInt(),
             typeId,
             sizeId,
-            sendFormatter.format(mainFormatter.parse(MyApplication.selectedOrder!!.deliveryDate)),
-            sendFormatter.format(mainFormatter.parse(selectedFrom)),
-            sendFormatter.format(mainFormatter.parse(selectedTo)),
+            MyApplication.selectedOrder!!.deliveryDate,
+            selectedFrom,
+            selectedTo,
             MyApplication.selectedOrder!!.shipping_address_name,
-            35.0078688,
-            37.9990099,
+            MyApplication.selectedOrder!!.shipping_longitude!!.toDouble(),
+            MyApplication.selectedOrder!!.shipping_latitude!!.toDouble(),
             MyApplication.selectedOrder!!.shipping_address_street,
             MyApplication.selectedOrder!!.shipping_address_building,
             MyApplication.selectedOrder!!.shipping_address_floor,
@@ -712,7 +734,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             MyApplication.selectedOrder!!.shipping_province,
             MyApplication.selectedOrder!!.shipping_area,
             MyApplication.selectedOrder!!.shipping_block,
-            MyApplication.selectedOrder!!.shippingAvenu ,
+            MyApplication.selectedOrder!!.shippingAvenu,
             MyApplication.selectedOrder!!.shippingApartment,
             MyApplication.languageCode
         )
@@ -724,10 +746,16 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 ) {
                     try {
                         loading.hide()
-                        if(response.body()!!.result==1){
-                            AppHelper.createDialog(this@ActivityCheckout ,AppHelper.getRemoteString("success",this@ActivityCheckout))
-                        }else{
-                            AppHelper.createDialog(this@ActivityCheckout ,response.body()!!.message!!)
+                        if (response.body()!!.result == 1) {
+                            AppHelper.createDialog(
+                                this@ActivityCheckout,
+                                AppHelper.getRemoteString("success", this@ActivityCheckout)
+                            )
+                        } else {
+                            AppHelper.createDialog(
+                                this@ActivityCheckout,
+                                response.body()!!.message!!
+                            )
                         }
                         //nextStepRenew()
                         //nextStep(response.body()!!.result!!)
@@ -877,8 +905,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
         if (AppHelper.isOnline(this)) {
             placeOrder()
-        }else{
-            AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
+        } else {
+            AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
         }
 
 
@@ -953,8 +981,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             .setPositiveButton(ok) { dialog, _ ->
                 if (AppHelper.isOnline(this)) {
                     broadcastOutOfRange(res.orderId!!)
-                }else{
-                    AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
+                } else {
+                    AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
                 }
 
             }
@@ -966,7 +994,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
     fun broadcastOutOfRange(orderId: String) {
         loading.show()
-        var req = RequestOrderId(orderId.toInt(),MyApplication.languageCode)
+        var req = RequestOrderId(orderId.toInt(), MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.broadcastOutofRange(req)?.enqueue(object :
                 Callback<ResponseOrderId> {
@@ -1027,8 +1055,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
         } else {
             if (success) {
-                if(MyApplication.selectedAddress ==null )
-                    CallAPIs.getAddressName(latLng!!,this,this)
+                if (MyApplication.selectedAddress == null)
+                    CallAPIs.getAddressName(latLng!!, this, this)
                 else
                     setPlacedOrder()
             } else {

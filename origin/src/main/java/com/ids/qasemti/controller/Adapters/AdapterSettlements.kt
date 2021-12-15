@@ -41,8 +41,10 @@ class AdapterSettlements(
         try{holder.earn.text = items.get(position).earnings!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+ items.get(position).currency}catch (e:Exception){}
         try{holder.addCost.text = items.get(position).additional!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+ items.get(position).currency}catch (e:Exception){}
         if(items.get(position).additional!!.isNullOrEmpty() || items.get(position).equals("0")){
+            holder.sep.hide()
             holder.addCostLayout.hide()
         }else{
+            holder.sep.show()
             holder.addCostLayout.show()
         }
         holder.duesText.text = items.get(position).adminFees!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+items.get(position).currency
@@ -68,6 +70,7 @@ class AdapterSettlements(
         var earn = itemView.findViewById<TextView>(R.id.tvEarnSett)
         var addCost = itemView.findViewById<TextView>(R.id.tvAdditionalCost)
         var addCostLayout = itemView.findViewById<LinearLayout>(R.id.llAdditionalfees)
+        var sep = itemView.findViewById<LinearLayout>(R.id.llAdditionalSep)
         var duesText = itemView.findViewById<TextView>(R.id.tvSettDues)
 
 

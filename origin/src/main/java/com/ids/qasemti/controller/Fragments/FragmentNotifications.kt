@@ -56,10 +56,10 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
         rvNotifications.layoutManager = LinearLayoutManager(context)
         adapter = AdapterNotification(array, this, requireContext())
         rvNotifications.adapter = adapter
-        notfNum = array!!.count {
+        /*notfNum = array!!.count {
             it.isViewed.equals("0")
         }
-        (activity as ActivityHome).setNotNumber(notfNum!!)
+        (activity as ActivityHome).setNotNumber(notfNum!!)*/
         if (array.size == 0) {
             tvNoData.show()
         } else {
@@ -183,8 +183,8 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
                 array[position].open = !array[position].open
                 if (array[position].isViewed.equals("0")) {
                     markNotification(array[position].id!!.toInt())
-                    notfNum = notfNum!!.minus(1)
-                    (activity as ActivityHome).setNotNumber(notfNum!!)
+                  /*  notfNum = notfNum!!.minus(1)
+                    (activity as ActivityHome).setNotNumber(notfNum!!)*/
                     array[position].isViewed = "1"
                 }
                 adapter!!.notifyItemChanged(position)

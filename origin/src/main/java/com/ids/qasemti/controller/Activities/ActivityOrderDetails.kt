@@ -388,7 +388,8 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
                     llDetailsCallMessage.hide()
 
                 } else {
-                    llEditOrderTime.show()
+                    if(!MyApplication.selectedOrder!!.delivered!!)
+                        llEditOrderTime.show()
                     btCancelOrder.show()
                     llDetailsCallMessage.show()
                     llOrderSwitches.show()

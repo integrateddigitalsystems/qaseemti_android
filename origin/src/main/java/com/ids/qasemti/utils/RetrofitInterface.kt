@@ -312,6 +312,7 @@ interface RetrofitInterface {
 
     @POST("get_payment_methods")
     fun getPaymentMethods(
+        @Body param : RequestLanguage
     ):Call<ResponsePaymentMethod>
 
 

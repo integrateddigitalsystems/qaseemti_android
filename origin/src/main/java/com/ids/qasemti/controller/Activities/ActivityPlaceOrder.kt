@@ -580,7 +580,13 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         if (orderId == "")
             orderId = "0"
         loading.show()
-        var requests = RequestPaymentOrder(orderId.toInt(), selectedPaymentId.toString())
+        var requests : RequestPaymentOrder ?=null
+        if(request==null )
+            requests = RequestPaymentOrder(orderId.toInt(), selectedPaymentId.toString())
+        else {
+            requests = request
+            request = null
+        }
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updatePaymentOrder(requests!!)?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(
@@ -655,8 +661,9 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
     fun getPaymentMethods() {
         loading.show()
+        var req = RequestLanguage(MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.getPaymentMethods()?.enqueue(object : Callback<ResponsePaymentMethod> {
+            ?.getPaymentMethods(req)?.enqueue(object : Callback<ResponsePaymentMethod> {
                 override fun onResponse(
                     call: Call<ResponsePaymentMethod>,
                     response: Response<ResponsePaymentMethod>
@@ -696,10 +703,12 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
             if (firstTime) {
                 firstTime = false
-                nextStep()
+              /*  nextStep()*/
 
+                var tokenForm = merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.grand_total + selectedPaymentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref
+                logw("tokenform",tokenForm)
                 var sha1 =
-                    AppHelper.getSha256Hash(merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + postUpayData.payMentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref)
+                    AppHelper.getSha256Hash(merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.grand_total + selectedPaymentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref)
 
                 var sha15 = sha1 + MyApplication.salt
                 var sha2 = AppHelper.getSha256Hash(sha15)
@@ -711,6 +720,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                 val myFormat = "yyyy-MM-dd" //Change as you need
                 var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
                 var date = sdf.format(cal.time)
+
 
                 request = RequestPaymentOrder(
                     MyApplication.selectedOrder!!.orderId!!.toInt(),
@@ -729,11 +739,12 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                     "",
                     ""
                 )
+                logw("UPAYMENT_SENT1",Gson().toJson(request))
                 finalStep()
             }
         } else {
 
-            var str = merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + postUpayData.payMentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref
+            var str = merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + selectedPaymentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref
             var sha1 =
                 AppHelper.getSha256Hash(str)
 
@@ -764,6 +775,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                     postUpayData.result,
                     postUpayData.result
                 )
+                logw("UPAYMENT_SENT2",Gson().toJson(request))
                 finalStep()
                 loading.hide()
             })

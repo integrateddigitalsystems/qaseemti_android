@@ -343,7 +343,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
     fun nextStep() {
         CallAPIs.getCategories(this, this)
         Handler(Looper.getMainLooper()).postDelayed({
-            if (MyApplication.firstTime) {
+            if (MyApplication.firstTime || !MyApplication.termsCondition!!) {
                 MyApplication.selectedPhone = ""
                 CallAPIs.updateDevice(this, this)
                 // AppHelper.updateDevice(this, "")

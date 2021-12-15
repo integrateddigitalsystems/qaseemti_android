@@ -83,6 +83,7 @@ class ActivitySelectAddress : AppCompactBase() , ApiListener {
                                 val intent = Intent()
 
                                 val extras = Bundle()
+                                MyApplication.myAddress = addressName
                                 extras.putString(
                                     "address",
                                     addressName
