@@ -55,7 +55,7 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
          //   MyApplication.selectedAddress = array.get(position)
             intent.putExtra(
                 "address",
-                MyApplication.selectedAddress!!.desc + " ," + MyApplication.selectedAddress!!.street + " ," +  MyApplication.selectedAddress!!.bldg + " ," +  MyApplication.selectedAddress!!.floor
+                MyApplication.selectedAddress!!.province + " ," + MyApplication.selectedAddress!!.area + " ," +  MyApplication.selectedAddress!!.block + " ," +  MyApplication.selectedAddress!!.street
             )
             intent.putExtra("submitted",MyApplication.submitted)
             setResult(RESULT_OK, intent)

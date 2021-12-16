@@ -40,6 +40,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
     var sendFormatter = SimpleDateFormat(sendFormat, Locale.ENGLISH)
     var viewFormatter = SimpleDateFormat(viewFormat, Locale.ENGLISH)
     var mainFormatter = SimpleDateFormat("yyyy-MM-dd hh:mm")
+    var getFormatter = SimpleDateFormat("dd-MM-yyyy hh:mm")
     var lastFormatter = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
     var timeFormatter = SimpleDateFormat(timeFormat, Locale.ENGLISH)
     var minRenewTime: Date? = null
@@ -416,21 +417,26 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         btPlaceOrder.typeface = AppHelper.getTypeFace(this)
 
         if (!MyApplication.renewing) {
-            if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find {
-                    it.valEn!!.lowercase().equals("rental")
-                }!!.id!!.toInt())) {
-                tvFromTitle.show()
-                tvToTitle.show()
-                llToLayout.show()
-            } else {
-                tvFromTitle.hide()
-                tvToTitle.hide()
-                llToLayout.hide()
-            }
+            if(MyApplication.selectedService!=null) {
+                if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find {
+                        it.valEn!!.lowercase().equals("rental")
+                    }!!.id!!.toInt())) {
+                    tvFromTitle.show()
+                    tvToTitle.show()
+                    llToLayout.show()
+                } else {
+                    tvFromTitle.hide()
+                    tvToTitle.hide()
+                    llToLayout.hide()
+                }
 
-            setUpCurr()
-            setOrderSummary()
-            setListeners()
+                setUpCurr()
+                setOrderSummary()
+                setListeners()
+            }else{
+                logw("rebirth","done")
+                AppHelper.triggerRebirth(this)
+            }
         } else {
             MyApplication.renewing = false
             tvFromTitle.show()
@@ -462,7 +468,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
             }
             try {
-                to = mainFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+                to = getFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
             } catch (ex: Exception) {
                 try {
                     to =
@@ -496,11 +502,11 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
             etFromDate.text = viewFormatter.format(minRenewTime).toEditable()
             etFromTime.text = timeFormatter.format(minRenewTime).toEditable()
-            etToTime.text = timeFormatter.format(minRenewTo).toEditable()
-            etToDate.text = viewFormatter.format(minRenewTo).toEditable()
+            etToTime.text.clear()
+            etToDate.text.clear()
 
+            etFromDate.isEnabled = false
             etFromTime.isEnabled = false
-            etToTime.isEnabled = false
 
             /*rlFromDate.onOneClick {
                 var cal = Calendar.getInstance()

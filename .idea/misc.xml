@@ -28,7 +28,7 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_checkout.xml" value="0.67" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_home_client.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_notifications.xml" value="0.18854166666666666" />
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_orders.xml" value="0.623229461756374" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_orders.xml" value="0.385" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_service_details.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragmentbottom_push_notification.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/home_container.xml" value="0.1796875" />
@@ -41,6 +41,7 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_order_not_cancelled.xml" value="0.5611764705882353" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_orders.xml" value="0.5212649945474372" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_other_data.xml" value="0.75" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_service.xml" value="0.1328125" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_settlements.xml" value="0.6243455497382199" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_home_orders.xml" value="0.25" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_order_contact_tab.xml" value="0.33" />

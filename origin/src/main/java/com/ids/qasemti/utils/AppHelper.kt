@@ -1231,6 +1231,15 @@ class AppHelper {
 
         }
 
+        fun triggerRebirth(context: Context) {
+            val packageManager = context.packageManager
+            val intent = packageManager.getLaunchIntentForPackage(context.packageName)
+            val componentName = intent!!.component
+            val mainIntent = Intent.makeRestartActivityTask(componentName)
+            context.startActivity(mainIntent)
+            Runtime.getRuntime().exit(0)
+        }
+
         fun changeLanguage(context: Context, language: String) {
 
             when (language) {

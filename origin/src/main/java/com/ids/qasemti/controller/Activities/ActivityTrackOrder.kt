@@ -160,7 +160,7 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback , ApiListener{
             onBackPressed()
         }
         AppHelper.setLogoTint(btBackTool, this, R.color.white)
-        tvPageTitle.textRemote("track_order", this)
+        tvPageTitle.text = AppHelper.getRemoteString("track_order", this) +" "+ MyApplication.selectedOrder!!.orderId
         tvPageTitle.setColorTypeface(this, R.color.white, "", true)
 
 
@@ -257,7 +257,7 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback , ApiListener{
 
     override fun onMapReady(googleMap: GoogleMap) {
         gmap = googleMap
-        gmap!!.setMinZoomPreference(8f)
+        gmap!!.setMinZoomPreference(13f)
         var latLngs: ArrayList<LatLng> = arrayListOf()
 
         var lan: Int = 0

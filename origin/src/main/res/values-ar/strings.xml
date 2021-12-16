@@ -315,5 +315,10 @@
     <string name="Apply_Coupon">تطبيق القسيمة</string>
     <string name="apply_coupon_befor_placing">هل تريد تطبيق هذه القسيمة قبل تقديم الطلب؟</string>
     <string name="TotalOrderCount">إجمالي عدد\nالطلبات</string>
+    <string name="status_active">النشطة</string>
+    <string name="status_completed">المكتملة</string>
+    <string name="status_upcoming">القادمة</string>
+    <string name="status_cancelled">الملغية</string>
+    <string name="status_failed">الفاشلة</string>
 
 </resources>

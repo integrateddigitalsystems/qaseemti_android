@@ -60,7 +60,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
     var username: String? = ""
     var arrayOrderData: ArrayList<OrderData> = arrayListOf()
     var arrayOrderCost: ArrayList<OrderData> = arrayListOf()
-
+    var fromKnet : Boolean = false
     var adapterOrderData: AdapterOrderData? = null
     var adapterOrderCost: AdapterOtherOrderData? = null
     var apiKey: String? = ""
@@ -136,7 +136,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
         try {
             tvOrderDate.text =
-                AppHelper.formatDate(orders.date!!, "yyyy-MM-dd hh:mm:ssss", "dd MMM yyyy hh:mm")
+                AppHelper.formatDate(orders.date!!, "yyyy-MM-dd hh:mm:ssss", "dd-MM-yyyy hh:mm")
         } catch (e: Exception) {
         }
         try {
@@ -210,7 +210,9 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
         MyApplication.selectedFragment = FragmentOrders()
         MyApplication.tintColor = R.color.primary
+        loading.hide()
         startActivity(Intent(this@ActivityPlaceOrder, ActivityHome::class.java))
+
     }
 
     fun paymentMethodStep() {
@@ -220,6 +222,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             request = RequestPaymentOrder(orderId.toInt(), selectedPaymentId.toString())
             finalStep()
         } else {
+            fromKnet = true
             paymentGateway()
         }
         // nextStep()
@@ -573,7 +576,10 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
     override fun onResume() {
         super.onResume()
-        //  loading.hide()
+        if(fromKnet) {
+            loading.hide()
+            fromKnet = false
+        }
     }
 
     fun finalStep() {
@@ -594,11 +600,12 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                     response: Response<ResponseMessage>
                 ) {
                     try {
-                        loading.hide()
+
                         if (response.body()!!.result == 1) {
                             //toast(getString(R.string.knet_error))
                             nextStep()
                         }else{
+                            loading.hide()
                             AppHelper.createDialog(this@ActivityPlaceOrder,response.body()!!.message!!)
                         }
                     } catch (E: java.lang.Exception) {
@@ -701,8 +708,11 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         loading.hide()
         if (postUpayData!!.result == AppConstants.PAYMENT_SUCCESS) {
 
+            fromKnet = false
             if (firstTime) {
                 firstTime = false
+                loading.show()
+
               /*  nextStep()*/
 
                 var tokenForm = merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.grand_total + selectedPaymentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref
@@ -743,42 +753,45 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                 finalStep()
             }
         } else {
+            if (firstTime) {
+                firstTime = false
+                var str =
+                    merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + selectedPaymentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref
+                var sha1 =
+                    AppHelper.getSha256Hash(str)
 
-            var str = merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + selectedPaymentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref
-            var sha1 =
-                AppHelper.getSha256Hash(str)
+                var sha15 = sha1 + MyApplication.salt
+                var sha2 = AppHelper.getSha256Hash(sha15)
 
-            var sha15 = sha1 + MyApplication.salt
-            var sha2 = AppHelper.getSha256Hash(sha15)
-
-            var cal = Calendar.getInstance()
-            var pickedDate = cal.time
-            val myFormat = "yyyy-MM-dd" //Change as you need
-            var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
-            var date = sdf.format(cal.time)
-            runOnUiThread(Runnable {
-                AppHelper.createDialog(this@ActivityPlaceOrder, postUpayData.result)
-                request = RequestPaymentOrder(
-                    orderId.toInt(),
-                    selectedPaymentId.toString(),
-                    MyApplication.selectedOrder!!.grand_total,
-                    1,
-                    "failed",
-                    MyApplication.currency,
-                    postUpayData.ref,
-                    postUpayData.trackID,
-                    postUpayData.tranID,
-                    postUpayData.auth,
-                    sha2,
-                    date,
-                    postUpayData.cust_ref,
-                    postUpayData.result,
-                    postUpayData.result
-                )
-                logw("UPAYMENT_SENT2",Gson().toJson(request))
-                finalStep()
-                loading.hide()
-            })
+                var cal = Calendar.getInstance()
+                var pickedDate = cal.time
+                val myFormat = "yyyy-MM-dd" //Change as you need
+                var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
+                var date = sdf.format(cal.time)
+                runOnUiThread(Runnable {
+                   // AppHelper.createDialog(this@ActivityPlaceOrder, postUpayData.result)
+                    request = RequestPaymentOrder(
+                        orderId.toInt(),
+                        selectedPaymentId.toString(),
+                        MyApplication.selectedOrder!!.grand_total,
+                        1,
+                        "failed",
+                        MyApplication.currency,
+                        postUpayData.ref,
+                        postUpayData.trackID,
+                        postUpayData.tranID,
+                        postUpayData.auth,
+                        sha2,
+                        date,
+                        postUpayData.cust_ref,
+                        postUpayData.result,
+                        postUpayData.result
+                    )
+                    logw("UPAYMENT_SENT2", Gson().toJson(request))
+                    finalStep()
+                    loading.hide()
+                })
+            }
         }
         Log.wtf("callBack", "data")
     }

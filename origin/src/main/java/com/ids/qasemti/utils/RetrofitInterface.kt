@@ -404,7 +404,9 @@ interface RetrofitInterface {
     ): Call<ResponseMessage>
 
     @POST("dont_broadcast_order_outofrange")
-    fun dontBroadcast(req : RequestJOrderid):Call<ResponseMessage>
+    fun dontBroadcast(
+        @Body req : RequestJOrderid
+    ):Call<ResponseMessage>
 
 
 

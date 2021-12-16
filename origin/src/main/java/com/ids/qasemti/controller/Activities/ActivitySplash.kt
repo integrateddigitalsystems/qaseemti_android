@@ -590,7 +590,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
         //testing should be removed........................................................
-        MyApplication.BASE_URL = BuildConfig.BASE_URL
+       // MyApplication.BASE_URL = BuildConfig.BASE_URL
         checkForUpdate()
 
         /*     if(MyApplication.termsCondition!!)

@@ -59,7 +59,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:tag="Active"
-            android:text="@string/Active"/>
+            android:text="@string/status_active"/>
         <me.grantland.widget.AutofitTextView
             android:textColor="@color/primary"
             android:layout_marginStart="@dimen/small_margin"
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/upcoming"/>
+            android:text="@string/status_upcoming"/>
         <me.grantland.widget.AutofitTextView
             android:layout_marginStart="@dimen/mini_margin"
             android:layout_marginEnd="@dimen/mini_margin"
@@ -87,7 +87,7 @@
             android:textSize="@dimen/small_font_2"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/Completed"/>
+            android:text="@string/status_completed"/>
         <me.grantland.widget.AutofitTextView
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
@@ -101,7 +101,7 @@
             android:gravity="center"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/Cancelled"/>
+            android:text="@string/status_cancelled"/>
 
         <me.grantland.widget.AutofitTextView
             android:layout_marginStart="@dimen/small_margin"
@@ -116,7 +116,7 @@
             android:gravity="center"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/Failed"/>
+            android:text="@string/status_failed"/>
 
 
     </LinearLayout>

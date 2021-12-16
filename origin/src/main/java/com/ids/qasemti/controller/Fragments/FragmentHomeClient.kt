@@ -153,6 +153,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
             var array =
                 arrayItems.filter { it.bannerImageURL != "false" && !it.bannerImageURL.isNullOrEmpty() } as ArrayList
             if(array.size >0) {
+                linearHomeClient.show()
                 var adapterPager = AdapterAdsPager(
                     requireActivity(),
                     array,

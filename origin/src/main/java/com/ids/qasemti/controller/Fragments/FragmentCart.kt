@@ -107,6 +107,7 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
     fun setData(){
 
         try {
+            loading.hide()
             if(array.size > 0) {
                 adapter = AdapterCart(array, this, requireContext())
                 rvCart.layoutManager = LinearLayoutManager(requireContext())
@@ -114,14 +115,11 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
                 rvCart.isNestedScrollingEnabled = false
                 tvNoCartData.hide()
                 rvCart.show()
-                loading.hide()
             }else{
                 tvNoCartData.show()
                 rvCart.hide()
-                loading.hide()
             }
         }catch (ex:Exception){
-            loading.hide()
         }
     }
 

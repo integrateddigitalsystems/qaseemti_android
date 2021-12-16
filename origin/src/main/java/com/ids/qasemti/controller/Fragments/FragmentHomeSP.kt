@@ -64,25 +64,28 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     }
 
     private fun checkCallData(){
-        if (MyApplication.selectedUser!!.available == null || MyApplication.selectedUser!!.available!!.isEmpty()){
-            setAvailability(1)
-            swAvailable.text = AppHelper.getRemoteString("available", requireContext())
-            swAvailable.isChecked=true
-        }
-        else {
-            if(MyApplication.selectedUser!!.available=="1"){
-                getRating()
-                getData()
-                getOrders(false)
-            }else{
-                loading.hide()
-                slRefreshBroad.hide()
-                llNodata.show()
-                tvNoDataHome.hide()
-                swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
-                if(timer!=null)
-                    timer!!.cancel()
+        if(MyApplication.selectedUser!=null) {
+            if (MyApplication.selectedUser!!.available == null || MyApplication.selectedUser!!.available!!.isEmpty()) {
+                setAvailability(1)
+                swAvailable.text = AppHelper.getRemoteString("available", requireContext())
+                swAvailable.isChecked = true
+            } else {
+                if (MyApplication.selectedUser!!.available == "1") {
+                    getRating()
+                    getData()
+                    getOrders(false)
+                } else {
+                    loading.hide()
+                    slRefreshBroad.hide()
+                    llNodata.show()
+                    tvNoDataHome.hide()
+                    swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
+                    if (timer != null)
+                        timer!!.cancel()
+                }
             }
+        }else{
+            AppHelper.triggerRebirth(requireActivity())
         }
 
     }

@@ -588,8 +588,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 findViewById(R.id.rootLayoutOrderDetails),
                 "Location permission needed for core functionality",
                 Snackbar.LENGTH_LONG
-            )
-                .setAction(R.string.ok) {
+            ).setAction(R.string.ok) {
                     // Request permission
                     ActivityCompat.requestPermissions(
                         this@ActivityHome,
@@ -597,8 +596,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                         REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
 
                     )
-                }
-                .show()
+                }.show()
         } else {
             Log.d(TAG, "Request foreground only permission")
             ActivityCompat.requestPermissions(

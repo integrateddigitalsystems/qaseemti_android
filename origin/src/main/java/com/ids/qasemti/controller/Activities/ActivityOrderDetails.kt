@@ -547,7 +547,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             tvOrderDateDeet.text = AppHelper.formatDate(
                 MyApplication.selectedOrder!!.date!!,
                 "yyyy-MM-dd hh:mm:ss",
-                "dd MMMM yyyy hh:mm"
+                "dd-MM-yyyy hh:mm"
             )
         } catch (e: Exception) {
         }

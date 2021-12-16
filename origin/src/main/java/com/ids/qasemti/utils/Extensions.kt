@@ -95,10 +95,10 @@ fun ImageView.loadImagesUrl(url: String) {
 }
 fun ImageView.loadImagesUrlResize(url: String) {
     val options: RequestOptions = RequestOptions()
-        .centerCrop()
+       // .centerCrop()
         .placeholder(R.color.gray_medium_2)
         .error(R.color.gray_medium_2)
-        .override(500, 200)
+       // .override(560, 150)
         Glide.with(this).load(url).apply(options)
         .into(this)
 

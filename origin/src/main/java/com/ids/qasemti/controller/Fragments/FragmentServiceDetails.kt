@@ -55,6 +55,7 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayoutServiceDetails,requireContext())
+        (requireActivity() as ActivityHome).setTintLogo(R.color.white)
         init()
 
 
