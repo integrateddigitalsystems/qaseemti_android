@@ -319,6 +319,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
         if (MyApplication.isBroadcast) {
             MyApplication.isBroadcast = false
             btAcceptOrder.show()
+            btCancelOrder.hide()
             llEditOrderTime.hide()
         }
 
@@ -390,9 +391,16 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
                 } else {
                     if(!MyApplication.selectedOrder!!.delivered!!)
                         llEditOrderTime.show()
+                    if(MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty()){
+                        llEditOrderTime.hide()
+                        //btCancelOrder.hide()
+                    }
                     btCancelOrder.show()
                     llDetailsCallMessage.show()
-                    llOrderSwitches.show()
+                    if(!MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty())
+                        llOrderSwitches.show()
+                    else
+                        llOrderSwitches.hide()
                 }
             } else {
                 if (!MyApplication.selectedOrder!!.newDeliveryDate.isNullOrEmpty()) {

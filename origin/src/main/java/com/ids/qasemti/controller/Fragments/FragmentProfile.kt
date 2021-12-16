@@ -33,6 +33,7 @@ import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Adapters.AdapterGridFiles
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.controller.MyApplication.Companion.arraySelectedImage
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
@@ -77,7 +78,6 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var adapterSelectedImages: AdapterGridFiles? = null
     var selectedPhoto: String? = ""
     var gender = ""
-    var arraySelectedImage: ArrayList<FilesSelected> = arrayListOf()
     var tempProfile: String? = null
     var selectedProvince: String? = ""
     var mPermissionResult: ActivityResultLauncher<Array<String>>? = null
@@ -635,26 +635,27 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             try {
                 /*if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty()) {*/
 
-                arraySelectedImage.clear()
-                if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty())
-                    arraySelectedImage.add(
-                        FilesSelected(
-                            MyApplication.selectedUser!!.civilIdAttach,
-                            null,
-                            null,
-                            1
-                        )
-                    )
-                if (!MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty())
-                    arraySelectedImage.add(
-                        FilesSelected(
-                            MyApplication.selectedUser!!.civilAttachBack,
-                            null,
-                            null,
-                            2
-                        )
-                    )
-
+                    if(MyApplication.temporaryProfile==null) {
+                        arraySelectedImage.clear()
+                        if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty())
+                            arraySelectedImage.add(
+                                FilesSelected(
+                                    MyApplication.selectedUser!!.civilIdAttach,
+                                    null,
+                                    null,
+                                    1
+                                )
+                            )
+                        if (!MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty())
+                            arraySelectedImage.add(
+                                FilesSelected(
+                                    MyApplication.selectedUser!!.civilAttachBack,
+                                    null,
+                                    null,
+                                    2
+                                )
+                            )
+                    }
                 if (arraySelectedImage.size == 0)
                     rvCivilIdData.hide()
                 else
@@ -958,7 +959,6 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     fun init() {
         //tvToolbarCurveTitle.setText(getString(R.string.profile))
         (activity as ActivityHome?)!!.showBack(R.color.white)
-        arraySelectedImage.clear()
         AppHelper.setTitle(
             requireActivity(), MyApplication.selectedTitle!!, "", R.color.white
         )

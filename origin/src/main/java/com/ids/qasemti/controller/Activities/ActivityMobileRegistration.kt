@@ -108,7 +108,11 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener , ApiL
                 MyApplication.selectedPhone = MyApplication.selectedItemDialog.replace("+","").trim()+etPhone.text.toString()
                 loading.show()
                 //updateDevice()
-                CallAPIs.updateDevice(this,this)
+                if(AppHelper.isOnline(this)) {
+                    CallAPIs.updateDevice(this, this)
+                }else{
+                    AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
+                }
             }
         }
     }
@@ -236,10 +240,12 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener , ApiL
                     try {
                         nextStepCode()
                     } catch (E: java.lang.Exception) {
+                        loading.hide()
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                    loading.hide()
                 }
             })
     }

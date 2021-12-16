@@ -110,7 +110,7 @@ class AdapterOrderType(
         }
 
         try {
-           if(items.get(position).onTrack!!) {
+           if(items.get(position).onTrack!!&&!items.get(position).paymentMethod.isNullOrEmpty()) {
                onTrack=1
                if(!items.get(position).delivered!!) {
                    if (!MyApplication.saveLocationTracking!!) {
@@ -339,7 +339,10 @@ class AdapterOrderType(
             holder.track.show()
         }
         else if(items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_ACTIVE)){
-            holder.switch.show()
+            if(!items.get(position).paymentMethod.isNullOrEmpty())
+                holder.switch.show()
+            else
+                holder.switch.hide()
             holder.sepActive.show()
             holder.dateBorder.show()
             holder.bottomBorder.show()

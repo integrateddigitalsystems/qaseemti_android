@@ -287,7 +287,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                     var time = String.format("%02d", selectedHour) + ":" + String.format(
                         "%02d",
                         selectedMinute
-                    ) + ":" + "00"
+                    )
                     if (compareDates() == -1) {
                         if (!compareTimes(selectedHour, selectedMinute)) {
                             AppHelper.createDialog(this, "You cannot pick a time before selected")
@@ -897,7 +897,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 if (MyApplication.selectedAddress!!.bldg != null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
                 if (MyApplication.selectedAddress!!.floor != null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
                 if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
-                MyApplication.selectedAddress!!.addressId!!.toInt(),
+                if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
                 selectedFrom,
                 selectedTo,
                 MyApplication.languageCode
