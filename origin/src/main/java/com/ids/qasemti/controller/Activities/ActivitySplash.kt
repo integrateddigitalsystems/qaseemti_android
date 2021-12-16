@@ -344,6 +344,8 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
         CallAPIs.getCategories(this, this)
         Handler(Looper.getMainLooper()).postDelayed({
             if (MyApplication.firstTime || !MyApplication.termsCondition!!) {
+                if(MyApplication.isClient)
+                    UpaymentGateway.init(this, "", "", true)
                 MyApplication.selectedPhone = ""
                 CallAPIs.updateDevice(this, this)
                 // AppHelper.updateDevice(this, "")
