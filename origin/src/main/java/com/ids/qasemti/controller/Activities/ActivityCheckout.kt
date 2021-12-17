@@ -14,6 +14,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.RequestJOrderid
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
@@ -922,6 +923,18 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
     }
 
+    fun nextStep() {
+        finishAffinity()
+        MyApplication.selectedPos = 1
+        MyApplication.fromOrderPlaced = true
+        MyApplication.typeSelected = 0
+        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+        MyApplication.selectedFragment = FragmentOrders()
+        MyApplication.tintColor = R.color.primary
+        loading.hide()
+        startActivity(Intent(this, ActivityHome::class.java))
+
+    }
 
     fun placeOrder() {
         loading.show()
@@ -941,12 +954,13 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                         loading.hide()
                         if (!response.body()!!.result.equals("0")) {
                             if (response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_IN) {
-                                startActivity(
+                                nextStep()
+                                /*startActivity(
                                     Intent(
                                         this@ActivityCheckout,
                                         ActivityPlaceOrder::class.java
                                     ).putExtra(AppConstants.ORDER_ID, response.body()!!.orderId)
-                                )
+                                )*/
                             } else if (response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_OUT)
                                 showProviderMessage(response.body()!!)
                             else
@@ -1057,12 +1071,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                     try {
                         loading.hide()
                         if (response.body()!!.number_of_sps != null && response.body()!!.number_of_sps!! > 0) {
-                            startActivity(
-                                Intent(
-                                    this@ActivityCheckout,
-                                    ActivityPlaceOrder::class.java
-                                ).putExtra(AppConstants.ORDER_ID, orderId)
-                            )
+                            nextStep()
                         } else
                             startActivity(
                                 Intent(

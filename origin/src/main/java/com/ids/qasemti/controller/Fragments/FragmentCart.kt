@@ -168,6 +168,7 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
                 else
                     type = AppConstants.TYPE_RENTAL
 
+                logw("CART_ID",array[position].orderId!!.toString())
                 MyApplication.selectedPlaceOrder = RequestPlaceOrder(
                     MyApplication.userId,
                     array[position].typeId,//MAKESURE

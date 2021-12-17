@@ -175,6 +175,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             .setStyle(
                 NotificationCompat.BigTextStyle()
                     .bigText(messageBody))
+
             .setContentIntent(pendingIntent)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

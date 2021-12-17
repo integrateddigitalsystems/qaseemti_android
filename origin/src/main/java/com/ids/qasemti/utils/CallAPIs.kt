@@ -87,7 +87,6 @@ class CallAPIs {
                         response: Response<ResponseUser>
                     ) {
                         try {
-                            loading.hide()
                             listener.onDataRetrieved(
                                 true,
                                 response.body()!!,

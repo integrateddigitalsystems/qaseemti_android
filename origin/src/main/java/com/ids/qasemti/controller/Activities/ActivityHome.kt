@@ -564,7 +564,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             if(MyApplication.selectedFragmentTag==AppConstants.FRAGMENT_SERVICE_DETAILS){
                 setTitleAc(AppHelper.getRemoteString("Services",this),R.color.white)
             }else {
-                tvPageTitle.hide()
+               // tvPageTitle.hide()
             }
         } else
             btBackTool.show()

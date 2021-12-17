@@ -181,7 +181,8 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
         }
 
         if(MyApplication.selectedNotSignedInType!=-1) {
-            spServiceSize.setSelection(arraySpinnerTypes.indexOf(arraySpinnerTypes.find {
+            var x =
+            spServiceType.setSelection(arraySpinnerTypes.indexOf(arraySpinnerTypes.find {
                 it.id == MyApplication.selectedNotSignedInType
             }))
             MyApplication.selectedNotSignedInType = -1

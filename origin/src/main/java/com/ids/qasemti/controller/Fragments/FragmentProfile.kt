@@ -1622,6 +1622,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+
         var res = response as ResponseUser
         selectedProfilePic = null
         selectedFile = null

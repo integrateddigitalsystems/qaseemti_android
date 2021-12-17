@@ -13,6 +13,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.logw
 
 import java.util.ArrayList
 
@@ -31,10 +32,15 @@ class AdapterCart(
     }
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
-        if(!items.get(position).product!!.name.isNullOrEmpty())
-            holder.title.text = items.get(position).product!!.name
-        else
-            holder.title.text = AppHelper.getRemoteString("no_data",con)
+        try {
+            if (!items.get(position).product!!.name.isNullOrEmpty())
+                holder.title.text = items.get(position).product!!.name
+            else
+                holder.title.text = AppHelper.getRemoteString("no_data", con)
+        }catch (ex:Exception){
+            logw("errorCart",position.toString())
+            holder.title.text = AppHelper.getRemoteString("no_data", con)
+        }
         holder.cost.text = items.get(position).total+" "+items.get(position).currency
 
 

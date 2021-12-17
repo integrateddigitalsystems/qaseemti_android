@@ -114,6 +114,7 @@ class ActivityRegistration : ActivityBase() , ApiListener{
   }
 
   fun nextStep() {
+    loading.hide()
     if(!MyApplication.isClient) {
       MyApplication.register = true
       MyApplication.selectedPos = 4
@@ -122,8 +123,10 @@ class ActivityRegistration : ActivityBase() , ApiListener{
       startActivity(Intent(this, ActivityAccountStatus::class.java))
     }else{
       MyApplication.selectedPos = 2
-      MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
-      MyApplication.selectedFragment = FragmentHomeClient()
+      if(MyApplication.selectedFragmentTag.isNullOrEmpty() && MyApplication.selectedFragment==null) {
+        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+        MyApplication.selectedFragment = FragmentHomeClient()
+      }
       startActivity(Intent(this, ActivityAccountStatus::class.java))
     }
   }

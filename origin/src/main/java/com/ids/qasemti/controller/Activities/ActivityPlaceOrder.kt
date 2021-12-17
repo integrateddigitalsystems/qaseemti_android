@@ -198,6 +198,17 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         adapterOrderCost = AdapterOtherOrderData(arrayOrderCost, this, this)
         rvOtherData.adapter = adapterOrderCost
 
+        if(orders.vendor==null){
+            rvPaymentMethod.hide()
+            btPLaceOrder.hide()
+            tvPaymentMethodTitle.hide()
+            tvNoProvider.show()
+        }else{
+            rvPaymentMethod.show()
+            btPLaceOrder.show()
+            tvPaymentMethodTitle.show()
+            tvNoProvider.hide()
+        }
         loading.hide()
 
     }
@@ -628,6 +639,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
     fun init() {
 
 
+
         tvLocationPlaceOrder.setColorTypeface(this, R.color.primary, "", false)
         tvPageTitle.show()
         tvPageTitle.textRemote("PlaceOrder", this)
@@ -635,6 +647,15 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         btBackTool.show()
         btBackTool.onOneClick {
             super.onBackPressed()
+        }
+        btToServices.onOneClick {
+            finishAffinity()
+            MyApplication.selectedPos = 2
+            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+            MyApplication.selectedFragment = FragmentHomeClient()
+            MyApplication.tintColor = R.color.primary
+            loading.hide()
+            startActivity(Intent(this, ActivityHome::class.java))
         }
         btPLaceOrder.typeface = AppHelper.getTypeFace(this)
         btClose.hide()

@@ -321,6 +321,7 @@
     <string name="status_upcoming">Future</string>
     <string name="status_cancelled">Cancelled</string>
     <string name="status_failed">Failed</string>
+    <string name="waiting_service_provider_approve">Waiting a service provider for approve</string>
 
 
 </resources>
