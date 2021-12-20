@@ -428,6 +428,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        (requireActivity() as ActivityHome).showTitle(false)
+    }
+
     private fun openChooser() {
 
 
@@ -476,10 +481,6 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             )
 
         }
-        arraySpinner.add(
-            0,
-            ItemSpinner(-1, AppHelper.getRemoteString("please__select", requireContext()), "")
-        )
         selectedProvince = ""
         val adapterProvince =
             AdapterGeneralSpinner(requireContext(), R.layout.spinner_layout, arraySpinner, 0)
@@ -523,6 +524,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     selectedProvince = arraySpinner.get(indx).name
                     spProvinceProfile.isEnabled = false
                 } else {
+                    spProvinceProfile.setSelection(0)
                     spProvinceProfile.isEnabled = true
                 }
             } catch (ex: Exception) {

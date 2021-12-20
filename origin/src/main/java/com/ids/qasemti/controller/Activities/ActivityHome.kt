@@ -563,8 +563,8 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             btBackTool.hide()
             if(MyApplication.selectedFragmentTag==AppConstants.FRAGMENT_SERVICE_DETAILS){
                 setTitleAc(AppHelper.getRemoteString("Services",this),R.color.white)
-            }else {
-               // tvPageTitle.hide()
+            }else if(MyApplication.selectedFragmentTag == AppConstants.FRAGMENT_ACCOUNT){
+                tvPageTitle.hide()
             }
         } else
             btBackTool.show()
@@ -721,6 +721,9 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 LocationForeService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
 
         )
+        if(MyApplication.selectedFragmentTag == FRAGMENT_ACCOUNT){
+            tvPageTitle.hide()
+        }
         MyApplication.fromFooterOrder = false
     }
 

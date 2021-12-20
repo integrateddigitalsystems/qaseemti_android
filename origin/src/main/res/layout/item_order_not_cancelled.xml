@@ -613,7 +613,7 @@
                         android:maxLines="1"
                         android:text="@string/no_data"
                         android:tag="no_data"
-                        android:textColor="@color/primary"
+                        android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/normal_font"
 
                         />

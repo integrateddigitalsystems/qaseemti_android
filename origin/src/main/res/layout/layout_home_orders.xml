@@ -324,7 +324,7 @@
                 android:visibility="gone"
                 android:text="@string/no_data"
                 android:tag="no_data"
-                android:textColor="@color/primary"/>
+                android:textColor="@color/gray_font_title"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvOrders"
             android:layout_width="match_parent"

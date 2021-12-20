@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/no_data"
 
-                        android:textColor="@color/primary"
+                        android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/medium_font"
 
                         />

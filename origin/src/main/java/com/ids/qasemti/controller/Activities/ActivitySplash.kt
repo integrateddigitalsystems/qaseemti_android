@@ -36,10 +36,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterServerLinks
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
-import com.ids.qasemti.controller.Fragments.FragmentHomeClient
-import com.ids.qasemti.controller.Fragments.FragmentHomeSP
-import com.ids.qasemti.controller.Fragments.FragmentNotifications
-import com.ids.qasemti.controller.Fragments.FragmentOrders
+import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
@@ -389,8 +386,8 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             MyApplication.selectedPos = 2
                             MyApplication.defaultIcon = ivFooterHome
                             MyApplication.tintColor = R.color.primary
-                            MyApplication.selectedFragment = FragmentHomeSP()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+                            MyApplication.selectedFragment = FragmentHomeClient()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
                         } else if (type == AppConstants.NOTF_TYPE_SERVICE) {
                             MyApplication.selectedPos = 2
                             MyApplication.defaultIcon = ivFooterHome
@@ -404,17 +401,17 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
                             MyApplication.tintColor = R.color.primary
                         } else if (type == AppConstants.NOTF_TYPE_ACCEPT_ORDER){
-                            MyApplication.selectedPos = 1
-                            MyApplication.defaultIcon = ivFooterOrder
+                            MyApplication.selectedPos = 0
+                            MyApplication.defaultIcon = ivCartFooter
                             MyApplication.tintColor = R.color.primary
-                            MyApplication.selectedFragment = FragmentOrders()
+                            MyApplication.selectedFragment = FragmentCart()
                             if(orderId!=-1){
                                 MyApplication.selectedOrderId = orderId
                                 MyApplication.toDetails = true
                             }else{
                                 MyApplication.toDetails = false
                             }
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_CART
                         }else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
@@ -452,11 +449,11 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
                             MyApplication.tintColor = R.color.primary
                         } else if (type == AppConstants.NOTF_TYPE_SERVICE) {
-                            MyApplication.selectedPos = 2
-                            MyApplication.defaultIcon = ivFooterHome
+                            MyApplication.selectedPos = 0
+                            MyApplication.defaultIcon = ivProductFooter
                             MyApplication.tintColor = R.color.primary
-                            MyApplication.selectedFragment = FragmentHomeSP()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+                            MyApplication.selectedFragment = FragmentMyServices()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_MY_SERVICES
 
                         } else if (type == AppConstants.NOTF_TYPE_NORMAL) {
                             MyApplication.selectedPos = 3
@@ -506,9 +503,13 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                     }*/
 
                     MyApplication.selectedPhone = MyApplication.phoneNumber
-                    CallAPIs.updateDevice(this, this)
-                    //AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
-                    CallAPIs.getUserInfo(this)
+                    if(MyApplication.toDetails){
+                        CallAPIs.getOrderByOrderId(orderId,this)
+                    }else {
+                        CallAPIs.updateDevice(this, this)
+                        //AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
+                        CallAPIs.getUserInfo(this)
+                    }
 
                 } else {
                     MyApplication.selectedPhone = ""
@@ -711,7 +712,35 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
 
-        if (apiId == AppConstants.ADDRESS_GEO || apiId == AppConstants.UPDATE_DEVICE) {
+        if(apiId == AppConstants.ORDER_BY_ID){
+
+            var order = response as ResponseOrders
+            MyApplication.selectedOrderId = order.orderId!!.toInt()
+            MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+                MyApplication.userId,
+                order.typeId,//MAKESURE
+                order.product!!.id,
+                order.typesId,//MAKESURE
+                order.sizeCapacityId,//MAKESURE
+                order.deliveryDate,
+                if (order.addressname != null && order.addressname!!.isNotEmpty()) order.addressname else "",
+                order.addressLat,
+                order.addressLong,
+                order.addressStreet,
+                order.addressBuilding,
+                order.addressFloor,
+                order.addressDescription,
+                if (order.addresses.size > 0)order.addresses.get(0).addressId!!.toInt() else 0,
+                order.product!!.booking_start_date,
+                order.product!!.booking_end_date,
+                MyApplication.languageCode
+
+
+            )
+            CallAPIs.updateDevice(this, this)
+            //AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
+            CallAPIs.getUserInfo(this)
+        }else if (apiId == AppConstants.ADDRESS_GEO || apiId == AppConstants.UPDATE_DEVICE) {
 
         } else if (apiId == API_USER_STATUS) {
             var res = response as ResponseUser

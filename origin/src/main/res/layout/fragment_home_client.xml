@@ -79,7 +79,7 @@
                     android:visibility="gone"
                     android:textSize="@dimen/header_font"
                     android:layout_height="match_parent"
-                    android:textColor="@color/primary"
+                    android:textColor="@color/gray_font_title"
                     android:text="@string/no_data"
                     android:tag="no_data"
                     />

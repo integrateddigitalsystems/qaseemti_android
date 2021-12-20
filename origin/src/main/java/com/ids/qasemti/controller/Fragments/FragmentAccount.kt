@@ -27,6 +27,11 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as ActivityHome).showTitle(false)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

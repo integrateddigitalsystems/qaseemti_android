@@ -168,6 +168,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
         ordersArray.add("3")
         mainArray.addAll(ordersArray)*/
         (activity as ActivityHome?)!!.drawColor()
+        (activity as ActivityHome?)!!.hideBack()
         /*(activity as ActivityHome?)!!.setTitleAc(
             AppHelper.getRemoteString(
                 "order_type",

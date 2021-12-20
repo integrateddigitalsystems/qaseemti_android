@@ -33,7 +33,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
 
-class FragmentCart : Fragment() , RVOnItemClickListener {
+class FragmentCart : Fragment() , RVOnItemClickListener , ApiListener {
 
     var array : ArrayList<ResponseOrders> = arrayListOf()
     var adapter : AdapterCart ?=null
@@ -41,6 +41,24 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if(MyApplication.toDetails){
+            MyApplication.toDetails = false
+            startActivity(
+                Intent(requireContext(), ActivityPlaceOrder::class.java).putExtra(
+                    AppConstants.ORDER_ID,
+                    MyApplication.selectedOrderId.toString()
+                )
+            )
+            /* loading.show()
+             CallAPIs.getOrderByOrderId(MyApplication.selectedOrderId!!.toInt(),this)*/
+        }else {
+            init()
+        }
+
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(com.ids.qasemti.R.layout.fragment_cart, container, false)
@@ -50,7 +68,8 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayout,requireContext())
-        init()
+            init()
+
 
     }
 
@@ -198,5 +217,9 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
                 )
             }
         }
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+
     }
 }

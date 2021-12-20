@@ -76,21 +76,21 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         var typeId = -1
         try {
-            typeId = remoteMessage.data["type"]!!.toInt()
+            typeId = remoteMessage.data["typeId"]!!.toInt()
         } catch (e: Exception) {
             e.printStackTrace()
             typeId = -1
         }
-        logw("ACTIVATE_NOW","NOTIFICATION ACT")
-        try {
-            CallAPIs.getUserInfo()
-        }catch (ex:java.lang.Exception){
-            logw("ACTIVATE_NOW","CATCH NOTIFICATION ACT DONE")
-        }
-        logw("ACTIVATE_NOW","NOTIFICATION ACT DONE")
+
 
         if(typeId == NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE){
-
+            logw("ACTIVATE_NOW","NOTIFICATION ACT")
+            try {
+                CallAPIs.getUserInfo()
+            }catch (ex:java.lang.Exception){
+                logw("ACTIVATE_NOW","CATCH NOTIFICATION ACT DONE")
+            }
+            logw("ACTIVATE_NOW","NOTIFICATION ACT DONE")
         }
 
         var recordId = -1

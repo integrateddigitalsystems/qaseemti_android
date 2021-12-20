@@ -274,6 +274,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
             selectedProvince =arraySpinner.get(indx).name
             spProvince.isEnabled = false
         }else{
+            spProvince.setSelection(0)
             spProvince.isEnabled = true
         }
 
@@ -315,10 +316,10 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
                 )
 
             }
-            arraySpinner.add(
+            /*arraySpinner.add(
                 0,
                 ItemSpinner(-1, AppHelper.getRemoteString("please__select", this), "")
-            )
+            )*/
             selectedProvince = ""
             val adapterProvince =
                 AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinner, 0)
@@ -331,9 +332,6 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
                     position: Int,
                     id: Long
                 ) {
-                    if (position == 0)
-                        selectedProvince = ""
-                    else
                         selectedProvince = arraySpinner.get(position).name
 
                 }
