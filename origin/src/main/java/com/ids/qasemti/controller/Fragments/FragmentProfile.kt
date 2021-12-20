@@ -484,6 +484,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         selectedProvince = ""
         val adapterProvince =
             AdapterGeneralSpinner(requireContext(), R.layout.spinner_layout, arraySpinner, 0)
+        arraySpinner.add(
+            0,
+            ItemSpinner(-1, AppHelper.getRemoteString("please__select", requireActivity()), "")
+        )
         spProvinceProfile.adapter = adapterProvince
         adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
         spProvinceProfile.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -493,7 +497,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 position: Int,
                 id: Long
             ) {
-                selectedProvince = arraySpinner.get(position).name
+                if(arraySpinner.get(position).id==-1){
+                    selectedProvince = ""
+                }else {
+                    selectedProvince = arraySpinner.get(position).name
+                }
 
             }
 

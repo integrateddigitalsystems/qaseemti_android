@@ -86,8 +86,8 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
             etAvenue.text.toString(),
             etApartment.text.toString(),
             etBlock.text.toString(),
-            etAddressProvince.text.toString(),
-            etAddressProvince.text.toString()
+            selectedProvince,
+            selectedProvince
         )
         intent.putExtra("lat", latlng!!.latitude)
         intent.putExtra("long", latlng!!.longitude)
@@ -316,10 +316,10 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
                 )
 
             }
-            /*arraySpinner.add(
+            arraySpinner.add(
                 0,
                 ItemSpinner(-1, AppHelper.getRemoteString("please__select", this), "")
-            )*/
+            )
             selectedProvince = ""
             val adapterProvince =
                 AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinner, 0)
@@ -332,7 +332,11 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
                     position: Int,
                     id: Long
                 ) {
+                    if(arraySpinner.get(position).id==-1){
+                        selectedProvince = ""
+                    }else {
                         selectedProvince = arraySpinner.get(position).name
+                    }
 
                 }
 
