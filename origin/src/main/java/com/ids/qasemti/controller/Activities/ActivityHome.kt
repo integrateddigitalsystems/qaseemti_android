@@ -58,7 +58,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     private val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
     private var foregroundOnlyLocationServiceBound = false
     private lateinit var drawerLayout: DrawerLayout
-    var notfNum : Int ?= 3
+    var notfNum : Int ?= 0
     var selectedPos = 2
 
     var foregrounfLocationService: CurrentLocationService? = null
