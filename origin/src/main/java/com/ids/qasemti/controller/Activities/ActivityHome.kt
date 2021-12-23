@@ -59,7 +59,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     private var foregroundOnlyLocationServiceBound = false
     private lateinit var drawerLayout: DrawerLayout
     var notfNum : Int ?= 0
-    var selectedPos = 2
+    var selectedPos = 2//hello
 
     var foregrounfLocationService: CurrentLocationService? = null
     private lateinit var foregroundOnlyBroadcastReceiver: ForegroundOnlyBroadcastReceiver
