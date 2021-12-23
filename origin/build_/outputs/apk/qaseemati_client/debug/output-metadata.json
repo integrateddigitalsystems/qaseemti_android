@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.ids.qasemti",
+  "variantName": "qaseemati_clientDebug",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 32,
+      "versionName": "4.4",
+      "outputFile": "origin-qaseemati_client-debug.apk"
+    }
+  ],
+  "elementType": "File"
+}
