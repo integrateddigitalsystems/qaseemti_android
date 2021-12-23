@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/rootLayout"
+    android:gravity="center"
+    android:background="@drawable/splach_bg"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_width="@dimen/splash_logo"
+        android:tint="@color/primary"
+        android:layout_height="@dimen/splash_logo"
+        android:src="@drawable/icon_new_splash"/>
+
+</LinearLayout>

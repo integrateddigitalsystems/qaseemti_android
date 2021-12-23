@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/place_item_view"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="@dimen/margin_start_end"
+    android:layout_height="wrap_content">
+
+    <com.ids.qasemti.custom.CustomTextViewMedium
+        android:layout_width="match_parent"
+        android:textColor="@color/primary"
+        android:layout_height="wrap_content"
+        android:id="@+id/place_area"/>
+
+    <com.ids.qasemti.custom.CustomTextViewMedium
+        android:layout_width="match_parent"
+        android:textColor="@color/primary"
+        android:layout_height="wrap_content"
+        android:id="@+id/place_address"/>
+
+</LinearLayout>

@@ -1,0 +1,338 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/linearService1"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/big_font"
+        android:textColor="@color/gray_font_title"
+        android:text="@string/category"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:tag="category"
+        />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_background"
+        android:orientation="horizontal"
+        android:id="@+id/rgCategory"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/small_margin">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:buttonTint="@color/new_black"
+            android:checked="true"
+            android:tag="purchase"
+            android:id="@+id/rbPurchase"
+            android:textColor="@color/gray_font"
+            android:text="@string/purchase"/>
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/gray_font"
+            android:id="@+id/rbRental"
+            android:buttonTint="@color/new_black"
+            android:tag="rental"
+            android:text="@string/rental"/>
+    </RadioGroup>
+
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/big_font"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textColor="@color/gray_font_title"
+        android:text="@string/service"
+        android:tag="service"
+        />
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_background">
+
+        <Spinner
+            android:id="@+id/spService"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overlapAnchor="false"
+            android:gravity="center_vertical"
+            android:background="@color/transparent"
+            />
+
+        <ImageView
+            android:layout_marginEnd="@dimen/first_margin"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/small_icon"
+            android:layout_height="@dimen/small_icon"
+            android:src="@drawable/arrow_down"
+            android:tint="@color/gray_font_title"
+            tools:ignore="UseAppTint" />
+
+    </RelativeLayout>
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/big_font"
+        android:textColor="@color/gray_font_title"
+        android:text="@string/description"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:tag="description"
+        />
+
+    <com.ids.qasemti.custom.CustomTextViewMedium
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/normal_font"
+        android:textColor="@color/gray_font"
+        android:layout_marginTop="@dimen/small_margin"
+        android:id="@+id/tvDescription"
+         />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/llSpType">
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/big_font"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textColor="@color/gray_font_title"
+        android:text="@string/type"
+        android:tag="type"
+        />
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:background="@drawable/rounded_white_background">
+
+            <Spinner
+                android:id="@+id/spType"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overlapAnchor="false"
+                android:background="@color/transparent"
+                />
+
+            <ImageView
+                android:layout_marginEnd="@dimen/first_margin"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/small_icon"
+                android:layout_height="@dimen/small_icon"
+                android:src="@drawable/arrow_down"
+                tools:ignore="UseAppTint"
+                android:tint="@color/gray_font_title"
+                app:tint="@color/gray_font_title"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/llSpSizeCap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/big_font"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textColor="@color/gray_font_title"
+        android:text="@string/SizeCapacity"
+        android:tag="SizeCapacity"
+        />
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_background">
+
+        <Spinner
+            android:id="@+id/spSize"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overlapAnchor="false"
+            android:background="@color/transparent"
+            />
+
+        <ImageView
+            android:layout_marginEnd="@dimen/first_margin"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/small_icon"
+            android:layout_height="@dimen/small_icon"
+            android:src="@drawable/arrow_down"
+            tools:ignore="UseAppTint"
+            android:tint="@color/gray_font_title"
+            app:tint="@color/gray_font_title"/>
+
+    </RelativeLayout>
+
+    </LinearLayout>
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/big_font"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textColor="@color/gray_font_title"
+        android:text="@string/stock_available"
+        android:tag="stock_available"
+        />
+
+    <EditText
+        android:textAlignment="viewStart"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_background"
+        android:hint="@string/stock_available"
+        android:tag="stock_available"
+        android:paddingStart="@dimen/small_margin"
+        android:id="@+id/etStockAvailable"
+        android:paddingEnd="@dimen/small_margin"
+        android:maxLines="1"
+        android:inputType="number"
+
+        android:layout_marginTop="@dimen/normal_margin"
+        android:textColorHint="@color/gray_font_light"
+        android:textSize="@dimen/normal_font"
+        android:textColor="@color/gray_font_title"
+
+        />
+
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:visibility="gone"
+        android:background="@drawable/rounded_white_background">
+
+        <Spinner
+            android:id="@+id/spStock"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overlapAnchor="false"
+            android:background="@color/transparent"
+            />
+
+        <ImageView
+            android:layout_marginEnd="@dimen/first_margin"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/small_icon"
+            android:layout_height="@dimen/small_icon"
+            android:src="@drawable/arrow_down"
+            android:tint="@color/gray_font_title"
+            app:tint="@color/gray_font_title"
+            tools:ignore="UseAppTint" />
+
+    </RelativeLayout>
+
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/big_font"
+        android:textColor="@color/gray_font_title"
+        android:text="@string/upload_images"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:tag="upload_images"
+        />
+
+    <com.ids.qasemti.custom.CustomTextViewMedium
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/normal_font"
+        android:textColor="@color/gray_font"
+        android:layout_marginTop="@dimen/small_margin"
+        android:text="@string/for_the_service"
+        android:tag="for_the_service"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/small_margin"
+        >
+
+        <Button
+            android:layout_width="180dp"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/rounded_white_red_border"
+            android:text="@string/choose_file"
+            android:tag="@string/choose_file"
+            android:id="@+id/btPickImage"
+            android:textSize="@dimen/small_font"
+            android:textColor="@color/gray_font"
+            android:textAllCaps="false"
+            />
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/small_margin"
+            android:paddingEnd="@dimen/small_margin"
+            android:text="@string/no_file_chosen"
+            android:visibility="gone"
+            android:id="@+id/tvPickedImage"
+            android:tag="no_file_chosen"
+            android:textSize="@dimen/small_font"
+            />
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:id="@+id/rvSelectedImages"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:background="@drawable/blue_rounded"
+        android:textSize="@dimen/normal_font"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:text="@string/next"
+        android:id="@+id/btSave"
+        android:tag="next"
+        android:textAllCaps="false"
+        />
+
+
+</LinearLayout>

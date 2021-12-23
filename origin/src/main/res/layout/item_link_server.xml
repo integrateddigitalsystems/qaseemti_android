@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.ids.qasemti.custom.CustomTextViewMedium
+        android:gravity="center"
+        android:padding="@dimen/normal_margin"
+        android:id="@+id/tvLinkTitle"
+        android:textColor="@color/gray_font_title"
+        android:maxLines="1"
+        android:textSize="@dimen/normal_font"
+        android:background="@drawable/rounded_white_red_border"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:tag="lang_eng"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:text="@string/lang_eng"/>
+
+
+</LinearLayout>

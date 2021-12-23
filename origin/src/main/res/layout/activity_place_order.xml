@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rootLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llTool"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/toolbar" />
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:layout_above="@+id/llFooter"
+        android:layout_below="@+id/llTool"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/llMain"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_marginStart="@dimen/card_new_margin"
+            android:layout_marginEnd="@dimen/card_new_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-8dp"
+            app:cardElevation="@dimen/normal_margin"
+            android:elevation="@dimen/normal_margin"
+            card_view:contentPadding="0dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="@dimen/bigger_radius"
+            android:background="@drawable/rounded_white_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/margin_start_end"
+            android:paddingEnd="@dimen/margin_start_end">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/margin_start_end"
+            android:paddingBottom="@dimen/margin_start_end">
+
+            <LinearLayout
+                android:id="@+id/llLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/big_margin_2"
+                android:paddingEnd="@dimen/big_margin_2">
+
+                <ImageView
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:src="@drawable/placeholder"
+                    android:tint="@color/primary" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:orientation="vertical">
+
+                    <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:id="@+id/tvLocationPlaceOrder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/no_data"
+
+                        android:textColor="@color/gray_font_title"
+                        android:textSize="@dimen/medium_font"
+
+                        />
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/primary" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_weight="1.2"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/big_margin_2"
+                android:paddingEnd="@dimen/big_margin_2">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/normal_icon"
+                        android:layout_height="@dimen/normal_icon"
+                        android:layout_gravity="top"
+                        android:src="@drawable/wall_clock"
+                        android:tint="@color/primary"
+
+                        />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/normal_margin"
+
+                        android:orientation="vertical">
+
+
+                        <com.ids.qasemti.custom.CustomTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/order_date"
+                            android:tag="order_date"
+                            android:textColor="@color/gray_font_title"
+                            android:textSize="@dimen/normal_font" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tvOrderDate"
+                            android:textColor="@color/gray_font_title"
+                            android:textSize="@dimen/small_font_3" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/normal_icon"
+                        android:layout_height="@dimen/normal_icon"
+                        android:layout_gravity="top"
+                        android:src="@drawable/wall_clock"
+                        android:tint="@color/primary"
+
+                        />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/normal_margin"
+
+                        android:orientation="vertical">
+
+
+                        <com.ids.qasemti.custom.CustomTextViewBold
+                            android:id="@+id/tvDateExpected"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:tag="expected_delivery"
+                            android:text="@string/expected_delivery"
+                            android:textColor="@color/gray_font_title"
+                            android:textSize="@dimen/normal_font" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tvExpectedDate"
+                            android:textColor="@color/gray_font_title"
+                            android:textSize="@dimen/small_font_3" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <ScrollView
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/layout_border_data" />
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/first_margin"
+                    android:background="@drawable/rounded_white_border"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <com.ids.qasemti.custom.CustomTextViewBold
+                            android:paddingStart="@dimen/first_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:tag="category"
+                            android:text="@string/category" />
+
+                        <LinearLayout
+                            android:layout_width="@dimen/stroke"
+                            android:layout_height="match_parent"
+                            android:background="@color/white" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:paddingStart="@dimen/first_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Purchase" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/stroke"
+                        android:background="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <com.ids.qasemti.custom.CustomTextViewBold
+                            android:paddingStart="@dimen/first_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:tag="service"
+                            android:text="@string/service" />
+
+                        <LinearLayout
+                            android:layout_width="@dimen/stroke"
+                            android:layout_height="match_parent"
+                            android:background="@color/white" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:paddingStart="@dimen/first_margin"
+                            android:layout_width="match_parent"
+                            android:gravity="center_vertical"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Water Tank" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/stroke"
+                        android:background="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <com.ids.qasemti.custom.CustomTextViewBold
+                            android:paddingStart="@dimen/first_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:tag="type"
+                            android:text="@string/type" />
+
+                        <LinearLayout
+                            android:layout_width="@dimen/stroke"
+                            android:layout_height="match_parent"
+                            android:background="@color/white" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:paddingStart="@dimen/first_margin"
+                            android:layout_width="match_parent"
+                            android:gravity="center_vertical"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Fresh" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/stroke"
+                        android:background="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <com.ids.qasemti.custom.CustomTextViewBold
+                            android:paddingStart="@dimen/first_margin"
+                            android:layout_width="match_parent"
+                            android:gravity="center_vertical"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:tag="size_capacity"
+                            android:text="@string/size_capacity" />
+
+                        <LinearLayout
+                            android:layout_width="@dimen/stroke"
+                            android:layout_height="match_parent"
+                            android:background="@color/white" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:paddingStart="@dimen/first_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="200 Gallons" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/stroke"
+                        android:background="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <com.ids.qasemti.custom.CustomTextViewBold
+                            android:paddingStart="@dimen/first_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:tag="quantity"
+                            android:text="@string/quantity" />
+
+                        <LinearLayout
+                            android:layout_width="@dimen/stroke"
+                            android:layout_height="match_parent"
+                            android:background="@color/white" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:paddingStart="@dimen/first_margin"
+                            android:layout_width="match_parent"
+                            android:gravity="center_vertical"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="1 Trip" />
+
+                    </LinearLayout>
+
+                </LinearLayout>-->
+
+                <include
+                    layout="@layout/layout_border_red" />
+
+                <RelativeLayout
+                    android:id="@+id/rlCoupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_35"
+                    android:visibility="visible"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_white_background">
+
+                    <LinearLayout
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/rounded_blue"
+                        android:id="@+id/tvApply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/height_35">
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="@dimen/toolbar_height"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:id="@+id/btReviewCoupon"
+                            android:tag="review"
+                            android:text="@string/review"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/big_font" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:textAlignment="viewStart"
+                        android:id="@+id/etCoupon"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_35"
+                        android:layout_toStartOf="@id/tvApply"
+                        android:background="@color/transparent"
+                        android:hint="@string/couponNumber"
+                        android:paddingStart="@dimen/normal_margin"
+                        android:paddingEnd="@dimen/mini_margin"
+                        android:tag="couponNumber"
+                        android:textSize="@dimen/small_font"
+
+                        />
+
+                </RelativeLayout>
+
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:tag="waiting_service_provider_approve"
+                    android:id="@+id/tvNoProvider"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="@string/waiting_service_provider_approve"
+                    android:textColor="@color/gray_font_title" />
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:tag="PaymentMethod"
+                    android:id="@+id/tvPaymentMethodTitle"
+                    android:text="@string/PaymentMethod"
+                    android:textColor="@color/primary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rvPaymentMethod"
+                        android:nestedScrollingEnabled="false"
+                        />
+
+ <!--                   <LinearLayout
+                        android:id="@+id/rbKnet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivKnet"
+                            android:layout_width="@dimen/small_icon"
+                            android:layout_height="@dimen/small_icon"
+                            android:src="@drawable/blue_circle_border" />
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_2"
+                            android:layout_height="@dimen/icon_2"
+                            android:layout_marginStart="@dimen/normal_margin"
+                            android:layout_marginEnd="@dimen/normal_margin"
+                            android:src="@drawable/icon_knet" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:tag="KNETPayment"
+                            android:textSize="@dimen/medium_font"
+                            android:textColor="@color/gray_font_title"
+                            android:text="@string/KNETPayment" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/rbVisa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivVisa"
+                            android:layout_width="@dimen/small_icon"
+                            android:layout_height="@dimen/small_icon"
+                            android:src="@drawable/blue_circle" />
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_2"
+                            android:layout_height="@dimen/icon_2"
+                            android:layout_marginStart="@dimen/normal_margin"
+                            android:layout_marginEnd="@dimen/normal_margin"
+                            android:src="@drawable/icon_visa" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:tag="CreditCard"
+                            android:textSize="@dimen/medium_font"
+                            android:textColor="@color/gray_font_title"
+                            android:text="@string/CreditCard" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/rbCash"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivCash"
+                            android:layout_width="@dimen/small_icon"
+                            android:layout_height="@dimen/small_icon"
+                            android:src="@drawable/blue_circle" />
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_2"
+                            android:layout_height="@dimen/icon_2"
+                            android:layout_marginStart="@dimen/normal_margin"
+                            android:layout_marginEnd="@dimen/normal_margin"
+                            android:background="@color/white"
+                            android:src="@drawable/icon_dollar" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/medium_font"
+                            android:textColor="@color/gray_font_title"
+                            android:tag="CashOnDelivery"
+                            android:text="@string/CashOnDelivery" />
+
+
+                    </LinearLayout>
+-->
+
+                    <Button
+                        android:id="@+id/btPLaceOrder"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_marginTop="@dimen/big_margin"
+                        android:layout_marginBottom="@dimen/first_margin"
+                        android:background="@drawable/blue_rounded"
+                        android:text="@string/PlaceOrder"
+                        android:textColor="@color/white" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+
+        <include
+            layout="@layout/loading" />
+    </FrameLayout>
+
+
+
+    <RelativeLayout
+        android:layout_marginStart="@dimen/edit_text_height"
+        android:layout_marginEnd="@dimen/edit_text_height"
+        android:visibility="gone"
+        android:layout_above="@+id/llFooter"
+        android:layout_below="@+id/llTool"
+        android:id="@+id/rlNotService"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/icon_no_service"
+            android:layout_height="wrap_content"/>
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_marginTop="@dimen/big_margin_2"
+                android:layout_marginBottom="@dimen/big_margin_2"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:tag="NoServiceProvider"
+                android:text="@string/NoServiceProvider"/>
+
+            <Button
+                android:id="@+id/btToServices"
+                android:tag="GoToSerices"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:background="@drawable/rounded_red_background"
+                android:text="@string/GoToSerices"/>
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/llFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/footer" />
+    </LinearLayout>
+
+
+
+</RelativeLayout>

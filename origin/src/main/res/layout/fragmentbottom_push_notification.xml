@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rounded_white_background"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/margin_start_end"
+    android:id="@+id/rootLayout"
+    android:paddingBottom="@dimen/block_hight"
+    android:paddingEnd="@dimen/margin_start_end"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/big_margin"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:tint="@color/primary"
+                android:layout_width="@dimen/icon_2"
+                android:layout_height="@dimen/icon_2"
+                android:src="@drawable/icon_notification"/>
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:tag="notifications"
+                android:textColor="@color/gray_font_title"
+                android:text="@string/notifications"/>
+
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.MyTheme"
+            android:id="@+id/swAvailable"
+            android:checked="true"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:buttonTint="@color/green_switch"
+            app:switchPadding="@dimen/small_margin"
+            android:textColor="@color/gray_font"
+            android:paddingStart="10dp"
+            />
+
+
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_background"
+        android:orientation="horizontal"
+        android:id="@+id/rgNotifications"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/small_margin">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:buttonTint="@color/primary"
+            android:checked="true"
+            android:tag="PushNotifications"
+            android:id="@+id/rbNotification"
+            android:textColor="@color/gray_font"
+            android:text="@string/PushNotifications"/>
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/gray_font"
+            android:id="@+id/rbSMS"
+            android:buttonTint="@color/primary"
+            android:tag="sms"
+            android:text="@string/sms"/>
+    </RadioGroup>
+
+    <com.ids.qasemti.custom.CustomTextViewMedium
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/normal_font"
+        android:tag="@string/find_your_updates"
+        android:text="@string/find_your_updates"
+        android:textColor="@color/gray_font"/>
+
+    <!-- <LinearLayout
+         android:layout_marginTop="@dimen/normal_margin"
+         android:orientation="horizontal"
+         android:weightSum="3"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+
+         <CheckBox
+             android:gravity="center_vertical"
+             android:layout_weight="1"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:tag="inApp"
+             android:textColor="@color/gray_font"
+             android:buttonTint="@color/button_blue"
+             android:text="@string/inApp"/>
+
+         <CheckBox
+             android:layout_weight="1"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:gravity="center_vertical"
+             android:tag="email"
+             android:textColor="@color/gray_font"
+             android:buttonTint="@color/button_blue"
+             android:text="@string/email"/>
+
+         <CheckBox
+             android:layout_weight="1"
+             android:layout_width="match_parent"
+             android:gravity="center_vertical"
+             android:layout_height="wrap_content"
+             android:tag="sms"
+             android:textColor="@color/gray_font"
+             android:buttonTint="@color/button_blue"
+             android:text="@string/sms"/>
+
+     </LinearLayout>-->
+
+</LinearLayout>

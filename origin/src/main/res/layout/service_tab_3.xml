@@ -1,0 +1,148 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearService3"
+    android:orientation="vertical"
+    android:visibility="gone"
+    android:layout_height="match_parent">
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:id="@+id/rvData"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/icon_2"
+            android:layout_height="@dimen/icon_2"
+            android:tint="@color/primary"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_price"
+            />
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/gray_font"
+            android:layout_marginStart="@dimen/small_margin"
+            android:text="@string/Price"
+            android:tag="Price"
+            android:id="@+id/tvPrice"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/icon_2"
+            android:tint="@color/primary"
+            android:layout_height="@dimen/icon_2"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_wallet"
+            />
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/gray_font"
+            android:id="@+id/tvEarning"
+            android:layout_marginStart="@dimen/small_margin"
+            android:text="@string/Earning"
+            android:tag="Earning"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/icon_2"
+            android:tint="@color/primary"
+            android:layout_height="@dimen/icon_2"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/wall_clock"
+            />
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/normal_font"
+            android:id="@+id/tvEstimatedDeliveryTime"
+            android:textColor="@color/gray_font"
+            android:layout_marginStart="@dimen/small_margin"
+            android:text="@string/expected_delivery"
+            android:tag="expected_delivery"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/big_margin_2"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/button_height"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/white"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:background="@drawable/rounded_red_background"
+            android:text="@string/Previous"
+            android:id="@+id/btPreviews2"
+            android:tag="Previous"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/button_height"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/white"
+            android:layout_marginStart="@dimen/small_margin"
+            android:background="@drawable/blue_rounded"
+            android:text="@string/create_service"
+            android:id="@+id/btNext2"
+            android:tag="create_service"
+            android:textAllCaps="false"
+            />
+    </LinearLayout>
+
+
+
+</LinearLayout>

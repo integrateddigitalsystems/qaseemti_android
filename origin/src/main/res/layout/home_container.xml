@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <FrameLayout
+        android:id="@+id/homeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_above="@+id/llFooter" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/llFooter"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- <include
+             layout="@layout/footer_top" />-->
+        <LinearLayout
+            android:id="@+id/llGeneralFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <include
+                layout="@layout/footer" />
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/llClientFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include
+                layout="@layout/client_footer" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_above="@id/llFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/layout_footer_shadow" />
+    </LinearLayout>
+    <include
+        layout="@layout/toolbar" />
+
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/linearFooterSelection"
+        android:layout_above="@+id/llFooter"
+        >
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentBottom="true"
+
+            android:background="@drawable/footer_shadow"
+            />
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:id="@+id/tablayout"
+            app:tabIndicatorHeight="0dp"
+            android:clickable="false"
+            android:layout_marginBottom="-25dp"
+            app:elevation="0dp"
+            app:tabIndicatorFullWidth="false"
+            app:tabPaddingEnd="25dp"
+            app:tabPaddingStart="25dp"
+            app:tabMaxWidth="0dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            android:background="@android:color/transparent"
+            android:layout_alignParentBottom="true" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vpPagerTab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

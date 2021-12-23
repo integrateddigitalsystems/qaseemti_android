@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@color/gray_bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/rootLayoutServiceDetails"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+    <LinearLayout
+        android:id="@+id/llToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <include
+        layout="@layout/no_logo_layout" />
+    </LinearLayout>
+
+        <ScrollView
+            android:scrollbars="none"
+            android:layout_marginTop="@dimen/medium_push"
+            android:layout_below="@id/llToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_marginTop="-12dp"
+                    android:layout_marginStart="@dimen/card_new_margin"
+                    android:layout_marginEnd="@dimen/card_new_margin"
+                    android:id="@+id/lineaarProfileInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/image_news"
+                    app:cardElevation="@dimen/normal_margin"
+                    android:elevation="@dimen/normal_margin"
+                    card_view:contentPadding="0dp"
+                    app:cardUseCompatPadding="true"
+                    app:cardCornerRadius="@dimen/bigger_radius"
+                    android:background="@drawable/rounded_white_background"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/margin_start_end"
+                    android:paddingEnd="@dimen/margin_start_end">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <androidx.viewpager.widget.ViewPager
+                            android:layout_above="@id/llCostData"
+                            android:id="@+id/vpMedia"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/image_news" />
+
+                        <LinearLayout
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:id="@+id/llCostData"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/blue_rounded_straight"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height">
+
+                            <LinearLayout
+                                android:layout_marginStart="@dimen/normal_margin"
+                                android:padding="@dimen/mini_margin"
+                                android:gravity="center"
+                                android:background="@drawable/white_circle"
+                                android:layout_width="@dimen/normal_icon_size"
+                                android:layout_height="@dimen/normal_icon_size">
+                                <com.ids.qasemti.custom.CustomTextViewMedium
+                                    android:textColor="@color/seconday_use"
+                                    android:text="@string/k_d"
+                                    android:tag="k_d"
+                                    android:textSize="@dimen/small_font_2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    />
+                            </LinearLayout>
+
+
+                            <com.ids.qasemti.custom.CustomTextViewMedium
+                                android:layout_marginStart="@dimen/normal_margin"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:id="@+id/tvPrice"
+                                android:textSize="@dimen/header_font"
+                                android:textColor="@color/white"/>
+
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+
+
+                </androidx.cardview.widget.CardView>
+
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tbMedia"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/lineaarProfileInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp"
+                    android:layout_marginTop="-4dp"
+                    app:tabMaxWidth="12dp"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    app:tabBackground="@drawable/selector_tab_image"
+                    app:tabRippleColor="@null" />
+
+                <LinearLayout
+                    android:id="@+id/llSpinnerServices"
+                    android:layout_marginStart="@dimen/margin_start_end"
+                    android:layout_marginEnd="@dimen/margin_start_end"
+                    android:layout_below="@id/tbMedia"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary"
+                            android:text="@string/type"
+                            android:textSize="@dimen/header_font"
+                            android:tag="type"
+                            />
+
+
+                        <RelativeLayout
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="@dimen/normal_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:background="@drawable/rounded_white_background">
+
+                            <Spinner
+                                android:layout_toStartOf="@id/ivSpinnerTypeArrow"
+                                android:id="@+id/spServiceType"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/transparent"
+                                />
+
+                            <ImageView
+                                android:id="@+id/ivSpinnerTypeArrow"
+                                android:layout_marginEnd="@dimen/first_margin"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:layout_width="@dimen/small_icon"
+                                android:layout_height="@dimen/small_icon"
+                                android:src="@drawable/arrow_down"
+                                app:tint="@color/new_black"/>
+
+                        </RelativeLayout>
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginStart="@dimen/margin_start_end"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary"
+                            android:text="@string/Size"
+                            android:textSize="@dimen/header_font"
+                            android:tag="Size"
+                            />
+
+
+                        <RelativeLayout
+                            android:layout_marginTop="@dimen/normal_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:background="@drawable/rounded_white_background">
+
+                            <Spinner
+                                android:layout_toStartOf="@id/ivSpinnerSizeArrow"
+                                android:id="@+id/spServiceSize"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/transparent" />
+
+                            <ImageView
+                                android:id="@+id/ivSpinnerSizeArrow"
+                                android:layout_marginEnd="@dimen/first_margin"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:layout_width="@dimen/small_icon"
+                                android:layout_height="@dimen/small_icon"
+                                android:src="@drawable/arrow_down"
+                                app:tint="@color/new_black"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:id="@+id/tvDescription"
+                    android:layout_marginTop="@dimen/big_margin"
+                    android:layout_marginStart="@dimen/margin_start_end"
+                    android:layout_marginEnd="@dimen/margin_start_end"
+                    android:layout_below="@id/llSpinnerServices"
+                    android:textSize="@dimen/header_font"
+                    android:textColor="@color/gray_font"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+
+                <Button
+                    android:id="@+id/btServiceCheckout"
+                    android:layout_marginTop="@dimen/big_margin_2"
+                    android:layout_marginStart="@dimen/margin_start_end"
+                    android:layout_marginEnd="@dimen/margin_start_end"
+                    android:layout_below="@id/tvDescription"
+                    android:textColor="@color/white"
+                    android:text="@string/Checkout"
+                    android:tag="Checkout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:background="@drawable/blue_rounded"/>
+
+
+                <LinearLayout
+                    android:padding="@dimen/normal_margin"
+                    android:layout_marginBottom="@dimen/big_margin_2"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/normal_icon_size"
+                    android:layout_below="@id/btServiceCheckout"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="@dimen/margin_start_end"
+                    android:layout_marginEnd="@dimen/margin_start_end"
+                    android:background="@drawable/pink_rounded"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/llAlert">
+
+                    <ImageView
+                        android:layout_marginStart="@dimen/normal_margin"
+                        android:layout_width="@dimen/normal_icon_size"
+                        android:layout_height="@dimen/normal_icon_size"
+                        android:tint="@color/primary"
+                        android:src="@drawable/icon_alert"/>
+
+                    <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_marginStart="@dimen/normal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvItalicNote"
+                        android:textColor="@color/black"
+                        android:layout_marginEnd="@dimen/normal_margin"
+                        android:tag="price_effect"
+                        android:text="@string/price_effect"/>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+</RelativeLayout>

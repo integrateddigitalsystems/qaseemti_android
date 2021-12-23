@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:orientation="vertical"
+    android:background="@color/transparent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="@dimen/footer_height"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_white_background"
+            android:padding="@dimen/first_margin"
+            android:orientation="vertical"
+            android:id="@+id/linearRating"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:id="@+id/tvTitleRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:gravity="center"
+                android:tag="rate"
+                android:text="@string/rate"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/big_font" />
+
+
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                style="?attr/ratingBarStyle"
+                android:theme="@style/RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_gravity="center"
+                android:id="@+id/rbOrder"
+                android:progressTint="@color/new_black"
+                android:stepSize="1" />
+
+            <!--<EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:padding="@dimen/normal_margin"
+                android:hint="title"
+                android:tag="@string/description"
+                android:layout_gravity="top"
+                android:gravity="top"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_gray_corner"
+                android:id="@+id/etRatingTitle"/>-->
+
+            <EditText
+                android:textAlignment="viewStart"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:padding="@dimen/normal_margin"
+                android:hint="@string/description"
+                android:tag="@string/description"
+                android:layout_gravity="top"
+                android:gravity="top"
+                android:textSize="@dimen/normal_font"
+                android:background="@drawable/rounded_gray_corner"
+                android:id="@+id/etRatingText"/>
+
+            <Button
+                android:text="@string/submit_review"
+                android:tag="submit_review"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_width="match_parent"
+                android:id="@+id/btSubmit"
+                android:layout_height="@dimen/button_height"
+                android:background="@drawable/blue_rounded"
+                android:textColor="@color/white"/>
+
+
+        </LinearLayout>
+
+       <include layout="@layout/loading"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="@dimen/edit_text_height"
+            android:layout_height="@dimen/edit_text_height"
+           android:layout_below="@+id/linearRating"
+            android:layout_marginTop="@dimen/big_margin"
+            app:tint="@color/white"
+            android:id="@+id/btClose"
+            app:fabCustomSize="40dp"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            app:rippleColor="@color/new_black"
+            app:backgroundTint="@color/new_black"
+            android:src="@drawable/icon_close"
+            android:layout_alignParentEnd="true"
+            />
+
+
+</RelativeLayout>

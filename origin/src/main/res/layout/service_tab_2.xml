@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearService2"
+    android:orientation="vertical"
+    android:visibility="gone"
+    android:layout_height="match_parent">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/rvRequiredFiles"
+        />
+
+    <com.ids.qasemti.custom.CustomTextViewMedium
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="@dimen/normal_font"
+        android:textColor="@color/gray_font"
+        android:text="@string/no_required_documents"
+        android:tag="no_required_documents"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/no_required"
+        android:visibility="gone"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/big_margin_2"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/button_height"
+            android:id="@+id/btPreViews1"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/white"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:background="@drawable/rounded_red_background"
+            android:text="@string/previews"
+            android:tag="previews"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/button_height"
+            android:id="@+id/btNext1"
+            android:background="@drawable/blue_rounded"
+            android:textSize="@dimen/normal_font"
+            android:textColor="@color/white"
+            android:layout_marginStart="@dimen/small_margin"
+
+            android:text="@string/next"
+            android:tag="next"
+            android:textAllCaps="false"
+            />
+    </LinearLayout>
+
+
+
+</LinearLayout>

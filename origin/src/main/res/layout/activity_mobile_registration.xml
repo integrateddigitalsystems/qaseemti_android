@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/gray_background"
+    android:id="@+id/rootLayoutMobileRegister"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <include layout="@layout/white_logo_layout" />
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/huge_margin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/header_font"
+            android:text="@string/enter_mobile_number"
+            android:tag="enter_mobile_number"
+            />
+
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/huge_margin"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="@dimen/bigger_image"
+                android:layout_height="match_parent">
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/gray_font_title"
+                    android:id="@+id/tvCountryCode"
+                    android:background="@drawable/rounded_white_background"/>
+               <!-- <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_white_background">
+
+                    <Spinner
+                        android:id="@+id/spMobileCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        />
+
+                </RelativeLayout>-->
+            </LinearLayout>
+
+            <EditText
+                android:textAlignment="viewStart"
+                android:id="@+id/etPhone"
+                android:textColorHint="@color/gray_medium_2"
+                android:paddingStart="@dimen/normal_margin"
+                android:paddingEnd="@dimen/normal_margin"
+                android:inputType="phone"
+                android:hint="@string/mobile"
+                android:maxLength="8"
+                android:background="@drawable/rounded_white_background"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"/>
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:textColor="@color/white"
+            android:text="@string/login"
+            android:visibility="visible"
+            android:tag="login"
+            android:layout_marginTop="@dimen/big_margin_2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:id="@+id/btLogin"
+            android:background="@drawable/blue_rounded"/>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:id="@+id/llNewMember"
+            android:layout_marginBottom="@dimen/big_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <Button
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:textColor="@color/white"
+                android:text="@string/login"
+                android:tag="login"
+                android:layout_marginTop="@dimen/big_margin_2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:id="@+id/btLoginClient"
+                android:background="@drawable/blue_rounded"/>
+
+            <!--<com.ids.qasemti.custom.CustomTextViewMedium
+                android:id="@+id/tvRegisterNewMember"
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/redPrimary"
+                android:tag="new_member_register"
+                android:text="@string/new_member_register"
+                android:textSize="@dimen/big_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>-->
+        </RelativeLayout>
+
+
+
+
+    </LinearLayout>
+    </LinearLayout>
+
+        <include
+            layout="@layout/loading" />
+    </RelativeLayout>
+
+
+
+</LinearLayout>

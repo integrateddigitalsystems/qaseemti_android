@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:orientation="vertical"
+    android:background="@color/transparent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="@dimen/footer_height"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_white_background"
+        android:padding="@dimen/first_margin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <com.ids.qasemti.custom.CustomTextViewMedium
+        android:paddingStart="@dimen/mini_margin"
+        android:layout_marginStart="@dimen/mini_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/category"
+        android:textColor="@color/primary"/>
+
+
+        <RadioGroup
+            android:layout_marginStart="@dimen/mini_margin"
+            style="@style/MyRadioButton"
+            android:background="@color/transparent"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:weightSum="2"
+            android:id="@+id/rgCategory"
+            android:gravity="center"
+            android:orientation="horizontal"
+            >
+
+       <!--     <RadioButton
+                android:layout_marginStart="-13dp"
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                style="@style/MyRadioButton"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:tag="purchase"
+                android:padding="@dimen/normal_margin"
+                android:id="@+id/rbPurchase"
+                android:checked="true"
+                android:textSize="@dimen/normal_font"
+                android:buttonTint="@color/new_black"
+                android:textColor="@color/gray_font"
+                android:text="@string/purchase"/>
+
+            <RadioButton
+                android:scaleX="0.9"
+                android:scaleY="0.9"
+                style="@style/MyRadioButton"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/normal_margin"
+                android:layout_height="wrap_content"
+                android:tag="rental"
+                android:id="@+id/rbRental"
+                android:buttonTint="@color/new_black"
+                android:textSize="@dimen/normal_font"
+                android:textColor="@color/gray_font"
+                android:text="@string/rental"/>-->
+
+        </RadioGroup>
+
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/mini_margin"
+        android:layout_marginEnd="@dimen/mini_margin"
+        android:layout_marginTop="@dimen/big_margin_2"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+
+            android:paddingStart="@dimen/mini_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/service"
+            android:textColor="@color/primary"/>
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gray_background_rounded">
+
+            <Spinner
+                android:id="@+id/spServices"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_35"
+                android:background="@color/transparent"
+                />
+
+            <ImageView
+                android:layout_marginEnd="@dimen/first_margin"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_width="@dimen/small_icon"
+                android:layout_height="@dimen/small_icon"
+                android:src="@drawable/arrow_down"
+                app:tint="@color/new_black"/>
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:paddingStart="@dimen/mini_margin"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/type"
+                android:textColor="@color/primary"/>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gray_background_rounded">
+
+                <Spinner
+                    android:id="@+id/spType"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_35"
+                    android:background="@color/transparent"
+                    />
+
+                <ImageView
+                    android:layout_marginEnd="@dimen/first_margin"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_width="@dimen/small_icon"
+                    android:layout_height="@dimen/small_icon"
+                    android:src="@drawable/arrow_right"
+                    android:rotation="90"
+                    app:tint="@color/new_black"/>
+
+            </RelativeLayout>
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:paddingStart="@dimen/mini_margin"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/service_capacity"
+                android:textColor="@color/primary"/>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gray_background_rounded">
+
+                <Spinner
+                    android:id="@+id/spServiceCapactity"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_35"
+                    android:background="@color/transparent"
+                    />
+
+                <ImageView
+                    android:layout_marginEnd="@dimen/first_margin"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_width="@dimen/small_icon"
+                    android:layout_height="@dimen/small_icon"
+                    android:src="@drawable/arrow_right"
+                    android:rotation="90"
+                    app:tint="@color/new_black"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/big_margin_2"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_marginBottom="@dimen/height_35"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="@string/apply_filters"
+                android:textColor="@color/white"
+                android:layout_marginEnd="@dimen/mini_margin"
+                android:background="@drawable/rounded_blue"
+                android:layout_weight="0.5"
+                android:id="@+id/btApplyFilter"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"/>
+
+            <Button
+                android:textColor="@color/primary"
+                android:text="@string/reset"
+                android:layout_marginStart="@dimen/mini_margin"
+                android:background="@drawable/smaller_whire_red"
+                android:layout_weight="0.5"
+                android:id="@+id/btResetFilter"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    </LinearLayout>
+
+    </ScrollView>
+
+
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:gravity="bottom|end"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="@dimen/edit_text_height"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_start_end"
+            app:tint="@color/white"
+            android:id="@+id/btClose"
+            app:fabCustomSize="40dp"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            app:rippleColor="@color/new_black"
+            app:backgroundTint="@color/new_black"
+            android:src="@drawable/icon_close"
+            android:layout_alignParentEnd="true"
+            />
+
+    </LinearLayout>
+
+    <!--<LinearLayout
+        android:layout_marginTop="@dimen/big_margin_2"
+        android:gravity="end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/big_margin"
+            android:paddingBottom="@dimen/big_margin">
+
+            <ImageView
+                android:id="@+id/btClose"
+                app:tint="@color/white"
+                android:layout_width="@dimen/big_icon"
+                android:layout_height="@dimen/big_icon"
+                android:background="@drawable/blue_circle"
+                android:padding="@dimen/small_margin"
+                 />
+
+        </LinearLayout>
+    </LinearLayout>-->
+
+</RelativeLayout>

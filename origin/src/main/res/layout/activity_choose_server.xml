@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@drawable/splach_bg"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/huge_margin"
+        android:id="@+id/logoClient"
+        android:tint="@color/primary"
+        android:layout_width="@dimen/splash_logo"
+        android:layout_height="@dimen/splash_logo"
+        android:src="@drawable/icon_splash"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rvLinks"/>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/huge_margin"
+        android:layout_marginBottom="@dimen/toolbar_height"
+        android:layout_above="@+id/ivApp"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:gravity="center"
+            android:id="@+id/btToArabic"
+            android:background="@drawable/rounded_white_red_border"
+            android:layout_width="@dimen/logo_size_top_hight"
+            android:layout_height="@dimen/button_height"
+            android:tag="lang_ar"
+            android:textColor="@color/gray_font_title"
+            android:textSize="@dimen/normal_font"
+            android:layout_marginBottom="@dimen/normal_margin"
+            android:text="@string/lang_ar"/>
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:gravity="center"
+            android:id="@+id/btToEnglish"
+            android:textColor="@color/gray_font_title"
+            android:textSize="@dimen/normal_font"
+            android:background="@drawable/rounded_white_red_border"
+            android:layout_width="@dimen/logo_size_top_hight"
+            android:layout_height="@dimen/button_height"
+            android:tag="lang_eng"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:text="@string/lang_eng"/>
+    </LinearLayout>
+
+    <!--  <ImageView
+          android:id="@+id/ivApp"
+          android:layout_marginBottom="@dimen/big_margin"
+          android:layout_centerHorizontal="true"
+          android:layout_alignParentBottom="true"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:src="@drawable/qas_copyright"/>-->
+
+</LinearLayout>

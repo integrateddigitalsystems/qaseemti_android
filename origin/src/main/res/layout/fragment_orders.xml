@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:id="@+id/rootLayoutOrderType"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/gray_bg"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+
+        android:layout_marginStart="@dimen/margin_start_new"
+        android:layout_marginEnd="@dimen/margin_start_new"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="@dimen/edit_text_height"
+        android:orientation="horizontal"
+        android:padding="@dimen/normal_margin"
+        android:background="@drawable/rounded_white_red_border"
+        android:layout_marginTop="@dimen/toolbar_height"
+        >
+        <EditText
+            android:textAlignment="viewStart"
+            android:gravity="center_vertical"
+            android:inputType="text"
+            android:id="@+id/etSearchOrders"
+            android:background="@color/transparent"
+            android:textSize="@dimen/big_font"
+            android:hint="@string/search_by"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/margin_start_new"
+        android:layout_marginEnd="@dimen/margin_start_new"
+        android:padding="@dimen/small_margin"
+        android:id="@+id/linearTabs"
+        android:weightSum="5"
+        android:layout_marginTop="@dimen/first_margin"
+        android:background="@drawable/normal_white_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height">
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/tvActive"
+            android:background="@drawable/rounded_orders"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:textSize="@dimen/small_font_2"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="@dimen/mini_margin"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:tag="Active"
+            android:text="@string/status_active"/>
+        <me.grantland.widget.AutofitTextView
+            android:textColor="@color/primary"
+            android:layout_marginStart="@dimen/small_margin"
+            android:id="@+id/tvUpcoming"
+            android:tag="upcoming"
+            android:maxLines="1"
+            android:padding="@dimen/mini_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:gravity="center"
+            android:textSize="@dimen/small_font_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/status_upcoming"/>
+        <me.grantland.widget.AutofitTextView
+            android:layout_marginStart="@dimen/mini_margin"
+            android:layout_marginEnd="@dimen/mini_margin"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:id="@+id/tvCompleted"
+            android:padding="@dimen/mini_margin"
+            android:tag="Completed"
+            android:textColor="@color/primary"
+            android:gravity="center"
+            android:textSize="@dimen/small_font_2"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/status_completed"/>
+        <me.grantland.widget.AutofitTextView
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:maxLines="1"
+            android:textColor="@color/primary"
+            android:padding="@dimen/mini_margin"
+            android:id="@+id/tvCancelled"
+            android:tag="Cancelled"
+            android:textSize="@dimen/small_font_2"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/status_cancelled"/>
+
+        <me.grantland.widget.AutofitTextView
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:maxLines="1"
+            android:textColor="@color/primary"
+            android:padding="@dimen/mini_margin"
+            android:id="@+id/tvFailed"
+            android:tag="Failed"
+            android:textSize="@dimen/small_font_2"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/status_failed"/>
+
+
+    </LinearLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/slRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/medium_2"
+        android:layout_marginStart="@dimen/card_new_margin"
+        android:layout_marginEnd="@dimen/card_new_margin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rvOrderDetails"/>
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone"
+            android:id="@+id/tvNoData"
+            android:textSize="@dimen/header_font"
+            android:text="@string/no_data"
+            android:tag="no_data"
+            android:textColor="@color/primary"/>
+
+
+        <include
+            layout="@layout/loading" />
+    </RelativeLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>

@@ -1,0 +1,18 @@
+com/ids/qasemti/custom/TouchImageView.java
+ com.ids.qasemti.custom.TouchImageView
+ com.ids.qasemti.custom.TouchImageView$1
+ com.ids.qasemti.custom.TouchImageView$CompatScroller
+ com.ids.qasemti.custom.TouchImageView$DoubleTapZoom
+ com.ids.qasemti.custom.TouchImageView$Fling
+ com.ids.qasemti.custom.TouchImageView$GestureListener
+ com.ids.qasemti.custom.TouchImageView$OnTouchImageViewListener
+ com.ids.qasemti.custom.TouchImageView$PrivateOnTouchListener
+ com.ids.qasemti.custom.TouchImageView$ScaleListener
+ com.ids.qasemti.custom.TouchImageView$State
+ com.ids.qasemti.custom.TouchImageView$ZoomVariables
+com/ids/qasemti/BuildConfig.java
+ com.ids.qasemti.BuildConfig
+com/ids/qasemti/utils/ReceivedCookiesInterceptor.java
+ com.ids.qasemti.utils.ReceivedCookiesInterceptor
+com/ids/qasemti/utils/MyExceptionHandler.java
+ com.ids.qasemti.utils.MyExceptionHandler

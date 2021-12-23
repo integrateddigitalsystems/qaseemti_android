@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayoutServices"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/llHomeCurve"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/no_logo_layout" />
+        </LinearLayout>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_below="@id/llHomeCurve"
+            android:layout_marginTop="@dimen/medium_push_2"
+            android:id="@+id/linearHomeClient"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            app:cardElevation="@dimen/mini_margin"
+            android:elevation="@dimen/mini_margin"
+            android:visibility="gone"
+            app:cardCornerRadius="@dimen/bigger_radius"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:background="@drawable/rounded_white_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/margin_start_end"
+            android:paddingEnd="@dimen/margin_start_end">
+
+            <androidx.viewpager.widget.ViewPager
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/vpAdsClient"/>
+
+            <!--<com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/gray_font_title"
+                android:text="@string/ads_place"
+                android:tag="ads_place"
+                android:textSize="@dimen/big_font" />-->
+
+        </androidx.cardview.widget.CardView>
+
+
+       <!-- <androidx.core.widget.NestedScrollView
+            android:layout_below="@id/linearProfileInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+
+            android:fillViewport="true">-->
+
+            <LinearLayout
+                android:id="@+id/listHomeClient"
+                android:layout_below="@id/linearHomeClient"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:id="@+id/tvNoDataClient"
+                    android:visibility="gone"
+                    android:textSize="@dimen/header_font"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/gray_font_title"
+                    android:text="@string/no_data"
+                    android:tag="no_data"
+                    />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginStart="@dimen/card_new_margin"
+                    android:layout_marginEnd="@dimen/card_new_margin"
+
+                    android:id="@+id/rvServices"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible" />
+
+               <!-- <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/llNodata"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/no_logo_height"
+                        android:layout_height="@dimen/no_logo_height"
+                        android:src="@drawable/icon_no_data" />
+                </LinearLayout>-->
+
+
+            </LinearLayout>
+
+
+      <!--  </androidx.core.widget.NestedScrollView>-->
+
+
+
+
+        <RelativeLayout
+
+            android:background="@color/transparent"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
+            <Button
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/btRegisterLogin"
+                android:layout_width="@dimen/button_width"
+                android:layout_marginBottom="@dimen/margin_start_end"
+                android:tag="Register_login"
+                android:layout_height="@dimen/bigger_edit_text"
+                android:background="@drawable/blue_rounded"
+                android:textColor="@color/white"
+                android:text="@string/Register_login"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="@dimen/bigger_edit_text"
+                android:layout_height="@dimen/bigger_edit_text"
+                app:tint="@color/white"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:layout_marginBottom="@dimen/margin_start_end"
+                android:layout_centerVertical="true"
+                android:layout_gravity="end|bottom"
+                android:id="@+id/btFilter"
+                android:scaleType="center"
+                app:fabCustomSize="40dp"
+                app:rippleColor="@color/seconday_use"
+                app:backgroundTint="@color/seconday_use"
+                android:src="@drawable/icon_floating"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                />
+
+
+        </RelativeLayout>
+
+
+
+
+        <!--
+                <androidx.cardview.widget.CardView
+                    android:background="@color/transparent"
+                    android:id="@+id/llFilter"
+                    android:elevation="@dimen/normal_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="@dimen/big_margin"
+                    android:paddingBottom="@dimen/big_margin">
+                    <ImageView
+                        android:layout_width="@dimen/big_icon"
+                        android:layout_height="@dimen/big_icon"
+                        android:background="@drawable/blue_circle"
+                        android:padding="@dimen/small_margin"
+                        android:src="@drawable/icon_floating" />
+                </androidx.cardview.widget.CardView>
+        -->
+
+
+
+        <include layout="@layout/loading"/>
+    </RelativeLayout>
+
+
+</LinearLayout>

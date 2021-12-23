@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+
+    android:id="@+id/rootLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/gray_bg"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_start_end"
+            >
+            <ImageButton
+                android:layout_width="@dimen/icon_2"
+                android:layout_height="@dimen/icon_2"
+                android:id="@+id/btBck"
+                android:backgroundTint="@color/primary"
+                android:tint="@color/primary"
+
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:background="@drawable/ic_back"
+
+                />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/tvPageTitle"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="@dimen/height_35"
+                android:layout_marginEnd="@dimen/height_35"
+                android:maxLines="2"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/title_font" />
+        </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:padding="@dimen/small_margin"
+        android:id="@+id/linearTabs"
+        android:layout_marginTop="@dimen/first_margin"
+        android:background="@drawable/rounded_white_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height">
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:id="@+id/tvToBeSettled"
+            android:background="@drawable/rounded_red_background"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_width="0dp"
+            android:paddingStart="@dimen/mini_margin"
+            android:paddingEnd="@dimen/mini_margin"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="@dimen/normal_font"
+            android:tag="ToBeSettled"
+            android:text="@string/ToBeSettled"/>
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:textColor="@color/gray_font_title"
+            android:layout_marginStart="@dimen/small_margin"
+            android:id="@+id/tvPreviews"
+            android:tag="PreviousSettlements"
+            android:gravity="center"
+            android:paddingStart="@dimen/mini_margin"
+            android:paddingEnd="@dimen/mini_margin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/normal_font"
+            android:layout_weight="1"
+            android:text="@string/PreviousSettlements"/>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/big_margin"
+        android:layout_marginRight="@dimen/margin_start_end"
+        android:layout_marginLeft="@dimen/margin_start_end"
+        android:paddingStart="@dimen/small_margin"
+        android:paddingEnd="@dimen/small_margin"
+
+        >
+
+
+        <RelativeLayout
+            android:id="@+id/rlTotal"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/block_hight"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:background="@drawable/rectangular_gradient">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingLeft="@dimen/margin_start_end"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                      <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/TotalOrderCount"
+                        android:tag="TotalOrderCount"
+                        android:lineSpacingMultiplier="0.9"
+                        android:textAlignment="viewStart"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="start"
+                        android:textSize="@dimen/normal_font"
+                        android:textColor="@color/white"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/normal_icon_size"
+                        android:layout_height="@dimen/normal_icon_size"
+                        android:src="@drawable/icon_list"
+                        app:tint="@color/white"
+                        />
+                    <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:id="@+id/tvTotalOrderCount"
+                        android:textAlignment="viewStart"
+                        android:lineSpacingMultiplier="0.6"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="start"
+                        android:textSize="@dimen/normal_font"
+                        android:textColor="@color/white"
+                        />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlSettlementAmount"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/block_hight"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:background="@drawable/rectangular_gradient">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/margin_start_end"
+                android:paddingLeft="@dimen/margin_start_end"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!--<com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settlement"
+                        android:tag="settlement"
+                        android:id="@+id/tvBlock2TitleTop"
+                        android:textAlignment="viewStart"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="start"
+                        android:textSize="@dimen/normal_font"
+                        android:textColor="@color/white"
+                        />-->
+                    <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/SettlementAmount"
+                        android:tag="SettlementAmount"
+                        android:id="@+id/tvBlock2TitleBottom"
+                        android:lineSpacingMultiplier="0.9"
+                        android:textAlignment="viewStart"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="start"
+                        android:textSize="@dimen/normal_font"
+                        android:textColor="@color/white"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/normal_icon_size"
+                        android:layout_height="@dimen/normal_icon_size"
+                        android:src="@drawable/icon_settlement"
+                        app:tint="@color/white"
+                        />
+                    <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:id="@+id/tvSettlementAmount"
+                        android:textAlignment="viewStart"
+                        android:lineSpacingMultiplier="0.6"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="start"
+                        android:textSize="@dimen/normal_font"
+                        android:textColor="@color/white"
+                        />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/first_margin"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSettlements"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/card_new_margin"
+            android:layout_marginEnd="@dimen/card_new_margin" />
+
+
+
+         <com.ids.qasemti.custom.CustomTextViewMedium
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:id="@+id/tvNoDataSet"
+        android:textSize="@dimen/header_font"
+        android:text="@string/no_data"
+        android:tag="no_data"
+        android:textColor="@color/gray_font_title"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_35"
+            android:background="@drawable/blue_rounded"
+            android:textColor="@color/white"
+            android:id="@+id/btRequestSettlements"
+            android:textSize="@dimen/normal_font"
+            android:text="@string/RequestSettlement"
+            android:layout_marginStart="@dimen/normal_icon_size"
+            android:layout_marginEnd="@dimen/normal_icon_size"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/big_margin"
+            />
+    </RelativeLayout>
+
+
+    </LinearLayout>
+
+        <include
+            layout="@layout/loading" />
+    </RelativeLayout>
+</LinearLayout>

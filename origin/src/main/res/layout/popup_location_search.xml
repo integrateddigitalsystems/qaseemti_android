@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:orientation="vertical"
+    android:layout_margin="@dimen/margin_start_end"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout android:background="@drawable/rounded_white_background"
+        android:layout_above="@id/btFloat"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_marginTop="@dimen/margin_start_end"
+        android:id="@+id/rlMapSearch"
+        android:paddingStart="@dimen/margin_start_end"
+        android:paddingEnd="@dimen/margin_start_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:textAlignment="viewStart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:background="@drawable/rounded_white_red_border"
+            android:hint="@string/search_for_your_location"
+            android:textColorHint="@color/gray_font_light"
+            android:tag="search_for_your_location"
+            android:textSize="@dimen/normal_font"
+            android:id="@+id/etSearchLocation"
+            android:textColor="@color/primary"
+            android:paddingStart="@dimen/normal_margin"
+            android:paddingEnd="@dimen/normal_margin"
+            />
+        <ImageButton
+            android:visibility="gone"
+            android:id="@+id/btClearLocation"
+            android:tint="@color/new_black"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/small_icon"
+            android:layout_height="@dimen/small_icon"
+            android:src="@drawable/close_x"
+            />
+    </RelativeLayout>
+
+    <include
+        layout="@layout/loading" />
+
+       <!-- <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rvLocationSearch"/>
+
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/medium_margin"
+        android:id="@+id/btFloat"
+        android:gravity="bottom|end"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="@dimen/edit_text_height"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_start_end"
+            app:tint="@color/white"
+            android:id="@+id/btClose"
+            app:fabCustomSize="40dp"
+            app:rippleColor="@color/new_black"
+            app:backgroundTint="@color/new_black"
+            android:src="@drawable/icon_close"
+            android:layout_alignParentEnd="true"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/gray_background"
+    android:id="@+id/rootlayoutCodeVerification"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+    <LinearLayout
+        android:id="@+id/llLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/no_logo_layout"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_marginTop="-40dp"
+        android:layout_below="@id/llLogo"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.ids.qasemti.custom.CustomTextViewBold
+            android:id="@+id/tvTitleVerf"
+            android:layout_marginStart="75dp"
+            android:layout_marginEnd="75dp"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:padding="@dimen/normal_margin"
+            android:textSize="@dimen/main_title_font"
+            android:tag="verification"
+            android:textColor="@color/primary"
+            android:layout_height="60dp"
+            android:text="@string/verification"
+            android:background="@drawable/rounded_white_background"/>
+
+        <me.grantland.widget.AutofitTextView
+            android:maxLines="1"
+            android:id="@+id/tvCodeSentVef"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/height_35"
+            android:tag="enter_4_digit"
+            android:layout_marginBottom="@dimen/big_margin_2"
+            android:gravity="center"
+            android:textSize="@dimen/header_font"
+            android:text="@string/enter_4_digit"/>
+
+
+        <com.ids.qasemti.custom.CustomTextViewBold
+            android:gravity="center"
+            android:textSize="@dimen/header_font"
+            android:visibility="gone"
+            android:id="@+id/tvSubTitleVerf"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/height_35"
+            android:tag="enter_verification_code"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_verification_code"/>
+
+
+        <com.chaos.view.PinView
+            android:id="@+id/pvCode"
+            android:textCursorDrawable="@color/black"
+            style="@style/PinWidget.PinView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:cursorVisible="true"
+            android:hint="______"
+            android:textColorHint="@color/gray_font"
+            android:inputType="number"
+            android:itemBackground="@drawable/rounded_white_background"
+            android:textColor="@color/gray_font"
+            android:textSize="@dimen/big_font"
+            android:focusable="true"
+            android:textStyle="bold"
+            app:cursorColor="@color/black"
+            app:cursorWidth="1dp"
+            app:itemCount="4"
+            app:hideLineWhenFilled="true"
+            app:itemHeight="45dp"
+            app:itemWidth="45dp"
+            app:itemRadius="16dp"
+            app:itemSpacing="@dimen/medium_margin"
+            app:lineColor="@android:color/transparent"
+            app:lineWidth="2dp"
+            app:viewType="rectangle" />
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvTimerTitle"
+            android:textColor="@color/gray_font_title"
+            android:layout_marginTop="@dimen/big_margin"
+            android:layout_marginBottom="@dimen/big_margin"
+            android:gravity="center"
+            android:textSize="@dimen/header_font"
+            android:tag="@string/resend_code_in"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:text="@string/resend_code_in"/>
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_width="wrap_content"
+                android:id="@+id/tvTimer"
+                android:textColor="@color/gray_font_title"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginBottom="@dimen/big_margin"
+                android:gravity="center"
+                android:textSize="@dimen/header_font" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:text="@string/verify"
+            android:id="@+id/btVerifyCode"
+            android:tag="verify"
+            android:layout_marginStart="@dimen/big_margin_2"
+            android:layout_marginEnd="@dimen/big_margin_2"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/blue_rounded"/>
+
+        <LinearLayout
+            android:id="@+id/llClientVerfCode"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/big_margin_2"
+            android:layout_marginEnd="@dimen/big_margin_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="@string/verify"
+                android:id="@+id/btRegisterVerf"
+                android:tag="verify"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:background="@drawable/blue_rounded"/>
+            <Button
+                android:layout_marginTop="@dimen/normal_margin"
+                android:text="@string/cancel"
+                android:id="@+id/btCancelVerf"
+                android:tag="cancel"
+                android:textColor="@color/primary"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:background="@drawable/rounded_white_red_border"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <include
+        layout="@layout/loading" />
+
+
+
+
+
+
+
+</RelativeLayout>

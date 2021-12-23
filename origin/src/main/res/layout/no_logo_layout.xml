@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/llLogo"
+
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/no_logo_height"
+        android:background="@drawable/rounded_background_bottom">
+
+
+    <ImageButton
+        android:visibility="gone"
+        android:layout_width="@dimen/icon_2"
+        android:layout_height="@dimen/icon_2"
+        android:id="@+id/btBck"
+        android:layout_margin="@dimen/margin_start_end"
+        android:background="@drawable/ic_back"
+
+        />
+
+
+</LinearLayout>

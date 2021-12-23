@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/llCurve"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <include layout="@layout/no_logo_layout" />
+
+    </LinearLayout>
+
+  <!--  <LinearLayout
+        android:id="@+id/llTool"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <include
+        layout="@layout/toolbar" />
+    </LinearLayout>-->
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="@dimen/header_font"
+            android:text="@string/no_data"
+            android:tag="no_data"
+            android:textColor="@color/gray_font_title"
+            android:id="@+id/tvNoCartData"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/llCurve"
+            android:layout_marginStart="@dimen/card_new_margin"
+            android:layout_marginTop="@dimen/medium_push"
+            android:layout_marginEnd="@dimen/card_new_margin"
+            android:visibility="visible" />
+
+    <include
+        layout="@layout/loading" />
+
+    </RelativeLayout>
+</LinearLayout>

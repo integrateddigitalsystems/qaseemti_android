@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:id="@+id/tvFileTitle"
+        android:textColor="@color/gray_font_title"
+        android:textSize="@dimen/big_font" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/normal_margin"
+        >
+
+        <Button
+            android:layout_width="180dp"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/rounded_white_red_border"
+            android:text="@string/choose_file"
+            android:tag="@string/choose_file"
+            android:id="@+id/btPickFile"
+            android:textSize="@dimen/small_font"
+            android:textColor="@color/gray_font"
+            android:textAllCaps="false"
+            />
+
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/small_margin"
+            android:id="@+id/tvPickedFile"
+            android:paddingEnd="@dimen/small_margin"
+            android:text="@string/no_file_chosen"
+            android:autoLink="web"
+            android:tag="no_file_chosen"
+            android:textSize="@dimen/small_font"
+            />
+
+    </LinearLayout>
+
+    <EditText
+        android:textAlignment="viewStart"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_background"
+        android:hint="@string/license_number"
+        android:tag="license_number"
+        android:paddingStart="@dimen/small_margin"
+        android:id="@+id/etLicenceNumber"
+        android:paddingEnd="@dimen/small_margin"
+        android:maxLines="1"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:textColorHint="@color/gray_font_light"
+        android:textSize="@dimen/normal_font"
+        android:textColor="@color/gray_font_title"
+
+        />
+</LinearLayout>
