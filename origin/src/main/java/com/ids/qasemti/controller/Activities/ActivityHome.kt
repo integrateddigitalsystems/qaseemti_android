@@ -51,6 +51,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import kotlin.system.exitProcess
+import android.R.string.no
+
+
+
 
 
 class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedListener,
@@ -73,6 +77,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_home)
         try {
             init()
@@ -85,9 +90,17 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
 
 
+
+
+
+
+
         //   startServicing()
 
     }
+
+
+
 
     fun startServicing() {
         var enabled = MyApplication.saveLocationTracking
@@ -760,6 +773,16 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     override fun onResume() {
         super.onResume()
+
+        var mBroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent) {
+                getNotf()
+            }
+        }
+        val filter = IntentFilter("msg")
+        registerReceiver(mBroadcastReceiver, filter)
+
+
         LocalBroadcastManager.getInstance(this).registerReceiver(
             foregroundOnlyBroadcastReceiver,
             IntentFilter(

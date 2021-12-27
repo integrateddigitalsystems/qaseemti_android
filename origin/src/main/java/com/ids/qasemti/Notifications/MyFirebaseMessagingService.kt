@@ -57,12 +57,13 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         // Log.wtf(TAG, "From: " + remoteMessage?.getFrom()!!)
 
-        try {
-            ActivityHome().getNotf()
-            logw("NOTFRES","done")
-        }catch (ex:Exception){
-            logw("NOTFRES","fail")
-        }
+
+        val intent = Intent("msg") //action: "msg"
+
+        intent.setPackage(packageName)
+        intent.putExtra("message", "")
+        applicationContext.sendBroadcast(intent)
+
 
 
         if (remoteMessage.getData().size > 0) {

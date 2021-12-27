@@ -33,7 +33,11 @@ class AdapterMyServices(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
-        //Glide.with(con).load(items.get(position).testCode).into(holder.image);
+        try {
+            AppHelper.setRoundImage(con, holder.image, items.get(position).featuredImage!!, false)
+        }catch (ex:Exception){
+
+        }
 
        // holder.image.setBackgroundResource(items.get(position).testCode!!)
         holder.title.text = items.get(position).name

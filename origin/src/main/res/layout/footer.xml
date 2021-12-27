@@ -193,13 +193,13 @@
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="-10dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/tvNumberNotfUnread"
                 android:gravity="center"
                 android:padding="1dp"
                 android:layout_width="wrap_content"
                 android:textColor="@color/white"
-                android:text="344"
+                android:text=""
                 android:textSize="8sp"
                 android:layout_height="@dimen/small_icon_1"
                 android:background="@drawable/primary_circle"/>
