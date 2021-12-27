@@ -369,6 +369,13 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                   /*  orderId = 7851
                     type = AppConstants.NOTF_TYPE_ACCEPT_ORDER*/
 
+                    if(!MyApplication.trackOrderIdList.isNullOrEmpty())
+                    {
+                        try{
+                            AppHelper.GsontoArrString()
+                        }catch (ex:Exception){}
+                    }
+
                     if (MyApplication.isClient) {
 
                         try {

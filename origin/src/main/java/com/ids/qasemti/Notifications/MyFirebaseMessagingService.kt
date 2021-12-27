@@ -57,7 +57,12 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         // Log.wtf(TAG, "From: " + remoteMessage?.getFrom()!!)
 
-       // ActivityHome().getNotf()
+        try {
+            ActivityHome().getNotf()
+            logw("NOTFRES","done")
+        }catch (ex:Exception){
+            logw("NOTFRES","fail")
+        }
 
 
         if (remoteMessage.getData().size > 0) {
@@ -125,6 +130,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             e.printStackTrace()
             title = ""
         }
+
+
 
         // setBadge(applicationContext, 0);
         if (MyApplication.generalNotificaiton==1){

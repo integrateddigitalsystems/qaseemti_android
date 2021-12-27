@@ -1,7 +1,11 @@
 package com.ids.qasemti.controller.Fragments
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -9,6 +13,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -28,12 +37,20 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     private var ordersArray: ArrayList<ResponseOrders> = arrayListOf()
     var adapter: AdapterOrders? = null
+    val BLOCKED = -1
+    var trackorders : ArrayList<ResponseOrders> = arrayListOf()
     var timer : CountDownTimer ?=null
+    var mPermissionResult: ActivityResultLauncher<Array<String>>? = null
+    var resultLauncher: ActivityResultLauncher<Intent>? = null
+    val GRANTED = 0
+    val DENIED = 1
+    val BLOCKED_OR_NEVER_ASKED = 2
     var isTimer = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +68,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayoutOrders, requireContext())
+        setUpPermission()
         init()
 
 
@@ -317,12 +335,182 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             })
     }
 
+    private fun foregroundPermissionApproved(): Boolean {
+        return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
+
+    fun getPermissionStatus(androidPermissionName: String?): Int {
+        return if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                androidPermissionName!!
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    androidPermissionName
+                )
+            ) {
+                BLOCKED_OR_NEVER_ASKED
+            } else DENIED
+        } else GRANTED
+    }
+
+    fun setUpPermission() {
+        mPermissionResult =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
+            { result ->
+                var permission = false
+                for (item in result) {
+                    permission = item.value
+                }
+                if (permission) {
+                    setUp()
+                    //   selectImage(requireContext())
+                    //  Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
+                    //  MyApplication.permissionAllow11 = 0
+                } else {
+                    for(item in result ){
+                        if(ContextCompat.checkSelfPermission(requireContext(),item.key) == BLOCKED){
+
+                            if(getPermissionStatus( Manifest.permission.ACCESS_FINE_LOCATION) == BLOCKED_OR_NEVER_ASKED) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    AppHelper.getRemoteString(
+                                        "grant_settings_permission",
+                                        requireContext()
+                                    ),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                break
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
+
+    }
+    private fun openChooser() {
+
+
+        mPermissionResult!!.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )
+        /*mPermissionResult!!.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )*/
+
+
+    }
+    fun checkSetUp() {
+        var gps_enabled = false
+        var mLocationManager =
+            requireActivity().getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+
+        try {
+            gps_enabled = mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+        }
+        if (!MyApplication.isClient) {
+            if (foregroundPermissionApproved() && gps_enabled) {
+                setUp()
+            } else {
+                if (gps_enabled) {
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder
+                        .setMessage(
+                            AppHelper.getRemoteString(
+                                "permission_background_android",
+                                requireActivity()
+                            )
+                        )
+                        .setCancelable(true)
+                        .setNegativeButton(
+                            AppHelper.getRemoteString(
+                                "cancel",
+                                requireActivity()
+                            )
+                        ) { dialog, _ ->
+                            // getOrders()
+                        }
+                        .setPositiveButton(
+                            AppHelper.getRemoteString(
+                                "ok",
+                                requireActivity()
+                            )
+                        ) { dialog, _ ->
+                            openChooser()
+                        }
+                    val alert = builder.create()
+                    alert.show()
+
+                } else {
+                    requireActivity().toast(
+                        AppHelper.getRemoteString(
+                            "GpsDisabled",
+                            requireContext()
+                        )
+                    )
+                    //getOrders()
+                }
+            }
+        }
+    }
+    fun setUp(){
+
+        MyApplication.listOrderTrack.clear()
+
+        for(item in trackorders){
+            if(item.onTrack!! && !item.delivered!! && !item.paymentMethod.isNullOrEmpty()){
+                MyApplication.listOrderTrack.add(item.orderId!!)
+            }
+        }
+
+        (activity as ActivityHome).changeState(true,0)
+    }
+    fun getAfterOrders(){
+
+
+        var newReq = RequestOrders(MyApplication.userId, MyApplication.languageCode, AppConstants.ORDER_TYPE_ACTIVE)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getOrders(
+                newReq
+            )?.enqueue(object : Callback<ResponseMainOrder> {
+                override fun onResponse(
+                    call: Call<ResponseMainOrder>,
+                    response: Response<ResponseMainOrder>
+                ) {
+                    try {
+                        trackorders.clear()
+                        trackorders.addAll(response!!.body()!!.orders)
+                        checkSetUp()
+                    } catch (E: java.lang.Exception) {
+
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
+
+                }
+            })
+    }
     fun accepted(res: Int) {
         if (res == 1) {
             AppHelper.createDialog(requireActivity(), getString(R.string.order_accept_succ))
             loading.show()
             getOrders(false)
             getData()
+            getAfterOrders()
+
         } else {
             AppHelper.createDialog(requireActivity(), getString(R.string.error_acc_order))
         }

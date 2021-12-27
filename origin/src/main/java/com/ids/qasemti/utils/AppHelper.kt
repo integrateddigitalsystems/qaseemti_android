@@ -81,9 +81,8 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 import androidx.core.content.ContextCompat.getSystemService
-
-
-
+import com.google.common.reflect.TypeToken
+import com.google.gson.GsonBuilder
 
 
 /**
@@ -887,6 +886,8 @@ class AppHelper {
 
         }
 
+
+
         fun createYesNoDialog(
             c: Activity,
             positiveButton: String,
@@ -1007,6 +1008,14 @@ class AppHelper {
         }
 
 
+        fun toGsonArrString(){
+           MyApplication.trackOrderIdList = Gson().toJson(MyApplication.listOrderTrack)
+        }
+
+        fun GsontoArrString(){
+            val gson = GsonBuilder().create()
+            MyApplication.listOrderTrack = gson.fromJson<ArrayList<String>>(MyApplication.trackOrderIdList, object : TypeToken<ArrayList<String>>(){}.type)
+        }
 
         fun sha256(str:String):String{
             var byte = org.apache.commons.codec.digest.DigestUtils.sha256(str)

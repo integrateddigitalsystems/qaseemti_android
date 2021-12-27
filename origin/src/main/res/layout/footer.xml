@@ -33,7 +33,7 @@
             android:id="@+id/ivCartFooter"
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
-            android:src="@drawable/icon_cart"
+            android:src="@drawable/footer_new_cart"
             android:layout_gravity="center"/>
 
         <com.ids.qasemti.custom.CustomTextViewMedium
@@ -65,7 +65,7 @@
             android:id="@+id/ivProductFooter"
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
-            android:src="@drawable/footer_products"
+            android:src="@drawable/footer_new_services"
             android:layout_gravity="center"/>
 
         <com.ids.qasemti.custom.CustomTextViewMedium
@@ -99,7 +99,7 @@
             android:id="@+id/ivFooterOrder"
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
-            android:src="@drawable/footer_orders"
+            android:src="@drawable/footer_new_orders"
             android:layout_gravity="center"/>
 
         <com.ids.qasemti.custom.CustomTextViewMedium
@@ -188,17 +188,18 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:src="@drawable/footer_notifications" />
+            android:src="@drawable/footer_new_notification" />
 
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="-5dp"
-                android:visibility="gone"
+                android:layout_marginStart="-10dp"
+                android:visibility="visible"
                 android:id="@+id/tvNumberNotfUnread"
                 android:gravity="center"
-                android:layout_width="@dimen/small_icon_1"
+                android:padding="1dp"
+                android:layout_width="wrap_content"
                 android:textColor="@color/white"
-                android:text=""
+                android:text="344"
                 android:textSize="8sp"
                 android:layout_height="@dimen/small_icon_1"
                 android:background="@drawable/primary_circle"/>
@@ -236,7 +237,7 @@
             android:id="@+id/ivFooterAccount"
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
-            android:src="@drawable/footer_account"
+            android:src="@drawable/footer_new_account"
             android:layout_gravity="center"/>
 
         <com.ids.qasemti.custom.CustomTextViewMedium

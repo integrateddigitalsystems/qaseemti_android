@@ -8,6 +8,7 @@ import android.app.TimePickerDialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -147,7 +148,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             foregroundOnlyLocationService = binder.foreService
             foregroundOnlyLocationServiceBound = true
             if (MyApplication.saveLocationTracking!!)
-                changeState(true)
+                changeState(true,0)
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
@@ -191,37 +192,51 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
     }
 
 
-    fun changeState(track: Boolean) {
+    fun changeState(track: Boolean,indx : Int) {
 
+        var gps_enabled = false
+        var mLocationManager =
+            getSystemService(LOCATION_SERVICE) as LocationManager
 
-        if (!track) {
-            MyApplication.saveLocationTracking = false
-            try {
-                foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
-                val intent = Intent()
-                intent.setClass(this, LocationForeService::class.java)
-                stopService(intent)
-            } catch (ex: Exception) {
-            }
-        } else {
-            try {
-                // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
-                if (foregroundPermissionApproved()) {
-                    MyApplication.saveLocationTracking = true
-                    foregroundOnlyLocationService?.subscribeToLocationUpdates()
-                        ?: Log.d(TAG, "Service Not Bound")
-                } else {
-                    AppHelper.createYesNoDialog(
-                        this,
-                        AppHelper.getRemoteString("ok", this),
-                        AppHelper.getRemoteString("cancel", this),
-                        AppHelper.getRemoteString("permission_background_android", this)
-                    ) {
-                        requestForegroundPermissions()
-                    }
+        try {
+            gps_enabled = mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+        }
+
+        if(gps_enabled) {
+
+            if (!track) {
+                MyApplication.selectedOrderRemoveIndex = indx
+                MyApplication.saveLocationTracking = false
+                try {
+                    foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+                    val intent = Intent()
+                    intent.setClass(this, LocationForeService::class.java)
+                    stopService(intent)
+                } catch (ex: Exception) {
                 }
-            } catch (ex: Exception) {
+            } else {
+                try {
+                    // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+                    if (foregroundPermissionApproved()) {
+                        MyApplication.saveLocationTracking = true
+                        foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                            ?: Log.d(TAG, "Service Not Bound")
+                    } else {
+                        AppHelper.createYesNoDialog(
+                            this,
+                            AppHelper.getRemoteString("ok", this),
+                            AppHelper.getRemoteString("cancel", this),
+                            AppHelper.getRemoteString("permission_background_android", this)
+                        ) {
+                            requestForegroundPermissions()
+                        }
+                    }
+                } catch (ex: Exception) {
+                }
             }
+        }else{
+            AppHelper.createDialog(this,AppHelper.getRemoteString("GpsDisabled",this))
         }
     }
 
@@ -610,6 +625,8 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
         }
         try {
             swOnTrack.isChecked = MyApplication.selectedOrder!!.onTrack!!
+            if(swOnTrack.isChecked)
+                swOnTrack.isEnabled = false
             AppHelper.setSwitchColor(swOnTrack, this)
         } catch (ex: java.lang.Exception) {
         }
@@ -1029,7 +1046,10 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
                 ) {
                     if (swOnTrack.isChecked) {
                         MyApplication.saveLocationTracking = true
-                        changeState(true)
+                        MyApplication.listOrderTrack.add(MyApplication.selectedOrder!!.orderId!!)
+                        AppHelper.toGsonArrString()
+                        swOnTrack.isEnabled = true
+                        changeState(true,0)
                         AppHelper.setSwitchColor(swOnTrack, this)
                         onTrack = 1
                     } else {
@@ -1103,7 +1123,9 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
                         }
                         swDelivered.isEnabled = false
                         MyApplication.saveLocationTracking = false
-                        changeState(false)
+                        var indx = MyApplication.listOrderTrack.indexOf(MyApplication.selectedOrder!!.orderId)
+                        if(indx !=-1)
+                            changeState(false,indx)
                         AppHelper.setSwitchColor(swDelivered, this)
                         delivered = 1
                     } else {

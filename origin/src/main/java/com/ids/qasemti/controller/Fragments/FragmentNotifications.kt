@@ -14,6 +14,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.AdapterNotification
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponeMainNotification
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
@@ -66,11 +67,8 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
             rvNotifications.layoutManager = LinearLayoutManager(context)
             adapter = AdapterNotification(array, this, requireContext())
             rvNotifications.adapter = adapter
-            notfNum = array!!.count {
-                it.isViewed.equals("0")
-            }
         }
-           // (activity as ActivityHome).setNotNumber(notfNum!!)
+           (activity as ActivityHome).setNotNumber(notfNum!!.toString())
             //  }
             /*try {
             if (page > 1)
@@ -137,19 +135,20 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getNotifications(
                 newReq
-            )?.enqueue(object : Callback<ArrayList<ResponseNotification>> {
+            )?.enqueue(object : Callback<ResponeMainNotification> {
                 override fun onResponse(
-                    call: Call<ArrayList<ResponseNotification>>,
-                    response: Response<ArrayList<ResponseNotification>>
+                    call: Call<ResponeMainNotification>,
+                    response: Response<ResponeMainNotification>
                 ) {
                     try {
                         if(page==1)
                             array.clear()
-                        array.addAll(response.body()!!)
+                        array.addAll(response.body()!!.notf)
+                        notfNum = response.body()!!.count!!.toInt()
                         setData()
                         isLoading=false
                         page++
-                        if(response.body()!!.size==0)
+                        if(response.body()!!.notf.size==0)
                             finishScrolling=true
                     } catch (E: java.lang.Exception) {
                         try {
@@ -165,7 +164,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
                 }
 
                 override fun onFailure(
-                    call: Call<ArrayList<ResponseNotification>>,
+                    call: Call<ResponeMainNotification>,
                     throwable: Throwable
                 ) {
                     try {
@@ -227,8 +226,8 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
                 array[position].open = !array[position].open
                 if (array[position].isViewed.equals("0")) {
                     markNotification(array[position].id!!.toInt())
-                    /*notfNum = notfNum!!.minus(1)
-                    (activity as ActivityHome).setNotNumber(notfNum!!)*/
+                    notfNum = notfNum!!.minus(1)
+                    (activity as ActivityHome).setNotNumber(notfNum!!.toString())
                     array[position].isViewed = "1"
                 }
                 adapter!!.notifyItemChanged(position)

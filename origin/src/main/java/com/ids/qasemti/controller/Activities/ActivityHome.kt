@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
@@ -27,6 +28,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponeMainNotification
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
@@ -55,11 +57,13 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     RVOnItemClickListener {
     private lateinit var fragMang: FragmentManager
     private val TAG = "HomeActivity"
+    var didOnce = false
+
     private val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
     private var foregroundOnlyLocationServiceBound = false
     private lateinit var drawerLayout: DrawerLayout
-    var notfNum : Int ?= 0
-    var selectedPos = 2//hello
+    var notfNum: String? = ""
+    var selectedPos = 2
 
     var foregrounfLocationService: CurrentLocationService? = null
     private lateinit var foregroundOnlyBroadcastReceiver: ForegroundOnlyBroadcastReceiver
@@ -67,24 +71,25 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     var isClose = false
 
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        init()
-     //   getNotf()
+        try {
+            init()
+        }catch (ex:Exception){
+            logw("exHand",ex.toString())
+        }
+        getNotf()
         MyApplication.saveLocationTracking = false
 
         foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
 
 
-     //   startServicing()
+        //   startServicing()
 
     }
 
-    fun startServicing(){
+    fun startServicing() {
         var enabled = MyApplication.saveLocationTracking
 
         if (!enabled!!) {
@@ -136,42 +141,63 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
     fun showLogout(show: Boolean) {
-    /*    if (show)
-            btLogout.show()
-        else*/
-            btLogout.hide()
+        /*    if (show)
+                btLogout.show()
+            else*/
+        btLogout.hide()
     }
 
-    fun changeState(track:Boolean){
+    fun changeState(track: Boolean, indx: Int) {
+        var gps_enabled = false
+        var mLocationManager =
+            getSystemService(LOCATION_SERVICE) as LocationManager
 
+        try {
+            gps_enabled = mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+        }
 
-
-        if (!track) {
-            MyApplication.saveLocationTracking = false
-            try {
-                foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
-                val intent = Intent()
-                intent.setClass(this, LocationForeService::class.java)
-                stopService(intent)
-            }catch (ex:Exception){}
-        } else {
-            try {
-                // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
-                if (foregroundPermissionApproved()) {
-                    MyApplication.saveLocationTracking = true
-                    foregroundOnlyLocationService?.subscribeToLocationUpdates()
-                        ?: run{
-                            Log.d(TAG, "Service Not Bound")
-                            MyApplication.saveLocationTracking = false
-                        }
-                } else {
-                    AppHelper.createYesNoDialog(this,AppHelper.getRemoteString("ok",this),AppHelper.getRemoteString("cancel",this),AppHelper.getRemoteString("permission_background_android",this)){
-                        requestForegroundPermissions()
-                    }
+        if (gps_enabled) {
+            if (!track) {
+                MyApplication.selectedOrderRemoveIndex = indx
+                MyApplication.saveLocationTracking = false
+                try {
+                    foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+                    val intent = Intent()
+                    intent.setClass(this, LocationForeService::class.java)
+                    stopService(intent)
+                } catch (ex: Exception) {
                 }
-            } catch (ex: Exception) {
+            } else {
+                try {
+                    // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+                    if (foregroundPermissionApproved()) {
+                        MyApplication.saveLocationTracking = true
+                        foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                            ?: run {
+                                Log.d(TAG, "Service Not Bound")
+                                if (MyApplication.listOrderTrack.size == 1) {
+                                    MyApplication.saveLocationTracking = false
+                                }
+                                MyApplication.listOrderTrack.removeAt(MyApplication.listOrderTrack.size - 1)
+
+                            }
+                    } else {
+                        /*AppHelper.createYesNoDialog(
+                            this,
+                            AppHelper.getRemoteString("ok", this),
+                            AppHelper.getRemoteString("cancel", this),
+                            AppHelper.getRemoteString("permission_background_android", this)
+                        ) {
+                            requestForegroundPermissions()
+                        }
+                        didOnce = false*/
+                    }
+                } catch (ex: Exception) {
+                }
             }
         }
+
 
     }
 
@@ -201,7 +227,6 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         setListners()
 
     }
-
 
 
     fun drawColor() {
@@ -519,12 +544,12 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             }
             MyApplication.saveLocationTracking = false
             try {
-               foregroundOnlyLocationService!!.unsubscribeToLocationUpdates()
+                foregroundOnlyLocationService!!.unsubscribeToLocationUpdates()
                 val intent = Intent()
                 intent.setClass(this, LocationForeService::class.java)
                 stopService(intent)
-            }catch (ex:Exception){
-                logw("error",ex.toString())
+            } catch (ex: Exception) {
+                logw("error", ex.toString())
             }
             MyApplication.selectedPos = 2
             context.finishAffinity()
@@ -552,18 +577,18 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         AppHelper.setLogoTint(btBackTool, this, color)
     }
 
-  /*  fun setTitle(){
-            tvPageTitle.show()
-            tvPageTitle.text = AppHelper.getRemoteString("Services",this)
+    /*  fun setTitle(){
+              tvPageTitle.show()
+              tvPageTitle.text = AppHelper.getRemoteString("Services",this)
 
-    }*/
+      }*/
 
     fun checkBack() {
         if (getFragmentCount(fragMang) <= 1) {
             btBackTool.hide()
-            if(MyApplication.selectedFragmentTag==AppConstants.FRAGMENT_SERVICE_DETAILS){
-                setTitleAc(AppHelper.getRemoteString("Services",this),R.color.white)
-            }else if(MyApplication.selectedFragmentTag == AppConstants.FRAGMENT_ACCOUNT){
+            if (MyApplication.selectedFragmentTag == AppConstants.FRAGMENT_SERVICE_DETAILS) {
+                setTitleAc(AppHelper.getRemoteString("Services", this), R.color.white)
+            } else if (MyApplication.selectedFragmentTag == AppConstants.FRAGMENT_ACCOUNT) {
                 tvPageTitle.hide()
             }
         } else
@@ -589,14 +614,18 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 "Location permission needed for core functionality",
                 Snackbar.LENGTH_LONG
             ).setAction(R.string.ok) {
-                    // Request permission
-                    ActivityCompat.requestPermissions(
-                        this@ActivityHome,
-                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_BACKGROUND_LOCATION),
-                        REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+                // Request permission
+                ActivityCompat.requestPermissions(
+                    this@ActivityHome,
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    ),
+                    REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
 
-                    )
-                }.show()
+                )
+            }.show()
         } else {
             Log.d(TAG, "Request foreground only permission")
             ActivityCompat.requestPermissions(
@@ -629,8 +658,8 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 else -> {
                     // Permission denied.
                     // updateButtonState(false)
-
-                    Snackbar.make(
+                    toast(AppHelper.getRemoteString("permission_denied", this))
+                    /*Snackbar.make(
                         findViewById(R.id.rootLayoutOrderDetails),
                         R.string.permission_denied,
                         Snackbar.LENGTH_LONG
@@ -648,7 +677,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             startActivity(intent)
                         }
-                        .show()
+                        .show()*/
                 }
             }
         }
@@ -662,7 +691,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             )
 
             if (location != null) {
-                Log.wtf("FORE","Foreground location: ${location.toText()}")
+                Log.wtf("FORE", "Foreground location: ${location.toText()}")
             }
         }
     }
@@ -681,8 +710,8 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     }
 
-    fun setNotNumber(num : Int){
-        if(num ==0 )
+    fun setNotNumber(num: String) {
+        if (num.isNullOrEmpty() || num.equals("0"))
             tvNumberNotfUnread.hide()
         else {
             tvNumberNotfUnread.text = num.toString()
@@ -690,25 +719,41 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         }
     }
 
-    fun getNotf(){
-        var newReq = RequestNotifications(MyApplication.languageCode,MyApplication.selectedUser!!.mobileNumber,0,40,1)
+    fun getNotf() {
+        var newReq = RequestNotifications(
+            MyApplication.languageCode,
+            MyApplication.selectedUser!!.mobileNumber,
+            0,
+            40,
+            1
+        )
+
+        if(MyApplication.isClient){
+            newReq.isCl = 1
+            newReq.isSp = 0
+        }else{
+            newReq.isCl = 0
+            newReq.isSp = 1
+        }
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getNotifications(
                 newReq
-            )?.enqueue(object : Callback<ArrayList<ResponseNotification>> {
-                override fun onResponse(call: Call<ArrayList<ResponseNotification>>, response: Response<ArrayList<ResponseNotification>>) {
-                    try{
-                        notfNum = response.body()!!.count {
-                            it.isViewed.equals("0")
-                        }
+            )?.enqueue(object : Callback<ResponeMainNotification> {
+                override fun onResponse(
+                    call: Call<ResponeMainNotification>,
+                    response: Response<ResponeMainNotification>
+                ) {
+                    try {
+                        notfNum = response.body()!!.count!!
                         setNotNumber(notfNum!!)
 
-                    }catch (E: java.lang.Exception){
-                        setNotNumber(0)
+                    } catch (E: java.lang.Exception) {
+                        setNotNumber("0")
                     }
                 }
-                override fun onFailure(call: Call<ArrayList<ResponseNotification>>, throwable: Throwable) {
-                    setNotNumber(0)
+
+                override fun onFailure(call: Call<ResponeMainNotification>, throwable: Throwable) {
+                    setNotNumber("0")
                 }
             })
     }
@@ -718,10 +763,11 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         LocalBroadcastManager.getInstance(this).registerReceiver(
             foregroundOnlyBroadcastReceiver,
             IntentFilter(
-                LocationForeService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
+                LocationForeService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST
+            )
 
         )
-        if(MyApplication.selectedFragmentTag == FRAGMENT_ACCOUNT){
+        if (MyApplication.selectedFragmentTag == FRAGMENT_ACCOUNT) {
             tvPageTitle.hide()
         }
         MyApplication.fromFooterOrder = false
@@ -750,9 +796,9 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             val binder = service as LocationForeService.LocalBinder
             foregroundOnlyLocationService = binder.foreService
             foregroundOnlyLocationServiceBound = true
-            if(MyApplication.saveLocationTracking!!)
-                changeState(true)
-         //   changeState()
+            if (MyApplication.saveLocationTracking!!)
+                changeState(true, 0)
+            //   changeState()
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
@@ -760,6 +806,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             foregroundOnlyLocationServiceBound = false
         }
     }
+
     fun setUpService() {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -787,8 +834,6 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
         startService(serviceIntent)
     }
-
-
 
 
 }

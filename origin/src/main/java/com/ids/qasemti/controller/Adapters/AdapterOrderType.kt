@@ -113,15 +113,19 @@ class AdapterOrderType(
            if(items.get(position).onTrack!!&&!items.get(position).paymentMethod.isNullOrEmpty()) {
                onTrack=1
                if(!items.get(position).delivered!!) {
-                   if (!MyApplication.saveLocationTracking!!) {
-                       MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
-                       if(!MyApplication.isClient)
-                               (con as ActivityHome).changeState(true)
-                       AppHelper.setSwitchColor(holder.switchOnTrack, con)
-                       onTrack = 1
+                   //   if (!MyApplication.saveLocationTracking!!) {
+                   MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
+                   MyApplication.listOrderTrack.add(MyApplication.trackOrderId!!.toString())
+                   AppHelper.toGsonArrString()
+                   if (!MyApplication.isClient) {
+                       (con as ActivityHome).changeState(true,MyApplication.listOrderTrack.size-1)
                    }
-               }else{
+                   AppHelper.setSwitchColor(holder.switchOnTrack, con)
+                   onTrack = 1
+                   //  }
+                   /*}else{
                    MyApplication.saveLocationTracking = false
+               }*/
                }
             }else{
                onTrack=0
@@ -185,8 +189,9 @@ class AdapterOrderType(
                         holder.switchDelivered.isEnabled = false
                         MyApplication.saveLocationTracking = false
                         MyApplication.trackOrderId = selectedOrd.orderId!!.toInt()
-                        if(!MyApplication.isClient)
-                                (con as ActivityHome).changeState(false)
+                        var indx = MyApplication.listOrderTrack.indexOf(MyApplication.trackOrderId.toString())
+                        if(!MyApplication.isClient && indx!=-1)
+                                (con as ActivityHome).changeState(false,indx)
                         delivered = 1
                         AppHelper.setSwitchColor(holder.switchDelivered, con)
                         holder.switchOnTrack.isEnabled = false
@@ -216,7 +221,7 @@ class AdapterOrderType(
         holder.switchOnTrack.setOnClickListener {
 
             if(AppHelper.isOnline(con)) {
-                if (!MyApplication.saveLocationTracking!!) {
+               // if (!MyApplication.saveLocationTracking!!) {
                     AppHelper.createSwitchDialog(
                         con,
                         AppHelper.getRemoteString("ok", con),
@@ -229,8 +234,10 @@ class AdapterOrderType(
                         if (holder.switchOnTrack.isChecked) {
                             MyApplication.selectedOrder = items.get(position)
                             MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
+                            MyApplication.listOrderTrack.add(MyApplication.trackOrderId.toString())
+                            AppHelper.toGsonArrString()
                             if(!MyApplication.isClient)
-                                    (con as ActivityHome).changeState(true)
+                                    (con as ActivityHome).changeState(true,MyApplication.listOrderTrack.size-1)
                             AppHelper.setSwitchColor(holder.switchOnTrack, con)
                             onTrack = 1
                         } else {
@@ -248,9 +255,9 @@ class AdapterOrderType(
 
                         //AppHelper.setUpDoc(items.get(position))
                     }
-                } else {
+                /*} else {
                     holder.switchOnTrack.isChecked = !holder.switchOnTrack.isChecked
-                }
+                }*/
             }else{
                 holder.switchOnTrack.isChecked = !holder.switchOnTrack.isChecked
                 AppHelper.createDialog(con,AppHelper.getRemoteString("no_internet",con))
@@ -288,8 +295,8 @@ class AdapterOrderType(
                     }*/
                         holder.switchPaid.isEnabled = false
                         MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
-                        if(!MyApplication.isClient)
-                                (con as ActivityHome).changeState(false)
+                        /*if(!MyApplication.isClient)
+                                (con as ActivityHome).changeState(false)*/
                         MyApplication.saveLocationTracking = false
                         paid = 1
                         AppHelper.setSwitchColor(holder.switchPaid, con)

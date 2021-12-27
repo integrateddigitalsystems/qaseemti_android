@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
@@ -84,6 +85,7 @@ class MyApplication : Application() {
         var fromProfile : Boolean ?= false
         var position : Int =0
         var db : FirebaseFirestore?=null
+        var documents : ArrayList<DocumentReference> = arrayListOf()
         var foregroundOnlyLocationService: LocationForeService? = null
         var tintColor : Int = R.color.white
         var selectedImage:String ?=""
@@ -167,6 +169,13 @@ class MyApplication : Application() {
         var generalNotificaiton : Int ?
         get() = sharedPreferences.getInt(AppConstants.GENERAL_NOTF,1)
         set(value) { sharedPreferencesEditor.putInt(AppConstants.GENERAL_NOTF,value!!)}
+        var trackOrderIdList : String ?
+        get() = sharedPreferences.getString(AppConstants.TRACKING_LIST,"")
+        set(value) { sharedPreferencesEditor.putString(AppConstants.TRACKING_LIST , value)}
+
+        var selectedOrderRemoveIndex : Int ?=0
+
+        var listOrderTrack : ArrayList<String> = arrayListOf()
 
 
     }

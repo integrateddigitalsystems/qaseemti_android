@@ -3,6 +3,7 @@ package com.ids.qasemti.utils
 
 import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.RequestJOrderid
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponeMainNotification
 import com.ids.qasemti.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -18,7 +19,7 @@ interface RetrofitInterface {
     @POST("notifications")
     fun getNotifications(
         @Body param: RequestNotifications
-    ): Call<ArrayList<ResponseNotification>>
+    ): Call<ResponeMainNotification>
 
     @POST("mark-notification")
     fun markNotification(

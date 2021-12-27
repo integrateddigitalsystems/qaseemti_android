@@ -46,11 +46,11 @@ class AdapterAddress(
             holder.tvAddressBody.text =  holder.tvAddressBody.text.toString()+","+items[position].floor
         }*/
         holder.tvAddressBody.text = AppHelper.getAddressText(items[position])
-        holder.tvAddressBody.onOneClick {
+        /*holder.tvAddressBody.onOneClick {
             val intent=Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("geo:0,0?q="+items.get(position).lat+","+items.get(position).long+"("+items.get(position).addressName+")")
            con.startActivity(intent)
-        }
+        }*/
 
     }
 

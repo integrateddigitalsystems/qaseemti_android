@@ -1,19 +1,35 @@
 package com.ids.qasemti.controller.Fragments
 
+import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.ContentValues.TAG
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.google.android.gms.auth.api.phone.SmsCodeAutofillClient.PermissionState
+import com.google.android.material.snackbar.Snackbar
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.*
 import com.ids.qasemti.controller.Adapters.AdapterOrderType
@@ -31,36 +47,69 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
+import com.google.android.gms.auth.api.phone.SmsCodeAutofillClient.PermissionState.DENIED
+
+
+
 
 
 class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
 
     var ordersArray: ArrayList<ResponseOrders> = arrayListOf()
     var adapter: AdapterOrderType? = null
+    var denied : Boolean ?=false
+    var mPermissionResult: ActivityResultLauncher<Array<String>>? = null
+    var resultLauncher: ActivityResultLauncher<Intent>? = null
+    val BLOCKED = -1
     var mainArray: ArrayList<ResponseOrders> = arrayListOf()
+    private val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
+    val GRANTED = 0
+    val DENIED = 1
+    val BLOCKED_OR_NEVER_ASKED = 2
     var orderType: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
+    fun getPermissionStatus(androidPermissionName: String?): Int {
+        return if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                androidPermissionName!!
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    androidPermissionName
+                )
+            ) {
+                BLOCKED_OR_NEVER_ASKED
+            } else DENIED
+        } else GRANTED
+    }
+
     override fun onResume() {
         super.onResume()
 
-        if(MyApplication.toDetails){
-            MyApplication.toDetails = false
-            startActivity(
-                Intent(requireActivity(), ActivityOrderDetails::class.java)
-                    .putExtra("orderId", MyApplication.selectedOrderId)
-            )
+        if(denied!!){
+            denied = false
+            getOrders()
         }else {
-            if (MyApplication.renewed == true) {
-                MyApplication.renewed = false
-                setTabLayout(0)
-            } else if (MyApplication.completed) {
-                MyApplication.completed = false
-                setTabLayout(2)
+            if (MyApplication.toDetails) {
+                MyApplication.toDetails = false
+                startActivity(
+                    Intent(requireActivity(), ActivityOrderDetails::class.java)
+                        .putExtra("orderId", MyApplication.selectedOrderId)
+                )
             } else {
-                setTabLayout(typeSelected)
+                if (MyApplication.renewed == true) {
+                    MyApplication.renewed = false
+                    setTabLayout(0)
+                } else if (MyApplication.completed) {
+                    MyApplication.completed = false
+                    setTabLayout(2)
+                } else {
+                    setTabLayout(typeSelected)
+                }
             }
         }
 
@@ -80,6 +129,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
         requireActivity().getWindow().setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
+        setUp()
         init()
         setTabs()
      //   setTabLayout(typeSelected)
@@ -433,14 +483,189 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
         }
     }
 
+
+    private fun openChooser() {
+
+
+        mPermissionResult!!.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )
+        /*mPermissionResult!!.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )*/
+
+
+    }
+
+    fun setUp() {
+        mPermissionResult =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
+            { result ->
+                var permission = false
+                for (item in result) {
+                    permission = item.value
+                }
+                if (permission) {
+                    getOrders()
+                 //   selectImage(requireContext())
+                  //  Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
+                  //  MyApplication.permissionAllow11 = 0
+                } else {
+                    for(item in result ){
+                        if(ContextCompat.checkSelfPermission(requireContext(),item.key) == BLOCKED){
+                            denied = true
+                            getOrders()
+
+                            if(getPermissionStatus( Manifest.permission.ACCESS_FINE_LOCATION) == BLOCKED_OR_NEVER_ASKED) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    AppHelper.getRemoteString(
+                                        "grant_settings_permission",
+                                        requireContext()
+                                    ),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                break
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
+
+    }
+
+
+    private fun requestForegroundPermissions() {
+        val provideRationale = foregroundPermissionApproved()
+
+        // If the user denied a previous request, but didn't check "Don't ask again", provide
+        // additional rationale.
+        if (provideRationale) {
+            Snackbar.make(
+                requireActivity().findViewById(R.id.rootLayoutOrderDetails),
+                "Location permission needed for core functionality",
+                Snackbar.LENGTH_LONG
+            ).setAction(R.string.ok) {
+                // Request permission
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                    REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+
+                )
+            }.show()
+        } else {
+            Log.d(TAG, "Request foreground only permission")
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+            )
+        }
+    }
+
+    // TODO: Step 1.0, Review Permissions: Handles permission result.
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Log.d(TAG, "onRequestPermissionResult")
+
+        when (requestCode) {
+            REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE -> when {
+                grantResults.isEmpty() ->
+                    // If user interaction was interrupted, the permission request
+                    // is cancelled and you receive empty arrays.
+                    Log.d(TAG, "User interaction was cancelled.")
+                grantResults[0] == PackageManager.PERMISSION_GRANTED ->
+                    getOrders()
+                    // Permission was granted.
+                    //MyApplication.foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                else -> {
+                    // Permission denied.
+                    // updateButtonState(false)
+                    denied = true
+                    getOrders()
+                    requireActivity().toast(AppHelper.getRemoteString("permission_denied",requireContext()))
+                    /*Snackbar.make(
+                        findViewById(R.id.rootLayoutOrderDetails),
+                        R.string.permission_denied,
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAction(R.string.settings) {
+                            // Build intent that displays the App settings screen.
+                            val intent = Intent()
+                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                            val uri = Uri.fromParts(
+                                "package",
+                                "",
+                                null
+                            )
+                            intent.data = uri
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                        }
+                        .show()*/
+                }
+            }
+        }
+    }
+
     private fun retrieveOrders(){
         slRefresh.isRefreshing=false
-        if (!MyApplication.isClient)
-            getOrders()
-        else
+
+        var gps_enabled = false
+        var mLocationManager =
+            requireActivity().getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+
+        try {
+            gps_enabled = mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+        }
+        if (!MyApplication.isClient) {
+            if(foregroundPermissionApproved() && gps_enabled) {
+                getOrders()
+            }else{
+                if(gps_enabled) {
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder
+                        .setMessage(AppHelper.getRemoteString("permission_background_android", requireActivity()))
+                        .setCancelable(true)
+                        .setNegativeButton( AppHelper.getRemoteString("cancel", requireActivity())) { dialog, _ ->
+                           getOrders()
+                        }
+                        .setPositiveButton(AppHelper.getRemoteString("ok", requireActivity())) { dialog, _ ->
+                            openChooser()
+                        }
+                    val alert = builder.create()
+                    alert.show()
+
+                }else{
+                    requireActivity().toast(AppHelper.getRemoteString("GpsDisabled", requireContext()))
+                    getOrders()
+                }
+            }
+            MyApplication.listOrderTrack.clear()
+        }else
             getClientOrders()
     }
 
+    private fun foregroundPermissionApproved(): Boolean {
+        return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
     override fun reload() {
         getOrders()
     }

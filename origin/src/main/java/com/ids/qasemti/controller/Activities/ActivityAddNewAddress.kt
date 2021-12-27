@@ -390,8 +390,8 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
 
                         )
                     )
-                    btSaveAddress.text = AppHelper.getRemoteString("select_address", this)
-                    btOnlyOnce.hide()
+                    /*btSaveAddress.text = AppHelper.getRemoteString("select_address", this)
+                    btOnlyOnce.hide()*/
                 } else {
                     setUpData(LatLng(lat!!.toDouble(), long!!.toDouble()))
                 }
@@ -441,23 +441,22 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
         }
         btSaveAddress.onOneClick {
             if (etAddressName.text.isNullOrEmpty() || selectedProvince.isNullOrEmpty() || etBuilding.text.toString()
-                    .isNullOrEmpty() || etFloor.text.toString()
-                    .isNullOrEmpty() || etStreet.text.isNullOrEmpty()
+                    .isNullOrEmpty()  || etStreet.text.isNullOrEmpty()
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
                 if (MyApplication.isClient) {
                     MyApplication.fromAdd = true
-                    if (from == "current") {
+                   /* if (from == "current") {
                         setData()
-                    } else {
+                    } else {*/
                         if (AppHelper.isOnline(this)) {
                             addAddress()
                         }else{
                             AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
                         }
 
-                    }
+                   // }
                 } else {
                     if (AppHelper.isOnline(this)) {
                         addAddress()
@@ -472,8 +471,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
         btOnlyOnce.onOneClick {
 
             if (etAddressName.text.isNullOrEmpty() || selectedProvince.isNullOrEmpty() || etBuilding.text.toString()
-                    .isNullOrEmpty() || etFloor.text.toString()
-                    .isNullOrEmpty() || etStreet.text.isNullOrEmpty()
+                    .isNullOrEmpty() ||  etStreet.text.isNullOrEmpty()
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
