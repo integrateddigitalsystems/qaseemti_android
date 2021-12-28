@@ -177,10 +177,15 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/primary_circle"/>-->
 
-        <LinearLayout
+        <FrameLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/ivFooterNotifications"
             android:layout_width="@dimen/icon"
@@ -189,22 +194,28 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:src="@drawable/footer_new_notification" />
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <com.ids.qasemti.custom.CustomTextViewMedium
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="-10dp"
                 android:visibility="gone"
                 android:id="@+id/tvNumberNotfUnread"
                 android:gravity="center"
-                android:padding="1dp"
+                android:padding="2dp"
                 android:layout_width="wrap_content"
                 android:textColor="@color/white"
-                android:text=""
-                android:textSize="8sp"
+                android:textSize="7sp"
                 android:layout_height="@dimen/small_icon_1"
                 android:background="@drawable/primary_circle"/>
-
         </LinearLayout>
+
+
+
+        </FrameLayout>
 
         <!--</RelativeLayout>-->
 

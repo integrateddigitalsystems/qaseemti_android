@@ -56,6 +56,8 @@ class MyApplication : Application() {
         var enableCountryCodes : Boolean ?=false
         var countryNameCodes : String ?=""
         var typeSelected = 0
+        var firstTimeResult = true
+        var clickedIndex = 0
         var relatedOrders : ArrayList<RelatedOrder> = arrayListOf()
         var renewed = false
         var completed = false

@@ -3,8 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/footer.xml" value="0.9" />
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_services.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/activity_select_address.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/footer.xml" value="1.1" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/fragment_account.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/fragment_orders.xml" value="0.33" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_notifications.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_services.xml" value="0.9" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_settlements.xml" value="0.5" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/drawable/primary_circle.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/drawable/rounded_end_button_corner_blue.xml" value="0.2046875" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/drawable/rounded_end_button_primary.xml" value="0.2046875" />

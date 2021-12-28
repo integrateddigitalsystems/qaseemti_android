@@ -31,6 +31,8 @@ class AdapterSettlements(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
+        holder.statLL.hide()
+        holder.sepStatus.hide()
 
         holder.details.text = AppHelper.getRemoteString("view_order_details", con)
         holder.idTitle.hide()
@@ -66,6 +68,8 @@ class AdapterSettlements(
         var earningsTitle = itemView.findViewById<TextView>(R.id.tvEarningsTitle)
         var id = itemView.findViewById<TextView>(R.id.tvSettlementId)
         var date = itemView.findViewById<TextView>(R.id.tvOrderDateSett)
+        var statLL = itemView.findViewById<LinearLayout>(R.id.llOrderStatus)
+        var sepStatus = itemView.findViewById<LinearLayout>(R.id.FirstSep)
         var amount = itemView.findViewById<TextView>(R.id.tvSettAmount)
         var earn = itemView.findViewById<TextView>(R.id.tvEarnSett)
         var addCost = itemView.findViewById<TextView>(R.id.tvAdditionalCost)

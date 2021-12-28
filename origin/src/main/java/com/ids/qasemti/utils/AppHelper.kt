@@ -358,60 +358,75 @@ class AppHelper {
         }
 
         fun clearTabs(tablayout: TabLayout, context: Context) {
-            //repeat(5) { tablayout.addTab(tablayout.newTab()) }
-            val tabStrip = tablayout.getChildAt(0) as LinearLayout
-            for (i in 0 until tabStrip.childCount) {
-                tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
-                val tab = tabStrip.getChildAt(i)
-                val layoutParams = tab.layoutParams as LinearLayout.LayoutParams
-                layoutParams.marginEnd = 8.toPx()
-                layoutParams.marginStart = 8.toPx()
-                layoutParams.width = 12.toPx()
-                tab.layoutParams = layoutParams
-                tablayout.requestLayout()
+            try {
+                //repeat(5) { tablayout.addTab(tablayout.newTab()) }
+                val tabStrip = tablayout.getChildAt(0) as LinearLayout
+                for (i in 0 until tabStrip.childCount) {
+                    tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
+                    val tab = tabStrip.getChildAt(i)
+                    val layoutParams = tab.layoutParams as LinearLayout.LayoutParams
+                    layoutParams.marginEnd = 8.toPx()
+                    layoutParams.marginStart = 8.toPx()
+                    layoutParams.width = 12.toPx()
+                    tab.layoutParams = layoutParams
+                    tablayout.requestLayout()
+                }
+            }catch (ex:Exception){
+                logw("frame_error",ex.toString())
+
             }
         }
 
         fun setTabs(tablayout: TabLayout, context: Context) {
-            repeat(5) { tablayout.addTab(tablayout.newTab()) }
-            val tabStrip = tablayout.getChildAt(0) as LinearLayout
-            for (i in 0 until tabStrip.childCount) {
-                tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
-                val tab = tabStrip.getChildAt(i)
-                val layoutParams = tab.layoutParams as LinearLayout.LayoutParams
-                layoutParams.marginEnd = 8.toPx()
-                layoutParams.marginStart = 8.toPx()
-                layoutParams.width = 12.toPx()
-                tab.layoutParams = layoutParams
-                tablayout.requestLayout()
-                /*val v: View = LayoutInflater.from(context).inflate(R.layout.footer_top, null)
+            try {
+                repeat(5) { tablayout.addTab(tablayout.newTab()) }
+                val tabStrip = tablayout.getChildAt(0) as LinearLayout
+                for (i in 0 until tabStrip.childCount) {
+                    tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
+                    val tab = tabStrip.getChildAt(i)
+                    val layoutParams = tab.layoutParams as LinearLayout.LayoutParams
+                    layoutParams.marginEnd = 8.toPx()
+                    layoutParams.marginStart = 8.toPx()
+                    layoutParams.width = 12.toPx()
+                    tab.layoutParams = layoutParams
+                    tablayout.requestLayout()
+                    /*val v: View = LayoutInflater.from(context).inflate(R.layout.footer_top, null)
                 v.layoutParams =
                     ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
                     )
                 tablayout.getTabAt(i)!!.setCustomView(v)*/
+                }
+            }catch (ex:Exception){
+                logw("frame_error",ex.toString())
+
             }
         }
 
 
         fun resetIcons(context: Context, vararg images: ImageView?) {
-            for (element in images) {
-                element!!.setPadding(0, 0, 0, 0)
-                element!!.layoutParams = LinearLayout.LayoutParams(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        20f,
-                        context.resources.displayMetrics
-                    ).toInt(),
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        20f,
-                        context.resources.displayMetrics
-                    ).toInt()
-                )
-            }
+            try {
+                for (element in images) {
+                    element!!.setPadding(0, 0, 0, 0)
+                    element!!.layoutParams = LinearLayout.LayoutParams(
+                        TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            20f,
+                            context.resources.displayMetrics
+                        ).toInt(),
+                        TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            20f,
+                            context.resources.displayMetrics
+                        ).toInt()
+                    )
+                }
 
+            }catch (ex:Exception){
+                logw("frame_error",ex.toString())
+
+            }
         }
 
         fun getVersionNumber(): Int {
@@ -583,18 +598,23 @@ class AppHelper {
         }
 
         fun setImageHeight(context: Context, icon: ImageView) {
-            icon.layoutParams = LinearLayout.LayoutParams(
-                TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    30f,
-                    context.resources.displayMetrics
-                ).toInt(),
-                TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    30f,
-                    context.resources.displayMetrics
-                ).toInt()
-            )
+            try {
+                icon.layoutParams = LinearLayout.LayoutParams(
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        30f,
+                        context.resources.displayMetrics
+                    ).toInt(),
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        30f,
+                        context.resources.displayMetrics
+                    ).toInt()
+                )
+            }catch (ex:Exception){
+                logw("frame_error",ex.toString())
+
+            }
         }
 
 

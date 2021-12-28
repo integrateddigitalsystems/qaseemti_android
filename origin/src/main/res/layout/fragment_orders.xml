@@ -39,7 +39,7 @@
         android:layout_marginEnd="@dimen/margin_start_new"
         android:padding="@dimen/small_margin"
         android:id="@+id/linearTabs"
-        android:weightSum="5"
+        android:weightSum="4"
         android:layout_marginTop="@dimen/first_margin"
         android:background="@drawable/normal_white_background"
         android:layout_width="match_parent"
@@ -88,7 +88,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/status_completed"/>
-        <me.grantland.widget.AutofitTextView
+       <!-- <me.grantland.widget.AutofitTextView
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:maxLines="1"
@@ -101,7 +101,7 @@
             android:gravity="center"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/status_cancelled"/>
+            android:text="@string/status_cancelled"/>-->
 
         <me.grantland.widget.AutofitTextView
             android:layout_marginStart="@dimen/small_margin"
@@ -117,6 +117,232 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/status_failed"/>
+
+
+    </LinearLayout>
+
+
+   <!-- <LinearLayout
+        android:layout_marginStart="@dimen/normal_icon_size"
+        android:layout_marginEnd="@dimen/normal_icon_size"
+        android:padding="@dimen/small_margin"
+        android:id="@+id/llActiveTabsSP"
+        android:weightSum="2"
+        android:layout_marginTop="@dimen/first_margin"
+        android:background="@drawable/normal_white_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_35">
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/tvRunningSp"
+            android:background="@drawable/rounded_orders"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:textSize="@dimen/small_font_2"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="@dimen/mini_margin"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:tag="Running"
+            android:text="@string/Running"/>
+        <me.grantland.widget.AutofitTextView
+            android:textColor="@color/primary"
+            android:layout_marginStart="@dimen/small_margin"
+            android:id="@+id/tvPendingPaymentSp"
+            android:tag="PendingPayment"
+            android:maxLines="1"
+            android:padding="@dimen/mini_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:gravity="center"
+            android:textSize="@dimen/small_font_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/PendingPayment"/>
+        &lt;!&ndash;<me.grantland.widget.AutofitTextView
+            android:layout_marginStart="@dimen/mini_margin"
+            android:layout_marginEnd="@dimen/mini_margin"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:id="@+id/tvPendingSP"
+            android:padding="@dimen/mini_margin"
+            android:tag="PendingSP"
+            android:textColor="@color/primary"
+            android:gravity="center"
+            android:textSize="@dimen/small_font_2"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/PendingSP"/>&ndash;&gt;
+        &lt;!&ndash; <me.grantland.widget.AutofitTextView
+             android:layout_marginStart="@dimen/small_margin"
+             android:layout_marginEnd="@dimen/small_margin"
+             android:maxLines="1"
+             android:visibility="gone"
+             android:textColor="@color/primary"
+             android:padding="@dimen/mini_margin"
+             android:id="@+id/tvCancelled"
+             android:tag="Cancelled"
+             android:textSize="@dimen/small_font_2"
+             android:layout_width="match_parent"
+             android:gravity="center"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:text="@string/status_cancelled"/>
+
+         <me.grantland.widget.AutofitTextView
+             android:layout_marginStart="@dimen/small_margin"
+             android:layout_marginEnd="@dimen/small_margin"
+             android:maxLines="1"
+             android:visibility="gone"
+             android:textColor="@color/primary"
+             android:padding="@dimen/mini_margin"
+             android:id="@+id/tvFailed"
+             android:tag="Failed"
+             android:textSize="@dimen/small_font_2"
+             android:layout_width="match_parent"
+             android:gravity="center"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:text="@string/status_failed"/>&ndash;&gt;
+
+
+    </LinearLayout>-->
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/normal_icon_size"
+        android:layout_marginEnd="@dimen/normal_icon_size"
+        android:padding="@dimen/small_margin"
+        android:id="@+id/llActiveTabs"
+        android:weightSum="3"
+        android:layout_marginTop="@dimen/first_margin"
+        android:background="@drawable/normal_white_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_35">
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/tvRunning"
+            android:background="@drawable/rounded_orders"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:textSize="@dimen/small_font_2"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="@dimen/mini_margin"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:tag="Running"
+            android:text="@string/Running"/>
+        <me.grantland.widget.AutofitTextView
+            android:textColor="@color/primary"
+            android:layout_marginStart="@dimen/small_margin"
+            android:id="@+id/tvPendingPayment"
+            android:tag="PendingPayment"
+            android:maxLines="1"
+            android:padding="@dimen/mini_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:gravity="center"
+            android:textSize="@dimen/small_font_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/PendingPayment"/>
+        <me.grantland.widget.AutofitTextView
+            android:layout_marginStart="@dimen/mini_margin"
+            android:layout_marginEnd="@dimen/mini_margin"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:id="@+id/tvPendingSP"
+            android:padding="@dimen/mini_margin"
+            android:tag="PendingSP"
+            android:textColor="@color/primary"
+            android:gravity="center"
+            android:textSize="@dimen/small_font_2"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/PendingSP"/>
+       <!-- <me.grantland.widget.AutofitTextView
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:maxLines="1"
+            android:visibility="gone"
+            android:textColor="@color/primary"
+            android:padding="@dimen/mini_margin"
+            android:id="@+id/tvCancelled"
+            android:tag="Cancelled"
+            android:textSize="@dimen/small_font_2"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/status_cancelled"/>
+
+        <me.grantland.widget.AutofitTextView
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:maxLines="1"
+            android:visibility="gone"
+            android:textColor="@color/primary"
+            android:padding="@dimen/mini_margin"
+            android:id="@+id/tvFailed"
+            android:tag="Failed"
+            android:textSize="@dimen/small_font_2"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/status_failed"/>-->
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/normal_icon_size"
+        android:layout_marginEnd="@dimen/normal_icon_size"
+        android:padding="@dimen/small_margin"
+        android:id="@+id/llFailedTabs"
+        android:weightSum="2"
+        android:layout_marginTop="@dimen/first_margin"
+        android:background="@drawable/normal_white_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_35">
+
+         <me.grantland.widget.AutofitTextView
+             android:layout_marginStart="@dimen/small_margin"
+             android:layout_marginEnd="@dimen/small_margin"
+             android:maxLines="1"
+             android:visibility="visible"
+             android:background="@drawable/rounded_orders"
+             android:textColor="@color/white"
+             android:padding="@dimen/mini_margin"
+             android:id="@+id/tvCancelled"
+             android:tag="Cancelled"
+             android:textSize="@dimen/small_font_2"
+             android:layout_width="match_parent"
+             android:gravity="center"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:text="@string/status_cancelled"/>
+
+         <me.grantland.widget.AutofitTextView
+             android:layout_marginStart="@dimen/small_margin"
+             android:layout_marginEnd="@dimen/small_margin"
+             android:maxLines="1"
+             android:visibility="visible"
+             android:textColor="@color/primary"
+             android:padding="@dimen/mini_margin"
+             android:id="@+id/tvUnsuccPayment"
+             android:tag="UnsuccessfulPayment"
+             android:textSize="@dimen/small_font_2"
+             android:layout_width="match_parent"
+             android:gravity="center"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:text="@string/UnsuccessfulPayment"/>
 
 
     </LinearLayout>

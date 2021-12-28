@@ -321,5 +321,11 @@
     <string name="status_cancelled">الملغية</string>
     <string name="status_failed">الفاشلة</string>
     <string name="waiting_service_provider_approve">في انتظار موافقة مقدم الخدمة</string>
+    <string name="Status">الحالة</string>
+    <string name="GpsDisabled">Gps غير مفعّل</string>
+    <string name="Running">الجاري</string>
+    <string name="PendingSP">بانتظار مزود</string>
+    <string name="PendingPayment">بانتظار الدفع</string>
+    <string name="UnsuccessfulPayment">دفع غير ناجح</string>
 
 </resources>

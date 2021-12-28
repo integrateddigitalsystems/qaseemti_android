@@ -58,6 +58,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
     var ordersArray: ArrayList<ResponseOrders> = arrayListOf()
     var adapter: AdapterOrderType? = null
     var denied : Boolean ?=false
+    var activeType = 0
     var mPermissionResult: ActivityResultLauncher<Array<String>>? = null
     var resultLauncher: ActivityResultLauncher<Intent>? = null
     val BLOCKED = -1
@@ -108,6 +109,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                     MyApplication.completed = false
                     setTabLayout(2)
                 } else {
+                    typeSelected =0
                     setTabLayout(typeSelected)
                 }
             }
@@ -396,6 +398,15 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
         when (position) {
             0 -> {
                 etSearchOrders.text.clear()
+                llFailedTabs.hide()
+                llActiveTabs.show()
+                if(MyApplication.isClient) {
+                    llActiveTabs.weightSum = 3f
+                    tvPendingSP.show()
+                }else {
+                    llActiveTabs.weightSum = 2f
+                    tvPendingSP.hide()
+                }
                 tvActive.setBackgroundResource(R.drawable.rounded_orders)
                 AppHelper.setTextColor(requireContext(), tvActive, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_ACTIVE
@@ -404,29 +415,55 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             1 -> {
                 etSearchOrders.text.clear()
                 tvUpcoming.setBackgroundResource(R.drawable.rounded_orders)
+                llFailedTabs.hide()
+                llActiveTabs.hide()
                 AppHelper.setTextColor(requireContext(), tvUpcoming, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_UPCOMING
                 retrieveOrders()
             }
             2 -> {
                 etSearchOrders.text.clear()
+                llFailedTabs.hide()
+                llActiveTabs.hide()
                 tvCompleted.setBackgroundResource(R.drawable.rounded_orders)
                 AppHelper.setTextColor(requireContext(), tvCompleted, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_COMPLETED
                 retrieveOrders()
             }
-            3 -> {
+            /*3 -> {
                 etSearchOrders.text.clear()
                 tvCancelled.setBackgroundResource(R.drawable.rounded_orders)
                 AppHelper.setTextColor(requireContext(), tvCancelled, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_CANCELED
                 retrieveOrders()
-            }
+            }*/
             else -> {
                 etSearchOrders.text.clear()
                 tvFailed.setBackgroundResource(R.drawable.rounded_orders)
                 AppHelper.setTextColor(requireContext(), tvFailed, R.color.white)
-                orderType = AppConstants.ORDER_TYPE_FAILED
+                llFailedTabs.show()
+                llActiveTabs.hide()
+                orderType = AppConstants.ORDER_TYPE_CANCELED
+                tvCancelled.onOneClick {
+                    if(orderType !=AppConstants.ORDER_TYPE_CANCELED ) {
+                        tvCancelled.setBackgroundResource(R.drawable.rounded_orders)
+                        AppHelper.setTextColor(requireContext(), tvCancelled, R.color.white)
+                        tvUnsuccPayment.setBackgroundResource(R.color.transparent)
+                        AppHelper.setTextColor(requireContext(), tvUnsuccPayment, R.color.primary)
+                        orderType = AppConstants.ORDER_TYPE_CANCELED
+                        retrieveOrders()
+                    }
+                }
+                tvUnsuccPayment.onOneClick {
+                    if(orderType !=AppConstants.ORDER_TYPE_FAILED ) {
+                        tvUnsuccPayment.setBackgroundResource(R.drawable.rounded_orders)
+                        AppHelper.setTextColor(requireContext(), tvUnsuccPayment, R.color.white)
+                        tvCancelled.setBackgroundResource(R.color.transparent)
+                        AppHelper.setTextColor(requireContext(), tvCancelled, R.color.primary)
+                        orderType = AppConstants.ORDER_TYPE_FAILED
+                        retrieveOrders()
+                    }
+                }
                 retrieveOrders()
             }
         }
@@ -448,6 +485,35 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
 
     private fun setData(type: Boolean) {
 
+        when (activeType) {
+            0 -> {
+                ordersArray.clear()
+                ordersArray.addAll(mainArray.filter { it.vendor != null && !it.paymentMethod.isNullOrEmpty() })
+            }
+            1 -> {
+                ordersArray.clear()
+                ordersArray.addAll(mainArray.filter { it.paymentMethod.isNullOrEmpty() })
+            }
+
+            else -> {
+                ordersArray.clear()
+                ordersArray.addAll(mainArray.filter { it.vendor == null })
+            }
+
+
+            }
+            activeType
+        /*if(orderType == AppConstants.ORDER_TYPE_ACTIVE){
+            ordersArray.clear()
+            ordersArray.addAll(mainArray.filter { it.vendor != null && !it.paymentMethod.isNullOrEmpty() })
+            tvRunning.setBackgroundResource(R.drawable.rounded_orders)
+            AppHelper.setTextColor(requireContext(), tvRunning, R.color.white)
+            tvPendingSP.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvPendingSP, R.color.primary)
+            tvPendingPayment.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvPendingPayment, R.color.primary)
+        }
+*/
         try {
             if(ordersArray.size==0){
                 tvNoData.show()
@@ -462,6 +528,50 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             }
         } catch (ex: Exception) {
 
+        }
+
+        tvPendingPayment.onOneClick {
+            activeType = 1
+            loading.show()
+            tvPendingPayment.setBackgroundResource(R.drawable.rounded_orders)
+            AppHelper.setTextColor(requireContext(), tvPendingPayment, R.color.white)
+            tvRunning.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvRunning, R.color.primary)
+            tvPendingSP.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvPendingSP, R.color.primary)
+            ordersArray.clear()
+            ordersArray.addAll(mainArray.filter { it.paymentMethod.isNullOrEmpty() })
+            adapter!!.notifyDataSetChanged()
+            loading.hide()
+
+        }
+        tvPendingSP.onOneClick {
+            activeType = 2
+            loading.show()
+            tvPendingSP.setBackgroundResource(R.drawable.rounded_orders)
+            AppHelper.setTextColor(requireContext(), tvPendingSP, R.color.white)
+            tvRunning.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvRunning, R.color.primary)
+            tvPendingPayment.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvPendingPayment, R.color.primary)
+            ordersArray.clear()
+            ordersArray.addAll(mainArray.filter { it.vendor == null })
+            adapter!!.notifyDataSetChanged()
+            loading.hide()
+        }
+        tvRunning.onOneClick {
+            loading.show()
+            activeType = 0
+            tvRunning.setBackgroundResource(R.drawable.rounded_orders)
+            AppHelper.setTextColor(requireContext(), tvRunning, R.color.white)
+            tvPendingSP.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvPendingSP, R.color.primary)
+            tvPendingPayment.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvPendingPayment, R.color.primary)
+            ordersArray.clear()
+            ordersArray.addAll(mainArray.filter { it.vendor != null && !it.paymentMethod.isNullOrEmpty() })
+            adapter!!.notifyDataSetChanged()
+            loading.hide()
         }
         /* if(adapter!=null){
              adapter!!.notifyDataSetChanged()

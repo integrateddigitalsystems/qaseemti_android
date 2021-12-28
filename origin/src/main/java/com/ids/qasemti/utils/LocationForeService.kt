@@ -23,6 +23,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
+import com.ids.qasemti.controller.Activities.ActivitySplash
 import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
@@ -508,11 +509,10 @@ class LocationForeService : Service() {
        /* if(MyApplication.fromOrderDetails!!) {
             launchActivityIntent = Intent(this, ActivityOrderDetails::class.java)
         }else{*/
-        MyApplication.selectedPos = 3
-        MyApplication.selectedFragment = FragmentOrders()
-        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+
         MyApplication.tintColor = R.color.primary
-            launchActivityIntent = Intent(this, ActivityHome::class.java)
+            launchActivityIntent = Intent(this, ActivitySplash::class.java)
+        launchActivityIntent.putExtra("typeId",AppConstants.NOTF_TYPE_ACCEPT_ORDER)
        // }
 
         val cancelIntent = Intent(this, LocationForeService::class.java)

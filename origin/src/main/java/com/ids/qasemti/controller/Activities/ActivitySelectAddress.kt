@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.controller.MyApplication.Companion.clickedIndex
 import com.ids.qasemti.model.ResponseGeoAddress
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_map.*
@@ -111,11 +112,16 @@ class ActivitySelectAddress : AppCompactBase() , ApiListener {
                         Toast.makeText(this, addressName, Toast.LENGTH_SHORT).show()
                     }
 
-
                 }
+
             }
     }
 
+    override fun onPause() {
+        super.onPause()
+        clickedIndex = 0
+
+    }
     fun setListeners() {
 
         MyApplication.fromProfile = false
@@ -155,17 +161,20 @@ class ActivitySelectAddress : AppCompactBase() , ApiListener {
         }
         llCurrentLocation.onOneClick {
 
+            clickedIndex =1
             getCurrentLocation()
 
         }
         llLocationMap.onOneClick {
+
             resultLauncher!!.launch(
                 Intent(this, ActivityMapAddress::class.java)
                     .putExtra("mapTitle", AppHelper.getRemoteString("LocationOnMap", this)))
 
         }
         llSavedLocation.onOneClick {
-            MyApplication.addNew = false
+            MyApplication.fromAdd = false
+            clickedIndex =2
             resultLauncher!!.launch(
                 Intent(this, ActivityAddresses::class.java)
                     .putExtra("mapTitle", AppHelper.getRemoteString("SavedLocation", this))
@@ -173,6 +182,7 @@ class ActivitySelectAddress : AppCompactBase() , ApiListener {
 
         }
         llNewAddress.onOneClick {
+            clickedIndex =3
             MyApplication.finish = true
             MyApplication.addNew = true
             resultLauncher!!.launch(Intent(this, ActivityMapAddress::class.java))
@@ -181,6 +191,7 @@ class ActivitySelectAddress : AppCompactBase() , ApiListener {
 
     override fun onResume() {
         super.onResume()
+        clickedIndex = 0
         firstTime = true
 
     }

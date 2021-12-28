@@ -322,6 +322,12 @@
     <string name="status_cancelled">Cancelled</string>
     <string name="status_failed">Failed</string>
     <string name="waiting_service_provider_approve">Waiting a service provider for approve</string>
+    <string name="Status">Status</string>
+    <string name="GpsDisabled">Gps Disabled</string>
+    <string name="Running">Running</string>
+    <string name="PendingSP">Pending SP</string>
+    <string name="PendingPayment">Pending Payment</string>
+    <string name="UnsuccessfulPayment">Unsuccessful Payment</string>
 
 
 </resources>

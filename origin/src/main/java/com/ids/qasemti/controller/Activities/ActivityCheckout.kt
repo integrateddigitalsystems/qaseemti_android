@@ -336,7 +336,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
         llAddresses.onOneClick {
             startActivityForResult(
-                Intent(this, ActivitySelectAddress::class.java),
+                Intent(this, ActivitySelectAddress::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
                 REQUEST_LOCATION
             )
         }

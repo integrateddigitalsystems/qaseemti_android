@@ -46,7 +46,7 @@ class AdapterPreviousSettlements(
         holder.date.text = AppHelper.formatDate(items.get(position).settlementReqDate!!,"yyyy-MM-dd hh:mm:ss","dd MM yyyy hh:mm")
         holder.amount.text = items.get(position).total_amount!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator)+ " "+ items.get(position).relatedOrders.get(0).currency
         holder.earn.text = items.get(position).totalEarnings!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator)+" "+items.get(position).relatedOrders.get(0).currency
-
+        holder.status.text = items.get(position).status
         var adds =0
         for(item in items.get(position).relatedOrders) {
             adds = adds + item.addCost!!.toInt()
@@ -78,6 +78,7 @@ class AdapterPreviousSettlements(
         var earningsTitle = itemView.findViewById<TextView>(R.id.tvEarningsTitle)
         var viewOrder = itemView.findViewById<LinearLayout>(R.id.llViewOrderDetails)
         var id = itemView.findViewById<TextView>(R.id.tvSettlementId)
+        var status = itemView.findViewById<TextView>(R.id.tvOrderStatusVal)
         var date = itemView.findViewById<TextView>(R.id.tvOrderDateSett)
         var amount = itemView.findViewById<TextView>(R.id.tvSettAmount)
         var earn = itemView.findViewById<TextView>(R.id.tvEarnSett)

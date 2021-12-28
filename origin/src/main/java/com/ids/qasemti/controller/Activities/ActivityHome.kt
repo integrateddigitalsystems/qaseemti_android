@@ -321,16 +321,25 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
     fun setIconBig(selectedIcon: ImageView) {
-        selectedIcon.layoutParams = LinearLayout.LayoutParams(
-            TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                35f,
-                resources.displayMetrics
-            ).toInt(),
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35f, resources.displayMetrics)
-                .toInt()
-        )
-        selectedIcon.setPadding(0, -10, 0, 0)
+        try {
+            selectedIcon.layoutParams = LinearLayout.LayoutParams(
+                TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    35f,
+                    resources.displayMetrics
+                ).toInt(),
+                TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    35f,
+                    resources.displayMetrics
+                )
+                    .toInt()
+            )
+            selectedIcon.setPadding(0, -10, 0, 0)
+        } catch (ex:Exception){
+                logw("frame_error",ex.toString())
+
+            }
     }
 
     fun bigIcon(selectedPosition: Int) {

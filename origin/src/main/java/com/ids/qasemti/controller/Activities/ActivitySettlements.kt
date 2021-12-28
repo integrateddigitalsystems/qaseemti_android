@@ -157,11 +157,13 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                         setData(position)
                     } catch (E: java.lang.Exception) {
                         loading.hide()
+                        setData(position)
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseMainSettlement>, throwable: Throwable) {
                     loading.hide()
+                    setData(position)
                 }
             })
     }

@@ -36,7 +36,7 @@ class AdapterMyServices(
         try {
             AppHelper.setRoundImage(con, holder.image, items.get(position).featuredImage!!, false)
         }catch (ex:Exception){
-
+            Glide.with(con).load(R.drawable.icon_box_product).into(holder.image);
         }
 
        // holder.image.setBackgroundResource(items.get(position).testCode!!)

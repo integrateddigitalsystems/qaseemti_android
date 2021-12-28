@@ -79,6 +79,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         loading.show()
         timer!!.start()
         checkCallData()
+        getAfterOrders()
     }
 
     private fun checkCallData(){
