@@ -119,9 +119,9 @@ class LocationForeService : Service() {
                     startForeground(NOTIFICATION_ID,generateNotification())
 
                     if (serviceRunningInForeground) {
-                        notificationManager.notify(
+                        /*notificationManager.notify(
                             NOTIFICATION_ID,
-                            generateNotification())
+                            generateNotification())*/
                     }
                 } catch (ex: Exception) {
                     Log.wtf("", ex.toString())
