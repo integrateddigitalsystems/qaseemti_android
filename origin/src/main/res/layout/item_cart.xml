@@ -56,14 +56,38 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content">
 
-            <com.ids.qasemti.custom.CustomTextViewBold
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:id="@+id/tvCartId"
+
+                    android:textColor="@color/gray_font_title"
+                    android:textSize="@dimen/small_font"/>
+
+                <com.ids.qasemti.custom.CustomTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/gray_font_title"
+                    android:textSize="@dimen/small_font"
+                    android:text=" - "/>
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewStart"
                 android:id="@+id/tvCartTitle"
                 android:textColor="@color/gray_font_title"
                 android:textSize="@dimen/small_font"
                 android:text="Water Tank"/>
+
+            </LinearLayout>
 
             <com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_marginTop="@dimen/normal_margin"

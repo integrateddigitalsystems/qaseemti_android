@@ -81,8 +81,13 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 import androidx.core.content.ContextCompat.getSystemService
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.google.common.reflect.TypeToken
 import com.google.gson.GsonBuilder
+import kotlinx.android.synthetic.main.layout_profile.*
+import kotlinx.android.synthetic.main.loading.*
 
 
 /**
@@ -711,6 +716,42 @@ class AppHelper {
             )
             sendIntent.type = "text/plain"
             activity.startActivity(sendIntent)
+        }
+
+        fun imageLoading(view:ImageView,loading:LinearLayout , url : String , context: Context){
+
+            loading.show()
+            val options: RequestOptions = RequestOptions()
+                .centerCrop()
+                .placeholder(R.color.gray_medium_2)
+                .error(R.color.gray_medium_2)
+            loading.show()
+            Glide.with(context).load(url).apply(options)
+                .listener(object : RequestListener<Drawable?> {
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable?>?,
+                        dataSource: com.bumptech.glide.load.DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        loading.hide()
+                        return true
+                    }
+
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable?>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+
+                        return false
+
+                    }
+
+                })
+                .into(view)
         }
 
 

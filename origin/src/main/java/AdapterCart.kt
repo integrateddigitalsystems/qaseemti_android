@@ -14,6 +14,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.logw
+import org.w3c.dom.Text
 
 import java.util.ArrayList
 
@@ -41,6 +42,9 @@ class AdapterCart(
             logw("errorCart",position.toString())
             holder.title.text = AppHelper.getRemoteString("no_data", con)
         }
+        if(!items.get(position).orderId.isNullOrEmpty()){
+            holder.id.text = items.get(position).orderId
+        }
         holder.cost.text = items.get(position).total+" "+items.get(position).currency
 
 
@@ -56,6 +60,7 @@ class AdapterCart(
         var delete = itemView.findViewById<ImageView>(R.id.ivDeleteItem)
         var title = itemView.findViewById<TextView>(R.id.tvCartTitle)
         var cost = itemView.findViewById<TextView>(R.id.tvItemCost)
+        var id = itemView.findViewById<TextView>(R.id.tvCartId)
 
         init {
             itemView.setOnClickListener(this)

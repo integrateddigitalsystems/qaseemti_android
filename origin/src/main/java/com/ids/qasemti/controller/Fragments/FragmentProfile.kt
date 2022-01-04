@@ -8,6 +8,7 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -22,9 +23,12 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
@@ -69,6 +73,11 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import com.bumptech.glide.load.engine.GlideException
+
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import javax.sql.DataSource
 
 
 class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
@@ -731,6 +740,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 try {
                     if (!MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty()) {
                         ivCivilBack.loadImagesUrl(MyApplication.selectedUser!!.civilAttachBack!!)
+                        //AppHelper.imageLoading(ivCivilBack,loading,MyApplication.selectedUser!!.civilAttachBack!!,requireContext())
                         btCancelCivilBack.show()
                         civilImageBackAvailable = true
                     }else{
@@ -758,6 +768,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 try {
                     if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty()) {
                         ivCivilFront.loadImagesUrl(MyApplication.selectedUser!!.civilIdAttach!!)
+                            //AppHelper.imageLoading(ivCivilFront,loading,MyApplication.selectedUser!!.civilIdAttach!!,requireContext())
+
                         btCancelCivilFront.show()
                         civilImageAvailable = true
                     }else{
@@ -1361,10 +1373,14 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
                             }
                         } else {
-                            AppHelper.createDialog(
-                                requireActivity(),
-                                AppHelper.getRemoteString("fill_all_field", requireActivity())
-                            )
+                            if((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) && !(civilImageAvailable || civilImageBackAvailable)) {
+                                AppHelper.createDialog(
+                                    requireActivity(),
+                                    AppHelper.getRemoteString("fill_all_field", requireActivity())
+                                )
+                            }else{
+                                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
+                            }
 
                         }
                     }else{

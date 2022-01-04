@@ -354,20 +354,24 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="FrontCivilImage"
-                            android:textColor="@color/gray_font_light"
+                            android:textColor="@color/gray_font_title"
                             android:tag="FrontCivilImage"
                             android:textSize="@dimen/small_font"
                             />
                         <FrameLayout
                             android:layout_width="@dimen/toolbar_extra"
                             android:layout_height="@dimen/toolbar_extra">
-                    <ImageView
-                        android:layout_marginBottom="@dimen/small_margin"
-                        android:layout_gravity="center"
-                        android:src="@drawable/icon_add_image"
-                        android:layout_width="@dimen/toolbar_height"
-                        android:layout_height="@dimen/toolbar_height"
-                        android:id="@+id/ivCivilFront"/>
+
+
+                            <ImageView
+                                android:id="@+id/ivCivilFront"
+                                android:layout_width="@dimen/toolbar_height"
+                                android:layout_height="@dimen/toolbar_height"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="@dimen/small_margin"
+                                android:src="@drawable/icon_add_image" />
+
+
 
                             <LinearLayout
 
@@ -407,7 +411,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="BackCivilImage"
-                            android:textColor="@color/gray_font_light"
+                            android:textColor="@color/gray_font_title"
                             android:tag="BackCivilImage"
                             android:textSize="@dimen/small_font"
                             />
