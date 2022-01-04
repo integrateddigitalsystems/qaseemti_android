@@ -10,8 +10,6 @@ import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import android.util.Log
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ProcessLifecycleOwner
 
 import com.google.firebase.installations.FirebaseInstallations
 
@@ -19,18 +17,11 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ids.qasemti.BuildConfig
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivitySplash
-import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.controller.MyApplication.Companion.appAlive
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE
-import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_NORMAL
-import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_ORDERS
-import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_SERVICE
-import com.ids.qasemti.utils.AppHelper.Companion.appDead
-import com.ids.qasemti.utils.AppHelper.Companion.isAppRunning
 
 import java.util.*
 

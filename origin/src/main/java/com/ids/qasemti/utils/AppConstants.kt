@@ -105,7 +105,7 @@ object AppConstants {
     const val PLACE_ORDER_AVAILABLE_IN= 2
     const val PLACE_ORDER_AVAILABLE_OUT = 3
 
-    const val NOTF_TYPE_ORDERS = 1
+    const val NOTF_TYPE_BROADCAST_ORDERS = 1
     const val NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE = 2
     const val NOTF_TYPE_NORMAL = 3
     const val NOTF_TYPE_SERVICE = 4

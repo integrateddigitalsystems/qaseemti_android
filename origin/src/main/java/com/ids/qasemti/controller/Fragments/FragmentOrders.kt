@@ -91,9 +91,9 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
     override fun onResume() {
         super.onResume()
 
-        var x = MyApplication.appAlive
 
-        var y =1
+            (activity as ActivityHome).showBack(false)
+
         if(denied!!){
             denied = false
             getOrders()

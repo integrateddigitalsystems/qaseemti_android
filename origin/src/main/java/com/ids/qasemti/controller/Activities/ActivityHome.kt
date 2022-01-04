@@ -849,7 +849,8 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         val filter = IntentFilter("msg")
         registerReceiver(mBroadcastReceiver, filter)
 
-        if(foregroundOnlyBroadcastReceiver == null ) {
+
+        if(foregroundOnlyBroadcastReceiver == null && !MyApplication.isClient) {
             foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
 
             MyApplication.serviceContext = this
@@ -880,10 +881,14 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
     override fun onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(
-            foregroundOnlyBroadcastReceiver!!
-        )
+        if (!MyApplication.isClient && foregroundOnlyBroadcastReceiver != null) {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(
+                foregroundOnlyBroadcastReceiver!!
+            )
+        }
+
         super.onPause()
+
     }
 
     override fun onStop() {

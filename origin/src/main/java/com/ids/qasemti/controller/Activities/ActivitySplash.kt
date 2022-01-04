@@ -7,7 +7,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.mtp.MtpConstants
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -15,13 +14,11 @@ import android.os.Looper
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.view.Window
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -60,7 +57,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.log
 
 
 class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
@@ -390,7 +386,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             MyApplication.selectedFragment = FragmentNotifications()
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
                             MyApplication.tintColor = R.color.primary
-                        } else if (type == AppConstants.NOTF_TYPE_ORDERS) {
+                        } else if (type == AppConstants.NOTF_TYPE_BROADCAST_ORDERS) {
                             MyApplication.selectedPos = 2
                             MyApplication.defaultIcon = ivFooterHome
                             MyApplication.tintColor = R.color.primary
@@ -420,7 +416,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                                 MyApplication.toDetails = false
                             }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_CART
-                        }else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE  && type == AppConstants.NOTF_PAYMENT_ADDED){
+                        }else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE  || type == AppConstants.NOTF_PAYMENT_ADDED){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
@@ -450,7 +446,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             MyApplication.selectedFragment = FragmentNotifications()
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
                             MyApplication.tintColor = R.color.primary
-                        } else if (type == AppConstants.NOTF_TYPE_ORDERS) {
+                        } else if (type == AppConstants.NOTF_TYPE_BROADCAST_ORDERS) {
                             MyApplication.selectedPos = 2
                             MyApplication.defaultIcon = ivFooterHome
                             MyApplication.selectedFragment = FragmentHomeSP()

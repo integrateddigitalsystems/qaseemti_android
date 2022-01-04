@@ -109,26 +109,32 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
            )*/
         //   sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
-        MyApplication.serviceContext = this
-        val serviceIntent = Intent(this, LocationForeService::class.java)
-        bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
+        if(!MyApplication.isClient) {
+            MyApplication.serviceContext = this
+            val serviceIntent = Intent(this, LocationForeService::class.java)
+            bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
+        }
 
     }
 
     override fun onResume() {
         super.onResume()
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            foregroundOnlyBroadcastReceiver,
-            IntentFilter(
-                LocationForeService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST
+        if(!MyApplication.isClient) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(
+                foregroundOnlyBroadcastReceiver,
+                IntentFilter(
+                    LocationForeService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST
+                )
             )
-        )
+        }
     }
 
     override fun onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(
-            foregroundOnlyBroadcastReceiver
-        )
+        if(!MyApplication.isClient) {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(
+                foregroundOnlyBroadcastReceiver
+            )
+        }
         super.onPause()
     }
 
@@ -164,7 +170,9 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         setListeners()
 
 
-        foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
+        if(!MyApplication.isClient) {
+            foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
+        }
         //  startServicing()
         init()
     }
