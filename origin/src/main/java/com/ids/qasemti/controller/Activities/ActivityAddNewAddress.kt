@@ -45,7 +45,7 @@ import kotlin.collections.ArrayList
 
 class ActivityAddNewAddress : ActivityBase(), ApiListener {
 
-    var REQUEST_CODE = 1005
+    var REQUEST_CODE = 1000
     var from = ""
     var address: ResponseAddress? = null
     var arraySpinner: ArrayList<ItemSpinner> = arrayListOf()
@@ -102,7 +102,12 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
             "submitted",
             true
         )
-        setResult(RESULT_OK, intent)
+        if(MyApplication.fromProfile!!){
+            MyApplication.fromProfile = false
+            setResult(REQUEST_CODE, intent)
+        }else {
+            setResult(RESULT_OK, intent)
+        }
         finish()
     }
 

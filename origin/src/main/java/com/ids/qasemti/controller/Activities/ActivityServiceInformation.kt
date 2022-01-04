@@ -14,6 +14,7 @@ import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.RadioButton
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -58,6 +59,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
     private val CODE_IMAGE = 1001
     var fromCam = false
     var type : Int ?=0
+    var resultcode : Int ?=0
     var countSelected =0
     var deletedItems = 0
     var oneFailure : Boolean = false
@@ -101,7 +103,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
     var selectedFileVehicleLicence : MultipartBody.Part ?=null
     var image : Boolean ?= false
     var adapterSelectedImages : AdapterGridFiles?=null
-
+    lateinit var getContent: ActivityResultLauncher<Intent>
     var adapterRequiredFiles : AdapterRequiredFiles?=null
     var arrayRequiredFiles: ArrayList<RequiredFiles> = arrayListOf()
     var countFilesUploaded=0
@@ -175,6 +177,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
 
 
 
+
     }
 
     override fun onBackPressed() {
@@ -191,11 +194,83 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
         btBck.onOneClick{super.onBackPressed()}
         btPickImage.onOneClick{
           //  pickFile(CODE_IMAGE,false)
-            type = CODE_IMAGE
+            resultcode = CODE_IMAGE
             image = true
             setUp()
            // selectImage(this,CODE_IMAGE)
         }
+
+        getContent = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+
+
+            when (resultcode) {
+
+                CODE_IMAGE -> {
+                    try {
+                        var file: File? = null
+                        if (fromCam) {
+                            it.data!!.data!!.path
+                            file = File(it.data!!.data!!.path)
+                        } else {
+                            file = getFile(this, it.data!!.data!!)
+                        }
+                        tvPickedImage.text = file!!.name
+                        var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                        if (MyApplication.isEditService) {
+                            selectedFileImage = MultipartBody.Part.createFormData(
+                                ApiParameters.IMAGE,
+                                file.name,
+                                req
+                            )
+                        } else {
+                            selectedFileImage = MultipartBody.Part.createFormData(
+                                ApiParameters.GALLERY,
+                                file.name,
+                                req
+                            )
+                        }
+                        arrayImagesSelected.add(FilesSelected(file.name, file, selectedFileImage))
+                        setPickedImages()
+                    } catch (e: Exception) {
+                    }
+                }
+
+                CODE_REQUIRED_FILES -> {
+                    try {
+
+                        var file: File? = null
+                        var FileName: String? = ""
+                        if (fromCam) {
+                            file = File(it.data!!.data!!.path)
+                            FileName = file.name
+                        } else {
+                            file = getFile(this, it.data!!.data!!)
+                            FileName = file.name
+
+                        }
+                        var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                        var selectedFile = MultipartBody.Part.createFormData(
+                            ApiParameters.FILE,
+                            file.name + "File",
+                            req
+                        )
+                        arrayRequiredFiles[requireFilePosition].multipart = selectedFile
+                        arrayRequiredFiles[requireFilePosition].selectedFileName = FileName
+                        adapterRequiredFiles!!.notifyDataSetChanged()
+                    } catch (e: Exception) {
+                    }
+                }
+
+                else -> {
+
+                }
+            }
+
+        }
+
+
 
         btSave.onOneClick{setTab2()}
         btPreViews1.onOneClick{setTab1()}
@@ -359,7 +434,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
        if(view.id==R.id.btPickFile /*&& MyApplication.isEditService*/){
            requireFilePosition=position
            //pickFile(CODE_REQUIRED_FILES,true)
-           type = CODE_REQUIRED_FILES
+           resultcode = CODE_REQUIRED_FILES
            setUp()
           // selectImage(this,CODE_REQUIRED_FILES)
        }else if(view.id == R.id.btRemove){
@@ -568,7 +643,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         try {
            // val files: ArrayList<MediaFile> =data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!
@@ -630,19 +705,23 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
 
             var x = e
         }
-    }
+    }*/
 
     private fun pickImageFromCamera() {
 
         fromCam = true
+
         ImagePicker.with(this)
             .crop()
             .compress(1024)
             .cameraOnly()
             .maxResultSize(1080, 1080)
             .createIntent {
-               startActivityForResult(it,type!!)
+               //startActivityForResult(it,type!!)
+               // resultcode = CODE_IMAGE
+                getContent.launch(it)
             }
+
     }
 
 
@@ -650,7 +729,9 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
         fromCam = false
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent,type!!)
+       // resultcode = CODE_IMAGE
+        getContent.launch(intent)
+       // startActivityForResult(intent,type!!)
         //  startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
@@ -658,7 +739,9 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
         var i = Intent(Intent.ACTION_GET_CONTENT)
         i.setType("application/pdf");
         i.addCategory(Intent.CATEGORY_OPENABLE)
-        startActivityForResult(i,type!!)
+       // resultcode = CODE_REQUIRED_FILES
+        getContent.launch(i)
+        //startActivityForResult(i,type!!)
     }
 
     private fun selectImage(context: Context) {
@@ -716,10 +799,13 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
 
                                 var x = checkSelfPermission(item)
                                 if (checkSelfPermission(item) == BLOCKED) {
-                                    startActivityForResult(
-                                        Intent(android.provider.Settings.ACTION_SETTINGS),
+                                    getContent.launch(
+                                        Intent(android.provider.Settings.ACTION_SETTINGS)
+                                    )
+                                    /*startActivityForResult(
+                                      ,
                                         0
-                                    );
+                                    );*/
                                     toast(
                                         AppHelper.getRemoteString(
                                             "grant_settings_permission",

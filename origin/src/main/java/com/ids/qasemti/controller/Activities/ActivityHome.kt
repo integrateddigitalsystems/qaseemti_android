@@ -875,6 +875,8 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             tvPageTitle.hide()
         }
         MyApplication.fromFooterOrder = false
+
+
     }
 
     override fun onPause() {

@@ -36,6 +36,8 @@ import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -80,6 +82,15 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         timer!!.start()
         checkCallData()
         getAfterOrders()
+
+
+        if (MyApplication.toDetails) {
+            MyApplication.toDetails = false
+            startActivity(
+                Intent(requireActivity(), ActivityOrderDetails::class.java)
+                    .putExtra("orderId", MyApplication.selectedOrderId)
+            )
+        }
 
     }
 
@@ -157,13 +168,12 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 ) {
                     try {
                         if (response.body()!!.rate != null) {
-                            rbMainUser.rating =
-                                AppHelper.getFloorRatingBar(response.body()!!.rate!!)
-                            tvRatingValue.text = response.body()!!.rate.toString()
+                            rbMainUser.rating = AppHelper.getFloorRatingBar(response.body()!!.rate!!)
+                            val decimal = BigDecimal(response.body()!!.rate!!).setScale(1, RoundingMode.HALF_EVEN)
+                            tvRatingValue.text = decimal.toString()
                         } else {
-                            tvRatingValue.text = "0"
+                            tvRatingValue.text = "0.0"
                         }
-
                     } catch (E: java.lang.Exception) {
                         // rbMainUser.rating = 0f
                     }

@@ -111,11 +111,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
         if (position == 0) {
             selectedFile = null
-            arraySelectedImage!!.removeAt(position)
+            arraySelectedImage.removeAt(position)
             adapterSelectedImages!!.notifyDataSetChanged()
         } else {
             selectedFile2 = null
-            arraySelectedImage!!.removeAt(position)
+            arraySelectedImage.removeAt(position)
             adapterSelectedImages!!.notifyDataSetChanged()
         }
         if (arraySelectedImage.size < 2) {
@@ -985,7 +985,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                 selectedBankId.toString(),
                                 arrayListOf()
                             )
-                            startActivity(Intent(requireActivity(), ActivityMapAddress::class.java))
+                            resultLauncher!!.launch(
+                                Intent(requireActivity(), ActivityMapAddress::class.java)
+                            )
+                         //   startActivity(Intent(requireActivity(), ActivityMapAddress::class.java))
                         }
                     } else {
                         MyApplication.addNewAddress = true
@@ -1182,52 +1185,65 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         }
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
 
-                    try {
-                        var file: File? = null
-                        if (fromCam!!) {
-                            file = File(result.data!!.data!!.path)
-                            fromCam = false
-                        } else {
-                            try {
-                                /*   val files: ArrayList<MediaFile> =
-                                   result.data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!*/
-                                //   var path = getPath(files.get(0).uri)
-                                file = AppHelper.getFile(requireActivity(), result.data!!.data!!)
+                    if (result.resultCode == 1000) {
 
-
-                            } catch (e: Exception) {
-                                Log.wtf("tag", "tag")
+                            val extras =result.data
+                            if (extras != null) {
+                                lat = extras.getDoubleExtra("lat",0.0)
+                                long = extras.getDoubleExtra("long",0.0)
+                                /*etAddressProfile.text = Editable.Factory.getInstance()
+                                    .newEditable(AppHelper.getAddress(lat!!, long!!, requireContext()))*/
                             }
-                        }
 
-                        var req = file!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                        if (fromProfile != 1) {
 
-                            if (fromProfile == 2) {
-                                ivCivilFront.loadLocalImage(file)
-                                selectedFile = MultipartBody.Part.createFormData(
-                                    ApiParameters.CIVIL_ID_ATTACH,
-                                    file.name,
-                                    req
-                                )
-                                MyApplication.tempCivilId = file
-                                civilImageAvailable = true
-                                btCancelCivilFront.show()
-
+                    } else {
+                        try {
+                            var file: File? = null
+                            if (fromCam!!) {
+                                file = File(result.data!!.data!!.path)
+                                fromCam = false
                             } else {
-                                btCancelCivilBack.show()
-                                civilImageBackAvailable = true
-                                ivCivilBack.loadLocalImage(file)
-                                selectedFile2 = MultipartBody.Part.createFormData(
-                                    ApiParameters.CIVIL_ATTACH_BACK,
-                                    file.name,
-                                    req
-                                )
-                                MyApplication.tempCivilIdBack = file
+                                try {
+                                    /*   val files: ArrayList<MediaFile> =
+                                   result.data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!*/
+                                    //   var path = getPath(files.get(0).uri)
+                                    file =
+                                        AppHelper.getFile(requireActivity(), result.data!!.data!!)
+
+
+                                } catch (e: Exception) {
+                                    Log.wtf("tag", "tag")
+                                }
                             }
-                            /* tvCivilIdFile.show()
+
+                            var req =
+                                file!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                            if (fromProfile != 1) {
+
+                                if (fromProfile == 2) {
+                                    ivCivilFront.loadLocalImage(file)
+                                    selectedFile = MultipartBody.Part.createFormData(
+                                        ApiParameters.CIVIL_ID_ATTACH,
+                                        file.name,
+                                        req
+                                    )
+                                    MyApplication.tempCivilId = file
+                                    civilImageAvailable = true
+                                    btCancelCivilFront.show()
+
+                                } else {
+                                    btCancelCivilBack.show()
+                                    civilImageBackAvailable = true
+                                    ivCivilBack.loadLocalImage(file)
+                                    selectedFile2 = MultipartBody.Part.createFormData(
+                                        ApiParameters.CIVIL_ATTACH_BACK,
+                                        file.name,
+                                        req
+                                    )
+                                    MyApplication.tempCivilIdBack = file
+                                }
+                                /* tvCivilIdFile.show()
                          tvCivilIdFile.text = result.data!!.data!!.path
                          MyApplication.tempCivilId = file
                          tvCivilIdFile.onOneClick {
@@ -1238,7 +1254,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                  "frag_image"
                              )
                          }*/
-                            /* var firstFile = false
+                                /* var firstFile = false
                         if (arraySelectedImage.size > 0 && arraySelectedImage.get(0).id == 2)
                             firstFile = true
                         else if (arraySelectedImage.size == 0)
@@ -1270,23 +1286,23 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                             }
                             rvCivilIdData.show()*/
 
-                        } else {
-                            MyApplication.tempProfilePic = file
-                            ivProfile.loadRoundedLocalImage(file)
-                            selectedProfilePic = MultipartBody.Part.createFormData(
-                                if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
-                                file.name + "File",
-                                req
-                            )
+                            } else {
+                                MyApplication.tempProfilePic = file
+                                ivProfile.loadRoundedLocalImage(file)
+                                selectedProfilePic = MultipartBody.Part.createFormData(
+                                    if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
+                                    file.name + "File",
+                                    req
+                                )
+                            }
+
+                        } catch (ex: Exception) {
+                            logw("tets", "error")
                         }
 
-                    }catch (ex:Exception){
-                        logw("tets","error")
                     }
 
-                }
-
-                /*  if (requestCode == 1000) {
+                    /*  if (requestCode == 1000) {
                       if (resultCode == Activity.RESULT_OK) {
                           val extras = data!!.extras
                           if (extras != null) {
@@ -1298,8 +1314,13 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
                       }
                   } else {*/
+                }
 
-            }
+
+
+
+
+
         btSaveProfile.onOneClick {
 
             if (AppHelper.isOnline(requireActivity())) {
@@ -1372,10 +1393,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         }
 
         llAddressProfile.setOnClickListener {
-            startActivityForResult(
-                Intent(requireContext(), ActivityMapAddress::class.java),
-                1000
-            )
+            resultLauncher!!.launch(Intent(requireContext(), ActivityMapAddress::class.java))
         }
         ibUploadFile.setOnClickListener {
             if (arraySelectedImage.size < 2)
@@ -1567,22 +1585,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         return cursor.getString(column_index)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
 
-        if (requestCode == 1000) {
-            if (resultCode == Activity.RESULT_OK) {
-                val extras = data!!.extras
-                if (extras != null) {
-                    lat = extras.getDouble("lat")
-                    long = extras.getDouble("long")
-                    /*etAddressProfile.text = Editable.Factory.getInstance()
-                        .newEditable(AppHelper.getAddress(lat!!, long!!, requireContext()))*/
-                }
-
-            }
-        } else {
+        *//*else {
             try {
                 val files: ArrayList<MediaFile> =
                     data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!
@@ -1624,8 +1631,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
             } catch (e: Exception) {
             }
-        }
-    }
+        }*//*
+    }*/
 
     private fun pickFile(pickCode: Int, from: Int) {
 
