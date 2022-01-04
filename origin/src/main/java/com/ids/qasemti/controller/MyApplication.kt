@@ -79,7 +79,6 @@ class MyApplication : Application() {
         var selectedOrderTrack : ResponseOrders ?=null
         var selectedItemDialog="+965"
         var addNewAddress = true
-
         var settlementTabSelected =0
         var defaultIcon : ImageView ?=null
         var selectedFragment  : Fragment ?=null
@@ -102,6 +101,7 @@ class MyApplication : Application() {
         var temporaryProfile : User ?=null
         var tempProfilePic : File ?=null
         var tempCivilId : File?=null
+        var tempCivilIdBack : File ?=null
         var firstImage : Boolean ?=false
         var selectedService : ResponseService ?=null
         var rentalId : Int ?=0
@@ -174,8 +174,13 @@ class MyApplication : Application() {
         var trackOrderIdList : String ?
         get() = sharedPreferences.getString(AppConstants.TRACKING_LIST,"")
         set(value) { sharedPreferencesEditor.putString(AppConstants.TRACKING_LIST , value)}
+        var appAlive = false
 
         var selectedOrderRemoveIndex : Int ?=0
+        var resumed : Boolean = false
+        var destroyed : Boolean = false
+        var foregrounded : Boolean = false
+        var backgrounded : Boolean = false
 
         var listOrderTrack : ArrayList<String> = arrayListOf()
 

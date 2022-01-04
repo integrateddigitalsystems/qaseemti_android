@@ -52,9 +52,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.system.exitProcess
 import android.R.string.no
-
-
-
+import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.MyApplication.Companion.listOrderTrack
+import com.ids.qasemti.model.RequestCart
+import com.ids.qasemti.model.ResponseMainOrder
 
 
 class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedListener,
@@ -70,7 +71,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     var selectedPos = 2
 
     var foregrounfLocationService: CurrentLocationService? = null
-    private lateinit var foregroundOnlyBroadcastReceiver: ForegroundOnlyBroadcastReceiver
+    private var foregroundOnlyBroadcastReceiver: ForegroundOnlyBroadcastReceiver ?=null
     private var ordersArray: ArrayList<String> = arrayListOf()
     var isClose = false
 
@@ -84,10 +85,15 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         }catch (ex:Exception){
             logw("exHand",ex.toString())
         }
-        getNotf()
+        if(MyApplication.isSignedIn) {
+            try {
+                getNotf()
+                getCartData()
+            }catch (ex:Exception){}
+        }
         MyApplication.saveLocationTracking = false
 
-        foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
+
 
 
 
@@ -97,6 +103,31 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
         //   startServicing()
 
+    }
+
+
+    fun getCartData(){
+        try {
+            loading.show()
+        }catch (ex: java.lang.Exception){
+
+        }
+        var newReq = RequestCart(MyApplication.userId,MyApplication.languageCode)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getCarts(
+                newReq
+            )?.enqueue(object : Callback<ResponseMainOrder> {
+                override fun onResponse(call: Call<ResponseMainOrder>, response: Response<ResponseMainOrder>) {
+                    try{
+                        setCartNumber(response.body()!!.orders.size.toString())
+                    }catch (E: java.lang.Exception){
+                        setCartNumber("0")
+                    }
+                }
+                override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
+                    setCartNumber("0")
+                }
+            })
     }
 
 
@@ -185,16 +216,27 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                 try {
                     // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
                     if (foregroundPermissionApproved()) {
-                        MyApplication.saveLocationTracking = true
-                        foregroundOnlyLocationService?.subscribeToLocationUpdates()
-                            ?: run {
-                                Log.d(TAG, "Service Not Bound")
-                                if (MyApplication.listOrderTrack.size == 1) {
-                                    MyApplication.saveLocationTracking = false
-                                }
-                                MyApplication.listOrderTrack.removeAt(MyApplication.listOrderTrack.size - 1)
 
+                        if(listOrderTrack.size > 0) {
+                            MyApplication.saveLocationTracking = true
+                            foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                                ?: run {
+                                    Log.d(TAG, "Service Not Bound")
+                                    if (MyApplication.listOrderTrack.size == 1) {
+                                        MyApplication.saveLocationTracking = false
+                                    }
+                                    MyApplication.listOrderTrack.removeAt(MyApplication.listOrderTrack.size - 1)
+
+                                }
+                        }else{
+                             try {
+                                foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+                                val intent = Intent()
+                                intent.setClass(this, LocationForeService::class.java)
+                                stopService(intent)
+                            } catch (ex: Exception) {
                             }
+                        }
                     } else {
                         /*AppHelper.createYesNoDialog(
                             this,
@@ -207,6 +249,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                         didOnce = false*/
                     }
                 } catch (ex: Exception) {
+                    logw("Ex",ex.toString())
                 }
             }
         }
@@ -325,12 +368,12 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             selectedIcon.layoutParams = LinearLayout.LayoutParams(
                 TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP,
-                    35f,
+                    40f,
                     resources.displayMetrics
                 ).toInt(),
                 TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP,
-                    35f,
+                    40f,
                     resources.displayMetrics
                 )
                     .toInt()
@@ -725,19 +768,31 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                sharedPreferences.getBoolean(SharedPreferenceUtil.KEY_FOREGROUND_ENABLED, false)
            )*/
         //   sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-
-        MyApplication.serviceContext = this
-        val serviceIntent = Intent(this, LocationForeService::class.java)
-        bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
-
     }
 
     fun setNotNumber(num: String) {
-        if (num.isNullOrEmpty() || num.equals("0"))
-            tvNumberNotfUnread.hide()
-        else {
-            tvNumberNotfUnread.text = num.toString()
-            tvNumberNotfUnread.show()
+        try {
+            if (num.isNullOrEmpty() || num.equals("0"))
+                tvNumberNotfUnread.hide()
+            else {
+                tvNumberNotfUnread.text = num.toString()
+                tvNumberNotfUnread.show()
+            }
+        }catch (ex:Exception){
+
+        }
+    }
+
+    fun setCartNumber(num: String) {
+        try {
+            if (num.isNullOrEmpty() || num.equals("0"))
+                tvNumberCartOrders.hide()
+            else {
+                tvNumberCartOrders.text = num.toString()
+                tvNumberCartOrders.show()
+            }
+        }catch (ex:Exception){
+
         }
     }
 
@@ -783,6 +838,9 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     override fun onResume() {
         super.onResume()
 
+        var x : String ?=""
+
+
         var mBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent) {
                 getNotf()
@@ -791,14 +849,28 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         val filter = IntentFilter("msg")
         registerReceiver(mBroadcastReceiver, filter)
 
+        if(foregroundOnlyBroadcastReceiver == null ) {
+            foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            foregroundOnlyBroadcastReceiver,
-            IntentFilter(
-                LocationForeService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST
+            MyApplication.serviceContext = this
+            val serviceIntent = Intent(this, LocationForeService::class.java)
+            bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
+
+
+            // if(foregroundOnlyBroadcastReceiver!! == null ) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(
+                foregroundOnlyBroadcastReceiver!!,
+                IntentFilter(
+                    LocationForeService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST
+                )
             )
+        }else{
+            changeState(true , 0 )
+        }
+       // }
 
-        )
+
+
         if (MyApplication.selectedFragmentTag == FRAGMENT_ACCOUNT) {
             tvPageTitle.hide()
         }
@@ -807,7 +879,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     override fun onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(
-            foregroundOnlyBroadcastReceiver
+            foregroundOnlyBroadcastReceiver!!
         )
         super.onPause()
     }
@@ -828,7 +900,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             val binder = service as LocationForeService.LocalBinder
             foregroundOnlyLocationService = binder.foreService
             foregroundOnlyLocationServiceBound = true
-            if (MyApplication.saveLocationTracking!!)
+          //  if (MyApplication.saveLocationTracking!!)
                 changeState(true, 0)
             //   changeState()
         }

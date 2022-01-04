@@ -80,6 +80,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         timer!!.start()
         checkCallData()
         getAfterOrders()
+
     }
 
     private fun checkCallData(){
@@ -196,6 +197,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         //   AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         setListeners()
         setUpTimer()
+
+
     }
 
     fun getData() {
@@ -476,6 +479,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             }
         }
 
+        AppHelper.toGsonArrString()
         (activity as ActivityHome).changeState(true,0)
     }
     fun getAfterOrders(){
@@ -495,7 +499,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                         trackorders.addAll(response!!.body()!!.orders)
                         checkSetUp()
                     } catch (E: java.lang.Exception) {
-
+                       logw("TRACKING_ERROR",E.toString())
                     }
                 }
 

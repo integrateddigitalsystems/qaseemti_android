@@ -103,8 +103,9 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(),ApiListener{
 
         var intent = Intent(requireActivity(),ActivityHome::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        requireActivity().startActivity(intent, bundle)
         requireActivity().finish()
+        requireActivity().startActivity(intent, bundle)
+
 
 
     }

@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.FragmentAccount
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
@@ -111,7 +112,6 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
         etBuilding.hint = etBuilding.hint.toString() + "*"
         etArea.hint = etArea.hint.toString() + "*"
         etBlock.hint = etBlock.hint.toString() + "*"
-        etFloor.hint = etFloor.hint.toString() + "*"
         etStreet.hint = etStreet.hint.toString() + "*"
     }
 

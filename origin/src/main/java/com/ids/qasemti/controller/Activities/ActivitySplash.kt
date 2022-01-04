@@ -347,8 +347,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                 CallAPIs.updateDevice(this, this)
                 // AppHelper.updateDevice(this, "")
                 MyApplication.firstTime = false
-                startActivity(Intent(this, ActivityChooseLanguage::class.java))
                 finish()
+                startActivity(Intent(this, ActivityChooseLanguage::class.java))
+
             } else {
 
                 if (MyApplication.isSignedIn) {
@@ -419,7 +420,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                                 MyApplication.toDetails = false
                             }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_CART
-                        }else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE){
+                        }else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE  && type == AppConstants.NOTF_PAYMENT_ADDED){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
@@ -455,6 +456,12 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             MyApplication.selectedFragment = FragmentHomeSP()
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
                             MyApplication.tintColor = R.color.primary
+                            if(orderId!=-1){
+                                MyApplication.selectedOrderId = orderId
+                                MyApplication.toDetails = true
+                            }else{
+                                MyApplication.toDetails = false
+                            }
                         } else if (type == AppConstants.NOTF_TYPE_SERVICE) {
                             MyApplication.selectedPos = 0
                             MyApplication.defaultIcon = ivProductFooter
@@ -480,7 +487,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                                 MyApplication.toDetails = false
                             }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        } else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE){
+                        } else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE && type == AppConstants.NOTF_PAYMENT_ADDED){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
@@ -532,8 +539,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         MyApplication.selectedFragment = FragmentHomeClient()
                         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
 
-                        startActivity(Intent(this, ActivityHome::class.java))
                         finish()
+                        startActivity(Intent(this, ActivityHome::class.java))
+
                         // CallAPIs.getUserInfo(this,this)
                     } else {
                         MyApplication.selectedPos = 2
@@ -541,8 +549,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         MyApplication.tintColor = R.color.primary
                         MyApplication.selectedFragment = FragmentHomeSP()
                         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
-                        startActivity(Intent(this, ActivityMobileRegistration::class.java))
                         finish()
+                        startActivity(Intent(this, ActivityMobileRegistration::class.java))
+
                     }
                 }
             }
@@ -758,13 +767,15 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         AppHelper.getRemoteString("suspended_user_msg", this)
                     )
                 } else {
-                    startActivity(Intent(this, ActivityHome::class.java))
                     finish()
+                    startActivity(Intent(this, ActivityHome::class.java))
+
                 }
             } catch (ex: Exception) {
                 Log.wtf("apiSplash", ex.toString())
-                startActivity(Intent(this, ActivityMobileRegistration::class.java))
                 finish()
+                startActivity(Intent(this, ActivityMobileRegistration::class.java))
+
             }
         } else {
             try {

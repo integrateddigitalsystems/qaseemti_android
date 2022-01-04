@@ -8,15 +8,15 @@ class RequestRating {
     @Expose
     var vendorId: Int? = 0
 
-    @SerializedName("author_id")
+    @SerializedName("client_id")
     @Expose
     var authorId: Int? = 0
 
-    @SerializedName("author_name")
+    @SerializedName("client_name")
     @Expose
     var authorName: String? = ""
 
-    @SerializedName("author_email")
+    @SerializedName("client_email")
     @Expose
     var authorEmail: String? = ""
 
@@ -32,6 +32,10 @@ class RequestRating {
     @Expose
     var reviewRating: Int? = 0
 
+    @SerializedName("order_id")
+    @Expose
+    var orderId : Int ?=0
+
     constructor(
         vendorId: Int?,
         authorId: Int?,
@@ -39,7 +43,8 @@ class RequestRating {
         authorEmail: String?,
         reviewTitle: String?,
         reviewDescription: String?,
-        reviewRating: Int?
+        reviewRating: Int? ,
+        orderId : Int ?
     ) {
         this.vendorId = vendorId
         this.authorId = authorId
@@ -48,5 +53,6 @@ class RequestRating {
         this.reviewTitle = reviewTitle
         this.reviewDescription = reviewDescription
         this.reviewRating = reviewRating
+        this.orderId = orderId
     }
 }

@@ -11,7 +11,7 @@
     <string name="login">تسجيل دخول</string>
     <string name="enterNumber">الرجاء إدخال رقم الهاتف</string>
     <string name="products">منتجات</string>
-    <string name="orders">طلبات</string>
+    <string name="Orders">طلبات</string>
     <string name="Home">الرئيسية</string>
     <string name="notifications">اشعارات</string>
     <string name="Notification">اشعار</string>
@@ -319,7 +319,7 @@
     <string name="status_completed">المكتملة</string>
     <string name="status_upcoming">القادمة</string>
     <string name="status_cancelled">الملغية</string>
-    <string name="status_failed">الفاشلة</string>
+    <string name="status_failed">الملغات</string>
     <string name="waiting_service_provider_approve">في انتظار موافقة مقدم الخدمة</string>
     <string name="Status">الحالة</string>
     <string name="GpsDisabled">Gps غير مفعّل</string>
@@ -327,5 +327,6 @@
     <string name="PendingSP">بانتظار مزود</string>
     <string name="PendingPayment">بانتظار الدفع</string>
     <string name="UnsuccessfulPayment">دفع غير ناجح</string>
+    <string name="you_must_enter_civil_front_back">يجب عليك إدخال عدد 2 مرفق مدني ، صورة أمامية وخلفية</string>
 
 </resources>

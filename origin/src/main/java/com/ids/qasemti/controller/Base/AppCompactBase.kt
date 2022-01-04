@@ -9,7 +9,13 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.controller.MyApplication.Companion.appAlive
+import com.ids.qasemti.controller.MyApplication.Companion.resumed
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.LocaleUtils
 
@@ -20,7 +26,7 @@ import com.ids.qasemti.utils.Restarter
 
 
 
-open class AppCompactBase : AppCompatActivity() {
+open class AppCompactBase : AppCompatActivity() , LifecycleObserver {
     private var decorView: View? = null
 
     init {
@@ -34,14 +40,48 @@ open class AppCompactBase : AppCompatActivity() {
     }
 
 
+   /* @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    open fun onAppBackgrounded() {
+        MyApplication.backgrounded = true
+        MyApplication.foregrounded = false
+        MyApplication.appAlive = true
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    open fun onAppForegrounded() {
+        MyApplication.backgrounded = false
+        MyApplication.foregrounded = true
+        MyApplication.appAlive = true
+    }*/
+
+    override fun onPause() {
+        super.onPause()
+        MyApplication.backgrounded = true
+        MyApplication.foregrounded = false
+        if(MyApplication.destroyed)
+            appAlive = false
+        else
+            appAlive = true
+    }
+
     override fun onResume() {
         super.onResume()
-
+        MyApplication.backgrounded = false
+        MyApplication.foregrounded = true
+        MyApplication.destroyed = false
+        appAlive = true
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
 
+
+        if(MyApplication.backgrounded){
+            MyApplication.backgrounded = false
+            MyApplication.destroyed = true
+            appAlive = false
+        }
         val restartServiceIntent = Intent(
             applicationContext, this.javaClass
         )

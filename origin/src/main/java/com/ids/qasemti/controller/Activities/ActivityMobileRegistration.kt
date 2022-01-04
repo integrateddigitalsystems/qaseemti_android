@@ -20,6 +20,7 @@ import com.ids.qasemti.controller.Adapters.AdapterCountryCodes
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*

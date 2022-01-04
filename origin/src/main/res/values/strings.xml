@@ -11,7 +11,7 @@
     <string name="mobile">Mobile</string>
     <string name="login">LOGIN</string>
     <string name="products">Products</string>
-    <string name="orders">Orders</string>
+    <string name="Orders">Orders</string>
     <string name="enterNumber">Please enter phone number</string>
     <string name="Home">Home</string>
     <string name="Notification">Notification</string>
@@ -161,6 +161,7 @@
     <string name="settlement">Settlement</string>
     <string name="amount">Amount</string>
     <string name="MyEarning">My Earning</string>
+
     <string name="RequestSettlement">Request Settlement</string>
     <string name="please_select_language">Please Select Language</string>
     <string name="service_information">Service Information</string>
@@ -328,6 +329,7 @@
     <string name="PendingSP">Pending SP</string>
     <string name="PendingPayment">Pending Payment</string>
     <string name="UnsuccessfulPayment">Unsuccessful Payment</string>
+    <string name="you_must_enter_civil_front_back">You must enter 2 Civil Attachment, front and back images</string>
 
 
 </resources>

@@ -31,6 +31,7 @@ import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Adapters.AdapterOrderData
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.controller.MyApplication.Companion.foregroundOnlyLocationService
 import com.ids.qasemti.model.*
@@ -57,7 +58,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener {
+class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListener {
 
     var dialog: Dialog? = null
     var cancelReasons: ArrayList<BankItem> = arrayListOf()
@@ -1342,12 +1343,12 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
     fun setSerRating(loading: LinearLayout, description: String, rating: Int) {
         loading.show()
         var newReq = RequestClientReviews(
-            MyApplication.selectedOrder!!.vendor!!.userId!!.toInt(),
             MyApplication.userId,
-            "",
+            MyApplication.selectedOrder!!.customer!!.user_id!!.toInt(),
             description,
-            rating
-
+            description,
+            rating,
+            MyApplication.selectedOrder!!.orderId!!.toInt()
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.setRatingSer(newReq)?.enqueue(object : Callback<ResponseMessage> {
@@ -1380,9 +1381,10 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             MyApplication.userId,
             MyApplication.selectedUser!!.firstName,//get from user object
             MyApplication.selectedUser!!.email,//get from user object
-            "",//get from user object
+            description,//get from user object
             description,
-            rating
+            rating,
+            MyApplication.selectedOrder!!.orderId!!.toInt()
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.setRating(newReq)?.enqueue(object : Callback<ResponseMessage> {

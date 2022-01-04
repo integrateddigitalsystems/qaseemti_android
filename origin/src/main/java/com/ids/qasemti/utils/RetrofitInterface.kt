@@ -142,12 +142,12 @@ interface RetrofitInterface {
 
 
 
-    @POST("sp_clients_reviews")
+    @POST("sp_post_rating")
     fun setRatingSer(
         @Body param : RequestClientReviews
     ): Call<ResponseMessage>
 
-    @POST("sp_post_ratings")
+    @POST("cl_post_rating")
     fun setRating(
         @Body param:RequestRating
     ): Call<ResponseMessage>

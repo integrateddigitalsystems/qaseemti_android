@@ -1,5 +1,6 @@
 package com.ids.qasemti.Notifications
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,6 +10,8 @@ import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import android.util.Log
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ProcessLifecycleOwner
 
 import com.google.firebase.installations.FirebaseInstallations
 
@@ -20,14 +23,14 @@ import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivitySplash
 import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.utils.AppConstants
+import com.ids.qasemti.controller.MyApplication.Companion.appAlive
+import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE
 import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_NORMAL
 import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_ORDERS
 import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_SERVICE
-import com.ids.qasemti.utils.CallAPIs
-import com.ids.qasemti.utils.LocaleUtils
-import com.ids.qasemti.utils.logw
+import com.ids.qasemti.utils.AppHelper.Companion.appDead
+import com.ids.qasemti.utils.AppHelper.Companion.isAppRunning
 
 import java.util.*
 
@@ -52,6 +55,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         //Actions.addDevice(this, token)
     }
 
+    @SuppressLint("WrongThread")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 
 
@@ -63,6 +67,9 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         intent.setPackage(packageName)
         intent.putExtra("message", "")
         applicationContext.sendBroadcast(intent)
+
+
+
 
 
 
@@ -131,6 +138,30 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             e.printStackTrace()
             title = ""
         }
+
+        if(typeId == AppConstants.NOTF_PAYMENT_ADDED) {
+
+            if (appAlive!!) {
+                try {
+                    MyApplication.listOrderTrack.add(id.toString())
+                    MyApplication.foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                } catch (ex: Exception) {
+                    logw("test", "exceptTion")
+                }
+            } else {
+                logw("TESTING", "STOPPED")
+            }
+        }
+        /*if(ProcessLifecycleOwner.get().getLifecycle().getCurrentState() == Lifecycle.State.CREATED || ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)){
+            var x = 3
+        }else{
+            var x = 9
+        }*/
+
+
+        ;
+
+       /* */
 
 
 

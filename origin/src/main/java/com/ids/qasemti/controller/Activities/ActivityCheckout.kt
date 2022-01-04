@@ -821,7 +821,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         }
         try {
             tvSizeCapacity.text =
-                MyApplication.selectedService!!.variations.find { it.sizeCapacityId!!.toInt() == MyApplication.selectedSize!! }!!.sizeCapacity
+                MyApplication.selectedService!!.variations.find { it.sizeCapacityId!=null && it.sizeCapacityId!!.toInt() == MyApplication.selectedSize!! }!!.sizeCapacity
         } catch (e: Exception) {
         }
         try {
@@ -830,12 +830,12 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         }
         try {
             tvVariationType.text =
-                MyApplication.selectedService!!.variations.find { it.typesId!!.toInt() == MyApplication.selectedVariationType!! }!!.types
+                MyApplication.selectedService!!.variations.find { it.typesId!=null && it.typesId!!.toInt() == MyApplication.selectedVariationType!! }!!.types
         } catch (e: Exception) {
         }
         try {
             tvSize.text =
-                MyApplication.selectedService!!.variations.find { it.sizeCapacityId!!.toInt() == MyApplication.selectedSize!! }!!.sizeCapacity
+                MyApplication.selectedService!!.variations.find {  it.sizeCapacityId!=null && it.sizeCapacityId!!.toInt() == MyApplication.selectedSize!! }!!.sizeCapacity
         } catch (e: Exception) {
         }
     }

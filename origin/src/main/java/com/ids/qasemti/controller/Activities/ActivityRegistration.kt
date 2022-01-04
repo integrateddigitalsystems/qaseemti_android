@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.FragmentAccount
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.MyApplication

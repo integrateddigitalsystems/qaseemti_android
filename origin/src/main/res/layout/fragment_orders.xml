@@ -45,12 +45,12 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height">
 
-        <me.grantland.widget.AutofitTextView
+        <com.ids.qasemti.custom.CustomTextViewMedium
             android:id="@+id/tvActive"
             android:background="@drawable/rounded_orders"
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
-            android:textSize="@dimen/small_font_2"
+            android:textSize="@dimen/normal_font"
             android:gravity="center"
             android:maxLines="1"
             android:padding="@dimen/mini_margin"
@@ -60,7 +60,7 @@
             android:layout_weight="1"
             android:tag="Active"
             android:text="@string/status_active"/>
-        <me.grantland.widget.AutofitTextView
+        <com.ids.qasemti.custom.CustomTextViewMedium
             android:textColor="@color/primary"
             android:layout_marginStart="@dimen/small_margin"
             android:id="@+id/tvUpcoming"
@@ -69,12 +69,12 @@
             android:padding="@dimen/mini_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:gravity="center"
-            android:textSize="@dimen/small_font_2"
+            android:textSize="@dimen/normal_font"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/status_upcoming"/>
-        <me.grantland.widget.AutofitTextView
+        <com.ids.qasemti.custom.CustomTextViewMedium
             android:layout_marginStart="@dimen/mini_margin"
             android:layout_marginEnd="@dimen/mini_margin"
             android:maxLines="1"
@@ -84,11 +84,11 @@
             android:tag="Completed"
             android:textColor="@color/primary"
             android:gravity="center"
-            android:textSize="@dimen/small_font_2"
+            android:textSize="@dimen/normal_font"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/status_completed"/>
-       <!-- <me.grantland.widget.AutofitTextView
+       <!-- <com.ids.qasemti.custom.CustomTextViewMedium
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:maxLines="1"
@@ -103,15 +103,15 @@
             android:layout_weight="1"
             android:text="@string/status_cancelled"/>-->
 
-        <me.grantland.widget.AutofitTextView
+        <com.ids.qasemti.custom.CustomTextViewMedium
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:maxLines="1"
             android:textColor="@color/primary"
             android:padding="@dimen/mini_margin"
             android:id="@+id/tvFailed"
-            android:tag="Failed"
-            android:textSize="@dimen/small_font_2"
+            android:tag="status_failed"
+            android:textSize="@dimen/normal_font"
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_height="match_parent"
@@ -133,7 +133,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_35">
 
-        <me.grantland.widget.AutofitTextView
+        <com.ids.qasemti.custom.CustomTextViewMedium
             android:id="@+id/tvRunningSp"
             android:background="@drawable/rounded_orders"
             android:layout_marginStart="@dimen/small_margin"
@@ -148,7 +148,7 @@
             android:layout_weight="1"
             android:tag="Running"
             android:text="@string/Running"/>
-        <me.grantland.widget.AutofitTextView
+        <com.ids.qasemti.custom.CustomTextViewMedium
             android:textColor="@color/primary"
             android:layout_marginStart="@dimen/small_margin"
             android:id="@+id/tvPendingPaymentSp"
@@ -162,7 +162,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/PendingPayment"/>
-        &lt;!&ndash;<me.grantland.widget.AutofitTextView
+        &lt;!&ndash;<com.ids.qasemti.custom.CustomTextViewMedium
             android:layout_marginStart="@dimen/mini_margin"
             android:layout_marginEnd="@dimen/mini_margin"
             android:maxLines="1"
@@ -176,7 +176,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/PendingSP"/>&ndash;&gt;
-        &lt;!&ndash; <me.grantland.widget.AutofitTextView
+        &lt;!&ndash; <com.ids.qasemti.custom.CustomTextViewMedium
              android:layout_marginStart="@dimen/small_margin"
              android:layout_marginEnd="@dimen/small_margin"
              android:maxLines="1"
@@ -192,7 +192,7 @@
              android:layout_weight="1"
              android:text="@string/status_cancelled"/>
 
-         <me.grantland.widget.AutofitTextView
+         <com.ids.qasemti.custom.CustomTextViewMedium
              android:layout_marginStart="@dimen/small_margin"
              android:layout_marginEnd="@dimen/small_margin"
              android:maxLines="1"
@@ -222,12 +222,12 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_35">
 
-        <me.grantland.widget.AutofitTextView
+        <com.ids.qasemti.custom.CustomTextViewMedium
             android:id="@+id/tvRunning"
             android:background="@drawable/rounded_orders"
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
-            android:textSize="@dimen/small_font_2"
+            android:textSize="@dimen/normal_font"
             android:gravity="center"
             android:maxLines="1"
             android:padding="@dimen/mini_margin"
@@ -237,21 +237,7 @@
             android:layout_weight="1"
             android:tag="Running"
             android:text="@string/Running"/>
-        <me.grantland.widget.AutofitTextView
-            android:textColor="@color/primary"
-            android:layout_marginStart="@dimen/small_margin"
-            android:id="@+id/tvPendingPayment"
-            android:tag="PendingPayment"
-            android:maxLines="1"
-            android:padding="@dimen/mini_margin"
-            android:layout_marginEnd="@dimen/small_margin"
-            android:gravity="center"
-            android:textSize="@dimen/small_font_2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/PendingPayment"/>
-        <me.grantland.widget.AutofitTextView
+        <com.ids.qasemti.custom.CustomTextViewMedium
             android:layout_marginStart="@dimen/mini_margin"
             android:layout_marginEnd="@dimen/mini_margin"
             android:maxLines="1"
@@ -261,11 +247,26 @@
             android:tag="PendingSP"
             android:textColor="@color/primary"
             android:gravity="center"
-            android:textSize="@dimen/small_font_2"
+            android:textSize="@dimen/normal_font"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/PendingSP"/>
-       <!-- <me.grantland.widget.AutofitTextView
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:textColor="@color/primary"
+            android:layout_marginStart="@dimen/small_margin"
+            android:id="@+id/tvPendingPayment"
+            android:tag="PendingPayment"
+            android:maxLines="1"
+            android:padding="@dimen/mini_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:gravity="center"
+            android:textSize="@dimen/normal_font"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/PendingPayment"/>
+
+       <!-- <com.ids.qasemti.custom.CustomTextViewMedium
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:maxLines="1"
@@ -281,7 +282,7 @@
             android:layout_weight="1"
             android:text="@string/status_cancelled"/>
 
-        <me.grantland.widget.AutofitTextView
+        <com.ids.qasemti.custom.CustomTextViewMedium
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:maxLines="1"
@@ -311,7 +312,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_35">
 
-         <me.grantland.widget.AutofitTextView
+         <com.ids.qasemti.custom.CustomTextViewMedium
              android:layout_marginStart="@dimen/small_margin"
              android:layout_marginEnd="@dimen/small_margin"
              android:maxLines="1"
@@ -321,14 +322,14 @@
              android:padding="@dimen/mini_margin"
              android:id="@+id/tvCancelled"
              android:tag="Cancelled"
-             android:textSize="@dimen/small_font_2"
+             android:textSize="@dimen/normal_font"
              android:layout_width="match_parent"
              android:gravity="center"
              android:layout_height="match_parent"
              android:layout_weight="1"
              android:text="@string/status_cancelled"/>
 
-         <me.grantland.widget.AutofitTextView
+         <com.ids.qasemti.custom.CustomTextViewMedium
              android:layout_marginStart="@dimen/small_margin"
              android:layout_marginEnd="@dimen/small_margin"
              android:maxLines="1"
@@ -337,7 +338,7 @@
              android:padding="@dimen/mini_margin"
              android:id="@+id/tvUnsuccPayment"
              android:tag="UnsuccessfulPayment"
-             android:textSize="@dimen/small_font_2"
+             android:textSize="@dimen/normal_font"
              android:layout_width="match_parent"
              android:gravity="center"
              android:layout_height="match_parent"

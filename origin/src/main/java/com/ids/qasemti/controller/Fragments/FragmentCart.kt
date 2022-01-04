@@ -113,6 +113,7 @@ class FragmentCart : Fragment() , RVOnItemClickListener , ApiListener {
                     try{
                         array.clear()
                         array.addAll(response.body()!!.orders)
+                        (activity as ActivityHome).setCartNumber(response.body()!!.orders.size.toString())
                         setData()
                     }catch (E: java.lang.Exception){
                         setData()

@@ -24,6 +24,12 @@ class ActivityAccountStatus : ActivityBase() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_status)
         AppHelper.setAllTexts(rootLayoutAccountStatus,this)
+
+        if(MyApplication.isClient)
+        { tvServiceProviderPending.hide()
+        }else{
+            tvServiceProviderPending.show()
+        }
         btSave.onOneClick {
 
             if(notfSelected==-1){

@@ -21,8 +21,12 @@ class RequestClientReviews(
     @Expose
     var reviewDesc : String ?="" ,
 
-    @SerializedName("review_rate")
+    @SerializedName("review_rating")
     @Expose
-    var reviewRate : Int ?=0
+    var reviewRate : Int ?=0 ,
+
+    @SerializedName("order_id")
+    @Expose
+    var orderId : Int ?=0
 ) {
 }

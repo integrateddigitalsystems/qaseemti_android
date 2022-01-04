@@ -79,6 +79,7 @@ object AppConstants {
     const val FRAGMENT_CART="fragmentCart"
     const val CHECKOUT = "checkout"
     const val TRACKING_LIST = "trackingList"
+    const val APP_ALIVE="appAlive"
 
     const val UPDATE_PROFILE_CLIENT = 0
     const val UPDATE_PROFILE_SERVICE_PROVIDER = 1
@@ -110,6 +111,7 @@ object AppConstants {
     const val NOTF_TYPE_SERVICE = 4
     const val NOTF_TYPE_ACCEPT_ORDER = 5
     const val NOTF_TYPE_SUGGEST_NEW_DATE = 6
+    const val NOTF_PAYMENT_ADDED = 7
 
     const val PAYMENT_SUCCESS = "CAPTURED"
 }

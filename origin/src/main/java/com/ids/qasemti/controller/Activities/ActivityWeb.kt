@@ -1,11 +1,13 @@
 package com.ids.qasemti.controller.Activities
 
+import android.app.Activity
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.webkit.*
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestContactUs
 import com.ids.qasemti.model.ResponseUpdate
@@ -20,6 +22,7 @@ import retrofit2.Response
 class ActivityWeb: ActivityBase() {
 
     var selectedUrl : String ?=""
+    var id : Int ?=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
@@ -83,7 +86,7 @@ class ActivityWeb: ActivityBase() {
         tvPageTitle.show()
         AppHelper.setLogoTint(btBackTool,this,R.color.primary)
         var title = intent.getStringExtra("webTitle")
-        var id = intent.getIntExtra("webId",0)
+        id = intent.getIntExtra("webId",0)
         tvPageTitle.setColorTypeface(this,R.color.primary,title!!,true)
         btBackTool.setOnClickListener {
             super.onBackPressed()
@@ -94,40 +97,9 @@ class ActivityWeb: ActivityBase() {
         }else{
             selectedUrl = MyApplication.webLinks!!.links.find { it.idNo ==id  }!!.urlAr
         }}catch (e:Exception){}
-        if(id==4){
-            linearContact.show()
-            wvData.hide()
-            var name=""
-            name= if(MyApplication.selectedUser!!.firstName!=null) MyApplication.selectedUser!!.firstName!!+" " else ""+
-                  if(MyApplication.selectedUser!!.middleName!=null) MyApplication.selectedUser!!.middleName!!+" " else ""+
-                  if(MyApplication.selectedUser!!.lastName!=null) MyApplication.selectedUser!!.lastName!!+" " else ""
 
-            etFullNameContact.setText(name)
-            if(MyApplication.selectedUser!!.email!=null)
-                 etEmailContact.setText(MyApplication.selectedUser!!.email)
 
-            if(MyApplication.selectedUser!!.mobileNumber!=null)
-                etPhoneContact.setText(MyApplication.selectedUser!!.mobileNumber)
 
-          }
-
-        if(MyApplication.fromSplash){
-
-            llAcceptTerms.show()
-            btBackTool.hide()
-
-            cbTermsConditions.setOnCheckedChangeListener { buttonView, isChecked ->
-                btProceed.isEnabled = isChecked
-            }
-
-            btProceed.onOneClick {
-
-                MyApplication.termsCondition = true
-                setResult(RESULT_OK, intent)
-                finish()
-                MyApplication.fromSplash = false
-            }
-        }
 
         loadContent(selectedUrl!!,if(id==4) wvData2 else wvData)
 
@@ -178,7 +150,52 @@ class ActivityWeb: ActivityBase() {
                 super.onPageFinished(view, url)
                 if(--running == 0) {
                     loading.hide()
+
+                    if(MyApplication.fromSplash){
+
+                        llAcceptTerms.show()
+                        btBackTool.hide()
+
+                        cbTermsConditions.setOnCheckedChangeListener { buttonView, isChecked ->
+                            btProceed.isEnabled = cbTermsConditions.isChecked
+                        }
+                        llCheckTerms.onOneClick {
+                            if(cbTermsConditions.isChecked)
+                                cbTermsConditions.isChecked = false
+                            else {
+                                cbTermsConditions.isChecked = true
+                            }
+
+                            btProceed.isEnabled = cbTermsConditions.isChecked
+                        }
+
+
+                        btProceed.onOneClick {
+
+                            MyApplication.termsCondition = true
+                            setResult(RESULT_OK, intent)
+                            finish()
+                            MyApplication.fromSplash = false
+                        }
+                    }
+                    else if(id==4){
+                        linearContact.show()
+                        wvData.hide()
+                        var name=""
+                        name= if(MyApplication.selectedUser!!.firstName!=null) MyApplication.selectedUser!!.firstName!!+" " else ""+
+                                if(MyApplication.selectedUser!!.middleName!=null) MyApplication.selectedUser!!.middleName!!+" " else ""+
+                                        if(MyApplication.selectedUser!!.lastName!=null) MyApplication.selectedUser!!.lastName!!+" " else ""
+
+                        etFullNameContact.setText(name)
+                        if(MyApplication.selectedUser!!.email!=null)
+                            etEmailContact.setText(MyApplication.selectedUser!!.email)
+
+                        if(MyApplication.selectedUser!!.mobileNumber!=null)
+                            etPhoneContact.setText(MyApplication.selectedUser!!.mobileNumber)
+
+                    }
                 }
+
             }
         }
 

@@ -116,12 +116,12 @@ class LocationForeService : Service() {
                     intent.putExtra(EXTRA_LOCATION, currentLocation)
                     LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
 
-                    startForeground(NOTIFICATION_ID,generateNotification(locationResult.lastLocation))
+                    startForeground(NOTIFICATION_ID,generateNotification())
 
                     if (serviceRunningInForeground) {
                         notificationManager.notify(
                             NOTIFICATION_ID,
-                            generateNotification(locationResult.lastLocation))
+                            generateNotification())
                     }
                 } catch (ex: Exception) {
                     Log.wtf("", ex.toString())
@@ -175,7 +175,7 @@ class LocationForeService : Service() {
         // we do nothing.
         if (!configurationChange && MyApplication.saveLocationTracking!!) {
             Log.d(TAG, "Start foreground service")
-            val notification = generateNotification(currentLocation)
+            val notification = generateNotification()
             startForeground(NOTIFICATION_ID, notification)
             serviceRunningInForeground = true
         }
@@ -219,47 +219,59 @@ class LocationForeService : Service() {
 
             var doc = MyApplication.db!!.collection("table_order")
                 .document(item)
+            var firstTime = true
 
 
 
 
             doc!!.get().addOnSuccessListener { documentSnapshot ->
-                val orderLoc = documentSnapshot.toObject<OrderLocation>()
-                var ny: LatLng? = null
-                if (orderLoc != null) {
-                    Log.wtf("there", "already")
-                    /*  ny = LatLng(
+
+                if(firstTime) {
+                    val orderLoc = documentSnapshot.toObject<OrderLocation>()
+                    var ny: LatLng? = null
+                    if (orderLoc != null) {
+                        Log.wtf("there", "already")
+                        /*  ny = LatLng(
                       orderLoc.order_laltitude!!.toDouble(),
                       orderLoc.order_longitude!!.toDouble()
                   )*/
-                } else {
-                    try {
-                        val user: MutableMap<String, String> = HashMap()
-                        user["oder_id"] = item
-                        user["order_laltitude"] = ""
-                        user["order_longitude"] = ""
+                    } else {
+                        try {
+                            val user: MutableMap<String, String> = HashMap()
+                            user["oder_id"] = item
+                            user["order_laltitude"] = ""
+                            user["order_longitude"] = ""
 
-                        doc!!.set(user)
-                    } catch (ex: Exception) {
-                        logw("error_database", ex.toString())
+                            doc!!.set(user)
+                        } catch (ex: Exception) {
+                            logw("error_database", ex.toString())
+                        }
                     }
+
+                    MyApplication.documents.add(doc)
+
+                    try {
+                        MyApplication.saveLocationTracking = true
+                        setUpLocations()
+                    } catch (ex: Exception) {
+                        var x = ex
+                        try {
+                            signInAnonymously()
+                        } catch (e: java.lang.Exception) {
+                        }
+                    }
+                    firstTime = false
                 }
 
-                MyApplication.documents.add(doc)
-
-                try {
-                    MyApplication.saveLocationTracking = true
-                    setUpLocations()
-                }catch (ex:Exception){
-                    var x = ex
-                    try{signInAnonymously()}catch (e:java.lang.Exception){}
-                }
             }
 
 
         }
 
 
+        notificationManager.notify(
+            NOTIFICATION_ID,
+            generateNotification())
             startService(Intent(applicationContext, LocationForeService::class.java))
 
         }
@@ -322,12 +334,12 @@ class LocationForeService : Service() {
 
 
 
-                startForeground(NOTIFICATION_ID,generateNotification(location))
+                startForeground(NOTIFICATION_ID,generateNotification())
                 if (serviceRunningInForeground) {
 
-                    notificationManager.notify(
+                    /*notificationManager.notify(
                         NOTIFICATION_ID,
-                        generateNotification(location))
+                        generateNotification(location))*/
                 }
             }
 
@@ -472,7 +484,7 @@ class LocationForeService : Service() {
     /*
      * Generates a BIG_TEXT_STYLE Notification that represent latest location.
      */
-    private fun generateNotification(location: Location?): Notification {
+    private fun generateNotification(): Notification {
         Log.d(TAG, "generateNotification()")
 
         // Main steps for building a BIG_TEXT_STYLE notification:

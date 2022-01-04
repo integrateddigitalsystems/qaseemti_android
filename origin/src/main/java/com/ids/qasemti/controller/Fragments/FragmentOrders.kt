@@ -91,6 +91,9 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
     override fun onResume() {
         super.onResume()
 
+        var x = MyApplication.appAlive
+
+        var y =1
         if(denied!!){
             denied = false
             getOrders()
@@ -492,7 +495,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             }
             1 -> {
                 ordersArray.clear()
-                ordersArray.addAll(mainArray.filter { it.paymentMethod.isNullOrEmpty() })
+                ordersArray.addAll(mainArray.filter { it.paymentMethod.isNullOrEmpty() && it.vendor!=null  })
             }
 
             else -> {
@@ -540,8 +543,8 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             tvPendingSP.setBackgroundResource(R.color.transparent)
             AppHelper.setTextColor(requireContext(), tvPendingSP, R.color.primary)
             ordersArray.clear()
-            ordersArray.addAll(mainArray.filter { it.paymentMethod.isNullOrEmpty() })
-            adapter!!.notifyDataSetChanged()
+            ordersArray.addAll(mainArray.filter { it.paymentMethod.isNullOrEmpty() && it.vendor!=null })
+           setData(true)
             loading.hide()
 
         }
@@ -556,7 +559,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             AppHelper.setTextColor(requireContext(), tvPendingPayment, R.color.primary)
             ordersArray.clear()
             ordersArray.addAll(mainArray.filter { it.vendor == null })
-            adapter!!.notifyDataSetChanged()
+            setData(true)
             loading.hide()
         }
         tvRunning.onOneClick {
@@ -570,7 +573,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             AppHelper.setTextColor(requireContext(), tvPendingPayment, R.color.primary)
             ordersArray.clear()
             ordersArray.addAll(mainArray.filter { it.vendor != null && !it.paymentMethod.isNullOrEmpty() })
-            adapter!!.notifyDataSetChanged()
+            setData(true)
             loading.hide()
         }
         /* if(adapter!=null){

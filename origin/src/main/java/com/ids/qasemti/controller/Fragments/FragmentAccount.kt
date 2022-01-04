@@ -75,13 +75,13 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             llSepTop.hide()
 
         } else {
-            btShareApp.hide()
+            btShareApp.show()
             btLogoutAccount.show()
             btMyAddresses.hide()
             btMyServices.show()
             btSettelments.show()
             llLastSeperator.hide()
-            llLastSeperator2.hide()
+            llLastSeperator2.show()
         }
     }
 
@@ -110,6 +110,9 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         }
 
         btMyProfile.onOneClick {
+            MyApplication.tempCivilId = null
+            MyApplication.tempCivilIdBack = null
+            MyApplication.tempProfilePic = null
             MyApplication.selectedTitle = AppHelper.getRemoteString("Profile",requireContext())
             (requireActivity() as ActivityHome?)!!.addFrag(
                 FragmentProfile(),

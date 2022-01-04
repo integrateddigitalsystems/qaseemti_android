@@ -88,9 +88,19 @@ class AdapterOrderType(
         try{
             holder.orderId.text = "#"+items.get(position).orderId.toString()
         }catch (ex:java.lang.Exception){holder.orderId.text =""}
-        try{
-            holder.ratingBar.rating = items.get(position).vendor!!.rate!!.toFloat()
-        }catch (ex:java.lang.Exception){holder.ratingBar.rating = 0f}
+        if(MyApplication.isClient) {
+            try {
+                holder.ratingBar.rating = items.get(position).clientRate!!.toInt().toFloat()
+            } catch (ex: java.lang.Exception) {
+                holder.ratingBar.rating = 0f
+            }
+        }else{
+             try {
+                holder.ratingBar.rating = items.get(position).vendorRate!!.toInt().toFloat()
+            } catch (ex: java.lang.Exception) {
+                holder.ratingBar.rating = 0f
+            }
+        }
         try{
             if(items[position].paymentMethod!=null && items[position].paymentMethod!!.isNotEmpty())
                 holder.paymentMethod.text = items[position].paymentMethod

@@ -124,7 +124,6 @@
                 android:textAllCaps="false"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_gravity="center_vertical"
-                android:inputType="text"
                 android:gravity="center_vertical"
                 android:background="@color/transparent"
                 android:textColor="@color/gray_font_light"

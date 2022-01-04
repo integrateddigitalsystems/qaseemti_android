@@ -587,13 +587,13 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
                             if(MyApplication.isEditService){
                                 selectedFileImage = MultipartBody.Part.createFormData(
                                     ApiParameters.IMAGE,
-                                    file.name + "File",
+                                    file.name,
                                     req
                                 )
                             }else {
                                 selectedFileImage = MultipartBody.Part.createFormData(
                                     ApiParameters.GALLERY,
-                                    file.name + "File",
+                                    file.name ,
                                     req
                                 )
                             }

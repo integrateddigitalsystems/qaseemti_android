@@ -405,6 +405,13 @@ class AppHelper {
         }
 
 
+        fun appDead(context: Context): Boolean {
+            val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            val runningAppProcesses = activityManager.runningAppProcesses ?: return false
+            return runningAppProcesses.any { it.processName == context.packageName && it.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_GONE }
+        }
+
+
         fun resetIcons(context: Context, vararg images: ImageView?) {
             try {
                 for (element in images) {
@@ -412,7 +419,7 @@ class AppHelper {
                     element!!.layoutParams = LinearLayout.LayoutParams(
                         TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_DIP,
-                            20f,
+                            30f,
                             context.resources.displayMetrics
                         ).toInt(),
                         TypedValue.applyDimension(
@@ -602,12 +609,12 @@ class AppHelper {
                 icon.layoutParams = LinearLayout.LayoutParams(
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
-                        30f,
+                        36f,
                         context.resources.displayMetrics
                     ).toInt(),
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
-                        30f,
+                        36f,
                         context.resources.displayMetrics
                     ).toInt()
                 )
@@ -757,7 +764,7 @@ class AppHelper {
                     setTextColor(context, tvHom, R.color.primary)
                 }
                 AppConstants.FRAGMENT_ORDER -> {
-                    MyApplication.selectedTitle = getRemoteString("orders", context)
+                    MyApplication.selectedTitle = getRemoteString("Orders", context)
                     setLogoTint(imgOrd, context, R.color.primary)
                     setTextColor(context, tvOrd, R.color.primary)
                 }
@@ -783,6 +790,7 @@ class AppHelper {
         fun openAppInPlayStore(activity: Activity) {
             val appPackageName = activity.packageName
             try {
+                activity.finish()
                 activity.startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
@@ -790,16 +798,17 @@ class AppHelper {
                     )
                 )
 
-                activity.finish()
+
 
             } catch (anfe: android.content.ActivityNotFoundException) {
+                activity.finish()
                 activity.startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
                         Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
                     )
                 )
-                activity.finish()
+
 
             }
         }
@@ -1043,6 +1052,21 @@ class AppHelper {
 
 
         }
+
+        fun isAppRunning(context: Context) : Boolean {
+            var activityManager =  context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+           var procInfos = activityManager.getRunningAppProcesses();
+            if (procInfos != null)
+            {
+                for (processInfo in procInfos) {
+                if (processInfo.processName.equals(context.packageName)) {
+                    return true;
+                }
+            }
+            }
+            return false;
+        }
+
 
         fun setSwitchColor(sw: SwitchCompat, con: Context) {
 
