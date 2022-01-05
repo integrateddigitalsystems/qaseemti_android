@@ -126,7 +126,7 @@ class ActivityWeb: ActivityBase() {
         webView.settings.javaScriptEnabled=true
         webView.settings.loadWithOverviewMode = true
         webView.settings.useWideViewPort = false
-        webView.settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webView.settings.builtInZoomControls = false
         webView.settings.displayZoomControls = false
 

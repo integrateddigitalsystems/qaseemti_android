@@ -739,7 +739,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             if(MyApplication.tempCivilIdBack == null ){
                 try {
                     if (!MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty()) {
-                        ivCivilBack.loadImagesUrl(MyApplication.selectedUser!!.civilAttachBack!!)
+                        ivCivilBack.loadImagesUrl(MyApplication.selectedUser!!.civilAttachBack!!,loading)
                         //AppHelper.imageLoading(ivCivilBack,loading,MyApplication.selectedUser!!.civilAttachBack!!,requireContext())
                         btCancelCivilBack.show()
                         civilImageBackAvailable = true
@@ -767,7 +767,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             if(MyApplication.tempCivilId == null ){
                 try {
                     if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty()) {
-                        ivCivilFront.loadImagesUrl(MyApplication.selectedUser!!.civilIdAttach!!)
+                        ivCivilFront.loadImagesUrl(MyApplication.selectedUser!!.civilIdAttach!!,loading)
                             //AppHelper.imageLoading(ivCivilFront,loading,MyApplication.selectedUser!!.civilIdAttach!!,requireContext())
 
                         btCancelCivilFront.show()

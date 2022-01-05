@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.webkit.WebSettings
+import android.webkit.WebView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Base.AppCompactBase
@@ -20,6 +22,13 @@ class ActivityChooseLanguage : ActivityBase() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_language)
         AppHelper.setAllTexts(rootLayoutChooseLogin,this)
+
+        val wv= WebView(this)
+        wv.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        wv.loadUrl(MyApplication.webLinks!!.links.find { it.idNo == 2  }!!.urlEn!!)
+        
+        wv.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        wv.loadUrl(MyApplication.webLinks!!.links.find { it.idNo == 2  }!!.urlAr!!)
 
         btToArabic.onOneClick {
             changeLanguage(AppConstants.LANG_ARABIC)

@@ -4,6 +4,7 @@ package com.ids.qasemti.utils
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Build
 import android.os.Handler
@@ -18,7 +19,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
@@ -84,6 +88,43 @@ fun Location?.toText(): String {
     }
 }
 
+fun ImageView.loadImagesUrl(url: String,loading:LinearLayout) {
+    loading.show()
+    val options: RequestOptions = RequestOptions()
+        .centerCrop()
+        .placeholder(R.color.gray_medium_2)
+        .error(R.color.gray_medium_2)
+    Glide.with(this)
+        .load(url)
+        .listener(object : RequestListener<Drawable?> {
+            override fun onResourceReady(
+                resource: Drawable?,
+                model: Any?,
+                target: Target<Drawable?>?,
+                dataSource: com.bumptech.glide.load.DataSource?,
+                isFirstResource: Boolean
+            ): Boolean {
+                try {
+                    loading.hide()
+                }catch (ex:Exception){}
+                return false
+            }
+
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: Target<Drawable?>?,
+                isFirstResource: Boolean
+            ): Boolean {
+
+                return false
+
+            }
+
+        }).apply(options)
+        .into(this)
+
+}
 fun ImageView.loadImagesUrl(url: String) {
     val options: RequestOptions = RequestOptions()
         .centerCrop()

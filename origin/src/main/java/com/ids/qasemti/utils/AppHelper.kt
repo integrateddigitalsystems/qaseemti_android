@@ -314,6 +314,36 @@ class AppHelper {
                 return connectivityManager.activeNetworkInfo?.isConnected ?: false
             }
         }
+        fun updateStatus(orderId: Int, onTrack: Boolean, delivered: Boolean, paid: Boolean,rel : ReloadData,loading : LinearLayout,otherSwitch : SwitchCompat) {
+            loading.show()
+            var newReq = RequestUpdateOrder(orderId, onTrack, delivered, paid)
+            RetrofitClient.client?.create(RetrofitInterface::class.java)
+                ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
+                    override fun onResponse(
+                        call: Call<ResponseUpdate>,
+                        response: Response<ResponseUpdate>
+                    ) {
+                        try {
+                            if(delivered && paid) {
+                                rel.reload()
+                            }else{
+                                if(otherSwitch!=null){
+                                    loading.hide()
+                                    otherSwitch.isChecked = true
+                                    otherSwitch.callOnClick()
+                                }
+
+                            }
+                        } catch (E: java.lang.Exception) {
+                            Log.wtf("Exp", E.toString())
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                        Log.wtf("Exp", throwable.toString())
+                    }
+                })
+        }
         fun updateStatus(orderId: Int, onTrack: Boolean, delivered: Boolean, paid: Boolean,rel : ReloadData,loading : LinearLayout) {
             loading.show()
             var newReq = RequestUpdateOrder(orderId, onTrack, delivered, paid)
@@ -324,7 +354,11 @@ class AppHelper {
                         response: Response<ResponseUpdate>
                     ) {
                         try {
-                            rel.reload()
+                            if(delivered && paid)
+                                rel.reload()
+                            else{
+                                loading.hide()
+                            }
                         } catch (E: java.lang.Exception) {
                             Log.wtf("Exp", E.toString())
                         }
@@ -945,7 +979,7 @@ class AppHelper {
             )
                 .setCancelable(true)
                 .setNegativeButton(negativeButton) { dialog, _ ->
-                    view.isChecked = !view.isChecked
+                    view.isChecked = false
                     dialog.cancel()
                 }
                 .setPositiveButton(positiveButton) { dialog, _ ->

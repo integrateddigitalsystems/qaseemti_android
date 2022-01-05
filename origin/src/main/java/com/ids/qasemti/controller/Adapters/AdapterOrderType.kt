@@ -180,9 +180,7 @@ class AdapterOrderType(
                     con,
                     AppHelper.getRemoteString("ok", con),
                     AppHelper.getRemoteString("cancel", con),
-                    con.getString(
-                        R.string.are_you_sure_change_status
-                    ),
+                    AppHelper.getRemoteString("sure_update_Delivery",con),
                     holder.switchDelivered
                 ) {
                     var usedPos = position
@@ -197,6 +195,7 @@ class AdapterOrderType(
                             reloader.reload()
                         }*/
                         holder.switchDelivered.isEnabled = false
+                        holder.switchDelivered.isChecked = true
                         MyApplication.saveLocationTracking = false
                         MyApplication.trackOrderId = selectedOrd.orderId!!.toInt()
                         var indx = MyApplication.listOrderTrack.indexOf(MyApplication.trackOrderId.toString())
@@ -216,10 +215,11 @@ class AdapterOrderType(
                     AppHelper.updateStatus(
                         items.get(position).orderId!!.toInt(),
                         holder.switchOnTrack.isChecked,
-                        holder.switchDelivered.isChecked,
+                        true,
                         holder.switchPaid.isChecked,
                         reloader,
-                        loading
+                        loading,
+                        holder.switchPaid
                     )
                 }
             } else{
@@ -236,9 +236,7 @@ class AdapterOrderType(
                         con,
                         AppHelper.getRemoteString("ok", con),
                         AppHelper.getRemoteString("cancel", con),
-                        con.getString(
-                            R.string.are_you_sure_change_status
-                        ),
+                        AppHelper.getRemoteString("sure_update_OnTrack ",con),
                         holder.switchOnTrack
                     ) {
                         if (holder.switchOnTrack.isChecked) {
@@ -260,8 +258,7 @@ class AdapterOrderType(
                             holder.switchDelivered.isChecked,
                             holder.switchPaid.isChecked,
                             reloader,
-                            loading
-                        )
+                            loading)
 
                         //AppHelper.setUpDoc(items.get(position))
                     }
@@ -281,9 +278,7 @@ class AdapterOrderType(
                     con,
                     AppHelper.getRemoteString("ok", con),
                     AppHelper.getRemoteString("cancel", con),
-                    con.getString(
-                        R.string.are_you_sure_change_status
-                    ),
+                    AppHelper.getRemoteString("sure_update_Paid",con),
                     holder.switchPaid
                 ) {
                     var usedPos = position
@@ -303,7 +298,9 @@ class AdapterOrderType(
 *//*
                         reloader.reload()
                     }*/
+
                         holder.switchPaid.isEnabled = false
+                        holder.switchPaid.isChecked = true
                         MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
                         /*if(!MyApplication.isClient)
                                 (con as ActivityHome).changeState(false)*/
@@ -318,9 +315,10 @@ class AdapterOrderType(
                         items.get(position).orderId!!.toInt(),
                         holder.switchOnTrack.isChecked,
                         holder.switchDelivered.isChecked,
-                        holder.switchPaid.isChecked,
+                        true,
                         reloader,
-                        loading
+                        loading,
+                        holder.switchDelivered
                     )
                 }
             }else{

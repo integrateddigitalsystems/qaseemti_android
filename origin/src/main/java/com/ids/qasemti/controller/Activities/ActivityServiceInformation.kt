@@ -65,6 +65,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
     var oneFailure : Boolean = false
     var requiredFileError : Boolean = false
     var selectedType : Boolean = false
+    var arrayReqFileRef : ArrayList<RequiredFiles> = arrayListOf()
     var selectedSize : Boolean = false
     var selectedService : Boolean = false
     private val CODE_DRIVING_LICENSE = 1002
@@ -493,7 +494,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
                         }!!.desc
                     } catch (e: Exception) {
                     }
-                    if (!MyApplication.isEditService)
+                    //if (!MyApplication.isEditService)
                         getRequiredFiles()
                 }
 
@@ -963,6 +964,16 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
         if(arrayRequiredFiles.size>0){
             rvRequiredFiles.show()
             no_required.hide()
+
+            if(MyApplication.isEditService){
+                for(i in arrayRequiredFiles.indices){
+                   if(MyApplication.languageCode == AppConstants.LANG_ARABIC){
+                       arrayRequiredFiles.get(i).metaValueAr = arrayReqFileRef.find { it.id == arrayRequiredFiles.get(i).id }!!.metaValueAr
+                   }else{
+                       arrayRequiredFiles.get(i).metaValueEn = arrayReqFileRef.find { it.id == arrayRequiredFiles.get(i).id }!!.metaValueEn
+                   }
+                }
+            }
             adapterRequiredFiles = AdapterRequiredFiles(arrayRequiredFiles, this, this)
             rvRequiredFiles.layoutManager = LinearLayoutManager(this)
             rvRequiredFiles.adapter = adapterRequiredFiles
@@ -970,6 +981,9 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
         }
         else
             noRequiredDocuments()
+
+
+        loading.hide()
 
     }
 
@@ -999,19 +1013,25 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener , Api
 
 
     fun getRequiredFiles(){
-        var newReq = RequestProductId(selectedServiceId)
+        loading.show()
+        var newReq = RequestProductId(MyApplication.selectedService!!.id!!.toInt())
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.get_required_docs(
                 newReq
             )?.enqueue(object : Callback<ResponseRequiredFiles> {
                 override fun onResponse(call: Call<ResponseRequiredFiles>, response: Response<ResponseRequiredFiles>) {
                     try{
-                        arrayRequiredFiles.clear()
-                        arrayRequiredFiles.addAll(response.body()!!.files!!)
-                        if(arrayRequiredFiles.size>0)
+                        if(!MyApplication.isEditService) {
+                            arrayRequiredFiles.clear()
+                            arrayRequiredFiles.addAll(response.body()!!.files!!)
+                            if (arrayRequiredFiles.size > 0)
+                                setRequiredFiles()
+                            else
+                                noRequiredDocuments()
+                        }else{
+                            arrayReqFileRef.addAll(response.body()!!.files!!)
                             setRequiredFiles()
-                        else
-                            noRequiredDocuments()
+                        }
 
                     }catch (E: java.lang.Exception){
                         noRequiredDocuments()
