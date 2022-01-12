@@ -341,10 +341,16 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             super.onBackPressed()
         }
         if (MyApplication.isBroadcast) {
+            loading.show()
             MyApplication.isBroadcast = false
             btAcceptOrder.show()
             btCancelOrder.hide()
             llEditOrderTime.hide()
+         //   setOrderData()
+            CallAPIs.getOrderByOrderIdBroad(orderId,MyApplication.userId,this)
+        }else{
+            loading.show()
+            CallAPIs.getOrderByOrderId(orderId, this)
         }
 
         try {
@@ -354,8 +360,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         tvLocationOrderDeatils.setColorTypeface(this, R.color.primary, "", false)
 
 
-        loading.show()
-        CallAPIs.getOrderByOrderId(orderId, this)
+
+
         //setOrderData()
     }
 
@@ -403,7 +409,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             } catch (e: Exception) {
             }
         }
-        if (typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE)) {
+        if (typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE) || typeSelected.equals(AppConstants.ORDER_TYPE_UPCOMING)) {
             if (!MyApplication.isClient) {
 
                 if (MyApplication.selectedOrder!!.vendor == null || MyApplication.selectedOrder!!.vendor!!.userId == null) {
@@ -415,13 +421,13 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 } else {
                     if(!MyApplication.selectedOrder!!.delivered!!)
                         llEditOrderTime.show()
-                    if(MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty()){
+                  /*  if(MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty()){
                         llEditOrderTime.hide()
                         //btCancelOrder.hide()
-                    }
+                    }*/
                     btCancelOrder.show()
                     llDetailsCallMessage.show()
-                    if(!MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty())
+                    if(!MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty() && typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE))
                         llOrderSwitches.show()
                     else
                         llOrderSwitches.hide()
@@ -439,12 +445,18 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 }
                 llEditOrderTime.hide()
                 llOrderSwitches.hide()
+
+                if (MyApplication.selectedOrder!!.vendor == null || MyApplication.selectedOrder!!.vendor!!.userId == null) {
+
+
+                }else{
+                    btCancelOrder.show()
+                }
             }
             llRatingOrder.hide()
             llActualDelivery.hide()
         } else if (typeSelected.equals(AppConstants.ORDER_TYPE_COMPLETED)) {
             llRatingOrder.show()
-            llOrderSwitches.show()
             btCancelOrder.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()

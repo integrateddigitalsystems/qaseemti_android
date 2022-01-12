@@ -48,9 +48,7 @@ import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
 import com.google.android.gms.auth.api.phone.SmsCodeAutofillClient.PermissionState.DENIED
-
-
-
+import kotlin.math.log
 
 
 class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
@@ -185,6 +183,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
 
         }
 
+        logw("OrerTypetag",orderType!!)
         var newReq = RequestOrders(MyApplication.userId, MyApplication.languageCode, orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrders(
@@ -488,24 +487,25 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
 
     private fun setData(type: Boolean) {
 
-        when (activeType) {
-            0 -> {
-                ordersArray.clear()
-                ordersArray.addAll(mainArray.filter { it.vendor != null && !it.paymentMethod.isNullOrEmpty() })
-            }
-            1 -> {
-                ordersArray.clear()
-                ordersArray.addAll(mainArray.filter { it.paymentMethod.isNullOrEmpty() && it.vendor!=null  })
-            }
+        if(orderType == AppConstants.ORDER_TYPE_ACTIVE) {
+            when (activeType) {
+                0 -> {
+                    ordersArray.clear()
+                    ordersArray.addAll(mainArray.filter { it.vendor != null && !it.paymentMethod.isNullOrEmpty() })
+                }
+                1 -> {
+                    ordersArray.clear()
+                    ordersArray.addAll(mainArray.filter { it.paymentMethod.isNullOrEmpty() && it.vendor != null })
+                }
 
-            else -> {
-                ordersArray.clear()
-                ordersArray.addAll(mainArray.filter { it.vendor == null })
-            }
+                else -> {
+                    ordersArray.clear()
+                    ordersArray.addAll(mainArray.filter { it.vendor == null })
+                }
 
 
             }
-            activeType
+        }
         /*if(orderType == AppConstants.ORDER_TYPE_ACTIVE){
             ordersArray.clear()
             ordersArray.addAll(mainArray.filter { it.vendor != null && !it.paymentMethod.isNullOrEmpty() })

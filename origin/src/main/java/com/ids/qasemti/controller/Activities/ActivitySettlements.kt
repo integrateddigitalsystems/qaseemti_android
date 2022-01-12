@@ -189,6 +189,7 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                 rvSettlements.hide()
 
             }else {
+                rvSettlements.show()
                 tvNoDataSet.hide()
                 btRequestSettlements.show()
                 MyApplication.upcoming = false

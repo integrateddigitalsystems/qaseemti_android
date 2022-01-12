@@ -34,7 +34,7 @@
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:gravity="center"
             android:id="@+id/btToArabic"
-            android:background="@drawable/rounded_white_red_border"
+            android:background="@drawable/rounded_white_primary_border"
             android:layout_width="@dimen/logo_size_top_hight"
             android:layout_height="@dimen/button_height"
             android:tag="lang_ar"
@@ -48,7 +48,7 @@
             android:id="@+id/btToEnglish"
             android:textColor="@color/gray_font_title"
             android:textSize="@dimen/normal_font"
-            android:background="@drawable/rounded_white_red_border"
+            android:background="@drawable/rounded_white_primary_border"
             android:layout_width="@dimen/logo_size_top_hight"
             android:layout_height="@dimen/button_height"
             android:tag="lang_eng"

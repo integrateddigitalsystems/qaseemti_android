@@ -32,6 +32,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
         (activity as ActivityHome).showTitle(false)
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -134,7 +135,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
                 "fragment_push_notifications"
             )
         }
-        btContactAdministrator.setOnClickListener {
+        btContactAdministrator.onOneClick {
             startActivity(
                 Intent(requireContext(), ActivityWeb::class.java)
                     .putExtra("webTitle", AppHelper.getRemoteString("ContactAdministrator",requireContext()))
@@ -145,14 +146,14 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             (requireActivity() as ActivityHome?)!!.showLogoutDialog(requireActivity())
         }
 
-        btPrivacy.setOnClickListener {
+        btPrivacy.onOneClick {
             startActivity(
                 Intent(requireContext(), ActivityWeb::class.java)
                     .putExtra("webTitle", AppHelper.getRemoteString("PrivacyPolicy",requireContext()))
                     .putExtra("webId",3)
             )
         }
-        btTermsAndConditions.setOnClickListener {
+        btTermsAndConditions.onOneClick {
             startActivity(
                 Intent(requireContext(), ActivityWeb::class.java)
                     .putExtra("webTitle", AppHelper.getRemoteString("TermsAndConditions",requireContext()))

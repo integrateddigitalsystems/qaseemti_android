@@ -330,6 +330,7 @@
     <string name="PendingPayment">Pending Payment</string>
     <string name="UnsuccessfulPayment">Unsuccessful Payment</string>
     <string name="you_must_enter_civil_front_back">You must enter 2 Civil Attachment, front and back images</string>
+    <string name="sure_update_OnTrack">Are you sure you want to update On Track ?</string>
 
 
 </resources>

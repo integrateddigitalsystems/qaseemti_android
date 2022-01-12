@@ -687,6 +687,54 @@ class CallAPIs {
         }
 
 
+        fun getOrderByOrderIdBroad(
+            orderId: Int,
+            userId : Int ,
+            listener: ApiListener,
+        ) {
+            var req = RequestOrderIdB(orderId, MyApplication.languageCode,userId)
+            retro.getOrderByIdBroad(
+                req
+            ).enqueue(object : Callback<ResponseMainOrderById> {
+                override fun onResponse(
+                    call: Call<ResponseMainOrderById>,
+                    response: Response<ResponseMainOrderById>
+                ) {
+                    try {
+                        listener.onDataRetrieved(
+                            true,
+                            response.body()!!.order,
+                            AppConstants.ORDER_BY_ID
+                        )
+                    } catch (e: Exception) {
+                        try {
+                            listener.onDataRetrieved(
+                                false,
+                                ResponseOrders(),
+                                AppConstants.ORDER_BY_ID
+                            )
+                        } catch (ex: Exception) {
+
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMainOrderById>, throwable: Throwable) {
+                    try {
+                        listener.onDataRetrieved(
+                            false,
+                            ResponseOrders(),
+                            AppConstants.ORDER_BY_ID
+                        )
+                    } catch (ex: Exception) {
+
+                    }
+                }
+            })
+
+        }
+
+
         fun getOrderByOrderId(
             orderId: Int,
             listener: ApiListener,

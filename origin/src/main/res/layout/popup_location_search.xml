@@ -23,7 +23,7 @@
             android:textAlignment="viewStart"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"
-            android:background="@drawable/rounded_white_red_border"
+            android:background="@drawable/rounded_white_primary_border"
             android:hint="@string/search_for_your_location"
             android:textColorHint="@color/gray_font_light"
             android:tag="search_for_your_location"

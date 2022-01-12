@@ -14,6 +14,8 @@ import android.os.Looper
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.webkit.WebSettings
+import android.webkit.WebView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -334,6 +336,11 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
     fun nextStep() {
+
+
+
+
+
         CallAPIs.getCategories(this, this)
         Handler(Looper.getMainLooper()).postDelayed({
             if (MyApplication.firstTime || !MyApplication.termsCondition!!) {
@@ -453,6 +460,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
                             MyApplication.tintColor = R.color.primary
                             if(orderId!=-1){
+                                MyApplication.isBroadcast = true
                                 MyApplication.selectedOrderId = orderId
                                 MyApplication.toDetails = true
                             }else{
@@ -483,7 +491,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                                 MyApplication.toDetails = false
                             }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        } else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE && type == AppConstants.NOTF_PAYMENT_ADDED){
+                        } else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE || type == AppConstants.NOTF_PAYMENT_ADDED){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
@@ -588,6 +596,14 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),
             FirebaseWebData::class.java
         )
+
+        val wv= WebView(this)
+        wv.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        wv.loadUrl(MyApplication.webLinks!!.links.find { it.idNo == 2  }!!.urlEn!!)
+
+        val wv2= WebView(this)
+        wv2.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        wv2.loadUrl(MyApplication.webLinks!!.links.find { it.idNo == 2  }!!.urlAr!!)
         MyApplication.kuwaitCoordinates = Gson().fromJson(
             mFirebaseRemoteConfig!!.getString(COORDINATES),
             Coordinates::class.java

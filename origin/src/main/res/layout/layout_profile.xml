@@ -210,6 +210,7 @@
                 />
 
             <LinearLayout
+                android:id="@+id/llEmailBackground"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:orientation="vertical"
@@ -341,6 +342,7 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/llFromCivilImage"
                         android:orientation="vertical"
                         android:layout_marginEnd="@dimen/normal_margin"
                         android:layout_weight="1"
@@ -399,6 +401,7 @@
 
 
                     <LinearLayout
+                        android:id="@+id/llBackCivilImage"
                         android:layout_weight="1"
                         android:background="@drawable/rounded_white_background"
                         android:gravity="center"
@@ -689,6 +692,7 @@
                         />
 
                     <RelativeLayout
+                        android:id="@+id/rlProvinceProfile"
                         android:layout_marginTop="@dimen/normal_margin"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"

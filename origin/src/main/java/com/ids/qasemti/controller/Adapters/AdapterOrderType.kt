@@ -232,11 +232,13 @@ class AdapterOrderType(
 
             if(AppHelper.isOnline(con)) {
                // if (!MyApplication.saveLocationTracking!!) {
+
+                   var x =  AppHelper.getRemoteString("sure_update_OnTrack",con)
                     AppHelper.createSwitchDialog(
                         con,
                         AppHelper.getRemoteString("ok", con),
                         AppHelper.getRemoteString("cancel", con),
-                        AppHelper.getRemoteString("sure_update_OnTrack ",con),
+                        x,
                         holder.switchOnTrack
                     ) {
                         if (holder.switchOnTrack.isChecked) {

@@ -840,6 +840,10 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
         var x : String ?=""
 
+        if(MyApplication.selectedFragment == FragmentAccount()){
+            showTitle(false)
+        }
+
 
         var mBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent) {

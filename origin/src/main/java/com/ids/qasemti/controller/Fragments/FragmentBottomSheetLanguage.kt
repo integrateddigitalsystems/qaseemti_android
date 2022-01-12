@@ -7,16 +7,13 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 import android.content.Intent
-import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.DialogFragment
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestServices
 import com.ids.qasemti.model.RequestUpdateLanguage
-import com.ids.qasemti.model.ResponseMainServices
 import com.ids.qasemti.model.ResponseMessage
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.bottom_sheet_language.*
@@ -47,7 +44,7 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(),ApiListener{
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayout,requireContext())
         if(MyApplication.languageCode == AppConstants.LANG_ARABIC){
-            tvEnglish.setBackgroundResource(R.drawable.rounded_white_red_border)
+            tvEnglish.setBackgroundResource(R.drawable.rounded_white_primary_border)
             AppHelper.setTextColor(requireActivity(),tvEnglish,R.color.primary)
             AppHelper.setTextColor(requireActivity(),tvArabic,R.color.white)
             tvArabic.setBackgroundResource(R.drawable.rounded_red_background)
@@ -55,7 +52,7 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(),ApiListener{
             tvEnglish.setBackgroundResource(R.drawable.rounded_red_background)
             AppHelper.setTextColor(requireActivity(),tvArabic,R.color.primary)
             AppHelper.setTextColor(requireActivity(),tvEnglish,R.color.white)
-            tvArabic.setBackgroundResource(R.drawable.rounded_white_red_border)
+            tvArabic.setBackgroundResource(R.drawable.rounded_white_primary_border)
         }
         tvEnglish.onOneClick{
             if(MyApplication.languageCode == AppConstants.LANG_ARABIC)

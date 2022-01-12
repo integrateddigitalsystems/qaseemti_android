@@ -446,7 +446,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
         }
         btSaveAddress.onOneClick {
             if (etAddressName.text.isNullOrEmpty() || selectedProvince.isNullOrEmpty() || etBuilding.text.toString()
-                    .isNullOrEmpty()  || etStreet.text.isNullOrEmpty()
+                    .isNullOrEmpty()  || etStreet.text.isNullOrEmpty() || etBlock.text.toString().isNullOrEmpty()
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {

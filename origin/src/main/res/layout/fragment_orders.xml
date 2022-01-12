@@ -16,7 +16,7 @@
         android:layout_height="@dimen/edit_text_height"
         android:orientation="horizontal"
         android:padding="@dimen/normal_margin"
-        android:background="@drawable/rounded_white_red_border"
+        android:background="@drawable/rounded_white_primary_border"
         android:layout_marginTop="@dimen/toolbar_height"
         >
         <EditText

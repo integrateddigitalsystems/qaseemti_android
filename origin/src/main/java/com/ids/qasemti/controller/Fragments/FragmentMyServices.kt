@@ -163,6 +163,11 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        (requireActivity() as ActivityHome).showTitle(false)
+    }
+
     override fun onItemClicked(view: View, position: Int) {
         MyApplication.selectedService=array[position]
         MyApplication.isEditService=true

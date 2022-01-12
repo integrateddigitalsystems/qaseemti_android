@@ -754,6 +754,7 @@
                         <androidx.appcompat.widget.SwitchCompat
                             android:layout_width="100dp"
                             android:id="@+id/swOnTrack"
+                            android:theme="@style/SelectionSwitch"
                             android:layout_height="match_parent"
                             android:layout_marginStart="-50dp"
                             android:gravity="center"
@@ -790,6 +791,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="-52dp"
                             android:gravity="center"
+                            android:theme="@style/SelectionSwitch"
                             android:scaleX="0.7"
                             android:scaleY="0.7" />
 
@@ -820,6 +822,7 @@
                         <androidx.appcompat.widget.SwitchCompat
                             android:layout_width="100dp"
                             android:id="@+id/swPaid"
+                            android:theme="@style/SelectionSwitch"
                             android:layout_height="match_parent"
                             android:layout_marginStart="-50dp"
                             android:gravity="center"

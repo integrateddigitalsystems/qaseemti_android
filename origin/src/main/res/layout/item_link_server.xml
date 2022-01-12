@@ -12,7 +12,7 @@
         android:textColor="@color/gray_font_title"
         android:maxLines="1"
         android:textSize="@dimen/normal_font"
-        android:background="@drawable/rounded_white_red_border"
+        android:background="@drawable/rounded_white_primary_border"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
         android:tag="lang_eng"

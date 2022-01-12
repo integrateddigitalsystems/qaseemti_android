@@ -33,7 +33,7 @@
                 android:id="@+id/etMapSearch"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
-                android:background="@drawable/rounded_white_red_border"
+                android:background="@drawable/rounded_white_primary_border"
                 android:hint="@string/search_for_your_location"
                 android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"

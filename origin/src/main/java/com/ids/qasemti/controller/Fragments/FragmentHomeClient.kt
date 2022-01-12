@@ -95,7 +95,12 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
 
             override fun onFinish() {
                 isTimer = true
-                getServices(isTimer)
+                if (AppHelper.isOnline(requireContext())) {
+                    getServices(isTimer)
+                }else{
+                    AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
+                }
+
             }
         }.start()
     }
@@ -140,11 +145,17 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
 
 
         AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "", R.color.white)
-        getServices(false)
 
-        getBanners()
+        if (AppHelper.isOnline(requireContext())) {
+            getServices(false)
 
-        setUpTimer()
+            getBanners()
+
+            setUpTimer()
+        }else{
+            AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
+        }
+
 
     }
 
@@ -449,10 +460,14 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
                 }
 
                 override fun onFailure(call: Call<ResponseMainServices>, throwable: Throwable) {
-                    loading.hide()
-                    arrayAllServices.clear()
-                    arrayFiltered.clear()
-                    setData()
+                    try {
+                        loading.hide()
+                        arrayAllServices.clear()
+                        arrayFiltered.clear()
+                        setData()
+                    }catch (ex:Exception){
+
+                    }
                 }
             })
     }

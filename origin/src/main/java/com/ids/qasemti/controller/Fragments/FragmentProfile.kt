@@ -1,14 +1,12 @@
 package com.ids.qasemti.controller.Fragments
 
 import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -23,12 +21,9 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
@@ -42,14 +37,9 @@ import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import com.ids.sampleapp.model.ItemSpinner
-import com.jaiselrahman.filepicker.activity.FilePickerActivity
-import com.jaiselrahman.filepicker.model.MediaFile
-import kotlinx.android.synthetic.main.activity_new_address.*
-import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.curve_layout_home.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.layout_profile.etAddressName
-import kotlinx.android.synthetic.main.layout_profile.etAddressProvince
 import kotlinx.android.synthetic.main.layout_profile.etApartment
 import kotlinx.android.synthetic.main.layout_profile.etArea
 import kotlinx.android.synthetic.main.layout_profile.etAvenue
@@ -59,7 +49,6 @@ import kotlinx.android.synthetic.main.layout_profile.etFloor
 import kotlinx.android.synthetic.main.layout_profile.etMoreDetails
 import kotlinx.android.synthetic.main.layout_profile.etStreet
 import kotlinx.android.synthetic.main.loading.*
-import kotlinx.android.synthetic.main.service_tab_1.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.MultipartBody.Part.Companion.createFormData
@@ -73,11 +62,6 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import com.bumptech.glide.load.engine.GlideException
-
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
-import javax.sql.DataSource
 
 
 class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
@@ -1178,6 +1162,64 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     }
 
 
+    fun resetBackground(){
+            etFirstNameProfile.setBackgroundResource(R.drawable.rounded_white_background)
+            etLastNameProfile.setBackgroundResource(R.drawable.rounded_white_background)
+            etEmailProfile.setBackgroundResource(R.drawable.rounded_white_background)
+            llEmailBackground.setBackgroundResource(R.drawable.rounded_white_background)
+            etAddressName.setBackgroundResource(R.drawable.rounded_white_background)
+            rlProvinceProfile.setBackgroundResource(R.drawable.rounded_white_background)
+            etStreet.setBackgroundResource(R.drawable.rounded_white_background)
+            etBuilding.setBackgroundResource(R.drawable.rounded_white_background)
+            etArea.setBackgroundResource(R.drawable.rounded_white_background)
+            etBlock.setBackgroundResource(R.drawable.rounded_white_background)
+            etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_background)
+            llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_background)
+            llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_background)
+            etIBANProfile.setBackgroundResource(R.drawable.rounded_white_background)
+
+    }
+
+
+    fun checkMissingData(){
+        if(etFirstNameProfile.text.isNullOrEmpty())
+            etFirstNameProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(etLastNameProfile.text.isNullOrEmpty())
+            etLastNameProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(etEmailProfile.text.isNullOrEmpty())
+            llEmailBackground.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(!AppHelper.isEmailValid(etEmailProfile.text.toString()))
+            llEmailBackground.setBackgroundResource(R.drawable.rounded_white_red_border)
+
+        if(etAddressName.text.isNullOrEmpty())
+            etAddressName.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(selectedProvince.isNullOrEmpty())
+            rlProvinceProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(etStreet.text.isNullOrEmpty())
+            etStreet.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(etBuilding.text.isNullOrEmpty())
+            etBuilding.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(etArea.text.isNullOrEmpty())
+            etArea.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(etBlock.text.isNullOrEmpty())
+            etBlock.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if ((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) && (!civilImageAvailable || !civilImageBackAvailable)) {
+
+            if (etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) {
+                etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+            }
+            if (!civilImageBackAvailable)
+                llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+            if (!civilImageAvailable)
+                llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+            if (!etIBANProfile.text.isNullOrEmpty() && etIBANProfile.text.length != 30)
+                etIBANProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+        }
+        }
+
+
+
+
     fun listeners() {
 
 
@@ -1335,6 +1377,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
         btSaveProfile.onOneClick {
 
+            resetBackground()
             if (AppHelper.isOnline(requireActivity())) {
 
 
@@ -1342,26 +1385,27 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                         etEmailProfile.text.toString()
                     )
                 ) {
-
+                    checkMissingData()
                     AppHelper.createDialog(
                         requireActivity(),
                         AppHelper.getRemoteString("fill_all_field", requireContext())
                     )
 
                 } else if (!AppHelper.isEmailValid(etEmailProfile.text.toString())) {
+                    checkMissingData()
                     AppHelper.createDialog(
                         requireActivity(),
                         AppHelper.getRemoteString("email_valid_error", requireContext())
                     )
                 } else if (!MyApplication.isClient) {
                     var x = etCivilIdNbProfile.text
-                    if(!etAddressName.text.isNullOrEmpty() && !selectedProvince.isNullOrEmpty() && !etStreet.text.isNullOrEmpty() && !etBuilding.text.isNullOrEmpty() && !etArea.text.isNullOrEmpty() && !etBlock.text.isNullOrEmpty()) {
+                    if(btAddNewAddress.visibility == View.VISIBLE || (!etAddressName.text.isNullOrEmpty() && !selectedProvince.isNullOrEmpty() && !etStreet.text.isNullOrEmpty() && !etBuilding.text.isNullOrEmpty() && !etArea.text.isNullOrEmpty() && !etBlock.text.isNullOrEmpty())) {
                         /* if((!etAccountNumberProfile.text.toString().isNullOrEmpty() || !etBranchNameProfile.text.isNullOrEmpty() || selectedBankId!=0 || !etIBANProfile.text.isNullOrEmpty()) && (etAccountNumberProfile.text.toString().isNullOrEmpty() || selectedBankId!=0 || etIBANProfile.text.isNullOrEmpty()))*/
                         if ((!etCivilIdNbProfile.text.isNullOrEmpty() && etCivilIdNbProfile.text.length == 12) || (civilImageAvailable && civilImageBackAvailable)) {
                             if(civilImageBackAvailable == civilImageAvailable) {
                                 if (etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30)
                                     updateServiceProfile()
-                                else
+                                else {
                                     AppHelper.createDialog(
                                         requireActivity(),
                                         AppHelper.getRemoteString(
@@ -1369,21 +1413,27 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                             requireActivity()
                                         )
                                     )
+                                    checkMissingData()
+                                }
                             }else{
+                                checkMissingData()
                                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
                             }
                         } else {
                             if((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) && !(civilImageAvailable || civilImageBackAvailable)) {
+                                checkMissingData()
                                 AppHelper.createDialog(
                                     requireActivity(),
                                     AppHelper.getRemoteString("fill_all_field", requireActivity())
                                 )
                             }else{
+                                checkMissingData()
                                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
                             }
 
                         }
                     }else{
+                        checkMissingData()
                         AppHelper.createDialog(
                             requireActivity(),
                             AppHelper.getRemoteString("fill_all_field", requireActivity())

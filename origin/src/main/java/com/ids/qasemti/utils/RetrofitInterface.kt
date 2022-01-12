@@ -344,6 +344,11 @@ interface RetrofitInterface {
        @Body param : RequestOrderIdL
     ):Call<ResponseMainOrderById>
 
+    @POST("sp_get_orders")
+    fun getOrderByIdBroad(
+        @Body param : RequestOrderIdB
+    ):Call<ResponseMainOrderById>
+
     @GET("search")
     fun getMapLocations(
         @Query("q") query : String ,

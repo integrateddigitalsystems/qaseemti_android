@@ -23,12 +23,7 @@ class ActivityChooseLanguage : ActivityBase() {
         setContentView(R.layout.activity_choose_language)
         AppHelper.setAllTexts(rootLayoutChooseLogin,this)
 
-        val wv= WebView(this)
-        wv.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        wv.loadUrl(MyApplication.webLinks!!.links.find { it.idNo == 2  }!!.urlEn!!)
-        
-        wv.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        wv.loadUrl(MyApplication.webLinks!!.links.find { it.idNo == 2  }!!.urlAr!!)
+
 
         btToArabic.onOneClick {
             changeLanguage(AppConstants.LANG_ARABIC)

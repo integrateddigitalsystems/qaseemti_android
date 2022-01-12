@@ -21,7 +21,7 @@
         <Button
             android:layout_width="180dp"
             android:layout_height="@dimen/button_height"
-            android:background="@drawable/rounded_white_red_border"
+            android:background="@drawable/rounded_white_primary_border"
             android:text="@string/choose_file"
             android:tag="@string/choose_file"
             android:id="@+id/btPickFile"

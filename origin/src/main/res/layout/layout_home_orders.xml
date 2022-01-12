@@ -35,7 +35,7 @@
                 android:tag="@string/available"
                 android:text="@string/available"
                 android:textColor="@color/gray_font"
-                android:theme="@style/Theme.MyTheme"
+                android:theme="@style/SelectionSwitch"
                 app:switchPadding="@dimen/small_margin" />
 
         </LinearLayout>
@@ -47,7 +47,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/rounded_white_red_border"
+            android:background="@drawable/rounded_white_primary_border"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="@dimen/margin_start_end"

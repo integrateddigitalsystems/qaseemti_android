@@ -62,8 +62,7 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <include
-            layout="@layout/loading" />
+
 
 
         <RelativeLayout
@@ -107,7 +106,8 @@
             android:tag="no_data"
             android:textColor="@color/gray_font_title"/>
 
-
+        <include
+            layout="@layout/loading" />
 
     </RelativeLayout>
 
