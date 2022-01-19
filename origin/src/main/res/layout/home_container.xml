@@ -21,15 +21,16 @@
 
         <!-- <include
              layout="@layout/footer_top" />-->
+
+        <include
+            layout="@layout/footer" />
+    </LinearLayout>
         <LinearLayout
             android:id="@+id/llGeneralFooter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
 
-            <include
-                layout="@layout/footer" />
-        </LinearLayout>
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/llClientFooter"
@@ -66,9 +67,11 @@
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:layout_alignParentBottom="true"
-
+            android:orientation="vertical"
             android:background="@drawable/footer_shadow"
             />
+
+
         <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="39dp"

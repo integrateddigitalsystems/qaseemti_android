@@ -30,7 +30,7 @@ import retrofit2.Response
 import java.lang.Exception
 
 
-class FragmentNotifications : Fragment(), RVOnItemClickListener {
+class FragmentNotifications : Fragment(), RVOnItemClickListener , ApiListener {
 
     var array: ArrayList<ResponseNotification> = arrayListOf()
     var adapter: AdapterNotification? = null
@@ -113,6 +113,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
         } catch (ex: Exception) {
 
         }
+
         var newReq = RequestNotifications(
             MyApplication.languageCode,
             MyApplication.selectedUser!!.mobileNumber,
@@ -181,8 +182,12 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
 
         AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "", R.color.white)
 
-        getData()
-
+        if(MyApplication.selectedUser !=null )
+            getData()
+        else{
+            loading.show()
+            CallAPIs.getUserInfo(this)
+        }
         val animator: DefaultItemAnimator = object : DefaultItemAnimator() {
             override fun canReuseUpdatedViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean {
                 return true
@@ -239,5 +244,13 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
             }
 
         }
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+
+        if(success) {
+            getData()
+        }
+
     }
 }

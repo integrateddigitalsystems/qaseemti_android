@@ -16,6 +16,7 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/activity_account_status.xml" value="0.5" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/activity_chat.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/activity_choose_language.xml" value="0.1" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/activity_home.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/activity_mobile_registration.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/activity_new_address.xml" value="0.3985611510791367" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/activity_order_details.xml" value="0.22" />
@@ -25,6 +26,7 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/activity_services.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/activity_web.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/client_footer.xml" value="0.9" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/drawer_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/footer.xml" value="0.67" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/fragment_account.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/fragment_checkout.xml" value="0.5991111111111111" />
@@ -32,12 +34,13 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/fragment_orders.xml" value="0.33" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/fragment_service_details.xml" value="0.35104166666666664" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/fragmentbottom_push_notification.xml" value="0.25" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/home_container.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_cart.xml" value="0.8935064935064935" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_chat.xml" value="0.33" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_grid_files.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_media_pager.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_notifications.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_order_not_cancelled.xml" value="0.3145275035260931" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_order_not_cancelled.xml" value="0.67" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_payment_methods.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_related_order.xml" value="1.0" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/item_services.xml" value="0.9" />

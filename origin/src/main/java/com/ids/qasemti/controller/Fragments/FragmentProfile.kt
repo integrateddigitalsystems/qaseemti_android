@@ -38,7 +38,6 @@ import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.curve_layout_home.*
-import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.layout_profile.etAddressName
 import kotlinx.android.synthetic.main.layout_profile.etApartment
@@ -1029,10 +1028,6 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         AppHelper.setTitle(
             requireActivity(), MyApplication.selectedTitle!!, "", R.color.white
         )
-
-        btCRash.onOneClick {
-            tvNoDataHome.hide()
-        }
         rbFemaleProfile.isSelected = true
         // (activity as ActivityHome?)!!.showLogout(false)
         tvToolbarCurveTitle.visibility = View.GONE

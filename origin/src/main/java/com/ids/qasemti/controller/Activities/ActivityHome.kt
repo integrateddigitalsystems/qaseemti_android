@@ -56,6 +56,7 @@ import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication.Companion.listOrderTrack
 import com.ids.qasemti.model.RequestCart
 import com.ids.qasemti.model.ResponseMainOrder
+import kotlinx.android.synthetic.main.fragment_cart.*
 
 
 class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedListener,
@@ -78,6 +79,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppHelper.handleCrashes(this)
 
         setContentView(R.layout.activity_home)
         try {

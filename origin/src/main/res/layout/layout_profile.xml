@@ -23,11 +23,6 @@
         <include layout="@layout/curve_layout_home"/>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btCRash"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_text_height"/>
-
         <androidx.cardview.widget.CardView
             android:layout_marginTop="@dimen/medium_push_3"
             android:layout_below="@id/llCurve"

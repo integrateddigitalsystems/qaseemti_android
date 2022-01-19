@@ -2,6 +2,7 @@ package com.ids.qasemti.controller.Activities
 
 import android.app.Activity
 import android.graphics.Bitmap
+import android.net.http.SslError
 import android.os.Bundle
 import android.util.Log
 import android.webkit.*
@@ -151,15 +152,33 @@ class ActivityWeb: ActivityBase() {
                 super.onReceivedError(view, request, error)
             }
 
+            override fun onReceivedSslError(
+                view: WebView?,
+                handler: SslErrorHandler?,
+                error: SslError?
+            ) {
+                super.onReceivedSslError(view, handler, error)
+            }
+
             override fun onReceivedHttpError(
                 view: WebView?,
                 request: WebResourceRequest?,
                 errorResponse: WebResourceResponse?
             ) {
                 super.onReceivedHttpError(view, request, errorResponse)
-                var req = request
-                var error = errorResponse.toString()
-                var x = 1
+                WebStorage.getInstance().deleteAllData();
+
+                logw("HTTPWORK","error")
+                // Clear all the cookies
+                CookieManager.getInstance().removeAllCookies(null);
+                CookieManager.getInstance().flush();
+
+                webView.clearCache(true);
+                webView.clearFormData();
+                webView.clearHistory();
+                webView.clearSslPreferences();
+                loadContent(content , webView )
+
             }
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
@@ -169,6 +188,7 @@ class ActivityWeb: ActivityBase() {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
+                logw("HTTPWORK","done")
                 if(--running == 0) {
                     loading.hide()
 

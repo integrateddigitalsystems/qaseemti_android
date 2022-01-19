@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import android.widget.LinearLayout
+import androidx.core.view.ViewCompat
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +39,10 @@ import com.google.android.youtube.player.internal.t
 import com.google.android.youtube.player.internal.l
 import kotlinx.android.synthetic.main.fragment_home_client.tbMedia
 import kotlinx.android.synthetic.main.fragment_service_details.*
+import androidx.viewpager.widget.ViewPager
+
+
+
 
 
 class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
@@ -194,6 +199,11 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
                     requireActivity().supportFragmentManager
                 )
                 tbMedia.setupWithViewPager(vpAdsClient)
+                if(MyApplication.languageCode == AppConstants.LANG_ARABIC) {
+                    vpAdsClient.setRotationY(180f)
+                    vpAdsClient.setPageTransformer(false,
+                        ViewPager.PageTransformer { page, position -> page.rotationY = 180f })
+                }
                 vpAdsClient.adapter = adapterPager
 
             }else{
