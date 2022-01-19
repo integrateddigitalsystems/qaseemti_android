@@ -929,6 +929,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
         MyApplication.selectedPos = 1
         MyApplication.fromOrderPlaced = true
         MyApplication.typeSelected = 0
+        MyApplication.fromFooterOrder = true
         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
         MyApplication.selectedFragment = FragmentOrders()
         MyApplication.tintColor = R.color.primary

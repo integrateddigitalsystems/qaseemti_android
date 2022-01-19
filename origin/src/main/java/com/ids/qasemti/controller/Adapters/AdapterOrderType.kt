@@ -140,6 +140,12 @@ class AdapterOrderType(
             }else{
                onTrack=0
             }
+            if(items[position].onTrack!!) {
+                holder.switchOnTrack.isEnabled = false
+                holder.switchOnTrack.isClickable = false
+            }else{
+                holder.switchOnTrack.isEnabled = true
+            }
             holder.switchOnTrack.isChecked = items[position].onTrack!!
             AppHelper.setSwitchColor(holder.switchOnTrack,con)
         }catch (ex:Exception){}
@@ -154,7 +160,7 @@ class AdapterOrderType(
             AppHelper.setSwitchColor(holder.switchDelivered,con)
         }catch (ex:java.lang.Exception){}
 
-        holder.switchOnTrack.isEnabled = true
+
         if(paid==1) {
             holder.switchPaid.isChecked = true
             holder.switchPaid.isEnabled = false
@@ -242,6 +248,7 @@ class AdapterOrderType(
                         holder.switchOnTrack
                     ) {
                         if (holder.switchOnTrack.isChecked) {
+                            holder.switchOnTrack.isEnabled = false
                             MyApplication.selectedOrder = items.get(position)
                             MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
                             MyApplication.listOrderTrack.add(MyApplication.trackOrderId.toString())

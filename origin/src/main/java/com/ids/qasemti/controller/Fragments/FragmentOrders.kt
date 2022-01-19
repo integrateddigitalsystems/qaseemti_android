@@ -90,6 +90,10 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
         super.onResume()
 
 
+        if(!MyApplication.fromFooterOrder) {
+            (activity as ActivityHome).showBack(true)
+            MyApplication.fromFooterOrder = true
+        }else
             (activity as ActivityHome).showBack(false)
 
         if(denied!!){
@@ -109,7 +113,10 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                 } else if (MyApplication.completed) {
                     MyApplication.completed = false
                     setTabLayout(2)
-                } else {
+                } else if(MyApplication.fromHome){
+                    MyApplication.fromHome = false
+                    setTabLayout(typeSelected)
+                } else{
                     typeSelected =0
                     setTabLayout(typeSelected)
                 }

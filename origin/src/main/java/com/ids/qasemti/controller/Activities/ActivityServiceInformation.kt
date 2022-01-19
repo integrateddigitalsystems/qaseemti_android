@@ -1019,10 +1019,20 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
                 edt = service!!.eta!!
             } catch (e: Exception) {
             }
-            tvPrice.text = AppHelper.getRemoteString("Price", this) + ": " + price
-            tvEarning.text = AppHelper.getRemoteString("Earning", this) + ": " + earning
-            tvEstimatedDeliveryTime.text =
-                AppHelper.getRemoteString("expected_delivery", this) + ": " + edt
+            if(!price.isNullOrEmpty())
+                tvPrice.text = AppHelper.getRemoteString("Price", this) + ": " + price
+            else
+                tvPrice.text = AppHelper.getRemoteString("Price", this) + ": " + AppHelper.getRemoteString("no_data", this)
+            if(!earning.isNullOrEmpty())
+                tvEarning.text = AppHelper.getRemoteString("Earning", this) + ": " + earning
+            else
+                tvEarning.text = AppHelper.getRemoteString("Earning",this) + ": "+ AppHelper.getRemoteString("no_data", this)
+            if(!edt.isNullOrEmpty()) {
+                tvEstimatedDeliveryTime.text =
+                    AppHelper.getRemoteString("expected_delivery", this) + ": " + edt
+            }else{
+                tvEstimatedDeliveryTime.text =   AppHelper.getRemoteString("expected_delivery", this) + ": " + AppHelper.getRemoteString("no_data", this)
+            }
         }
     }
 

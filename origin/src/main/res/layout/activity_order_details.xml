@@ -78,6 +78,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/llOrderSwitches"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -142,6 +143,7 @@
         android:layout_height="wrap_content">
 
     <Button
+        android:visibility="gone"
         android:layout_marginBottom="@dimen/medium_margin"
         android:id="@+id/btCancelOrder"
         android:layout_marginTop="@dimen/margin_start_end"

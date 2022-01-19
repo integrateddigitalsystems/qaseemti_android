@@ -36,67 +36,68 @@
 
 
                 <androidx.cardview.widget.CardView
-                    android:layout_marginTop="-12dp"
-                    android:layout_marginStart="@dimen/card_new_margin"
-                    android:layout_marginEnd="@dimen/card_new_margin"
                     android:id="@+id/lineaarProfileInfo"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/image_news"
-                    app:cardElevation="@dimen/normal_margin"
-                    android:elevation="@dimen/normal_margin"
-                    card_view:contentPadding="0dp"
-                    app:cardUseCompatPadding="true"
-                    app:cardCornerRadius="@dimen/bigger_radius"
+                    android:layout_marginStart="@dimen/card_new_margin"
+                    android:layout_marginTop="-12dp"
+                    android:layout_marginEnd="@dimen/card_new_margin"
                     android:background="@drawable/rounded_white_background"
+                    android:elevation="@dimen/normal_margin"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="@dimen/margin_start_end"
-                    android:paddingEnd="@dimen/margin_start_end">
+                    android:paddingEnd="@dimen/margin_start_end"
+                    app:cardCornerRadius="@dimen/bigger_radius"
+                    app:cardElevation="@dimen/normal_margin"
+                    app:cardUseCompatPadding="true"
+                    card_view:contentPadding="0dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <androidx.viewpager.widget.ViewPager
-                            android:layout_above="@id/llCostData"
                             android:id="@+id/vpMedia"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/image_news" />
+                            android:layout_height="@dimen/image_news"
+                            android:layout_above="@id/llCostData" />
 
                         <LinearLayout
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
                             android:id="@+id/llCostData"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
                             android:layout_alignParentBottom="true"
                             android:background="@drawable/blue_rounded_straight"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/edit_text_height">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <LinearLayout
-                                android:layout_marginStart="@dimen/normal_margin"
-                                android:padding="@dimen/mini_margin"
-                                android:gravity="center"
-                                android:background="@drawable/white_circle"
                                 android:layout_width="@dimen/normal_icon_size"
-                                android:layout_height="@dimen/normal_icon_size">
+                                android:layout_height="@dimen/normal_icon_size"
+                                android:layout_marginStart="@dimen/normal_margin"
+                                android:background="@drawable/white_circle"
+                                android:gravity="center"
+                                android:padding="@dimen/mini_margin">
+
                                 <com.ids.qasemti.custom.CustomTextViewMedium
-                                    android:textColor="@color/seconday_use"
-                                    android:text="@string/k_d"
-                                    android:tag="k_d"
-                                    android:textSize="@dimen/small_font_2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    />
+                                    android:tag="k_d"
+                                    android:text="@string/k_d"
+                                    android:textColor="@color/seconday_use"
+                                    android:textSize="@dimen/small_font_2" />
                             </LinearLayout>
 
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
-                                android:layout_marginStart="@dimen/normal_margin"
+                                android:id="@+id/tvPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
-                                android:id="@+id/tvPrice"
-                                android:textSize="@dimen/header_font"
-                                android:textColor="@color/white"/>
+                                android:layout_marginStart="@dimen/normal_margin"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/header_font" />
 
 
                         </LinearLayout>
@@ -104,23 +105,21 @@
                     </RelativeLayout>
 
 
-
-
                 </androidx.cardview.widget.CardView>
 
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tbMedia"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@id/lineaarProfileInfo"
                     android:layout_width="match_parent"
                     android:layout_height="18dp"
-                    app:tabGravity="center"
-                    app:tabIndicatorHeight="0dp"
+                    android:layout_below="@id/lineaarProfileInfo"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="-4dp"
-                    app:tabMaxWidth="12dp"
                     android:layout_marginBottom="@dimen/small_margin"
                     app:tabBackground="@drawable/selector_tab_image"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabMaxWidth="12dp"
                     app:tabRippleColor="@null" />
 
                 <LinearLayout

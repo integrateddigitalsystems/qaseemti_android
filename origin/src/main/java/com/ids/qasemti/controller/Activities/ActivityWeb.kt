@@ -32,9 +32,9 @@ class ActivityWeb: ActivityBase() {
 
 
     override fun onBackPressed() {
-        if (!MyApplication.fromSplash) {
+      //  if (!MyApplication.fromSplash) {
             super.onBackPressed()
-        }
+     //   }
        /* else {
             //Can't go back without accepting terms
         }*/
@@ -42,20 +42,21 @@ class ActivityWeb: ActivityBase() {
 
     fun resultContact(req:Int){
         if(req==1){
-            AppHelper.createDialog(this,AppHelper.getRemoteString("success",this))
+            toast(AppHelper.getRemoteString("success",this))
         }else{
-            AppHelper.createDialog(this,AppHelper.getRemoteString("failure",this))
+            toast(AppHelper.getRemoteString("failure",this))
         }
         try {
             loading.hide()
         }catch (ex: Exception){
 
         }
-        etFullNameContact.text.clear()
+        /*etFullNameContact.text.clear()
         etEmailContact.text.clear()
         etMessageContact.text.clear()
         etPhoneContact.text.clear()
-        etSubjectContact.text.clear()
+        etSubjectContact.text.clear()*/
+        super.onBackPressed()
     }
     fun sendContact(){
         try {
@@ -126,9 +127,10 @@ class ActivityWeb: ActivityBase() {
         webView.settings.javaScriptEnabled=true
         webView.settings.loadWithOverviewMode = true
         webView.settings.useWideViewPort = false
-        webView.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        webView.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
         webView.settings.builtInZoomControls = false
         webView.settings.displayZoomControls = false
+        webView.settings.domStorageEnabled = true
 
 
         webView.webViewClient = object : WebViewClient() {
@@ -139,6 +141,25 @@ class ActivityWeb: ActivityBase() {
             ): Boolean {
                 running++
                 return false
+            }
+
+            override fun onReceivedError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                error: WebResourceError?
+            ) {
+                super.onReceivedError(view, request, error)
+            }
+
+            override fun onReceivedHttpError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                errorResponse: WebResourceResponse?
+            ) {
+                super.onReceivedHttpError(view, request, errorResponse)
+                var req = request
+                var error = errorResponse.toString()
+                var x = 1
             }
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
@@ -154,7 +175,7 @@ class ActivityWeb: ActivityBase() {
                     if(MyApplication.fromSplash){
 
                         llAcceptTerms.show()
-                        btBackTool.hide()
+                      //  btBackTool.hide()
 
                         cbTermsConditions.setOnCheckedChangeListener { buttonView, isChecked ->
                             btProceed.isEnabled = cbTermsConditions.isChecked
@@ -219,6 +240,7 @@ class ActivityWeb: ActivityBase() {
         }
         )
 
+        var x = content
         webView.loadUrl(content)
     }
 }

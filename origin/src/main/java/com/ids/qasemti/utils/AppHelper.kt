@@ -666,6 +666,7 @@ class AppHelper {
 
         fun handleCrashes(context: Activity) {
             //   if (!MyApplication.isDebug)
+            Thread.getDefaultUncaughtExceptionHandler()
             Thread.setDefaultUncaughtExceptionHandler(MyExceptionHandler(context))
         }
 
@@ -744,9 +745,10 @@ class AppHelper {
             val appPackageName: String = activity.packageName
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
+
             sendIntent.putExtra(
                 Intent.EXTRA_TEXT,
-                "Check out the App at: https://play.google.com/store/apps/details?id=$appPackageName"
+                "Check out the App at: https://play.google.com/store/apps/details?id=com.ids.qasemti"
             )
             sendIntent.type = "text/plain"
             activity.startActivity(sendIntent)
@@ -979,7 +981,7 @@ class AppHelper {
             )
                 .setCancelable(true)
                 .setNegativeButton(negativeButton) { dialog, _ ->
-                    view.isChecked = false
+                    view.isChecked = !view.isChecked
                     dialog.cancel()
                 }
                 .setPositiveButton(positiveButton) { dialog, _ ->

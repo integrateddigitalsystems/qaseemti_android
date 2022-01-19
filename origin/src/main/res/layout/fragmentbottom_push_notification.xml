@@ -33,9 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:tag="notifications"
+                android:tag="notifications_type"
                 android:textColor="@color/gray_font_title"
-                android:text="@string/notifications"/>
+                android:text="@string/notifications_type"/>
 
 
         </LinearLayout>

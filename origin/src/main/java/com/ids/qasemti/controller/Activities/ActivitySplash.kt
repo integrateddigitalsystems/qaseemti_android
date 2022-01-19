@@ -359,13 +359,28 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
                     var type = 0
                     try {
+                        type = intent.getIntExtra("fromNotf", 0)
+                    } catch (ex: Exception) {
+                        type = 0
+                    }
+
+                    var from = 0
+                    try {
                         type = intent.getIntExtra("typeId", 0)
                     } catch (ex: Exception) {
+                        type = -1
                     }
 
                     var orderId = -1
                     try{
                         orderId = intent.getIntExtra("order_id",-1)
+                    }catch (ex:Exception){
+
+                    }
+
+                    var crash = false
+                    try{
+                        crash = intent.getBooleanExtra("crash",false)
                     }catch (ex:Exception){
 
                     }
@@ -387,6 +402,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         }catch (ex:Exception){
                             logw("UpaymError",ex.toString())
                         }
+                        if(from == 1 && !crash){
                         if (type == AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE) {
                             MyApplication.selectedPos = 3
                             MyApplication.defaultIcon = ivFooterNotifications
@@ -435,7 +451,14 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                                 MyApplication.toDetails = false
                             }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        } else if(type == 0 ){
+                        } else {
+                            MyApplication.selectedPos = 3
+                            MyApplication.defaultIcon = ivFooterNotifications
+                            MyApplication.selectedFragment = FragmentNotifications()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
+                            MyApplication.tintColor = R.color.primary
+                        }
+                        }else{
                             MyApplication.selectedPos = 2
                             MyApplication.defaultIcon = ivFooterHome
                             MyApplication.tintColor = R.color.primary
@@ -446,6 +469,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
                     } else {
 
+                        if(from == 1 && !crash){
 
                         if (type == AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE) {
                             MyApplication.selectedPos = 3
@@ -503,12 +527,18 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             }
                             MyApplication.selectedFragment = FragmentOrders()
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        }else if(type ==0 ) {
+                        }else  {
+                            MyApplication.selectedPos = 3
+                            MyApplication.defaultIcon = ivFooterNotifications
+                            MyApplication.selectedFragment = FragmentNotifications()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
+                            MyApplication.tintColor = R.color.primary
+                        } }else {
                             MyApplication.selectedPos = 2
                             MyApplication.defaultIcon = ivFooterHome
-                            MyApplication.tintColor = R.color.primary
                             MyApplication.selectedFragment = FragmentHomeSP()
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+                            MyApplication.tintColor = R.color.primary
                         }
                     }
                     MyApplication.isSignedIn = true

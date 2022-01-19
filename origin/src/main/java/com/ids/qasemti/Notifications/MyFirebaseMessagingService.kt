@@ -78,12 +78,12 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             Log.wtf("crashNotf",e.toString())
         }
 
-        var typeId = -1
+        var typeId = 0
         try {
             typeId = remoteMessage.data["typeId"]!!.toInt()
         } catch (e: Exception) {
             e.printStackTrace()
-            typeId = -1
+            typeId = 0
         }
 
 
@@ -97,21 +97,21 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             logw("ACTIVATE_NOW","NOTIFICATION ACT DONE")
         }
 
-        var recordId = -1
+        var recordId = 0
         try {
             recordId = remoteMessage.data["recordId"]!!.toInt()
         } catch (e: Exception) {
             e.printStackTrace()
-            recordId = -1
+            recordId =0
         }
 
-        var id = -1
+        var id = 0
         try {
             id = remoteMessage.data["id"]!!.toInt()
             Log.wtf("notification_id",id.toString()+"aaa")
         } catch (e: Exception) {
             e.printStackTrace()
-            id = -1
+            id = 0
         }
 
         var message = ""
@@ -185,6 +185,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         intent = Intent(this, ActivitySplash::class.java)
         intent.putExtra("order_id", id)
         intent.putExtra("typeId", typeId)
+        intent.putExtra("fromNotf",1)
         intent.putExtra("text", messageBody)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, MyApplication.UNIQUE_REQUEST_CODE++, intent, PendingIntent.FLAG_ONE_SHOT)

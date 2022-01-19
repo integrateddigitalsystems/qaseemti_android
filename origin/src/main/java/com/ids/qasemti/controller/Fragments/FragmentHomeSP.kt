@@ -269,6 +269,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         }
         rlUpcoming.onOneClick {
             MyApplication.fromFooterOrder = false
+            MyApplication.fromHome = true
             MyApplication.selectedFragment = FragmentOrders()
             (requireActivity() as ActivityHome?)!!.addFrag(
                 FragmentOrders(),
@@ -365,6 +366,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                         loading.hide()
                         if (!swAvailable.isChecked)
                             setNotAvailable()
+                        else
+                            setOrders()
                     } catch (ex: Exception) {
 
                     }

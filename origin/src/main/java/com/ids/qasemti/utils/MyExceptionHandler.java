@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.ids.qasemti.controller.Activities.ActivitySplash;
@@ -28,6 +29,7 @@ public class MyExceptionHandler implements Thread.UncaughtExceptionHandler {
         //FirebaseCrashlytics.getInstance().recordException(ex)
 
         Intent intent = new Intent(activity, ActivitySplash.class);
+        Log.w("excCaught", ex.toString());
         intent.putExtra("crash", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK

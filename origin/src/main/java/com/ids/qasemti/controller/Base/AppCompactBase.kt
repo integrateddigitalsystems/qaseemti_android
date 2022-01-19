@@ -34,9 +34,10 @@ open class AppCompactBase : AppCompatActivity() , LifecycleObserver {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppHelper.handleCrashes(this)
         super.onCreate(savedInstanceState)
         AppHelper.setLocal(this)
-        AppHelper.handleCrashes(this)
+
     }
 
 

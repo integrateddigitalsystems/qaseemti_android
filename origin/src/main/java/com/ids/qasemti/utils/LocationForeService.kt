@@ -105,12 +105,14 @@ class LocationForeService : Service() {
 
         locationCallback = object : LocationCallback() {
 
-            override fun onLocationResult(locationResult: LocationResult?) {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+
                 locationResult ?: return
                 try {
                     locationResult.lastLocation
-                 /*   doc!!.update("order_laltitude", locationResult.lastLocation.latitude.toString())
-                    doc!!.update("order_longitude", locationResult.lastLocation.longitude.toString())*/
+                    /*   doc!!.update("order_laltitude", locationResult.lastLocation.latitude.toString())
+                       doc!!.update("order_longitude", locationResult.lastLocation.longitude.toString())*/
 
                     val intent = Intent(ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
                     intent.putExtra(EXTRA_LOCATION, currentLocation)
@@ -127,6 +129,8 @@ class LocationForeService : Service() {
                     Log.wtf("", ex.toString())
                 }
             }
+
+
         }
     }
 

@@ -69,9 +69,10 @@ open class ActivityBase : Activity() , LifecycleObserver {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        AppHelper.handleCrashes(this)
         super.onCreate(savedInstanceState)
         AppHelper.setLocal(this)
-        AppHelper.handleCrashes(this)
+
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
 
         /*if(this is ActivitySettlements){

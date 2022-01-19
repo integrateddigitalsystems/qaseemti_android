@@ -81,21 +81,6 @@ class LocationUpdatesService : Service() {
 
         mLocationCallback = object : LocationCallback() {
 
-            override fun onLocationResult(locationResult: LocationResult?) {
-                locationResult ?: return
-                try {
-                    locationResult.lastLocation
-                  /*  doc!!.update("order_laltitude", locationResult.lastLocation.latitude.toString())
-                    doc!!.update("order_longitude", locationResult.lastLocation.longitude.toString())*/
-
-                    val intent = Intent(ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
-                    intent.putExtra(EXTRA_LOCATION, locationResult.lastLocation)
-                    LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
-                    onNewLocation(locationResult.lastLocation)
-                } catch (ex: Exception) {
-                    Log.wtf("", ex.toString())
-                }
-            }
         }
         createLocationRequest()
         lastLocation
@@ -119,7 +104,7 @@ class LocationUpdatesService : Service() {
         try {
             // TODO: Step 1.5, Subscribe to location changes.
             mFusedLocationClient!!.requestLocationUpdates(
-                mLocationRequest, mLocationCallback, Looper.getMainLooper())
+                mLocationRequest!!, mLocationCallback!!, Looper.getMainLooper())
         } catch (unlikely: SecurityException) {
             MyApplication.saveLocationTracking = true
             Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
@@ -134,7 +119,7 @@ class LocationUpdatesService : Service() {
         )
 
         // We got here because the user decided to remove location updates from the notification.
-        if (startedFromNotification) {
+        if (startedFromNotification!!) {
             removeLocationUpdates()
             stopSelf()
         }
@@ -194,8 +179,8 @@ class LocationUpdatesService : Service() {
         startService(Intent(applicationContext, LocationUpdatesService::class.java))
         try {
             mFusedLocationClient!!.requestLocationUpdates(
-                mLocationRequest,
-                mLocationCallback, Looper.myLooper()
+                mLocationRequest!!,
+                mLocationCallback!!, Looper.myLooper()!!
             )
         } catch (unlikely: SecurityException) {
             Utils.setRequestingLocationUpdates(this, false)
@@ -210,7 +195,7 @@ class LocationUpdatesService : Service() {
     fun removeLocationUpdates() {
         Log.i(TAG, "Removing location updates")
         try {
-            mFusedLocationClient!!.removeLocationUpdates(mLocationCallback)
+            mFusedLocationClient!!.removeLocationUpdates(mLocationCallback!!)
             Utils.setRequestingLocationUpdates(this, false)
             stopSelf()
         } catch (unlikely: SecurityException) {
@@ -351,7 +336,7 @@ class LocationUpdatesService : Service() {
         try {
             // TODO: Step 1.5, Subscribe to location changes.
             mFusedLocationClient!!.requestLocationUpdates(
-                mLocationRequest, mLocationCallback, Looper.getMainLooper())
+                mLocationRequest!!, mLocationCallback!!, Looper.getMainLooper())
         } catch (unlikely: SecurityException) {
            MyApplication.saveLocationTracking = true
             Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")

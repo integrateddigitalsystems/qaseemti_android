@@ -23,6 +23,11 @@
         <include layout="@layout/curve_layout_home"/>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btCRash"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"/>
+
         <androidx.cardview.widget.CardView
             android:layout_marginTop="@dimen/medium_push_3"
             android:layout_below="@id/llCurve"
@@ -818,6 +823,7 @@
                         android:paddingStart="@dimen/normal_margin"
                         android:paddingEnd="@dimen/normal_margin"
                         android:maxLines="1"
+                        android:visibility="gone"
                         android:inputType="text"
                         android:hint="@string/Floor"
                         android:id="@+id/etFloor"
@@ -854,6 +860,7 @@
                         android:textColor="@color/gray_font"
                         android:layout_marginTop="@dimen/normal_margin"
                         android:maxLines="1"
+                        android:visibility="gone"
                         android:inputType="text"
                         android:paddingStart="@dimen/normal_margin"
                         android:paddingEnd="@dimen/normal_margin"

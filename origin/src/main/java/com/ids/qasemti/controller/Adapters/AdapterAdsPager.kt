@@ -55,8 +55,11 @@ internal class AdapterAdsPager(
         ivFile.loadImagesUrlResize(arrayList[position].bannerImageURL!!)
         if (!arrayList[position].bannerImageURL!!.isNullOrEmpty()) {
             ivFile.setOnClickListener {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(arrayList.get(position).siteUrl))
-                context.startActivity(browserIntent)
+                try {
+                    val browserIntent =
+                        Intent(Intent.ACTION_VIEW, Uri.parse(arrayList.get(position).siteUrl))
+                    context.startActivity(browserIntent)
+                }catch (ex:Exception){}
                 /*MyApplication.selectedImage=arrayList[position].bannerImageURL!!
                 val bottom_fragment = FragmentBottomSheetImage()
                 bottom_fragment.show(supportFragmentManager,"frag_image")*/

@@ -125,6 +125,7 @@ class MyApplication : Application() {
         var isEditService : Boolean = false
         var fromSplash : Boolean = false
         var fromFooterOrder : Boolean = true
+        var fromHome : Boolean = false
         var localizeArray: FirebaseLocalizeArray ?= null
         var kuwaitGovs : ArrayList<ResponseGovernant> = arrayListOf()
         var arrayCart : ArrayList<RequestPlaceOrder> = arrayListOf()

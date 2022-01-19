@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.AdapterAdsPager
@@ -35,9 +36,8 @@ import com.google.android.youtube.player.internal.r
 import com.google.android.youtube.player.internal.t
 
 import com.google.android.youtube.player.internal.l
-
-
-
+import kotlinx.android.synthetic.main.fragment_home_client.tbMedia
+import kotlinx.android.synthetic.main.fragment_service_details.*
 
 
 class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
@@ -142,6 +142,28 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
             showPopupSocialMedia()
         }
 
+        rvServices.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val topRowVerticalPosition =
+                    if (recyclerView == null || recyclerView.childCount == 0) 0 else recyclerView.getChildAt(
+                        0
+                    ).top
+                listHomeClient.setEnabled(topRowVerticalPosition >= 0)
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
+
+
+
+        listHomeClient.setOnRefreshListener {
+            listHomeClient.isRefreshing = false
+            getBanners()
+            getServices(false)
+        }
+
 
 
         AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "", R.color.white)
@@ -171,7 +193,9 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
                     lifecycle,
                     requireActivity().supportFragmentManager
                 )
+                tbMedia.setupWithViewPager(vpAdsClient)
                 vpAdsClient.adapter = adapterPager
+
             }else{
                 linearHomeClient.hide()
                 val p = listHomeClient.getLayoutParams() as ViewGroup.MarginLayoutParams
@@ -526,6 +550,10 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
             }
 
 
+        }catch (ex:Exception){}
+
+        try {
+            listHomeClient.isRefreshing = false
         }catch (ex:Exception){}
 
         if(isTimer){

@@ -8,10 +8,7 @@ import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.FragmentAccount
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.model.RequestOTP
-import com.ids.qasemti.model.ResponseConfiguration
-import com.ids.qasemti.model.ResponseUpdate
-import com.ids.qasemti.model.ResponseUser
+import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_mobile_registration.*
 import kotlinx.android.synthetic.main.activity_register.*
@@ -114,22 +111,47 @@ class ActivityRegistration : ActivityBase() , ApiListener{
     }
   }
 
+
+  fun setNotificationType(available : Int ){
+    var newReq = RequestNotificationUpdate(MyApplication.userId,available)
+    RetrofitClient.client?.create(RetrofitInterface::class.java)
+      ?.updateNotification(newReq)?.enqueue(object : Callback<ResponseCancel> {
+        override fun onResponse(call: Call<ResponseCancel>, response: Response<ResponseCancel>) {
+          try{
+            logw("NOTFRES","succ")
+          }catch (E: java.lang.Exception){
+            logw("NOTFRES","catch")
+          }
+        }
+        override fun onFailure(call: Call<ResponseCancel>, throwable: Throwable) {
+          logw("NOTFRES","failed")
+        }
+      })
+  }
+
+
   fun nextStep() {
+    setNotificationType(1)
     loading.hide()
     if(!MyApplication.isClient) {
       MyApplication.register = true
       MyApplication.selectedPos = 4
       MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
       MyApplication.selectedFragment = FragmentAccount()
-      startActivity(Intent(this, ActivityAccountStatus::class.java))
+     // startActivity(Intent(this, ActivityAccountStatus::class.java))
     }else{
       MyApplication.selectedPos = 2
       if(MyApplication.selectedFragmentTag.isNullOrEmpty() && MyApplication.selectedFragment==null) {
         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
         MyApplication.selectedFragment = FragmentHomeClient()
       }
-      startActivity(Intent(this, ActivityAccountStatus::class.java))
+     // startActivity(Intent(this, ActivityAccountStatus::class.java))
     }
+
+    MyApplication.phoneNumber = MyApplication.selectedPhone
+    MyApplication.isSignedIn = true
+    MyApplication.firstTime = false
+    AppHelper.goHome(this)
   }
 
 
