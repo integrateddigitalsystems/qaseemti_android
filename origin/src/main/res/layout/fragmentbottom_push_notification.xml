@@ -94,7 +94,9 @@
     <com.ids.qasemti.custom.CustomTextViewMedium
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal_margin"
         android:textSize="@dimen/normal_font"
+        android:gravity="center"
         android:tag="@string/find_your_updates"
         android:text="@string/find_your_updates"
         android:textColor="@color/gray_font"/>

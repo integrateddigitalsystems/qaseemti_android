@@ -66,6 +66,7 @@
     <color name="gray_font_light">#b5b5b5</color>
     <color name="trans">#4D000000</color>
     <color name="gray_font_title">#606060</color>
+    <color name="second_blue">#3b3760</color>
 
     <color name="gray_progress">#e6e6e6</color>
     <color name="green">#00d42f</color>

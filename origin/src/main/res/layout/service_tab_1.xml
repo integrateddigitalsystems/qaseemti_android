@@ -72,10 +72,9 @@
             android:id="@+id/spService"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overlapAnchor="false"
-            android:gravity="center_vertical"
             android:background="@color/transparent"
-            />
+            android:gravity="center_vertical"
+            android:overlapAnchor="false" />
 
         <ImageView
             android:layout_marginEnd="@dimen/first_margin"
