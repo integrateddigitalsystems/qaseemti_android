@@ -1347,7 +1347,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                 ivProfile.loadRoundedLocalImage(file)
                                 selectedProfilePic = MultipartBody.Part.createFormData(
                                     if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
-                                    file.name + "File",
+                                    file.name,
                                     req
                                 )
                             }

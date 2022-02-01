@@ -36,6 +36,9 @@ object RetrofitClient{
                 .setLenient()
                 .create()
             okHttpClient = getOkHttpBuilder()
+                .connectTimeout(5, TimeUnit.MINUTES) // connect timeout
+                .writeTimeout(5, TimeUnit.MINUTES) // write timeout
+                .readTimeout(5, TimeUnit.MINUTES)
                 // Other parameters like connectTimeout(15, TimeUnit.SECONDS)
                 .build()
 
@@ -62,9 +65,9 @@ object RetrofitClient{
 
             return okHttpClient!!.newBuilder()
                 // .addNetworkInterceptor()
-                .connectTimeout(5, TimeUnit.MINUTES) // connect timeout
-                .writeTimeout(5, TimeUnit.MINUTES) // write timeout
-                .readTimeout(5, TimeUnit.MINUTES)
+         /*       .connectTimeout(30, TimeUnit.SECONDS) // connect timeout
+                .writeTimeout(30, TimeUnit.SECONDS) // write timeout
+                .readTimeout(30, TimeUnit.SECONDS)*/
                 .build()
 
 

@@ -317,7 +317,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     fun getOrders(timer: Boolean) {
 
-        loading.show()
+      //  loading.show()
         try {
             slRefreshBroad.isRefreshing = false
         } catch (ex: Exception) {
@@ -363,6 +363,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
                 override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
                     try {
+                        logw("Error_Load",throwable.toString())
                         loading.hide()
                         if (!swAvailable.isChecked)
                             setNotAvailable()

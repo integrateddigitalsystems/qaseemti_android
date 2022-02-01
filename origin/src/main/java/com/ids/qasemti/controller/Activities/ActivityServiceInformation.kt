@@ -258,7 +258,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
                         var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                         var selectedFile = MultipartBody.Part.createFormData(
                             ApiParameters.FILE,
-                            file.name + "File",
+                            file.name,
                             req
                         )
                         arrayRequiredFiles[requireFilePosition].multipart = selectedFile
