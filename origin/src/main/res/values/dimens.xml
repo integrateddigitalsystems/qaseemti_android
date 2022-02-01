@@ -37,6 +37,7 @@
     <dimen name="icon">20dp</dimen>
     <dimen name="icon_1">22dp</dimen>
     <dimen name="icon_2">25dp</dimen>
+    <dimen name="toolbar_extra">90dp</dimen>
     <dimen name="normal_icon_size">30dp</dimen>
     <dimen name="big_icon_size">35dp</dimen>
     <dimen name="bigger_icon_size">50dp</dimen>

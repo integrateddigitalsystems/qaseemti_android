@@ -81,9 +81,13 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 import androidx.core.content.ContextCompat.getSystemService
-
-
-
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.google.common.reflect.TypeToken
+import com.google.gson.GsonBuilder
+import kotlinx.android.synthetic.main.layout_profile.*
+import kotlinx.android.synthetic.main.loading.*
 
 
 /**
@@ -310,6 +314,36 @@ class AppHelper {
                 return connectivityManager.activeNetworkInfo?.isConnected ?: false
             }
         }
+        fun updateStatus(orderId: Int, onTrack: Boolean, delivered: Boolean, paid: Boolean,rel : ReloadData,loading : LinearLayout,otherSwitch : SwitchCompat) {
+            loading.show()
+            var newReq = RequestUpdateOrder(orderId, onTrack, delivered, paid)
+            RetrofitClient.client?.create(RetrofitInterface::class.java)
+                ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
+                    override fun onResponse(
+                        call: Call<ResponseUpdate>,
+                        response: Response<ResponseUpdate>
+                    ) {
+                        try {
+                            if(delivered && paid) {
+                                rel.reload()
+                            }else{
+                                if(otherSwitch!=null){
+                                    loading.hide()
+                                    otherSwitch.isChecked = true
+                                    otherSwitch.callOnClick()
+                                }
+
+                            }
+                        } catch (E: java.lang.Exception) {
+                            Log.wtf("Exp", E.toString())
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                        Log.wtf("Exp", throwable.toString())
+                    }
+                })
+        }
         fun updateStatus(orderId: Int, onTrack: Boolean, delivered: Boolean, paid: Boolean,rel : ReloadData,loading : LinearLayout) {
             loading.show()
             var newReq = RequestUpdateOrder(orderId, onTrack, delivered, paid)
@@ -320,7 +354,11 @@ class AppHelper {
                         response: Response<ResponseUpdate>
                     ) {
                         try {
-                            rel.reload()
+                            if(delivered && paid)
+                                rel.reload()
+                            else{
+                                loading.hide()
+                            }
                         } catch (E: java.lang.Exception) {
                             Log.wtf("Exp", E.toString())
                         }
@@ -359,60 +397,82 @@ class AppHelper {
         }
 
         fun clearTabs(tablayout: TabLayout, context: Context) {
-            //repeat(5) { tablayout.addTab(tablayout.newTab()) }
-            val tabStrip = tablayout.getChildAt(0) as LinearLayout
-            for (i in 0 until tabStrip.childCount) {
-                tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
-                val tab = tabStrip.getChildAt(i)
-                val layoutParams = tab.layoutParams as LinearLayout.LayoutParams
-                layoutParams.marginEnd = 8.toPx()
-                layoutParams.marginStart = 8.toPx()
-                layoutParams.width = 12.toPx()
-                tab.layoutParams = layoutParams
-                tablayout.requestLayout()
+            try {
+                //repeat(5) { tablayout.addTab(tablayout.newTab()) }
+                val tabStrip = tablayout.getChildAt(0) as LinearLayout
+                for (i in 0 until tabStrip.childCount) {
+                    tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
+                    val tab = tabStrip.getChildAt(i)
+                    val layoutParams = tab.layoutParams as LinearLayout.LayoutParams
+                    layoutParams.marginEnd = 8.toPx()
+                    layoutParams.marginStart = 8.toPx()
+                    layoutParams.width = 12.toPx()
+                    tab.layoutParams = layoutParams
+                    tablayout.requestLayout()
+                }
+            }catch (ex:Exception){
+                logw("frame_error",ex.toString())
+
             }
         }
 
         fun setTabs(tablayout: TabLayout, context: Context) {
-            repeat(5) { tablayout.addTab(tablayout.newTab()) }
-            val tabStrip = tablayout.getChildAt(0) as LinearLayout
-            for (i in 0 until tabStrip.childCount) {
-                tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
-                val tab = tabStrip.getChildAt(i)
-                val layoutParams = tab.layoutParams as LinearLayout.LayoutParams
-                layoutParams.marginEnd = 8.toPx()
-                layoutParams.marginStart = 8.toPx()
-                layoutParams.width = 12.toPx()
-                tab.layoutParams = layoutParams
-                tablayout.requestLayout()
-                /*val v: View = LayoutInflater.from(context).inflate(R.layout.footer_top, null)
+            try {
+                repeat(5) { tablayout.addTab(tablayout.newTab()) }
+                val tabStrip = tablayout.getChildAt(0) as LinearLayout
+                for (i in 0 until tabStrip.childCount) {
+                    tabStrip.getChildAt(i).setOnTouchListener { v, _ -> true }
+                    val tab = tabStrip.getChildAt(i)
+                    val layoutParams = tab.layoutParams as LinearLayout.LayoutParams
+                    layoutParams.marginEnd = 8.toPx()
+                    layoutParams.marginStart = 8.toPx()
+                    layoutParams.width = 12.toPx()
+                    tab.layoutParams = layoutParams
+                    tablayout.requestLayout()
+                    /*val v: View = LayoutInflater.from(context).inflate(R.layout.footer_top, null)
                 v.layoutParams =
                     ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
                     )
                 tablayout.getTabAt(i)!!.setCustomView(v)*/
+                }
+            }catch (ex:Exception){
+                logw("frame_error",ex.toString())
+
             }
         }
 
 
-        fun resetIcons(context: Context, vararg images: ImageView?) {
-            for (element in images) {
-                element!!.setPadding(0, 0, 0, 0)
-                element!!.layoutParams = LinearLayout.LayoutParams(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        20f,
-                        context.resources.displayMetrics
-                    ).toInt(),
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        20f,
-                        context.resources.displayMetrics
-                    ).toInt()
-                )
-            }
+        fun appDead(context: Context): Boolean {
+            val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            val runningAppProcesses = activityManager.runningAppProcesses ?: return false
+            return runningAppProcesses.any { it.processName == context.packageName && it.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_GONE }
+        }
 
+
+        fun resetIcons(context: Context, vararg images: ImageView?) {
+            try {
+                for (element in images) {
+                    element!!.setPadding(0, 0, 0, 0)
+                    element!!.layoutParams = LinearLayout.LayoutParams(
+                        TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            30f,
+                            context.resources.displayMetrics
+                        ).toInt(),
+                        TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            20f,
+                            context.resources.displayMetrics
+                        ).toInt()
+                    )
+                }
+
+            }catch (ex:Exception){
+                logw("frame_error",ex.toString())
+
+            }
         }
 
         fun getVersionNumber(): Int {
@@ -584,23 +644,29 @@ class AppHelper {
         }
 
         fun setImageHeight(context: Context, icon: ImageView) {
-            icon.layoutParams = LinearLayout.LayoutParams(
-                TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    30f,
-                    context.resources.displayMetrics
-                ).toInt(),
-                TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    30f,
-                    context.resources.displayMetrics
-                ).toInt()
-            )
+            try {
+                icon.layoutParams = LinearLayout.LayoutParams(
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        36f,
+                        context.resources.displayMetrics
+                    ).toInt(),
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        36f,
+                        context.resources.displayMetrics
+                    ).toInt()
+                )
+            }catch (ex:Exception){
+                logw("frame_error",ex.toString())
+
+            }
         }
 
 
         fun handleCrashes(context: Activity) {
             //   if (!MyApplication.isDebug)
+            Thread.getDefaultUncaughtExceptionHandler()
             Thread.setDefaultUncaughtExceptionHandler(MyExceptionHandler(context))
         }
 
@@ -679,12 +745,49 @@ class AppHelper {
             val appPackageName: String = activity.packageName
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
+
             sendIntent.putExtra(
                 Intent.EXTRA_TEXT,
-                "Check out the App at: https://play.google.com/store/apps/details?id=$appPackageName"
+                "Check out the App at: https://play.google.com/store/apps/details?id=com.ids.qasemti"
             )
             sendIntent.type = "text/plain"
             activity.startActivity(sendIntent)
+        }
+
+        fun imageLoading(view:ImageView,loading:LinearLayout , url : String , context: Context){
+
+            loading.show()
+            val options: RequestOptions = RequestOptions()
+                .centerCrop()
+                .placeholder(R.color.gray_medium_2)
+                .error(R.color.gray_medium_2)
+            loading.show()
+            Glide.with(context).load(url).apply(options)
+                .listener(object : RequestListener<Drawable?> {
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable?>?,
+                        dataSource: com.bumptech.glide.load.DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        loading.hide()
+                        return true
+                    }
+
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable?>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+
+                        return false
+
+                    }
+
+                })
+                .into(view)
         }
 
 
@@ -738,7 +841,7 @@ class AppHelper {
                     setTextColor(context, tvHom, R.color.primary)
                 }
                 AppConstants.FRAGMENT_ORDER -> {
-                    MyApplication.selectedTitle = getRemoteString("orders", context)
+                    MyApplication.selectedTitle = getRemoteString("Orders", context)
                     setLogoTint(imgOrd, context, R.color.primary)
                     setTextColor(context, tvOrd, R.color.primary)
                 }
@@ -764,6 +867,7 @@ class AppHelper {
         fun openAppInPlayStore(activity: Activity) {
             val appPackageName = activity.packageName
             try {
+                activity.finish()
                 activity.startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
@@ -771,16 +875,17 @@ class AppHelper {
                     )
                 )
 
-                activity.finish()
+
 
             } catch (anfe: android.content.ActivityNotFoundException) {
+                activity.finish()
                 activity.startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
                         Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
                     )
                 )
-                activity.finish()
+
 
             }
         }
@@ -886,6 +991,8 @@ class AppHelper {
             alert.show()
 
         }
+
+
 
         fun createYesNoDialog(
             c: Activity,
@@ -1007,6 +1114,14 @@ class AppHelper {
         }
 
 
+        fun toGsonArrString(){
+           MyApplication.trackOrderIdList = Gson().toJson(MyApplication.listOrderTrack)
+        }
+
+        fun GsontoArrString(){
+            val gson = GsonBuilder().create()
+            MyApplication.listOrderTrack = gson.fromJson<ArrayList<String>>(MyApplication.trackOrderIdList, object : TypeToken<ArrayList<String>>(){}.type)
+        }
 
         fun sha256(str:String):String{
             var byte = org.apache.commons.codec.digest.DigestUtils.sha256(str)
@@ -1014,6 +1129,21 @@ class AppHelper {
 
 
         }
+
+        fun isAppRunning(context: Context) : Boolean {
+            var activityManager =  context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+           var procInfos = activityManager.getRunningAppProcesses();
+            if (procInfos != null)
+            {
+                for (processInfo in procInfos) {
+                if (processInfo.processName.equals(context.packageName)) {
+                    return true;
+                }
+            }
+            }
+            return false;
+        }
+
 
         fun setSwitchColor(sw: SwitchCompat, con: Context) {
 
@@ -1229,6 +1359,15 @@ class AppHelper {
 
             return str
 
+        }
+
+        fun triggerRebirth(context: Context) {
+            val packageManager = context.packageManager
+            val intent = packageManager.getLaunchIntentForPackage(context.packageName)
+            val componentName = intent!!.component
+            val mainIntent = Intent.makeRestartActivityTask(componentName)
+            context.startActivity(mainIntent)
+            Runtime.getRuntime().exit(0)
         }
 
         fun changeLanguage(context: Context, language: String) {

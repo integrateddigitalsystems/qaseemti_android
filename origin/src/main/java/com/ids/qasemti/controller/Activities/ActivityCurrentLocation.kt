@@ -8,12 +8,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class ActivityCurrentLocation : ActivityBase(), OnMapReadyCallback {
+class ActivityCurrentLocation : AppCompactBase(), OnMapReadyCallback {
 
 
     var gmap : GoogleMap? = null

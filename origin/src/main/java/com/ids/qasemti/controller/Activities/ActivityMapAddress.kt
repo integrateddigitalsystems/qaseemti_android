@@ -61,6 +61,7 @@ import androidx.fragment.app.FragmentActivity
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.gms.common.api.ApiException
+import com.ids.qasemti.controller.Base.ActivityBase
 
 
 class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
@@ -504,13 +505,13 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
 
     fun setUpMap(){
         latLng = startLatLng
-        google!!.moveCamera(CameraUpdateFactory.newLatLng(latLng!!))
+        google!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng!!,12.0f))
         val markerOptions = MarkerOptions()
         markerOptions.position(latLng!!)
         google!!.addMarker(markerOptions)
 
         google!!.setOnMapClickListener {
-            google!!.moveCamera(CameraUpdateFactory.newLatLng(it))
+            google!!.animateCamera(CameraUpdateFactory.newLatLng(it))
             latLng = LatLng(it.latitude,it.longitude)
             val marker = MarkerOptions()
             marker.position(it)
@@ -547,7 +548,6 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
 
     override fun onMapReady(googleMap: GoogleMap) {
         gmap = googleMap
-        gmap!!.setMinZoomPreference(9f)
 
         if (!seeOnly) {
             google = gmap
@@ -688,14 +688,14 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
                 toAdd = false
                 loading.show()
                 latLng = place.latLng
-                gmap!!.moveCamera(CameraUpdateFactory.newLatLng(place.latLng))
+                gmap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(place.latLng!!, 12.0f))
                 val marker = MarkerOptions()
-                marker.position(place.latLng)
+                marker.position(place.latLng!!)
                 gmap!!.clear()
                 gmap!!.addMarker(marker)
                 hideSoftKeyboard()
                 myDialog!!.dismiss()
-                CallAPIs.getAddressName(place.latLng, this, this)
+                CallAPIs.getAddressName(place.latLng!!, this, this)
 
             }.addOnFailureListener { exception ->
                 if (exception is ApiException) {

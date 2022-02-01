@@ -8,6 +8,7 @@ import android.app.TimePickerDialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -30,6 +31,7 @@ import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Adapters.AdapterOrderData
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.controller.MyApplication.Companion.foregroundOnlyLocationService
 import com.ids.qasemti.model.*
@@ -56,7 +58,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener {
+class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListener {
 
     var dialog: Dialog? = null
     var cancelReasons: ArrayList<BankItem> = arrayListOf()
@@ -107,26 +109,32 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
            )*/
         //   sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
-        MyApplication.serviceContext = this
-        val serviceIntent = Intent(this, LocationForeService::class.java)
-        bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
+        if(!MyApplication.isClient) {
+            MyApplication.serviceContext = this
+            val serviceIntent = Intent(this, LocationForeService::class.java)
+            bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
+        }
 
     }
 
     override fun onResume() {
         super.onResume()
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            foregroundOnlyBroadcastReceiver,
-            IntentFilter(
-                LocationForeService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST
+        if(!MyApplication.isClient) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(
+                foregroundOnlyBroadcastReceiver,
+                IntentFilter(
+                    LocationForeService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST
+                )
             )
-        )
+        }
     }
 
     override fun onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(
-            foregroundOnlyBroadcastReceiver
-        )
+        if(!MyApplication.isClient) {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(
+                foregroundOnlyBroadcastReceiver
+            )
+        }
         super.onPause()
     }
 
@@ -147,7 +155,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             foregroundOnlyLocationService = binder.foreService
             foregroundOnlyLocationServiceBound = true
             if (MyApplication.saveLocationTracking!!)
-                changeState(true)
+                changeState(true,0)
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
@@ -162,7 +170,9 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
         setListeners()
 
 
-        foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
+        if(!MyApplication.isClient) {
+            foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
+        }
         //  startServicing()
         init()
     }
@@ -191,37 +201,51 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
     }
 
 
-    fun changeState(track: Boolean) {
+    fun changeState(track: Boolean,indx : Int) {
 
+        var gps_enabled = false
+        var mLocationManager =
+            getSystemService(LOCATION_SERVICE) as LocationManager
 
-        if (!track) {
-            MyApplication.saveLocationTracking = false
-            try {
-                foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
-                val intent = Intent()
-                intent.setClass(this, LocationForeService::class.java)
-                stopService(intent)
-            } catch (ex: Exception) {
-            }
-        } else {
-            try {
-                // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
-                if (foregroundPermissionApproved()) {
-                    MyApplication.saveLocationTracking = true
-                    foregroundOnlyLocationService?.subscribeToLocationUpdates()
-                        ?: Log.d(TAG, "Service Not Bound")
-                } else {
-                    AppHelper.createYesNoDialog(
-                        this,
-                        AppHelper.getRemoteString("ok", this),
-                        AppHelper.getRemoteString("cancel", this),
-                        AppHelper.getRemoteString("permission_background_android", this)
-                    ) {
-                        requestForegroundPermissions()
-                    }
+        try {
+            gps_enabled = mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+        }
+
+        if(gps_enabled) {
+
+            if (!track) {
+                MyApplication.selectedOrderRemoveIndex = indx
+                MyApplication.saveLocationTracking = false
+                try {
+                    foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+                    val intent = Intent()
+                    intent.setClass(this, LocationForeService::class.java)
+                    stopService(intent)
+                } catch (ex: Exception) {
                 }
-            } catch (ex: Exception) {
+            } else {
+                try {
+                    // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+                    if (foregroundPermissionApproved()) {
+                        MyApplication.saveLocationTracking = true
+                        foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                            ?: Log.d(TAG, "Service Not Bound")
+                    } else {
+                        AppHelper.createYesNoDialog(
+                            this,
+                            AppHelper.getRemoteString("ok", this),
+                            AppHelper.getRemoteString("cancel", this),
+                            AppHelper.getRemoteString("permission_background_android", this)
+                        ) {
+                            requestForegroundPermissions()
+                        }
+                    }
+                } catch (ex: Exception) {
+                }
             }
+        }else{
+            AppHelper.createDialog(this,AppHelper.getRemoteString("GpsDisabled",this))
         }
     }
 
@@ -317,11 +341,32 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             super.onBackPressed()
         }
         if (MyApplication.isBroadcast) {
+            loading.show()
             MyApplication.isBroadcast = false
             btAcceptOrder.show()
+            btCancelOrder.hide()
+            llEditOrderTime.hide()
+         //   setOrderData()
+            CallAPIs.getOrderByOrderIdBroad(orderId,MyApplication.userId,this)
+        }else{
+            loading.show()
+            CallAPIs.getOrderByOrderId(orderId, this)
         }
 
-        var type = intent.getIntExtra("type", 1)
+        try {
+            var type = intent.getIntExtra("type", 1)
+        }catch (ex:Exception){}
+
+        tvLocationOrderDeatils.setColorTypeface(this, R.color.primary, "", false)
+
+
+
+
+        //setOrderData()
+    }
+
+
+    private fun setOrderData() {
         try {
             typeSelected = MyApplication.selectedOrder!!.orderStatus
         } catch (e: Exception) {
@@ -364,20 +409,28 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             } catch (e: Exception) {
             }
         }
-        if (typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE)) {
+        if (typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE) || typeSelected.equals(AppConstants.ORDER_TYPE_UPCOMING)) {
             if (!MyApplication.isClient) {
 
                 if (MyApplication.selectedOrder!!.vendor == null || MyApplication.selectedOrder!!.vendor!!.userId == null) {
 
-                       llOrderSwitches.hide()
-                       btCancelOrder.hide()
-                       llDetailsCallMessage.hide()
+                    llOrderSwitches.hide()
+                    btCancelOrder.hide()
+                    llDetailsCallMessage.hide()
 
                 } else {
-                    llEditOrderTime.show()
+                    if(!MyApplication.selectedOrder!!.delivered!!)
+                        llEditOrderTime.show()
+                  /*  if(MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty()){
+                        llEditOrderTime.hide()
+                        //btCancelOrder.hide()
+                    }*/
                     btCancelOrder.show()
                     llDetailsCallMessage.show()
-                    llOrderSwitches.show()
+                    if(!MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty() && typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE))
+                        llOrderSwitches.show()
+                    else
+                        llOrderSwitches.hide()
                 }
             } else {
                 if (!MyApplication.selectedOrder!!.newDeliveryDate.isNullOrEmpty()) {
@@ -392,12 +445,18 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
                 }
                 llEditOrderTime.hide()
                 llOrderSwitches.hide()
+
+                if (MyApplication.selectedOrder!!.vendor == null || MyApplication.selectedOrder!!.vendor!!.userId == null) {
+
+
+                }else{
+                    btCancelOrder.show()
+                }
             }
             llRatingOrder.hide()
             llActualDelivery.hide()
         } else if (typeSelected.equals(AppConstants.ORDER_TYPE_COMPLETED)) {
             llRatingOrder.show()
-            llOrderSwitches.show()
             btCancelOrder.hide()
             llActualDelivery.show()
             llOrderSwitches.hide()
@@ -433,16 +492,6 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             btRenewOrder.hide()
         }
 
-        tvLocationOrderDeatils.setColorTypeface(this, R.color.primary, "", false)
-
-
-        loading.show()
-        CallAPIs.getOrderByOrderId(MyApplication.selectedOrder!!.orderId!!.toInt(), this)
-        //setOrderData()
-    }
-
-
-    private fun setOrderData() {
         tvDateExpected.setColorTypeface(this, R.color.gray_font_title, "", true)
         var array: ArrayList<OrderData> = arrayListOf()
         var langType = ""
@@ -522,9 +571,16 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             if (!MyApplication.isClient)
                 tvOrderCustomerName.text =
                     MyApplication.selectedOrder!!.customer!!.first_name + " " + MyApplication.selectedOrder!!.customer!!.last_name
-            else
-                tvOrderCustomerName.text =
-                    MyApplication.selectedOrder!!.vendor!!.firstName + " " + MyApplication.selectedOrder!!.vendor!!.lastName
+            else {
+                 if(MyApplication.selectedOrder!!.vendor!=null){
+                   try{
+                      tvOrderCustomerName.text = MyApplication.selectedOrder!!.vendor!!.firstName!! + " " + MyApplication.selectedOrder!!.vendor!!.lastName}catch (e:Exception){
+                       tvOrderCustomerName.text = AppHelper.getRemoteString("pending_service_provider",this)
+                   }
+                }else{
+                   tvOrderCustomerName.text = AppHelper.getRemoteString("pending_service_provider",this)
+                }
+            }
         } catch (e: Exception) {
         }
         try {
@@ -535,7 +591,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             tvOrderDateDeet.text = AppHelper.formatDate(
                 MyApplication.selectedOrder!!.date!!,
                 "yyyy-MM-dd hh:mm:ss",
-                "dd MMMM yyyy hh:mm"
+                "dd-MM-yyyy hh:mm"
             )
         } catch (e: Exception) {
         }
@@ -590,6 +646,8 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
         }
         try {
             swOnTrack.isChecked = MyApplication.selectedOrder!!.onTrack!!
+            if(swOnTrack.isChecked)
+                swOnTrack.isEnabled = false
             AppHelper.setSwitchColor(swOnTrack, this)
         } catch (ex: java.lang.Exception) {
         }
@@ -686,6 +744,7 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             MyApplication.selectedOrder!!.shipping_address_building,
             MyApplication.selectedOrder!!.shipping_address_floor,
             MyApplication.selectedOrder!!.shipping_address_description,
+            MyApplication.languageCode
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.renewOrder(req)?.enqueue(object : Callback<ResponseMessage> {
@@ -1008,7 +1067,10 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
                 ) {
                     if (swOnTrack.isChecked) {
                         MyApplication.saveLocationTracking = true
-                        changeState(true)
+                        MyApplication.listOrderTrack.add(MyApplication.selectedOrder!!.orderId!!)
+                        AppHelper.toGsonArrString()
+                        swOnTrack.isEnabled = true
+                        changeState(true,0)
                         AppHelper.setSwitchColor(swOnTrack, this)
                         onTrack = 1
                     } else {
@@ -1082,7 +1144,9 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
                         }
                         swDelivered.isEnabled = false
                         MyApplication.saveLocationTracking = false
-                        changeState(false)
+                        var indx = MyApplication.listOrderTrack.indexOf(MyApplication.selectedOrder!!.orderId)
+                        if(indx !=-1)
+                            changeState(false,indx)
                         AppHelper.setSwitchColor(swDelivered, this)
                         delivered = 1
                     } else {
@@ -1299,12 +1363,12 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
     fun setSerRating(loading: LinearLayout, description: String, rating: Int) {
         loading.show()
         var newReq = RequestClientReviews(
-            MyApplication.selectedOrder!!.vendor!!.userId!!.toInt(),
             MyApplication.userId,
-            "",
+            MyApplication.selectedOrder!!.customer!!.user_id!!.toInt(),
             description,
-            rating
-
+            description,
+            rating,
+            MyApplication.selectedOrder!!.orderId!!.toInt()
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.setRatingSer(newReq)?.enqueue(object : Callback<ResponseMessage> {
@@ -1337,9 +1401,10 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
             MyApplication.userId,
             MyApplication.selectedUser!!.firstName,//get from user object
             MyApplication.selectedUser!!.email,//get from user object
-            "",//get from user object
+            description,//get from user object
             description,
-            rating
+            rating,
+            MyApplication.selectedOrder!!.orderId!!.toInt()
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.setRating(newReq)?.enqueue(object : Callback<ResponseMessage> {
@@ -1365,7 +1430,12 @@ class ActivityOrderDetails : ActivityBase(), RVOnItemClickListener, ApiListener 
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        MyApplication.selectedOrder = response as ResponseOrders
-        setOrderData()
+        try {
+            MyApplication.selectedOrder = response as ResponseOrders
+            setOrderData()
+        }catch (ex:Exception){
+            logw("OrderError",ex.toString())
+            loading.hide()
+        }
     }
 }

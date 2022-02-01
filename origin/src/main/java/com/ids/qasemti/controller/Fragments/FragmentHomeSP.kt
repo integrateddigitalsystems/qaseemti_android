@@ -1,7 +1,11 @@
 package com.ids.qasemti.controller.Fragments
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -9,6 +13,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -27,13 +36,23 @@ import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
+import kotlin.collections.ArrayList
 
 class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     private var ordersArray: ArrayList<ResponseOrders> = arrayListOf()
     var adapter: AdapterOrders? = null
-    var timer : CountDownTimer ?=null
+    val BLOCKED = -1
+    var trackorders: ArrayList<ResponseOrders> = arrayListOf()
+    var timer: CountDownTimer? = null
+    var mPermissionResult: ActivityResultLauncher<Array<String>>? = null
+    var resultLauncher: ActivityResultLauncher<Intent>? = null
+    val GRANTED = 0
+    val DENIED = 1
+    val BLOCKED_OR_NEVER_ASKED = 2
     var isTimer = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +70,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayoutOrders, requireContext())
+        setUpPermission()
         init()
 
 
@@ -58,31 +78,48 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        loading.show()
-        timer!!.start()
-        checkCallData()
+
+
+        if (MyApplication.toDetails) {
+            MyApplication.isBroadcast = true
+            MyApplication.toDetails = false
+            startActivity(
+                Intent(requireActivity(), ActivityOrderDetails::class.java)
+                    .putExtra("orderId", MyApplication.selectedOrderId)
+            )
+        } else {
+            loading.show()
+            timer!!.start()
+            checkCallData()
+            getAfterOrders()
+        }
+
+
     }
 
-    private fun checkCallData(){
-        if (MyApplication.selectedUser!!.available == null || MyApplication.selectedUser!!.available!!.isEmpty()){
-            setAvailability(1)
-            swAvailable.text = AppHelper.getRemoteString("available", requireContext())
-            swAvailable.isChecked=true
-        }
-        else {
-            if(MyApplication.selectedUser!!.available=="1"){
-                getRating()
-                getData()
-                getOrders(false)
-            }else{
-                loading.hide()
-                slRefreshBroad.hide()
-                llNodata.show()
-                tvNoDataHome.hide()
-                swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
-                if(timer!=null)
-                    timer!!.cancel()
+    private fun checkCallData() {
+        if (MyApplication.selectedUser != null) {
+            if (MyApplication.selectedUser!!.available == null || MyApplication.selectedUser!!.available!!.isEmpty()) {
+                setAvailability(1)
+                swAvailable.text = AppHelper.getRemoteString("available", requireContext())
+                swAvailable.isChecked = true
+            } else {
+                if (MyApplication.selectedUser!!.available == "1") {
+                    getRating()
+                    getData()
+                    getOrders(false)
+                } else {
+                    loading.hide()
+                    slRefreshBroad.hide()
+                    llNodata.show()
+                    tvNoDataHome.hide()
+                    swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
+                    if (timer != null)
+                        timer!!.cancel()
+                }
             }
+        } else {
+            AppHelper.triggerRebirth(requireActivity())
         }
 
     }
@@ -111,10 +148,13 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     call: Call<ResponseCancel>,
                     response: Response<ResponseCancel>
                 ) {
-                    if(available ==1){
-                       getRating()
-                       getData()
-                       getOrders(false)
+                    if (available == 1) {
+                        try {
+                            getRating()
+                            getData()
+                            getOrders(false)
+                        } catch (ex: Exception) {
+                        }
                     }
                 }
 
@@ -136,11 +176,14 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                         if (response.body()!!.rate != null) {
                             rbMainUser.rating =
                                 AppHelper.getFloorRatingBar(response.body()!!.rate!!)
-                            tvRatingValue.text = response.body()!!.rate.toString()
+                            val decimal = BigDecimal(response.body()!!.rate!!).setScale(
+                                1,
+                                RoundingMode.HALF_EVEN
+                            )
+                            tvRatingValue.text = decimal.toString()
                         } else {
-                            tvRatingValue.text = "0"
+                            tvRatingValue.text = "0.0"
                         }
-
                     } catch (E: java.lang.Exception) {
                         // rbMainUser.rating = 0f
                     }
@@ -153,7 +196,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             })
     }
 
-    fun setUpTimer(){
+    fun setUpTimer() {
         timer = object : CountDownTimer(30000, 1015) {
             override fun onTick(millisUntilFinished: Long) {
                 //logw("tick","second")
@@ -174,6 +217,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         //   AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.redPrimary)
         setListeners()
         setUpTimer()
+
+
     }
 
     fun getData() {
@@ -224,6 +269,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         }
         rlUpcoming.onOneClick {
             MyApplication.fromFooterOrder = false
+            MyApplication.fromHome = true
             MyApplication.selectedFragment = FragmentOrders()
             (requireActivity() as ActivityHome?)!!.addFrag(
                 FragmentOrders(),
@@ -234,7 +280,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         }
         try {
             swAvailable.typeface = AppHelper.getTypeFace(requireContext())
-            swAvailable.isChecked =MyApplication.selectedUser!!.available != "0"
+            swAvailable.isChecked = MyApplication.selectedUser!!.available != "0"
         } catch (ex: Exception) {
             swAvailable.isChecked = false
         }
@@ -252,27 +298,32 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                         llNodata.show()
                         tvNoDataHome.hide()
                         setAvailability(0)
-                        swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
+                        swAvailable.text =
+                            AppHelper.getRemoteString("unavailable", requireContext())
                     }
-                }catch (ex:Exception){
+                } catch (ex: Exception) {
 
                 }
-            }else{
+            } else {
                 swAvailable.isChecked = !swAvailable.isChecked
-                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
+                AppHelper.createDialog(
+                    requireActivity(),
+                    AppHelper.getRemoteString("no_internet", requireContext())
+                )
             }
 
         }
     }
 
-    fun getOrders(timer:Boolean) {
+    fun getOrders(timer: Boolean) {
 
+      //  loading.show()
         try {
             slRefreshBroad.isRefreshing = false
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
 
         }
-        if(!timer)
+        if (!timer)
             loading.show()
         var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -282,20 +333,28 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     response: Response<ResponseMainOrder>
                 ) {
                     try {
-                        if(ordersArray.size!=0 && rvOrders.canScrollVertically(-1)){
-                            if(ordersArray.size< response.body()!!.orders!!.size)
-                                Toast.makeText(requireContext(),"New Data Added", Toast.LENGTH_LONG).show()
+                        if (ordersArray.size != 0 && rvOrders.canScrollVertically(-1)) {
+                            if (ordersArray.size < response.body()!!.orders!!.size)
+                                Toast.makeText(
+                                    requireContext(),
+                                    "New Data Added",
+                                    Toast.LENGTH_LONG
+                                ).show()
                         }
                         ordersArray.clear()
                         ordersArray.addAll(response.body()!!.orders)
+
+
                         setOrders()
+
+
                     } catch (E: java.lang.Exception) {
                         try {
                             loading.hide()
-                            if(swAvailable.isChecked)
-                               setOrders()
+                            if (swAvailable.isChecked)
+                                setOrders()
                             else
-                               setNotAvailable()
+                                setNotAvailable()
                         } catch (ex: Exception) {
 
                         }
@@ -304,12 +363,198 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
                 override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
                     try {
+                        logw("Error_Load",throwable.toString())
                         loading.hide()
-                        if(!swAvailable.isChecked)
+                        if (!swAvailable.isChecked)
                             setNotAvailable()
+                        else
+                            setOrders()
                     } catch (ex: Exception) {
 
                     }
+                }
+            })
+    }
+
+    private fun foregroundPermissionApproved(): Boolean {
+        return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
+
+    fun getPermissionStatus(androidPermissionName: String?): Int {
+        return if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                androidPermissionName!!
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    androidPermissionName
+                )
+            ) {
+                BLOCKED_OR_NEVER_ASKED
+            } else DENIED
+        } else GRANTED
+    }
+
+    fun setUpPermission() {
+        mPermissionResult =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
+            { result ->
+                var permission = false
+                for (item in result) {
+                    permission = item.value
+                }
+                if (permission) {
+                    setUp()
+                    //   selectImage(requireContext())
+                    //  Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
+                    //  MyApplication.permissionAllow11 = 0
+                } else {
+                    for (item in result) {
+                        if (ContextCompat.checkSelfPermission(
+                                requireContext(),
+                                item.key
+                            ) == BLOCKED
+                        ) {
+
+                            if (getPermissionStatus(Manifest.permission.ACCESS_FINE_LOCATION) == BLOCKED_OR_NEVER_ASKED) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    AppHelper.getRemoteString(
+                                        "grant_settings_permission",
+                                        requireContext()
+                                    ),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                break
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
+    }
+
+    private fun openChooser() {
+
+
+        mPermissionResult!!.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )
+        /*mPermissionResult!!.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )*/
+
+
+    }
+
+    fun checkSetUp() {
+        var gps_enabled = false
+        var mLocationManager =
+            requireActivity().getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+
+        try {
+            gps_enabled = mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+        }
+        if (!MyApplication.isClient) {
+            if (foregroundPermissionApproved() && gps_enabled) {
+                setUp()
+            } else {
+                if (gps_enabled) {
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder
+                        .setMessage(
+                            AppHelper.getRemoteString(
+                                "permission_background_android",
+                                requireActivity()
+                            )
+                        )
+                        .setCancelable(true)
+                        .setNegativeButton(
+                            AppHelper.getRemoteString(
+                                "cancel",
+                                requireActivity()
+                            )
+                        ) { dialog, _ ->
+                            // getOrders()
+                        }
+                        .setPositiveButton(
+                            AppHelper.getRemoteString(
+                                "ok",
+                                requireActivity()
+                            )
+                        ) { dialog, _ ->
+                            openChooser()
+                        }
+                    val alert = builder.create()
+                    alert.show()
+
+                } else {
+                    requireActivity().toast(
+                        AppHelper.getRemoteString(
+                            "GpsDisabled",
+                            requireContext()
+                        )
+                    )
+                    //getOrders()
+                }
+            }
+        }
+    }
+
+    fun setUp() {
+
+        MyApplication.listOrderTrack.clear()
+
+        for (item in trackorders) {
+            if (item.onTrack!! && !item.delivered!! && !item.paymentMethod.isNullOrEmpty()) {
+                MyApplication.listOrderTrack.add(item.orderId!!)
+            }
+        }
+
+        AppHelper.toGsonArrString()
+        if (MyApplication.listOrderTrack.size > 0) {
+            (activity as ActivityHome).changeState(true, 0)
+        }
+    }
+
+    fun getAfterOrders() {
+
+
+        var newReq = RequestOrders(
+            MyApplication.userId,
+            MyApplication.languageCode,
+            AppConstants.ORDER_TYPE_ACTIVE
+        )
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.getOrders(
+                newReq
+            )?.enqueue(object : Callback<ResponseMainOrder> {
+                override fun onResponse(
+                    call: Call<ResponseMainOrder>,
+                    response: Response<ResponseMainOrder>
+                ) {
+                    try {
+                        trackorders.clear()
+                        trackorders.addAll(response!!.body()!!.orders)
+                        checkSetUp()
+                    } catch (E: java.lang.Exception) {
+                        logw("TRACKING_ERROR", E.toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
+
                 }
             })
     }
@@ -320,6 +565,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             loading.show()
             getOrders(false)
             getData()
+            getAfterOrders()
+
         } else {
             AppHelper.createDialog(requireActivity(), getString(R.string.error_acc_order))
         }
@@ -354,10 +601,12 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         super.onStop()
         timer!!.cancel()
     }
+
     override fun onPause() {
         super.onPause()
         timer!!.cancel()
     }
+
     private fun setOrders() {
         try {
             if (swAvailable.isChecked) {
@@ -379,7 +628,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                         rvOrders.hide()
                         llNodata.hide()
                         tvNoDataHome.show()
-                    }else{
+                    } else {
                         rvOrders.show()
                         tvNoDataHome.hide()
                     }
@@ -398,18 +647,18 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                 loading.hide()
                 setNotAvailable()
             }
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
 
         }
     }
 
-    private fun setNotAvailable(){
+    private fun setNotAvailable() {
         loading.hide()
         slRefreshBroad.hide()
         llNodata.show()
         tvNoDataHome.hide()
         swAvailable.text = AppHelper.getRemoteString("unavailable", requireContext())
-        if(timer!=null)
+        if (timer != null)
             timer!!.cancel()
     }
 
@@ -422,18 +671,20 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
 
                 val urlAddress =
-                    "http://maps.google.com/maps?q=" + ordersArray.get(position).shipping_latitude!! + "," + ordersArray.get(position).shipping_longitude!! + "(" + "" + ")&iwloc=A&hl=es"
+                    "http://maps.google.com/maps?q=" + ordersArray.get(position).shipping_latitude!! + "," + ordersArray.get(
+                        position
+                    ).shipping_longitude!! + "(" + "" + ")&iwloc=A&hl=es"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(urlAddress))
                 startActivity(intent)
-               /* val req: String =
-                    java.lang.String.format(
-                        Locale.ENGLISH,
-                        "geo:%f,%f",
-                        ordersArray.get(position).shipping_latitude!!.toDouble(),
-                        ordersArray.get(position).shipping_longitude!!.toDouble()
-                    )
-                val intentt = Intent(Intent.ACTION_VIEW, Uri.parse(req))
-                requireActivity().startActivity(intentt)*/
+                /* val req: String =
+                     java.lang.String.format(
+                         Locale.ENGLISH,
+                         "geo:%f,%f",
+                         ordersArray.get(position).shipping_latitude!!.toDouble(),
+                         ordersArray.get(position).shipping_longitude!!.toDouble()
+                     )
+                 val intentt = Intent(Intent.ACTION_VIEW, Uri.parse(req))
+                 requireActivity().startActivity(intentt)*/
                 /*MyApplication.selectedOrder = ordersArray[position]
                 if (!MyApplication.selectedOrder!!.customerLocation.isNullOrEmpty() && !MyApplication.selectedOrder!!.customerLocation.equals(
                         "null"
@@ -454,7 +705,10 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             AppHelper.onOneClick {
                 MyApplication.isBroadcast = true
                 MyApplication.selectedOrder = ordersArray[position]
-                startActivity(Intent(requireActivity(), ActivityOrderDetails::class.java))
+                startActivity(
+                    Intent(requireActivity(), ActivityOrderDetails::class.java)
+                        .putExtra("orderId", MyApplication.selectedOrder!!.orderId!!.toInt())
+                )
             }
         } else if (view.id == R.id.btAcceptOrder) {
             AppHelper.onOneClick {
@@ -483,8 +737,11 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     ordersArray[position].total!!.toDouble()
                         .toInt() + ordersArray[position].shippingTotal!!.toDouble().toInt()
                 )
-            }else{
-                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
+            } else {
+                AppHelper.createDialog(
+                    requireActivity(),
+                    AppHelper.getRemoteString("no_internet", requireContext())
+                )
             }
 
         }

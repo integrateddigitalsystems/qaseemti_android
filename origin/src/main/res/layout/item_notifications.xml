@@ -67,6 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:autoLink="web"
+                    android:textAlignment="viewStart"
                     android:gravity="center_vertical"
                     android:layout_gravity="center_vertical"
                     android:textSize="@dimen/normal_font"
@@ -78,7 +79,7 @@
                         android:layout_gravity="bottom"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-
+                        android:textAlignment="viewStart"
                         android:layout_marginTop="@dimen/small_margin"
                         android:textSize="@dimen/small_font"
 
@@ -101,6 +102,7 @@
                     android:layout_marginTop="@dimen/small_margin"
                     android:id="@+id/tvNotificationDetails"
                     android:visibility="gone"
+                    android:textAlignment="viewStart"
                     android:autoLink="web"
                     android:layout_marginStart="@dimen/notification_dimen"
                     android:layout_width="match_parent"

@@ -23,6 +23,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
+import com.ids.qasemti.controller.Activities.ActivitySplash
 import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
@@ -104,28 +105,32 @@ class LocationForeService : Service() {
 
         locationCallback = object : LocationCallback() {
 
-            override fun onLocationResult(locationResult: LocationResult?) {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+
                 locationResult ?: return
                 try {
                     locationResult.lastLocation
-                 /*   doc!!.update("order_laltitude", locationResult.lastLocation.latitude.toString())
-                    doc!!.update("order_longitude", locationResult.lastLocation.longitude.toString())*/
+                    /*   doc!!.update("order_laltitude", locationResult.lastLocation.latitude.toString())
+                       doc!!.update("order_longitude", locationResult.lastLocation.longitude.toString())*/
 
                     val intent = Intent(ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
                     intent.putExtra(EXTRA_LOCATION, currentLocation)
                     LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
 
-                    startForeground(NOTIFICATION_ID,generateNotification(locationResult.lastLocation))
+                    startForeground(NOTIFICATION_ID,generateNotification())
 
                     if (serviceRunningInForeground) {
-                        notificationManager.notify(
+                        /*notificationManager.notify(
                             NOTIFICATION_ID,
-                            generateNotification(locationResult.lastLocation))
+                            generateNotification())*/
                     }
                 } catch (ex: Exception) {
                     Log.wtf("", ex.toString())
                 }
             }
+
+
         }
     }
 
@@ -174,7 +179,7 @@ class LocationForeService : Service() {
         // we do nothing.
         if (!configurationChange && MyApplication.saveLocationTracking!!) {
             Log.d(TAG, "Start foreground service")
-            val notification = generateNotification(currentLocation)
+            val notification = generateNotification()
             startForeground(NOTIFICATION_ID, notification)
             serviceRunningInForeground = true
         }
@@ -211,61 +216,76 @@ class LocationForeService : Service() {
 
     fun setUpDoc(orderId: Int) {
         //MyApplication.selectedOrderTrack = order
-         doc = MyApplication.db!!.collection("table_order")
-            .document(orderId.toString())
+
+        MyApplication.documents.clear()
+        for(item in MyApplication.listOrderTrack!!) {
+
+
+            var doc = MyApplication.db!!.collection("table_order")
+                .document(item)
+            var firstTime = true
 
 
 
 
-        doc!!.get().addOnSuccessListener { documentSnapshot ->
-            val orderLoc = documentSnapshot.toObject<OrderLocation>()
-            var ny: LatLng? = null
-            if (orderLoc != null) {
-                Log.wtf("there", "already")
-                /*  ny = LatLng(
+            doc!!.get().addOnSuccessListener { documentSnapshot ->
+
+                if(firstTime) {
+                    val orderLoc = documentSnapshot.toObject<OrderLocation>()
+                    var ny: LatLng? = null
+                    if (orderLoc != null) {
+                        Log.wtf("there", "already")
+                        /*  ny = LatLng(
                       orderLoc.order_laltitude!!.toDouble(),
                       orderLoc.order_longitude!!.toDouble()
                   )*/
-            } else {
-                try {
-                    val user: MutableMap<String, String> = HashMap()
-                    user["oder_id"] = orderId.toString()
-                    try {
-                        user["order_laltitude"] =
-                            MyApplication.selectedCurrentAddress!!.lat.toString()
-                    } catch (ex: Exception) {
-                        user["order_laltitude"] =
-                            ""
+                    } else {
+                        try {
+                            val user: MutableMap<String, String> = HashMap()
+                            user["oder_id"] = item
+                            user["order_laltitude"] = ""
+                            user["order_longitude"] = ""
+
+                            doc!!.set(user)
+                        } catch (ex: Exception) {
+                            logw("error_database", ex.toString())
+                        }
                     }
+
+                    MyApplication.documents.add(doc)
+
                     try {
-                        user["order_longitude"] =
-                            MyApplication.selectedCurrentAddress!!.long.toString()
+                        MyApplication.saveLocationTracking = true
+                        setUpLocations()
                     } catch (ex: Exception) {
-                        user["order_longitude"] =
-                            ""
+                        var x = ex
+                        try {
+                            signInAnonymously()
+                        } catch (e: java.lang.Exception) {
+                        }
                     }
-                    doc!!.set(user)
-                } catch (ex: Exception) {
-                    logw("error_database",ex.toString())
+                    firstTime = false
                 }
+
             }
 
-            try {
-                MyApplication.saveLocationTracking = true
-                setUpLocations()
-            }catch (ex:Exception){
-                var x = ex
-                try{signInAnonymously()}catch (e:java.lang.Exception){}
-            }
+
+        }
+
+
+        notificationManager.notify(
+            NOTIFICATION_ID,
+            generateNotification())
             startService(Intent(applicationContext, LocationForeService::class.java))
 
         }
 
-    }
+
 
 
 
     fun setUpLocations() {
+
         val locationResult = object : MyLocation.LocationResult() {
             override fun gotLocation(location: Location?) {
                 if (location != null) {
@@ -288,6 +308,8 @@ class LocationForeService : Service() {
 
         //myLocation.getLocation(this, locationResult)
 
+        var firstLocation : Location ?=null
+
 
         locationListenerGps = object : LocationListener {
 
@@ -298,8 +320,17 @@ class LocationForeService : Service() {
                 MyApplication.selectedCurrentAddress!!.lat=location.latitude.toString()
                 MyApplication.selectedCurrentAddress!!.long=location.longitude.toString()}catch (e:Exception){}
 
-                doc!!.update("order_laltitude", location.latitude.toString())
-                doc!!.update("order_longitude", location.longitude.toString())
+                if(location!=null)
+                    firstLocation = location
+
+                for(doc in MyApplication.documents) {
+                    try {
+                        doc!!.update("order_laltitude", location.latitude.toString())
+                        doc!!.update("order_longitude", location.longitude.toString())
+                    }catch (ex:java.lang.Exception){
+
+                    }
+                }
 
                 val intent = Intent(ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
                 intent.putExtra(EXTRA_LOCATION, currentLocation)
@@ -307,12 +338,12 @@ class LocationForeService : Service() {
 
 
 
-                startForeground(NOTIFICATION_ID,generateNotification(location))
+                startForeground(NOTIFICATION_ID,generateNotification())
                 if (serviceRunningInForeground) {
 
-                    notificationManager.notify(
+                    /*notificationManager.notify(
                         NOTIFICATION_ID,
-                        generateNotification(location))
+                        generateNotification(location))*/
                 }
             }
 
@@ -343,6 +374,38 @@ class LocationForeService : Service() {
                 LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME.toLong(),
                 LOCATION_REFRESH_DISTANCE.toFloat(), locationListenerGps!!
             )
+            var gps_enabled  = false
+            var network_enabled = false
+
+            try {
+                gps_enabled = mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            } catch (ex: Exception) {
+            }
+
+            try {
+                network_enabled = mLocationManager!!.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            } catch (ex: Exception) {
+            }
+
+            if(gps_enabled && firstLocation == null)
+                firstLocation = mLocationManager!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            if(network_enabled){
+                firstLocation = mLocationManager!!.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            }
+            if(firstLocation!=null) {
+
+                for(doc in MyApplication.documents) {
+                    try {
+                        doc!!.update("order_laltitude", firstLocation!!.latitude.toString())
+                        doc!!.update("order_longitude", firstLocation!!.longitude.toString())
+                    } catch (e: Exception) {
+                    }
+                }
+
+            }
+
+
+
         }
 
 
@@ -359,39 +422,44 @@ class LocationForeService : Service() {
 
 
 
+        if(MyApplication.listOrderTrack.size >1){
+
+            var orderId = MyApplication.listOrderTrack.get(MyApplication.selectedOrderRemoveIndex!!)
+            MyApplication.db!!.collection("table_order")
+                .document(orderId).delete()
+            MyApplication.listOrderTrack.removeAt(MyApplication.selectedOrderRemoveIndex!!)
+            AppHelper.toGsonArrString()
+
+        }else {
 
 
-
-
-
-
-
-
-        try {
-            // TODO: Step 1.6, Unsubscribe to location changes.
-            val removeTask = fusedLocationProviderClient.removeLocationUpdates(locationCallback)
-            mLocationManager!!.removeUpdates(locationListenerGps!!)
-            removeTask.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "Location Callback removed.")
-                    stopSelf()
-                } else {
-                    Log.d(TAG, "Failed to remove Location Callback.")
-                }
-            }
             try {
-                MyApplication.db!!.collection("table_order")
-                    .document(MyApplication.trackOrderId!!.toString()).delete()
-            }catch (ex:Exception){
-                logw("LOCATION_FAIL","DELETION ERROR")
+                // TODO: Step 1.6, Unsubscribe to location changes.
+                val removeTask = fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+                mLocationManager!!.removeUpdates(locationListenerGps!!)
+                removeTask.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "Location Callback removed.")
+                        stopSelf()
+                    } else {
+                        Log.d(TAG, "Failed to remove Location Callback.")
+                    }
+                }
+                try {
+                    MyApplication.db!!.collection("table_order")
+                        .document(MyApplication.trackOrderId!!.toString()).delete()
+                    MyApplication.listOrderTrack.removeAt(MyApplication.selectedOrderRemoveIndex!!)
+                } catch (ex: Exception) {
+                    logw("LOCATION_FAIL", "DELETION ERROR")
+                }
+                MyApplication.saveLocationTracking = false
+            } catch (unlikely: SecurityException) {
+                MyApplication.saveLocationTracking = true
+                Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
             }
-            MyApplication.saveLocationTracking = false
-        } catch (unlikely: SecurityException) {
-           MyApplication.saveLocationTracking = true
-            Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
-        }
 
-        this.stopSelf()
+            this.stopSelf()
+        }
     }
 
 
@@ -420,7 +488,7 @@ class LocationForeService : Service() {
     /*
      * Generates a BIG_TEXT_STYLE Notification that represent latest location.
      */
-    private fun generateNotification(location: Location?): Notification {
+    private fun generateNotification(): Notification {
         Log.d(TAG, "generateNotification()")
 
         // Main steps for building a BIG_TEXT_STYLE notification:
@@ -457,11 +525,10 @@ class LocationForeService : Service() {
        /* if(MyApplication.fromOrderDetails!!) {
             launchActivityIntent = Intent(this, ActivityOrderDetails::class.java)
         }else{*/
-        MyApplication.selectedPos = 3
-        MyApplication.selectedFragment = FragmentOrders()
-        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+
         MyApplication.tintColor = R.color.primary
-            launchActivityIntent = Intent(this, ActivityHome::class.java)
+            launchActivityIntent = Intent(this, ActivitySplash::class.java)
+        launchActivityIntent.putExtra("typeId",AppConstants.NOTF_TYPE_ACCEPT_ORDER)
        // }
 
         val cancelIntent = Intent(this, LocationForeService::class.java)

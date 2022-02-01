@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.FragmentAccount
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
@@ -44,7 +45,7 @@ import kotlin.collections.ArrayList
 
 class ActivityAddNewAddress : ActivityBase(), ApiListener {
 
-    var REQUEST_CODE = 1005
+    var REQUEST_CODE = 1000
     var from = ""
     var address: ResponseAddress? = null
     var arraySpinner: ArrayList<ItemSpinner> = arrayListOf()
@@ -86,22 +87,27 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
             etAvenue.text.toString(),
             etApartment.text.toString(),
             etBlock.text.toString(),
-            etAddressProvince.text.toString(),
-            etAddressProvince.text.toString()
+            selectedProvince,
+            selectedProvince
         )
         intent.putExtra("lat", latlng!!.latitude)
         intent.putExtra("long", latlng!!.longitude)
         //   var latLng = com.google.android.gms.maps.model.LatLng(array.get(position).lat!!.toDouble(), array.get(position).long!!.toDouble())
         intent.putExtra(
             "address",
-            etAddressProvince.text.toString() + " ," + etStreet.text.toString() + " ," + etBuilding.text.toString() + " ," + etFloor.text.toString()
+            selectedProvince + " ," + etArea.text.toString() + " ," + etBlock.text.toString() + " ," + etStreet.text.toString()
         )
         MyApplication.submitted = true
         intent.putExtra(
             "submitted",
             true
         )
-        setResult(RESULT_OK, intent)
+        if(MyApplication.fromProfile!!){
+            MyApplication.fromProfile = false
+            setResult(REQUEST_CODE, intent)
+        }else {
+            setResult(RESULT_OK, intent)
+        }
         finish()
     }
 
@@ -111,7 +117,6 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
         etBuilding.hint = etBuilding.hint.toString() + "*"
         etArea.hint = etArea.hint.toString() + "*"
         etBlock.hint = etBlock.hint.toString() + "*"
-        etFloor.hint = etFloor.hint.toString() + "*"
         etStreet.hint = etStreet.hint.toString() + "*"
     }
 
@@ -274,6 +279,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
             selectedProvince =arraySpinner.get(indx).name
             spProvince.isEnabled = false
         }else{
+            spProvince.setSelection(0)
             spProvince.isEnabled = true
         }
 
@@ -331,10 +337,11 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
                     position: Int,
                     id: Long
                 ) {
-                    if (position == 0)
+                    if(arraySpinner.get(position).id==-1){
                         selectedProvince = ""
-                    else
+                    }else {
                         selectedProvince = arraySpinner.get(position).name
+                    }
 
                 }
 
@@ -388,8 +395,8 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
 
                         )
                     )
-                    btSaveAddress.text = AppHelper.getRemoteString("select_address", this)
-                    btOnlyOnce.hide()
+                    /*btSaveAddress.text = AppHelper.getRemoteString("select_address", this)
+                    btOnlyOnce.hide()*/
                 } else {
                     setUpData(LatLng(lat!!.toDouble(), long!!.toDouble()))
                 }
@@ -439,23 +446,22 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
         }
         btSaveAddress.onOneClick {
             if (etAddressName.text.isNullOrEmpty() || selectedProvince.isNullOrEmpty() || etBuilding.text.toString()
-                    .isNullOrEmpty() || etFloor.text.toString()
-                    .isNullOrEmpty() || etStreet.text.isNullOrEmpty()
+                    .isNullOrEmpty()  || etStreet.text.isNullOrEmpty() || etBlock.text.toString().isNullOrEmpty()
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {
                 if (MyApplication.isClient) {
                     MyApplication.fromAdd = true
-                    if (from == "current") {
+                   /* if (from == "current") {
                         setData()
-                    } else {
+                    } else {*/
                         if (AppHelper.isOnline(this)) {
                             addAddress()
                         }else{
                             AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
                         }
 
-                    }
+                   // }
                 } else {
                     if (AppHelper.isOnline(this)) {
                         addAddress()
@@ -470,8 +476,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
         btOnlyOnce.onOneClick {
 
             if (etAddressName.text.isNullOrEmpty() || selectedProvince.isNullOrEmpty() || etBuilding.text.toString()
-                    .isNullOrEmpty() || etFloor.text.toString()
-                    .isNullOrEmpty() || etStreet.text.isNullOrEmpty()
+                    .isNullOrEmpty() ||  etStreet.text.isNullOrEmpty()
             ) {
                 AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
             } else {

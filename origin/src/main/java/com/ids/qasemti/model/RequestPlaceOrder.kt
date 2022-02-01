@@ -124,6 +124,10 @@ class RequestPlaceOrder {
     var title : String ?=""
     var price : String ?=""
 
+    @SerializedName("language")
+    @Expose
+    var language : String ?=""
+
     constructor(){
 
     }
@@ -148,7 +152,8 @@ class RequestPlaceOrder {
         area : String ?,
         apartment : String ?,
         block :String ?,
-        province : String ?
+        province : String ?,
+        lang : String ?
 
     ) {
         this.userId = userId
@@ -170,6 +175,7 @@ class RequestPlaceOrder {
         this.block = block
         this.province = province
         this.area = area
+        this.language = lang
     }
 
 
@@ -201,7 +207,8 @@ class RequestPlaceOrder {
         apartment : String ?,
         block :String ?,
         province : String ?,
-        type : String ?
+        type : String ? ,
+        lang : String ?
 
     ) {
         this.userId = userId
@@ -232,6 +239,7 @@ class RequestPlaceOrder {
         this.province = province
         this.type = type
         this.area = area
+        this.language = lang
     }
 
 
@@ -251,7 +259,8 @@ class RequestPlaceOrder {
         addressDescription: String?,
         address_id:Int ,
         dateFrom : String ?,
-        dateTo : String ?
+        dateTo : String ? ,
+        lang : String ?
     ) {
         this.userId = userId
         this.productCategory = productCategory
@@ -277,5 +286,6 @@ class RequestPlaceOrder {
         this.coupon=coupon
         this.dateFrom = dateFrom
         this.dateTo = dateTo
+        this.language = lang
     }
 }

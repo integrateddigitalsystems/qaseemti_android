@@ -78,11 +78,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginBottom="@dimen/medium_margin"
+                android:visibility="gone"
                 android:id="@+id/llOrderSwitches"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/llOrderInfo">
+                android:layout_below="@id/llOrderInfo"
+                android:layout_marginBottom="@dimen/medium_margin">
 
                 <include layout="@layout/layout_order_switch" />
             </LinearLayout>
@@ -142,6 +143,7 @@
         android:layout_height="wrap_content">
 
     <Button
+        android:visibility="gone"
         android:layout_marginBottom="@dimen/medium_margin"
         android:id="@+id/btCancelOrder"
         android:layout_marginTop="@dimen/margin_start_end"
@@ -153,7 +155,7 @@
         android:tag="cancel_order"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_text_height"
-        android:background="@drawable/rounded_white_red_border"/>
+        android:background="@drawable/rounded_white_primary_border"/>
 
         <Button
             android:layout_marginBottom="@dimen/medium_margin"
@@ -168,7 +170,7 @@
             android:tag="accept_order"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"
-            android:background="@drawable/rounded_white_red_border"/>
+            android:background="@drawable/rounded_white_primary_border"/>
 
 
 
@@ -248,7 +250,7 @@
             android:textColor="@color/primary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_white_red_border"
+            android:background="@drawable/rounded_white_primary_border"
             />
 
 

@@ -258,6 +258,10 @@ class ResponseOrders(
     @Expose
     var vendorRate : String ?="",
 
+    @SerializedName("client_rate")
+    @Expose
+    var clientRate : String ?="" ,
+
     @SerializedName("new_delivery_date")
     @Expose
     var newDeliveryDate : String ?="",

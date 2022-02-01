@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/no_data"
 
-                        android:textColor="@color/primary"
+                        android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/medium_font"
 
                         />
@@ -447,11 +447,24 @@
 
                 </RelativeLayout>
 
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:tag="waiting_service_provider_approve"
+                    android:id="@+id/tvNoProvider"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="@string/waiting_service_provider_approve"
+                    android:textColor="@color/gray_font_title" />
+
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/medium_margin"
                     android:tag="PaymentMethod"
+                    android:id="@+id/tvPaymentMethodTitle"
                     android:text="@string/PaymentMethod"
                     android:textColor="@color/primary" />
 
@@ -626,7 +639,7 @@
                 android:text="@string/NoServiceProvider"/>
 
             <Button
-
+                android:id="@+id/btToServices"
                 android:tag="GoToSerices"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"

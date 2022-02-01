@@ -1,5 +1,6 @@
 package com.ids.qasemti.Notifications
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -16,18 +17,11 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ids.qasemti.BuildConfig
 import com.ids.qasemti.R
-import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivitySplash
-import com.ids.qasemti.controller.Fragments.*
 import com.ids.qasemti.controller.MyApplication
-import com.ids.qasemti.utils.AppConstants
+import com.ids.qasemti.controller.MyApplication.Companion.appAlive
+import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE
-import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_NORMAL
-import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_ORDERS
-import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_SERVICE
-import com.ids.qasemti.utils.CallAPIs
-import com.ids.qasemti.utils.LocaleUtils
-import com.ids.qasemti.utils.logw
 
 import java.util.*
 
@@ -52,12 +46,22 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         //Actions.addDevice(this, token)
     }
 
+    @SuppressLint("WrongThread")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 
 
         // Log.wtf(TAG, "From: " + remoteMessage?.getFrom()!!)
 
-       // ActivityHome().getNotf()
+
+        val intent = Intent("msg") //action: "msg"
+
+        intent.setPackage(packageName)
+        intent.putExtra("message", "")
+        applicationContext.sendBroadcast(intent)
+
+
+
+
 
 
         if (remoteMessage.getData().size > 0) {
@@ -74,40 +78,40 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             Log.wtf("crashNotf",e.toString())
         }
 
-        var typeId = -1
+        var typeId = 0
         try {
-            typeId = remoteMessage.data["type"]!!.toInt()
+            typeId = remoteMessage.data["typeId"]!!.toInt()
         } catch (e: Exception) {
             e.printStackTrace()
-            typeId = -1
+            typeId = 0
         }
-        logw("ACTIVATE_NOW","NOTIFICATION ACT")
-        try {
-            CallAPIs.getUserInfo()
-        }catch (ex:java.lang.Exception){
-            logw("ACTIVATE_NOW","CATCH NOTIFICATION ACT DONE")
-        }
-        logw("ACTIVATE_NOW","NOTIFICATION ACT DONE")
+
 
         if(typeId == NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE){
-
+            logw("ACTIVATE_NOW","NOTIFICATION ACT")
+            try {
+                CallAPIs.getUserInfo()
+            }catch (ex:java.lang.Exception){
+                logw("ACTIVATE_NOW","CATCH NOTIFICATION ACT DONE")
+            }
+            logw("ACTIVATE_NOW","NOTIFICATION ACT DONE")
         }
 
-        var recordId = -1
+        var recordId = 0
         try {
             recordId = remoteMessage.data["recordId"]!!.toInt()
         } catch (e: Exception) {
             e.printStackTrace()
-            recordId = -1
+            recordId =0
         }
 
-        var id = -1
+        var id = 0
         try {
             id = remoteMessage.data["id"]!!.toInt()
             Log.wtf("notification_id",id.toString()+"aaa")
         } catch (e: Exception) {
             e.printStackTrace()
-            id = -1
+            id = 0
         }
 
         var message = ""
@@ -125,6 +129,32 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             e.printStackTrace()
             title = ""
         }
+
+        if(typeId == AppConstants.NOTF_PAYMENT_ADDED) {
+
+            if (appAlive!!) {
+                try {
+                    MyApplication.listOrderTrack.add(id.toString())
+                    MyApplication.foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                } catch (ex: Exception) {
+                    logw("test", "exceptTion")
+                }
+            } else {
+                logw("TESTING", "STOPPED")
+            }
+        }
+        /*if(ProcessLifecycleOwner.get().getLifecycle().getCurrentState() == Lifecycle.State.CREATED || ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)){
+            var x = 3
+        }else{
+            var x = 9
+        }*/
+
+
+        ;
+
+       /* */
+
+
 
         // setBadge(applicationContext, 0);
         if (MyApplication.generalNotificaiton==1){
@@ -153,8 +183,9 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             LocaleUtils.setLocale(Locale("ar", "LB"))
         }
         intent = Intent(this, ActivitySplash::class.java)
-        intent.putExtra("notification_id", id)
+        intent.putExtra("order_id", id)
         intent.putExtra("typeId", typeId)
+        intent.putExtra("fromNotf",1)
         intent.putExtra("text", messageBody)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, MyApplication.UNIQUE_REQUEST_CODE++, intent, PendingIntent.FLAG_ONE_SHOT)
@@ -168,13 +199,14 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, BuildConfig.APPLICATION_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle(title)
+            .setContentTitle(resources.getString(R.string.app_name))
             .setContentText(messageBody)
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
             .setStyle(
                 NotificationCompat.BigTextStyle()
                     .bigText(messageBody))
+
             .setContentIntent(pendingIntent)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

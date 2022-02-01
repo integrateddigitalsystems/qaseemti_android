@@ -43,6 +43,8 @@ class FragmentBottomSheetPush : BottomSheetDialogFragment() , ApiListener{
 
     fun listeners() {
 
+        swAvailable.isChecked = if(MyApplication.generalNotificaiton==1) true else false
+
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             MyApplication.generalNotificaiton = if(swAvailable.isChecked) 1 else 0
             if(AppHelper.isOnline(requireContext())){

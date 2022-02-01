@@ -13,69 +13,71 @@
         >
 
         <ScrollView
-            android:fillViewport="false"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-                <WebView
-            android:id="@+id/wvData"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            android:fillViewport="false">
 
             <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/llAcceptTerms"
-                android:layout_marginTop="@dimen/normal_margin"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <WebView
+                    android:layout_marginStart="@dimen/margin_start_end"
+                    android:layout_marginEnd="@dimen/margin_start_end"
+                    android:id="@+id/wvData"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
                 <LinearLayout
+                    android:id="@+id/llAcceptTerms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/cbTermsConditions" />
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:layout_height="match_parent"
-                    android:maxLines="1"
-                    android:tag="accept_terms"
-                    android:text="@string/accept_terms"/>
+                    <LinearLayout
+                        android:id="@+id/llCheckTerms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
+                        <CheckBox
+                            android:id="@+id/cbTermsConditions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:tag="accept_terms"
+                            android:text="@string/accept_terms" />
+
+                    </LinearLayout>
+
+
+                    <Button
+                        android:id="@+id/btProceed"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/mini_margin"
+                        android:layout_marginEnd="@dimen/mini_margin"
+                        android:layout_marginBottom="@dimen/normal_margin"
+                        android:background="@drawable/rounded_blue"
+                        android:enabled="false"
+                        android:gravity="center"
+                        android:tag="apply"
+                        android:text="@string/apply"
+                        android:textColor="@color/white"
+                        android:visibility="visible" />
                 </LinearLayout>
 
 
-                <Button
-                    android:enabled="false"
-                    android:layout_marginBottom="@dimen/normal_margin"
-                    android:visibility="visible"
-                    android:id="@+id/btProceed"
-                    android:layout_marginStart="@dimen/mini_margin"
-                    android:layout_marginEnd="@dimen/mini_margin"
-                    android:gravity="center"
-                    android:background="@drawable/rounded_blue"
-                    android:textColor="@color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/edit_text_height"
-                    android:text="@string/apply"
-                    android:tag="apply"/>
             </LinearLayout>
-
-
-
-        </LinearLayout>
 
         </ScrollView>
 
@@ -99,6 +101,8 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical">
                             <WebView
+                                android:layout_marginStart="@dimen/margin_start_end"
+                                android:layout_marginEnd="@dimen/margin_start_end"
                                 android:id="@+id/wvData2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

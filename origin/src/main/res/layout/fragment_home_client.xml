@@ -28,6 +28,7 @@
             android:layout_height="90dp"
             app:cardElevation="@dimen/mini_margin"
             android:elevation="@dimen/mini_margin"
+            android:visibility="visible"
             app:cardCornerRadius="@dimen/bigger_radius"
             android:layout_marginStart="@dimen/margin_start_end"
             android:layout_marginEnd="@dimen/margin_start_end"
@@ -37,10 +38,28 @@
             android:paddingStart="@dimen/margin_start_end"
             android:paddingEnd="@dimen/margin_start_end">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
             <androidx.viewpager.widget.ViewPager
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/vpAdsClient"/>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tbMedia"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    app:tabBackground="@drawable/selector_ads_tab"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabMaxWidth="12dp"
+                    app:tabRippleColor="@null" />
+
+            </RelativeLayout>
 
             <!--<com.ids.qasemti.custom.CustomTextViewBold
                 android:layout_width="match_parent"
@@ -63,8 +82,14 @@
 
             android:fillViewport="true">-->
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:id="@+id/listHomeClient"
+            android:layout_below="@id/linearHomeClient"
+            android:layout_height="match_parent">
             <LinearLayout
-                android:layout_below="@id/linearHomeClient"
+
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -77,14 +102,14 @@
                     android:visibility="gone"
                     android:textSize="@dimen/header_font"
                     android:layout_height="match_parent"
-                    android:textColor="@color/primary"
+                    android:textColor="@color/gray_font_title"
                     android:text="@string/no_data"
                     android:tag="no_data"
                     />
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginStart="@dimen/card_new_margin"
                     android:layout_marginEnd="@dimen/card_new_margin"
-
+                    android:nestedScrollingEnabled="true"
                     android:id="@+id/rvServices"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -105,6 +130,8 @@
 
 
             </LinearLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
       <!--  </androidx.core.widget.NestedScrollView>-->

@@ -41,12 +41,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                 <com.ids.qasemti.custom.CustomTextViewBold
+                    android:minWidth="@dimen/order_card"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/edit_text_height"
                     android:id="@+id/tvReply"
                     android:textColor="@color/white"
                     android:textSize="@dimen/normal_font"
-                    android:text="Hello There!"
+                    android:text=""
                     android:padding="@dimen/normal_margin"/>
 
             </LinearLayout>
@@ -91,17 +92,20 @@
             android:gravity="end">
 
                 <LinearLayout
+                    android:minWidth="@dimen/order_card"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/edit_text_height"
                     android:background="@drawable/gray_round_send"
                     android:orientation="horizontal">
 
                     <com.ids.qasemti.custom.CustomTextViewBold
                         android:id="@+id/tvMessage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:layout_height="match_parent"
                         android:padding="@dimen/normal_margin"
-                        android:text="Hello There!"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="@dimen/normal_font" />
 
@@ -109,7 +113,7 @@
                         android:id="@+id/ivLoading"
                         android:layout_width="@dimen/small_icon"
                         android:layout_height="@dimen/small_icon"
-                        android:layout_gravity="bottom"
+                        android:layout_gravity="bottom|end"
                         android:layout_margin="@dimen/small_margin"
                         android:src="@drawable/icon_loading_message"
                         android:tint="@color/white" />

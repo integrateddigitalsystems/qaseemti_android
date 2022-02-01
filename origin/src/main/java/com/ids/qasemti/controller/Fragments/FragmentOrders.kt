@@ -1,19 +1,35 @@
 package com.ids.qasemti.controller.Fragments
 
+import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.ContentValues.TAG
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.google.android.gms.auth.api.phone.SmsCodeAutofillClient.PermissionState
+import com.google.android.material.snackbar.Snackbar
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.*
 import com.ids.qasemti.controller.Adapters.AdapterOrderType
@@ -31,28 +47,80 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
+import com.google.android.gms.auth.api.phone.SmsCodeAutofillClient.PermissionState.DENIED
+import kotlin.math.log
 
 
 class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
 
     var ordersArray: ArrayList<ResponseOrders> = arrayListOf()
     var adapter: AdapterOrderType? = null
+    var denied : Boolean ?=false
+    var activeType = 0
+    var mPermissionResult: ActivityResultLauncher<Array<String>>? = null
+    var resultLauncher: ActivityResultLauncher<Intent>? = null
+    val BLOCKED = -1
     var mainArray: ArrayList<ResponseOrders> = arrayListOf()
+    private val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
+    val GRANTED = 0
+    val DENIED = 1
+    val BLOCKED_OR_NEVER_ASKED = 2
     var orderType: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
+    fun getPermissionStatus(androidPermissionName: String?): Int {
+        return if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                androidPermissionName!!
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    androidPermissionName
+                )
+            ) {
+                BLOCKED_OR_NEVER_ASKED
+            } else DENIED
+        } else GRANTED
+    }
+
     override fun onResume() {
         super.onResume()
-        if (MyApplication.renewed == true) {
-            MyApplication.renewed = false
-            setTabLayout(0)
-        }else if(MyApplication.completed){
-            MyApplication.completed = false
-            setTabLayout(2)
-        }else{
-            setTabLayout(typeSelected)
+
+
+        if(!MyApplication.fromFooterOrder) {
+            (activity as ActivityHome).showBack(true)
+            MyApplication.fromFooterOrder = true
+        }else
+            (activity as ActivityHome).showBack(false)
+
+        if(denied!!){
+            denied = false
+            getOrders()
+        }else {
+            if (MyApplication.toDetails) {
+                MyApplication.toDetails = false
+                startActivity(
+                    Intent(requireActivity(), ActivityOrderDetails::class.java)
+                        .putExtra("orderId", MyApplication.selectedOrderId)
+                )
+            } else {
+                if (MyApplication.renewed == true) {
+                    MyApplication.renewed = false
+                    setTabLayout(0)
+                } else if (MyApplication.completed) {
+                    MyApplication.completed = false
+                    setTabLayout(2)
+                } else if(MyApplication.fromHome){
+                    MyApplication.fromHome = false
+                    setTabLayout(typeSelected)
+                } else{
+                    typeSelected =0
+                    setTabLayout(typeSelected)
+                }
+            }
         }
 
     }
@@ -71,6 +139,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
         requireActivity().getWindow().setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
+        setUp()
         init()
         setTabs()
      //   setTabLayout(typeSelected)
@@ -121,6 +190,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
 
         }
 
+        logw("OrerTypetag",orderType!!)
         var newReq = RequestOrders(MyApplication.userId, MyApplication.languageCode, orderType)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getOrders(
@@ -159,6 +229,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
         ordersArray.add("3")
         mainArray.addAll(ordersArray)*/
         (activity as ActivityHome?)!!.drawColor()
+        (activity as ActivityHome?)!!.hideBack()
         /*(activity as ActivityHome?)!!.setTitleAc(
             AppHelper.getRemoteString(
                 "order_type",
@@ -283,9 +354,10 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                 MyApplication.rental = position == 1
                 MyApplication.rental = position == 1
                 mainArray
+                var x = ordersArray.get(position).orderId
                 startActivity(
                     Intent(requireActivity(), ActivityOrderDetails::class.java)
-                        .putExtra("orderId", ordersArray.get(position).orderId)
+                        .putExtra("orderId", ordersArray.get(position).orderId!!.toInt())
                         .putExtra("type", typeSelected)
                 )
 
@@ -335,6 +407,15 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
         when (position) {
             0 -> {
                 etSearchOrders.text.clear()
+                llFailedTabs.hide()
+                llActiveTabs.show()
+                if(MyApplication.isClient) {
+                    llActiveTabs.weightSum = 3f
+                    tvPendingSP.show()
+                }else {
+                    llActiveTabs.weightSum = 2f
+                    tvPendingSP.hide()
+                }
                 tvActive.setBackgroundResource(R.drawable.rounded_orders)
                 AppHelper.setTextColor(requireContext(), tvActive, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_ACTIVE
@@ -343,29 +424,55 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             1 -> {
                 etSearchOrders.text.clear()
                 tvUpcoming.setBackgroundResource(R.drawable.rounded_orders)
+                llFailedTabs.hide()
+                llActiveTabs.hide()
                 AppHelper.setTextColor(requireContext(), tvUpcoming, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_UPCOMING
                 retrieveOrders()
             }
             2 -> {
                 etSearchOrders.text.clear()
+                llFailedTabs.hide()
+                llActiveTabs.hide()
                 tvCompleted.setBackgroundResource(R.drawable.rounded_orders)
                 AppHelper.setTextColor(requireContext(), tvCompleted, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_COMPLETED
                 retrieveOrders()
             }
-            3 -> {
+            /*3 -> {
                 etSearchOrders.text.clear()
                 tvCancelled.setBackgroundResource(R.drawable.rounded_orders)
                 AppHelper.setTextColor(requireContext(), tvCancelled, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_CANCELED
                 retrieveOrders()
-            }
+            }*/
             else -> {
                 etSearchOrders.text.clear()
                 tvFailed.setBackgroundResource(R.drawable.rounded_orders)
                 AppHelper.setTextColor(requireContext(), tvFailed, R.color.white)
-                orderType = AppConstants.ORDER_TYPE_FAILED
+                llFailedTabs.show()
+                llActiveTabs.hide()
+                orderType = AppConstants.ORDER_TYPE_CANCELED
+                tvCancelled.onOneClick {
+                    if(orderType !=AppConstants.ORDER_TYPE_CANCELED ) {
+                        tvCancelled.setBackgroundResource(R.drawable.rounded_orders)
+                        AppHelper.setTextColor(requireContext(), tvCancelled, R.color.white)
+                        tvUnsuccPayment.setBackgroundResource(R.color.transparent)
+                        AppHelper.setTextColor(requireContext(), tvUnsuccPayment, R.color.primary)
+                        orderType = AppConstants.ORDER_TYPE_CANCELED
+                        retrieveOrders()
+                    }
+                }
+                tvUnsuccPayment.onOneClick {
+                    if(orderType !=AppConstants.ORDER_TYPE_FAILED ) {
+                        tvUnsuccPayment.setBackgroundResource(R.drawable.rounded_orders)
+                        AppHelper.setTextColor(requireContext(), tvUnsuccPayment, R.color.white)
+                        tvCancelled.setBackgroundResource(R.color.transparent)
+                        AppHelper.setTextColor(requireContext(), tvCancelled, R.color.primary)
+                        orderType = AppConstants.ORDER_TYPE_FAILED
+                        retrieveOrders()
+                    }
+                }
                 retrieveOrders()
             }
         }
@@ -387,6 +494,36 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
 
     private fun setData(type: Boolean) {
 
+        if(orderType == AppConstants.ORDER_TYPE_ACTIVE) {
+            when (activeType) {
+                0 -> {
+                    ordersArray.clear()
+                    ordersArray.addAll(mainArray.filter { it.vendor != null && !it.paymentMethod.isNullOrEmpty() })
+                }
+                1 -> {
+                    ordersArray.clear()
+                    ordersArray.addAll(mainArray.filter { it.paymentMethod.isNullOrEmpty() && it.vendor != null })
+                }
+
+                else -> {
+                    ordersArray.clear()
+                    ordersArray.addAll(mainArray.filter { it.vendor == null })
+                }
+
+
+            }
+        }
+        /*if(orderType == AppConstants.ORDER_TYPE_ACTIVE){
+            ordersArray.clear()
+            ordersArray.addAll(mainArray.filter { it.vendor != null && !it.paymentMethod.isNullOrEmpty() })
+            tvRunning.setBackgroundResource(R.drawable.rounded_orders)
+            AppHelper.setTextColor(requireContext(), tvRunning, R.color.white)
+            tvPendingSP.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvPendingSP, R.color.primary)
+            tvPendingPayment.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvPendingPayment, R.color.primary)
+        }
+*/
         try {
             if(ordersArray.size==0){
                 tvNoData.show()
@@ -401,6 +538,50 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             }
         } catch (ex: Exception) {
 
+        }
+
+        tvPendingPayment.onOneClick {
+            activeType = 1
+            loading.show()
+            tvPendingPayment.setBackgroundResource(R.drawable.rounded_orders)
+            AppHelper.setTextColor(requireContext(), tvPendingPayment, R.color.white)
+            tvRunning.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvRunning, R.color.primary)
+            tvPendingSP.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvPendingSP, R.color.primary)
+            ordersArray.clear()
+            ordersArray.addAll(mainArray.filter { it.paymentMethod.isNullOrEmpty() && it.vendor!=null })
+           setData(true)
+            loading.hide()
+
+        }
+        tvPendingSP.onOneClick {
+            activeType = 2
+            loading.show()
+            tvPendingSP.setBackgroundResource(R.drawable.rounded_orders)
+            AppHelper.setTextColor(requireContext(), tvPendingSP, R.color.white)
+            tvRunning.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvRunning, R.color.primary)
+            tvPendingPayment.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvPendingPayment, R.color.primary)
+            ordersArray.clear()
+            ordersArray.addAll(mainArray.filter { it.vendor == null })
+            setData(true)
+            loading.hide()
+        }
+        tvRunning.onOneClick {
+            loading.show()
+            activeType = 0
+            tvRunning.setBackgroundResource(R.drawable.rounded_orders)
+            AppHelper.setTextColor(requireContext(), tvRunning, R.color.white)
+            tvPendingSP.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvPendingSP, R.color.primary)
+            tvPendingPayment.setBackgroundResource(R.color.transparent)
+            AppHelper.setTextColor(requireContext(), tvPendingPayment, R.color.primary)
+            ordersArray.clear()
+            ordersArray.addAll(mainArray.filter { it.vendor != null && !it.paymentMethod.isNullOrEmpty() })
+            setData(true)
+            loading.hide()
         }
         /* if(adapter!=null){
              adapter!!.notifyDataSetChanged()
@@ -422,14 +603,189 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
         }
     }
 
+
+    private fun openChooser() {
+
+
+        mPermissionResult!!.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )
+        /*mPermissionResult!!.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )*/
+
+
+    }
+
+    fun setUp() {
+        mPermissionResult =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
+            { result ->
+                var permission = false
+                for (item in result) {
+                    permission = item.value
+                }
+                if (permission) {
+                    getOrders()
+                 //   selectImage(requireContext())
+                  //  Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
+                  //  MyApplication.permissionAllow11 = 0
+                } else {
+                    for(item in result ){
+                        if(ContextCompat.checkSelfPermission(requireContext(),item.key) == BLOCKED){
+                            denied = true
+                            getOrders()
+
+                            if(getPermissionStatus( Manifest.permission.ACCESS_FINE_LOCATION) == BLOCKED_OR_NEVER_ASKED) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    AppHelper.getRemoteString(
+                                        "grant_settings_permission",
+                                        requireContext()
+                                    ),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                break
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
+
+    }
+
+
+    private fun requestForegroundPermissions() {
+        val provideRationale = foregroundPermissionApproved()
+
+        // If the user denied a previous request, but didn't check "Don't ask again", provide
+        // additional rationale.
+        if (provideRationale) {
+            Snackbar.make(
+                requireActivity().findViewById(R.id.rootLayoutOrderDetails),
+                "Location permission needed for core functionality",
+                Snackbar.LENGTH_LONG
+            ).setAction(R.string.ok) {
+                // Request permission
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                    REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+
+                )
+            }.show()
+        } else {
+            Log.d(TAG, "Request foreground only permission")
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+            )
+        }
+    }
+
+    // TODO: Step 1.0, Review Permissions: Handles permission result.
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Log.d(TAG, "onRequestPermissionResult")
+
+        when (requestCode) {
+            REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE -> when {
+                grantResults.isEmpty() ->
+                    // If user interaction was interrupted, the permission request
+                    // is cancelled and you receive empty arrays.
+                    Log.d(TAG, "User interaction was cancelled.")
+                grantResults[0] == PackageManager.PERMISSION_GRANTED ->
+                    getOrders()
+                    // Permission was granted.
+                    //MyApplication.foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                else -> {
+                    // Permission denied.
+                    // updateButtonState(false)
+                    denied = true
+                    getOrders()
+                    requireActivity().toast(AppHelper.getRemoteString("permission_denied",requireContext()))
+                    /*Snackbar.make(
+                        findViewById(R.id.rootLayoutOrderDetails),
+                        R.string.permission_denied,
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAction(R.string.settings) {
+                            // Build intent that displays the App settings screen.
+                            val intent = Intent()
+                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                            val uri = Uri.fromParts(
+                                "package",
+                                "",
+                                null
+                            )
+                            intent.data = uri
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                        }
+                        .show()*/
+                }
+            }
+        }
+    }
+
     private fun retrieveOrders(){
         slRefresh.isRefreshing=false
-        if (!MyApplication.isClient)
-            getOrders()
-        else
+
+        var gps_enabled = false
+        var mLocationManager =
+            requireActivity().getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+
+        try {
+            gps_enabled = mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+        }
+        if (!MyApplication.isClient) {
+            if(foregroundPermissionApproved() && gps_enabled) {
+                getOrders()
+            }else{
+                if(gps_enabled) {
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder
+                        .setMessage(AppHelper.getRemoteString("permission_background_android", requireActivity()))
+                        .setCancelable(true)
+                        .setNegativeButton( AppHelper.getRemoteString("cancel", requireActivity())) { dialog, _ ->
+                           getOrders()
+                        }
+                        .setPositiveButton(AppHelper.getRemoteString("ok", requireActivity())) { dialog, _ ->
+                            openChooser()
+                        }
+                    val alert = builder.create()
+                    alert.show()
+
+                }else{
+                    requireActivity().toast(AppHelper.getRemoteString("GpsDisabled", requireContext()))
+                    getOrders()
+                }
+            }
+            MyApplication.listOrderTrack.clear()
+        }else
             getClientOrders()
     }
 
+    private fun foregroundPermissionApproved(): Boolean {
+        return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
     override fun reload() {
         getOrders()
     }

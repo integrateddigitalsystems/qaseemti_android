@@ -14,7 +14,8 @@ import com.ids.qasemti.model.RelatedOrder
 import com.ids.qasemti.utils.AppConstants
 import com.ids.qasemti.utils.formatNumber
 import com.ids.qasemti.utils.hide
-import java.util.ArrayList
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AdapterRelatedOrder(val items: ArrayList<RelatedOrder>, private val itemClickListener: RVOnItemClickListener, context: Context) :
     RecyclerView.Adapter<AdapterRelatedOrder.VHItem>() {
@@ -29,7 +30,9 @@ class AdapterRelatedOrder(val items: ArrayList<RelatedOrder>, private val itemCl
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
         holder.value.text = items.get(position).grandTotal!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator)+ " "+items.get(position).currency
-        holder.date.text = items.get(position).orderDate
+        var simp = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
+        var smp = SimpleDateFormat("dd/mm/yyyy",Locale.ENGLISH)
+        holder.date.text = smp.format(simp.parse(items.get(position).orderDate))
         holder.due.text = items.get(position).adminFees!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+ items.get(position).currency
         holder.earning.text = items.get(position).orderEarning!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+ items.get(position).currency
         /*if(position==items.size-1&&done==false){

@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
@@ -40,8 +41,12 @@ class MyApplication : Application() {
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
         var renewing  = false
+        var arraySelectedImage: ArrayList<FilesSelected> = arrayListOf()
+        var myAddress : String ?=""
         var addNew : Boolean = true
         var selectedFragmentTag : String ?=""
+        var toDetails : Boolean =false
+        var selectedOrderId : Int ?=0
         var currency : String ?=""
         var fromOrderPlaced  =false
         var webLinks : FirebaseWebData ?=null
@@ -51,6 +56,8 @@ class MyApplication : Application() {
         var enableCountryCodes : Boolean ?=false
         var countryNameCodes : String ?=""
         var typeSelected = 0
+        var firstTimeResult = true
+        var clickedIndex = 0
         var relatedOrders : ArrayList<RelatedOrder> = arrayListOf()
         var renewed = false
         var completed = false
@@ -72,7 +79,6 @@ class MyApplication : Application() {
         var selectedOrderTrack : ResponseOrders ?=null
         var selectedItemDialog="+965"
         var addNewAddress = true
-
         var settlementTabSelected =0
         var defaultIcon : ImageView ?=null
         var selectedFragment  : Fragment ?=null
@@ -80,6 +86,7 @@ class MyApplication : Application() {
         var fromProfile : Boolean ?= false
         var position : Int =0
         var db : FirebaseFirestore?=null
+        var documents : ArrayList<DocumentReference> = arrayListOf()
         var foregroundOnlyLocationService: LocationForeService? = null
         var tintColor : Int = R.color.white
         var selectedImage:String ?=""
@@ -94,6 +101,7 @@ class MyApplication : Application() {
         var temporaryProfile : User ?=null
         var tempProfilePic : File ?=null
         var tempCivilId : File?=null
+        var tempCivilIdBack : File ?=null
         var firstImage : Boolean ?=false
         var selectedService : ResponseService ?=null
         var rentalId : Int ?=0
@@ -117,6 +125,7 @@ class MyApplication : Application() {
         var isEditService : Boolean = false
         var fromSplash : Boolean = false
         var fromFooterOrder : Boolean = true
+        var fromHome : Boolean = false
         var localizeArray: FirebaseLocalizeArray ?= null
         var kuwaitGovs : ArrayList<ResponseGovernant> = arrayListOf()
         var arrayCart : ArrayList<RequestPlaceOrder> = arrayListOf()
@@ -163,6 +172,18 @@ class MyApplication : Application() {
         var generalNotificaiton : Int ?
         get() = sharedPreferences.getInt(AppConstants.GENERAL_NOTF,1)
         set(value) { sharedPreferencesEditor.putInt(AppConstants.GENERAL_NOTF,value!!)}
+        var trackOrderIdList : String ?
+        get() = sharedPreferences.getString(AppConstants.TRACKING_LIST,"")
+        set(value) { sharedPreferencesEditor.putString(AppConstants.TRACKING_LIST , value)}
+        var appAlive = false
+
+        var selectedOrderRemoveIndex : Int ?=0
+        var resumed : Boolean = false
+        var destroyed : Boolean = false
+        var foregrounded : Boolean = false
+        var backgrounded : Boolean = false
+
+        var listOrderTrack : ArrayList<String> = arrayListOf()
 
 
     }

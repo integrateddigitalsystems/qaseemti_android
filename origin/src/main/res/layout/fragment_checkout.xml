@@ -49,12 +49,14 @@
                     android:tint="@color/primary" />
 
                 <com.ids.qasemti.custom.CustomTextViewMedium
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/small_margin"
                     android:textColor="@color/gray_font_title"
                     android:textSize="@dimen/medium_font"
-                    android:layout_marginEnd="@dimen/big_margin"
+                    android:maxLines="1"
+                    android:layout_marginEnd="@dimen/normal_margin"
                     android:id="@+id/tvSelectedAddressCheck"
                     android:gravity="center_vertical"
                     android:tag="select_delivery_address"
@@ -62,7 +64,7 @@
 
                 <LinearLayout
                     android:gravity="end"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                 <ImageView
                     android:layout_width="@dimen/fab_margin"
@@ -239,22 +241,22 @@
                                 android:inputType="none"
                                 android:paddingStart="@dimen/normal_margin"
                                 android:paddingEnd="@dimen/mini_margin"
-                                android:textSize="@dimen/small_font"
+                                android:textSize="@dimen/medium_font"
 
                                 />
 
                             <LinearLayout
-                                android:gravity="center_vertical|end"
                                 android:id="@+id/rlFromDate"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/height_35">
+                                android:layout_height="@dimen/height_35"
+                                android:gravity="center_vertical|end">
 
-                            <ImageView
-                                android:layout_width="@dimen/normal_icon"
-                                android:layout_height="@dimen/normal_icon"
-                                android:layout_marginEnd="@dimen/normal_margin"
-                                android:src="@drawable/icon_calendar"
-                                android:tint="@color/seconday_use" />
+                                <ImageView
+                                    android:layout_width="@dimen/normal_icon"
+                                    android:layout_height="@dimen/normal_icon"
+                                    android:layout_marginEnd="@dimen/normal_margin"
+                                    android:src="@drawable/icon_calendar"
+                                    android:tint="@color/seconday_use" />
 
                             </LinearLayout>
 
@@ -278,25 +280,25 @@
                                 android:inputType="none"
                                 android:paddingStart="@dimen/normal_margin"
                                 android:paddingEnd="@dimen/mini_margin"
-                                android:textSize="@dimen/small_font"
+                                android:textSize="@dimen/medium_font"
 
                                 />
 
 
                             <LinearLayout
-                                android:gravity="center_vertical|end"
                                 android:id="@+id/rlFromTime"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/height_35">
+                                android:layout_height="@dimen/height_35"
+                                android:gravity="center_vertical|end">
 
-                            <ImageView
-                                android:layout_width="@dimen/icon_2"
-                                android:layout_height="@dimen/icon_2"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/normal_margin"
-                                android:src="@drawable/icon_hourglass"
-                                android:tint="@color/seconday_use" />
+                                <ImageView
+                                    android:layout_width="@dimen/icon_2"
+                                    android:layout_height="@dimen/icon_2"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="@dimen/normal_margin"
+                                    android:src="@drawable/icon_hourglass"
+                                    android:tint="@color/seconday_use" />
 
                             </LinearLayout>
 
@@ -346,15 +348,15 @@
                                 android:inputType="none"
                                 android:paddingStart="@dimen/normal_margin"
                                 android:paddingEnd="@dimen/mini_margin"
-                                android:textSize="@dimen/small_font"
+                                android:textSize="@dimen/medium_font"
 
                                 />
 
                             <LinearLayout
-                                android:gravity="center_vertical|end"
                                 android:id="@+id/rlToDate"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/height_35">
+                                android:layout_height="@dimen/height_35"
+                                android:gravity="center_vertical|end">
 
                                 <ImageView
                                     android:layout_width="@dimen/normal_icon"
@@ -384,16 +386,16 @@
                                 android:inputType="none"
                                 android:paddingStart="@dimen/normal_margin"
                                 android:paddingEnd="@dimen/mini_margin"
-                                android:textSize="@dimen/small_font"
+                                android:textSize="@dimen/medium_font"
 
                                 />
 
 
                             <LinearLayout
-                                android:gravity="center_vertical|end"
                                 android:id="@+id/rlToTime"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/height_35">
+                                android:layout_height="@dimen/height_35"
+                                android:gravity="center_vertical|end">
 
                                 <ImageView
                                     android:layout_width="@dimen/icon_2"
@@ -519,11 +521,12 @@
                 <LinearLayout
 
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/bigger_card"
                     android:orientation="horizontal"
                     android:weightSum="2">
 
                     <LinearLayout
+                        android:gravity="center_vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_start_end"
@@ -533,8 +536,8 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
+                            android:layout_height="@dimen/normal_icon_size"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal">
 
 
@@ -546,7 +549,9 @@
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
+                                android:maxLines="1"
+                                android:gravity="center_vertical"
                                 android:layout_marginStart="@dimen/normal_margin"
                                 android:id="@+id/tvPrice"/>
 
@@ -554,10 +559,10 @@
                         </LinearLayout>
 
                         <LinearLayout
+
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/mini_margin"
-                            android:layout_weight="1"
+                            android:layout_height="@dimen/normal_icon_size"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal">
 
 
@@ -570,8 +575,10 @@
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:id="@+id/tvVariationType"
+                                android:maxLines="1"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:layout_height="match_parent"
                                 android:layout_marginStart="@dimen/normal_margin" />
 
                         </LinearLayout>
@@ -580,6 +587,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:gravity="center_vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/normal_margin"
@@ -589,8 +597,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
+                            android:layout_height="@dimen/normal_icon_size"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
@@ -603,17 +610,20 @@
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
                                 android:layout_marginStart="@dimen/normal_margin"
                                 android:id="@+id/tvServiceType"/>
 
                         </LinearLayout>
 
                         <LinearLayout
+                            android:layout_gravity="bottom"
+                            android:gravity="center_vertical"
+
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/mini_margin"
-                            android:layout_weight="1"
+                            android:layout_height="@dimen/normal_icon_size"
                             android:orientation="horizontal">
 
 
@@ -625,7 +635,8 @@
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
+                                android:maxLines="1"
                                 android:layout_marginStart="@dimen/normal_margin"
                                 android:gravity="center_vertical"
                                 android:id="@+id/tvSize" />

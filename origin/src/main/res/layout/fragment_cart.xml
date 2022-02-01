@@ -28,6 +28,17 @@
         layout="@layout/toolbar" />
     </LinearLayout>-->
 
+        <com.ids.qasemti.custom.CustomTextViewMedium
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="@dimen/header_font"
+            android:text="@string/no_data"
+            android:tag="no_data"
+            android:textColor="@color/gray_font_title"
+            android:id="@+id/tvNoCartData"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCart"
             android:layout_width="match_parent"

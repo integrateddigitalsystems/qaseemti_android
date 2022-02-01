@@ -2,6 +2,8 @@ package com.ids.qasemti.utils
 
 
 import com.google.android.gms.maps.model.LatLng
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.RequestJOrderid
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponeMainNotification
 import com.ids.qasemti.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -17,7 +19,7 @@ interface RetrofitInterface {
     @POST("notifications")
     fun getNotifications(
         @Body param: RequestNotifications
-    ): Call<ArrayList<ResponseNotification>>
+    ): Call<ResponeMainNotification>
 
     @POST("mark-notification")
     fun markNotification(
@@ -140,12 +142,12 @@ interface RetrofitInterface {
 
 
 
-    @POST("sp_clients_reviews")
+    @POST("sp_post_rating")
     fun setRatingSer(
         @Body param : RequestClientReviews
     ): Call<ResponseMessage>
 
-    @POST("sp_post_ratings")
+    @POST("cl_post_rating")
     fun setRating(
         @Body param:RequestRating
     ): Call<ResponseMessage>
@@ -299,7 +301,8 @@ interface RetrofitInterface {
         @Part(ApiParameters.FILE_NAME) filename: RequestBody,
         @Part file: MultipartBody.Part,
         @Part(ApiParameters.PRODUCT_ID) product_id: RequestBody,
-        @Part(ApiParameters.FILE_ID) fileId: RequestBody
+        @Part(ApiParameters.FILE_ID) fileId: RequestBody,
+        @Part(ApiParameters.LANGUAGE) lang : String
 
     ): Call<ResponseMessage>
 
@@ -311,6 +314,7 @@ interface RetrofitInterface {
 
     @POST("get_payment_methods")
     fun getPaymentMethods(
+        @Body param : RequestLanguage
     ):Call<ResponsePaymentMethod>
 
 
@@ -338,6 +342,11 @@ interface RetrofitInterface {
     @POST("sp_get_orders")
     fun getOrderById(
        @Body param : RequestOrderIdL
+    ):Call<ResponseMainOrderById>
+
+    @POST("sp_get_orders")
+    fun getOrderByIdBroad(
+        @Body param : RequestOrderIdB
     ):Call<ResponseMainOrderById>
 
     @GET("search")
@@ -395,9 +404,16 @@ interface RetrofitInterface {
     fun addGalleryImage(
         @Part(ApiParameters.VENDOR_ID) vendor_id: Int,
         @Part(ApiParameters.PRODUCT_ID) product_id: Int,
-        @Part image: MultipartBody.Part
+        @Part image: MultipartBody.Part,
+        @Part (ApiParameters.LANGUAGE) lang : String
 
     ): Call<ResponseMessage>
+
+    @POST("dont_broadcast_order_outofrange")
+    fun dontBroadcast(
+        @Body req : RequestJOrderid
+    ):Call<ResponseMessage>
+
 
 
     @POST("sp_get_product_gallery")

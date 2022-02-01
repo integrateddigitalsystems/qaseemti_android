@@ -288,8 +288,8 @@
                     android:textDirection="locale"
                     android:textSize="@dimen/medium_font"
                     android:textColor="@color/gray_font_title"
-                    android:text="@string/PushNotifications"
-                    android:tag="PushNotifications"
+                    android:text="@string/notifications_type"
+                    android:tag="notifications_type"
                     android:paddingStart="@dimen/normal_margin"
                     android:paddingEnd="@dimen/normal_margin"
                     />

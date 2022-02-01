@@ -34,8 +34,11 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settlement)
         AppHelper.setAllTexts(rootLayout, this)
+        MyApplication.settlementTabSelected =0
         init()
         listeners()
+
+
     }
 
     private fun init() {
@@ -154,11 +157,13 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                         setData(position)
                     } catch (E: java.lang.Exception) {
                         loading.hide()
+                        setData(position)
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseMainSettlement>, throwable: Throwable) {
                     loading.hide()
+                    setData(position)
                 }
             })
     }
@@ -173,13 +178,18 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
             }
 
             tvTotalOrderCount.text = res!!.ordersCount.toString()
-            tvSettlementAmount.text = res!!.settlementAmount!!.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " " +"KWD" //res!!.orders.get(position).currency
+        //    if(res!!.settlementAmount!=0)
+                tvSettlementAmount.text = res!!.settlementAmount!!.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " " +"KWD" //res!!.orders.get(position).currency
+            /*else
+                tvSettlementAmount.text = res!!.settlementAmount!!.toString()*/
+
             if(array.size==0){
                 btRequestSettlements.hide()
                 tvNoDataSet.show()
                 rvSettlements.hide()
 
             }else {
+                rvSettlements.show()
                 tvNoDataSet.hide()
                 btRequestSettlements.show()
                 MyApplication.upcoming = false
@@ -190,16 +200,23 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
             }
 
         } else {
-            if(adapter!=null) {
+
+            try{
                 array.clear()
                 adapter!!.notifyDataSetChanged()
-            }
-            tvTotalOrderCount.text = resSet!!.numberOfOrders.toString()
-            tvSettlementAmount.text = resSet!!.totalEarnings!!.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator)
-            try {
-              tvSettlementAmount.text = tvSettlementAmount.text.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+"KWD"//resSet!!.settlements.get(0).relatedOrders.get(0).currency
             }catch (ex:Exception){
 
+            }
+            try {
+                tvTotalOrderCount.text = resSet!!.numberOfOrders.toString()
+               // if(resSet!!.totalEarnings!!.toInt()!=0)
+                    tvSettlementAmount.text = resSet!!.totalEarnings!!.toString().formatNumber(AppConstants.TwoDecimalThousandsSeparator)+ " "+"KWD"
+                /*else
+                    tvSettlementAmount.text = resSet!!.totalEarnings!!.toString() + " "+"KWD"*/
+
+            }catch (ex:Exception){
+                tvTotalOrderCount.text = "0"
+                tvSettlementAmount.text = "0 KWD"
             }
             btRequestSettlements.hide()
             MyApplication.upcoming = true
@@ -236,7 +253,8 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                     )
                 }else{
                     MyApplication.selectedOrder = array.get(position)
-                    startActivity(Intent(this,ActivityOrderDetails::class.java))
+                    startActivity(Intent(this,ActivityOrderDetails::class.java)
+                        .putExtra("orderId", MyApplication.selectedOrder!!.orderId!!.toInt()))
                 }
             }
         }

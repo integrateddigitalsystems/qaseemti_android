@@ -1,11 +1,14 @@
 package com.ids.qasemti.controller.Activities
 
+import android.app.Activity
 import android.graphics.Bitmap
+import android.net.http.SslError
 import android.os.Bundle
 import android.util.Log
 import android.webkit.*
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestContactUs
 import com.ids.qasemti.model.ResponseUpdate
@@ -20,6 +23,7 @@ import retrofit2.Response
 class ActivityWeb: ActivityBase() {
 
     var selectedUrl : String ?=""
+    var id : Int ?=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
@@ -29,9 +33,9 @@ class ActivityWeb: ActivityBase() {
 
 
     override fun onBackPressed() {
-        if (!MyApplication.fromSplash) {
+      //  if (!MyApplication.fromSplash) {
             super.onBackPressed()
-        }
+     //   }
        /* else {
             //Can't go back without accepting terms
         }*/
@@ -39,20 +43,21 @@ class ActivityWeb: ActivityBase() {
 
     fun resultContact(req:Int){
         if(req==1){
-            AppHelper.createDialog(this,AppHelper.getRemoteString("success",this))
+            toast(AppHelper.getRemoteString("success",this))
         }else{
-            AppHelper.createDialog(this,AppHelper.getRemoteString("failure",this))
+            toast(AppHelper.getRemoteString("failure",this))
         }
         try {
             loading.hide()
         }catch (ex: Exception){
 
         }
-        etFullNameContact.text.clear()
+        /*etFullNameContact.text.clear()
         etEmailContact.text.clear()
         etMessageContact.text.clear()
         etPhoneContact.text.clear()
-        etSubjectContact.text.clear()
+        etSubjectContact.text.clear()*/
+        super.onBackPressed()
     }
     fun sendContact(){
         try {
@@ -83,7 +88,7 @@ class ActivityWeb: ActivityBase() {
         tvPageTitle.show()
         AppHelper.setLogoTint(btBackTool,this,R.color.primary)
         var title = intent.getStringExtra("webTitle")
-        var id = intent.getIntExtra("webId",0)
+        id = intent.getIntExtra("webId",0)
         tvPageTitle.setColorTypeface(this,R.color.primary,title!!,true)
         btBackTool.setOnClickListener {
             super.onBackPressed()
@@ -94,40 +99,9 @@ class ActivityWeb: ActivityBase() {
         }else{
             selectedUrl = MyApplication.webLinks!!.links.find { it.idNo ==id  }!!.urlAr
         }}catch (e:Exception){}
-        if(id==4){
-            linearContact.show()
-            wvData.hide()
-            var name=""
-            name= if(MyApplication.selectedUser!!.firstName!=null) MyApplication.selectedUser!!.firstName!!+" " else ""+
-                  if(MyApplication.selectedUser!!.middleName!=null) MyApplication.selectedUser!!.middleName!!+" " else ""+
-                  if(MyApplication.selectedUser!!.lastName!=null) MyApplication.selectedUser!!.lastName!!+" " else ""
 
-            etFullNameContact.setText(name)
-            if(MyApplication.selectedUser!!.email!=null)
-                 etEmailContact.setText(MyApplication.selectedUser!!.email)
 
-            if(MyApplication.selectedUser!!.mobileNumber!=null)
-                etPhoneContact.setText(MyApplication.selectedUser!!.mobileNumber)
 
-          }
-
-        if(MyApplication.fromSplash){
-
-            llAcceptTerms.show()
-            btBackTool.hide()
-
-            cbTermsConditions.setOnCheckedChangeListener { buttonView, isChecked ->
-                btProceed.isEnabled = isChecked
-            }
-
-            btProceed.onOneClick {
-
-                MyApplication.termsCondition = true
-                setResult(RESULT_OK, intent)
-                finish()
-                MyApplication.fromSplash = false
-            }
-        }
 
         loadContent(selectedUrl!!,if(id==4) wvData2 else wvData)
 
@@ -154,9 +128,10 @@ class ActivityWeb: ActivityBase() {
         webView.settings.javaScriptEnabled=true
         webView.settings.loadWithOverviewMode = true
         webView.settings.useWideViewPort = false
-        webView.settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
         webView.settings.builtInZoomControls = false
         webView.settings.displayZoomControls = false
+        webView.settings.domStorageEnabled = true
 
 
         webView.webViewClient = object : WebViewClient() {
@@ -169,6 +144,43 @@ class ActivityWeb: ActivityBase() {
                 return false
             }
 
+            override fun onReceivedError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                error: WebResourceError?
+            ) {
+                super.onReceivedError(view, request, error)
+            }
+
+            override fun onReceivedSslError(
+                view: WebView?,
+                handler: SslErrorHandler?,
+                error: SslError?
+            ) {
+                super.onReceivedSslError(view, handler, error)
+            }
+
+            override fun onReceivedHttpError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                errorResponse: WebResourceResponse?
+            ) {
+                super.onReceivedHttpError(view, request, errorResponse)
+                WebStorage.getInstance().deleteAllData();
+
+                logw("HTTPWORK","error")
+                // Clear all the cookies
+                CookieManager.getInstance().removeAllCookies(null);
+                CookieManager.getInstance().flush();
+
+                webView.clearCache(true);
+                webView.clearFormData();
+                webView.clearHistory();
+                webView.clearSslPreferences();
+                loadContent(content , webView )
+
+            }
+
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 running = Math.max(running, 1)
                 super.onPageStarted(view, url, favicon)
@@ -176,9 +188,55 @@ class ActivityWeb: ActivityBase() {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
+                logw("HTTPWORK","done")
                 if(--running == 0) {
                     loading.hide()
+
+                    if(MyApplication.fromSplash){
+
+                        llAcceptTerms.show()
+                      //  btBackTool.hide()
+
+                        cbTermsConditions.setOnCheckedChangeListener { buttonView, isChecked ->
+                            btProceed.isEnabled = cbTermsConditions.isChecked
+                        }
+                        llCheckTerms.onOneClick {
+                            if(cbTermsConditions.isChecked)
+                                cbTermsConditions.isChecked = false
+                            else {
+                                cbTermsConditions.isChecked = true
+                            }
+
+                            btProceed.isEnabled = cbTermsConditions.isChecked
+                        }
+
+
+                        btProceed.onOneClick {
+
+                            MyApplication.termsCondition = true
+                            setResult(RESULT_OK, intent)
+                            finish()
+                            MyApplication.fromSplash = false
+                        }
+                    }
+                    else if(id==4){
+                        linearContact.show()
+                        wvData.hide()
+                        var name=""
+                        name= if(MyApplication.selectedUser!!.firstName!=null) MyApplication.selectedUser!!.firstName!!+" " else ""+
+                                if(MyApplication.selectedUser!!.middleName!=null) MyApplication.selectedUser!!.middleName!!+" " else ""+
+                                        if(MyApplication.selectedUser!!.lastName!=null) MyApplication.selectedUser!!.lastName!!+" " else ""
+
+                        etFullNameContact.setText(name)
+                        if(MyApplication.selectedUser!!.email!=null)
+                            etEmailContact.setText(MyApplication.selectedUser!!.email)
+
+                        if(MyApplication.selectedUser!!.mobileNumber!=null)
+                            etPhoneContact.setText(MyApplication.selectedUser!!.mobileNumber)
+
+                    }
                 }
+
             }
         }
 
@@ -202,6 +260,7 @@ class ActivityWeb: ActivityBase() {
         }
         )
 
+        var x = content
         webView.loadUrl(content)
     }
 }

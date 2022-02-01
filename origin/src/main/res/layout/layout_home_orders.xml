@@ -35,7 +35,7 @@
                 android:tag="@string/available"
                 android:text="@string/available"
                 android:textColor="@color/gray_font"
-                android:theme="@style/Theme.MyTheme"
+                android:theme="@style/SelectionSwitch"
                 app:switchPadding="@dimen/small_margin" />
 
         </LinearLayout>
@@ -47,7 +47,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/rounded_white_red_border"
+            android:background="@drawable/rounded_white_primary_border"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="@dimen/margin_start_end"
@@ -68,8 +68,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_start_end"
-                android:tag="client_s_rating"
-                android:text="@string/client_s_rating"
+                android:tag="ClientsRating"
+                android:text="@string/ClientsRating"
                 android:textColor="@color/gray_font"
                 android:textSize="@dimen/normal_font"
 
@@ -166,7 +166,7 @@
                                 android:tag="Active"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/normal_font" />
+                                android:textSize="@dimen/small_font" />
 
                             <com.ids.qasemti.custom.CustomTextViewMedium
                                 android:layout_width="wrap_content"
@@ -175,12 +175,13 @@
                                 android:layout_marginStart="@dimen/normal_margin"
                                 android:layout_marginEnd="45dp"
                                 android:gravity="start"
+                                android:maxLines="1"
                                 android:lineSpacingMultiplier="0.6"
-                                android:text="@string/orders"
-                                android:tag="orders"
+                                android:text="@string/Orders"
+                                android:tag="Orders"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/normal_font" />
+                                android:textSize="@dimen/small_font" />
                         </LinearLayout>
 
 
@@ -275,8 +276,8 @@
                                 android:layout_marginStart="@dimen/normal_margin"
                                 android:layout_marginEnd="45dp"
                                 android:gravity="start"
-                                android:text="@string/orders"
-                                android:tag="orders"
+                                android:text="@string/Orders"
+                                android:tag="Orders"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_font" />
                         </LinearLayout>
@@ -324,7 +325,7 @@
                 android:visibility="gone"
                 android:text="@string/no_data"
                 android:tag="no_data"
-                android:textColor="@color/primary"/>
+                android:textColor="@color/gray_font_title"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvOrders"
             android:layout_width="match_parent"

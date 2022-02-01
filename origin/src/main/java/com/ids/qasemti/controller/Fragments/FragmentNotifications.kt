@@ -8,16 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.gson.Gson
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.AdapterNotification
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponeMainNotification
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_code_verification.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.fragment_notifications.*
+import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
@@ -26,11 +30,15 @@ import retrofit2.Response
 import java.lang.Exception
 
 
-class FragmentNotifications : Fragment(), RVOnItemClickListener {
+class FragmentNotifications : Fragment(), RVOnItemClickListener , ApiListener {
 
     var array: ArrayList<ResponseNotification> = arrayListOf()
     var adapter: AdapterNotification? = null
     var notfNum: Int? = 0
+    var isLoading = true
+    var page = 1
+    var perPage = 10
+    var finishScrolling=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,30 +56,54 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayoutNotifications, requireContext())
+        page = 1
         init()
     }
 
     fun setData() {
-        rvNotifications.layoutManager = LinearLayoutManager(context)
-        adapter = AdapterNotification(array, this, requireContext())
-        rvNotifications.adapter = adapter
-        notfNum = array!!.count {
-            it.isViewed.equals("0")
+        if (adapter != null)
+            adapter!!.notifyDataSetChanged()
+        else {
+            rvNotifications.layoutManager = LinearLayoutManager(context)
+            adapter = AdapterNotification(array, this, requireContext())
+            rvNotifications.adapter = adapter
         }
-        (activity as ActivityHome).setNotNumber(notfNum!!)
-        if (array.size == 0) {
-            tvNoData.show()
-        } else {
-            tvNoData.hide()
-        }
-        try {
-            loading.hide()
-        } catch (ex: Exception) {
+           (activity as ActivityHome).setNotNumber(notfNum!!.toString())
+            //  }
+            /*try {
+            if (page > 1)
+                rvNotifications.getLayoutManager()!!.scrollToPosition(page*10)
+        }catch (ex:Exception){}*/
 
+
+            if (array.size == 0) {
+                tvNoData.show()
+            } else {
+                tvNoData.hide()
+            }
+            try {
+                loading.hide()
+            } catch (ex: Exception) {
+
+            }
+
+        rvNotifications.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                var x = recyclerView.scrollState
+                if (!recyclerView.canScrollVertically(dy) && dy > 0 && !isLoading && !finishScrolling)
+                {
+                        isLoading=true
+                        getData()
+
+                }
+            }
+        })
         }
-    }
+
 
     fun getData() {
+        swipeNotifications.isRefreshing = false
         try {
             try {
                 loading.show()
@@ -81,12 +113,13 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
         } catch (ex: Exception) {
 
         }
+
         var newReq = RequestNotifications(
             MyApplication.languageCode,
             MyApplication.selectedUser!!.mobileNumber,
             0,
-            10,
-            1
+            perPage,
+            page
         )
 
         if(MyApplication.isClient){
@@ -96,18 +129,28 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
             newReq.isCl = 0
             newReq.isSp = 1
         }
+
+        logw("NOTFREQ",Gson().toJson(newReq))
+
+
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getNotifications(
                 newReq
-            )?.enqueue(object : Callback<ArrayList<ResponseNotification>> {
+            )?.enqueue(object : Callback<ResponeMainNotification> {
                 override fun onResponse(
-                    call: Call<ArrayList<ResponseNotification>>,
-                    response: Response<ArrayList<ResponseNotification>>
+                    call: Call<ResponeMainNotification>,
+                    response: Response<ResponeMainNotification>
                 ) {
                     try {
-                        array.clear()
-                        array.addAll(response.body()!!)
+                        if(page==1)
+                            array.clear()
+                        array.addAll(response.body()!!.notf)
+                        notfNum = response.body()!!.count!!.toInt()
                         setData()
+                        isLoading=false
+                        page++
+                        if(response.body()!!.notf.size==0)
+                            finishScrolling=true
                     } catch (E: java.lang.Exception) {
                         try {
                             try {
@@ -122,7 +165,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
                 }
 
                 override fun onFailure(
-                    call: Call<ArrayList<ResponseNotification>>,
+                    call: Call<ResponeMainNotification>,
                     throwable: Throwable
                 ) {
                     try {
@@ -139,13 +182,23 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
 
         AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "", R.color.white)
 
-        getData()
-
+        if(MyApplication.selectedUser !=null )
+            getData()
+        else{
+            loading.show()
+            CallAPIs.getUserInfo(this)
+        }
         val animator: DefaultItemAnimator = object : DefaultItemAnimator() {
             override fun canReuseUpdatedViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean {
                 return true
             }
         }
+
+        swipeNotifications.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            page = 1
+            finishScrolling=false
+            getData()
+        })
 
 
     }
@@ -179,7 +232,7 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
                 if (array[position].isViewed.equals("0")) {
                     markNotification(array[position].id!!.toInt())
                     notfNum = notfNum!!.minus(1)
-                    (activity as ActivityHome).setNotNumber(notfNum!!)
+                    (activity as ActivityHome).setNotNumber(notfNum!!.toString())
                     array[position].isViewed = "1"
                 }
                 adapter!!.notifyItemChanged(position)
@@ -191,5 +244,13 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener {
             }
 
         }
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+
+        if(success) {
+            getData()
+        }
+
     }
 }

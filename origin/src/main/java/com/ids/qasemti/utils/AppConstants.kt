@@ -30,7 +30,7 @@ object AppConstants {
     const val OneDecimalThousandsSeparator = "#,###.0"
     const val OneDecimalSeparator = "#.0"
     const val NoDecimalSeparator = "#"
-    const val TwoDecimalThousandsSeparator = "#,###.00"
+    const val TwoDecimalThousandsSeparator = "#,##0.00"
     const val ThreeDecimalThousandsSeparator = "#,##0.000"
     const val NoDecimalThousandsSeparator = "#,###"
 
@@ -78,6 +78,8 @@ object AppConstants {
     const val FRAGMENT_PROD = "fragmentProducts"
     const val FRAGMENT_CART="fragmentCart"
     const val CHECKOUT = "checkout"
+    const val TRACKING_LIST = "trackingList"
+    const val APP_ALIVE="appAlive"
 
     const val UPDATE_PROFILE_CLIENT = 0
     const val UPDATE_PROFILE_SERVICE_PROVIDER = 1
@@ -103,12 +105,13 @@ object AppConstants {
     const val PLACE_ORDER_AVAILABLE_IN= 2
     const val PLACE_ORDER_AVAILABLE_OUT = 3
 
-    const val NOTF_TYPE_ORDERS = 1
+    const val NOTF_TYPE_BROADCAST_ORDERS = 1
     const val NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE = 2
     const val NOTF_TYPE_NORMAL = 3
     const val NOTF_TYPE_SERVICE = 4
     const val NOTF_TYPE_ACCEPT_ORDER = 5
     const val NOTF_TYPE_SUGGEST_NEW_DATE = 6
+    const val NOTF_PAYMENT_ADDED = 7
 
     const val PAYMENT_SUCCESS = "CAPTURED"
 }

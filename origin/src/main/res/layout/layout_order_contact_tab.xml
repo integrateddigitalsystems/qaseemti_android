@@ -141,7 +141,7 @@
                             android:text="@string/no_data"
                             android:tag="no_data"
                             android:id="@+id/tvLocationOrderDeatils"
-                            android:textColor="@color/primary"
+                            android:textColor="@color/gray_font_title"
                             android:textSize="@dimen/normal_font"
 
                             />
@@ -221,7 +221,7 @@
         <RelativeLayout
             android:id="@+id/llRatingOrder"
             android:gravity="center"
-            android:visibility="visible"
+            android:visibility="gone"
             android:orientation="vertical"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
@@ -230,25 +230,24 @@
             android:background="@drawable/half_rounded_blue">
 
             <ImageView
-                android:layout_centerHorizontal="true"
                 android:id="@+id/ivRate"
-                android:tint="@color/white"
-                android:layout_centerInParent="true"
                 android:layout_width="@dimen/small_icon"
                 android:layout_height="@dimen/small_icon"
-                android:src="@drawable/icon_star"/>
+                android:layout_centerInParent="true"
+                android:src="@drawable/icon_star"
+                android:tint="@color/white" />
 
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_width="wrap_content"
-                android:layout_below="@id/ivRate"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/normal_margin"
+                android:layout_below="@id/ivRate"
                 android:layout_centerInParent="true"
+                android:paddingStart="@dimen/normal_margin"
                 android:paddingEnd="@dimen/normal_margin"
                 android:tag="rate"
-                android:textSize="@dimen/small_font_3"
+                android:text="@string/rate"
                 android:textColor="@color/white"
-                android:text="@string/rate"/>
+                android:textSize="@dimen/small_font_3" />
 
         </RelativeLayout>
 

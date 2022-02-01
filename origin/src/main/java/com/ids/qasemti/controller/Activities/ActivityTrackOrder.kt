@@ -26,6 +26,7 @@ import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
 import com.ids.qasemti.model.ResponseGeoAddress
@@ -36,7 +37,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 
 
-class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback , ApiListener{
+class ActivityTrackOrder : AppCompactBase(), OnMapReadyCallback , ApiListener{
 
     var gmap: GoogleMap? = null
     var LatLngCurr: LatLng? = null
@@ -160,7 +161,7 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback , ApiListener{
             onBackPressed()
         }
         AppHelper.setLogoTint(btBackTool, this, R.color.white)
-        tvPageTitle.textRemote("track_order", this)
+        tvPageTitle.text = AppHelper.getRemoteString("track_order", this) +" "+ MyApplication.selectedOrder!!.orderId
         tvPageTitle.setColorTypeface(this, R.color.white, "", true)
 
 
@@ -257,7 +258,7 @@ class ActivityTrackOrder : ActivityBase(), OnMapReadyCallback , ApiListener{
 
     override fun onMapReady(googleMap: GoogleMap) {
         gmap = googleMap
-        gmap!!.setMinZoomPreference(1f)
+        gmap!!.setMinZoomPreference(13f)
         var latLngs: ArrayList<LatLng> = arrayListOf()
 
         var lan: Int = 0

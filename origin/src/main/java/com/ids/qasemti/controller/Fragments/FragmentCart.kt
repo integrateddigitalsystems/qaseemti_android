@@ -33,7 +33,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
 
-class FragmentCart : Fragment() , RVOnItemClickListener {
+class FragmentCart : Fragment() , RVOnItemClickListener , ApiListener {
 
     var array : ArrayList<ResponseOrders> = arrayListOf()
     var adapter : AdapterCart ?=null
@@ -41,6 +41,24 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if(MyApplication.toDetails){
+            MyApplication.toDetails = false
+            startActivity(
+                Intent(requireContext(), ActivityPlaceOrder::class.java).putExtra(
+                    AppConstants.ORDER_ID,
+                    MyApplication.selectedOrderId.toString()
+                )
+            )
+            /* loading.show()
+             CallAPIs.getOrderByOrderId(MyApplication.selectedOrderId!!.toInt(),this)*/
+        }else {
+            init()
+        }
+
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(com.ids.qasemti.R.layout.fragment_cart, container, false)
@@ -50,7 +68,8 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AppHelper.setAllTexts(rootLayout,requireContext())
-        init()
+            init()
+
 
     }
 
@@ -60,7 +79,7 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
         }catch (ex: Exception){
 
         }
-        var newReq = RequestOrderId(orderID)
+        var newReq = RequestOrderId(orderID,MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.deleteCartItem(
                 newReq
@@ -94,6 +113,7 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
                     try{
                         array.clear()
                         array.addAll(response.body()!!.orders)
+                        (activity as ActivityHome).setCartNumber(response.body()!!.orders.size.toString())
                         setData()
                     }catch (E: java.lang.Exception){
                         setData()
@@ -105,14 +125,21 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
             })
     }
     fun setData(){
-        try {
-            adapter = AdapterCart(array, this, requireContext())
-            rvCart.layoutManager = LinearLayoutManager(requireContext())
-            rvCart.adapter = adapter
-            rvCart.isNestedScrollingEnabled = false
-            loading.hide()
-        }catch (ex:Exception){
 
+        try {
+            loading.hide()
+            if(array.size > 0) {
+                adapter = AdapterCart(array, this, requireContext())
+                rvCart.layoutManager = LinearLayoutManager(requireContext())
+                rvCart.adapter = adapter
+                rvCart.isNestedScrollingEnabled = false
+                tvNoCartData.hide()
+                rvCart.show()
+            }else{
+                tvNoCartData.show()
+                rvCart.hide()
+            }
+        }catch (ex:Exception){
         }
     }
 
@@ -161,6 +188,7 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
                 else
                     type = AppConstants.TYPE_RENTAL
 
+                logw("CART_ID",array[position].orderId!!.toString())
                 MyApplication.selectedPlaceOrder = RequestPlaceOrder(
                     MyApplication.userId,
                     array[position].typeId,//MAKESURE
@@ -177,7 +205,8 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
                     array[position].addressDescription,
                     if (array.get(position).addresses.size > 0) array.get(position).addresses.get(0).addressId!!.toInt() else 0,
                     array[position].product!!.booking_start_date,
-                    array[position].product!!.booking_end_date
+                    array[position].product!!.booking_end_date,
+                    MyApplication.languageCode
 
 
                 )
@@ -189,5 +218,9 @@ class FragmentCart : Fragment() , RVOnItemClickListener {
                 )
             }
         }
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+
     }
 }

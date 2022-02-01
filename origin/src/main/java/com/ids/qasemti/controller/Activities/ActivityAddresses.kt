@@ -9,6 +9,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterAddress
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 
@@ -55,7 +56,7 @@ class ActivityAddresses : ActivityBase() , RVOnItemClickListener {
          //   MyApplication.selectedAddress = array.get(position)
             intent.putExtra(
                 "address",
-                MyApplication.selectedAddress!!.desc + " ," + MyApplication.selectedAddress!!.street + " ," +  MyApplication.selectedAddress!!.bldg + " ," +  MyApplication.selectedAddress!!.floor
+                MyApplication.selectedAddress!!.province + " ," + MyApplication.selectedAddress!!.area + " ," +  MyApplication.selectedAddress!!.block + " ," +  MyApplication.selectedAddress!!.street
             )
             intent.putExtra("submitted",MyApplication.submitted)
             setResult(RESULT_OK, intent)

@@ -55,7 +55,7 @@
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:gravity="center"
                 android:id="@+id/tvArabic"
-                android:background="@drawable/rounded_white_red_border"
+                android:background="@drawable/rounded_white_primary_border"
                 android:layout_width="@dimen/logo_size_top_hight"
                 android:layout_height="@dimen/button_height"
                 android:tag="btn_arabic"

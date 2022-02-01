@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication
@@ -203,11 +204,13 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
         MyApplication.phoneNumber = MyApplication.selectedPhone
         MyApplication.isSignedIn = true
         if(MyApplication.isClient){
-            MyApplication.selectedPos = 2
-            MyApplication.defaultIcon = ivFooterHome
-            MyApplication.tintColor = R.color.primary
-            MyApplication.selectedFragment = FragmentHomeClient()
-            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+            if(MyApplication.selectedFragment==null && MyApplication.selectedFragmentTag == null) {
+                MyApplication.selectedPos = 2
+                MyApplication.defaultIcon = ivFooterHome
+                MyApplication.tintColor = R.color.primary
+                MyApplication.selectedFragment = FragmentHomeClient()
+                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+            }
         }else{
             MyApplication.selectedPos = 2
             MyApplication.defaultIcon = ivFooterHome

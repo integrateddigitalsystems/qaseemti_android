@@ -11,7 +11,7 @@
     <string name="mobile">Mobile</string>
     <string name="login">LOGIN</string>
     <string name="products">Products</string>
-    <string name="orders">Orders</string>
+    <string name="Orders">Orders</string>
     <string name="enterNumber">Please enter phone number</string>
     <string name="Home">Home</string>
     <string name="Notification">Notification</string>
@@ -30,7 +30,7 @@
     <string name="alternate_contact_number">Alternate Contact Number</string>
     <string name="please_fill_the_below_fields_to_register">Please fill the below fields to register</string>
     <string name="available">Available</string>
-    <string name="client_s_rating">Client\'s Rating</string>
+    <string name="ClientsRating">Client\'s Rating</string>
     <string name="enter_verification_code">Enter Verification Code</string>
     <string name="active_n_order">Active \n Orders</string>
     <string name="upcoming_orders">Upcoming \n Orders</string>
@@ -161,6 +161,7 @@
     <string name="settlement">Settlement</string>
     <string name="amount">Amount</string>
     <string name="MyEarning">My Earning</string>
+
     <string name="RequestSettlement">Request Settlement</string>
     <string name="please_select_language">Please Select Language</string>
     <string name="service_information">Service Information</string>
@@ -197,7 +198,7 @@
     <string name="share">Share</string>
     <string name="MyAddresses">My Addresses</string>
     <string name="inApp">In App</string>
-    <string name="viewRelatedOrders">View Related Orders</string>
+    <string name="view_related_orders">View Related Orders</string>
     <string name="Related_orders_settlement">Related Orders of settlement </string>
     <string name="not_available">Not Available</string>
     <string name="Registration">Registration</string>
@@ -212,7 +213,7 @@
     <string name="success">Success</string>
     <string name="failure">Failure</string>
     <string name="submit_review">Submit Review</string>
-    <string name="previous_settlements">Previous Settlements</string>
+    <string name="PreviousSettlements">Previous Settlements</string>
     <string name="settlement_request_number">Settlement Request Number</string>
     <string name="cancelDate">Cancellation date</string>
     <string name="settlement_date">Settlement date</string>
@@ -315,6 +316,22 @@
     <string name="Proceed_without_Coupon">Proceed without Coupon</string>
     <string name="Apply_Coupon">Apply Coupon</string>
     <string name="apply_coupon_befor_placing">Do you want to apply this coupon before placing order ?</string>
+    <string name="TotalOrderCount">Total Order\nCount</string>
+    <string name="status_active">Active</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_upcoming">Future</string>
+    <string name="status_cancelled">Cancelled</string>
+    <string name="status_failed">Failed</string>
+    <string name="waiting_service_provider_approve">Waiting a service provider for approve</string>
+    <string name="Status">Status</string>
+    <string name="GpsDisabled">Gps Disabled</string>
+    <string name="Running">Running</string>
+    <string name="PendingSP">Pending SP</string>
+    <string name="PendingPayment">Pending Payment</string>
+    <string name="UnsuccessfulPayment">Unsuccessful Payment</string>
+    <string name="you_must_enter_civil_front_back">You must enter 2 Civil Attachment, front and back images</string>
+    <string name="sure_update_OnTrack">Are you sure you want to update On Track ?</string>
+    <string name="notifications_type">Notifications</string>
 
 
 </resources>

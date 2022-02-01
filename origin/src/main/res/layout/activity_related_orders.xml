@@ -14,8 +14,7 @@
             layout="@layout/no_logo_layout" />
     </LinearLayout>
 
-    <include
-        layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
 
     <LinearLayout
@@ -49,15 +48,16 @@
                     android:layout_height="@dimen/icon"
                     android:src="@drawable/footer_orders"/>
 
-                <me.grantland.widget.AutofitTextView
+                <com.ids.qasemti.custom.CustomTextViewMedium
                     android:maxLines="1"
                     android:layout_marginStart="@dimen/mini_margin"
+                    android:textSize="@dimen/medium_font"
                     android:layout_marginEnd="@dimen/mini_margin"
                     android:id="@+id/tvTitleOrders"
                     android:layout_width="wrap_content"
-                    android:tag="order"
+                    android:tag="Orders"
                     android:layout_height="@dimen/icon"
-                    android:text="@string/order"/>
+                    android:text="@string/Orders"/>
 
 
             </LinearLayout>
@@ -76,13 +76,15 @@
 
 
                 <ImageView
+                    android:tint="@color/primary"
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:src="@drawable/icon_myearning"/>
 
-                <me.grantland.widget.AutofitTextView
+                <com.ids.qasemti.custom.CustomTextViewMedium
                     android:layout_marginStart="@dimen/mini_margin"
                     android:layout_marginEnd="@dimen/mini_margin"
+                    android:textSize="@dimen/medium_font"
                     android:maxLines="1"
                     android:id="@+id/tvTitleEarnings"
                     android:layout_width="wrap_content"
@@ -109,12 +111,14 @@
 
 
                 <ImageView
+                    android:tint="@color/primary"
                     android:layout_width="@dimen/icon"
                     android:layout_height="@dimen/icon"
                     android:src="@drawable/icon_mydues"/>
 
-                <me.grantland.widget.AutofitTextView
+                <com.ids.qasemti.custom.CustomTextViewMedium
                     android:maxLines="1"
+                    android:textSize="@dimen/medium_font"
                     android:layout_marginStart="@dimen/mini_margin"
                     android:layout_marginEnd="@dimen/mini_margin"
                     android:id="@+id/tvTitleDues"

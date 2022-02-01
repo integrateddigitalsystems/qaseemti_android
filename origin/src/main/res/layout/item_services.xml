@@ -33,7 +33,6 @@
 
         <LinearLayout
             android:background="@drawable/pink_background_circle"
-            android:padding="@dimen/normal_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView

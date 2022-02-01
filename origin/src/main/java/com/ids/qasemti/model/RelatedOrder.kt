@@ -103,7 +103,11 @@ class RelatedOrder(
 
     @SerializedName("grand_total")
     @Expose
-    var grandTotal : String ?=""
+    var grandTotal : String ?="" ,
+
+    @SerializedName("additional_cost")
+    @Expose
+    var addCost : String ?=""
 
 
 

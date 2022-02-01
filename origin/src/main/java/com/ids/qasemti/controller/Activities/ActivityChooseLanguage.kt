@@ -4,8 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.webkit.WebSettings
+import android.webkit.WebView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.MyApplication
@@ -19,6 +22,8 @@ class ActivityChooseLanguage : ActivityBase() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_language)
         AppHelper.setAllTexts(rootLayoutChooseLogin,this)
+
+
 
         btToArabic.onOneClick {
             changeLanguage(AppConstants.LANG_ARABIC)
@@ -54,7 +59,6 @@ class ActivityChooseLanguage : ActivityBase() {
             MyApplication.selectedFragment = FragmentHomeSP()
         }
         MyApplication.selectedPos = 2
-        Handler(Looper.getMainLooper()).postDelayed({
         if(MyApplication.termsCondition!!){
             goNext()
         }
@@ -67,7 +71,7 @@ class ActivityChooseLanguage : ActivityBase() {
         }
 
 
-        }, 500)
+
 
 
     }
@@ -82,6 +86,7 @@ class ActivityChooseLanguage : ActivityBase() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if(MyApplication.termsCondition!!)
         goNext()
 
 

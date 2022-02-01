@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterRelatedOrder
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RelatedOrder
 import com.ids.qasemti.utils.*
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_related_orders.*
 import kotlinx.android.synthetic.main.activity_related_orders.rootLayout
 import kotlinx.android.synthetic.main.toolbar.*
 
-class ActivityRelatedOrders : AppCompatActivity() , RVOnItemClickListener  {
+class ActivityRelatedOrders : AppCompactBase() , RVOnItemClickListener  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

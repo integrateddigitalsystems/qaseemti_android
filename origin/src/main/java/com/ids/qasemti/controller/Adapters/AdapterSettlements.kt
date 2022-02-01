@@ -31,14 +31,24 @@ class AdapterSettlements(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
+        holder.statLL.hide()
+        holder.sepStatus.hide()
 
         holder.details.text = AppHelper.getRemoteString("view_order_details", con)
         holder.idTitle.hide()
         holder.viewOrder.show()
         holder.id.text = items.get(position).orderId.toString()
-        holder.date.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd hh:mm:ss","dd MMMM yyyy hh:mm")
+        holder.date.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd hh:mm:ss","dd MM yyyy hh:mm")
         try{holder.amount.text = items.get(position).grand_total!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator)+" "+items.get(position).currency}catch (e:Exception){}
         try{holder.earn.text = items.get(position).earnings!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+ items.get(position).currency}catch (e:Exception){}
+        try{holder.addCost.text = items.get(position).additional!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+ items.get(position).currency}catch (e:Exception){}
+        if(items.get(position).additional!!.isNullOrEmpty() || items.get(position).equals("0")){
+            holder.sep.hide()
+            holder.addCostLayout.hide()
+        }else{
+            holder.sep.show()
+            holder.addCostLayout.show()
+        }
         holder.duesText.text = items.get(position).adminFees!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+items.get(position).currency
 
 
@@ -58,8 +68,13 @@ class AdapterSettlements(
         var earningsTitle = itemView.findViewById<TextView>(R.id.tvEarningsTitle)
         var id = itemView.findViewById<TextView>(R.id.tvSettlementId)
         var date = itemView.findViewById<TextView>(R.id.tvOrderDateSett)
+        var statLL = itemView.findViewById<LinearLayout>(R.id.llOrderStatus)
+        var sepStatus = itemView.findViewById<LinearLayout>(R.id.FirstSep)
         var amount = itemView.findViewById<TextView>(R.id.tvSettAmount)
         var earn = itemView.findViewById<TextView>(R.id.tvEarnSett)
+        var addCost = itemView.findViewById<TextView>(R.id.tvAdditionalCost)
+        var addCostLayout = itemView.findViewById<LinearLayout>(R.id.llAdditionalfees)
+        var sep = itemView.findViewById<LinearLayout>(R.id.llAdditionalSep)
         var duesText = itemView.findViewById<TextView>(R.id.tvSettDues)
 
 

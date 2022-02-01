@@ -10,8 +10,11 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import android.widget.LinearLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.AdapterAdsPager
@@ -27,6 +30,19 @@ import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.google.android.youtube.player.internal.v
+
+import com.google.android.youtube.player.internal.r
+
+import com.google.android.youtube.player.internal.t
+
+import com.google.android.youtube.player.internal.l
+import kotlinx.android.synthetic.main.fragment_home_client.tbMedia
+import kotlinx.android.synthetic.main.fragment_service_details.*
+import androidx.viewpager.widget.ViewPager
+
+
+
 
 
 class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
@@ -84,7 +100,12 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
 
             override fun onFinish() {
                 isTimer = true
-                getServices(isTimer)
+                if (AppHelper.isOnline(requireContext())) {
+                    getServices(isTimer)
+                }else{
+                    AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
+                }
+
             }
         }.start()
     }
@@ -126,14 +147,42 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
             showPopupSocialMedia()
         }
 
+        rvServices.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val topRowVerticalPosition =
+                    if (recyclerView == null || recyclerView.childCount == 0) 0 else recyclerView.getChildAt(
+                        0
+                    ).top
+                listHomeClient.setEnabled(topRowVerticalPosition >= 0)
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
+
+
+
+        listHomeClient.setOnRefreshListener {
+            listHomeClient.isRefreshing = false
+            getBanners()
+            getServices(false)
+        }
+
 
 
         AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "", R.color.white)
-        getServices(false)
 
-        getBanners()
+        if (AppHelper.isOnline(requireContext())) {
+            getServices(false)
 
-        setUpTimer()
+            getBanners()
+
+            setUpTimer()
+        }else{
+            AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
+        }
+
 
     }
 
@@ -141,15 +190,33 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
         if (arrayItems.size > 0) {
             var array =
                 arrayItems.filter { it.bannerImageURL != "false" && !it.bannerImageURL.isNullOrEmpty() } as ArrayList
-            var adapterPager = AdapterAdsPager(
-                requireActivity(),
-                array,
-                lifecycle,
-                requireActivity().supportFragmentManager
-            )
-            vpAdsClient.adapter = adapterPager
+            if(array.size >0) {
+                linearHomeClient.show()
+                var adapterPager = AdapterAdsPager(
+                    requireActivity(),
+                    array,
+                    lifecycle,
+                    requireActivity().supportFragmentManager
+                )
+                tbMedia.setupWithViewPager(vpAdsClient)
+                if(MyApplication.languageCode == AppConstants.LANG_ARABIC) {
+                    vpAdsClient.setRotationY(180f)
+                    vpAdsClient.setPageTransformer(false,
+                        ViewPager.PageTransformer { page, position -> page.rotationY = 180f })
+                }
+                vpAdsClient.adapter = adapterPager
+
+            }else{
+                linearHomeClient.hide()
+                val p = listHomeClient.getLayoutParams() as ViewGroup.MarginLayoutParams
+                p.setMargins(0, -130, 0, 0)
+                listHomeClient.requestLayout()
+            }
         } else {
             linearHomeClient.hide()
+            val p = listHomeClient.getLayoutParams() as ViewGroup.MarginLayoutParams
+            p.setMargins(0, 65, 0, 0)
+            listHomeClient.requestLayout()
         }
     }
 
@@ -427,10 +494,14 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
                 }
 
                 override fun onFailure(call: Call<ResponseMainServices>, throwable: Throwable) {
-                    loading.hide()
-                    arrayAllServices.clear()
-                    arrayFiltered.clear()
-                    setData()
+                    try {
+                        loading.hide()
+                        arrayAllServices.clear()
+                        arrayFiltered.clear()
+                        setData()
+                    }catch (ex:Exception){
+
+                    }
                 }
             })
     }
@@ -489,6 +560,10 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
             }
 
 
+        }catch (ex:Exception){}
+
+        try {
+            listHomeClient.isRefreshing = false
         }catch (ex:Exception){}
 
         if(isTimer){

@@ -124,7 +124,6 @@
                 android:textAllCaps="false"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_gravity="center_vertical"
-                android:inputType="text"
                 android:gravity="center_vertical"
                 android:background="@color/transparent"
                 android:textColor="@color/gray_font_light"
@@ -214,6 +213,7 @@
                 android:layout_marginTop="@dimen/normal_margin"
                 android:maxLines="1"
                 android:paddingStart="@dimen/normal_margin"
+                android:visibility="gone"
                 android:inputType="text"
                 android:paddingEnd="@dimen/normal_margin"
                 android:hint="@string/Floor"
@@ -247,6 +247,7 @@
             <EditText
                 android:textAlignment="viewStart"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="@dimen/edit_text_height"
                 android:textColor="@color/gray_font"
                 android:layout_marginTop="@dimen/normal_margin"

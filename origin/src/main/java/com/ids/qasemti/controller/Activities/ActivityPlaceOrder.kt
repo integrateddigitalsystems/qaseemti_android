@@ -60,7 +60,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
     var username: String? = ""
     var arrayOrderData: ArrayList<OrderData> = arrayListOf()
     var arrayOrderCost: ArrayList<OrderData> = arrayListOf()
-
+    var fromKnet : Boolean = false
     var adapterOrderData: AdapterOrderData? = null
     var adapterOrderCost: AdapterOtherOrderData? = null
     var apiKey: String? = ""
@@ -136,7 +136,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
         try {
             tvOrderDate.text =
-                AppHelper.formatDate(orders.date!!, "yyyy-MM-dd hh:mm:ssss", "dd MMM yyyy hh:mm")
+                AppHelper.formatDate(orders.date!!, "yyyy-MM-dd hh:mm:ssss", "dd-MM-yyyy hh:mm")
         } catch (e: Exception) {
         }
         try {
@@ -198,6 +198,17 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         adapterOrderCost = AdapterOtherOrderData(arrayOrderCost, this, this)
         rvOtherData.adapter = adapterOrderCost
 
+        if(orders.vendor==null){
+            rvPaymentMethod.hide()
+            btPLaceOrder.hide()
+            tvPaymentMethodTitle.hide()
+            tvNoProvider.show()
+        }else{
+            rvPaymentMethod.show()
+            btPLaceOrder.show()
+            tvPaymentMethodTitle.show()
+            tvNoProvider.hide()
+        }
         loading.hide()
 
     }
@@ -210,7 +221,9 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
         MyApplication.selectedFragment = FragmentOrders()
         MyApplication.tintColor = R.color.primary
+        loading.hide()
         startActivity(Intent(this@ActivityPlaceOrder, ActivityHome::class.java))
+
     }
 
     fun paymentMethodStep() {
@@ -220,6 +233,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             request = RequestPaymentOrder(orderId.toInt(), selectedPaymentId.toString())
             finalStep()
         } else {
+            fromKnet = true
             paymentGateway()
         }
         // nextStep()
@@ -573,14 +587,23 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
     override fun onResume() {
         super.onResume()
-        //  loading.hide()
+        if(fromKnet) {
+            loading.hide()
+            fromKnet = false
+        }
     }
 
     fun finalStep() {
         if (orderId == "")
             orderId = "0"
         loading.show()
-        var requests = RequestPaymentOrder(orderId.toInt(), selectedPaymentId.toString())
+        var requests : RequestPaymentOrder ?=null
+        if(request==null )
+            requests = RequestPaymentOrder(orderId.toInt(), selectedPaymentId.toString())
+        else {
+            requests = request
+            request = null
+        }
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.updatePaymentOrder(requests!!)?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(
@@ -588,11 +611,12 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                     response: Response<ResponseMessage>
                 ) {
                     try {
-                        loading.hide()
+
                         if (response.body()!!.result == 1) {
                             //toast(getString(R.string.knet_error))
                             nextStep()
                         }else{
+                            loading.hide()
                             AppHelper.createDialog(this@ActivityPlaceOrder,response.body()!!.message!!)
                         }
                     } catch (E: java.lang.Exception) {
@@ -615,6 +639,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
     fun init() {
 
 
+
         tvLocationPlaceOrder.setColorTypeface(this, R.color.primary, "", false)
         tvPageTitle.show()
         tvPageTitle.textRemote("PlaceOrder", this)
@@ -622,6 +647,15 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         btBackTool.show()
         btBackTool.onOneClick {
             super.onBackPressed()
+        }
+        btToServices.onOneClick {
+            finishAffinity()
+            MyApplication.selectedPos = 2
+            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
+            MyApplication.selectedFragment = FragmentHomeClient()
+            MyApplication.tintColor = R.color.primary
+            loading.hide()
+            startActivity(Intent(this, ActivityHome::class.java))
         }
         btPLaceOrder.typeface = AppHelper.getTypeFace(this)
         btClose.hide()
@@ -655,8 +689,9 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
     fun getPaymentMethods() {
         loading.show()
+        var req = RequestLanguage(MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.getPaymentMethods()?.enqueue(object : Callback<ResponsePaymentMethod> {
+            ?.getPaymentMethods(req)?.enqueue(object : Callback<ResponsePaymentMethod> {
                 override fun onResponse(
                     call: Call<ResponsePaymentMethod>,
                     response: Response<ResponsePaymentMethod>
@@ -694,12 +729,17 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         loading.hide()
         if (postUpayData!!.result == AppConstants.PAYMENT_SUCCESS) {
 
+            fromKnet = false
             if (firstTime) {
                 firstTime = false
-                nextStep()
+                loading.show()
 
+              /*  nextStep()*/
+
+                var tokenForm = merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.grand_total + selectedPaymentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref
+                logw("tokenform",tokenForm)
                 var sha1 =
-                    AppHelper.getSha256Hash(merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + postUpayData.payMentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref)
+                    AppHelper.getSha256Hash(merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.grand_total + selectedPaymentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref)
 
                 var sha15 = sha1 + MyApplication.salt
                 var sha2 = AppHelper.getSha256Hash(sha15)
@@ -711,6 +751,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                 val myFormat = "yyyy-MM-dd" //Change as you need
                 var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
                 var date = sdf.format(cal.time)
+
 
                 request = RequestPaymentOrder(
                     MyApplication.selectedOrder!!.orderId!!.toInt(),
@@ -729,44 +770,49 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                     "",
                     ""
                 )
+                logw("UPAYMENT_SENT1",Gson().toJson(request))
                 finalStep()
             }
         } else {
+            if (firstTime) {
+                firstTime = false
+                var str =
+                    merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + selectedPaymentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref
+                var sha1 =
+                    AppHelper.getSha256Hash(str)
 
-            var str = merchantId + username + apiKey + MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty + postUpayData.payMentId + postUpayData.ref + postUpayData.tranID + postUpayData.trackID + postUpayData.auth + postUpayData.cust_ref
-            var sha1 =
-                AppHelper.getSha256Hash(str)
+                var sha15 = sha1 + MyApplication.salt
+                var sha2 = AppHelper.getSha256Hash(sha15)
 
-            var sha15 = sha1 + MyApplication.salt
-            var sha2 = AppHelper.getSha256Hash(sha15)
-
-            var cal = Calendar.getInstance()
-            var pickedDate = cal.time
-            val myFormat = "yyyy-MM-dd" //Change as you need
-            var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
-            var date = sdf.format(cal.time)
-            runOnUiThread(Runnable {
-                AppHelper.createDialog(this@ActivityPlaceOrder, postUpayData.result)
-                request = RequestPaymentOrder(
-                    orderId.toInt(),
-                    selectedPaymentId.toString(),
-                    MyApplication.selectedOrder!!.grand_total,
-                    1,
-                    "failed",
-                    MyApplication.currency,
-                    postUpayData.ref,
-                    postUpayData.trackID,
-                    postUpayData.tranID,
-                    postUpayData.auth,
-                    sha2,
-                    date,
-                    postUpayData.cust_ref,
-                    postUpayData.result,
-                    postUpayData.result
-                )
-                finalStep()
-                loading.hide()
-            })
+                var cal = Calendar.getInstance()
+                var pickedDate = cal.time
+                val myFormat = "yyyy-MM-dd" //Change as you need
+                var sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
+                var date = sdf.format(cal.time)
+                runOnUiThread(Runnable {
+                   // AppHelper.createDialog(this@ActivityPlaceOrder, postUpayData.result)
+                    request = RequestPaymentOrder(
+                        orderId.toInt(),
+                        selectedPaymentId.toString(),
+                        MyApplication.selectedOrder!!.grand_total,
+                        1,
+                        "failed",
+                        MyApplication.currency,
+                        postUpayData.ref,
+                        postUpayData.trackID,
+                        postUpayData.tranID,
+                        postUpayData.auth,
+                        sha2,
+                        date,
+                        postUpayData.cust_ref,
+                        postUpayData.result,
+                        postUpayData.result
+                    )
+                    logw("UPAYMENT_SENT2", Gson().toJson(request))
+                    finalStep()
+                    loading.hide()
+                })
+            }
         }
         Log.wtf("callBack", "data")
     }
@@ -779,10 +825,12 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         else
             message = MyApplication.payparams!!.errorCode.find { it.key == data }!!.codeEn
 
-        var str = merchantId + username + apiKey +  MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty
+        AppHelper.createDialog(this,message!!)
+
+       /* var str = merchantId + username + apiKey +  MyApplication.currency + MyApplication.selectedOrder!!.orderId + MyApplication.selectedOrder!!.product!!.qty
         Log.wtf("tagSTR",str)
         var sha1 =
-            AppHelper.getSha256Hash(str/* + "" + "" + "" + "" + "" + ""*/)
+            AppHelper.getSha256Hash(str*//* + "" + "" + "" + "" + "" + ""*//*)
      //   $token = hash("sha256",hash("sha256", $merchant_id.$merchant_username.$api_key.$currency.$order_number.$order_amount.$payment_id.$reference.$trans.$track.$authorization.$customer_ref).$salt);
 
         var sha15 = sha1 + MyApplication.salt
@@ -813,12 +861,13 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             )
             var x = data
             var y = sha2
-            finalStep()
+            finalStep()*/
             loading.hide()
-        })
+
+        }
 
 
-    }
+
 
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {

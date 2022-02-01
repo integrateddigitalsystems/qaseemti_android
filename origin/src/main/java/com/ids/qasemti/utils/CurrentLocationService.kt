@@ -173,7 +173,7 @@ class CurrentLocationService : Service() {
         try {
             // TODO: Step 1.5, Subscribe to location changes.
             fusedLocationClient.requestLocationUpdates(
-                locReq, locCall, Looper.getMainLooper())
+                locReq, locCall!!, Looper.getMainLooper())
         } catch (unlikely: SecurityException) {
             MyApplication.saveLocationTracking = false
             Log.e(TAG, "Lost location permissions. Couldn't remove updates. $unlikely")
@@ -299,7 +299,7 @@ class CurrentLocationService : Service() {
     }
 
         fusedLocationClient.requestLocationUpdates(
-            locReq, locCall, Looper.getMainLooper())
+            locReq, locCall!!, Looper.getMainLooper())
 
     }
 

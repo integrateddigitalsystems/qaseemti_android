@@ -53,16 +53,15 @@
     <com.ids.qasemti.custom.CustomTextViewBold
         android:id="@+id/tvPageTitle"
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:visibility="visible"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_marginStart="@dimen/height_35"
         android:layout_marginEnd="@dimen/height_35"
+        android:gravity="center"
         android:maxLines="2"
         android:textColor="@color/primary"
-        android:textSize="@dimen/title_font" />
+        android:textSize="@dimen/title_font"
+        android:visibility="visible" />
 
 
     <ImageView

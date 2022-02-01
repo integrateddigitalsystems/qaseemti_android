@@ -1,7 +1,6 @@
 package com.ids.qasemti.controller.Fragments
 
 import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
@@ -33,18 +32,14 @@ import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Adapters.AdapterGridFiles
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.controller.MyApplication.Companion.arraySelectedImage
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import com.ids.sampleapp.model.ItemSpinner
-import com.jaiselrahman.filepicker.activity.FilePickerActivity
-import com.jaiselrahman.filepicker.model.MediaFile
-import kotlinx.android.synthetic.main.activity_new_address.*
-import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.curve_layout_home.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.layout_profile.etAddressName
-import kotlinx.android.synthetic.main.layout_profile.etAddressProvince
 import kotlinx.android.synthetic.main.layout_profile.etApartment
 import kotlinx.android.synthetic.main.layout_profile.etArea
 import kotlinx.android.synthetic.main.layout_profile.etAvenue
@@ -54,7 +49,6 @@ import kotlinx.android.synthetic.main.layout_profile.etFloor
 import kotlinx.android.synthetic.main.layout_profile.etMoreDetails
 import kotlinx.android.synthetic.main.layout_profile.etStreet
 import kotlinx.android.synthetic.main.loading.*
-import kotlinx.android.synthetic.main.service_tab_1.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.MultipartBody.Part.Companion.createFormData
@@ -73,11 +67,14 @@ import kotlin.collections.ArrayList
 class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var selectedFile: MultipartBody.Part? = null
     var selectedFile2: MultipartBody.Part? = null
+    var civilImageAvailable : Boolean = false
+    var civilImageBackAvailable : Boolean =false
+    var emptyCivilIdFront : String ?=""
+    var emptyCivilIdBack : String ?=""
     var selectedProfilePic: MultipartBody.Part? = null
-    var adapterSelectedImages : AdapterGridFiles ?=null
+    var adapterSelectedImages: AdapterGridFiles? = null
     var selectedPhoto: String? = ""
     var gender = ""
-    var arraySelectedImage: ArrayList<FilesSelected> = arrayListOf()
     var tempProfile: String? = null
     var selectedProvince: String? = ""
     var mPermissionResult: ActivityResultLauncher<Array<String>>? = null
@@ -90,7 +87,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     var photoFile: File? = null
     val BLOCKED = -1
     var resultLauncher: ActivityResultLauncher<Intent>? = null
-    var fromProfile: Boolean? = false
+    var fromProfile: Int? = 0
     var long: Double? = 0.0
     var banks: ArrayList<BankItem> = arrayListOf()
     var profilePercentage = 0
@@ -105,18 +102,23 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     override fun onItemClicked(view: View, position: Int) {
 
 
-        if(position == 0){
+        if (position == 0) {
             selectedFile = null
-            arraySelectedImage!!.removeAt(position)
+            arraySelectedImage.removeAt(position)
             adapterSelectedImages!!.notifyDataSetChanged()
-        }else{
+        } else {
             selectedFile2 = null
-            arraySelectedImage!!.removeAt(position)
+            arraySelectedImage.removeAt(position)
             adapterSelectedImages!!.notifyDataSetChanged()
         }
+        if (arraySelectedImage.size < 2) {
+            ibUploadFile.show()
+        }
 
-        if(arraySelectedImage.size ==0 )
+        if (arraySelectedImage.size == 0) {
             rvCivilIdData.hide()
+
+        }
 
     }
 
@@ -143,6 +145,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     override fun onResume() {
         super.onResume()
+        (activity as ActivityHome).showTitle(true)
+
+
 
 
     }
@@ -185,9 +190,15 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
             }
 
-            spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
-                it.id.toString() == user!!.bankId!!
-            }))
+            if(!user!!.bankId.isNullOrEmpty()) {
+                try {
+                    spBanks.setSelection(arrayBankSpinner.indexOf(arrayBankSpinner.find {
+                        it.id.toString() == user!!.bankId!!
+                    }))
+                } catch (ex: Exception) {
+                    logw("bankId?", "NO BANK ID")
+                }
+            }
 
 
             loading.hide()
@@ -417,6 +428,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        (requireActivity() as ActivityHome).showTitle(false)
+    }
+
     private fun openChooser() {
 
 
@@ -450,7 +466,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     }
 
-    fun setUpSpinnerGovs(user: User){
+    fun setUpSpinnerGovs(user: User) {
         arraySpinner.clear()
         for (item in MyApplication.kuwaitGovs) {
             arraySpinner.add(
@@ -465,13 +481,13 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             )
 
         }
-        arraySpinner.add(
-            0,
-            ItemSpinner(-1, AppHelper.getRemoteString("please__select", requireContext()), "")
-        )
         selectedProvince = ""
         val adapterProvince =
             AdapterGeneralSpinner(requireContext(), R.layout.spinner_layout, arraySpinner, 0)
+        arraySpinner.add(
+            0,
+            ItemSpinner(-1, AppHelper.getRemoteString("please__select", requireActivity()), "")
+        )
         spProvinceProfile.adapter = adapterProvince
         adapterProvince.setDropDownViewResource(R.layout.item_spinner_drop_down)
         spProvinceProfile.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -481,7 +497,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 position: Int,
                 id: Long
             ) {
-                selectedProvince = arraySpinner.get(position).name
+                if(arraySpinner.get(position).id==-1){
+                    selectedProvince = ""
+                }else {
+                    selectedProvince = arraySpinner.get(position).name
+                }
 
             }
 
@@ -510,9 +530,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 if (indx != 0) {
                     spProvinceProfile.setSelection(indx)
                     selectedProvince = arraySpinner.get(indx).name
-                    spProvinceProfile.isEnabled = false
+                    //spProvinceProfile.isEnabled = false
                 } else {
-                    spProvinceProfile.isEnabled = true
+                    spProvinceProfile.setSelection(0)
+                   // spProvinceProfile.isEnabled = true
                 }
             } catch (ex: Exception) {
 
@@ -520,6 +541,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         }
 
     }
+
     fun setUserData(user: User) {
         setUpSpinnerGovs(user)
         try {
@@ -623,22 +645,45 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             try {
                 /*if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty()) {*/
 
-                arraySelectedImage.clear()
-                if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty())
-                    arraySelectedImage.add(FilesSelected(MyApplication.selectedUser!!.civilIdAttach,null,null,1))
-                if(!MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty())
-                    arraySelectedImage.add(FilesSelected(MyApplication.selectedUser!!.civilAttachBack,null,null,2))
+                   /* if(MyApplication.temporaryProfile==null) {
 
-                if(arraySelectedImage.size==0)
+                       // AppHelper.setImage(requireContext(),ivCivilBack,MyApplication.selectedUser!!.civilAttachBack!!,false)
+                       // AppHelper.setImage(requireContext(),ivCivilFront,MyApplication.selectedUser!!.civilIdAttach!!,false)
+                        *//*arraySelectedImage.clear()
+                        if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty())
+                            arraySelectedImage.add(
+                                FilesSelected(
+                                    MyApplication.selectedUser!!.civilIdAttach,
+                                    null,
+                                    null,
+                                    1
+                                )
+                            )
+                        if (!MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty())
+                            arraySelectedImage.add(
+                                FilesSelected(
+                                    MyApplication.selectedUser!!.civilAttachBack,
+                                    null,
+                                    null,
+                                    2
+                                )
+                            )*//*
+                    }else{
+                        AppHelper.setImage(requireContext(),ivCivilBack,MyApplication.temporaryProfile!!.civilAttachBack!!,true)
+                        AppHelper.setImage(requireContext(),ivCivilFront,MyApplication.temporaryProfile!!.civilIdAttach!!,true)
+                    }*/
+                if (arraySelectedImage.size == 0)
                     rvCivilIdData.hide()
                 else
                     rvCivilIdData.show()
 
                 adapterSelectedImages =
-                    AdapterGridFiles(arraySelectedImage, this, requireActivity(),true)
+                    AdapterGridFiles(arraySelectedImage, this, requireActivity(), true)
                 rvCivilIdData.layoutManager = GridLayoutManager(requireContext(), 3)
                 rvCivilIdData.adapter = adapterSelectedImages
                 rvCivilIdData.isNestedScrollingEnabled = false
+                if (arraySelectedImage.size == 2)
+                    ibUploadFile.hide()
                 /*tvCivilIdFile.show()
                 tvCivilIdFile.text =
                     MyApplication.selectedUser!!.civilIdAttach
@@ -677,6 +722,63 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 etDateOfBirthProfile.text = Editable.Factory.getInstance().newEditable("")
             }
 
+            if(MyApplication.tempCivilIdBack == null ){
+                try {
+                    if (!MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty()) {
+                        ivCivilBack.loadImagesUrl(MyApplication.selectedUser!!.civilAttachBack!!,loading)
+                        //AppHelper.imageLoading(ivCivilBack,loading,MyApplication.selectedUser!!.civilAttachBack!!,requireContext())
+                        btCancelCivilBack.show()
+                        civilImageBackAvailable = true
+                    }else{
+                        civilImageBackAvailable = false
+                    }
+                } catch (e: Exception) {
+                }
+            }else{
+                try {
+                    ivCivilBack.loadLocalImage(MyApplication.tempCivilIdBack!!)
+                    var req =
+                        MyApplication.tempCivilIdBack!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                    selectedFile2 = MultipartBody.Part.createFormData(
+                        ApiParameters.CIVIL_ATTACH_BACK,
+                        MyApplication.tempCivilIdBack!!.name ,
+                        req
+                    )
+                    btCancelCivilBack.show()
+                    civilImageBackAvailable = true
+                } catch (ex: java.lang.Exception) {
+                }
+            }
+
+            if(MyApplication.tempCivilId == null ){
+                try {
+                    if (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty()) {
+                        ivCivilFront.loadImagesUrl(MyApplication.selectedUser!!.civilIdAttach!!,loading)
+                            //AppHelper.imageLoading(ivCivilFront,loading,MyApplication.selectedUser!!.civilIdAttach!!,requireContext())
+
+                        btCancelCivilFront.show()
+                        civilImageAvailable = true
+                    }else{
+                        civilImageAvailable = false
+                    }
+                } catch (e: Exception) {
+                }
+            }else{
+                try {
+                    civilImageAvailable = true
+                    ivCivilFront.loadLocalImage(MyApplication.tempCivilId!!)
+                    var req =
+                        MyApplication.tempCivilId!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                    selectedFile = MultipartBody.Part.createFormData(
+                        ApiParameters.CIVIL_ID_ATTACH,
+                        MyApplication.tempCivilId!!.name,
+                        req
+                    )
+                    btCancelCivilFront.show()
+                } catch (ex: java.lang.Exception) {
+                }
+            }
+
             if (MyApplication.temporaryProfile == null) {
                 try {
                     if (!MyApplication.selectedUser!!.profilePicUrl.isNullOrEmpty())
@@ -684,16 +786,6 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 } catch (e: Exception) {
                 }
             } else {
-                try {
-                    var req =
-                        MyApplication.tempCivilId!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                    selectedFile = MultipartBody.Part.createFormData(
-                        ApiParameters.CIVIL_ID_ATTACH,
-                        MyApplication.tempCivilId!!.name + "File",
-                        req
-                    )
-                } catch (ex: java.lang.Exception) {
-                }
 
                 try {
                     ivProfile.loadRoundedLocalImage(MyApplication.tempProfilePic!!)
@@ -701,7 +793,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                         MyApplication.tempProfilePic!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                     selectedFile = MultipartBody.Part.createFormData(
                         ApiParameters.CIVIL_ID_ATTACH,
-                        MyApplication.tempProfilePic!!.name + "File",
+                        MyApplication.tempProfilePic!!.name ,
                         req
                     )
                 } catch (ex: java.lang.Exception) {
@@ -782,47 +874,47 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                             var myAddress = MyApplication.selectedUser!!.addresses!![0]
                             if (myAddress.addressName != null && myAddress.addressName != "null") {
                                 etAddressName!!.setText(myAddress.addressName)
-                                etAddressName.isEnabled = false
+                               // etAddressName.isEnabled = false
                             }
 
                             if (myAddress.desc != null && myAddress.desc != "null") {
                                 etMoreDetails!!.setText(myAddress.desc)
-                                etMoreDetails.isEnabled = false
+                               // etMoreDetails.isEnabled = false
                             }
 
                             if (myAddress.area != null && myAddress.area != "null") {
                                 etArea!!.setText(myAddress.area)
-                                etArea.isEnabled = false
+                              //  etArea.isEnabled = false
                             }
 
                             if (myAddress.block != null && myAddress.block != "null") {
                                 etBlock!!.setText(myAddress.block)
-                                etBlock.isEnabled = false
+                               // etBlock.isEnabled = false
                             }
 
                             if (myAddress.avenue != null && myAddress.avenue != "null") {
                                 etAvenue!!.setText(myAddress.avenue)
-                                etAvenue.isEnabled = false
+                              //  etAvenue.isEnabled = false
                             }
 
-                            if (myAddress.apartment != null && myAddress.apartment != "null") {
+                            if (myAddress.apartment != null && myAddress.apartment != "null" && !myAddress.apartment!!.isEmpty()) {
                                 etApartment!!.setText(myAddress.apartment)
-                                etApartment.isEnabled = false
+                              //  etApartment.isEnabled = false
                             }
 
                             if (myAddress.floor != null && myAddress.floor != "null") {
                                 etFloor!!.setText(myAddress.floor)
-                                etFloor.isEnabled = false
+                             //   etFloor.isEnabled = false
                             }
 
                             if (myAddress.bldg != null && myAddress.bldg != "null") {
                                 etBuilding!!.setText(myAddress.bldg)
-                                etBuilding.isEnabled = false
+                              //  etBuilding.isEnabled = false
                             }
 
                             if (myAddress.street != null && myAddress.street != "null") {
                                 etStreet!!.setText(myAddress.street)
-                                etStreet.isEnabled = false
+                             //   etStreet.isEnabled = false
                             }
 
 
@@ -891,7 +983,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                 selectedBankId.toString(),
                                 arrayListOf()
                             )
-                            startActivity(Intent(requireActivity(), ActivityMapAddress::class.java))
+                            resultLauncher!!.launch(
+                                Intent(requireActivity(), ActivityMapAddress::class.java)
+                            )
+                         //   startActivity(Intent(requireActivity(), ActivityMapAddress::class.java))
                         }
                     } else {
                         MyApplication.addNewAddress = true
@@ -917,7 +1012,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
 
         } catch (ex: Exception) {
-
+            loading.hide()
         }
     }
 
@@ -930,7 +1025,6 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     fun init() {
         //tvToolbarCurveTitle.setText(getString(R.string.profile))
         (activity as ActivityHome?)!!.showBack(R.color.white)
-        arraySelectedImage.clear()
         AppHelper.setTitle(
             requireActivity(), MyApplication.selectedTitle!!, "", R.color.white
         )
@@ -1070,33 +1164,142 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     }
 
 
+    fun resetBackground(){
+            etFirstNameProfile.setBackgroundResource(R.drawable.rounded_white_background)
+            etLastNameProfile.setBackgroundResource(R.drawable.rounded_white_background)
+            etEmailProfile.setBackgroundResource(R.drawable.rounded_white_background)
+            llEmailBackground.setBackgroundResource(R.drawable.rounded_white_background)
+            etAddressName.setBackgroundResource(R.drawable.rounded_white_background)
+            rlProvinceProfile.setBackgroundResource(R.drawable.rounded_white_background)
+            etStreet.setBackgroundResource(R.drawable.rounded_white_background)
+            etBuilding.setBackgroundResource(R.drawable.rounded_white_background)
+            etArea.setBackgroundResource(R.drawable.rounded_white_background)
+            etBlock.setBackgroundResource(R.drawable.rounded_white_background)
+            etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_background)
+            llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_background)
+            llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_background)
+            etIBANProfile.setBackgroundResource(R.drawable.rounded_white_background)
+
+    }
+
+
+    fun checkMissingData(){
+        if(etFirstNameProfile.text.isNullOrEmpty())
+            etFirstNameProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(etLastNameProfile.text.isNullOrEmpty())
+            etLastNameProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(etEmailProfile.text.isNullOrEmpty())
+            llEmailBackground.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(!AppHelper.isEmailValid(etEmailProfile.text.toString()))
+            llEmailBackground.setBackgroundResource(R.drawable.rounded_white_red_border)
+
+        if(etAddressName.text.isNullOrEmpty())
+            etAddressName.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(selectedProvince.isNullOrEmpty())
+            rlProvinceProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(etStreet.text.isNullOrEmpty())
+            etStreet.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(etBuilding.text.isNullOrEmpty())
+            etBuilding.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(etArea.text.isNullOrEmpty())
+            etArea.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if(etBlock.text.isNullOrEmpty())
+            etBlock.setBackgroundResource(R.drawable.rounded_white_red_border)
+        if ((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) && (!civilImageAvailable || !civilImageBackAvailable)) {
+
+            if (etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) {
+                etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+            }
+            if (!civilImageBackAvailable)
+                llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+            if (!civilImageAvailable)
+                llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+            if (!etIBANProfile.text.isNullOrEmpty() && etIBANProfile.text.length != 30)
+                etIBANProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+        }
+        }
+
+
+
+
     fun listeners() {
 
 
+        btCancelCivilBack.onOneClick {
+            emptyCivilIdBack = "-1"
+            btCancelCivilBack.hide()
+            civilImageBackAvailable = false
+            selectedFile2= null
+            ivCivilBack.setImageResource(R.drawable.icon_add_image)
+        }
+        btCancelCivilFront.onOneClick {
+            emptyCivilIdFront = "-1"
+            btCancelCivilFront.hide()
+            civilImageAvailable = false
+            selectedFile = null
+            ivCivilFront.setImageResource(R.drawable.icon_add_image)
+        }
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
 
-                    var file: File? = null
-                    if (fromCam!!) {
-                        file = File(result.data!!.data!!.path)
-                        fromCam = false
+                    if (result.resultCode == 1000) {
+
+                            val extras =result.data
+                            if (extras != null) {
+                                lat = extras.getDoubleExtra("lat",0.0)
+                                long = extras.getDoubleExtra("long",0.0)
+                                /*etAddressProfile.text = Editable.Factory.getInstance()
+                                    .newEditable(AppHelper.getAddress(lat!!, long!!, requireContext()))*/
+                            }
+
+
                     } else {
                         try {
-                            /*   val files: ArrayList<MediaFile> =
+                            var file: File? = null
+                            if (fromCam!!) {
+                                file = File(result.data!!.data!!.path)
+                                fromCam = false
+                            } else {
+                                try {
+                                    /*   val files: ArrayList<MediaFile> =
                                    result.data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!*/
-                            //   var path = getPath(files.get(0).uri)
-                            file = AppHelper.getFile(requireActivity(), result.data!!.data!!)
+                                    //   var path = getPath(files.get(0).uri)
+                                    file =
+                                        AppHelper.getFile(requireActivity(), result.data!!.data!!)
 
 
-                        } catch (e: Exception) {
-                            Log.wtf("tag", "tag")
-                        }
-                    }
+                                } catch (e: Exception) {
+                                    Log.wtf("tag", "tag")
+                                }
+                            }
 
-                    var req = file!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                    if (!fromProfile!!) {
-                        /* tvCivilIdFile.show()
+                            var req =
+                                file!!.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                            if (fromProfile != 1) {
+
+                                if (fromProfile == 2) {
+                                    ivCivilFront.loadLocalImage(file)
+                                    selectedFile = MultipartBody.Part.createFormData(
+                                        ApiParameters.CIVIL_ID_ATTACH,
+                                        file.name,
+                                        req
+                                    )
+                                    MyApplication.tempCivilId = file
+                                    civilImageAvailable = true
+                                    btCancelCivilFront.show()
+
+                                } else {
+                                    btCancelCivilBack.show()
+                                    civilImageBackAvailable = true
+                                    ivCivilBack.loadLocalImage(file)
+                                    selectedFile2 = MultipartBody.Part.createFormData(
+                                        ApiParameters.CIVIL_ATTACH_BACK,
+                                        file.name,
+                                        req
+                                    )
+                                    MyApplication.tempCivilIdBack = file
+                                }
+                                /* tvCivilIdFile.show()
                          tvCivilIdFile.text = result.data!!.data!!.path
                          MyApplication.tempCivilId = file
                          tvCivilIdFile.onOneClick {
@@ -1107,39 +1310,55 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                  "frag_image"
                              )
                          }*/
-                             if(selectedFile==null) {
-                                 selectedFile = MultipartBody.Part.createFormData(
-                                     ApiParameters.CIVIL_ID_ATTACH,
-                                     file.name + "File",
-                                     req
-                                 )
-                                 arraySelectedImage.add(FilesSelected("", file, selectedFile, 1))
-                                 arraySelectedImage.sortBy { it.id }
-                                 rvCivilIdData.show()
-                                 adapterSelectedImages!!.notifyDataSetChanged()
-                             }else if(selectedFile2 == null){
-                                 selectedFile2 = MultipartBody.Part.createFormData(
-                                     ApiParameters.CIVIL_ATTACH_BACK,
-                                     file.name + "File",
-                                     req
-                                 )
-                                 arraySelectedImage.add(FilesSelected("", file, selectedFile, 2))
-                                 arraySelectedImage.sortBy { it.id }
-                                 adapterSelectedImages!!.notifyDataSetChanged()
-                                 rvCivilIdData.show()
-                             }
-                    } else {
-                        MyApplication.tempProfilePic = file
-                        ivProfile.loadRoundedLocalImage(file)
-                        selectedProfilePic = MultipartBody.Part.createFormData(
-                            if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
-                            file.name + "File",
-                            req
-                        )
-                    }
-                }
+                                /* var firstFile = false
+                        if (arraySelectedImage.size > 0 && arraySelectedImage.get(0).id == 2)
+                            firstFile = true
+                        else if (arraySelectedImage.size == 0)
+                            firstFile = true
+                        if (selectedFile == null && firstFile) {
+                            selectedFile = MultipartBody.Part.createFormData(
+                                ApiParameters.CIVIL_ID_ATTACH,
+                                file.name + "File",
+                                req
+                            )
+                            arraySelectedImage.add(FilesSelected("", file, selectedFile, 1))
+                            arraySelectedImage.sortBy { it.id }
+                            rvCivilIdData.show()
+                            adapterSelectedImages!!.notifyDataSetChanged()
+                            if (arraySelectedImage.size == 2) {
+                                ibUploadFile.hide()
+                            }
+                        } else if (selectedFile2 == null) {
+                            selectedFile2 = MultipartBody.Part.createFormData(
+                                ApiParameters.CIVIL_ATTACH_BACK,
+                                file.name + "File",
+                                req
+                            )
+                            arraySelectedImage.add(FilesSelected("", file, selectedFile, 2))
+                            arraySelectedImage.sortBy { it.id }
+                            adapterSelectedImages!!.notifyDataSetChanged()
+                            if (arraySelectedImage.size == 2) {
+                                ibUploadFile.hide()
+                            }
+                            rvCivilIdData.show()*/
 
-                /*  if (requestCode == 1000) {
+                            } else {
+                                MyApplication.tempProfilePic = file
+                                ivProfile.loadRoundedLocalImage(file)
+                                selectedProfilePic = MultipartBody.Part.createFormData(
+                                    if (MyApplication.isClient) ApiParameters.PROFILE_PIC else ApiParameters.FILE,
+                                    file.name,
+                                    req
+                                )
+                            }
+
+                        } catch (ex: Exception) {
+                            logw("tets", "error")
+                        }
+
+                    }
+
+                    /*  if (requestCode == 1000) {
                       if (resultCode == Activity.RESULT_OK) {
                           val extras = data!!.extras
                           if (extras != null) {
@@ -1151,10 +1370,16 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
                       }
                   } else {*/
+                }
 
-            }
+
+
+
+
+
         btSaveProfile.onOneClick {
 
+            resetBackground()
             if (AppHelper.isOnline(requireActivity())) {
 
 
@@ -1162,35 +1387,59 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                         etEmailProfile.text.toString()
                     )
                 ) {
-
+                    checkMissingData()
                     AppHelper.createDialog(
                         requireActivity(),
                         AppHelper.getRemoteString("fill_all_field", requireContext())
                     )
 
                 } else if (!AppHelper.isEmailValid(etEmailProfile.text.toString())) {
+                    checkMissingData()
                     AppHelper.createDialog(
                         requireActivity(),
                         AppHelper.getRemoteString("email_valid_error", requireContext())
                     )
                 } else if (!MyApplication.isClient) {
                     var x = etCivilIdNbProfile.text
-                    /* if((!etAccountNumberProfile.text.toString().isNullOrEmpty() || !etBranchNameProfile.text.isNullOrEmpty() || selectedBankId!=0 || !etIBANProfile.text.isNullOrEmpty()) && (etAccountNumberProfile.text.toString().isNullOrEmpty() || selectedBankId!=0 || etIBANProfile.text.isNullOrEmpty()))*/
-                    if (etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length == 12) {
+                    if(btAddNewAddress.visibility == View.VISIBLE || (!etAddressName.text.isNullOrEmpty() && !selectedProvince.isNullOrEmpty() && !etStreet.text.isNullOrEmpty() && !etBuilding.text.isNullOrEmpty() && !etArea.text.isNullOrEmpty() && !etBlock.text.isNullOrEmpty())) {
+                        /* if((!etAccountNumberProfile.text.toString().isNullOrEmpty() || !etBranchNameProfile.text.isNullOrEmpty() || selectedBankId!=0 || !etIBANProfile.text.isNullOrEmpty()) && (etAccountNumberProfile.text.toString().isNullOrEmpty() || selectedBankId!=0 || etIBANProfile.text.isNullOrEmpty()))*/
+                        if ((!etCivilIdNbProfile.text.isNullOrEmpty() && etCivilIdNbProfile.text.length == 12) || (civilImageAvailable && civilImageBackAvailable)) {
+                            if(civilImageBackAvailable == civilImageAvailable) {
+                                if (etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30)
+                                    updateServiceProfile()
+                                else {
+                                    AppHelper.createDialog(
+                                        requireActivity(),
+                                        AppHelper.getRemoteString(
+                                            "iban_must_be_30",
+                                            requireActivity()
+                                        )
+                                    )
+                                    checkMissingData()
+                                }
+                            }else{
+                                checkMissingData()
+                                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
+                            }
+                        } else {
+                            if((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) && !(civilImageAvailable || civilImageBackAvailable)) {
+                                checkMissingData()
+                                AppHelper.createDialog(
+                                    requireActivity(),
+                                    AppHelper.getRemoteString("fill_all_field", requireActivity())
+                                )
+                            }else{
+                                checkMissingData()
+                                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
+                            }
 
-                        if (etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30)
-                            updateServiceProfile()
-                        else
-                            AppHelper.createDialog(
-                                requireActivity(),
-                                AppHelper.getRemoteString("iban_must_be_30", requireActivity())
-                            )
-                    } else {
+                        }
+                    }else{
+                        checkMissingData()
                         AppHelper.createDialog(
                             requireActivity(),
-                            AppHelper.getRemoteString("civil_id_length", requireActivity())
+                            AppHelper.getRemoteString("fill_all_field", requireActivity())
                         )
-
                     }
                 } else
                     updateClientProfile()
@@ -1212,19 +1461,23 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         }
 
         llAddressProfile.setOnClickListener {
-            startActivityForResult(
-                Intent(requireContext(), ActivityMapAddress::class.java),
-                1000
-            )
+            resultLauncher!!.launch(Intent(requireContext(), ActivityMapAddress::class.java))
         }
         ibUploadFile.setOnClickListener {
-            if(arraySelectedImage.size<2)
-                pickFile(1, false)
+            if (arraySelectedImage.size < 2)
+                pickFile(1, 2)
 
         }
-        ivProfile.setOnClickListener {
-            pickFile(1, true)
+        ivProfile.onOneClick {
+            pickFile(1, 1)
         }
+        ivCivilFront.onOneClick {
+            pickFile(1, 2)
+        }
+        ivCivilBack.onOneClick {
+            pickFile(1, 3)
+        }
+
 
         etDateOfBirthProfile.onOneClick {
             var mcurrentDate = Calendar.getInstance()
@@ -1247,11 +1500,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     var sdf =
                         SimpleDateFormat(myFormat, Locale.ENGLISH)
                     var date = sdf.format(myCalendar.time)
-                    etDateOfBirthProfile.text =
-                        (String.format("%02d", selectedday) + "/" + String.format(
-                            "%02d",
-                            selectedmonth
-                        ) + "/" + String.format("%02d", selectedyear)).toEditable()
+                    etDateOfBirthProfile.text = date.toEditable()
                 }, mYear, mMonth, mDay
             )
             var cal = mcurrentDate.add(Calendar.YEAR, -18)
@@ -1331,18 +1580,16 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
         }
         if (selectedFile == null) {
-            var empty = ""
-            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+            val attachmentEmpty = emptyCivilIdFront!!.toRequestBody("text/plain".toMediaTypeOrNull())
 
-            selectedFile =
-                MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+            selectedFile = createFormData( ApiParameters.CIVIL_ID_ATTACH, emptyCivilIdFront!!,attachmentEmpty)
+            /*selectedFile =
+                MultipartBody.Part.createFormData(emptyCivilIdFront!!, emptyCivilIdFront, "-1")*/
         }
         if (selectedFile2 == null) {
-            var empty = ""
-            val attachmentEmpty = empty.toRequestBody("text/plain".toMediaTypeOrNull())
+            val attachmentEmpty = emptyCivilIdBack!!.toRequestBody("text/plain"!!.toMediaTypeOrNull())
 
-            selectedFile2 =
-                MultipartBody.Part.createFormData("attachment", "", attachmentEmpty)
+            selectedFile2 = createFormData(ApiParameters.CIVIL_ATTACH_BACK, emptyCivilIdBack!!,attachmentEmpty)
         }
         CallAPIs.updateProfileServiceProvider(
             requireContext(),
@@ -1406,35 +1653,39 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         return cursor.getString(column_index)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
 
-        if (requestCode == 1000) {
-            if (resultCode == Activity.RESULT_OK) {
-                val extras = data!!.extras
-                if (extras != null) {
-                    lat = extras.getDouble("lat")
-                    long = extras.getDouble("long")
-                    /*etAddressProfile.text = Editable.Factory.getInstance()
-                        .newEditable(AppHelper.getAddress(lat!!, long!!, requireContext()))*/
-                }
-
-            }
-        } else {
+        *//*else {
             try {
                 val files: ArrayList<MediaFile> =
                     data!!.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES)!!
                 //   var path = getPath(files.get(0).uri)
                 var file = AppHelper.getFile(requireActivity(), files[0].uri)
                 var req = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-                if (!fromProfile!!) {
+                if (fromProfile!=1) {
 
-                    selectedFile = MultipartBody.Part.createFormData(
-                        ApiParameters.CIVIL_ID_ATTACH,
-                        file.name + "File",
-                        req
-                    )
+                    if(fromProfile==2) {
+                        civilImageAvailable = true
+                        selectedFile = MultipartBody.Part.createFormData(
+                            ApiParameters.CIVIL_ID_ATTACH,
+                            file.name ,
+                            req
+                        )
+                        btCancelCivilFront.show()
+                        ivCivilFront.loadLocalImage(file)
+                    }else{
+                        emptyCivilIdBack = ""
+                        civilImageBackAvailable = true
+                        selectedFile2 = MultipartBody.Part.createFormData(
+                            ApiParameters.CIVIL_ATTACH_BACK,
+                            file.name,
+                            req
+                        )
+                        btCancelCivilBack.show()
+                        ivCivilBack.loadLocalImage(file)
+                    }
                     //tvCivilIdFile.show()
                     //  tvCivilIdFile.text = file.name
                 } else {
@@ -1448,10 +1699,10 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
             } catch (e: Exception) {
             }
-        }
-    }
+        }*//*
+    }*/
 
-    private fun pickFile(pickCode: Int, from: Boolean) {
+    private fun pickFile(pickCode: Int, from: Int) {
 
         /*val intent = Intent(requireContext(), FilePickerActivity::class.java)
         intent.putExtra(
@@ -1587,6 +1838,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+
         var res = response as ResponseUser
         selectedProfilePic = null
         selectedFile = null

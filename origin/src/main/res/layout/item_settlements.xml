@@ -58,9 +58,60 @@
                 android:id="@+id/tvSettlementId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="123654"
+                android:text=""
                 android:layout_marginEnd="@dimen/big_margin"
                 android:textColor="@color/primary"
+                android:textSize="@dimen/small_font" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/FirstSep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <include layout="@layout/separator" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/llOrderStatus"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settlement_inside_item_hight"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/margin_start_end"
+            android:paddingEnd="@dimen/margin_start_end">
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="@dimen/icon"
+                android:layout_height="@dimen/icon">
+            <ImageView
+                android:layout_width="@dimen/small_icon_2"
+                android:layout_height="@dimen/small_icon_2"
+                android:background="@drawable/primary_circle"
+                android:tint="@color/primary" />
+
+            </LinearLayout>
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:layout_marginStart="@dimen/normal_margin"
+                android:id="@+id/tvOrderStatus"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Status"
+                android:textSize="@dimen/normal_font"
+                android:tag="Status"
+                android:textColor="@color/gray_font_title" />
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/tvOrderStatusVal"
+                android:textColor="@color/gray_font_title"
                 android:textSize="@dimen/small_font" />
 
 
@@ -96,7 +147,7 @@
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="20 Jun 2021 16:00"
+                android:text=""
                 android:id="@+id/tvOrderDateSett"
                 android:textColor="@color/gray_font_title"
                 android:textSize="@dimen/small_font" />
@@ -133,8 +184,55 @@
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10 KWD"
+                android:text=""
+                android:textAlignment="viewStart"
                 android:id="@+id/tvSettAmount"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/normal_font" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llAdditionalSep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <include layout="@layout/separator" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/llAdditionalfees"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settlement_inside_item_hight"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/margin_start_end"
+            android:paddingEnd="@dimen/margin_start_end">
+
+            <ImageView
+                android:layout_width="@dimen/icon"
+                android:layout_height="@dimen/icon"
+                android:src="@drawable/ic_settlement"
+                android:tint="@color/primary" />
+
+            <com.ids.qasemti.custom.CustomTextViewBold
+                android:id="@+id/tvAdditionalTitle"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/AdditionalFeees"
+                android:tag="AdditionalFeees"
+                android:textColor="@color/gray_font_title" />
+
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="viewStart"
+                android:id="@+id/tvAdditionalCost"
                 android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font" />
 
@@ -170,7 +268,8 @@
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10 KWD"
+                android:text=""
+                android:textAlignment="viewStart"
                 android:id="@+id/tvEarnSett"
                 android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font" />
@@ -207,7 +306,8 @@
             <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10 KWD"
+                android:text=""
+                android:textAlignment="viewStart"
                 android:id="@+id/tvSettDues"
                 android:textColor="@color/primary"
                 android:textSize="@dimen/normal_font" />

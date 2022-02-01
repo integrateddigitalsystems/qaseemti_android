@@ -66,7 +66,7 @@ class AdapterOrderType(
             holder.locationText.text=AppHelper.getRemoteString("no_data",con)
         }
         try{
-            holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MMM yyyy hh:mm")
+            holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MM yyyy hh:mm")
         }catch (ex:java.lang.Exception){
             if(items[position].date!=null)
                holder.orderDate.text = items[position].date!!
@@ -75,7 +75,7 @@ class AdapterOrderType(
         }
 
         try{
-            holder.tvOrderDateValue.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MMM yyyy hh:mm")
+            holder.tvOrderDateValue.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MM yyyy hh:mm")
         }catch (ex:java.lang.Exception){
             if(items[position].date!=null)
                holder.tvOrderDateValue.text=items[position].date!!
@@ -88,9 +88,19 @@ class AdapterOrderType(
         try{
             holder.orderId.text = "#"+items.get(position).orderId.toString()
         }catch (ex:java.lang.Exception){holder.orderId.text =""}
-        try{
-            holder.ratingBar.rating = items.get(position).vendor!!.rate!!.toFloat()
-        }catch (ex:java.lang.Exception){holder.ratingBar.rating = 0f}
+        if(MyApplication.isClient) {
+            try {
+                holder.ratingBar.rating = items.get(position).clientRate!!.toInt().toFloat()
+            } catch (ex: java.lang.Exception) {
+                holder.ratingBar.rating = 0f
+            }
+        }else{
+             try {
+                holder.ratingBar.rating = items.get(position).vendorRate!!.toInt().toFloat()
+            } catch (ex: java.lang.Exception) {
+                holder.ratingBar.rating = 0f
+            }
+        }
         try{
             if(items[position].paymentMethod!=null && items[position].paymentMethod!!.isNotEmpty())
                 holder.paymentMethod.text = items[position].paymentMethod
@@ -110,20 +120,31 @@ class AdapterOrderType(
         }
 
         try {
-           if(items.get(position).onTrack!!) {
+           if(items.get(position).onTrack!!&&!items.get(position).paymentMethod.isNullOrEmpty()) {
                onTrack=1
                if(!items.get(position).delivered!!) {
-                   if (!MyApplication.saveLocationTracking!!) {
-                       MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
-                       (con as ActivityHome).changeState(true)
-                       AppHelper.setSwitchColor(holder.switchOnTrack, con)
-                       onTrack = 1
+                   //   if (!MyApplication.saveLocationTracking!!) {
+                   MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
+                   MyApplication.listOrderTrack.add(MyApplication.trackOrderId!!.toString())
+                   AppHelper.toGsonArrString()
+                   if (!MyApplication.isClient) {
+                       (con as ActivityHome).changeState(true,MyApplication.listOrderTrack.size-1)
                    }
-               }else{
+                   AppHelper.setSwitchColor(holder.switchOnTrack, con)
+                   onTrack = 1
+                   //  }
+                   /*}else{
                    MyApplication.saveLocationTracking = false
+               }*/
                }
             }else{
                onTrack=0
+            }
+            if(items[position].onTrack!!) {
+                holder.switchOnTrack.isEnabled = false
+                holder.switchOnTrack.isClickable = false
+            }else{
+                holder.switchOnTrack.isEnabled = true
             }
             holder.switchOnTrack.isChecked = items[position].onTrack!!
             AppHelper.setSwitchColor(holder.switchOnTrack,con)
@@ -139,7 +160,7 @@ class AdapterOrderType(
             AppHelper.setSwitchColor(holder.switchDelivered,con)
         }catch (ex:java.lang.Exception){}
 
-        holder.switchOnTrack.isEnabled = true
+
         if(paid==1) {
             holder.switchPaid.isChecked = true
             holder.switchPaid.isEnabled = false
@@ -165,9 +186,7 @@ class AdapterOrderType(
                     con,
                     AppHelper.getRemoteString("ok", con),
                     AppHelper.getRemoteString("cancel", con),
-                    con.getString(
-                        R.string.are_you_sure_change_status
-                    ),
+                    AppHelper.getRemoteString("sure_update_Delivery",con),
                     holder.switchDelivered
                 ) {
                     var usedPos = position
@@ -182,9 +201,12 @@ class AdapterOrderType(
                             reloader.reload()
                         }*/
                         holder.switchDelivered.isEnabled = false
+                        holder.switchDelivered.isChecked = true
                         MyApplication.saveLocationTracking = false
                         MyApplication.trackOrderId = selectedOrd.orderId!!.toInt()
-                        (con as ActivityHome).changeState(false)
+                        var indx = MyApplication.listOrderTrack.indexOf(MyApplication.trackOrderId.toString())
+                        if(!MyApplication.isClient && indx!=-1)
+                                (con as ActivityHome).changeState(false,indx)
                         delivered = 1
                         AppHelper.setSwitchColor(holder.switchDelivered, con)
                         holder.switchOnTrack.isEnabled = false
@@ -199,10 +221,11 @@ class AdapterOrderType(
                     AppHelper.updateStatus(
                         items.get(position).orderId!!.toInt(),
                         holder.switchOnTrack.isChecked,
-                        holder.switchDelivered.isChecked,
+                        true,
                         holder.switchPaid.isChecked,
                         reloader,
-                        loading
+                        loading,
+                        holder.switchPaid
                     )
                 }
             } else{
@@ -214,20 +237,24 @@ class AdapterOrderType(
         holder.switchOnTrack.setOnClickListener {
 
             if(AppHelper.isOnline(con)) {
-                if (!MyApplication.saveLocationTracking!!) {
+               // if (!MyApplication.saveLocationTracking!!) {
+
+                   var x =  AppHelper.getRemoteString("sure_update_OnTrack",con)
                     AppHelper.createSwitchDialog(
                         con,
                         AppHelper.getRemoteString("ok", con),
                         AppHelper.getRemoteString("cancel", con),
-                        con.getString(
-                            R.string.are_you_sure_change_status
-                        ),
+                        x,
                         holder.switchOnTrack
                     ) {
                         if (holder.switchOnTrack.isChecked) {
+                            holder.switchOnTrack.isEnabled = false
                             MyApplication.selectedOrder = items.get(position)
                             MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
-                            (con as ActivityHome).changeState(true)
+                            MyApplication.listOrderTrack.add(MyApplication.trackOrderId.toString())
+                            AppHelper.toGsonArrString()
+                            if(!MyApplication.isClient)
+                                    (con as ActivityHome).changeState(true,MyApplication.listOrderTrack.size-1)
                             AppHelper.setSwitchColor(holder.switchOnTrack, con)
                             onTrack = 1
                         } else {
@@ -240,14 +267,13 @@ class AdapterOrderType(
                             holder.switchDelivered.isChecked,
                             holder.switchPaid.isChecked,
                             reloader,
-                            loading
-                        )
+                            loading)
 
                         //AppHelper.setUpDoc(items.get(position))
                     }
-                } else {
+                /*} else {
                     holder.switchOnTrack.isChecked = !holder.switchOnTrack.isChecked
-                }
+                }*/
             }else{
                 holder.switchOnTrack.isChecked = !holder.switchOnTrack.isChecked
                 AppHelper.createDialog(con,AppHelper.getRemoteString("no_internet",con))
@@ -261,9 +287,7 @@ class AdapterOrderType(
                     con,
                     AppHelper.getRemoteString("ok", con),
                     AppHelper.getRemoteString("cancel", con),
-                    con.getString(
-                        R.string.are_you_sure_change_status
-                    ),
+                    AppHelper.getRemoteString("sure_update_Paid",con),
                     holder.switchPaid
                 ) {
                     var usedPos = position
@@ -283,9 +307,12 @@ class AdapterOrderType(
 *//*
                         reloader.reload()
                     }*/
+
                         holder.switchPaid.isEnabled = false
+                        holder.switchPaid.isChecked = true
                         MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
-                        (con as ActivityHome).changeState(false)
+                        /*if(!MyApplication.isClient)
+                                (con as ActivityHome).changeState(false)*/
                         MyApplication.saveLocationTracking = false
                         paid = 1
                         AppHelper.setSwitchColor(holder.switchPaid, con)
@@ -297,9 +324,10 @@ class AdapterOrderType(
                         items.get(position).orderId!!.toInt(),
                         holder.switchOnTrack.isChecked,
                         holder.switchDelivered.isChecked,
-                        holder.switchPaid.isChecked,
+                        true,
                         reloader,
-                        loading
+                        loading,
+                        holder.switchDelivered
                     )
                 }
             }else{
@@ -335,7 +363,10 @@ class AdapterOrderType(
             holder.track.show()
         }
         else if(items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_ACTIVE)){
-            holder.switch.show()
+            if(!items.get(position).paymentMethod.isNullOrEmpty())
+                holder.switch.show()
+            else
+                holder.switch.hide()
             holder.sepActive.show()
             holder.dateBorder.show()
             holder.bottomBorder.show()

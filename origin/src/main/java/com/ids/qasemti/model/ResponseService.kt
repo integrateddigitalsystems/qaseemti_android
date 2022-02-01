@@ -13,6 +13,10 @@ class ResponseService(
     @Expose
     var typeId : Int ?=0 ,
 
+    @SerializedName("parent_id")
+    @Expose
+    var parentId : Int ?=0 ,
+
     @SerializedName("type")
     @Expose
     var type : String ?="",

@@ -3,6 +3,7 @@ package com.ids.qasemti.controller.Activities
 import android.os.Bundle
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.RequestContactUs
 import com.ids.qasemti.model.RequestNotifications
@@ -17,7 +18,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
 
-class ActivityContactUs: ActivityBase() {
+class ActivityContactUs: AppCompactBase() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

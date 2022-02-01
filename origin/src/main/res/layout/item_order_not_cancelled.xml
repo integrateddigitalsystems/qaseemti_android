@@ -515,6 +515,7 @@
                             android:id="@+id/tvOrderDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textAlignment="viewStart"
                             android:textColor="@color/gray_font"
                             android:text="@string/no_data"
                             android:tag="@string/no_data"
@@ -567,6 +568,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/no_data"
+                            android:textAlignment="viewStart"
                             android:tag="@string/no_data"
                             android:textColor="@color/gray_font"
                             android:textSize="@dimen/small_font_3" />
@@ -611,9 +613,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
+                        android:textAlignment="viewStart"
                         android:text="@string/no_data"
                         android:tag="no_data"
-                        android:textColor="@color/primary"
+                        android:textColor="@color/gray_font_title"
                         android:textSize="@dimen/normal_font"
 
                         />
@@ -709,6 +712,7 @@
                 <com.ids.qasemti.custom.CustomTextViewMedium
                     android:id="@+id/tvPaymentMethod"
                     android:layout_width="wrap_content"
+                    android:textAlignment="viewStart"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/normal_margin"
                     android:tag="no_payment_info"
@@ -754,6 +758,7 @@
                         <androidx.appcompat.widget.SwitchCompat
                             android:layout_width="100dp"
                             android:id="@+id/swOnTrack"
+                            android:theme="@style/SelectionSwitch"
                             android:layout_height="match_parent"
                             android:layout_marginStart="-50dp"
                             android:gravity="center"
@@ -790,6 +795,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="-52dp"
                             android:gravity="center"
+                            android:theme="@style/SelectionSwitch"
                             android:scaleX="0.7"
                             android:scaleY="0.7" />
 
@@ -820,6 +826,7 @@
                         <androidx.appcompat.widget.SwitchCompat
                             android:layout_width="100dp"
                             android:id="@+id/swPaid"
+                            android:theme="@style/SelectionSwitch"
                             android:layout_height="match_parent"
                             android:layout_marginStart="-50dp"
                             android:gravity="center"

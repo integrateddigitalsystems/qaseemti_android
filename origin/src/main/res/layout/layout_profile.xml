@@ -210,6 +210,7 @@
                 />
 
             <LinearLayout
+                android:id="@+id/llEmailBackground"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
                 android:orientation="vertical"
@@ -319,6 +320,7 @@
                         android:textSize="@dimen/normal_font" />
 
                     <ImageButton
+                        android:visibility="gone"
                         android:id="@+id/ibUploadFile"
                         android:layout_width="@dimen/edit_text_height"
                         android:layout_height="@dimen/edit_text_height"
@@ -332,8 +334,128 @@
                 </LinearLayout>
 
 
+                <LinearLayout
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/llFromCivilImage"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="@dimen/normal_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_white_background"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_margin="@dimen/normal_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="FrontCivilImage"
+                            android:textColor="@color/gray_font_title"
+                            android:tag="FrontCivilImage"
+                            android:textSize="@dimen/small_font"
+                            />
+                        <FrameLayout
+                            android:layout_width="@dimen/toolbar_extra"
+                            android:layout_height="@dimen/toolbar_extra">
+
+
+                            <ImageView
+                                android:id="@+id/ivCivilFront"
+                                android:layout_width="@dimen/toolbar_height"
+                                android:layout_height="@dimen/toolbar_height"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="@dimen/small_margin"
+                                android:src="@drawable/icon_add_image" />
+
+
+
+                            <LinearLayout
+
+                                android:layout_gravity="end|top"
+                                android:background="@drawable/new_gray_circl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                            <ImageView
+
+                                android:layout_width="@dimen/normal_icon"
+                                android:layout_height="@dimen/normal_icon"
+                                android:id="@+id/btCancelCivilFront"
+                                android:padding="4dp"
+                                android:visibility="gone"
+                                android:tint="@color/primary"
+                                android:src="@drawable/close_x"
+
+                                />
+                            </LinearLayout>
+
+                        </FrameLayout>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/llBackCivilImage"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_white_background"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_margin="@dimen/normal_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="BackCivilImage"
+                            android:textColor="@color/gray_font_title"
+                            android:tag="BackCivilImage"
+                            android:textSize="@dimen/small_font"
+                            />
+                        <FrameLayout
+                            android:layout_width="@dimen/toolbar_extra"
+                            android:layout_height="@dimen/toolbar_extra">
+                            <ImageView
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="@dimen/small_margin"
+                                android:src="@drawable/icon_add_image"
+                                android:layout_width="@dimen/toolbar_height"
+                                android:layout_height="@dimen/toolbar_height"
+                                android:id="@+id/ivCivilBack"/>
+
+                            <LinearLayout
+                                android:layout_gravity="end|top"
+                                android:background="@drawable/new_gray_circl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                                <ImageView
+
+                                    android:layout_width="@dimen/normal_icon"
+                                    android:layout_height="@dimen/normal_icon"
+                                    android:visibility="gone"
+                                    android:id="@+id/btCancelCivilBack"
+                                    android:padding="4dp"
+                                    android:tint="@color/primary"
+                                    android:src="@drawable/close_x"
+
+                                    />
+                            </LinearLayout>
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:id="@+id/rvCivilIdData"/>
                <!-- <com.ids.qasemti.custom.CustomTextViewMedium
@@ -570,19 +692,19 @@
                         />
 
                     <RelativeLayout
+                        android:id="@+id/rlProvinceProfile"
                         android:layout_marginTop="@dimen/normal_margin"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
                         android:background="@drawable/rounded_white_background">
 
                         <Spinner
-                            android:layout_toStartOf="@id/ivArrowProvince"
                             android:id="@+id/spProvinceProfile"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:overlapAnchor="false"
+                            android:layout_toStartOf="@id/ivArrowProvince"
                             android:background="@color/transparent"
-                            />
+                            android:overlapAnchor="false" />
 
                         <ImageView
                             android:layout_marginEnd="@dimen/first_margin"
@@ -696,6 +818,7 @@
                         android:paddingStart="@dimen/normal_margin"
                         android:paddingEnd="@dimen/normal_margin"
                         android:maxLines="1"
+                        android:visibility="gone"
                         android:inputType="text"
                         android:hint="@string/Floor"
                         android:id="@+id/etFloor"
@@ -732,6 +855,7 @@
                         android:textColor="@color/gray_font"
                         android:layout_marginTop="@dimen/normal_margin"
                         android:maxLines="1"
+                        android:visibility="gone"
                         android:inputType="text"
                         android:paddingStart="@dimen/normal_margin"
                         android:paddingEnd="@dimen/normal_margin"
@@ -912,8 +1036,7 @@
     </ScrollView>
 
 
-        <include
-            layout="@layout/loading" />
+        <include layout="@layout/loading" />
 
     </RelativeLayout>
 

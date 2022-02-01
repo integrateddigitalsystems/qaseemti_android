@@ -20,6 +20,7 @@ import com.ids.qasemti.controller.Adapters.AdapterCountryCodes
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Base.ActivityBase
+import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
@@ -108,7 +109,11 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener , ApiL
                 MyApplication.selectedPhone = MyApplication.selectedItemDialog.replace("+","").trim()+etPhone.text.toString()
                 loading.show()
                 //updateDevice()
-                CallAPIs.updateDevice(this,this)
+                if(AppHelper.isOnline(this)) {
+                    CallAPIs.updateDevice(this, this)
+                }else{
+                    AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
+                }
             }
         }
     }
@@ -236,10 +241,12 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener , ApiL
                     try {
                         nextStepCode()
                     } catch (E: java.lang.Exception) {
+                        loading.hide()
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseUpdate>, throwable: Throwable) {
+                    loading.hide()
                 }
             })
     }

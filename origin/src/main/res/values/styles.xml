@@ -26,6 +26,20 @@
     </style>
 
 
+    <style name="SelectionSwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="color">@color/green_switch</item>
+
+        <item name="colorAccent">@color/green_switch</item>
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/gray_switch
+        </item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/gray_switch
+        </item>
+    </style>
+
     <style name="SwitchStyle" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/green_switch</item>
         <item name="colorSwitchThumbNormal">@color/green_switch</item>

@@ -17,26 +17,41 @@
     </LinearLayout>
 
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_marginTop="@dimen/medium_push"
+        android:id="@+id/swipeNotifications"
+        android:layout_width="match_parent"
+        android:layout_below="@id/llCurve"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
     <com.ids.qasemti.custom.CustomTextViewMedium
         android:layout_width="match_parent"
         android:layout_centerInParent="true"
         android:layout_height="match_parent"
         android:gravity="center"
         android:visibility="gone"
-        android:id="@+id/tvNoData"
         android:textSize="@dimen/header_font"
         android:text="@string/no_data"
         android:tag="no_data"
-        android:textColor="@color/primary"/>
+        android:textColor="@color/primary"
+        android:id="@+id/tvNoData"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginStart="@dimen/card_new_margin"
-        android:layout_marginEnd="@dimen/card_new_margin"
-        android:layout_below="@id/llCurve"
-        android:layout_marginTop="@dimen/medium_push"
+        android:id="@+id/rvNotifications"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rvNotifications"/>
+        android:layout_height="match_parent"
+
+        android:layout_marginStart="@dimen/card_new_margin"
+        android:layout_marginEnd="@dimen/card_new_margin" />
+
+
+        </LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include
         layout="@layout/loading" />
