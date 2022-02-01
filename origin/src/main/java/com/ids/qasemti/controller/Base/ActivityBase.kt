@@ -13,6 +13,7 @@ import com.ids.qasemti.utils.LocaleUtils
 import kotlinx.android.synthetic.main.activity_splash.*
 import java.util.*
 import kotlin.collections.ArrayList
+import com.uxcam.UXCam;
 
 open class ActivityBase : Activity() {
     private var decorView: View? = null
@@ -25,7 +26,7 @@ open class ActivityBase : Activity() {
         super.onCreate(savedInstanceState)
         AppHelper.setLocal(this)
         AppHelper.handleCrashes(this)
-
+        UXCam.startWithKey("4447rogmfdtw87p")
         /*if(this is ActivitySettlements){
             AppHelper.createDialog(this,"Banned"){
                 super.onBackPressed()

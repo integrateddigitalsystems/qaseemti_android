@@ -15,7 +15,6 @@ buildscript {
             dirs 'libs'
         }
 
-        
     }
 
 
@@ -38,6 +37,9 @@ allprojects {
             jcenter()
         }
 
+        maven{
+            url 'https://sdk.uxcam.com/android/'
+        }
 
 
     }

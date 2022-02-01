@@ -39,7 +39,6 @@ class ActivityAccountStatus : ActivityBase() {
 
         llNotificationStatus.onOneClick {
 
-
             if (AppHelper.isOnline(this)) {
                 if(notfSelected==0 || notfSelected==-1){
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

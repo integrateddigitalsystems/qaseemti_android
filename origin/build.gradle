@@ -149,9 +149,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.13.0'
 
-
     implementation "io.grpc:grpc-okhttp:1.41.0"
     implementation project(path: ':payment')
+    implementation 'com.uxcam:uxcam:3.3.7@aar'
 }
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
