@@ -749,7 +749,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         URLs.addAll(URLS.serverLink)
                         showDialog()
                     } else {
-                        selectedURL = MyApplication.BASE_URL.isNotEmpty()
+                       // selectedURL = MyApplication.BASE_URL.isNotEmpty()
                         setUpRestFirebase()
                     }
 

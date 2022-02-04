@@ -799,9 +799,16 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
     fun getNotf() {
+
+        var number = ""
+       try{
+           number = MyApplication.selectedUser!!.mobileNumber!!
+       }catch (ex:Exception){
+           number = ""
+       }
         var newReq = RequestNotifications(
             MyApplication.languageCode,
-            MyApplication.selectedUser!!.mobileNumber,
+            number,
             0,
             40,
             1
