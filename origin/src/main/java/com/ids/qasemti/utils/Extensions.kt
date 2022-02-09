@@ -352,13 +352,6 @@ fun TextView.setColorTypeface(context: Context, color: Int,text:String,bold:Bool
 
 }
 
-fun View.show() {
-    try {
-        visibility = View.VISIBLE
-    } catch (e: Exception) {
-    }
-}
-
 
 fun View.setWeight(weight:Float){
     try{
@@ -371,6 +364,16 @@ fun View.setWeight(weight:Float){
     logw("frame_error",ex.toString())
 
     }}
+
+
+
+fun View.show() {
+    try {
+        visibility = View.VISIBLE
+    } catch (e: Exception) {
+    }
+}
+
 
 
 fun View.invisible() {

@@ -40,6 +40,7 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppConstants.API_USER_STATUS
+import com.ids.qasemti.utils.AppConstants.BANNER_TIME
 import com.ids.qasemti.utils.AppConstants.COORDINATES
 import com.ids.qasemti.utils.AppConstants.CURRENCY
 import com.ids.qasemti.utils.AppConstants.FIREBASE_COUNTRY_NAME_CODE
@@ -615,6 +616,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             mFirebaseRemoteConfig!!.getString(FIREBASE_GOVS),
             KuwaitGovs::class.java
         )
+        MyApplication.adTimer = mFirebaseRemoteConfig!!.getString(BANNER_TIME).toInt()
         MyApplication.kuwaitGovs.clear()
         MyApplication.kuwaitGovs.addAll(list.list)
         MyApplication.localizeArray = Gson().fromJson(

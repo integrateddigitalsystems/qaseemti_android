@@ -44,6 +44,7 @@ class MyApplication : Application() {
         var arraySelectedImage: ArrayList<FilesSelected> = arrayListOf()
         var myAddress : String ?=""
         var addNew : Boolean = true
+        var adTimer : Int ?=0
         var selectedFragmentTag : String ?=""
         var toDetails : Boolean =false
         var selectedOrderId : Int ?=0
