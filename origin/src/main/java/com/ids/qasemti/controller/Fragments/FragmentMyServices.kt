@@ -146,6 +146,8 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
 
 
         try {
+            MyApplication.myServices.clear()
+            MyApplication.myServices.addAll(array)
             var adapter = AdapterMyServices(array, this, requireContext())
             rvServices.layoutManager = LinearLayoutManager(requireContext())
             rvServices.adapter = adapter

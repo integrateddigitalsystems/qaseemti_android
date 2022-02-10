@@ -629,6 +629,13 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             FirebaseWebData::class.java
         )
 
+        var typePrefix = MyApplication.BASE_URL.split("wp-json").get(0)
+
+        for(item in MyApplication.webLinks!!.links){
+            item.urlAr = typePrefix+item.urlAr
+            item.urlEn= typePrefix+item.urlEn
+        }
+
         val wv= WebView(this)
         wv.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         wv.loadUrl(MyApplication.webLinks!!.links.find { it.idNo == 2  }!!.urlEn!!)

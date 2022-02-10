@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -1040,6 +1041,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             llProfilePercent.show()
             tvPercentageCompleted.show()
         }
+        etCivilIdNbProfile.transformationMethod = null
         setHint()
         getUserData()
 
@@ -1404,7 +1406,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     if(btAddNewAddress.visibility == View.VISIBLE || (!etAddressName.text.isNullOrEmpty() && !selectedProvince.isNullOrEmpty() && !etStreet.text.isNullOrEmpty() && !etBuilding.text.isNullOrEmpty() && !etArea.text.isNullOrEmpty() && !etBlock.text.isNullOrEmpty())) {
                         /* if((!etAccountNumberProfile.text.toString().isNullOrEmpty() || !etBranchNameProfile.text.isNullOrEmpty() || selectedBankId!=0 || !etIBANProfile.text.isNullOrEmpty()) && (etAccountNumberProfile.text.toString().isNullOrEmpty() || selectedBankId!=0 || etIBANProfile.text.isNullOrEmpty()))*/
                         if ((!etCivilIdNbProfile.text.isNullOrEmpty() && etCivilIdNbProfile.text.length == 12) || (civilImageAvailable && civilImageBackAvailable)) {
-                            if(civilImageBackAvailable == civilImageAvailable) {
+                            if(civilImageBackAvailable == civilImageAvailable && checkCivil()) {
                                 if (etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30)
                                     updateServiceProfile()
                                 else {
@@ -1419,7 +1421,15 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                 }
                             }else{
                                 checkMissingData()
-                                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
+                                if(checkCivil()){
+                                    AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
+                                }else{
+                                    AppHelper.createDialog(
+                                        requireActivity(),
+                                        AppHelper.getRemoteString("fill_all_field", requireActivity())
+                                    )
+                                }
+
                             }
                         } else {
                             if((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) && !(civilImageAvailable || civilImageBackAvailable)) {
@@ -1571,6 +1581,14 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         }
     }
 
+    fun checkCivil():Boolean{
+        if(etCivilIdNbProfile.text.isNullOrEmpty())
+            return true
+        else if(!etCivilIdNbProfile.text.isNullOrEmpty() && etCivilIdNbProfile.text.length == 12)
+            return true
+        else
+            return false
+    }
     private fun updateServiceProfile() {
         if (selectedProfilePic == null) {
             var empty = ""

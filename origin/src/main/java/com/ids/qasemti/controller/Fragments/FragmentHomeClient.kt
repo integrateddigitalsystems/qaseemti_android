@@ -65,6 +65,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
     private var selectedCategoryName = ""
     private var selectedServiceId = 0
     var adPos = 0
+    var fromTimer = false
     var array : ArrayList<ResponseBanner> = arrayListOf()
     private var selectedServiceName = ""
     private var selectedTypeId = 0
@@ -124,6 +125,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
             var runnable: Runnable? = object : Runnable {
                 override fun run() {
                     try {
+                        fromTimer = true
                         if (adPos!! < array.size) {
                             adPos++
                             vpAdsClient.setCurrentItem(adPos, true)
@@ -147,17 +149,26 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
             handler.post(runnable!!)
 
 
+
             vpAdsClient.addOnPageChangeListener(object : OnPageChangeListener {
                 override fun onPageScrolled(
                     position: Int,
                     positionOffset: Float,
                     positionOffsetPixels: Int
                 ) {
+
                 }
 
                 override fun onPageSelected(position: Int) {
+
                     adPos = position
-                    //handler.postDelayed(runnable, MyApplication.adTimer!!.toLong() * 1000)
+                    if(!fromTimer) {
+                        handler.removeCallbacks(runnable)
+                         handler.postDelayed(runnable,MyApplication.adTimer!!.toLong() * 1000)
+                    }else{
+                        fromTimer = false
+                    }
+
                 }
 
                 override fun onPageScrollStateChanged(state: Int) {}

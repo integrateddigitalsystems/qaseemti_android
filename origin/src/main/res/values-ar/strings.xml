@@ -330,5 +330,6 @@
     <string name="you_must_enter_civil_front_back">يجب عليك إدخال عدد 2 مرفق مدني ، صورة أمامية وخلفية</string>
     <string name="sure_update_OnTrack">هل أنت متأكد أنك تريد تحديث على الطريق ؟</string>
     <string name="notifications_type">طريقة الإشعارات</string>
+    <string name="serviceAlreadyExists">هذه الخدمة موجودة سابق</string>
 
 </resources>
