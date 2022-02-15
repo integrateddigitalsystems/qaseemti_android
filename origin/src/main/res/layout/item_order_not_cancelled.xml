@@ -664,8 +664,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/normal_margin"
-                    android:tag="rate"
-                    android:text="@string/rate"
+                    android:tag="sp_rate"
+                    android:id="@+id/tvTitleRate"
+                    android:text="@string/sp_rate"
                     android:textColor="@color/gray_font_title"
                     android:textSize="@dimen/normal_font" />
 

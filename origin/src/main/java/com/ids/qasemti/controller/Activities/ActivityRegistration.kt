@@ -2,6 +2,7 @@ package com.ids.qasemti.controller.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Base.AppCompactBase
@@ -138,6 +139,7 @@ class ActivityRegistration : ActivityBase() , ApiListener{
       MyApplication.selectedPos = 4
       MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
       MyApplication.selectedFragment = FragmentAccount()
+      toast(AppHelper.getRemoteString("complete_profile",this))
      // startActivity(Intent(this, ActivityAccountStatus::class.java))
     }else{
       MyApplication.selectedPos = 2

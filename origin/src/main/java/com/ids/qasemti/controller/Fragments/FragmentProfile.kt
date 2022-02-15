@@ -805,13 +805,13 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 if (user.gender!!.lowercase().equals("female")) {
                     rbFemaleProfile.isChecked = true
                     rbMaleProfile.isChecked = false
-                } else {
+                } else if(user.gender!!.lowercase().equals("male")) {
                     rbFemaleProfile.isChecked = false
                     rbMaleProfile.isChecked = true
                 }
             } catch (ex: Exception) {
                 rbFemaleProfile.isChecked = false
-                rbMaleProfile.isChecked = true
+                rbMaleProfile.isChecked = false
             }
 
             try {
@@ -823,7 +823,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             if (!MyApplication.isClient) {
                 if (!user.mobileNumber.isNullOrEmpty())
                     profilePercentage += 25
-                if (!user.firstName.isNullOrEmpty() && !user.lastName.isNullOrEmpty() && !user.email.isNullOrEmpty() && !user.dob.isNullOrEmpty() && !user.altrNumb.isNullOrEmpty() && (!user.civilId.isNullOrEmpty() || !user.civilIdAttach.isNullOrEmpty()))
+                if (!user.firstName.isNullOrEmpty() && !user.lastName.isNullOrEmpty() && !user.email.isNullOrEmpty() && !user.dob.isNullOrEmpty()  && !gender.isNullOrEmpty() && (!user.civilId.isNullOrEmpty() || (!user.civilIdAttach.isNullOrEmpty() && !user.civilAttachBack.isNullOrEmpty())))
                     profilePercentage += 25
                 try {
                     if (MyApplication.selectedUser!!.addresses!!.size > 0) {
@@ -1490,6 +1490,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
 
         etDateOfBirthProfile.onOneClick {
+            val myFormat = "yyyy-MM-dd" //Change as you need
             var mcurrentDate = Calendar.getInstance()
             var mYear = 0
             var mMonth = 0
@@ -1506,7 +1507,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     myCalendar[Calendar.YEAR] = selectedyear
                     myCalendar[Calendar.MONTH] = selectedmonth
                     myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                    val myFormat = "dd/MM/yyyy" //Change as you need
+
                     var sdf =
                         SimpleDateFormat(myFormat, Locale.ENGLISH)
                     var date = sdf.format(myCalendar.time)
@@ -1515,6 +1516,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             )
             var cal = mcurrentDate.add(Calendar.YEAR, -18)
             mDatePicker.datePicker.maxDate = mcurrentDate.time.time
+            if(!MyApplication.selectedUser!!.dob.isNullOrEmpty()){
+                var cal = Calendar.getInstance()
+                cal.time = SimpleDateFormat(myFormat).parse(MyApplication.selectedUser!!.dob)
+                mDatePicker!!.updateDate(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH))
+            }
             mDatePicker.show()
         }
 

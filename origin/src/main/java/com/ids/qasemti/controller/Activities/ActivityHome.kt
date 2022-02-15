@@ -851,6 +851,8 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
         if(MyApplication.selectedFragment == FragmentAccount()){
             showTitle(false)
+        }else{
+            showTitle(true)
         }
 
 

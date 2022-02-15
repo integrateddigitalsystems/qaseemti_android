@@ -82,6 +82,8 @@ object AppConstants {
     const val CHECKOUT = "checkout"
     const val TRACKING_LIST = "trackingList"
     const val APP_ALIVE="appAlive"
+    const val COUPON_PERCENT="percent"
+    const val COUPON_FIXED="fixed_product"
 
     const val UPDATE_PROFILE_CLIENT = 0
     const val UPDATE_PROFILE_SERVICE_PROVIDER = 1

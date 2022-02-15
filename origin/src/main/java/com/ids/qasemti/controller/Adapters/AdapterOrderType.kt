@@ -88,19 +88,19 @@ class AdapterOrderType(
         try{
             holder.orderId.text = "#"+items.get(position).orderId.toString()
         }catch (ex:java.lang.Exception){holder.orderId.text =""}
-        if(MyApplication.isClient) {
+        /*if(MyApplication.isClient) {
             try {
                 holder.ratingBar.rating = items.get(position).clientRate!!.toInt().toFloat()
             } catch (ex: java.lang.Exception) {
                 holder.ratingBar.rating = 0f
             }
-        }else{
+        }else{*/
              try {
                 holder.ratingBar.rating = items.get(position).vendorRate!!.toInt().toFloat()
             } catch (ex: java.lang.Exception) {
                 holder.ratingBar.rating = 0f
             }
-        }
+       // }
         try{
             if(items[position].paymentMethod!=null && items[position].paymentMethod!!.isNotEmpty())
                 holder.paymentMethod.text = items[position].paymentMethod
@@ -269,6 +269,8 @@ class AdapterOrderType(
                             reloader,
                             loading)
 
+                        holder.switchPaid.callOnClick()
+
                         //AppHelper.setUpDoc(items.get(position))
                     }
                 /*} else {
@@ -330,6 +332,8 @@ class AdapterOrderType(
                         holder.switchDelivered
                     )
                 }
+
+                holder.switchDelivered.callOnClick()
             }else{
                 holder.switchPaid.isChecked = !holder.switchPaid.isChecked
                 AppHelper.createDialog(con,AppHelper.getRemoteString("no_internet",con))
@@ -337,9 +341,7 @@ class AdapterOrderType(
         }
 
 
-
-
-
+        holder.titlerate.text = AppHelper.getRemoteString("sp_rate",con)
 
         holder.cancelPerson.hide()
         holder.cancelReason.hide()
@@ -530,6 +532,7 @@ class AdapterOrderType(
         var tvServiceType = itemView.findViewById<TextView>(R.id.tvServiceType)
         var tvServiceCategory = itemView.findViewById<TextView>(R.id.tvCategoryOrder)
         var tvServiceSize = itemView.findViewById<TextView>(R.id.tvServiceSize)
+        var titlerate = itemView.findViewById<TextView>(R.id.tvTitleRate)
 
 
         init {

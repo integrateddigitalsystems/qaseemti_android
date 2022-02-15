@@ -82,6 +82,7 @@
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/margin_start_end"
                 android:paddingEnd="@dimen/margin_start_end"
+                android:visibility="gone"
                 android:layout_gravity="center_vertical"
                 android:id="@+id/btMyServices"
                 android:gravity="center_vertical"
