@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatRatingBar
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
@@ -126,6 +127,7 @@ class AdapterOrderType(
                    //   if (!MyApplication.saveLocationTracking!!) {
                    MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
                    MyApplication.listOrderTrack.add(MyApplication.trackOrderId!!.toString())
+                   MyApplication.listDestination.add(LatLng(items.get(position).shipping_latitude!!.toDouble(),items.get(position).shipping_longitude!!.toDouble()))
                    AppHelper.toGsonArrString()
                    if (!MyApplication.isClient) {
                        (con as ActivityHome).changeState(true,MyApplication.listOrderTrack.size-1)
@@ -252,6 +254,7 @@ class AdapterOrderType(
                             MyApplication.selectedOrder = items.get(position)
                             MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
                             MyApplication.listOrderTrack.add(MyApplication.trackOrderId.toString())
+                            MyApplication.listDestination.add(LatLng(items.get(position).shipping_latitude!!.toDouble(),items.get(position).shipping_longitude!!.toDouble()))
                             AppHelper.toGsonArrString()
                             if(!MyApplication.isClient)
                                     (con as ActivityHome).changeState(true,MyApplication.listOrderTrack.size-1)

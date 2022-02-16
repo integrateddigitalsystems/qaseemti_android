@@ -229,6 +229,15 @@ class ActivityTrackOrder : AppCompactBase(), OnMapReadyCallback , ApiListener{
                         orderLoc!!.order_longitude!!.toDouble()
                     )
 
+                    var curr = LatLng( orderLoc!!.order_laltitude!!.toDouble(), orderLoc!!.order_longitude!!.toDouble())
+                    var dest = LatLng(MyApplication.selectedOrder!!.shipping_latitude!!.toDouble(),MyApplication.selectedOrder!!.shipping_longitude!!.toDouble())
+
+                    var dist = curr.getDistance(dest)
+
+                   
+
+                   // AppHelper.createDialog(this@ActivityTrackOrder,"["+curr.toString()+"]"+" ["+dest.toString()+"] "+curr.getDistance(dest).toString())
+
                     gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
                     markers.get(1).position = ny
 
@@ -384,6 +393,9 @@ class ActivityTrackOrder : AppCompactBase(), OnMapReadyCallback , ApiListener{
                         location!!.latitude!!.toDouble(),
                         location!!.longitude!!.toDouble()
                     )
+
+
+
                     gmap!!.moveCamera(CameraUpdateFactory.newLatLng(ny))
                     markers.get(1).position = ny
                 } else {

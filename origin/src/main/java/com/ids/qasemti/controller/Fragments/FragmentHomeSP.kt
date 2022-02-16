@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
@@ -519,6 +520,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         for (item in trackorders) {
             if (item.onTrack!! && !item.delivered!! && !item.paymentMethod.isNullOrEmpty()) {
                 MyApplication.listOrderTrack.add(item.orderId!!)
+                MyApplication.listDestination.add(LatLng(item.shipping_latitude!!.toDouble(),item.shipping_longitude!!.toDouble()))
             }
         }
 

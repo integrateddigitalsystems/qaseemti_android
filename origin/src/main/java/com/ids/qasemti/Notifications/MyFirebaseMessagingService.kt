@@ -10,6 +10,7 @@ import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import android.util.Log
+import com.google.android.gms.maps.model.LatLng
 
 import com.google.firebase.installations.FirebaseInstallations
 
@@ -135,6 +136,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             if (appAlive!!) {
                 try {
                     MyApplication.listOrderTrack.add(id.toString())
+                    MyApplication.listDestination.add(LatLng(0.0,0.0))
                     MyApplication.foregroundOnlyLocationService?.subscribeToLocationUpdates()
                 } catch (ex: Exception) {
                     logw("test", "exceptTion")

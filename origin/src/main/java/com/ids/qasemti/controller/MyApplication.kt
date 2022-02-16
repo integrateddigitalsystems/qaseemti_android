@@ -23,6 +23,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.OrderDone
 
 import com.ids.qasemti.controller.Fragments.FragmentHomeSP
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
@@ -178,6 +179,9 @@ class MyApplication : Application() {
         get() = sharedPreferences.getString(AppConstants.TRACKING_LIST,"")
         set(value) { sharedPreferencesEditor.putString(AppConstants.TRACKING_LIST , value)}
         var appAlive = false
+        var listDoneOrders : String ?
+            get() = sharedPreferences.getString(AppConstants.DONE_LIST,"")
+            set(value) { sharedPreferencesEditor.putString(AppConstants.DONE_LIST , value)}
 
         var selectedOrderRemoveIndex : Int ?=0
         var resumed : Boolean = false
@@ -186,6 +190,8 @@ class MyApplication : Application() {
         var backgrounded : Boolean = false
 
         var listOrderTrack : ArrayList<String> = arrayListOf()
+        var listDestination : ArrayList<LatLng> = arrayListOf()
+        var doneOrders : ArrayList<OrderDone> = arrayListOf()
 
 
     }

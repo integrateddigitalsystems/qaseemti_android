@@ -1113,6 +1113,18 @@ class AppHelper {
             }
         }
 
+        fun distance(lat_a: Float, lng_a: Float, lat_b: Float, lng_b: Float): Float {
+            val earthRadius = 3958.75
+            val latDiff = Math.toRadians((lat_b - lat_a).toDouble())
+            val lngDiff = Math.toRadians((lng_b - lng_a).toDouble())
+            val a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+                    Math.cos(Math.toRadians(lat_a.toDouble())) * Math.cos(Math.toRadians(lat_b.toDouble())) *
+                    Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2)
+            val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+            val distance = earthRadius * c
+            val meterConversion = 1609
+            return (distance * meterConversion.toFloat()).toFloat()
+        }
 
         fun toGsonArrString(){
            MyApplication.trackOrderIdList = Gson().toJson(MyApplication.listOrderTrack)

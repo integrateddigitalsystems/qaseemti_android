@@ -114,6 +114,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.ids.qasemti.controller.Activities.ActivityTrackOrder"
+            android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity

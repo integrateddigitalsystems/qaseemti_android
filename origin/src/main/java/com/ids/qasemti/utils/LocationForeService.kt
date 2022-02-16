@@ -27,13 +27,14 @@ import com.ids.qasemti.controller.Activities.ActivitySplash
 import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
+import com.ids.qasemti.model.ResponseOrders
 import kotlinx.android.synthetic.main.activity_code_verification.*
 import kotlinx.android.synthetic.main.footer.*
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
 
-class LocationForeService : Service() {
+class LocationForeService : Service() , ApiListener{
     /*
      * Checks whether the bound activity has really gone away (foreground service with notification
      * created) or simply orientation change (no-op).
@@ -41,6 +42,7 @@ class LocationForeService : Service() {
     private var configurationChange = false
     private var serviceRunningInForeground = false
     var locationListenerGps : LocationListener ?=null
+    var docLat : LatLng ?=null
     var mLocationManager : LocationManager ?=null
     var doc: DocumentReference? = null
     private val localBinder = LocalBinder()
@@ -322,7 +324,7 @@ class LocationForeService : Service() {
 
                 if(location!=null)
                     firstLocation = location
-
+                var ct = 0
                 for(doc in MyApplication.documents) {
                     try {
                         doc!!.update("order_laltitude", location.latitude.toString())
@@ -330,6 +332,17 @@ class LocationForeService : Service() {
                     }catch (ex:java.lang.Exception){
 
                     }
+                    var update = LatLng(location.latitude,location.longitude)
+                    var dest = MyApplication.listDestination.get(ct)
+
+                    if(dest.longitude ==0.0 && dest.latitude == 0.0){
+                        docLat = update
+                        CallAPIs.getOrderByOrderId(MyApplication.listOrderTrack.get(ct).toInt(),this@LocationForeService)
+                    }else{
+
+                    }
+
+                    ct++
                 }
 
                 val intent = Intent(ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
@@ -585,5 +598,20 @@ class LocationForeService : Service() {
         private const val NOTIFICATION_ID = 12345678
 
         private const val NOTIFICATION_CHANNEL_ID = "while_in_use_channel_01"
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+        try{
+            if(success){
+                var order = response as ResponseOrders
+                var dest = LatLng(order.shipping_latitude!!.toDouble(),order.shipping_longitude!!.toDouble())
+                var distance = dest.getDistance(docLat!!)
+                if(distance<=50f){
+                    //do API
+                    logw("LOGLOC",distance.toString())
+                }
+
+            }
+        }catch (ex:Exception){}
     }
 }

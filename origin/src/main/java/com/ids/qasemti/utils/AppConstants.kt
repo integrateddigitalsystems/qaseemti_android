@@ -81,6 +81,7 @@ object AppConstants {
     const val FRAGMENT_CART="fragmentCart"
     const val CHECKOUT = "checkout"
     const val TRACKING_LIST = "trackingList"
+    const val DONE_LIST = "doneList"
     const val APP_ALIVE="appAlive"
     const val COUPON_PERCENT="percent"
     const val COUPON_FIXED="fixed_product"

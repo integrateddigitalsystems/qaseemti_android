@@ -23,6 +23,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Fragments.FragmentHomeClient
@@ -64,6 +65,10 @@ fun String.occurrencesOf(sub: String): Int {
         }
     }
     return count
+}
+
+fun LatLng.getDistance(lt:LatLng):Float{
+    return AppHelper.distance(this.latitude.toFloat(),this.longitude.toFloat(),lt.latitude.toFloat(),lt.longitude.toFloat())
 }
 
 /**

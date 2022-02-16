@@ -25,6 +25,7 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
@@ -1097,6 +1098,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     if (swOnTrack.isChecked) {
                         MyApplication.saveLocationTracking = true
                         MyApplication.listOrderTrack.add(MyApplication.selectedOrder!!.orderId!!)
+                        MyApplication.listDestination.add(LatLng(MyApplication.selectedOrder!!.shipping_latitude!!.toDouble(),MyApplication.selectedOrder!!.shipping_longitude!!.toDouble()))
+
                         AppHelper.toGsonArrString()
                         swOnTrack.isEnabled = true
                         changeState(true,0)
