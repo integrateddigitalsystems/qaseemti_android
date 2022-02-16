@@ -13,7 +13,9 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.hide
 import com.ids.qasemti.utils.logw
+import com.ids.qasemti.utils.show
 import org.w3c.dom.Text
 
 import java.util.ArrayList
@@ -34,6 +36,11 @@ class AdapterCart(
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
         try {
+            if(items.get(position).vendor!=null){
+                holder.delete.hide()
+            }else{
+                holder.delete.show()
+            }
             if (!items.get(position).product!!.name.isNullOrEmpty())
                 holder.title.text = items.get(position).product!!.name
             else
