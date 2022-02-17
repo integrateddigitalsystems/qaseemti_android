@@ -20,7 +20,7 @@ import org.w3c.dom.Text
 
 import java.util.ArrayList
 
-class AdapterCart(
+class AdapterCart (
     val items: ArrayList<ResponseOrders>,
     private val itemClickListener: RVOnItemClickListener,
     context: Context
