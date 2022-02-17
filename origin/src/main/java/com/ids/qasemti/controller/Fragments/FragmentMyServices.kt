@@ -19,6 +19,7 @@ import com.ids.qasemti.model.ResponseMainServices
 import com.ids.qasemti.model.ResponseService
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_services.*
+import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
@@ -199,16 +200,41 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
                         )
                         MyApplication.isEditService = false
                     } else {
-                        AppHelper.createDialog(
+
+                        AppHelper.createYesNoDialog(
                             requireActivity(),
+                            AppHelper.getRemoteString("ok", requireActivity()),
+                            AppHelper.getRemoteString("cancel", requireActivity()),
                             AppHelper.getRemoteString("must_enter_Address_First", requireActivity())
-                        )
+                        ){
+                            MyApplication.register = true
+                            (requireActivity() as ActivityHome?)!!.setSelectedTab(
+                                4,
+                                FragmentAccount(),
+                                AppConstants.FRAGMENT_ACCOUNT,
+                                R.color.primary
+                            )
+                        }
+
                     }
                 } else {
-                    AppHelper.createDialog(
+
+
+                    AppHelper.createYesNoDialog(
                         requireActivity(),
+                        AppHelper.getRemoteString("ok", requireActivity()),
+                        AppHelper.getRemoteString("cancel", requireActivity()),
                         AppHelper.getRemoteString("complete_profile", requireActivity())
-                    )
+                    ){
+                        MyApplication.register = true
+                        (requireActivity() as ActivityHome?)!!.setSelectedTab(
+                            4,
+                            FragmentAccount(),
+                            AppConstants.FRAGMENT_ACCOUNT,
+                            R.color.primary
+                        )
+                    }
+
                 }
             } else
                 AppHelper.createDialog(
