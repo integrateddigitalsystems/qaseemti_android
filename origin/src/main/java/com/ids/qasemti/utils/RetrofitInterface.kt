@@ -339,6 +339,8 @@ interface RetrofitInterface {
         @Query("language") lang : String
     ):Call<ResponseGeoAddress>
 
+    @GET("distancematrix/json")
+
     @POST("sp_get_orders")
     fun getOrderById(
        @Body param : RequestOrderIdL
