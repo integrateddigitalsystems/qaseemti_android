@@ -358,23 +358,22 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
                 if (MyApplication.isSignedIn) {
 
-                    var type = 0
-                    try {
-                        type = intent.getIntExtra("fromNotf", 0)
-                    } catch (ex: Exception) {
-                        type = 0
-                    }
-
                     var from = 0
                     try {
-                        type = intent.getIntExtra("typeId", 0)
+                        from = intent.getIntExtra("fromNotf", 0)
+                    } catch (ex: Exception) {
+                        from = 0
+                    }
+                    var type = 0
+                    try {
+                        type = intent.getIntExtra("Type", 0)
                     } catch (ex: Exception) {
                         type = -1
                     }
 
                     var orderId = -1
                     try{
-                        orderId = intent.getIntExtra("order_id",-1)
+                        orderId = intent.getIntExtra("orderId",-1)
                     }catch (ex:Exception){
 
                     }
