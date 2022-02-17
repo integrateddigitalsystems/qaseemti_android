@@ -139,7 +139,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
         try {
             tvOrderDate.text =
-                AppHelper.formatDate(orders.date!!, "yyyy-MM-dd hh:mm:ssss", "dd-MM-yyyy hh:mm")
+                AppHelper.formatDate(orders.date!!, "yyyy-MM-dd hh:mm:ssss", "yyyy-MM-dd HH:mm")
         } catch (e: Exception) {
         }
         try {

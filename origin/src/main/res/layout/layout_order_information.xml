@@ -118,8 +118,8 @@
                         android:id="@+id/tvPaymentMethod"
                         android:layout_height="@dimen/normal_icon"
                         android:textSize="@dimen/small_font_2"
-                        android:text="@string/no_data"
-                        android:tag="@string/no_data"
+                        android:text="@string/no_payment_info"
+                        android:tag="@string/no_payment_info"
                         android:textColor="@color/gray_font_title" />
 
                 </LinearLayout>

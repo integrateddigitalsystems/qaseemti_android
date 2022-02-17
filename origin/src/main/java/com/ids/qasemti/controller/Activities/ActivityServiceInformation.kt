@@ -920,7 +920,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
 
         if (selectedServiceId != -1 && (selectedSizeId == null || (selectedSizeId != null && selectedSizeId != -1)) && (selectedTypeId == null || (selectedTypeId != null && selectedTypeId != -1))) {
 
-            if(!checkInMyServices()) {
+            if(!checkInMyServices() || MyApplication.isEditService ) {
                 if (arrayImagesSelected.size == 0)
                     createDialog(this, "Please upload image")
                 else if (etStockAvailable.text.toString()

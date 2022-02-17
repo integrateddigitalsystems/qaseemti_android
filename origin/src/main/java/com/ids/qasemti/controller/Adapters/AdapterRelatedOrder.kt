@@ -30,7 +30,7 @@ class AdapterRelatedOrder(val items: ArrayList<RelatedOrder>, private val itemCl
     override fun onBindViewHolder(holder: VHItem, position: Int) {
 
         holder.value.text = items.get(position).grandTotal!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator)+ " "+items.get(position).currency
-        var simp = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
+        var simp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
         var smp = SimpleDateFormat("dd/mm/yyyy",Locale.ENGLISH)
         holder.date.text = smp.format(simp.parse(items.get(position).orderDate))
         holder.due.text = items.get(position).adminFees!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+ items.get(position).currency

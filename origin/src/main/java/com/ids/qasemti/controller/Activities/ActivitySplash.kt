@@ -630,6 +630,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
         var typePrefix = MyApplication.BASE_URL.split("wp-json").get(0)
 
+
         for(item in MyApplication.webLinks!!.links){
             item.urlAr = typePrefix+item.urlAr
             item.urlEn= typePrefix+item.urlEn

@@ -56,7 +56,7 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
         }}catch (e:Exception){
             holder.expected.text = AppHelper.getRemoteString("no_data",con)
         }
-        try{holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-mm-dd hh:mm:ssss","dd MMM yyyy hh:mm")}catch (e:Exception){}
+        try{holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-mm-dd hh:mm:ssss","yyyy-MM-dd HH:mm")}catch (e:Exception){}
         try{holder.tvLocation.text = AppHelper.addressFromOrder(items.get(position),1,con)}catch (e:Exception){
             holder.tvLocation.text = AppHelper.getRemoteString("no_data",con)
         }
