@@ -45,6 +45,11 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener , ApiListener {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        (activity as ActivityHome).showTitle(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

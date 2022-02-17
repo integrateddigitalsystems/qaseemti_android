@@ -80,6 +80,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     override fun onResume() {
         super.onResume()
 
+        (activity as ActivityHome).showTitle(false)
+
 
         if (MyApplication.toDetails) {
             MyApplication.isBroadcast = true

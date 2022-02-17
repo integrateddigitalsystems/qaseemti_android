@@ -1428,6 +1428,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                         requireActivity(),
                                         AppHelper.getRemoteString("fill_all_field", requireActivity())
                                     )
+                                    etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
                                 }
 
                             }

@@ -43,6 +43,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -54,10 +55,12 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
     var selectedPaymentId: Int? = 0
     var selectedSlug: String? = ""
     var firstTime = true
+    var myTotal : String ?=""
     var merchantId: String? = ""
     var request: RequestPaymentOrder? = null
     var reviewed: Boolean? = false
     var username: String? = ""
+    var dec = DecimalFormat("##.##")
     var arrayOrderData: ArrayList<OrderData> = arrayListOf()
     var arrayOrderCost: ArrayList<OrderData> = arrayListOf()
     var fromKnet : Boolean = false
@@ -179,25 +182,25 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("Subtotal", this),
-                if (orders.total != null && orders.total!!.isNotEmpty()) orders.total + " KWD" else ""
+                if (orders.total != null && orders.total!!.isNotEmpty())  dec.format( orders.total!!.toDouble()).toString() + " KWD" else ""
             )
         )
         arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("AdditionalFees", this),
-                if (orders.additional != null && orders.additional!!.isNotEmpty()) orders.additional + " KWD" else ""
+                if (orders.additional != null && orders.additional!!.isNotEmpty()) dec.format( orders.additional!!.toDouble()).toString() + " KWD" else ""
             )
         )
         arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("TotalAmount", this),
-                if (orders.grand_total != null && orders.grand_total!!.isNotEmpty()) orders.grand_total + " KWD" else ""
+                if (orders.grand_total != null && orders.grand_total!!.isNotEmpty()) dec.format( orders.grand_total!!.toDouble()).toString() + " KWD" else ""
             )
         )
         rvOtherData.layoutManager = LinearLayoutManager(this)
         adapterOrderCost = AdapterOtherOrderData(arrayOrderCost, this, this)
         rvOtherData.adapter = adapterOrderCost
-
+        myTotal = orders.grand_total
         if(orders.vendor==null){
             rvPaymentMethod.hide()
             btPLaceOrder.hide()
@@ -296,7 +299,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             .setPassword(password)
             .setApikey(apiKey)
             .setOrderId(MyApplication.selectedOrder!!.orderId)
-            .setTotalPrice(MyApplication.selectedOrder!!.grand_total)
+            .setTotalPrice(myTotal)
             .setCurrencyCode(MyApplication.currency)
             .setSuccessUrl(succURL)
             .setErrorUrl(errorURL)
@@ -322,34 +325,36 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("Subtotal", this),
-                if (MyApplication.selectedOrder!!.total != null && MyApplication.selectedOrder!!.total!!.isNotEmpty()) MyApplication.selectedOrder!!.total + " KWD" else ""
+                if (MyApplication.selectedOrder!!.total != null && MyApplication.selectedOrder!!.total!!.isNotEmpty()) dec.format( MyApplication.selectedOrder!!.total!!.toDouble()).toString() + " KWD" else ""
             )
         )
         arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("AdditionalFees", this),
-                if (MyApplication.selectedOrder!!.shippingTotal != null && MyApplication.selectedOrder!!.shippingTotal!!.isNotEmpty()) MyApplication.selectedOrder!!.shippingTotal + " KWD" else ""
+                if (MyApplication.selectedOrder!!.shippingTotal != null && MyApplication.selectedOrder!!.shippingTotal!!.isNotEmpty()) dec.format( MyApplication.selectedOrder!!.shippingTotal!!.toDouble()).toString() + " KWD" else ""
             )
         )
         arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("OldAmount", this),
-                if (res.oldTotal != null && res.oldTotal!!.isNotEmpty()) res.oldTotal + " KWD" else ""
+                if (res.oldTotal != null && res.oldTotal!!.isNotEmpty()) dec.format( res.oldTotal!!.toDouble()).toString() + " KWD" else ""
             )
         )
 
         arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("DiscountAmount", this),
-                if (res.totalDiscountAmount != null && res.totalDiscountAmount!!.isNotEmpty()) res.totalDiscountAmount + " KWD" else ""
+                if (res.totalDiscountAmount != null && res.totalDiscountAmount!!.isNotEmpty()) dec.format( res.totalDiscountAmount!!.toDouble()).toString() + " KWD" else ""
             )
         )
         arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("NewTotal", this),
-                if (res.newTotal != null && res.newTotal!!.isNotEmpty()) res.newTotal + " KWD" else ""
+                if (res.newTotal != null && res.newTotal!!.isNotEmpty()) dec.format( res.newTotal!!.toDouble()).toString() + " KWD" else ""
             )
         )
+
+        myTotal= res.newTotal
 
         rvOtherData.layoutManager = LinearLayoutManager(this)
         adapterOrderCost = AdapterOtherOrderData(arrayOrderCost, this, this)
@@ -439,6 +444,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                 if (res.newTotal != null && res.newTotal!!.isNotEmpty()) res.newTotal + " KWD" else ""
             )
         )
+
         rv.layoutManager = layoutManager
         var adapter = AdapterOtherOrderData(arr, this, this)
         rv.adapter = adapter
@@ -449,6 +455,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         btApply.onOneClick {
             dialog.dismiss()
             if (AppHelper.isOnline(this)) {
+                myTotal= res.newTotal
                 applyCoupon()
             }else{
                 AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
@@ -526,6 +533,7 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             .setMessage(message)
             .setCancelable(true)
             .setNegativeButton(AppHelper.getRemoteString("Proceed_without_Coupon",this)) { dialog, _ ->
+                myTotal = MyApplication.selectedOrder!!.grand_total
                 updatePayment()
             }
             .setPositiveButton(AppHelper.getRemoteString("Apply_Coupon",this)) { dialog, _ ->

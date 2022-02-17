@@ -54,6 +54,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -65,6 +66,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     var cancelReasons: ArrayList<BankItem> = arrayListOf()
     var arrayCancelSpinner: ArrayList<ItemSpinner> = arrayListOf()
     var orderId = 1
+    var dec = DecimalFormat("##.##")
     var selectedCancelReason: Int? = 0
     var onTrack: Int? = 0
     var typeSelected: String? = ""
@@ -611,7 +613,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
         try {
             tvOrderAmountDeet.text =
-                MyApplication.selectedOrder!!.total!!.toString() + " " + MyApplication.selectedOrder!!.currency
+                dec.format( MyApplication.selectedOrder!!.total!!.toDouble()).toString() + " " + MyApplication.selectedOrder!!.currency
         } catch (e: Exception) {
         }
 
@@ -620,9 +622,10 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 MyApplication.selectedOrder!!.additional!!.toString() + " " + MyApplication.selectedOrder!!.currency
         } catch (e: Exception) {
         }
+
         try {
             tvAmountOrderTotal.text =
-                MyApplication.selectedOrder!!.grand_total!!.toString() + " " + MyApplication.selectedOrder!!.currency
+               dec.format( MyApplication.selectedOrder!!.grand_total!!.toDouble()).toString() + " " + MyApplication.selectedOrder!!.currency
         } catch (e: Exception) {
         }
         try {
@@ -640,7 +643,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             try {
 
                 tvCouponValue.text =
-                    MyApplication.selectedOrder!!.discountAmount!!.toString() + " "
+                    dec.format( MyApplication.selectedOrder!!.discountAmount!!.toDouble()).toString() + " "
                 if(MyApplication.selectedOrder!!.discounType.equals(AppConstants.COUPON_FIXED)) {
                     tvCouponValue.text = tvCouponValue.text.toString()+ MyApplication.selectedOrder!!.currency
                 } else{
@@ -654,7 +657,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             }
             try {
                 tvOrderAmountDeet.text =
-                    MyApplication.selectedOrder!!.oldTotal!!.toString() + " " + MyApplication.selectedOrder!!.currency
+                    dec.format( MyApplication.selectedOrder!!.oldTotal!!.toDouble()).toString() + " " + MyApplication.selectedOrder!!.currency
             } catch (e: Exception) {
             }
         }

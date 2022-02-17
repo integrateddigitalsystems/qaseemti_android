@@ -1,6 +1,8 @@
 package com.ids.qasemti.controller.Adapters
 
 import android.app.Activity
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +21,7 @@ import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.layout_order_switch.*
 import org.w3c.dom.Text
+import java.text.DecimalFormat
 import java.util.*
 
 class AdapterOrderType(
@@ -31,6 +34,7 @@ class AdapterOrderType(
     RecyclerView.Adapter<AdapterOrderType.VHItem>() {
 
     var con = context
+    var fromSwitch = false
     var delivered = 0
     var loading = loading
     var onTrack = 0
@@ -106,8 +110,9 @@ class AdapterOrderType(
             if(items[position].paymentMethod!=null && items[position].paymentMethod!!.isNotEmpty())
                 holder.paymentMethod.text = items[position].paymentMethod
         }catch (ex:java.lang.Exception){}
+        var dec = DecimalFormat("##.##")
         try {
-            holder.orderCost.text = items[position].grand_total!!+" "+items.get(position).currency
+            holder.orderCost.text = dec.format(items[position].grand_total!!.toDouble())+" "+items.get(position).currency
         }catch (ex:Exception){ holder.orderCost.text =""}
         try{
             holder.cancelReasonDetails.text = items.get(position).cancellationReason
@@ -230,6 +235,16 @@ class AdapterOrderType(
                         holder.switchPaid
                     )
                 }
+
+                /*if(!fromSwitch) {
+                    fromSwitch = true
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        holder.switchPaid.callOnClick()
+                    },2000)
+
+                }else{
+                    fromSwitch = false
+                }*/
             } else{
                 holder.switchDelivered.isChecked = !holder.switchDelivered.isChecked
                 AppHelper.createDialog(con,AppHelper.getRemoteString("no_internet",con))
@@ -272,7 +287,6 @@ class AdapterOrderType(
                             reloader,
                             loading)
 
-                        holder.switchPaid.callOnClick()
 
                         //AppHelper.setUpDoc(items.get(position))
                     }
@@ -335,8 +349,14 @@ class AdapterOrderType(
                         holder.switchDelivered
                     )
                 }
-
-                holder.switchDelivered.callOnClick()
+                /*if(!fromSwitch) {
+                    fromSwitch = true
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        holder.switchDelivered.callOnClick()
+                    },2000)
+                }else{
+                    fromSwitch = false
+                }*/
             }else{
                 holder.switchPaid.isChecked = !holder.switchPaid.isChecked
                 AppHelper.createDialog(con,AppHelper.getRemoteString("no_internet",con))
