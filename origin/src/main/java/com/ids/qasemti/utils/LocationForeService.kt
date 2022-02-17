@@ -24,6 +24,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Activities.ActivitySplash
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponseDistance
 import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
@@ -603,13 +604,20 @@ class LocationForeService : Service() , ApiListener{
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
         try{
             if(success){
-                var order = response as ResponseOrders
-                var dest = LatLng(order.shipping_latitude!!.toDouble(),order.shipping_longitude!!.toDouble())
-                var distance = dest.getDistance(docLat!!)
-                if(distance<=50f){
-                    //do API
-                    logw("LOGLOC",distance.toString())
+
+                if(apiId == AppConstants.DISTANCE_GEO){
+                    var dist = response as ResponseDistance
+                }else{
+                    var order = response as ResponseOrders
+                    var dest = LatLng(order.shipping_latitude!!.toDouble(),order.shipping_longitude!!.toDouble())
+                   /* var distance = dest.getDistance(docLat!!)
+                    if(distance<=50f){
+                        //do API
+                        logw("LOGLOC",distance.toString())
+                    }*/
+                    CallAPIs.getDistance(docLat!!,dest,application,this)
                 }
+
 
             }
         }catch (ex:Exception){}

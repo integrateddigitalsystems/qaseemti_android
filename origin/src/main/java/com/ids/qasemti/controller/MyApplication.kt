@@ -192,6 +192,7 @@ class MyApplication : Application() {
         var listOrderTrack : ArrayList<String> = arrayListOf()
         var listDestination : ArrayList<LatLng> = arrayListOf()
         var doneOrders : ArrayList<OrderDone> = arrayListOf()
+        var closeDistance : Int ?= 0
 
 
     }

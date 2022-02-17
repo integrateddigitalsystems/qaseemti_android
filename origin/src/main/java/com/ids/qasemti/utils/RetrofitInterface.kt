@@ -2,8 +2,10 @@ package com.ids.qasemti.utils
 
 
 import com.google.android.gms.maps.model.LatLng
+import com.google.api.Billing
 import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.RequestJOrderid
 import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponeMainNotification
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponseDistance
 import com.ids.qasemti.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -340,6 +342,11 @@ interface RetrofitInterface {
     ):Call<ResponseGeoAddress>
 
     @GET("distancematrix/json")
+    fun getDistance(
+        @Query("destinations") destination: String,
+        @Query("origins") moving : String ,
+        @Query("key") key : String
+    ):Call<ResponseDistance>
 
     @POST("sp_get_orders")
     fun getOrderById(

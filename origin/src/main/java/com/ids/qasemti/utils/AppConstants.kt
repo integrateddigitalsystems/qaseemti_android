@@ -95,6 +95,7 @@ object AppConstants {
     const val GET_CATEGORIES = 6
     const val UPDATE_DEVICE =7
     const val ADDRESS_GEO = 8
+    const val DISTANCE_GEO = 9
     const val TYPE_PURCHASE = "purchase"
     const val TYPE_RENTAL = "rental"
     const val TYPE_RENTAL_ID ="343"

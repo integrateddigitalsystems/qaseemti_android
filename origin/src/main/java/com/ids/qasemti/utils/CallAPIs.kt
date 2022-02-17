@@ -1,5 +1,6 @@
 package com.ids.qasemti.utils
 
+import android.app.Application
 import android.content.Context
 import android.provider.Settings
 import android.provider.Settings.Global.getString
@@ -12,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponseDistance
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import kotlinx.android.synthetic.main.layout_profile.*
@@ -112,6 +114,49 @@ class CallAPIs {
 
 
             }
+        }
+
+        fun getDistance(
+            from : LatLng,
+            to : LatLng,
+            con : Application ,
+            listener: ApiListener
+        ){
+            /*var latLng = LatLng(33.872525264390575, 35.49364099233594)*/
+            var dest = from.latitude.toString() + ","+from.longitude.toString()
+            var origin  = to.latitude.toString() + ","+to.longitude.toString()
+            RetroFitMap2.client?.create(RetrofitInterface::class.java)
+                ?.getDistance(dest,origin,con.getString(R.string.googleKey))?.enqueue(object : Callback<ResponseDistance> {
+                    override fun onResponse(
+                        call: Call<ResponseDistance>,
+                        response: Response<ResponseDistance>
+                    ) {
+
+                        try {
+                            listener.onDataRetrieved(
+                                true,
+                                response.body()!!,
+                                AppConstants.DISTANCE_GEO
+                            )
+                            //nextStep(response.body()!!.result!!)
+                        } catch (E: java.lang.Exception) {
+
+                            listener.onDataRetrieved(
+                                true,
+                                response.body()!!,
+                                AppConstants.DISTANCE_GEO
+                            )
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseDistance>, throwable: Throwable) {
+                        listener.onDataRetrieved(
+                            false,
+                            ResponseGeoAddress(),
+                            AppConstants.DISTANCE_GEO
+                        )
+                    }
+                })
         }
 
         fun getAddressName(
