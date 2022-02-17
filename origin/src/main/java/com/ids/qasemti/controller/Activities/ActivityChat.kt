@@ -149,7 +149,7 @@ class ActivityChat : ActivityBase(), RVOnItemClickListener {
             MyApplication.selectedUser!!.userId!!.toInt()
         )
         var cal = Calendar.getInstance()
-        var date = AppHelper.formatDate(cal.time, "yyyy/mm/dd hh:mm:ssss")
+        var date = AppHelper.formatDate(cal.time, "yyyy-MM-dd HH:mm:ssss")
         chats.add(
             ChatItem(
                 MyApplication.selectedUser!!.firstName,

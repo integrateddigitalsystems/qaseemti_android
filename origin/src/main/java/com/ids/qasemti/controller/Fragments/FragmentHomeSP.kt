@@ -87,7 +87,6 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             MyApplication.toDetails = false
             startActivity(
                 Intent(requireActivity(), ActivityOrderDetails::class.java)
-                    .putExtra("orderId", MyApplication.selectedOrderId)
             )
         } else {
             loading.show()
@@ -707,6 +706,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
             AppHelper.onOneClick {
                 MyApplication.isBroadcast = true
                 MyApplication.selectedOrder = ordersArray[position]
+                MyApplication.selectedOrderId = ordersArray[position].orderId!!.toInt()
                 startActivity(
                     Intent(requireActivity(), ActivityOrderDetails::class.java)
                         .putExtra("orderId", MyApplication.selectedOrder!!.orderId!!.toInt())

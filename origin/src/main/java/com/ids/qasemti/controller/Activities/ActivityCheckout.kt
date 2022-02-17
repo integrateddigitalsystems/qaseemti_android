@@ -41,7 +41,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
     var sendFormatter = SimpleDateFormat(sendFormat, Locale.ENGLISH)
     var viewFormatter = SimpleDateFormat(viewFormat, Locale.ENGLISH)
     var mainFormatter = SimpleDateFormat("yyyy-MM-dd hh:mm")
-    var getFormatter = SimpleDateFormat("dd-MM-yyyy hh:mm")
+    var getFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
     var lastFormatter = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
     var timeFormatter = SimpleDateFormat(timeFormat, Locale.ENGLISH)
     var minRenewTime: Date? = null

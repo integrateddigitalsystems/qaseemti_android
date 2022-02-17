@@ -38,7 +38,7 @@ class AdapterSettlements(
         holder.idTitle.hide()
         holder.viewOrder.show()
         holder.id.text = items.get(position).orderId.toString()
-        holder.date.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd hh:mm:ss","dd MM yyyy hh:mm")
+        holder.date.text = AppHelper.formatDate(items.get(position).date!!,"yyyy-MM-dd hh:mm:ss","yyyy-MM-dd HH:mm")
         try{holder.amount.text = items.get(position).grand_total!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator)+" "+items.get(position).currency}catch (e:Exception){}
         try{holder.earn.text = items.get(position).earnings!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+ items.get(position).currency}catch (e:Exception){}
         try{holder.addCost.text = items.get(position).additional!!.formatNumber(AppConstants.TwoDecimalThousandsSeparator) + " "+ items.get(position).currency}catch (e:Exception){}

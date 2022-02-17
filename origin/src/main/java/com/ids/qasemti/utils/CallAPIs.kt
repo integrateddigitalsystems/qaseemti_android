@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.Toast
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
@@ -14,6 +15,7 @@ import com.google.gson.Gson
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
+import kotlinx.android.synthetic.main.layout_home_orders.*
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.loading.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -687,50 +689,58 @@ class CallAPIs {
         }
 
 
+
+
+
+
+
         fun getOrderByOrderIdBroad(
             orderId: Int,
             userId : Int ,
             listener: ApiListener,
         ) {
-            var req = RequestOrderIdB(orderId, MyApplication.languageCode,userId)
-            retro.getOrderByIdBroad(
-                req
-            ).enqueue(object : Callback<ResponseMainOrderById> {
-                override fun onResponse(
-                    call: Call<ResponseMainOrderById>,
-                    response: Response<ResponseMainOrderById>
-                ) {
-                    try {
-                        listener.onDataRetrieved(
-                            true,
-                            response.body()!!.order,
-                            AppConstants.ORDER_BY_ID
-                        )
-                    } catch (e: Exception) {
-                        try {
+
+            var doneOnce = 0
+
+            var newReq = RequestServices(MyApplication.userId, MyApplication.languageCode)
+            retro.getBroadcastedOrders(newReq)?.enqueue(object : Callback<ResponseMainOrder> {
+                    override fun onResponse(
+                        call: Call<ResponseMainOrder>,
+                        response: Response<ResponseMainOrder>
+                    ) {
+                        var res = response.body()!!.orders
+                        for(item in res){
+                            if(item.orderId!!.toInt() == orderId) {
+                                doneOnce=1
+                                listener.onDataRetrieved(
+                                    true,
+                                    item,
+                                    AppConstants.ORDER_BY_ORDER_ID_BROAD
+                                )
+                                break
+                            }
+                        }
+
+                        if(doneOnce == 0 ){
                             listener.onDataRetrieved(
                                 false,
                                 ResponseOrders(),
-                                AppConstants.ORDER_BY_ID
+                                AppConstants.ORDER_BY_ORDER_ID_BROAD
                             )
-                        } catch (ex: Exception) {
-
                         }
                     }
-                }
 
-                override fun onFailure(call: Call<ResponseMainOrderById>, throwable: Throwable) {
-                    try {
+
+
+                    override fun onFailure(call: Call<ResponseMainOrder>, throwable: Throwable) {
                         listener.onDataRetrieved(
                             false,
                             ResponseOrders(),
-                            AppConstants.ORDER_BY_ID
+                            AppConstants.ORDER_BY_ORDER_ID_BROAD
                         )
-                    } catch (ex: Exception) {
-
                     }
-                }
             })
+
 
         }
 

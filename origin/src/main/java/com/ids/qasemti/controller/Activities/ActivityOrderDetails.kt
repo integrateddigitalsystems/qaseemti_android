@@ -120,6 +120,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     }
 
     override fun onResume() {
+
         super.onResume()
         if(!MyApplication.isClient) {
             LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -348,8 +349,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             btAcceptOrder.show()
             btCancelOrder.hide()
             llEditOrderTime.hide()
-         //   setOrderData()
-            CallAPIs.getOrderByOrderIdBroad(orderId,MyApplication.userId,this)
+            //setOrderData()
+            CallAPIs.getOrderByOrderIdBroad(MyApplication.selectedOrderId!!,MyApplication.userId,this)
         }else{
             loading.show()
             CallAPIs.getOrderByOrderId(orderId, this)
@@ -593,7 +594,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             tvOrderDateDeet.text = AppHelper.formatDate(
                 MyApplication.selectedOrder!!.date!!,
                 "yyyy-MM-dd hh:mm:ss",
-                "dd-MM-yyyy hh:mm"
+                "yyyy-MM-dd HH:mm"
             )
         } catch (e: Exception) {
         }
@@ -757,7 +758,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
         }
         var cal = Calendar.getInstance()
-        var date = AppHelper.formatDate(cal.time, "dd/mm/yy hh:mm:ssss")
+        var date = AppHelper.formatDate(cal.time, "dd/mm/yy HH:mm:ssss")
         var req = RequestRenewOrder(
             MyApplication.selectedOrder!!.customer!!.user_id!!.toInt(),
             MyApplication.selectedOrder!!.orderId!!.toInt(),
@@ -1471,11 +1472,20 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        try {
-            MyApplication.selectedOrder = response as ResponseOrders
-            setOrderData()
-        }catch (ex:Exception){
-            logw("OrderError",ex.toString())
+        if(success) {
+            /*if (apiId == AppConstants.ORDER_BY_ORDER_ID_BROAD) {
+
+            } else {*/
+                try {
+                    MyApplication.selectedOrder = response as ResponseOrders
+                    setOrderData()
+                } catch (ex: Exception) {
+                    logw("OrderError", ex.toString())
+                    loading.hide()
+                }
+           // }
+        }else
+        {
             loading.hide()
         }
     }

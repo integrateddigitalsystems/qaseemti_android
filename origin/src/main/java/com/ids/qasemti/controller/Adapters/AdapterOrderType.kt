@@ -70,7 +70,7 @@ class AdapterOrderType(
             holder.locationText.text=AppHelper.getRemoteString("no_data",con)
         }
         try{
-            holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MM yyyy hh:mm")
+            holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","yyyy-MM-dd HH:mm")
         }catch (ex:java.lang.Exception){
             if(items[position].date!=null)
                holder.orderDate.text = items[position].date!!
@@ -79,7 +79,7 @@ class AdapterOrderType(
         }
 
         try{
-            holder.tvOrderDateValue.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MM yyyy hh:mm")
+            holder.tvOrderDateValue.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","yyyy-MM-dd HH:mm")
         }catch (ex:java.lang.Exception){
             if(items[position].date!=null)
                holder.tvOrderDateValue.text=items[position].date!!
