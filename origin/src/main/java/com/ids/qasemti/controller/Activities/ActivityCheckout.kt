@@ -60,6 +60,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
     var latLng: LatLng? = null
     var selectedDate: String? = ""
     var adapterPaymentMethods: AdapterCheckoutPayment? = null
+    var selectedPaymentId : Int ?=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +74,15 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
 
     override fun onItemClicked(view: View, position: Int) {
-
+        if (view.id == R.id.linearPaymentMethod) {
+            try {
+                MyApplication.selectedService!!.availablePaymentMethods.forEach { it.selected = false }
+                MyApplication.selectedService!!.availablePaymentMethods[position].selected = true
+                selectedPaymentId = MyApplication.selectedService!!.availablePaymentMethods[position].id!!.toInt()
+                adapterPaymentMethods!!.notifyDataSetChanged()
+            } catch (e: Exception) {
+            }
+        }
     }
 
 

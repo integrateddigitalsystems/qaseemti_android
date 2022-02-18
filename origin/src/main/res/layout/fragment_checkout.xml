@@ -874,7 +874,19 @@
 
             </RelativeLayout>
 
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:tag="PaymentMethod"
+                android:text="@string/PaymentMethod"
+                android:textColor="@color/primary" />
+
               <LinearLayout
+                  android:layout_marginStart="@dimen/margin_start_end"
+                  android:layout_marginEnd="@dimen/margin_start_end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/normal_margin"

@@ -11,7 +11,7 @@
     </style>
 
     <style name="myDatePickerStyle" parent="android:Widget.Material.DatePicker">
-        <item name="android:datePickerMode">spinner</item>
+        <item name="android:datePickerMode">calendar</item>
     </style>
 
     <style name="myTimePicker" parent="android:Widget.Material.TimePicker">
