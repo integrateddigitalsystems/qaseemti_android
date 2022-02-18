@@ -8,11 +8,11 @@ class ResponseDistance(
 
     @SerializedName("destination_addresses")
     @Expose
-    var destAddress : String ?="" ,
+    var destAddress : ArrayList<String> ?= arrayListOf(),
 
     @SerializedName("origin_addresses")
     @Expose
-    var originsAddress : String ?="" ,
+    var originsAddress : ArrayList<String> ?= arrayListOf(),
 
     @SerializedName("rows")
     @Expose

@@ -175,14 +175,14 @@ class MyApplication : Application() {
         set(value) { sharedPreferencesEditor.putInt(AppConstants.TRACKING_ORDER_ID,value!!).apply()}
         var generalNotificaiton : Int ?
         get() = sharedPreferences.getInt(AppConstants.GENERAL_NOTF,1)
-        set(value) { sharedPreferencesEditor.putInt(AppConstants.GENERAL_NOTF,value!!)}
+        set(value) { sharedPreferencesEditor.putInt(AppConstants.GENERAL_NOTF,value!!).apply()}
         var trackOrderIdList : String ?
         get() = sharedPreferences.getString(AppConstants.TRACKING_LIST,"")
-        set(value) { sharedPreferencesEditor.putString(AppConstants.TRACKING_LIST , value)}
+        set(value) { sharedPreferencesEditor.putString(AppConstants.TRACKING_LIST , value).apply()}
         var appAlive = false
         var listDoneOrders : String ?
             get() = sharedPreferences.getString(AppConstants.DONE_LIST,"")
-            set(value) { sharedPreferencesEditor.putString(AppConstants.DONE_LIST , value)}
+            set(value) { sharedPreferencesEditor.putString(AppConstants.DONE_LIST , value).apply()}
 
         var selectedOrderRemoveIndex : Int ?=0
         var resumed : Boolean = false

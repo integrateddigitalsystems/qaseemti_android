@@ -24,6 +24,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Activities.ActivitySplash
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.OrderDone
 import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponseDistance
 import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
@@ -334,15 +335,44 @@ class LocationForeService : Service() , ApiListener{
                     }catch (ex:java.lang.Exception){
 
                     }
-                    var update = LatLng(location.latitude,location.longitude)
-                    var dest = MyApplication.listDestination.get(ct)
 
-                    if(dest.longitude ==0.0 && dest.latitude == 0.0){
-                        docLat = update
-                        CallAPIs.getOrderByOrderId(MyApplication.listOrderTrack.get(ct).toInt(),this@LocationForeService)
-                    }else{
+                    try {
+                        var update = LatLng(location.latitude, location.longitude)
+                        var dest = MyApplication.listDestination.get(ct)
+                        if (MyApplication.doneOrders.size < ct + 1) {
+                            MyApplication.doneOrders.add(
+                                OrderDone(
+                                    false,
+                                    MyApplication.listOrderTrack.get(ct)
+                                )
+                            )
+                            AppHelper.toGSOnDOne(MyApplication.doneOrders)
+                        }
+
+                        if (!MyApplication.doneOrders.get(ct).done!!) {
+                            logw("LOGDIST", "notDone")
+                            if (dest.longitude == 0.0 && dest.latitude == 0.0) {
+                                docLat = update
+                                indx = ct
+                                CallAPIs.getOrderByOrderId(
+                                    MyApplication.listOrderTrack.get(ct).toInt(),
+                                    this@LocationForeService
+                                )
+                            } else {
+                                indx = ct
+                                CallAPIs.getDistance(
+                                    update,
+                                    dest,
+                                    application,
+                                    this@LocationForeService
+                                )
+                            }
+                        }
+                    }catch (ex:Exception){
 
                     }
+
+
 
                     ct++
                 }
@@ -443,7 +473,9 @@ class LocationForeService : Service() , ApiListener{
             MyApplication.db!!.collection("table_order")
                 .document(orderId).delete()
             MyApplication.listOrderTrack.removeAt(MyApplication.selectedOrderRemoveIndex!!)
-            AppHelper.toGsonArrString()
+            MyApplication.doneOrders.removeAt(MyApplication.selectedOrderRemoveIndex!!)
+            AppHelper.toGSOnDOne(MyApplication.doneOrders)
+
 
         }else {
 
@@ -614,6 +646,8 @@ class LocationForeService : Service() , ApiListener{
                             //API
                             logw("LOGDIST","less 50" )
                             MyApplication.doneOrders.get(indx).done=true
+                            AppHelper.toGSOnDOne(MyApplication.doneOrders)
+                            var x = MyApplication.listDoneOrders
                         }
                     }
                 }else{

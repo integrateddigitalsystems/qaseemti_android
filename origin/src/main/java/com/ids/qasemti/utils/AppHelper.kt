@@ -86,6 +86,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.google.common.reflect.TypeToken
 import com.google.gson.GsonBuilder
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.OrderDone
 import kotlinx.android.synthetic.main.layout_profile.*
 import kotlinx.android.synthetic.main.loading.*
 
@@ -1147,6 +1148,16 @@ class AppHelper {
             MyApplication.listOrderTrack = gson.fromJson<ArrayList<String>>(MyApplication.trackOrderIdList, object : TypeToken<ArrayList<String>>(){}.type)
         }
 
+        fun GsontoArrDone(){
+            if(!MyApplication.listDoneOrders.isNullOrEmpty()) {
+                val gson = GsonBuilder().create()
+                MyApplication.doneOrders = gson.fromJson<ArrayList<OrderDone>>(
+                    MyApplication.listDoneOrders,
+                    object : TypeToken<ArrayList<OrderDone>>() {}.type
+                )
+            }
+        }
+
         fun sha256(str:String):String{
             var byte = org.apache.commons.codec.digest.DigestUtils.sha256(str)
             return String(Hex.encodeHex(byte))
@@ -1319,12 +1330,17 @@ class AppHelper {
             return array
 
         }
-
+        fun toGSOnDOne(array: ArrayList<OrderDone>){
+            val gson = Gson()
+            val jsonText = gson.toJson(array)
+            MyApplication.listDoneOrders = jsonText
+        }
         fun toGSOn(array: ArrayList<RequestPlaceOrder>) {
             val gson = Gson()
             val jsonText = gson.toJson(array)
             MyApplication.cartItems = jsonText
         }
+
 
         fun getAddress(lat: Double, long: Double, con: Context): String {
             var addressStr = ""

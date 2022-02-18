@@ -2,6 +2,7 @@ package com.ids.qasemti.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.PaymentData
 
 class ResponseService(
 
@@ -85,7 +86,11 @@ class ResponseService(
 
     @SerializedName("featured_image")
     @Expose
-    var featuredImage : String ?=""
+    var featuredImage : String ?="" ,
+
+    @SerializedName("available_payment_methods")
+    @Expose
+    var availablePaymentMethods : ArrayList<PaymentData> = arrayListOf()
 
 
 

@@ -396,6 +396,12 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         }catch (ex:Exception){}
                     }
 
+                    try{
+                        AppHelper.GsontoArrDone()
+                    }catch (ex:Exception){
+
+                    }
+
                     if (MyApplication.isClient) {
 
                         try {

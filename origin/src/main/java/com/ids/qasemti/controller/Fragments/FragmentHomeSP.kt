@@ -517,6 +517,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
     fun setUp() {
 
         MyApplication.listOrderTrack.clear()
+        MyApplication.listDestination.clear()
 
         for (item in trackorders) {
             if (item.onTrack!! && !item.delivered!! && !item.paymentMethod.isNullOrEmpty()) {

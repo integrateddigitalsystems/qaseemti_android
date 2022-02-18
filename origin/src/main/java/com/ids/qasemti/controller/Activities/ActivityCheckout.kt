@@ -8,9 +8,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TimePicker
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.ids.qasemti.R
+import com.ids.qasemti.controller.Adapters.AdapterCheckoutPayment
+import com.ids.qasemti.controller.Adapters.AdapterPaymentMethods
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.RequestJOrderid
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -20,6 +23,7 @@ import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppHelper.Companion.toEditable
 import kotlinx.android.synthetic.main.activity_new_address.*
+import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.layout_order_contact_tab.*
 import kotlinx.android.synthetic.main.loading.*
@@ -55,6 +59,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
     var locationSelected = false
     var latLng: LatLng? = null
     var selectedDate: String? = ""
+    var adapterPaymentMethods: AdapterCheckoutPayment? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_checkout)
@@ -405,6 +411,12 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
     }
 
+    private fun setPaymentMethods() {
+        adapterPaymentMethods = AdapterCheckoutPayment(MyApplication.selectedService!!.availablePaymentMethods!!, this, this)
+        rvPaymentMethodCheckout.layoutManager = GridLayoutManager(this, 1)
+        rvPaymentMethodCheckout.adapter = adapterPaymentMethods
+        rvPaymentMethodCheckout.isNestedScrollingEnabled = false
+    }
     fun init() {
         setTintLogo(R.color.primary)
         //  tvSelectedAddressCheck.setColorTypeface(this,R.color.gray_font_title,"",false)
@@ -435,6 +447,7 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 setUpCurr()
                 setOrderSummary()
                 setListeners()
+                setPaymentMethods()
             }else{
                 logw("rebirth","done")
                 AppHelper.triggerRebirth(this)

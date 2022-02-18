@@ -874,6 +874,20 @@
 
             </RelativeLayout>
 
+              <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rvPaymentMethodCheckout"
+                        android:nestedScrollingEnabled="false"
+                        />
+              </LinearLayout>
+
 
             <Button
                 android:layout_marginStart="@dimen/margin_start_end"
