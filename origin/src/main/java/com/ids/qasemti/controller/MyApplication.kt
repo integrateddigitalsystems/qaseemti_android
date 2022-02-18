@@ -56,6 +56,7 @@ class MyApplication : Application() {
         var kuwaitCoordinates : Coordinates ?=null
         var salt : String ?=""
         var payparams : GatewayRespone ?=null
+        var notifyDistance : Int ?=null
         var enableCountryCodes : Boolean ?=false
         var countryNameCodes : String ?=""
         var typeSelected = 0

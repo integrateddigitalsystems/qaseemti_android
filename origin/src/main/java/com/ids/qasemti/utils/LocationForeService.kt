@@ -44,6 +44,7 @@ class LocationForeService : Service() , ApiListener{
     private var serviceRunningInForeground = false
     var locationListenerGps : LocationListener ?=null
     var docLat : LatLng ?=null
+    var indx = 0
     var mLocationManager : LocationManager ?=null
     var doc: DocumentReference? = null
     private val localBinder = LocalBinder()
@@ -607,6 +608,14 @@ class LocationForeService : Service() , ApiListener{
 
                 if(apiId == AppConstants.DISTANCE_GEO){
                     var dist = response as ResponseDistance
+                    var element = dist.rows.get(0).elements.get(0)
+                    if(element.status.equals("OK")){
+                        if(element.distance.value!!.toDouble() <= MyApplication.notifyDistance!!.toDouble()){
+                            //API
+                            logw("LOGDIST","less 50" )
+                            MyApplication.doneOrders.get(indx).done=true
+                        }
+                    }
                 }else{
                     var order = response as ResponseOrders
                     var dest = LatLng(order.shipping_latitude!!.toDouble(),order.shipping_longitude!!.toDouble())

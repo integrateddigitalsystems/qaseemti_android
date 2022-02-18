@@ -44,6 +44,7 @@ import com.ids.qasemti.utils.AppConstants.BANNER_TIME
 import com.ids.qasemti.utils.AppConstants.COORDINATES
 import com.ids.qasemti.utils.AppConstants.CURRENCY
 import com.ids.qasemti.utils.AppConstants.FIREBASE_COUNTRY_NAME_CODE
+import com.ids.qasemti.utils.AppConstants.FIREBASE_DISTANCE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_ENABLE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_GOVS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LINKS
@@ -647,6 +648,8 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             mFirebaseRemoteConfig!!.getString(COORDINATES),
             Coordinates::class.java
         )
+
+        MyApplication.notifyDistance = mFirebaseRemoteConfig!!.getString(FIREBASE_DISTANCE).toInt()
         MyApplication.payparams = Gson().fromJson(
             mFirebaseRemoteConfig!!.getString(FIREBASE_PARAMS),
             GatewayRespone::class.java

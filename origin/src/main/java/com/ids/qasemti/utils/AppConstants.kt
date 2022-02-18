@@ -64,6 +64,7 @@ object AppConstants {
     const val COORDINATES = "kuwait_coordinates"
     const val FIREBASE_PARAMS ="paymentGatewayParameters"
     const val FIREBASE_ENABLE = "enableMultiCountry"
+    const val FIREBASE_DISTANCE = "notifyDistance"
     const val FIREBASE_COUNTRY_NAME_CODE = "countryCodeMap"
     const val FIREBASE_SALT = "salt"
     const val FIREBASE_MOBILE_CONFIGURATION = "mobileConfigurations"
@@ -95,8 +96,8 @@ object AppConstants {
     const val GET_CATEGORIES = 6
     const val UPDATE_DEVICE =7
     const val ADDRESS_GEO = 8
-    const val DISTANCE_GEO = 9
     const val ORDER_BY_ORDER_ID_BROAD = 9
+    const val DISTANCE_GEO = 10
     const val TYPE_PURCHASE = "purchase"
     const val TYPE_RENTAL = "rental"
     const val TYPE_RENTAL_ID ="343"
