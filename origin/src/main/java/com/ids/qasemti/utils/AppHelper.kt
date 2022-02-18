@@ -296,6 +296,18 @@ class AppHelper {
             }
         }
 
+        fun getImage( imageName:String, con :Context) : Int {
+
+            var  drawableResourceId = con.getResources().getIdentifier(imageName, "drawable", con.getPackageName());
+
+            return drawableResourceId;
+        }
+
+        fun loadDrawable(con : Context,str:String,img:ImageView){
+            Glide.with(con).load(getImage(str,con)).into(img);
+
+
+        }
         fun isOnline(context: Context): Boolean {
             val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

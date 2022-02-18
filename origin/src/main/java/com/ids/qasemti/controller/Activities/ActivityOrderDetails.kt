@@ -1200,10 +1200,22 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
 
 
+        try {
+            if (MyApplication.isClient && !MyApplication.selectedOrder!!.vendorRate.isNullOrEmpty() && MyApplication.selectedOrder!!.vendorRate!!.toInt() != 0) {
+                AppHelper.loadDrawable(this, "icon_star_fill", ivRate)
+                ivRate.setTint(R.color.transparent)
+            } else if (!MyApplication.isClient && !MyApplication.selectedOrder!!.clientRate.isNullOrEmpty() && MyApplication.selectedOrder!!.clientRate!!.toInt() != 0) {
+                AppHelper.loadDrawable(this, "icon_star_fill", ivRate)
+                ivRate.setTint(R.color.transparent)
+            }
+        }catch (ex:Exception){
+
+        }
+
         llRatingOrder.setOnClickListener {
-            if(MyApplication.selectedOrder!!.vendorRate!!.toInt() == 0 && MyApplication.isClient)
+            if( !MyApplication.selectedOrder!!.vendorRate.isNullOrEmpty() && MyApplication.selectedOrder!!.vendorRate!!.toInt() == 0 && MyApplication.isClient)
                 showRatingDialog()
-            else if(!MyApplication.isClient && MyApplication.selectedOrder!!.clientRate!!.toInt() == 0){
+            else if(!MyApplication.isClient && !MyApplication.selectedOrder!!.clientRate.isNullOrEmpty() && MyApplication.selectedOrder!!.clientRate!!.toInt() == 0){
                 showRatingDialog()
             }else{
                createDialog(this,AppHelper.getRemoteString("ratedAlready",this))

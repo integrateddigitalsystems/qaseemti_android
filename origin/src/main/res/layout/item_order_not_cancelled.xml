@@ -653,6 +653,7 @@
 
 
                 <ImageView
+                    android:id="@+id/ivImageStar"
                     android:layout_width="@dimen/normal_icon"
                     android:layout_height="@dimen/normal_icon"
                     android:padding="3dp"

@@ -1,6 +1,7 @@
 package com.ids.qasemti.controller.Adapters
 
 import android.app.Activity
+import android.media.Image
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.*
+import kotlinx.android.synthetic.main.layout_order_contact_tab.*
 import kotlinx.android.synthetic.main.layout_order_switch.*
 import org.w3c.dom.Text
 import java.text.DecimalFormat
@@ -365,6 +367,11 @@ class AdapterOrderType(
 
 
         holder.titlerate.text = AppHelper.getRemoteString("sp_rate",con)
+        if(MyApplication.isClient && items.get(position)!!.vendorRate!!.toInt() != 0){
+            AppHelper.loadDrawable(con,"icon_star_fill",holder.imgStar)
+        }else if(!MyApplication.isClient && items.get(position)!!.clientRate!!.toInt() != 0){
+            AppHelper.loadDrawable(con,"icon_star_fill",holder.imgStar)
+        }
 
         holder.cancelPerson.hide()
         holder.cancelReason.hide()
@@ -556,6 +563,7 @@ class AdapterOrderType(
         var tvServiceCategory = itemView.findViewById<TextView>(R.id.tvCategoryOrder)
         var tvServiceSize = itemView.findViewById<TextView>(R.id.tvServiceSize)
         var titlerate = itemView.findViewById<TextView>(R.id.tvTitleRate)
+        var imgStar = itemView.findViewById<ImageView>(R.id.ivImageStar)
 
 
         init {
