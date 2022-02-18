@@ -52,7 +52,7 @@ class AdapterCart(
         if(!items.get(position).orderId.isNullOrEmpty()){
             holder.id.text = items.get(position).orderId
         }
-        holder.cost.text = items.get(position).total+" "+items.get(position).currency
+        holder.cost.text = items.get(position).grand_total+" "+items.get(position).currency
 
 
 

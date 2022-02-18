@@ -545,6 +545,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     fun setUserData(user: User) {
         setUpSpinnerGovs(user)
+        gender = user.gender!!
         try {
             profilePercentage = 0
             // loading.show()
@@ -823,7 +824,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             if (!MyApplication.isClient) {
                 if (!user.mobileNumber.isNullOrEmpty())
                     profilePercentage += 25
-                if (!user.firstName.isNullOrEmpty() && !user.lastName.isNullOrEmpty() && !user.email.isNullOrEmpty() && !user.dob.isNullOrEmpty()  && !gender.isNullOrEmpty() && (!user.civilId.isNullOrEmpty() || (!user.civilIdAttach.isNullOrEmpty() && !user.civilAttachBack.isNullOrEmpty())))
+                if (!user.firstName.isNullOrEmpty() && !user.lastName.isNullOrEmpty() && !user.email.isNullOrEmpty() && !user.dob.isNullOrEmpty()  && !user.gender.isNullOrEmpty() && (!user.civilId.isNullOrEmpty() || (!user.civilIdAttach.isNullOrEmpty() && !user.civilAttachBack.isNullOrEmpty())))
                     profilePercentage += 25
                 try {
                     if (MyApplication.selectedUser!!.addresses!!.size > 0) {
@@ -1212,10 +1213,15 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             if (etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) {
                 etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
             }
-            if (!civilImageBackAvailable)
+            if(!etCivilIdNbProfile.text.isNullOrEmpty()) {
+                if (civilImageBackAvailable != civilImageAvailable) {
+                    llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+                    llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+                }
+            }else{
                 llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
-            if (!civilImageAvailable)
                 llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+            }
             if (!etIBANProfile.text.isNullOrEmpty() && etIBANProfile.text.length != 30)
                 etIBANProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
         }
@@ -1423,11 +1429,27 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                 checkMissingData()
                                 if(checkCivil()){
                                     AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
+                                    llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+                                    llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+
                                 }else{
-                                    AppHelper.createDialog(
-                                        requireActivity(),
-                                        AppHelper.getRemoteString("fill_all_field", requireActivity())
-                                    )
+                                    if(etCivilIdNbProfile.text.isNullOrEmpty()) {
+                                        AppHelper.createDialog(
+                                            requireActivity(),
+                                            AppHelper.getRemoteString(
+                                                "fill_all_field",
+                                                requireActivity()
+                                            )
+                                        )
+                                    }else{
+                                        AppHelper.createDialog(
+                                            requireActivity(),
+                                            AppHelper.getRemoteString(
+                                                "civil_id_length",
+                                                requireActivity()
+                                            )
+                                        )
+                                    }
                                     etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
                                 }
 
@@ -1435,10 +1457,23 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                         } else {
                             if((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) && !(civilImageAvailable || civilImageBackAvailable)) {
                                 checkMissingData()
-                                AppHelper.createDialog(
-                                    requireActivity(),
-                                    AppHelper.getRemoteString("fill_all_field", requireActivity())
-                                )
+                                if(etCivilIdNbProfile.text.isNullOrEmpty()) {
+                                    AppHelper.createDialog(
+                                        requireActivity(),
+                                        AppHelper.getRemoteString(
+                                            "fill_all_field",
+                                            requireActivity()
+                                        )
+                                    )
+                                }else{
+                                    AppHelper.createDialog(
+                                        requireActivity(),
+                                        AppHelper.getRemoteString(
+                                            "civil_id_length",
+                                            requireActivity()
+                                        )
+                                    )
+                                }
                             }else{
                                 checkMissingData()
                                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
