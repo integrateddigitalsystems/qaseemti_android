@@ -53,6 +53,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -64,6 +65,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     var cancelReasons: ArrayList<BankItem> = arrayListOf()
     var arrayCancelSpinner: ArrayList<ItemSpinner> = arrayListOf()
     var orderId = 1
+    var dec = DecimalFormat("##.##")
     var selectedCancelReason: Int? = 0
     var onTrack: Int? = 0
     var typeSelected: String? = ""
@@ -118,6 +120,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     }
 
     override fun onResume() {
+
         super.onResume()
         if(!MyApplication.isClient) {
             LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -346,8 +349,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             btAcceptOrder.show()
             btCancelOrder.hide()
             llEditOrderTime.hide()
-         //   setOrderData()
-            CallAPIs.getOrderByOrderIdBroad(orderId,MyApplication.userId,this)
+            //setOrderData()
+            CallAPIs.getOrderByOrderIdBroad(MyApplication.selectedOrderId!!,MyApplication.userId,this)
         }else{
             loading.show()
             CallAPIs.getOrderByOrderId(orderId, this)
@@ -591,7 +594,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             tvOrderDateDeet.text = AppHelper.formatDate(
                 MyApplication.selectedOrder!!.date!!,
                 "yyyy-MM-dd hh:mm:ss",
-                "dd-MM-yyyy hh:mm"
+                "yyyy-MM-dd HH:mm"
             )
         } catch (e: Exception) {
         }
@@ -610,23 +613,53 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
         try {
             tvOrderAmountDeet.text =
-                MyApplication.selectedOrder!!.total!!.toString() + " " + MyApplication.selectedOrder!!.currency
+                dec.format( MyApplication.selectedOrder!!.total!!.toDouble()).toString() + " " + MyApplication.selectedOrder!!.currency
         } catch (e: Exception) {
         }
+
         try {
             tvOrderAmountAdditional.text =
                 MyApplication.selectedOrder!!.additional!!.toString() + " " + MyApplication.selectedOrder!!.currency
         } catch (e: Exception) {
         }
+
         try {
             tvAmountOrderTotal.text =
-                MyApplication.selectedOrder!!.grand_total!!.toString() + " " + MyApplication.selectedOrder!!.currency
+               dec.format( MyApplication.selectedOrder!!.grand_total!!.toDouble()).toString() + " " + MyApplication.selectedOrder!!.currency
         } catch (e: Exception) {
         }
         try {
             if (MyApplication.selectedOrder!!.paymentMethod != null && MyApplication.selectedOrder!!.paymentMethod!!.isNotEmpty())
                 tvPaymentMethod.text = MyApplication.selectedOrder!!.paymentMethod
         } catch (e: Exception) {
+        }
+
+        if(!MyApplication.selectedOrder!!.couponCode.isNullOrEmpty()) {
+            try {
+                tvCouponCode.text =
+                    MyApplication.selectedOrder!!.couponCode!!.toString()
+            } catch (e: Exception) {
+            }
+            try {
+
+                tvCouponValue.text =
+                    dec.format( MyApplication.selectedOrder!!.discountAmount!!.toDouble()).toString() + " "
+                if(MyApplication.selectedOrder!!.discounType.equals(AppConstants.COUPON_FIXED)) {
+                    tvCouponValue.text = tvCouponValue.text.toString()+ MyApplication.selectedOrder!!.currency
+                } else{
+                  if(MyApplication.languageCode == AppConstants.LANG_ENGLISH){
+                      tvCouponValue.text = tvCouponValue.text.toString()+"%"
+                  }else{
+                      tvCouponValue.text ="% "+tvCouponValue.text.toString()
+                  }
+                }
+            } catch (e: Exception) {
+            }
+            try {
+                tvOrderAmountDeet.text =
+                    dec.format( MyApplication.selectedOrder!!.oldTotal!!.toDouble()).toString() + " " + MyApplication.selectedOrder!!.currency
+            } catch (e: Exception) {
+            }
         }
         try {
             swDelivered.isChecked = MyApplication.selectedOrder!!.delivered!!
@@ -725,7 +758,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
         }
         var cal = Calendar.getInstance()
-        var date = AppHelper.formatDate(cal.time, "dd/mm/yy hh:mm:ssss")
+        var date = AppHelper.formatDate(cal.time, "dd/mm/yy HH:mm:ssss")
         var req = RequestRenewOrder(
             MyApplication.selectedOrder!!.customer!!.user_id!!.toInt(),
             MyApplication.selectedOrder!!.orderId!!.toInt(),
@@ -1164,8 +1197,26 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
 
 
+        try {
+            if (MyApplication.isClient && !MyApplication.selectedOrder!!.vendorRate.isNullOrEmpty() && MyApplication.selectedOrder!!.vendorRate!!.toInt() != 0) {
+                AppHelper.loadDrawable(this, "icon_star_fill", ivRate)
+                ivRate.setTint(R.color.transparent)
+            } else if (!MyApplication.isClient && !MyApplication.selectedOrder!!.clientRate.isNullOrEmpty() && MyApplication.selectedOrder!!.clientRate!!.toInt() != 0) {
+                AppHelper.loadDrawable(this, "icon_star_fill", ivRate)
+                ivRate.setTint(R.color.transparent)
+            }
+        }catch (ex:Exception){
+
+        }
+
         llRatingOrder.setOnClickListener {
-            showRatingDialog()
+            if( !MyApplication.selectedOrder!!.vendorRate.isNullOrEmpty() && MyApplication.selectedOrder!!.vendorRate!!.toInt() == 0 && MyApplication.isClient)
+                showRatingDialog()
+            else if(!MyApplication.isClient && !MyApplication.selectedOrder!!.clientRate.isNullOrEmpty() && MyApplication.selectedOrder!!.clientRate!!.toInt() == 0){
+                showRatingDialog()
+            }else{
+               createDialog(this,AppHelper.getRemoteString("ratedAlready",this))
+            }
         }
 
         btAcceptNewdate.onOneClick {
@@ -1342,8 +1393,9 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         btSubmit.setOnClickListener {
             /* if (etRatingText.text.toString().isEmpty()) {
                  etRatingText.startAnimation(shake)
-             } else*/ if (rbOrder.rating == 0f)
-            rbOrder.startAnimation(shake)
+             } else*/
+            if (rbOrder.rating == 0f)
+                 rbOrder.startAnimation(shake)
         else {
             if (MyApplication.isClient) {
                 setClientRating(loading, etRatingText.text.toString(), rbOrder.rating.toInt())
@@ -1378,9 +1430,10 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 ) {
                     try {
                         loading.hide()
-                        if (response.body()!!.result == 1)
+                        if (response.body()!!.result == 1) {
                             dialog!!.dismiss()
-                        else {
+                            MyApplication.selectedOrder!!.clientRate = rating!!.toString()
+                        } else {
                             createDialog(this@ActivityOrderDetails, response.body()!!.message!!)
                         }
                     } catch (E: java.lang.Exception) {
@@ -1414,9 +1467,10 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 ) {
                     try {
                         loading.hide()
-                        if (response.body()!!.result == 1)
+                        if (response.body()!!.result == 1) {
                             dialog!!.dismiss()
-                        else {
+                            MyApplication.selectedOrder!!.vendorRate = rating!!.toString()
+                        }else {
                             createDialog(this@ActivityOrderDetails, response.body()!!.message!!)
                         }
                     } catch (E: java.lang.Exception) {
@@ -1430,11 +1484,20 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        try {
-            MyApplication.selectedOrder = response as ResponseOrders
-            setOrderData()
-        }catch (ex:Exception){
-            logw("OrderError",ex.toString())
+        if(success) {
+            /*if (apiId == AppConstants.ORDER_BY_ORDER_ID_BROAD) {
+
+            } else {*/
+                try {
+                    MyApplication.selectedOrder = response as ResponseOrders
+                    setOrderData()
+                } catch (ex: Exception) {
+                    logw("OrderError", ex.toString())
+                    loading.hide()
+                }
+           // }
+        }else
+        {
             loading.hide()
         }
     }

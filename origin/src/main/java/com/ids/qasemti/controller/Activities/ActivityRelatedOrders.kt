@@ -28,7 +28,7 @@ class ActivityRelatedOrders : AppCompactBase() , RVOnItemClickListener  {
         rvRelatedOrders.adapter = AdapterRelatedOrder(MyApplication.relatedOrders,this,this)
         var title = intent.getStringExtra("settelmentId")
         var titleWord = AppHelper.getRemoteString("Related_orders_settlement",this)
-        tvPageTitle.setColorTypeface(this,R.color.white,titleWord+"\n"+title,true)
+        tvPageTitle.setColorTypeface(this,R.color.white,titleWord+title,true)
         btBackTool.show()
         btBackTool.onOneClick {
             super.onBackPressed()

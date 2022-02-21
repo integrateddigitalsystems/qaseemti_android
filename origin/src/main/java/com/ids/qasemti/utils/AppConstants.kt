@@ -57,8 +57,10 @@ object AppConstants {
     const val FIREBASE_VERSION_CODE = "android_version_code"
     const val FIREBASE_LOCALIZE = "localize_msg"
     const val FIREBASE_GOVS = "governantes_kuwait"
+    const val BANNER_TIME = "banner_time"
     const val CURRENCY = "currency"
-    const val FIREBASE_LINKS ="htmlPageUrls"
+    const val FIREBASE_LINKS ="htmlUrls"
+    const val FIREBASE_LINKS_STAGING ="htmlPageUrlStaging"
     const val COORDINATES = "kuwait_coordinates"
     const val FIREBASE_PARAMS ="paymentGatewayParameters"
     const val FIREBASE_ENABLE = "enableMultiCountry"
@@ -80,6 +82,8 @@ object AppConstants {
     const val CHECKOUT = "checkout"
     const val TRACKING_LIST = "trackingList"
     const val APP_ALIVE="appAlive"
+    const val COUPON_PERCENT="percent"
+    const val COUPON_FIXED="fixed_product"
 
     const val UPDATE_PROFILE_CLIENT = 0
     const val UPDATE_PROFILE_SERVICE_PROVIDER = 1
@@ -90,6 +94,7 @@ object AppConstants {
     const val GET_CATEGORIES = 6
     const val UPDATE_DEVICE =7
     const val ADDRESS_GEO = 8
+    const val ORDER_BY_ORDER_ID_BROAD = 9
     const val TYPE_PURCHASE = "purchase"
     const val TYPE_RENTAL = "rental"
     const val TYPE_RENTAL_ID ="343"

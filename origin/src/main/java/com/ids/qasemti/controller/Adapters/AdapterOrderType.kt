@@ -1,6 +1,9 @@
 package com.ids.qasemti.controller.Adapters
 
 import android.app.Activity
+import android.media.Image
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +19,10 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.*
+import kotlinx.android.synthetic.main.layout_order_contact_tab.*
 import kotlinx.android.synthetic.main.layout_order_switch.*
 import org.w3c.dom.Text
+import java.text.DecimalFormat
 import java.util.*
 
 class AdapterOrderType(
@@ -30,6 +35,7 @@ class AdapterOrderType(
     RecyclerView.Adapter<AdapterOrderType.VHItem>() {
 
     var con = context
+    var fromSwitch = false
     var delivered = 0
     var loading = loading
     var onTrack = 0
@@ -66,7 +72,7 @@ class AdapterOrderType(
             holder.locationText.text=AppHelper.getRemoteString("no_data",con)
         }
         try{
-            holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MM yyyy hh:mm")
+            holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","yyyy-MM-dd HH:mm")
         }catch (ex:java.lang.Exception){
             if(items[position].date!=null)
                holder.orderDate.text = items[position].date!!
@@ -75,7 +81,7 @@ class AdapterOrderType(
         }
 
         try{
-            holder.tvOrderDateValue.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","dd MM yyyy hh:mm")
+            holder.tvOrderDateValue.text = AppHelper.formatDate(items[position].date!!,"yyyy-MM-dd HH:mm:ss.SSSSSS","yyyy-MM-dd HH:mm")
         }catch (ex:java.lang.Exception){
             if(items[position].date!=null)
                holder.tvOrderDateValue.text=items[position].date!!
@@ -88,25 +94,26 @@ class AdapterOrderType(
         try{
             holder.orderId.text = "#"+items.get(position).orderId.toString()
         }catch (ex:java.lang.Exception){holder.orderId.text =""}
-        if(MyApplication.isClient) {
+        /*if(MyApplication.isClient) {
             try {
                 holder.ratingBar.rating = items.get(position).clientRate!!.toInt().toFloat()
             } catch (ex: java.lang.Exception) {
                 holder.ratingBar.rating = 0f
             }
-        }else{
+        }else{*/
              try {
                 holder.ratingBar.rating = items.get(position).vendorRate!!.toInt().toFloat()
             } catch (ex: java.lang.Exception) {
                 holder.ratingBar.rating = 0f
             }
-        }
+       // }
         try{
             if(items[position].paymentMethod!=null && items[position].paymentMethod!!.isNotEmpty())
                 holder.paymentMethod.text = items[position].paymentMethod
         }catch (ex:java.lang.Exception){}
+        var dec = DecimalFormat("##.##")
         try {
-            holder.orderCost.text = items[position].grand_total!!+" "+items.get(position).currency
+            holder.orderCost.text = dec.format(items[position].grand_total!!.toDouble())+" "+items.get(position).currency
         }catch (ex:Exception){ holder.orderCost.text =""}
         try{
             holder.cancelReasonDetails.text = items.get(position).cancellationReason
@@ -228,6 +235,16 @@ class AdapterOrderType(
                         holder.switchPaid
                     )
                 }
+
+                /*if(!fromSwitch) {
+                    fromSwitch = true
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        holder.switchPaid.callOnClick()
+                    },2000)
+
+                }else{
+                    fromSwitch = false
+                }*/
             } else{
                 holder.switchDelivered.isChecked = !holder.switchDelivered.isChecked
                 AppHelper.createDialog(con,AppHelper.getRemoteString("no_internet",con))
@@ -268,6 +285,7 @@ class AdapterOrderType(
                             holder.switchPaid.isChecked,
                             reloader,
                             loading)
+
 
                         //AppHelper.setUpDoc(items.get(position))
                     }
@@ -330,6 +348,14 @@ class AdapterOrderType(
                         holder.switchDelivered
                     )
                 }
+                /*if(!fromSwitch) {
+                    fromSwitch = true
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        holder.switchDelivered.callOnClick()
+                    },2000)
+                }else{
+                    fromSwitch = false
+                }*/
             }else{
                 holder.switchPaid.isChecked = !holder.switchPaid.isChecked
                 AppHelper.createDialog(con,AppHelper.getRemoteString("no_internet",con))
@@ -337,9 +363,12 @@ class AdapterOrderType(
         }
 
 
-
-
-
+        holder.titlerate.text = AppHelper.getRemoteString("sp_rate",con)
+        if(MyApplication.isClient && items.get(position)!!.vendorRate!!.toInt() != 0){
+            AppHelper.loadDrawable(con,"icon_star_fill",holder.imgStar)
+        }else if(!MyApplication.isClient && items.get(position)!!.clientRate!!.toInt() != 0){
+            AppHelper.loadDrawable(con,"icon_star_fill",holder.imgStar)
+        }
 
         holder.cancelPerson.hide()
         holder.cancelReason.hide()
@@ -530,6 +559,8 @@ class AdapterOrderType(
         var tvServiceType = itemView.findViewById<TextView>(R.id.tvServiceType)
         var tvServiceCategory = itemView.findViewById<TextView>(R.id.tvCategoryOrder)
         var tvServiceSize = itemView.findViewById<TextView>(R.id.tvServiceSize)
+        var titlerate = itemView.findViewById<TextView>(R.id.tvTitleRate)
+        var imgStar = itemView.findViewById<ImageView>(R.id.ivImageStar)
 
 
         init {

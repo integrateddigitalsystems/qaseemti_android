@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -544,6 +545,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     fun setUserData(user: User) {
         setUpSpinnerGovs(user)
+        gender = user.gender!!
         try {
             profilePercentage = 0
             // loading.show()
@@ -804,13 +806,13 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                 if (user.gender!!.lowercase().equals("female")) {
                     rbFemaleProfile.isChecked = true
                     rbMaleProfile.isChecked = false
-                } else {
+                } else if(user.gender!!.lowercase().equals("male")) {
                     rbFemaleProfile.isChecked = false
                     rbMaleProfile.isChecked = true
                 }
             } catch (ex: Exception) {
                 rbFemaleProfile.isChecked = false
-                rbMaleProfile.isChecked = true
+                rbMaleProfile.isChecked = false
             }
 
             try {
@@ -822,7 +824,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             if (!MyApplication.isClient) {
                 if (!user.mobileNumber.isNullOrEmpty())
                     profilePercentage += 25
-                if (!user.firstName.isNullOrEmpty() && !user.lastName.isNullOrEmpty() && !user.email.isNullOrEmpty() && !user.dob.isNullOrEmpty() && !user.altrNumb.isNullOrEmpty() && (!user.civilId.isNullOrEmpty() || !user.civilIdAttach.isNullOrEmpty()))
+                if (!user.firstName.isNullOrEmpty() && !user.lastName.isNullOrEmpty() && !user.email.isNullOrEmpty() && !user.dob.isNullOrEmpty()  && !user.gender.isNullOrEmpty() && (!user.civilId.isNullOrEmpty() || (!user.civilIdAttach.isNullOrEmpty() && !user.civilAttachBack.isNullOrEmpty())))
                     profilePercentage += 25
                 try {
                     if (MyApplication.selectedUser!!.addresses!!.size > 0) {
@@ -1040,6 +1042,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             llProfilePercent.show()
             tvPercentageCompleted.show()
         }
+        etCivilIdNbProfile.transformationMethod = null
         setHint()
         getUserData()
 
@@ -1210,10 +1213,15 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             if (etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) {
                 etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
             }
-            if (!civilImageBackAvailable)
+            if(!etCivilIdNbProfile.text.isNullOrEmpty()) {
+                if (civilImageBackAvailable != civilImageAvailable) {
+                    llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+                    llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+                }
+            }else{
                 llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
-            if (!civilImageAvailable)
                 llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+            }
             if (!etIBANProfile.text.isNullOrEmpty() && etIBANProfile.text.length != 30)
                 etIBANProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
         }
@@ -1404,7 +1412,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     if(btAddNewAddress.visibility == View.VISIBLE || (!etAddressName.text.isNullOrEmpty() && !selectedProvince.isNullOrEmpty() && !etStreet.text.isNullOrEmpty() && !etBuilding.text.isNullOrEmpty() && !etArea.text.isNullOrEmpty() && !etBlock.text.isNullOrEmpty())) {
                         /* if((!etAccountNumberProfile.text.toString().isNullOrEmpty() || !etBranchNameProfile.text.isNullOrEmpty() || selectedBankId!=0 || !etIBANProfile.text.isNullOrEmpty()) && (etAccountNumberProfile.text.toString().isNullOrEmpty() || selectedBankId!=0 || etIBANProfile.text.isNullOrEmpty()))*/
                         if ((!etCivilIdNbProfile.text.isNullOrEmpty() && etCivilIdNbProfile.text.length == 12) || (civilImageAvailable && civilImageBackAvailable)) {
-                            if(civilImageBackAvailable == civilImageAvailable) {
+                            if(civilImageBackAvailable == civilImageAvailable && checkCivil()) {
                                 if (etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30)
                                     updateServiceProfile()
                                 else {
@@ -1419,15 +1427,53 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                 }
                             }else{
                                 checkMissingData()
-                                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
+                                if(checkCivil()){
+                                    AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
+                                    llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+                                    llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+
+                                }else{
+                                    if(etCivilIdNbProfile.text.isNullOrEmpty()) {
+                                        AppHelper.createDialog(
+                                            requireActivity(),
+                                            AppHelper.getRemoteString(
+                                                "fill_all_field",
+                                                requireActivity()
+                                            )
+                                        )
+                                    }else{
+                                        AppHelper.createDialog(
+                                            requireActivity(),
+                                            AppHelper.getRemoteString(
+                                                "civil_id_length",
+                                                requireActivity()
+                                            )
+                                        )
+                                    }
+                                    etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+                                }
+
                             }
                         } else {
                             if((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) && !(civilImageAvailable || civilImageBackAvailable)) {
                                 checkMissingData()
-                                AppHelper.createDialog(
-                                    requireActivity(),
-                                    AppHelper.getRemoteString("fill_all_field", requireActivity())
-                                )
+                                if(etCivilIdNbProfile.text.isNullOrEmpty()) {
+                                    AppHelper.createDialog(
+                                        requireActivity(),
+                                        AppHelper.getRemoteString(
+                                            "fill_all_field",
+                                            requireActivity()
+                                        )
+                                    )
+                                }else{
+                                    AppHelper.createDialog(
+                                        requireActivity(),
+                                        AppHelper.getRemoteString(
+                                            "civil_id_length",
+                                            requireActivity()
+                                        )
+                                    )
+                                }
                             }else{
                                 checkMissingData()
                                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
@@ -1480,6 +1526,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
 
         etDateOfBirthProfile.onOneClick {
+            val myFormat = "yyyy-MM-dd" //Change as you need
             var mcurrentDate = Calendar.getInstance()
             var mYear = 0
             var mMonth = 0
@@ -1496,7 +1543,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     myCalendar[Calendar.YEAR] = selectedyear
                     myCalendar[Calendar.MONTH] = selectedmonth
                     myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                    val myFormat = "dd/MM/yyyy" //Change as you need
+
                     var sdf =
                         SimpleDateFormat(myFormat, Locale.ENGLISH)
                     var date = sdf.format(myCalendar.time)
@@ -1505,6 +1552,11 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             )
             var cal = mcurrentDate.add(Calendar.YEAR, -18)
             mDatePicker.datePicker.maxDate = mcurrentDate.time.time
+            if(!MyApplication.selectedUser!!.dob.isNullOrEmpty()){
+                var cal = Calendar.getInstance()
+                cal.time = SimpleDateFormat(myFormat).parse(MyApplication.selectedUser!!.dob)
+                mDatePicker!!.updateDate(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH))
+            }
             mDatePicker.show()
         }
 
@@ -1571,6 +1623,14 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
         }
     }
 
+    fun checkCivil():Boolean{
+        if(etCivilIdNbProfile.text.isNullOrEmpty())
+            return true
+        else if(!etCivilIdNbProfile.text.isNullOrEmpty() && etCivilIdNbProfile.text.length == 12)
+            return true
+        else
+            return false
+    }
     private fun updateServiceProfile() {
         if (selectedProfilePic == null) {
             var empty = ""

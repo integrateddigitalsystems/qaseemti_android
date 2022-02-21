@@ -4,6 +4,8 @@ import android.app.ActionBar
 import android.app.Dialog
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,9 +42,10 @@ import com.google.android.youtube.player.internal.l
 import kotlinx.android.synthetic.main.fragment_home_client.tbMedia
 import kotlinx.android.synthetic.main.fragment_service_details.*
 import androidx.viewpager.widget.ViewPager
-
-
-
+import java.util.*
+import kotlin.collections.ArrayList
+import android.R.attr.delay
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 
 
 class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
@@ -61,6 +64,9 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
     private var selectedCategoryId = 0
     private var selectedCategoryName = ""
     private var selectedServiceId = 0
+    var adPos = 0
+    var fromTimer = false
+    var array : ArrayList<ResponseBanner> = arrayListOf()
     private var selectedServiceName = ""
     private var selectedTypeId = 0
     private var selectedTypeName = ""
@@ -69,6 +75,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
     private var selectedQtyId = 0
     private var selectedQtyName = ""
     var timer : CountDownTimer?=null
+    var adTimer : CountDownTimer ?=null
     var isTimer = false
 
     lateinit var spServices: Spinner
@@ -110,6 +117,68 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
         }.start()
     }
 
+    fun setUpAdTimer(){
+
+        try {
+
+            val handler = Handler(Looper.getMainLooper())
+            var runnable: Runnable? = object : Runnable {
+                override fun run() {
+                    try {
+                        fromTimer = true
+                        if (adPos!! < array.size) {
+                            adPos++
+                            vpAdsClient.setCurrentItem(adPos, true)
+                        } else {
+                            adPos = 0
+                            vpAdsClient.setCurrentItem(adPos, true)
+                        }
+                    } catch (e: java.lang.Exception) {
+                        // TODO: handle exception
+                    } finally {
+                        //also call the same runnable to call it at regular interval
+                            if(adPos == array.size){
+                                handler.postDelayed(this, 0)
+                            }else {
+                                handler.postDelayed(this, MyApplication.adTimer!!.toLong() * 1000)
+                            }
+                    }
+                }
+            }
+
+            handler.post(runnable!!)
+
+
+
+            vpAdsClient.addOnPageChangeListener(object : OnPageChangeListener {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+
+                }
+
+                override fun onPageSelected(position: Int) {
+
+                    adPos = position
+                    if(!fromTimer) {
+                        handler.removeCallbacks(runnable)
+                         handler.postDelayed(runnable,MyApplication.adTimer!!.toLong() * 1000)
+                    }else{
+                        fromTimer = false
+                    }
+
+                }
+
+                override fun onPageScrollStateChanged(state: Int) {}
+            })
+        }catch (ex:Exception){
+
+        }
+
+    }
+
     fun init() {
 /*
         try {
@@ -128,6 +197,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
             btRegisterLogin.show()
             (activity as ActivityHome?)!!.showLogout(false)
         }
+
 
 
 
@@ -188,7 +258,7 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
 
     fun setBannerData(arrayItems: ArrayList<ResponseBanner>) {
         if (arrayItems.size > 0) {
-            var array =
+            array =
                 arrayItems.filter { it.bannerImageURL != "false" && !it.bannerImageURL.isNullOrEmpty() } as ArrayList
             if(array.size >0) {
                 linearHomeClient.show()
@@ -205,6 +275,13 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
                         ViewPager.PageTransformer { page, position -> page.rotationY = 180f })
                 }
                 vpAdsClient.adapter = adapterPager
+                if(MyApplication.adTimer!!>0){
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        setUpAdTimer()
+                    },1000)
+                }
+
+
 
             }else{
                 linearHomeClient.hide()

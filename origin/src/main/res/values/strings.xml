@@ -32,8 +32,8 @@
     <string name="available">Available</string>
     <string name="ClientsRating">Client\'s Rating</string>
     <string name="enter_verification_code">Enter Verification Code</string>
-    <string name="active_n_order">Active \n Orders</string>
-    <string name="upcoming_orders">Upcoming \n Orders</string>
+    <string name="active_n_order">Active \nOrders</string>
+    <string name="upcoming_orders">Upcoming \nOrders</string>
     <string name="dumy_text_underline">Beirut, Bir hassan, J Bld 5th floor.Block B</string>
     <string name="verification">Verification</string>
     <string name="enter_the_6_digit_code_sent_to_you_from_qasemati">Enter the 4 digit code sent to you from Qasemti</string>
@@ -332,6 +332,14 @@
     <string name="you_must_enter_civil_front_back">You must enter 2 Civil Attachment, front and back images</string>
     <string name="sure_update_OnTrack">Are you sure you want to update On Track ?</string>
     <string name="notifications_type">Notifications</string>
+    <string name="serviceAlreadyExists">This service already exists</string>
+    <string name="coupon_value">Coupon Value</string>
+    <string name="coupon_code">Coupon Code</string>
+    <string name="na_">N/A</string>
+    <string name="ratedAlready">This order has already been rated</string>
+    <string name="sp_rate">SP Rate</string>
+    <string name="client_rate">Client Rate</string>
+
 
 
 </resources>

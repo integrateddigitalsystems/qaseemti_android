@@ -88,12 +88,14 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
 
     override fun onResume() {
         super.onResume()
+        (activity as ActivityHome).showTitle(true)
+        AppHelper.setTitle(requireActivity(), MyApplication.selectedTitle!!, "",R.color.primary)
 
 
-        if(!MyApplication.fromFooterOrder) {
+        /*if(!MyApplication.fromFooterOrder) {
             (activity as ActivityHome).showBack(true)
             MyApplication.fromFooterOrder = true
-        }else
+        }else*/
             (activity as ActivityHome).showBack(false)
 
         if(denied!!){

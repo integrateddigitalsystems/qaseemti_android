@@ -47,8 +47,8 @@
     <string name="select_get_notified">الرجاء اختيار كيف تريد اخبارك</string>
     <string name="available">متوفر</string>
     <string name="ClientsRating">تقييم العملاء</string>
-    <string name="active_n_order">طلب /n فعال</string>
-    <string name="upcoming_orders">طلبات قادمة</string>
+    <string name="active_n_order">طلب/nفعال</string>
+    <string name="upcoming_orders">طلبات/nقادمة</string>
     <string name="dumy_text_underline">بيروت , بئر حسن , بناية ج الطابق الخامس</string>
     <string name="new_member_register">مستخدم جديد ؟ سجل</string>
     <string name="cancel">الغاء</string>
@@ -330,5 +330,12 @@
     <string name="you_must_enter_civil_front_back">يجب عليك إدخال عدد 2 مرفق مدني ، صورة أمامية وخلفية</string>
     <string name="sure_update_OnTrack">هل أنت متأكد أنك تريد تحديث على الطريق ؟</string>
     <string name="notifications_type">طريقة الإشعارات</string>
+    <string name="serviceAlreadyExists">هذه الخدمة موجودة سابق</string>
+    <string name="coupon_value">قيمة القسيمة</string>
+    <string name="coupon_code">رمز الكوبون</string>
+    <string name="na_">غير متوفرة</string>
+    <string name="ratedAlready">لقد تقييم هذا الطلب سابقا</string>
+    <string name="sp_rate">تقييم المزود</string>
+    <string name="client_rate">تقييم العميل</string>
 
 </resources>

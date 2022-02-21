@@ -311,7 +311,6 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             MyApplication.selectedPos,
             MyApplication.selectedFragment!!,
             MyApplication.selectedFragmentTag!!,
-            MyApplication.defaultIcon!!,
             MyApplication.tintColor
         )
     }
@@ -402,11 +401,10 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         }
     }
 
-    private fun setSelectedTab(
+    fun setSelectedTab(
         index: Int,
         fragment: Fragment,
         tag: String,
-        selectedIcon: ImageView,
         drawerColor: Int
     ) {
         replaceFragment(R.id.homeContainer, fragMang, fragment, tag)
@@ -487,7 +485,6 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                     1,
                     FragmentOrders(),
                     FRAGMENT_ORDER,
-                    ivFooterOrder,
                     R.color.primary
                 )
             else if (!MyApplication.isSignedIn && MyApplication.isClient) {
@@ -502,7 +499,6 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                     3,
                     FragmentNotifications(),
                     FRAGMENT_NOTFICATIONS,
-                    ivFooterNotifications,
                     R.color.white
                 )
             else if (!MyApplication.isSignedIn && MyApplication.isClient)
@@ -516,7 +512,6 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                     4,
                     FragmentAccount(),
                     FRAGMENT_ACCOUNT,
-                    ivFooterAccount,
                     R.color.white
                 )
             else if (!MyApplication.isSignedIn && MyApplication.isClient)
@@ -527,7 +522,7 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         llFooterCart.onOneClick {
             MyApplication.defaultIcon = ivCartFooter
             if (MyApplication.selectedFragmentTag != FRAGMENT_CART && MyApplication.isSignedIn)
-                setSelectedTab(0, FragmentCart(), FRAGMENT_CART, ivCartFooter, R.color.primary)
+                setSelectedTab(0, FragmentCart(), FRAGMENT_CART, R.color.primary)
             else if (!MyApplication.isSignedIn)
                 goRegistration(0, FRAGMENT_CART, FragmentCart(), R.color.primary)
         }
@@ -540,7 +535,6 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                         2,
                         FragmentHomeClient(),
                         AppConstants.FRAGMENT_HOME_CLIENT,
-                        ivFooterHome,
                         R.color.white
                     )
             } else {
@@ -549,7 +543,6 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                         2,
                         FragmentHomeSP(),
                         AppConstants.FRAGMENT_HOME_SP,
-                        ivFooterHome,
                         R.color.white
                     )
             }
@@ -563,7 +556,6 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
                     0,
                     FragmentMyServices(),
                     AppConstants.FRAGMENT_MY_SERVICES,
-                    ivProductFooter,
                     R.color.white
                 )
         }
@@ -633,6 +625,9 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
     fun addFrag(fragment: Fragment, tag: String) {
         addFragment(R.id.homeContainer, fragMang, fragment, tag)
+    }
+    fun replaceFrag(fragment: Fragment, tag: String) {
+        replaceFragment(R.id.homeContainer, fragMang, fragment, tag)
     }
 
     fun hideBack() {
@@ -799,9 +794,16 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
     }
 
     fun getNotf() {
+
+        var number = ""
+       try{
+           number = MyApplication.selectedUser!!.mobileNumber!!
+       }catch (ex:Exception){
+           number = ""
+       }
         var newReq = RequestNotifications(
             MyApplication.languageCode,
-            MyApplication.selectedUser!!.mobileNumber,
+            number,
             0,
             40,
             1
@@ -844,6 +846,8 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
 
         if(MyApplication.selectedFragment == FragmentAccount()){
             showTitle(false)
+        }else{
+            showTitle(true)
         }
 
 

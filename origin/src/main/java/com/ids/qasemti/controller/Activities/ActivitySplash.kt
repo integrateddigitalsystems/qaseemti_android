@@ -40,6 +40,7 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppConstants.API_USER_STATUS
+import com.ids.qasemti.utils.AppConstants.BANNER_TIME
 import com.ids.qasemti.utils.AppConstants.COORDINATES
 import com.ids.qasemti.utils.AppConstants.CURRENCY
 import com.ids.qasemti.utils.AppConstants.FIREBASE_COUNTRY_NAME_CODE
@@ -357,23 +358,22 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
                 if (MyApplication.isSignedIn) {
 
-                    var type = 0
-                    try {
-                        type = intent.getIntExtra("fromNotf", 0)
-                    } catch (ex: Exception) {
-                        type = 0
-                    }
-
                     var from = 0
                     try {
-                        type = intent.getIntExtra("typeId", 0)
+                        from = intent.getIntExtra("fromNotf", 0)
+                    } catch (ex: Exception) {
+                        from = 0
+                    }
+                    var type = 0
+                    try {
+                        type = intent.getIntExtra("Type", 0)
                     } catch (ex: Exception) {
                         type = -1
                     }
 
                     var orderId = -1
                     try{
-                        orderId = intent.getIntExtra("order_id",-1)
+                        orderId = intent.getIntExtra("orderId",-1)
                     }catch (ex:Exception){
 
                     }
@@ -615,6 +615,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             mFirebaseRemoteConfig!!.getString(FIREBASE_GOVS),
             KuwaitGovs::class.java
         )
+        MyApplication.adTimer = mFirebaseRemoteConfig!!.getString(BANNER_TIME).toInt()
         MyApplication.kuwaitGovs.clear()
         MyApplication.kuwaitGovs.addAll(list.list)
         MyApplication.localizeArray = Gson().fromJson(
@@ -626,6 +627,14 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             mFirebaseRemoteConfig!!.getString(FIREBASE_LINKS),
             FirebaseWebData::class.java
         )
+
+        var typePrefix = MyApplication.BASE_URL.split("wp-json").get(0)
+
+
+        for(item in MyApplication.webLinks!!.links){
+            item.urlAr = typePrefix+item.urlAr
+            item.urlEn= typePrefix+item.urlEn
+        }
 
         val wv= WebView(this)
         wv.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
@@ -749,7 +758,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         URLs.addAll(URLS.serverLink)
                         showDialog()
                     } else {
-                        selectedURL = MyApplication.BASE_URL.isNotEmpty()
+                       // selectedURL = MyApplication.BASE_URL.isNotEmpty()
                         setUpRestFirebase()
                     }
 

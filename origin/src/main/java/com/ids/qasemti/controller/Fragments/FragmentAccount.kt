@@ -79,7 +79,7 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             btShareApp.show()
             btLogoutAccount.show()
             btMyAddresses.hide()
-            btMyServices.show()
+            btMyServices.hide()
             btSettelments.show()
             llLastSeperator.hide()
             llLastSeperator2.show()

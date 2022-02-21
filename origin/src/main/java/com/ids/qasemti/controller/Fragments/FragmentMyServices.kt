@@ -19,6 +19,7 @@ import com.ids.qasemti.model.ResponseMainServices
 import com.ids.qasemti.model.ResponseService
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_services.*
+import kotlinx.android.synthetic.main.footer.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
@@ -69,7 +70,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
                         try {
                             setData()
                         } catch (e: Exception) {
-                            logw("error",e.toString())
+                            logw("error", e.toString())
                         }
                     }
                 }
@@ -79,7 +80,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
                     try {
                         setData()
                     } catch (e: Exception) {
-                        logw("error",e.toString())
+                        logw("error", e.toString())
                     }
                 }
             })
@@ -96,12 +97,15 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
         }
         (activity as ActivityHome).showLogout(false)
         (activity as ActivityHome).showTitle(true)
-        AppHelper.setTitle(requireContext(),MyApplication.selectedTitle!!,"",R.color.white)
+        AppHelper.setTitle(requireContext(), MyApplication.selectedTitle!!, "", R.color.white)
         listeners()
     }
 
     override fun onResume() {
         getServices()
+
+        (activity as ActivityHome).showTitle(true)
+
         super.onResume()
     }
 
@@ -111,12 +115,14 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
             //  if(MyApplication.userStatus!!.online!=0){
 
 
-
             if (AppHelper.isOnline(requireActivity())) {
                 loading.show()
                 CallAPIs.getUserInfo(this)
-            }else{
-                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
+            } else {
+                AppHelper.createDialog(
+                    requireActivity(),
+                    AppHelper.getRemoteString("no_internet", requireContext())
+                )
             }
 
 
@@ -131,11 +137,11 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
             }else*/
 
 
-          /*  if(MyApplication.selectedUser!!.active == 1) {
+            /*  if(MyApplication.selectedUser!!.active == 1) {
 
-                startActivity(Intent(requireActivity(), ActivityServiceInformation::class.java))
-            } else
-                AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("inactive_user_msg",requireContext()))*/
+                  startActivity(Intent(requireActivity(), ActivityServiceInformation::class.java))
+              } else
+                  AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("inactive_user_msg",requireContext()))*/
 
             //  }
 
@@ -146,20 +152,22 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
 
 
         try {
+            MyApplication.myServices.clear()
+            MyApplication.myServices.addAll(array)
             var adapter = AdapterMyServices(array, this, requireContext())
             rvServices.layoutManager = LinearLayoutManager(requireContext())
             rvServices.adapter = adapter
             rvServices.isNestedScrollingEnabled = false
-            if(array.size == 0){
+            if (array.size == 0) {
                 rvServices.hide()
                 tvNoData.show()
-            }else{
+            } else {
                 rvServices.show()
                 tvNoData.hide()
             }
             loading.hide()
         } catch (ex: Exception) {
-            logw("not working",ex.toString())
+            logw("not working", ex.toString())
         }
     }
 
@@ -169,24 +177,64 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
     }
 
     override fun onItemClicked(view: View, position: Int) {
-        MyApplication.selectedService=array[position]
-        MyApplication.isEditService=true
-        logw("SERVICE_ID",MyApplication.selectedService!!.id.toString())
+        MyApplication.selectedService = array[position]
+        MyApplication.isEditService = true
+        logw("SERVICE_ID", MyApplication.selectedService!!.id.toString())
         startActivity(Intent(requireContext(), ActivityServiceInformation::class.java))
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
         loading.hide()
-        if(success) {
+        if (success) {
             if (MyApplication.selectedUser!!.active == 1) {
-                if(MyApplication.selectedUser!!.addresses!!.size>0 && !MyApplication.selectedUser!!.addresses!!.get(0).addressName.isNullOrEmpty()) {
-                    startActivity(Intent(requireContext(), ActivityServiceInformation::class.java))
-                    MyApplication.isEditService = false
-                }else{
-                    AppHelper.createDialog(
+                if (!MyApplication.selectedUser!!.civilId.isNullOrEmpty() || (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty() && !MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty())) {
+                    if (MyApplication.selectedUser!!.addresses!!.size > 0 && !MyApplication.selectedUser!!.addresses!!.get(
+                            0
+                        ).addressName.isNullOrEmpty()
+                    ) {
+                        startActivity(
+                            Intent(
+                                requireContext(),
+                                ActivityServiceInformation::class.java
+                            )
+                        )
+                        MyApplication.isEditService = false
+                    } else {
+
+                        AppHelper.createYesNoDialog(
+                            requireActivity(),
+                            AppHelper.getRemoteString("ok", requireActivity()),
+                            AppHelper.getRemoteString("cancel", requireActivity()),
+                            AppHelper.getRemoteString("must_enter_Address_First", requireActivity())
+                        ){
+                            MyApplication.register = true
+                            (requireActivity() as ActivityHome?)!!.setSelectedTab(
+                                4,
+                                FragmentAccount(),
+                                AppConstants.FRAGMENT_ACCOUNT,
+                                R.color.primary
+                            )
+                        }
+
+                    }
+                } else {
+
+
+                    AppHelper.createYesNoDialog(
                         requireActivity(),
-                        AppHelper.getRemoteString("must_enter_Address_First", requireActivity())
-                    )
+                        AppHelper.getRemoteString("ok", requireActivity()),
+                        AppHelper.getRemoteString("cancel", requireActivity()),
+                        AppHelper.getRemoteString("complete_profile", requireActivity())
+                    ){
+                        MyApplication.register = true
+                        (requireActivity() as ActivityHome?)!!.setSelectedTab(
+                            4,
+                            FragmentAccount(),
+                            AppConstants.FRAGMENT_ACCOUNT,
+                            R.color.primary
+                        )
+                    }
+
                 }
             } else
                 AppHelper.createDialog(

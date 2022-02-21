@@ -908,44 +908,63 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
         tvTabTitle.text = AppHelper.getRemoteString("service_information", this)
     }
 
+    fun checkInMyServices():Boolean{
+        for(item in MyApplication.myServices){
+            if(item.name.equals(selectedServiceName) && item.variations.get(0).typesId!!.toInt()==selectedTypeId && item.variations.get(0).sizeCapacityId!!.toInt() == selectedSizeId)
+                return true
+        }
+        return false
+    }
+
     private fun setTab2() {
 
         if (selectedServiceId != -1 && (selectedSizeId == null || (selectedSizeId != null && selectedSizeId != -1)) && (selectedTypeId == null || (selectedTypeId != null && selectedTypeId != -1))) {
-            if (arrayImagesSelected.size == 0)
-                createDialog(this, "Please upload image")
-            else if (etStockAvailable.text.toString()
-                    .isEmpty() || (!MyApplication.isEditService && etStockAvailable.text.toString() == "0")
-            )
-                createDialog(this, "Please fill stock available")
-            else {
-                linearProgress1.setBackgroundColor(ContextCompat.getColor(this, R.color.primary))
-                linearProgress2.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.gray_progress
+
+            if(!checkInMyServices() || MyApplication.isEditService ) {
+                if (arrayImagesSelected.size == 0)
+                    createDialog(this, "Please upload image")
+                else if (etStockAvailable.text.toString()
+                        .isEmpty() || (!MyApplication.isEditService && etStockAvailable.text.toString() == "0")
+                )
+                    createDialog(this, "Please fill stock available")
+                else {
+                    linearProgress1.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.primary
+                        )
                     )
-                )
-                linearService1.hide()
-                linearService2.show()
-                linearService3.hide()
+                    linearProgress2.setBackgroundColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.gray_progress
+                        )
+                    )
+                    linearService1.hide()
+                    linearService2.show()
+                    linearService3.hide()
 
-                btTab2.setBackgroundResource(R.drawable.primary_circle)
-                btTab3.setBackgroundResource(R.drawable.circle_gray)
+                    btTab2.setBackgroundResource(R.drawable.primary_circle)
+                    btTab3.setBackgroundResource(R.drawable.circle_gray)
 
-                ivTab2.setColorFilter(
-                    ContextCompat.getColor(this, R.color.white),
-                    android.graphics.PorterDuff.Mode.SRC_IN
-                )
-                ivTab3.setColorFilter(
-                    ContextCompat.getColor(this, R.color.gray_font),
-                    android.graphics.PorterDuff.Mode.SRC_IN
-                )
-                tvTabTitle.text = AppHelper.getRemoteString("ownership_proof", this)
+                    ivTab2.setColorFilter(
+                        ContextCompat.getColor(this, R.color.white),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
+                    ivTab3.setColorFilter(
+                        ContextCompat.getColor(this, R.color.gray_font),
+                        android.graphics.PorterDuff.Mode.SRC_IN
+                    )
+                    tvTabTitle.text = AppHelper.getRemoteString("ownership_proof", this)
+                }
+            }else {
+                createDialog(this, AppHelper.getRemoteString("serviceAlreadyExists", this))
             }
         } else {
             createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
         }
-    }
+            }
+
 
     private fun setTab3() {
 

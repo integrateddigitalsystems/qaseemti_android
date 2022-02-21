@@ -23,11 +23,11 @@
                 android:orientation="vertical">
 
                 <WebView
-                    android:layout_marginStart="@dimen/margin_start_end"
-                    android:layout_marginEnd="@dimen/margin_start_end"
                     android:id="@+id/wvData"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_start_end"
+                    android:layout_marginEnd="@dimen/margin_start_end" />
 
                 <LinearLayout
                     android:id="@+id/llAcceptTerms"

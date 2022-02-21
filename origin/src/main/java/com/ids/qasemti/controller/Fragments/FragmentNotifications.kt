@@ -45,6 +45,11 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener , ApiListener {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        (activity as ActivityHome).showTitle(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -231,7 +236,11 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener , ApiListener {
                 array[position].open = !array[position].open
                 if (array[position].isViewed.equals("0")) {
                     markNotification(array[position].id!!.toInt())
-                    notfNum = notfNum!!.minus(1)
+                    if(notfNum!! > 0) {
+                        notfNum = notfNum!!.minus(1)
+                    }
+
+                    if(notfNum == 0)
                     (activity as ActivityHome).setNotNumber(notfNum!!.toString())
                     array[position].isViewed = "1"
                 }

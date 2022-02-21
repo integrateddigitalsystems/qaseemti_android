@@ -3,6 +3,7 @@ package com.ids.qasemti.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.location.Location
@@ -15,7 +16,9 @@ import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
@@ -191,6 +194,10 @@ fun Activity.loadJSONFromAssets(fileName: String): String {
 }
 
 
+fun ImageView.setTint(@ColorRes colorRes: Int) {
+    ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(ContextCompat.getColor(context, colorRes)))
+}
+
 fun Any.addFragment(
     container: Int,
     fragmentManager: FragmentManager,
@@ -352,13 +359,6 @@ fun TextView.setColorTypeface(context: Context, color: Int,text:String,bold:Bool
 
 }
 
-fun View.show() {
-    try {
-        visibility = View.VISIBLE
-    } catch (e: Exception) {
-    }
-}
-
 
 fun View.setWeight(weight:Float){
     try{
@@ -371,6 +371,16 @@ fun View.setWeight(weight:Float){
     logw("frame_error",ex.toString())
 
     }}
+
+
+
+fun View.show() {
+    try {
+        visibility = View.VISIBLE
+    } catch (e: Exception) {
+    }
+}
+
 
 
 fun View.invisible() {
