@@ -111,8 +111,10 @@ class ActivityChat : ActivityBase(), RVOnItemClickListener {
 
     fun nextStep(res: Int) {
         if (res == 1) {
+            loading.hide()
             getChat()
         } else {
+            loading.hide()
             getChat()
             AppHelper.createDialog(this, AppHelper.getRemoteString("failure", this))
         }
@@ -145,7 +147,7 @@ class ActivityChat : ActivityBase(), RVOnItemClickListener {
             MyApplication.selectedUser!!.firstName,
             MyApplication.selectedUser!!.email,
             etMessage.text.toString(),
-            15,
+            MyApplication.selectedOrderId,
             MyApplication.selectedUser!!.userId!!.toInt()
         )
         var cal = Calendar.getInstance()
@@ -186,7 +188,7 @@ class ActivityChat : ActivityBase(), RVOnItemClickListener {
     }
 
     fun getChat() {
-        var newReq = RequestChat(MyApplication.selectedOrder!!.orderId!!.toInt())
+        var newReq = RequestChat(MyApplication.selectedOrderId!!)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getChats(
                 newReq

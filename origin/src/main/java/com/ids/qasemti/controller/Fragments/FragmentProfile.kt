@@ -545,7 +545,9 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     fun setUserData(user: User) {
         setUpSpinnerGovs(user)
-        gender = user.gender!!
+        if(user.gender!=null) {
+            gender = user.gender!!
+        }
         try {
             profilePercentage = 0
             // loading.show()

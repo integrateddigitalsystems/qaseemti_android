@@ -337,5 +337,6 @@
     <string name="ratedAlready">لقد تقييم هذا الطلب سابقا</string>
     <string name="sp_rate">تقييم المزود</string>
     <string name="client_rate">تقييم العميل</string>
+    <string name="location_updates_disabled">لن يتم ارسال تغير موقعك الى العميل لأنك منعت تحديثات الموقع</string>
 
 </resources>

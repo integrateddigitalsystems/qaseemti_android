@@ -117,6 +117,7 @@ object AppConstants {
     const val NOTF_TYPE_ACCEPT_ORDER = 5
     const val NOTF_TYPE_SUGGEST_NEW_DATE = 6
     const val NOTF_PAYMENT_ADDED = 7
+    const val NOTF_NEW_CHAT_FROM_SP = 10
 
     const val PAYMENT_SUCCESS = "CAPTURED"
 }

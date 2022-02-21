@@ -395,6 +395,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         }catch (ex:Exception){}
                     }
 
+
                     if (MyApplication.isClient) {
 
                         try {
@@ -527,7 +528,19 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             }
                             MyApplication.selectedFragment = FragmentOrders()
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        }else  {
+                        }else if(type == AppConstants.NOTF_NEW_CHAT_FROM_SP){
+                            MyApplication.selectedPos = 1
+                            MyApplication.defaultIcon = ivFooterOrder
+                            MyApplication.tintColor = R.color.primary
+                            if(orderId!=-1){
+                                MyApplication.selectedOrderId = orderId
+                                MyApplication.toChat = true
+                            }else{
+                                MyApplication.toChat = false
+                            }
+                            MyApplication.selectedFragment = FragmentOrders()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                        } else {
                             MyApplication.selectedPos = 3
                             MyApplication.defaultIcon = ivFooterNotifications
                             MyApplication.selectedFragment = FragmentNotifications()

@@ -15,6 +15,7 @@ import android.location.Location
 import android.os.Build
 import android.util.Log
 import android.widget.ImageView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.gms.maps.model.LatLng
@@ -48,6 +49,10 @@ class MyApplication : Application() {
         var myServices : ArrayList<ResponseService> = arrayListOf()
         var selectedFragmentTag : String ?=""
         var toDetails : Boolean =false
+        var toChat : Boolean = false
+        var allowedLocation = false
+        var tempSwitch : SwitchCompat ?=null
+        var tempOrder : ResponseOrders ?=null
         var selectedOrderId : Int ?=0
         var currency : String ?=""
         var fromOrderPlaced  =false

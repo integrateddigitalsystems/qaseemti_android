@@ -217,7 +217,7 @@
                 android:src="@drawable/ic_settlement"
                 android:tint="@color/primary" />
 
-            <com.ids.qasemti.custom.CustomTextViewBold
+            <com.ids.qasemti.custom.CustomTextViewMedium
                 android:id="@+id/tvAdditionalTitle"
                 android:layout_marginStart="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/normal_margin"

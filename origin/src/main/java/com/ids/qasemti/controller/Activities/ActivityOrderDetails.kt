@@ -1,10 +1,7 @@
 package com.ids.qasemti.controller.Activities
 
 import android.Manifest
-import android.app.Activity
-import android.app.DatePickerDialog
-import android.app.Dialog
-import android.app.TimePickerDialog
+import android.app.*
 import android.content.*
 import android.content.pm.PackageManager
 import android.location.Location
@@ -235,14 +232,39 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                         foregroundOnlyLocationService?.subscribeToLocationUpdates()
                             ?: Log.d(TAG, "Service Not Bound")
                     } else {
-                        AppHelper.createYesNoDialog(
-                            this,
-                            AppHelper.getRemoteString("ok", this),
-                            AppHelper.getRemoteString("cancel", this),
-                            AppHelper.getRemoteString("permission_background_android", this)
-                        ) {
-                            requestForegroundPermissions()
-                        }
+
+
+                        val builder = AlertDialog.Builder(this)
+                        builder
+                            .setMessage(
+                                AppHelper.getRemoteString(
+                                    "permission_background_android",
+                                    this
+                                )
+                            )
+                            .setCancelable(true)
+                            .setNegativeButton(
+                                AppHelper.getRemoteString(
+                                    "cancel",
+                                   this
+                                )
+                            ) { dialog, _ ->
+                                // getOrders()
+                                swOnTrack.isChecked = false
+                                setStatus()
+                                toast(getString(R.string.location_updates_disabled))
+                            }
+                            .setPositiveButton(
+                                AppHelper.getRemoteString(
+                                    "ok",
+                                   this
+                                )
+                            ) { dialog, _ ->
+                                requestForegroundPermissions()
+                            }
+                        val alert = builder.create()
+                        alert.show()
+
                     }
                 } catch (ex: Exception) {
                 }
@@ -307,6 +329,9 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 else -> {
                     // Permission denied.
                     // updateButtonState(false)
+                    swOnTrack.isChecked = false
+                    setStatus()
+                    toast(getString(R.string.location_updates_disabled))
 
                     Snackbar.make(
                         findViewById(R.id.rootLayoutOrderDetails),
@@ -333,6 +358,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     }
 
     fun init() {
+
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         btDrawer.hide()
@@ -982,8 +1008,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
 
         btSendRequest.onOneClick {
-            if (etOrderDetailDate.text.toString().isEmpty())
-                createDialog(this, "Please enter suggested date")
+            if (etOrderDetailDate.text.toString().isEmpty() || etOrderDetailTime.text.toString().isEmpty())
+                createDialog(this, AppHelper.getRemoteString("valid_delivery_time",this))
             else {
                 if (AppHelper.isOnline(this)) {
                     sendSuggestedDate()
