@@ -252,7 +252,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                                 // getOrders()
                                 swOnTrack.isChecked = false
                                 setStatus()
-                                toast(getString(R.string.location_updates_disabled))
+                                toast(AppHelper.getRemoteString("location_updates_disabled",this))
                             }
                             .setPositiveButton(
                                 AppHelper.getRemoteString(
@@ -331,7 +331,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     // updateButtonState(false)
                     swOnTrack.isChecked = false
                     setStatus()
-                    toast(getString(R.string.location_updates_disabled))
+                    toast(AppHelper.getRemoteString("location_updates_disabled",this))
 
                     Snackbar.make(
                         findViewById(R.id.rootLayoutOrderDetails),

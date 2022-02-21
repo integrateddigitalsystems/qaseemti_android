@@ -188,6 +188,10 @@ class ActivityChat : ActivityBase(), RVOnItemClickListener {
     }
 
     fun getChat() {
+        if(fromTimer!!){
+            fromTimer = false
+            timer!!.cancel()
+        }
         var newReq = RequestChat(MyApplication.selectedOrderId!!)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.getChats(

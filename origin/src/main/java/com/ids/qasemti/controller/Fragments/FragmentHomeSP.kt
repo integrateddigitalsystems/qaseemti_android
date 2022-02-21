@@ -416,7 +416,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     //  Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
                     //  MyApplication.permissionAllow11 = 0
                 } else {
-                    requireActivity().toast(getString(R.string.location_updates_disabled))
+                    requireActivity().toast(AppHelper.getRemoteString("location_updates_disabled",requireContext()))
                     for (item in result) {
                         if (ContextCompat.checkSelfPermission(
                                 requireContext(),
@@ -491,7 +491,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                             )
                         ) { dialog, _ ->
                             // getOrders()
-                            requireActivity().toast(requireActivity().getString(R.string.location_updates_disabled))
+                            requireActivity().toast(AppHelper.getRemoteString("location_updates_disabled",requireContext()))
                         }
                         .setPositiveButton(
                             AppHelper.getRemoteString(

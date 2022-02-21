@@ -114,7 +114,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
 
                 } else {
                     for(item in result ){
-                        requireActivity().toast(getString(R.string.location_updates_disabled))
+                        requireActivity().toast(AppHelper.getRemoteString("location_updates_disabled",requireContext()))
                         if(ContextCompat.checkSelfPermission(requireContext(),item.key) == BLOCKED){
                             denied = true
                             tempSwitch!!.isChecked = tempSwitch!!.isChecked
@@ -170,7 +170,11 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
 
         if(denied!!){
             denied = false
-            getOrders()
+            if(MyApplication.isClient){
+                getClientOrders()
+            }else {
+                getOrders()
+            }
         }else {
             if (MyApplication.toDetails) {
                 MyApplication.toDetails = false
@@ -392,7 +396,11 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
         })
 
         slRefresh.setOnRefreshListener(OnRefreshListener {
-            getOrders()
+            if(MyApplication.isClient){
+                getClientOrders()
+            }else {
+                getOrders()
+            }
         })
 
 
@@ -477,7 +485,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                 val it = Intent(Intent.ACTION_SENDTO, uri)
                 it.putExtra("sms_body", "Here you can set the SMS text to be sent")
                 startActivity(it)*/
-                MyApplication.selectedOrder = ordersArray[position]
+                MyApplication.selectedOrderId = ordersArray[position].orderId!!.toInt()
                 startActivity(Intent(requireContext(), ActivityChat::class.java))
             }
         }
@@ -487,7 +495,11 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
         }
         else if (view.id==R.id.swDelivered || view.id==R.id.swPaid){
             if(ordersArray.get(position).done)
-                getOrders()
+                if(MyApplication.isClient){
+                    getClientOrders()
+                }else {
+                    getOrders()
+                }
         }
     }
 
@@ -508,7 +520,11 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                 tvActive.setBackgroundResource(R.drawable.rounded_orders)
                 AppHelper.setTextColor(requireContext(), tvActive, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_ACTIVE
-                getOrders()
+                if(MyApplication.isClient){
+                    getClientOrders()
+                }else {
+                    getOrders()
+                }
             }
             1 -> {
                 etSearchOrders.text.clear()
@@ -517,7 +533,11 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                 llActiveTabs.hide()
                 AppHelper.setTextColor(requireContext(), tvUpcoming, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_UPCOMING
-                getOrders()
+                if(MyApplication.isClient){
+                    getClientOrders()
+                }else {
+                    getOrders()
+                }
             }
             2 -> {
                 etSearchOrders.text.clear()
@@ -526,14 +546,22 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                 tvCompleted.setBackgroundResource(R.drawable.rounded_orders)
                 AppHelper.setTextColor(requireContext(), tvCompleted, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_COMPLETED
-                getOrders()
+                if(MyApplication.isClient){
+                    getClientOrders()
+                }else {
+                    getOrders()
+                }
             }
             /*3 -> {
                 etSearchOrders.text.clear()
                 tvCancelled.setBackgroundResource(R.drawable.rounded_orders)
                 AppHelper.setTextColor(requireContext(), tvCancelled, R.color.white)
                 orderType = AppConstants.ORDER_TYPE_CANCELED
-                 getOrders()
+                if(MyApplication.isClient){
+                getClientOrders()
+            }else {
+                getOrders()
+            }
             }*/
             else -> {
                 etSearchOrders.text.clear()
@@ -549,7 +577,11 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                         tvUnsuccPayment.setBackgroundResource(R.color.transparent)
                         AppHelper.setTextColor(requireContext(), tvUnsuccPayment, R.color.primary)
                         orderType = AppConstants.ORDER_TYPE_CANCELED
-                        getOrders()
+                        if(MyApplication.isClient){
+                            getClientOrders()
+                        }else {
+                            getOrders()
+                        }
                     }
                 }
                 tvUnsuccPayment.onOneClick {
@@ -559,10 +591,18 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                         tvCancelled.setBackgroundResource(R.color.transparent)
                         AppHelper.setTextColor(requireContext(), tvCancelled, R.color.primary)
                         orderType = AppConstants.ORDER_TYPE_FAILED
-                        getOrders()
+                        if(MyApplication.isClient){
+                            getClientOrders()
+                        }else {
+                            getOrders()
+                        }
                     }
                 }
-                getOrders()
+                if(MyApplication.isClient){
+                    getClientOrders()
+                }else {
+                    getOrders()
+                }
             }
         }
     }
@@ -726,7 +766,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                   //  Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
                   //  MyApplication.permissionAllow11 = 0
                 } else {
-                    requireActivity().toast(getString(R.string.location_updates_disabled))
+                    requireActivity().toast(AppHelper.getRemoteString("location_updates_disabled",requireContext()))
                     for(item in result ){
                         if(ContextCompat.checkSelfPermission(requireContext(),item.key) == BLOCKED){
                             denied = true
@@ -854,7 +894,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                         .setMessage(AppHelper.getRemoteString("permission_background_android", requireActivity()))
                         .setCancelable(true)
                         .setNegativeButton( AppHelper.getRemoteString("cancel", requireActivity())) { dialog, _ ->
-                            requireActivity().toast(requireActivity().getString(R.string.location_updates_disabled))
+                            requireActivity().toast(AppHelper.getRemoteString("location_updates_disabled",requireContext()))
                             setData(true)
                         }
                         .setPositiveButton(AppHelper.getRemoteString("ok", requireActivity())) { dialog, _ ->

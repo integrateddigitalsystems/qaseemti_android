@@ -110,7 +110,7 @@ class AdapterOrderType(
                         .setMessage(AppHelper.getRemoteString("permission_background_android", con))
                         .setCancelable(true)
                         .setNegativeButton(AppHelper.getRemoteString("cancel", con)) { dialog, _ ->
-                            con.toast(con.getString(R.string.location_updates_disabled))
+                            con.toast(AppHelper.getRemoteString("location_updates_disabled",con))
                           tempSwitch!!.isChecked = !tempSwitch!!.isChecked
                         }
                         .setPositiveButton(AppHelper.getRemoteString("ok", con)) { dialog, _ ->
