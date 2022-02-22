@@ -326,8 +326,6 @@ class CallAPIs {
                         MyApplication.rentalId =
                             MyApplication.categories.find { it.valEn.equals("rental") }!!.id!!.toInt()
                     } catch (ex: Exception) {
-                        var x = ex
-                        var y = 45
                     }
                     try {
                         listener.onDataRetrieved(
