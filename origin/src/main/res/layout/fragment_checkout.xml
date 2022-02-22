@@ -79,6 +79,17 @@
 
             </LinearLayout>
 
+            <Button
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:layout_marginTop="@dimen/big_margin"
+                android:background="@drawable/rounded_white_primary_border"
+                android:text="TEST PICKER"
+                android:id="@+id/btPICKER"
+                android:textColor="@color/primary"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"/>
+
             <LinearLayout
                 android:layout_marginStart="@dimen/margin_start_end"
                 android:layout_marginEnd="@dimen/margin_start_end"

@@ -7,9 +7,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.DatePicker
 import android.widget.TimePicker
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.gson.Gson
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterCheckoutPayment
@@ -33,8 +37,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import com.google.android.material.datepicker.MaterialDatePicker.Builder.datePicker
+import com.ids.qasemti.controller.Base.AppCompactBase
+import java.time.LocalDate
+import java.time.Month
 
-class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
+
+class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,DatePickerDialog.OnDateSetListener {
 
     var open = true
     var REQUEST_LOCATION = 5
@@ -152,6 +161,14 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
     fun setListeners() {
         setUpCurr()
+        btPICKER.setOnClickListener {
+            val datePicker =
+                com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
+
+            datePicker.disabledDays
+
+            datePicker.show(supportFragmentManager!!,"")
+        }
         btPlaceOrder.onOneClick {
             if (locationSelected) {
                 if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find {
@@ -1171,5 +1188,9 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
             }
 
         }
+    }
+
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+
     }
 }
