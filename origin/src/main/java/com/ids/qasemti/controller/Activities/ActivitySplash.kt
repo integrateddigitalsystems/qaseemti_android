@@ -14,8 +14,6 @@ import android.os.Looper
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.webkit.WebSettings
-import android.webkit.WebView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -339,7 +337,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
     fun nextStep() {
 
 
-
+        logw("BASE",MyApplication.BASE_URL)
 
 
         CallAPIs.getCategories(this, this)
@@ -439,7 +437,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                                 MyApplication.toDetails = false
                             }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_CART
-                        }else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE  || type == AppConstants.NOTF_PAYMENT_ADDED){
+                        }else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE  || type == AppConstants.NOTF_PAYMENT_ADDED || type == AppConstants.NOTF_CANCEL_ORDER){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
@@ -451,7 +449,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                                 MyApplication.toDetails = false
                             }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        }else if(type == AppConstants.NOTF_NEW_CHAT_FROM_SP){
+                        }else if(type == AppConstants.NOTF_NEW_CHAT){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
@@ -527,7 +525,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                                 MyApplication.toDetails = false
                             }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        } else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE || type == AppConstants.NOTF_PAYMENT_ADDED){
+                        } else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE || type == AppConstants.NOTF_PAYMENT_ADDED || type == AppConstants.NOTF_CANCEL_ORDER){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
@@ -539,7 +537,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             }
                             MyApplication.selectedFragment = FragmentOrders()
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        }else if(type == AppConstants.NOTF_NEW_CHAT_FROM_SP){
+                        }else if(type == AppConstants.NOTF_NEW_CHAT){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
