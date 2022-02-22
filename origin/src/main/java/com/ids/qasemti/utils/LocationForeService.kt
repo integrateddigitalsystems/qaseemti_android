@@ -528,7 +528,9 @@ class LocationForeService : Service() {
 
         MyApplication.tintColor = R.color.primary
             launchActivityIntent = Intent(this, ActivitySplash::class.java)
-        launchActivityIntent.putExtra("typeId",AppConstants.NOTF_TYPE_ACCEPT_ORDER)
+        //launchActivityIntent.putExtra("typeId",AppConstants.NOTF_TYPE_ACCEPT_ORDER)
+        launchActivityIntent.putExtra("Type",AppConstants.NOTF_TYPE_ACCEPT_ORDER)
+        launchActivityIntent.putExtra("fromNotf",1)
        // }
 
         val cancelIntent = Intent(this, LocationForeService::class.java)

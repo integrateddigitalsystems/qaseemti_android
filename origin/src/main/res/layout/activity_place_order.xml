@@ -19,6 +19,7 @@
 
 
     <FrameLayout
+        android:visibility="visible"
         android:layout_above="@+id/llFooter"
         android:layout_below="@+id/llTool"
         android:layout_width="match_parent"

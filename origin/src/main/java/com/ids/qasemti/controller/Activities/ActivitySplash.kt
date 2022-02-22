@@ -395,7 +395,6 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         }catch (ex:Exception){}
                     }
 
-
                     if (MyApplication.isClient) {
 
                         try {
@@ -452,7 +451,19 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                                 MyApplication.toDetails = false
                             }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        } else {
+                        }else if(type == AppConstants.NOTF_NEW_CHAT_FROM_SP){
+                            MyApplication.selectedPos = 1
+                            MyApplication.defaultIcon = ivFooterOrder
+                            MyApplication.tintColor = R.color.primary
+                            if(orderId!=-1){
+                                MyApplication.selectedOrderId = orderId
+                                MyApplication.toChat = true
+                            }else{
+                                MyApplication.toChat = false
+                            }
+                            MyApplication.selectedFragment = FragmentOrders()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                        }  else {
                             MyApplication.selectedPos = 3
                             MyApplication.defaultIcon = ivFooterNotifications
                             MyApplication.selectedFragment = FragmentNotifications()
@@ -649,13 +660,6 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             item.urlEn= typePrefix+item.urlEn
         }
 
-        val wv= WebView(this)
-        wv.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        wv.loadUrl(MyApplication.webLinks!!.links.find { it.idNo == 2  }!!.urlEn!!)
-
-        val wv2= WebView(this)
-        wv2.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        wv2.loadUrl(MyApplication.webLinks!!.links.find { it.idNo == 2  }!!.urlAr!!)
         MyApplication.kuwaitCoordinates = Gson().fromJson(
             mFirebaseRemoteConfig!!.getString(COORDINATES),
             Coordinates::class.java
