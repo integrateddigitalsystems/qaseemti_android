@@ -732,11 +732,7 @@ class CallAPIs {
                         }
 
                         if(doneOnce == 0 ){
-                            listener.onDataRetrieved(
-                                false,
-                                ResponseOrders(),
-                                AppConstants.ORDER_BY_ORDER_ID_BROAD
-                            )
+                           getOrderByOrderId(orderId,listener)
                         }
                     }
 
