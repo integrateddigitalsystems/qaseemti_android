@@ -29,6 +29,9 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
 
     override fun onResume() {
         super.onResume()
+        if(MyApplication.isSettle){
+            startActivity(Intent(requireActivity(), ActivitySettlements::class.java))
+        }
         (activity as ActivityHome).showTitle(false)
     }
 

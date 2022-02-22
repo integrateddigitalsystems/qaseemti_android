@@ -118,6 +118,11 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
         else
             tvLocationPlaceOrder.text = AppHelper.getRemoteString("no_data", this)
 
+        try{
+            tvOrderDeetId.text = orders.orderId.toString()
+        }catch (ex:Exception){
+
+        }
        /* tvLocationPlaceOrder.text = ""
         if (!orders.addressDescription.equals("null") && !orders.shipping_address_description.isNullOrEmpty()) {
             tvLocationPlaceOrder.text = orders.addressDescription + ","

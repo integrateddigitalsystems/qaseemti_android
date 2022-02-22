@@ -120,6 +120,12 @@ object AppConstants {
     const val NOTF_TYPE_ACCEPT_ORDER = 5
     const val NOTF_TYPE_SUGGEST_NEW_DATE = 6
     const val NOTF_PAYMENT_ADDED = 7
+    const val NOTF_CANCEL_ORDER = 8
+    const val NOTF_NEW_ADMIN_SERVICE =9
+    const val NOTF_NEW_CHAT = 10
+    const val NOTF_SETTLEMENTS = 11
+    const val NOTF_RATE = 12
+
 
     const val PAYMENT_SUCCESS = "CAPTURED"
 }

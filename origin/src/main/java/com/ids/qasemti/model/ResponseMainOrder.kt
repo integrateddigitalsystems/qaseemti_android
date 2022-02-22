@@ -16,7 +16,7 @@ class ResponseMainOrder(
 
     @SerializedName("settlement_amount")
     @Expose
-    var settlementAmount : Int ?=0 ,
+    var settlementAmount : Double ?=0.0 ,
 
     @SerializedName("orders_count")
     @Expose

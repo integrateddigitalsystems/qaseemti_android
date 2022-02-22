@@ -339,7 +339,7 @@
     <string name="ratedAlready">This order has already been rated</string>
     <string name="sp_rate">SP Rate</string>
     <string name="client_rate">Client Rate</string>
-
+    <string name="location_updates_disabled">Orders flagged on track will not send updates to client because you disabled location updates</string>
 
 
 </resources>

@@ -51,8 +51,17 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
         }catch (ex:Exception){
 
         }
-        setTabLayout(MyApplication.settlementTabSelected, tvToBeSettled)
-        getOrders(MyApplication.settlementTabSelected)
+        if(MyApplication.isSettle){
+            MyApplication.isSettle = false
+            MyApplication.settlementTabSelected = 1
+            setTabLayout(MyApplication.settlementTabSelected, tvToBeSettled)
+            getOrders(MyApplication.settlementTabSelected)
+        }else{
+            MyApplication.settlementTabSelected = 0
+            setTabLayout(MyApplication.settlementTabSelected, tvToBeSettled)
+            getOrders(MyApplication.settlementTabSelected)
+        }
+
     }
 
     fun nextStep(res: Int) {

@@ -712,7 +712,7 @@ class CallAPIs {
                                 try {
                                     MyApplication.deviceId = response.body()!!.deviceId!!
                                     listener.onDataRetrieved(
-                                        false,
+                                        true,
                                         arrayListOf<ResponseNominatim>(),
                                         AppConstants.UPDATE_DEVICE
                                     )

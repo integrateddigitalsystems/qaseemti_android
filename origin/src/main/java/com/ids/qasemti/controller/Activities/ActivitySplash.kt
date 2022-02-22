@@ -14,8 +14,6 @@ import android.os.Looper
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.webkit.WebSettings
-import android.webkit.WebView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -343,13 +341,13 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
 
-        CallAPIs.getCategories(this, this)
         Handler(Looper.getMainLooper()).postDelayed({
             if (MyApplication.firstTime || !MyApplication.termsCondition!!) {
                 if(MyApplication.isClient)
                     UpaymentGateway.init(this, "", "", true)
                 MyApplication.selectedPhone = ""
                 CallAPIs.updateDevice(this, this)
+                CallAPIs.getCategories(this, this)
                 // AppHelper.updateDevice(this, "")
                 MyApplication.firstTime = false
                 finish()
@@ -417,12 +415,18 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
                             MyApplication.tintColor = R.color.primary
                         } else if (type == AppConstants.NOTF_TYPE_BROADCAST_ORDERS) {
-                            MyApplication.selectedPos = 2
-                            MyApplication.defaultIcon = ivFooterHome
+                            MyApplication.selectedPos = 1
+                            MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
-                            MyApplication.selectedFragment = FragmentHomeClient()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
-                        } else if (type == AppConstants.NOTF_TYPE_SERVICE) {
+                            MyApplication.selectedFragment = FragmentOrders()
+                            if(orderId!=-1){
+                                MyApplication.selectedOrderId = orderId
+                                MyApplication.toDetails = true
+                            }else{
+                                MyApplication.toDetails = false
+                            }
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                        } else if (type == AppConstants.NOTF_TYPE_SERVICE || type == AppConstants.NOTF_NEW_ADMIN_SERVICE) {
                             MyApplication.selectedPos = 2
                             MyApplication.defaultIcon = ivFooterHome
                             MyApplication.tintColor = R.color.primary
@@ -446,7 +450,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                                 MyApplication.toDetails = false
                             }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_CART
-                        }else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE  || type == AppConstants.NOTF_PAYMENT_ADDED){
+                        }else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE  || type == AppConstants.NOTF_PAYMENT_ADDED || type == AppConstants.NOTF_CANCEL_ORDER|| type == AppConstants.NOTF_RATE){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
@@ -458,7 +462,26 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                                 MyApplication.toDetails = false
                             }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        } else {
+                        }else if(type == AppConstants.NOTF_NEW_CHAT){
+                            MyApplication.selectedPos = 1
+                            MyApplication.defaultIcon = ivFooterOrder
+                            MyApplication.tintColor = R.color.primary
+                            if(orderId!=-1){
+                                MyApplication.selectedOrderId = orderId
+                                MyApplication.toChat = true
+                            }else{
+                                MyApplication.toChat = false
+                            }
+                            MyApplication.selectedFragment = FragmentOrders()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                        } else if(type == AppConstants.NOTF_SETTLEMENTS) {
+                            MyApplication.selectedPos = 4
+                            MyApplication.defaultIcon = ivFooterAccount
+                            MyApplication.selectedFragment = FragmentAccount()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
+                            MyApplication.tintColor = R.color.primary
+                            MyApplication.isSettle = false
+                        }else {
                             MyApplication.selectedPos = 3
                             MyApplication.defaultIcon = ivFooterNotifications
                             MyApplication.selectedFragment = FragmentNotifications()
@@ -497,7 +520,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             }else{
                                 MyApplication.toDetails = false
                             }
-                        } else if (type == AppConstants.NOTF_TYPE_SERVICE) {
+                        } else if (type == AppConstants.NOTF_TYPE_SERVICE || type == AppConstants.NOTF_NEW_ADMIN_SERVICE) {
                             MyApplication.selectedPos = 0
                             MyApplication.defaultIcon = ivProductFooter
                             MyApplication.tintColor = R.color.primary
@@ -522,7 +545,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                                 MyApplication.toDetails = false
                             }
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        } else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE || type == AppConstants.NOTF_PAYMENT_ADDED){
+                        } else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE || type == AppConstants.NOTF_PAYMENT_ADDED || type == AppConstants.NOTF_CANCEL_ORDER|| type == AppConstants.NOTF_RATE){
                             MyApplication.selectedPos = 1
                             MyApplication.defaultIcon = ivFooterOrder
                             MyApplication.tintColor = R.color.primary
@@ -534,7 +557,26 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                             }
                             MyApplication.selectedFragment = FragmentOrders()
                             MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        }else  {
+                        }else if(type == AppConstants.NOTF_NEW_CHAT){
+                            MyApplication.selectedPos = 1
+                            MyApplication.defaultIcon = ivFooterOrder
+                            MyApplication.tintColor = R.color.primary
+                            if(orderId!=-1){
+                                MyApplication.selectedOrderId = orderId
+                                MyApplication.toChat = true
+                            }else{
+                                MyApplication.toChat = false
+                            }
+                            MyApplication.selectedFragment = FragmentOrders()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                        } else if(type == AppConstants.NOTF_SETTLEMENTS) {
+                            MyApplication.selectedPos = 4
+                            MyApplication.defaultIcon = ivFooterAccount
+                            MyApplication.selectedFragment = FragmentAccount()
+                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
+                            MyApplication.tintColor = R.color.primary
+                            MyApplication.isSettle = true
+                        }else {
                             MyApplication.selectedPos = 3
                             MyApplication.defaultIcon = ivFooterNotifications
                             MyApplication.selectedFragment = FragmentNotifications()
@@ -643,13 +685,6 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             item.urlEn= typePrefix+item.urlEn
         }
 
-        val wv= WebView(this)
-        wv.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        wv.loadUrl(MyApplication.webLinks!!.links.find { it.idNo == 2  }!!.urlEn!!)
-
-        val wv2= WebView(this)
-        wv2.settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        wv2.loadUrl(MyApplication.webLinks!!.links.find { it.idNo == 2  }!!.urlAr!!)
         MyApplication.kuwaitCoordinates = Gson().fromJson(
             mFirebaseRemoteConfig!!.getString(COORDINATES),
             Coordinates::class.java
@@ -788,65 +823,71 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
 
-        if(apiId == AppConstants.ORDER_BY_ID){
+        if(success) {
+            if (apiId == AppConstants.ORDER_BY_ID) {
 
-            var order = response as ResponseOrders
-            MyApplication.selectedOrderId = order.orderId!!.toInt()
-            MyApplication.selectedPlaceOrder = RequestPlaceOrder(
-                MyApplication.userId,
-                order.typeId,//MAKESURE
-                order.product!!.id,
-                order.typesId,//MAKESURE
-                order.sizeCapacityId,//MAKESURE
-                order.deliveryDate,
-                if (order.addressname != null && order.addressname!!.isNotEmpty()) order.addressname else "",
-                order.addressLat,
-                order.addressLong,
-                order.addressStreet,
-                order.addressBuilding,
-                order.addressFloor,
-                order.addressDescription,
-                if (order.addresses.size > 0)order.addresses.get(0).addressId!!.toInt() else 0,
-                order.product!!.booking_start_date,
-                order.product!!.booking_end_date,
-                MyApplication.languageCode
+                var order = response as ResponseOrders
+                MyApplication.selectedOrderId = order.orderId!!.toInt()
+                MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+                    MyApplication.userId,
+                    order.typeId,//MAKESURE
+                    order.product!!.id,
+                    order.typesId,//MAKESURE
+                    order.sizeCapacityId,//MAKESURE
+                    order.deliveryDate,
+                    if (order.addressname != null && order.addressname!!.isNotEmpty()) order.addressname else "",
+                    order.addressLat,
+                    order.addressLong,
+                    order.addressStreet,
+                    order.addressBuilding,
+                    order.addressFloor,
+                    order.addressDescription,
+                    if (order.addresses.size > 0) order.addresses.get(0).addressId!!.toInt() else 0,
+                    order.product!!.booking_start_date,
+                    order.product!!.booking_end_date,
+                    MyApplication.languageCode
 
 
-            )
-            CallAPIs.updateDevice(this, this)
-            //AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
-            CallAPIs.getUserInfo(this)
-        }else if (apiId == AppConstants.ADDRESS_GEO || apiId == AppConstants.UPDATE_DEVICE) {
+                )
+                CallAPIs.updateDevice(this, this)
+                //AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
+                CallAPIs.getUserInfo(this)
+            } else if (apiId == AppConstants.ADDRESS_GEO || apiId == AppConstants.UPDATE_DEVICE) {
 
-        } else if (apiId == API_USER_STATUS) {
-            var res = response as ResponseUser
-            try {
-                if (res.user!!.suspended.equals("1") && MyApplication.isClient) {
-                    AppHelper.createDialog(
-                        this,
-                        AppHelper.getRemoteString("suspended_user_msg", this)
-                    )
-                } else {
+            } else if (apiId == API_USER_STATUS) {
+                var res = response as ResponseUser
+                try {
+                    if (res.user!!.suspended.equals("1") && MyApplication.isClient) {
+                        AppHelper.createDialog(
+                            this,
+                            AppHelper.getRemoteString("suspended_user_msg", this)
+                        )
+                    } else {
+                        finish()
+                        startActivity(Intent(this, ActivityHome::class.java))
+
+                    }
+                } catch (ex: Exception) {
+                    Log.wtf("apiSplash", ex.toString())
                     finish()
-                    startActivity(Intent(this, ActivityHome::class.java))
+                    startActivity(Intent(this, ActivityMobileRegistration::class.java))
 
                 }
-            } catch (ex: Exception) {
-                Log.wtf("apiSplash", ex.toString())
-                finish()
-                startActivity(Intent(this, ActivityMobileRegistration::class.java))
-
+            } else {
+                try {
+                    var res = response as ResponseMainCategories
+                    MyApplication.categories.clear()
+                    MyApplication.categories.addAll(res.categories)
+                    MyApplication.purchaseId =
+                        MyApplication.categories.find { it.valEn.equals("purchase") }!!.id!!.toInt()
+                    MyApplication.rentalId =
+                        MyApplication.categories.find { it.valEn.equals("rental") }!!.id!!.toInt()
+                } catch (ex: Exception) {
+                }
             }
-        } else {
-            try {
-                var res = response as ResponseMainCategories
-                MyApplication.categories.clear()
-                MyApplication.categories.addAll(res.categories)
-                MyApplication.purchaseId =
-                    MyApplication.categories.find { it.valEn.equals("purchase") }!!.id!!.toInt()
-                MyApplication.rentalId =
-                    MyApplication.categories.find { it.valEn.equals("rental") }!!.id!!.toInt()
-            } catch (ex: Exception) {
+        }else{
+            if (apiId == API_USER_STATUS) {
+                CallAPIs.getUserInfo(this)
             }
         }
 
