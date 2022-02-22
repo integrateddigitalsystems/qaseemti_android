@@ -27,11 +27,13 @@ import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Adapters.AdapterOrders
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.controller.MyApplication.Companion.allowedLocation
 import com.ids.qasemti.model.*
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.activity_code_verification.*
 import kotlinx.android.synthetic.main.fragment_home_client.*
 import kotlinx.android.synthetic.main.layout_home_orders.*
+import kotlinx.android.synthetic.main.layout_order_switch.*
 import kotlinx.android.synthetic.main.loading.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -414,6 +416,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     //  Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
                     //  MyApplication.permissionAllow11 = 0
                 } else {
+                    requireActivity().toast(AppHelper.getRemoteString("location_updates_disabled",requireContext()))
                     for (item in result) {
                         if (ContextCompat.checkSelfPermission(
                                 requireContext(),
@@ -488,6 +491,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                             )
                         ) { dialog, _ ->
                             // getOrders()
+                            requireActivity().toast(AppHelper.getRemoteString("location_updates_disabled",requireContext()))
                         }
                         .setPositiveButton(
                             AppHelper.getRemoteString(
@@ -515,6 +519,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
     fun setUp() {
 
+        allowedLocation = true
         MyApplication.listOrderTrack.clear()
 
         for (item in trackorders) {
@@ -526,6 +531,16 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
         AppHelper.toGsonArrString()
         if (MyApplication.listOrderTrack.size > 0) {
             (activity as ActivityHome).changeState(true, 0)
+        }
+    }
+
+
+    fun toTrackOrders(){
+        for(item in trackorders){
+            if(item.onTrack!!){
+                checkSetUp()
+                break
+            }
         }
     }
 
@@ -548,7 +563,7 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
                     try {
                         trackorders.clear()
                         trackorders.addAll(response!!.body()!!.orders)
-                        checkSetUp()
+                        toTrackOrders()
                     } catch (E: java.lang.Exception) {
                         logw("TRACKING_ERROR", E.toString())
                     }

@@ -1,6 +1,10 @@
 package com.ids.qasemti.controller.Adapters
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.media.Image
 import android.os.Handler
 import android.os.Looper
@@ -10,13 +14,24 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatRatingBar
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickListener
+import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
+import com.ids.qasemti.controller.MyApplication.Companion.allowedLocation
+import com.ids.qasemti.controller.MyApplication.Companion.tempOrder
+import com.ids.qasemti.controller.MyApplication.Companion.tempSwitch
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.layout_order_contact_tab.*
@@ -30,15 +45,27 @@ class AdapterOrderType(
     private val itemClickListener: RVOnItemClickListener,
     val reloader : ReloadData ,
     context: Activity ,
-    loading : LinearLayout
+    loading : LinearLayout,
+    frag :  FragmentOrders,
+    permRes :  ActivityResultLauncher<Array<String>>
 ) :
     RecyclerView.Adapter<AdapterOrderType.VHItem>() {
 
     var con = context
+    var tempHolder: VHItem ?=null
+    var tempPos : Int ?= 0
+    var mPermissionResult: ActivityResultLauncher<Array<String>>? = null
     var fromSwitch = false
     var delivered = 0
+    var denied : Boolean ?=false
+    val BLOCKED = -1
+    val BLOCKED_OR_NEVER_ASKED = 2
+    val GRANTED = 0
+    val DENIED = 1
     var loading = loading
+    var frag = frag
     var onTrack = 0
+    var perms = permRes
     var paid = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
         return VHItem(
@@ -47,7 +74,60 @@ class AdapterOrderType(
         )
     }
 
+
+
+    private fun openChooser() {
+        perms!!.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        ) }
+    private fun foregroundPermissionApproved(): Boolean {
+        return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+            con,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
+
+
+    fun checkPerm() {
+        var mLocationManager =
+            con.getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+
+        var gps_enabled = false
+
+        try {
+            gps_enabled = mLocationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+        }
+        if (!MyApplication.isClient) {
+            if (foregroundPermissionApproved() && gps_enabled) {
+                //   setData(true)
+            } else {
+                if (gps_enabled) {
+                    val builder = AlertDialog.Builder(con)
+                    builder
+                        .setMessage(AppHelper.getRemoteString("permission_background_android", con))
+                        .setCancelable(true)
+                        .setNegativeButton(AppHelper.getRemoteString("cancel", con)) { dialog, _ ->
+                            con.toast(AppHelper.getRemoteString("location_updates_disabled",con))
+                          tempSwitch!!.isChecked = !tempSwitch!!.isChecked
+                        }
+                        .setPositiveButton(AppHelper.getRemoteString("ok", con)) { dialog, _ ->
+                              openChooser()
+                        }
+                    val alert = builder.create()
+                    alert.show()
+
+                } else {
+                    con.toast(AppHelper.getRemoteString("GpsDisabled", con))
+                    tempSwitch!!.isChecked = !tempSwitch!!.isChecked
+                }
+            }
+        }
+    }
     override fun onBindViewHolder(holder: VHItem, position: Int) {
+
 
         holder.orderDetails.setColorTypeface(con,R.color.tint_new,"",false)
         try {
@@ -127,7 +207,7 @@ class AdapterOrderType(
         }
 
         try {
-           if(items.get(position).onTrack!!&&!items.get(position).paymentMethod.isNullOrEmpty()) {
+           if(items.get(position).onTrack!!&&!items.get(position).paymentMethod.isNullOrEmpty()&&allowedLocation) {
                onTrack=1
                if(!items.get(position).delivered!!) {
                    //   if (!MyApplication.saveLocationTracking!!) {
@@ -264,30 +344,43 @@ class AdapterOrderType(
                         x,
                         holder.switchOnTrack
                     ) {
-                        if (holder.switchOnTrack.isChecked) {
-                            holder.switchOnTrack.isEnabled = false
-                            MyApplication.selectedOrder = items.get(position)
-                            MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
-                            MyApplication.listOrderTrack.add(MyApplication.trackOrderId.toString())
-                            AppHelper.toGsonArrString()
-                            if(!MyApplication.isClient)
-                                    (con as ActivityHome).changeState(true,MyApplication.listOrderTrack.size-1)
-                            AppHelper.setSwitchColor(holder.switchOnTrack, con)
-                            onTrack = 1
-                        } else {
-                            onTrack = 0
-                            AppHelper.setSwitchColor(holder.switchOnTrack, con)
-                        }
-                        AppHelper.updateStatus(
-                            items.get(position).orderId!!.toInt(),
-                            holder.switchOnTrack.isChecked,
-                            holder.switchDelivered.isChecked,
-                            holder.switchPaid.isChecked,
-                            reloader,
-                            loading)
+                            if (holder.switchOnTrack.isChecked) {
+
+                                if(allowedLocation) {
+                                    holder.switchOnTrack.isEnabled = false
+                                    MyApplication.selectedOrder = items.get(position)
+                                    MyApplication.trackOrderId =
+                                        items.get(position).orderId!!.toInt()
+                                    MyApplication.listOrderTrack.add(MyApplication.trackOrderId.toString())
+                                    AppHelper.toGsonArrString()
+                                    if (!MyApplication.isClient)
+                                        (con as ActivityHome).changeState(
+                                            true,
+                                            MyApplication.listOrderTrack.size - 1
+                                        )
+                                    AppHelper.setSwitchColor(holder.switchOnTrack, con)
+                                    onTrack = 1
+                                }else{
+                                    tempOrder = items.get(position)
+                                    tempSwitch = holder.switchOnTrack
+                                    checkPerm()
+                                }
+                            } else {
+                                onTrack = 0
+                                AppHelper.setSwitchColor(holder.switchOnTrack, con)
+                            }
+                            AppHelper.updateStatus(
+                                items.get(position).orderId!!.toInt(),
+                                holder.switchOnTrack.isChecked,
+                                holder.switchDelivered.isChecked,
+                                holder.switchPaid.isChecked,
+                                reloader,
+                                loading
+                            )
 
 
-                        //AppHelper.setUpDoc(items.get(position))
+                            //AppHelper.setUpDoc(items.get(position))
+
                     }
                 /*} else {
                     holder.switchOnTrack.isChecked = !holder.switchOnTrack.isChecked

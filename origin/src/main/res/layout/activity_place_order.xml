@@ -19,6 +19,7 @@
 
 
     <FrameLayout
+        android:visibility="visible"
         android:layout_above="@+id/llFooter"
         android:layout_below="@+id/llTool"
         android:layout_width="match_parent"
@@ -54,8 +55,39 @@
             android:paddingTop="@dimen/margin_start_end"
             android:paddingBottom="@dimen/margin_start_end">
 
+
+            <LinearLayout
+                android:layout_marginStart="@dimen/big_margin_2"
+                android:layout_marginEnd="@dimen/big_margin_2"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:layout_width="@dimen/normal_icon"
+                    android:layout_height="@dimen/normal_icon"
+                    android:src="@drawable/icon_hashtag"
+                    android:tint="@color/primary" />
+
+                <com.ids.qasemti.custom.CustomTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:gravity="center_vertical"
+                    android:id="@+id/tvOrderDeetId"
+                    android:textColor="@color/gray_font_title"
+                    android:textSize="@dimen/normal_font"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    />
+
+
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/llLocation"
+                android:layout_marginTop="@dimen/medium_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -102,7 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginTop="@dimen/medium_margin"
                 android:layout_weight="1.2"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
