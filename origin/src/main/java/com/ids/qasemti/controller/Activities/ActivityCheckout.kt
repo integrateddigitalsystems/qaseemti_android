@@ -405,6 +405,25 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
     }
 
+    fun setUpCategory(){
+        if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find {
+                it.valEn!!.lowercase().equals("rental")
+            }!!.id!!.toInt())) {
+            tvFromTitle.show()
+            tvToTitle.show()
+            llToLayout.show()
+        } else {
+            tvFromTitle.hide()
+            tvToTitle.hide()
+            llToLayout.hide()
+        }
+
+        setUpCurr()
+        setOrderSummary()
+        setListeners()
+
+    }
+
     fun init() {
         setTintLogo(R.color.primary)
         //  tvSelectedAddressCheck.setColorTypeface(this,R.color.gray_font_title,"",false)
@@ -420,21 +439,12 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
         if (!MyApplication.renewing) {
             if(MyApplication.selectedService!=null) {
-                if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find {
-                        it.valEn!!.lowercase().equals("rental")
-                    }!!.id!!.toInt())) {
-                    tvFromTitle.show()
-                    tvToTitle.show()
-                    llToLayout.show()
-                } else {
-                    tvFromTitle.hide()
-                    tvToTitle.hide()
-                    llToLayout.hide()
+                if(MyApplication.categories.size >0) {
+                    setUpCategory()
+                }else{
+                    loading.show()
+                    CallAPIs.getCategories(this,this)
                 }
-
-                setUpCurr()
-                setOrderSummary()
-                setListeners()
             }else{
                 logw("rebirth","done")
                 AppHelper.triggerRebirth(this)
@@ -838,6 +848,8 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
                 MyApplication.selectedService!!.variations.find {  it.sizeCapacityId!=null && it.sizeCapacityId!!.toInt() == MyApplication.selectedSize!! }!!.sizeCapacity
         } catch (e: Exception) {
         }
+
+        loading.hide()
     }
 
     private fun setPlacedOrder() {
@@ -1116,6 +1128,16 @@ class ActivityCheckout : ActivityBase(), RVOnItemClickListener, ApiListener {
 
             setPlacedOrder()
 
+        } else if(apiId == AppConstants.GET_CATEGORIES){
+
+            var res = response as ResponseMainCategories
+            MyApplication.categories.clear()
+            MyApplication.categories.addAll(res.categories)
+            MyApplication.purchaseId =
+                MyApplication.categories.find { it.valEn.equals("purchase") }!!.id!!.toInt()
+            MyApplication.rentalId =
+                MyApplication.categories.find { it.valEn.equals("rental") }!!.id!!.toInt()
+            setUpCategory()
         } else {
             if (success) {
                 if (MyApplication.selectedAddress == null)

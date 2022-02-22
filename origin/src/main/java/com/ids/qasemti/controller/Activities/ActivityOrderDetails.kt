@@ -1514,14 +1514,22 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             /*if (apiId == AppConstants.ORDER_BY_ORDER_ID_BROAD) {
 
             } else {*/
-                try {
-                    MyApplication.selectedOrder = response as ResponseOrders
+                if(apiId == AppConstants.GET_CATEGORIES){
                     setOrderData()
-                } catch (ex: Exception) {
-                    logw("OrderError", ex.toString())
-                    loading.hide()
+                }else {
+                    try {
+                        MyApplication.selectedOrder = response as ResponseOrders
+                        if (MyApplication.categories.size > 0) {
+                            setOrderData()
+                        } else {
+                            CallAPIs.getCategories(this,this)
+                        }
+                    } catch (ex: Exception) {
+                        logw("OrderError", ex.toString())
+                        loading.hide()
+                    }
+                    // }
                 }
-           // }
         }else
         {
             loading.hide()

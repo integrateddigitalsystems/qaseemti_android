@@ -96,6 +96,7 @@ class MyApplication : Application() {
         var documents : ArrayList<DocumentReference> = arrayListOf()
         var foregroundOnlyLocationService: LocationForeService? = null
         var tintColor : Int = R.color.white
+        var isSettle : Boolean = false
         var selectedImage:String ?=""
         var selectedVideo :String ?=""
         var selectedPhone : String ?=""
