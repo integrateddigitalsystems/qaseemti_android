@@ -461,7 +461,6 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
                     toast("cannot detect location")
                 }
 
-                loading.hide()
             }
 
         }
@@ -496,7 +495,6 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
             )
             setUpMap()
             //  toast("Please accept requested permission in order to detect your current location")
-            loading.hide()
         }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -609,6 +607,7 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
         Recycle!!.layoutManager = LinearLayoutManager(this)
         Recycle!!.adapter = adapter
         Recycle!!.isNestedScrollingEnabled = false
+        loading.hide()
         /* }else{
              adapter!!.notifyDataSetChanged()
          }*/

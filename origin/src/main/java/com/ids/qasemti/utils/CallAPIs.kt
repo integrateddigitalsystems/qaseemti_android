@@ -318,6 +318,18 @@ class CallAPIs {
                     response: Response<ResponseMainCategories>
                 ) {
                     try {
+                        //var res = response as ResponseMainCategories
+                        MyApplication.categories.clear()
+                        MyApplication.categories.addAll(response.body()!!.categories)
+                        MyApplication.purchaseId =
+                            MyApplication.categories.find { it.valEn.equals("purchase") }!!.id!!.toInt()
+                        MyApplication.rentalId =
+                            MyApplication.categories.find { it.valEn.equals("rental") }!!.id!!.toInt()
+                    } catch (ex: Exception) {
+                        var x = ex
+                        var y = 45
+                    }
+                    try {
                         listener.onDataRetrieved(
                             true,
                             response.body()!!,
@@ -328,7 +340,7 @@ class CallAPIs {
                             listener.onDataRetrieved(
                                 false,
                                 ResponseUserStatus(),
-                                AppConstants.API_USER_STATUS
+                                AppConstants.GET_CATEGORIES
                             )
                         } catch (ex: Exception) {
 
@@ -341,7 +353,7 @@ class CallAPIs {
                         listener.onDataRetrieved(
                             false,
                             ResponseUserStatus(),
-                            AppConstants.API_USER_STATUS
+                            AppConstants.GET_CATEGORIES
                         )
                     } catch (ex: Exception) {
 
