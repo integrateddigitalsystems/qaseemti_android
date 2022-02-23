@@ -116,6 +116,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setUpContent()
         setContentView(R.layout.actiivity_service_information)
         AppHelper.setAllTexts(rootLayout, this)
         if (MyApplication.categories.size > 0) {
@@ -171,40 +172,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
 
     }
 
-    private fun init() {
-
-        getSupportActionBar()!!.hide();
-        arrayAllServices.clear()
-        selectedCategoryName = AppHelper.getRemoteString("purchase", this)
-        btBck.show()
-        setTabs()
-        if (MyApplication.languageCode == AppConstants.LANG_ARABIC)
-            selectedCategoryName = "بيع"
-        getAllServices()
-
-
-    }
-
-    override fun onBackPressed() {
-        MyApplication.selectedPos = 0
-        MyApplication.defaultIcon = ivProductFooter
-        MyApplication.tintColor = R.color.primary
-        MyApplication.selectedFragment = FragmentMyServices()
-        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_MY_SERVICES
-        super.onBackPressed()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun listeners() {
-        btBck.onOneClick { super.onBackPressed() }
-        btPickImage.onOneClick {
-            //  pickFile(CODE_IMAGE,false)
-            resultcode = CODE_IMAGE
-            image = true
-            setUp()
-            // selectImage(this,CODE_IMAGE)
-        }
-
+    fun setUpContent(){
         getContent = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
@@ -274,6 +242,42 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
             }
 
         }
+    }
+    private fun init() {
+
+        getSupportActionBar()!!.hide();
+        arrayAllServices.clear()
+        selectedCategoryName = AppHelper.getRemoteString("purchase", this)
+        btBck.show()
+        setTabs()
+        if (MyApplication.languageCode == AppConstants.LANG_ARABIC)
+            selectedCategoryName = "بيع"
+        getAllServices()
+
+
+    }
+
+    override fun onBackPressed() {
+        MyApplication.selectedPos = 0
+        MyApplication.defaultIcon = ivProductFooter
+        MyApplication.tintColor = R.color.primary
+        MyApplication.selectedFragment = FragmentMyServices()
+        MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_MY_SERVICES
+        super.onBackPressed()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun listeners() {
+        btBck.onOneClick { super.onBackPressed() }
+        btPickImage.onOneClick {
+            //  pickFile(CODE_IMAGE,false)
+            resultcode = CODE_IMAGE
+            image = true
+            setUp()
+            // selectImage(this,CODE_IMAGE)
+        }
+
+
 
 
 

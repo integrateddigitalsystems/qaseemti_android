@@ -11,6 +11,11 @@ import android.widget.AdapterView
 import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.google.gson.Gson
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
 import com.ids.qasemti.controller.Base.ActivityBase
@@ -47,6 +52,7 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
 
     var REQUEST_CODE = 1000
     var from = ""
+    var mFirebaseRemoteConfig: FirebaseRemoteConfig? = null
     var address: ResponseAddress? = null
     var arraySpinner: ArrayList<ItemSpinner> = arrayListOf()
     var selectedProvince: String? = ""
@@ -370,7 +376,30 @@ class ActivityAddNewAddress : ActivityBase(), ApiListener {
         } catch (ex: Exception) {
 
         }
-        setUpSpinner()
+        if(MyApplication.kuwaitGovs.size>0) {
+            setUpSpinner()
+        }else {
+            loading.show()
+            mFirebaseRemoteConfig = Firebase.remoteConfig
+            val configSettings = remoteConfigSettings {
+                minimumFetchIntervalInSeconds = 0
+            }
+            mFirebaseRemoteConfig!!.setConfigSettingsAsync(configSettings)
+            mFirebaseRemoteConfig!!.fetchAndActivate()
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        var list = Gson().fromJson(
+                            mFirebaseRemoteConfig!!.getString(AppConstants.FIREBASE_GOVS),
+                            KuwaitGovs::class.java
+                        )
+                        MyApplication.kuwaitGovs.clear()
+                        MyApplication.kuwaitGovs.addAll(list.list)
+                        setUpSpinner()
+                        loading.hide()
+
+                    }
+                }
+        }
 
         tvPageTitle.setColorTypeface(
             this,
