@@ -439,7 +439,7 @@
                     android:id="@+id/rlCoupon"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_35"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/medium_margin"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_white_background">
@@ -463,7 +463,6 @@
                     </LinearLayout>
 
                     <EditText
-                        android:textAlignment="viewStart"
                         android:id="@+id/etCoupon"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_35"
@@ -473,6 +472,7 @@
                         android:paddingStart="@dimen/normal_margin"
                         android:paddingEnd="@dimen/mini_margin"
                         android:tag="couponNumber"
+                        android:textAlignment="viewStart"
                         android:textSize="@dimen/small_font"
 
                         />
@@ -612,6 +612,7 @@
 -->
 
                     <Button
+                        android:visibility="gone"
                         android:id="@+id/btPLaceOrder"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/button_height"

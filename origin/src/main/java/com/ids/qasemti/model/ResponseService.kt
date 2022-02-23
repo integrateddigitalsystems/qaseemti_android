@@ -3,6 +3,7 @@ package com.ids.qasemti.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.PaymentData
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ServiceAvailableDateTime
 
 class ResponseService(
 
@@ -90,7 +91,15 @@ class ResponseService(
 
     @SerializedName("available_payment_methods")
     @Expose
-    var availablePaymentMethods : ArrayList<PaymentData> = arrayListOf()
+    var availablePaymentMethods : ArrayList<PaymentData> = arrayListOf() ,
+
+    @SerializedName("available_date_time")
+    @Expose
+    var availableDates : ArrayList<ServiceAvailableDateTime> = arrayListOf(),
+
+    @SerializedName("service_reason")
+    @Expose
+    var serviceReasons : ArrayList<RequiredFiles> = arrayListOf()
 
 
 

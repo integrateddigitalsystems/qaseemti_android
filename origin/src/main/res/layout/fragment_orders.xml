@@ -39,7 +39,7 @@
         android:layout_marginEnd="@dimen/margin_start_new"
         android:padding="@dimen/small_margin"
         android:id="@+id/linearTabs"
-        android:weightSum="4"
+        android:weightSum="3"
         android:layout_marginTop="@dimen/first_margin"
         android:background="@drawable/normal_white_background"
         android:layout_width="match_parent"
@@ -60,20 +60,21 @@
             android:layout_weight="1"
             android:tag="Active"
             android:text="@string/status_active"/>
-        <com.ids.qasemti.custom.CustomTextViewMedium
+        <!--<com.ids.qasemti.custom.CustomTextViewMedium
             android:textColor="@color/primary"
             android:layout_marginStart="@dimen/small_margin"
             android:id="@+id/tvUpcoming"
             android:tag="upcoming"
             android:maxLines="1"
             android:padding="@dimen/mini_margin"
+            android:visibility="gone"
             android:layout_marginEnd="@dimen/small_margin"
             android:gravity="center"
             android:textSize="@dimen/normal_font"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/status_upcoming"/>
+            android:text="@string/status_upcoming"/>-->
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:layout_marginStart="@dimen/mini_margin"
             android:layout_marginEnd="@dimen/mini_margin"

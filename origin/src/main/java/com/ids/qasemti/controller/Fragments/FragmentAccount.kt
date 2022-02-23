@@ -146,6 +146,8 @@ class FragmentAccount : Fragment(), RVOnItemClickListener {
             )
         }
         btLogoutAccount.onOneClick {
+            MyApplication.doneOrders.clear()
+            AppHelper.toGSOnDOne(MyApplication.doneOrders)
             (requireActivity() as ActivityHome?)!!.showLogoutDialog(requireActivity())
         }
 

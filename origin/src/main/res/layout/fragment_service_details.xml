@@ -157,12 +157,11 @@
                             android:background="@drawable/rounded_white_background">
 
                             <Spinner
-                                android:layout_toStartOf="@id/ivSpinnerTypeArrow"
                                 android:id="@+id/spServiceType"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/transparent"
-                                />
+                                android:layout_toStartOf="@id/ivSpinnerTypeArrow"
+                                android:background="@color/transparent" />
 
                             <ImageView
                                 android:id="@+id/ivSpinnerTypeArrow"

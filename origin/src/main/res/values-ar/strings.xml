@@ -338,5 +338,8 @@
     <string name="sp_rate">تقييم المزود</string>
     <string name="client_rate">تقييم العميل</string>
     <string name="location_updates_disabled">لن يتم ارسال تغير موقعك الى العميل لأنك منعت تحديثات الموقع</string>
+    <string name="service_pending">تم اضافة طلبك في انتظار مزود خدمة</string>
+    <string name="service_reason">سبب الخدمة</string>
+    <string name="other">غير...</string>
 
 </resources>

@@ -25,13 +25,19 @@ import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.Activities.ActivityOrderDetails
 import com.ids.qasemti.controller.Activities.ActivitySplash
 import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.OrderDone
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.RequestOrderIdNotify
 import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponseDistance
 import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
+import com.ids.qasemti.model.ResponseMessage
 import com.ids.qasemti.model.ResponseOrders
 import kotlinx.android.synthetic.main.activity_code_verification.*
 import kotlinx.android.synthetic.main.footer.*
+import kotlinx.android.synthetic.main.loading.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
@@ -45,6 +51,7 @@ class LocationForeService : Service() , ApiListener{
     private var serviceRunningInForeground = false
     var locationListenerGps : LocationListener ?=null
     var docLat : LatLng ?=null
+    var doneONce = false
     var indx = 0
     var mLocationManager : LocationManager ?=null
     var doc: DocumentReference? = null
@@ -287,6 +294,31 @@ class LocationForeService : Service() , ApiListener{
 
 
 
+    fun notifyClose(orderId :  Int ){
+        var req = RequestOrderIdNotify(orderId)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.notifyOrderArrived(req)?.enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                    if(response.body()!!.result == 1 ){
+                        doneONce = true
+                        logw("LOGDIST","less 50" )
+                        MyApplication.doneOrders.get(indx).done=true
+                        AppHelper.toGSOnDOne(MyApplication.doneOrders)
+                        var x = MyApplication.listDoneOrders
+                    }else{
+                        logw("NOTF","error")
+                    }
+
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    logw("NOTF","error")
+                }
+            })
+    }
 
 
     fun setUpLocations() {
@@ -329,6 +361,7 @@ class LocationForeService : Service() , ApiListener{
                     firstLocation = location
                 var ct = 0
                 for(doc in MyApplication.documents) {
+                    doneONce = false
                     try {
                         doc!!.update("order_laltitude", location.latitude.toString())
                         doc!!.update("order_longitude", location.longitude.toString())
@@ -339,7 +372,7 @@ class LocationForeService : Service() , ApiListener{
                     try {
                         var update = LatLng(location.latitude, location.longitude)
                         var dest = MyApplication.listDestination.get(ct)
-                        if (MyApplication.doneOrders.size < ct + 1) {
+                        if (MyApplication.doneOrders.find { it.orderId == MyApplication.listOrderTrack.get(ct) }==null) {
                             MyApplication.doneOrders.add(
                                 OrderDone(
                                     false,
@@ -473,7 +506,8 @@ class LocationForeService : Service() , ApiListener{
             MyApplication.db!!.collection("table_order")
                 .document(orderId).delete()
             MyApplication.listOrderTrack.removeAt(MyApplication.selectedOrderRemoveIndex!!)
-            MyApplication.doneOrders.removeAt(MyApplication.selectedOrderRemoveIndex!!)
+            var toRemove = MyApplication.doneOrders!!.find { it.orderId == orderId }
+            MyApplication.doneOrders.remove(toRemove)
             AppHelper.toGSOnDOne(MyApplication.doneOrders)
 
 
@@ -644,12 +678,10 @@ class LocationForeService : Service() , ApiListener{
                     var dist = response as ResponseDistance
                     var element = dist.rows.get(0).elements.get(0)
                     if(element.status.equals("OK")){
-                        if(element.distance.value!!.toDouble() <= MyApplication.notifyDistance!!.toDouble()){
+                        if(element.distance.value!!.toDouble() <= MyApplication.notifyDistance!!.toDouble() && !doneONce){
                             //API
-                            logw("LOGDIST","less 50" )
-                            MyApplication.doneOrders.get(indx).done=true
-                            AppHelper.toGSOnDOne(MyApplication.doneOrders)
-                            var x = MyApplication.listDoneOrders
+                                notifyClose(MyApplication.doneOrders.get(indx).orderId!!.toInt())
+
                         }
                     }
                 }else{

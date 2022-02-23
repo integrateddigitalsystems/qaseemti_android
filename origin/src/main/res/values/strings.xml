@@ -340,6 +340,9 @@
     <string name="sp_rate">SP Rate</string>
     <string name="client_rate">Client Rate</string>
     <string name="location_updates_disabled">Orders flagged on track will not send updates to client because you disabled location updates</string>
+    <string name="service_pending">Your service has been added and is now pending SP approval</string>
+    <string name="service_reason">Service Reason</string>
+    <string name="other">Other...</string>
 
 
 </resources>

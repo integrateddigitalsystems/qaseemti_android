@@ -505,6 +505,15 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
         }
 
+        if(!MyApplication.selectedOrder!!.vendor!!.profilePic!!.isNullOrEmpty()) {
+            try {
+                ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.vendor!!.profilePic!!)
+                ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
+                llProfileOrder.setPadding(0,0,0,0)
+            } catch (ex: Exception) {
+
+            }
+        }
         try {
             if (MyApplication.isClient) {
                 if (typeSelected.equals(AppConstants.ORDER_TYPE_COMPLETED)) {

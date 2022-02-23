@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.fragment.app.FragmentManager
@@ -38,9 +39,16 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import com.google.android.material.datepicker.MaterialDatePicker.Builder.datePicker
+import com.ids.qasemti.controller.Adapters.AdapterGeneralSpinner
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.RequestOrderPayment
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ServiceAvailableDateTime
 import com.ids.qasemti.controller.Base.AppCompactBase
+import com.ids.sampleapp.model.ItemSpinner
+import kotlinx.android.synthetic.main.fragment_checkout.tvPrice
+import kotlinx.android.synthetic.main.fragment_service_details.*
 import java.time.LocalDate
 import java.time.Month
+import kotlin.collections.ArrayList
 
 
 class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
@@ -48,6 +56,8 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,co
     var open = true
     var REQUEST_LOCATION = 5
     var stamp: Long? = 0
+    var editer : String ?=""
+    var reasonId : Int ?=-1
     var sendFormat: String = "yyyy-MM-dd"
     var viewFormat: String = "dd/MM/yyyy"
     var timeFormat : String = "hh:mm"
@@ -159,27 +169,80 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,co
 
     }
 
+    fun limitDatePicker(datePicker: com.wdullaer.materialdatetimepicker.date.DatePickerDialog,daysOfWeek : ArrayList<Int>){
+        var loopdate: Calendar = Calendar.getInstance()
+        var min_date_c = Calendar.getInstance()
+        var max_date_c = Calendar.getInstance()
+        max_date_c.add(Calendar.YEAR,100)
+        var tr = loopdate.before(max_date_c)
+        while (loopdate.before(max_date_c)) {
+            val dayOfWeek = loopdate[Calendar.DAY_OF_WEEK]
+            if (!daysOfWeek.contains(dayOfWeek)) {
+                val disabledDays = arrayOfNulls<Calendar>(1)
+                disabledDays[0] = loopdate
+                datePicker.setDisabledDays(disabledDays)
+            }
+            min_date_c.add(Calendar.DATE, 1)
+            loopdate = min_date_c
+        }
+    }
+
+    fun dateTimetoDays(array : ArrayList<ServiceAvailableDateTime>):ArrayList<Int>{
+        var arrayInt : ArrayList<Int> = arrayListOf()
+        for(item in array){
+            if(item.day!!.equals("Monday",true)){
+                arrayInt.add(Calendar.MONDAY)
+            }else if(item!!.day!!.equals("Tuesday",true)){
+                arrayInt.add(Calendar.TUESDAY)
+            }else if(item!!.day!!.equals("Wednesday",true)){
+                arrayInt.add(Calendar.WEDNESDAY)
+            }else if(item!!.day!!.equals("Thursday",true)){
+                arrayInt.add(Calendar.THURSDAY)
+            }else if(item!!.day!!.equals("Friday",true)){
+                arrayInt.add(Calendar.FRIDAY)
+            }else if(item!!.day!!.equals("Saturday",true)){
+                arrayInt.add(Calendar.SATURDAY)
+            }else if(item!!.day!!.equals("Sunday",true)){
+                arrayInt.add(Calendar.SUNDAY)
+            }
+        }
+
+        return arrayInt
+    }
     fun setListeners() {
         setUpCurr()
-        btPICKER.setOnClickListener {
+      /*  btPICKER.setOnClickListener {
             val datePicker =
                 com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
 
+            datePicker.setAccentColor(AppHelper.getColor(this,R.color.primary))
+
+            var arr : ArrayList<ServiceAvailableDateTime> = arrayListOf()
+
+            arr.add(ServiceAvailableDateTime("MondAy", arrayListOf()))
+            arr.add(ServiceAvailableDateTime("FrIdaY", arrayListOf()))
+
+            var intArray = dateTimetoDays(arr)
+            limitDatePicker(datePicker,intArray)
+
+
+            datePicker.minDate = Calendar.getInstance()
+            var x = datePicker.disabledDays
             datePicker.onDateSetListener= this
 
-           datePicker.setOnDismissListener {
-               var x = 9
+          *//* datePicker.setOnDismissListener {
+
            }
 
             datePicker.registerOnDateChangedListener {
-                var x = 1
+
             }
             datePicker.unregisterOnDateChangedListener {
-                var x = 1
-            }
 
+            }
+*//*
             datePicker.show(supportFragmentManager!!,"")
-        }
+        }*/
         btPlaceOrder.onOneClick {
             if (locationSelected) {
                 if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find {
@@ -255,41 +318,62 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,co
             AppHelper.setTextColor(this, etFromDate, R.color.gray_font)
             AppHelper.setTextColor(this, etFromTime, R.color.gray_font)
             rlFromDate.onOneClick {
-                var mcurrentDate = sendFormatter.parse(selectedFrom)
-                var mYear = 0
-                var mMonth = 0
-                var mDay = 0
-                var calTime = Calendar.getInstance()
-                var cal = Calendar.getInstance()
-                cal.time = mcurrentDate
-                mYear = cal[Calendar.YEAR]
-                mMonth = cal[Calendar.MONTH]
-                mDay = cal[Calendar.DAY_OF_MONTH]
+                if(MyApplication.selectedService!!.availableDates!=null && MyApplication.selectedService!!.availableDates.size > 0){
+                    val datePicker =
+                        com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
 
-                val mDatePicker = DatePickerDialog(
-                    this,
-                    DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
-                        val myCalendar = Calendar.getInstance()
-                        myCalendar[Calendar.YEAR] = selectedyear
-                        myCalendar[Calendar.MONTH] = selectedmonth
-                        myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                        pickedDate = myCalendar.time
-                        var date = sendFormatter.format(myCalendar.time)
-                        var dateShow = viewFormatter.format(myCalendar.time)
-                        etFromDate.text = date.toEditable()
-                        if (compareDates() == 1) {
-                            selectedTo = date
-                            etToDate.text = dateShow.toEditable()
-                        }
-                        var x = selectedDate
-                        var time = selectedDate!!.split(" ").get(1)
-                        selectedDate = etFromDate.text.toString() + " " + time
-                        selectedFrom = date
-                        etFromDate.text = dateShow.toEditable()
-                    }, mYear, mMonth, mDay
-                )
-                mDatePicker.datePicker.minDate = calTime.time.time
-                mDatePicker.show()
+                    datePicker.setAccentColor(AppHelper.getColor(this,R.color.primary))
+
+
+
+
+                    var intArray = dateTimetoDays(MyApplication.selectedService!!.availableDates)
+                    limitDatePicker(datePicker,intArray)
+
+
+                    datePicker.minDate = Calendar.getInstance()
+                    var x = datePicker.disabledDays
+                    datePicker.onDateSetListener= this
+                    editer = "from"
+
+                    datePicker.show(supportFragmentManager!!,"")
+                }else {
+                    var mcurrentDate = sendFormatter.parse(selectedFrom)
+                    var mYear = 0
+                    var mMonth = 0
+                    var mDay = 0
+                    var calTime = Calendar.getInstance()
+                    var cal = Calendar.getInstance()
+                    cal.time = mcurrentDate
+                    mYear = cal[Calendar.YEAR]
+                    mMonth = cal[Calendar.MONTH]
+                    mDay = cal[Calendar.DAY_OF_MONTH]
+
+                    val mDatePicker = DatePickerDialog(
+                        this,
+                        DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
+                            val myCalendar = Calendar.getInstance()
+                            myCalendar[Calendar.YEAR] = selectedyear
+                            myCalendar[Calendar.MONTH] = selectedmonth
+                            myCalendar[Calendar.DAY_OF_MONTH] = selectedday
+                            pickedDate = myCalendar.time
+                            var date = sendFormatter.format(myCalendar.time)
+                            var dateShow = viewFormatter.format(myCalendar.time)
+                            etFromDate.text = date.toEditable()
+                            if (compareDates() == 1) {
+                                selectedTo = date
+                                etToDate.text = dateShow.toEditable()
+                            }
+                            var x = selectedDate
+                            var time = selectedDate!!.split(" ").get(1)
+                            selectedDate = etFromDate.text.toString() + " " + time
+                            selectedFrom = date
+                            etFromDate.text = dateShow.toEditable()
+                        }, mYear, mMonth, mDay
+                    )
+                    mDatePicker.datePicker.minDate = calTime.time.time
+                    mDatePicker.show()
+                }
             }
             rlFromTime.onOneClick {
                 // TODO Auto-generated method stub
@@ -347,34 +431,56 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,co
             timePickerDialog.show()
         }
         rlToDate.onOneClick {
-            var mYear = 0
-            var mMonth = 0
-            var mDay = 0
-            var mcurrentDate: Date? = null
-            var cal = Calendar.getInstance()
-            if (!etToDate.text.isNullOrEmpty()) {
-                mcurrentDate = sendFormatter.parse(selectedTo)
-                cal.time = mcurrentDate
-            }
-            mYear = cal[Calendar.YEAR]
-            mMonth = cal[Calendar.MONTH]
-            mDay = cal[Calendar.DAY_OF_MONTH]
+             if(MyApplication.selectedService!!.availableDates!=null && MyApplication.selectedService!!.availableDates.size > 0){
+                    val datePicker =
+                        com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
 
-            // mcurrentDate.set(mYear, mMonth, mDay)
-            val mDatePicker = DatePickerDialog(
-                this,
-                DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
-                    val myCalendar = Calendar.getInstance()
-                    myCalendar[Calendar.YEAR] = selectedyear
-                    myCalendar[Calendar.MONTH] = selectedmonth
-                    myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                    var date = sendFormatter.format(myCalendar.time)
-                    selectedTo = date
-                    etToDate.text = viewFormatter.format(myCalendar.time).toEditable()
-                }, mYear, mMonth, mDay
-            )
-            mDatePicker.datePicker.minDate = pickedDate!!.time
-            mDatePicker.show()
+                    datePicker.setAccentColor(AppHelper.getColor(this,R.color.primary))
+
+
+
+                    var intArray = dateTimetoDays(MyApplication.selectedService!!.availableDates)
+                    limitDatePicker(datePicker,intArray)
+
+
+                 var cal = Calendar.getInstance()
+                 cal.time = pickedDate
+                    datePicker.minDate = cal
+                    var x = datePicker.disabledDays
+                    datePicker.onDateSetListener= this
+                    editer = "to"
+
+                    datePicker.show(supportFragmentManager!!,"")
+                }else {
+                 var mYear = 0
+                 var mMonth = 0
+                 var mDay = 0
+                 var mcurrentDate: Date? = null
+                 var cal = Calendar.getInstance()
+                 if (!etToDate.text.isNullOrEmpty()) {
+                     mcurrentDate = sendFormatter.parse(selectedTo)
+                     cal.time = mcurrentDate
+                 }
+                 mYear = cal[Calendar.YEAR]
+                 mMonth = cal[Calendar.MONTH]
+                 mDay = cal[Calendar.DAY_OF_MONTH]
+
+                 // mcurrentDate.set(mYear, mMonth, mDay)
+                 val mDatePicker = DatePickerDialog(
+                     this,
+                     DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
+                         val myCalendar = Calendar.getInstance()
+                         myCalendar[Calendar.YEAR] = selectedyear
+                         myCalendar[Calendar.MONTH] = selectedmonth
+                         myCalendar[Calendar.DAY_OF_MONTH] = selectedday
+                         var date = sendFormatter.format(myCalendar.time)
+                         selectedTo = date
+                         etToDate.text = viewFormatter.format(myCalendar.time).toEditable()
+                     }, mYear, mMonth, mDay
+                 )
+                 mDatePicker.datePicker.minDate = pickedDate!!.time
+                 mDatePicker.show()
+             }
         }
 
         llAddresses.onOneClick {
@@ -465,14 +571,52 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,co
         setOrderSummary()
         setListeners()
         setPaymentMethods()
+        setSpinnerData()
 
     }
 
+    fun setSpinnerData(){
+        var arraySpinnerTypes : ArrayList<ItemSpinner> = arrayListOf()
+        for(item in MyApplication.selectedService!!.serviceReasons){
+         if(MyApplication.languageCode == AppConstants.LANG_ENGLISH){
+             arraySpinnerTypes.add(ItemSpinner(item.id!!.toInt(),item.metaValueEn!!,""))
+         }else{
+             arraySpinnerTypes.add(ItemSpinner(item.id!!.toInt(),item.metaValueAr!!,""))
+         }
+        }
+        arraySpinnerTypes.add(ItemSpinner(-1,AppHelper.getRemoteString("other",this),""))
+        val adapterTypes = AdapterGeneralSpinner(this, R.layout.spinner_layout, arraySpinnerTypes,0)
+        spServiceReason.adapter = adapterTypes
+        adapterTypes.setDropDownViewResource(R.layout.item_spinner_drop_down)
+        spServiceReason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+
+                if(arraySpinnerTypes.get(position).id == -1 ){
+                    llServiceReason.show()
+                }else{
+                    llServiceReason.hide()
+                    reasonId = arraySpinnerTypes.get(position).id
+
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+        }
+
+    }
+
+
     private fun setPaymentMethods() {
+        MyApplication.selectedService!!.availablePaymentMethods.get(0).selected = true
+        selectedPaymentId = MyApplication.selectedService!!.availablePaymentMethods.get(0).id!!.toInt()
         adapterPaymentMethods = AdapterCheckoutPayment(MyApplication.selectedService!!.availablePaymentMethods!!, this, this)
         rvPaymentMethodCheckout.layoutManager = GridLayoutManager(this, 1)
         rvPaymentMethodCheckout.adapter = adapterPaymentMethods
         rvPaymentMethodCheckout.isNestedScrollingEnabled = false
+
     }
     fun init() {
         setTintLogo(R.color.primary)
@@ -986,7 +1130,37 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,co
 
     }
 
+
+    fun updatePayment(orderid : Int , paymentId : Int ){
+        loading.show()
+        var req = RequestOrderPayment(orderid,paymentId)
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.updateCheckoutPayment(req)?.enqueue(object :
+                Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                   try{
+                       if(response.body()!!.result==1){
+                           nextStep()
+                       }else{
+                           loading.hide()
+                       }
+
+                   }catch (ex:Exception){
+
+                   }
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
+
     fun nextStep() {
+        toast(AppHelper.getRemoteString("service_pending",this))
         finishAffinity()
         MyApplication.selectedPos = 1
         MyApplication.fromOrderPlaced = true
@@ -1018,7 +1192,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,co
                         loading.hide()
                         if (!response.body()!!.result.equals("0")) {
                             if (response.body()!!.action == AppConstants.PLACE_ORDER_AVAILABLE_IN) {
-                                nextStep()
+                                updatePayment(response.body()!!.orderId!!.toInt(),selectedPaymentId!!)
                                 /*startActivity(
                                     Intent(
                                         this@ActivityCheckout,
@@ -1135,7 +1309,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,co
                     try {
                         loading.hide()
                         if (response.body()!!.number_of_sps != null && response.body()!!.number_of_sps!! > 0) {
-                            nextStep()
+                            updatePayment(orderId.toInt(),selectedPaymentId!!)
                         } else
                             startActivity(
                                 Intent(
@@ -1207,6 +1381,32 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,co
         monthOfYear: Int,
         dayOfMonth: Int
     ) {
-        var x = 2
+        if(editer == "from"){
+            val myCalendar = Calendar.getInstance()
+            myCalendar[Calendar.YEAR] = year
+            myCalendar[Calendar.MONTH] = monthOfYear
+            myCalendar[Calendar.DAY_OF_MONTH] = dayOfMonth
+            pickedDate = myCalendar.time
+            var date = sendFormatter.format(myCalendar.time)
+            var dateShow = viewFormatter.format(myCalendar.time)
+            etFromDate.text = date.toEditable()
+            if (compareDates() == 1) {
+                selectedTo = date
+                etToDate.text = dateShow.toEditable()
+            }
+            var x = selectedDate
+            var time = selectedDate!!.split(" ").get(1)
+            selectedDate = etFromDate.text.toString() + " " + time
+            selectedFrom = date
+            etFromDate.text = dateShow.toEditable()
+        }else{
+            val myCalendar = Calendar.getInstance()
+            myCalendar[Calendar.YEAR] = year
+            myCalendar[Calendar.MONTH] = monthOfYear
+            myCalendar[Calendar.DAY_OF_MONTH] = dayOfMonth
+            var date = sendFormatter.format(myCalendar.time)
+            selectedTo = date
+            etToDate.text = viewFormatter.format(myCalendar.time).toEditable()
+        }
     }
 }

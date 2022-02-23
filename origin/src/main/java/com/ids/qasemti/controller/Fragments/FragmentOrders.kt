@@ -526,8 +526,8 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                     getOrders()
                 }
             }
-            1 -> {
-                etSearchOrders.text.clear()
+           /* 1 -> {
+                *//*etSearchOrders.text.clear()
                 tvUpcoming.setBackgroundResource(R.drawable.rounded_orders)
                 llFailedTabs.hide()
                 llActiveTabs.hide()
@@ -537,9 +537,9 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                     getClientOrders()
                 }else {
                     getOrders()
-                }
-            }
-            2 -> {
+                }*//*
+            }*/
+            1 -> {
                 etSearchOrders.text.clear()
                 llFailedTabs.hide()
                 llActiveTabs.hide()
@@ -610,11 +610,13 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
     fun setTabLayout(position: Int) {
         typeSelected = position
         for (i in 0 until linearTabs.childCount) {
-            if (linearTabs.getChildAt(i) is TextView) {
-                var tv = linearTabs.getChildAt(i) as TextView
-                tv.setBackgroundResource(R.color.transparent)
-                AppHelper.setTextColor(requireContext(), tv, R.color.primary)
-            }
+
+                if (linearTabs.getChildAt(i) is TextView) {
+                    var tv = linearTabs.getChildAt(i) as TextView
+                    tv.setBackgroundResource(R.color.transparent)
+                    AppHelper.setTextColor(requireContext(), tv, R.color.primary)
+                }
+
         }
 
         setSelected(position)

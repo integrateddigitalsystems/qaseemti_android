@@ -3,9 +3,7 @@ package com.ids.qasemti.utils
 
 import com.google.android.gms.maps.model.LatLng
 import com.google.api.Billing
-import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.RequestJOrderid
-import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponeMainNotification
-import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponseDistance
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.*
 import com.ids.qasemti.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -273,6 +271,17 @@ interface RetrofitInterface {
     @POST("cl_update_payment")
     fun updatePaymentOrder(
         @Body param : RequestPaymentOrder
+    ):Call<ResponseMessage>
+
+
+    @POST("cl_update_order_payment")
+    fun updateCheckoutPayment(
+        @Body param :RequestOrderPayment
+    ):Call<ResponseMessage>
+
+    @POST("notify_order_arrived")
+    fun notifyOrderArrived(
+        @Body param: RequestOrderIdNotify
     ):Call<ResponseMessage>
 
 
