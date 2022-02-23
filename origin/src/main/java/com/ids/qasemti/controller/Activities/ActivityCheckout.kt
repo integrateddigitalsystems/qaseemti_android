@@ -43,7 +43,7 @@ import java.time.LocalDate
 import java.time.Month
 
 
-class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,DatePickerDialog.OnDateSetListener {
+class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
 
     var open = true
     var REQUEST_LOCATION = 5
@@ -165,7 +165,18 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,Da
             val datePicker =
                 com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
 
-            datePicker.disabledDays
+            datePicker.onDateSetListener= this
+
+           datePicker.setOnDismissListener {
+               var x = 9
+           }
+
+            datePicker.registerOnDateChangedListener {
+                var x = 1
+            }
+            datePicker.unregisterOnDateChangedListener {
+                var x = 1
+            }
 
             datePicker.show(supportFragmentManager!!,"")
         }
@@ -1190,7 +1201,12 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,Da
         }
     }
 
-    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-
+    override fun onDateSet(
+        view: com.wdullaer.materialdatetimepicker.date.DatePickerDialog?,
+        year: Int,
+        monthOfYear: Int,
+        dayOfMonth: Int
+    ) {
+        var x = 2
     }
 }
