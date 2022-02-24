@@ -2,5 +2,7 @@
   
     <string name="app_name" translatable="false">Qasemti</string>
     <string name="googleKey" translatable="false">AIzaSyCKeZJUtvoCxtgf5Pjm3kQy_5yScjUst5U</string>
+    <string name="facebook_app_id" translatable="false">386923966577746</string>
+
 
 </resources>

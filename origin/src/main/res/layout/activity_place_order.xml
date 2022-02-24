@@ -619,7 +619,8 @@
                         android:layout_marginTop="@dimen/big_margin"
                         android:layout_marginBottom="@dimen/first_margin"
                         android:background="@drawable/blue_rounded"
-                        android:text="@string/PlaceOrder"
+                        android:text="@string/pay"
+                        android:tag="pay"
                         android:textColor="@color/white" />
 
 

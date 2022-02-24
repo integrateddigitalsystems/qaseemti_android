@@ -2,6 +2,8 @@ package com.ids.qasemti.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.PaymentData
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ServiceAvailableDateTime
 
 class OrderProduct(
 
@@ -112,6 +114,18 @@ class OrderProduct(
 
     @SerializedName("types_id")
     @Expose
-    var typesId: String? = ""
+    var typesId: String? = "",
+
+    @SerializedName("featured_image")
+    @Expose
+    var featuredImage : String ?="",
+
+    @SerializedName("available_date_time")
+    @Expose
+    var availableDates : ArrayList<ServiceAvailableDateTime> = arrayListOf(),
+
+    @SerializedName("available_payment_methods")
+    @Expose
+    var availablePaymentMethods : ArrayList<PaymentData> = arrayListOf(),
 ) {
 }

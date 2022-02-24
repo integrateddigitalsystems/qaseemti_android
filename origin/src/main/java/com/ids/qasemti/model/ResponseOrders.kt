@@ -302,7 +302,11 @@ class ResponseOrders(
     @Expose
     var shippingAvenu : String ?="",
 
-    var done : Boolean = false
+    var done : Boolean = false,
+
+    @SerializedName("service_reason_id")
+    @Expose
+    var reasonId : String ?=""
 
 
 

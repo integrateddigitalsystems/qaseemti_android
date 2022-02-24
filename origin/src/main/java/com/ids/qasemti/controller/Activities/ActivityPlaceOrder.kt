@@ -732,6 +732,11 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
 
     private fun setPaymentMethods() {
+        for(item in arrayPaymentMethods){
+            if(!item.slug.equals("KNET",true))
+                arrayPaymentMethods.remove(item)
+        }
+        arrayPaymentMethods.get(0).selected = true
         adapterPaymentMethods = AdapterPaymentMethods(arrayPaymentMethods, this, this)
         rvPaymentMethod.layoutManager = GridLayoutManager(this, 1)
         rvPaymentMethod.adapter = adapterPaymentMethods

@@ -4,13 +4,11 @@ import android.Manifest
 import android.app.*
 import android.content.*
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
-import android.os.Bundle
-import android.os.Handler
-import android.os.IBinder
-import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.View
@@ -22,6 +20,11 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.facebook.FacebookSdk
+import com.facebook.share.Share
+import com.facebook.share.model.ShareMediaContent
+import com.facebook.share.model.SharePhoto
+import com.facebook.share.widget.ShareDialog
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import com.ids.qasemti.R
@@ -51,10 +54,24 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.URL
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import com.facebook.share.model.ShareLinkContent
+import com.facebook.share.model.ShareMedia
+import com.facebook.share.model.SharePhotoContent
+import com.facebook.share.model.ShareContent
+
+import android.R.attr.bitmap
+import android.os.*
+import android.provider.MediaStore
+import androidx.core.content.FileProvider
+import com.google.android.youtube.player.internal.c
+import com.ids.qasemti.BuildConfig
+import java.io.*
+import java.net.HttpURLConnection
 
 
 class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListener {
@@ -176,8 +193,101 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
         //  startServicing()
         init()
+        shareFacebook()
     }
 
+    private fun getUriImageFromBitmap(bmp: Bitmap?, context: Context): Uri? {
+        if (bmp == null) return null
+        var bmpUri: Uri? = null
+        try {
+            val file = File(
+                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                "IMG_" + System.currentTimeMillis() + ".png"
+            )
+            val out = FileOutputStream(file)
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out)
+            out.flush()
+            out.close()
+
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            bmpUri = FileProvider.getUriForFile(
+                context,
+                BuildConfig.APPLICATION_ID.toString() + ".provider",
+                file
+            )
+            //            else
+//                bmpUri = Uri.fromFile(file);
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return bmpUri
+    }
+    fun createBitmapThread(loading:LinearLayout , url: String ,title:String ,con:Activity){
+        loading.visibility=View.VISIBLE
+        Thread {
+            val url = URL(url)
+            val connection: HttpURLConnection =
+                url.openConnection() as HttpURLConnection
+            connection.setDoInput(true)
+            connection.connect()
+            val input: InputStream = connection.getInputStream()
+            val myBitmap = BitmapFactory.decodeStream(input)
+
+
+            con.runOnUiThread {
+                var  bmp = myBitmap
+                val uri: Uri = getUriImageFromBitmap(myBitmap, con)!!
+
+                val shareIntent = Intent(Intent.ACTION_SEND)
+
+                shareIntent.putExtra(
+                    Intent.EXTRA_TEXT,
+                    title
+                )
+                shareIntent.setPackage("com.instagram.android")
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+                shareIntent.type = "image/png"
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+                con.startActivity(Intent.createChooser(shareIntent, "Share image using"))
+
+
+                startActivity(shareIntent)
+                loading.visibility = View.GONE
+            }
+        }.start()
+
+    }
+
+    fun shareFacebook(){
+
+        if(MyApplication.isClient){
+            llShareSocial.show()
+        }else{
+            llShareSocial.hide()
+        }
+
+        btShareInsta.setOnClickListener {
+           createBitmapThread(loading,MyApplication.selectedOrder!!.product!!.featuredImage!!,"Hello there",this)
+        }
+
+
+        btShareFB.setOnClickListener {
+
+            var image: Bitmap? = null
+            var shareDialog = ShareDialog(this)
+            val content = ShareLinkContent.Builder()
+                .setQuote(MyApplication.selectedOrder!!.product!!.name + "\n" + MyApplication.selectedOrder!!.product!!.desc)
+                .setContentUrl(Uri.parse(MyApplication.selectedOrder!!.product!!.featuredImage))
+                .build()
+
+            shareDialog.show(content)
+        }
+
+
+
+
+    }
     fun startServicing() {
         var enabled = MyApplication.saveLocationTracking
 
@@ -505,9 +615,17 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
         }
 
-        if(!MyApplication.selectedOrder!!.vendor!!.profilePic!!.isNullOrEmpty()) {
+        if(MyApplication.isClient && !MyApplication.selectedOrder!!.vendor!!.profilePic!!.isNullOrEmpty()) {
             try {
                 ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.vendor!!.profilePic!!)
+                ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
+                llProfileOrder.setPadding(0,0,0,0)
+            } catch (ex: Exception) {
+
+            }
+        }else  if(!MyApplication.isClient && !MyApplication.selectedOrder!!.customer!!.profile_pic_url!!.isNullOrEmpty()){
+            try {
+                ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.customer!!.profile_pic_url!!)
                 ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
                 llProfileOrder.setPadding(0,0,0,0)
             } catch (ex: Exception) {
@@ -520,7 +638,9 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     llRatingOrder.show()
                     if (MyApplication.isClient && MyApplication.selectedOrder!!.type!!.lowercase() == "rental") {
                         btRenewOrder.show()
-                    } else {
+                        btRepeatOrder.hide()
+                    } else{
+                        btRepeatOrder.show()
                         btRenewOrder.hide()
                     }
                 }
@@ -956,6 +1076,17 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             intent.data =
                 Uri.parse("geo:0,0?q=" + MyApplication.selectedOrder!!.shipping_latitude!! + "," + MyApplication.selectedOrder!!.shipping_longitude!! + "(" + MyApplication.selectedOrder!!.addressname + ")")
             startActivity(intent)
+        }
+
+        btRepeatOrder.onOneClick {
+            MyApplication.repeating =true
+
+            startActivity(
+                Intent(
+                    this,
+                    ActivityCheckout::class.java
+                )
+            )
         }
         btRenewOrder.onOneClick {
 

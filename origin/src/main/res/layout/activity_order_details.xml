@@ -36,54 +36,92 @@
 
     <ScrollView
         android:id="@+id/svScroll"
-        android:layout_below="@id/llContactOrder"
-        android:layout_above="@id/llCancelOrder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_above="@id/llCancelOrder"
+        android:layout_below="@id/llContactOrder">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
-                android:layout_marginStart="@dimen/margin_start_end"
-                android:layout_marginEnd="@dimen/margin_start_end"
                 android:id="@+id/llBorderData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end">
 
                 <include layout="@layout/layout_border_data" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginStart="@dimen/card_new_margin"
-                android:layout_marginEnd="@dimen/card_new_margin"
                 android:id="@+id/llRequestNewTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/llBorderData">
+                android:layout_below="@id/llBorderData"
+                android:layout_marginStart="@dimen/card_new_margin"
+                android:layout_marginEnd="@dimen/card_new_margin">
 
                 <include layout="@layout/layout_request_new_time" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="-18dp"
-                android:layout_marginStart="@dimen/card_new_margin"
-                android:layout_marginEnd="@dimen/card_new_margin"
                 android:id="@+id/llOrderInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/llRequestNewTime">
+                android:layout_below="@id/llRequestNewTime"
+                android:layout_marginStart="@dimen/card_new_margin"
+                android:layout_marginTop="-18dp"
+                android:layout_marginEnd="@dimen/card_new_margin">
 
                 <include layout="@layout/layout_order_information" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llShareSocial"
+                android:layout_width="match_parent"
                 android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/llOrderSwitches"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/btShareFB"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_alignLeft="@id/btShareInsta"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:src="@drawable/icon_fb"
+                    android:visibility="visible"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/btShareInsta"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_below="@id/llOrderInfo"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/icon_insta"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
                 android:id="@+id/llOrderSwitches"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/llOrderInfo"
-                android:layout_marginBottom="@dimen/medium_margin">
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:visibility="gone">
 
                 <include layout="@layout/layout_order_switch" />
             </LinearLayout>
@@ -116,19 +154,32 @@
             </RelativeLayout>
 
             <Button
-                android:layout_below="@+id/llOrderSwitches"
                 android:id="@+id/btRenewOrder"
-                android:layout_marginTop="@dimen/normal_margin"
-                android:layout_marginStart="@dimen/margin_start_end"
-                android:layout_marginEnd="@dimen/margin_start_end"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                android:text="@string/renew_order"
-                android:tag="renew_order"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
+                android:layout_below="@+id/llOrderSwitches"
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginEnd="@dimen/margin_start_end"
                 android:background="@drawable/rounded_blue"
-                />
+                android:tag="renew_order"
+                android:text="@string/renew_order"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btRepeatOrder"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_below="@+id/llOrderSwitches"
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:background="@drawable/rounded_blue"
+                android:tag="RepeatOrder"
+                android:text="@string/RepeatOrder"
+                android:textColor="@color/white"
+                android:visibility="gone" />
 
         </RelativeLayout>
 

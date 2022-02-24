@@ -128,6 +128,19 @@ class RequestPlaceOrder {
     @Expose
     var language : String ?=""
 
+    @SerializedName("service_reason")
+    @Expose
+    var reason : Int ?=0
+
+    @SerializedName("time_slot_from")
+    @Expose
+    var timeSlotfrom : String ?=""
+
+    @SerializedName("time_slot_to")
+    @Expose
+    var timeSlotTo : String ?=""
+
+
     constructor(){
 
     }
@@ -153,7 +166,8 @@ class RequestPlaceOrder {
         apartment : String ?,
         block :String ?,
         province : String ?,
-        lang : String ?
+        lang : String ? ,
+        reason : Int ?
 
     ) {
         this.userId = userId
@@ -176,7 +190,62 @@ class RequestPlaceOrder {
         this.province = province
         this.area = area
         this.language = lang
+        this.reason = reason
     }
+
+
+    constructor(
+        userId: Int?,
+        productCategory: Int?,
+        productId: Int?,
+        types: Int?,
+        sizeCapacity: Int?,
+        deliveryDate: String?,
+        addressName: String?,
+        latitude: String?,
+        longitude: String?,
+        street: String?,
+        building: String?,
+        floor: String?,
+        addressDescription: String?,
+        title : String ?,
+        address_id:Int ,
+        avenue : String ?,
+        area : String ?,
+        apartment : String ?,
+        block :String ?,
+        province : String ?,
+        lang : String ? ,
+        reason : Int ? ,
+        timeSlotFrom : String ,
+        timeSlotTo : String
+
+    ) {
+        this.userId = userId
+        this.productCategory = productCategory
+        this.productId = productId
+        this.types = types
+        this.sizeCapacity = sizeCapacity
+        this.deliveryDate = deliveryDate
+        this.addressName = addressName
+        this.latitude = latitude
+        this.longitude = longitude
+        this.street = street
+        this.building = building
+        this.floor = floor
+        this.addressDescription = addressDescription
+        this.address_id=address_id
+        this.avenu = avenue
+        this.apartment = apartment
+        this.block = block
+        this.province = province
+        this.area = area
+        this.language = lang
+        this.reason = reason
+        this.timeSlotfrom = timeSlotfrom
+        this.timeSlotTo = timeSlotTo
+    }
+
 
 
     constructor(
@@ -242,7 +311,6 @@ class RequestPlaceOrder {
         this.language = lang
     }
 
-
     constructor(
         userId: Int?,
         productCategory: Int?,
@@ -260,7 +328,10 @@ class RequestPlaceOrder {
         address_id:Int ,
         dateFrom : String ?,
         dateTo : String ? ,
-        lang : String ?
+        lang : String ? ,
+        reason : Int ? ,
+        slotFrom : String ?,
+        slotTo : String ?
     ) {
         this.userId = userId
         this.productCategory = productCategory
@@ -287,5 +358,56 @@ class RequestPlaceOrder {
         this.dateFrom = dateFrom
         this.dateTo = dateTo
         this.language = lang
+        this.reason = reason
+        this.timeSlotTo = slotTo
+        this.timeSlotfrom = slotFrom
+    }
+
+    constructor(
+        userId: Int?,
+        productCategory: Int?,
+        productId: Int?,
+        types: Int?,
+        sizeCapacity: Int?,
+        deliveryDate: String?,
+        addressName: String?,
+        latitude: String?,
+        longitude: String?,
+        street: String?,
+        building: String?,
+        floor: String?,
+        addressDescription: String?,
+        address_id:Int ,
+        dateFrom : String ?,
+        dateTo : String ? ,
+        lang : String ? ,
+        reason : Int ?
+    ) {
+        this.userId = userId
+        this.productCategory = productCategory
+        this.productId = productId
+        this.types = types
+        this.sizeCapacity = sizeCapacity
+        this.deliveryDate = deliveryDate
+        this.addressName = addressName
+        this.latitude = latitude
+        this.longitude = longitude
+        this.street = street
+        this.building = building
+        this.floor = floor
+        this.addressDescription = addressDescription
+        this.firstName = firstName
+        this.lastName = lastName
+        this.company = company
+        this.email = email
+        this.phone = phone
+        this.title = title
+        this.price = price
+        this.address_id=address_id
+        this.coupon=coupon
+        this.dateFrom = dateFrom
+        this.dateTo = dateTo
+        this.language = lang
+        this.reason = reason
     }
 }

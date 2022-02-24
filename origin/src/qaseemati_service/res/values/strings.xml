@@ -2,5 +2,6 @@
   
     <string name="app_name" translatable="false">Qasemti Manager</string>
     <string name="googleKey" translatable="false">AIzaSyBVgvRigY3u7eBeIiUwccNvJ0EGa6jH0jQ</string>
+    <string name="facebook_app_id" translatable="false">386923966577746</string>
    
 </resources>

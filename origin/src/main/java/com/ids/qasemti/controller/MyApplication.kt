@@ -43,6 +43,7 @@ class MyApplication : Application() {
         internal lateinit var instance: MyApplication
         var isDebug: Boolean = true
         var renewing  = false
+        var repeating = false
         var arraySelectedImage: ArrayList<FilesSelected> = arrayListOf()
         var myAddress : String ?=""
         var addNew : Boolean = true

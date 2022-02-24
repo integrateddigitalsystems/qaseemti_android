@@ -343,6 +343,8 @@
     <string name="service_pending">Your service has been added and is now pending SP approval</string>
     <string name="service_reason">Service Reason</string>
     <string name="other">Other...</string>
+    <string name="need_specific_date">You need to pick a specific date first</string>
+    <string name="pay">Pay</string>
 
 
 </resources>
