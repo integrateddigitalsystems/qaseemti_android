@@ -122,7 +122,7 @@ class OrderCustomer(
     @Expose
     var account_name : String ?="",
 
-    @SerializedName("address")
+    @SerializedName("addresses")
     @Expose
     var addresses : ArrayList<ResponseAddress> ?= arrayListOf(),
 

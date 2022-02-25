@@ -81,11 +81,10 @@
             <LinearLayout
                 android:id="@+id/llShareSocial"
                 android:layout_width="match_parent"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/llOrderSwitches"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
                 android:layout_marginEnd="@dimen/margin_start_end"
                 android:gravity="end"
                 android:orientation="horizontal">
@@ -157,7 +156,7 @@
                 android:id="@+id/btRenewOrder"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
-                android:layout_below="@+id/llOrderSwitches"
+                android:layout_below="@+id/llShareSocial"
                 android:layout_marginStart="@dimen/margin_start_end"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/margin_start_end"
@@ -168,10 +167,10 @@
                 android:visibility="gone" />
 
             <Button
+                android:layout_below="@+id/llShareSocial"
                 android:id="@+id/btRepeatOrder"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
-                android:layout_below="@+id/llOrderSwitches"
                 android:layout_marginStart="@dimen/margin_start_end"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/margin_start_end"
@@ -179,7 +178,7 @@
                 android:tag="RepeatOrder"
                 android:text="@string/RepeatOrder"
                 android:textColor="@color/white"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </RelativeLayout>
 

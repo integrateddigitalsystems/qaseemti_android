@@ -50,6 +50,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import com.google.android.gms.auth.api.phone.SmsCodeAutofillClient.PermissionState.DENIED
 import com.ids.qasemti.controller.MyApplication.Companion.allowedLocation
+import com.ids.qasemti.controller.MyApplication.Companion.listOrderTrack
 import com.ids.qasemti.controller.MyApplication.Companion.tempOrder
 import com.ids.qasemti.controller.MyApplication.Companion.tempSwitch
 import kotlinx.android.synthetic.main.layout_order_switch.*
@@ -91,7 +92,8 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                     MyApplication.selectedOrder = tempOrder!!
                     MyApplication.trackOrderId =
                         tempOrder!!.orderId!!.toInt()
-                    MyApplication.listOrderTrack.add(MyApplication.trackOrderId.toString())
+                    if(!listOrderTrack.contains(MyApplication.trackOrderId.toString()))
+                        listOrderTrack.add(MyApplication.trackOrderId.toString())
                     AppHelper.toGsonArrString()
                     if (!MyApplication.isClient)
                         (requireActivity() as ActivityHome).changeState(

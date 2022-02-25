@@ -189,6 +189,7 @@ class FragmentCart : Fragment() , RVOnItemClickListener , ApiListener {
                     type = AppConstants.TYPE_RENTAL
 
                 logw("CART_ID",array[position].orderId!!.toString())
+                var reason = if( array[position].reasonId == "0")  array[position].serviceReasonOther else  array[position].serviceReason
                 MyApplication.selectedPlaceOrder = RequestPlaceOrder(
                     MyApplication.userId,
                     array[position].typeId,//MAKESURE
@@ -207,7 +208,8 @@ class FragmentCart : Fragment() , RVOnItemClickListener , ApiListener {
                     array[position].product!!.booking_start_date,
                     array[position].product!!.booking_end_date,
                     MyApplication.languageCode,
-                    array[position].reasonId!!.toInt()
+                    array[position].reasonId!!.toInt(),
+                    reason
 
 
                 )

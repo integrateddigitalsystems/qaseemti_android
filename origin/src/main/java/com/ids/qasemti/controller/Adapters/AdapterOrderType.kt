@@ -213,7 +213,8 @@ class AdapterOrderType(
                if(!items.get(position).delivered!!) {
                    //   if (!MyApplication.saveLocationTracking!!) {
                    MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
-                   MyApplication.listOrderTrack.add(MyApplication.trackOrderId!!.toString())
+                   if(!MyApplication.listOrderTrack.contains(MyApplication.trackOrderId.toString()))
+                       MyApplication.listOrderTrack.add(MyApplication.trackOrderId!!.toString())
                    MyApplication.listDestination.add(LatLng(items.get(position).shipping_latitude!!.toDouble(),items.get(position).shipping_longitude!!.toDouble()))
                    AppHelper.toGsonArrString()
                    if (!MyApplication.isClient) {
@@ -354,7 +355,8 @@ class AdapterOrderType(
                                     MyApplication.listDestination.add(LatLng(items.get(position).shipping_latitude!!.toDouble(),items.get(position).shipping_longitude!!.toDouble()))
                                     MyApplication.trackOrderId =
                                         items.get(position).orderId!!.toInt()
-                                    MyApplication.listOrderTrack.add(MyApplication.trackOrderId.toString())
+                                    if(!MyApplication.listOrderTrack.contains(MyApplication.trackOrderId.toString()))
+                                        MyApplication.listOrderTrack.add(MyApplication.trackOrderId.toString())
                                     AppHelper.toGsonArrString()
                                     if (!MyApplication.isClient)
                                         (con as ActivityHome).changeState(

@@ -526,7 +526,8 @@ class FragmentHomeSP : Fragment(), RVOnItemClickListener {
 
         for (item in trackorders) {
             if (item.onTrack!! && !item.delivered!! && !item.paymentMethod.isNullOrEmpty()) {
-                MyApplication.listOrderTrack.add(item.orderId!!)
+                if(!MyApplication.listOrderTrack.contains(item.orderId!!))
+                    MyApplication.listOrderTrack.add(item.orderId!!)
                 MyApplication.listDestination.add(LatLng(item.shipping_latitude!!.toDouble(),item.shipping_longitude!!.toDouble()))
             }
         }

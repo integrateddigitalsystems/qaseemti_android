@@ -664,6 +664,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             mFirebaseRemoteConfig!!.getString(FIREBASE_GOVS),
             KuwaitGovs::class.java
         )
+        logw("BASED",MyApplication.BASE_URL)
         MyApplication.adTimer = mFirebaseRemoteConfig!!.getString(BANNER_TIME).toInt()
         MyApplication.kuwaitGovs.clear()
         MyApplication.kuwaitGovs.addAll(list.list)
@@ -826,7 +827,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
         if(success) {
             if (apiId == AppConstants.ORDER_BY_ID) {
 
+
                 var order = response as ResponseOrders
+                var reason = if(order.reasonId == "0") order.serviceReasonOther else order.serviceReason
                 MyApplication.selectedOrderId = order.orderId!!.toInt()
                 MyApplication.selectedPlaceOrder = RequestPlaceOrder(
                     MyApplication.userId,
@@ -846,7 +849,8 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                     order.product!!.booking_start_date,
                     order.product!!.booking_end_date,
                     MyApplication.languageCode,
-                    order.reasonId!!.toInt()
+                    order.reasonId!!.toInt() ,
+                    reason
 
 
                 )

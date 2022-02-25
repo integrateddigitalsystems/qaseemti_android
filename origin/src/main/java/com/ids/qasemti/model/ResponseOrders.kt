@@ -219,9 +219,18 @@ class ResponseOrders(
     @SerializedName("shipping_address_building")
     @Expose
     var shipping_address_building : String ?="",
+    @SerializedName("shipping_building")
+    @Expose
+    var shipping_building : String ?="",
     @SerializedName("shipping_address_description")
     @Expose
     var shipping_address_description : String ?="",
+    @SerializedName("shipping_description")
+    @Expose
+    var shipping_description : String ?="",
+    @SerializedName("shipping_id")
+    @Expose
+    var shipping_id : String ?="",
     @SerializedName("shipping_address_floor")
     @Expose
     var shipping_address_floor : String ?="",
@@ -237,6 +246,9 @@ class ResponseOrders(
     @SerializedName("shipping_street")
     @Expose
     var shipping_address_street : String ?="",
+    @SerializedName("shipping_floor")
+    @Expose
+    var shipping_floor  : String ?="",
 
 
     @SerializedName("shipping_email")
@@ -306,7 +318,15 @@ class ResponseOrders(
 
     @SerializedName("service_reason_id")
     @Expose
-    var reasonId : String ?=""
+    var reasonId : String ?="" ,
+
+    @SerializedName("service_reason_other")
+    @Expose
+    var serviceReasonOther : String ?="" ,
+
+    @SerializedName("service_reason")
+    @Expose
+    var serviceReason : String ?=""
 
 
 

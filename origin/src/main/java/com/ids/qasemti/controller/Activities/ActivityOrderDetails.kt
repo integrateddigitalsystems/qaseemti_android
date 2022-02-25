@@ -65,6 +65,7 @@ import com.facebook.share.model.SharePhotoContent
 import com.facebook.share.model.ShareContent
 
 import android.R.attr.bitmap
+import android.content.pm.ApplicationInfo
 import android.os.*
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
@@ -259,6 +260,17 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
     }
 
+    private fun verifyInstagram(): Boolean {
+        var installed = false
+        installed = try {
+            val info: ApplicationInfo =
+                packageManager.getApplicationInfo("com.instagram.android", 0)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
+        return installed
+    }
     fun shareFacebook(){
 
         if(MyApplication.isClient){
@@ -268,7 +280,10 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
 
         btShareInsta.setOnClickListener {
-           createBitmapThread(loading,MyApplication.selectedOrder!!.product!!.featuredImage!!,"Hello there",this)
+            if(verifyInstagram())
+                createBitmapThread(loading,MyApplication.selectedOrder!!.product!!.featuredImage!!,"Hello there",this)
+            else
+                AppHelper.createDialog(this,AppHelper.getRemoteString("install_instagram",this))
         }
 
 
@@ -1080,6 +1095,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
         btRepeatOrder.onOneClick {
             MyApplication.repeating =true
+            MyApplication.selectedAddress = null
 
             startActivity(
                 Intent(
@@ -1267,7 +1283,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 ) {
                     if (swOnTrack.isChecked) {
                         MyApplication.saveLocationTracking = true
-                        MyApplication.listOrderTrack.add(MyApplication.selectedOrder!!.orderId!!)
+                        if(!MyApplication.listOrderTrack!!.contains(MyApplication.selectedOrder!!.orderId.toString()))
+                            MyApplication.listOrderTrack.add(MyApplication.selectedOrder!!.orderId!!)
                         MyApplication.listDestination.add(LatLng(MyApplication.selectedOrder!!.shipping_latitude!!.toDouble(),MyApplication.selectedOrder!!.shipping_longitude!!.toDouble()))
 
                         AppHelper.toGsonArrString()

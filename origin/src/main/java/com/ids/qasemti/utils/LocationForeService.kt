@@ -380,9 +380,25 @@ class LocationForeService : Service() , ApiListener{
                                 )
                             )
                             AppHelper.toGSOnDOne(MyApplication.doneOrders)
-                        }
 
-                        if (!MyApplication.doneOrders.get(ct).done!!) {
+                            if (dest.longitude == 0.0 && dest.latitude == 0.0) {
+                                docLat = update
+                                indx = ct
+                                CallAPIs.getOrderByOrderId(
+                                    MyApplication.listOrderTrack.get(ct).toInt(),
+                                    this@LocationForeService
+                                )
+                            } else {
+                                indx = ct
+                                CallAPIs.getDistance(
+                                    update,
+                                    dest,
+                                    application,
+                                    this@LocationForeService
+                                )
+                            }
+
+                        }else if (!MyApplication.doneOrders.get(ct).done!!) {
                             logw("LOGDIST", "notDone")
                             if (dest.longitude == 0.0 && dest.latitude == 0.0) {
                                 docLat = update

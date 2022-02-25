@@ -127,5 +127,9 @@ class OrderProduct(
     @SerializedName("available_payment_methods")
     @Expose
     var availablePaymentMethods : ArrayList<PaymentData> = arrayListOf(),
+
+    @SerializedName("service_reason")
+    @Expose
+    var serviceReasons : ArrayList<RequiredFiles> = arrayListOf()
 ) {
 }

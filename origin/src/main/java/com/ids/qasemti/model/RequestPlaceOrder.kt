@@ -140,6 +140,9 @@ class RequestPlaceOrder {
     @Expose
     var timeSlotTo : String ?=""
 
+    @SerializedName("service_reason_other")
+    @Expose
+    var serviceReasonOther : String ?=""
 
     constructor(){
 
@@ -167,7 +170,8 @@ class RequestPlaceOrder {
         block :String ?,
         province : String ?,
         lang : String ? ,
-        reason : Int ?
+        reason : Int ? ,
+        reasonString : String ?
 
     ) {
         this.userId = userId
@@ -191,6 +195,7 @@ class RequestPlaceOrder {
         this.area = area
         this.language = lang
         this.reason = reason
+        this.serviceReasonOther = reasonString
     }
 
 
@@ -217,7 +222,8 @@ class RequestPlaceOrder {
         province : String ?,
         lang : String ? ,
         reason : Int ? ,
-        timeSlotFrom : String ,
+        reasonString : String ?,
+        timeSlotsFrom : String ,
         timeSlotTo : String
 
     ) {
@@ -242,7 +248,8 @@ class RequestPlaceOrder {
         this.area = area
         this.language = lang
         this.reason = reason
-        this.timeSlotfrom = timeSlotfrom
+        this.serviceReasonOther = reasonString
+        this.timeSlotfrom = timeSlotsFrom
         this.timeSlotTo = timeSlotTo
     }
 
@@ -330,6 +337,7 @@ class RequestPlaceOrder {
         dateTo : String ? ,
         lang : String ? ,
         reason : Int ? ,
+        serviceReason : String ? ,
         slotFrom : String ?,
         slotTo : String ?
     ) {
@@ -359,6 +367,7 @@ class RequestPlaceOrder {
         this.dateTo = dateTo
         this.language = lang
         this.reason = reason
+        this.serviceReasonOther = serviceReason
         this.timeSlotTo = slotTo
         this.timeSlotfrom = slotFrom
     }
@@ -381,7 +390,8 @@ class RequestPlaceOrder {
         dateFrom : String ?,
         dateTo : String ? ,
         lang : String ? ,
-        reason : Int ?
+        reason : Int ? ,
+        reasonString : String ?
     ) {
         this.userId = userId
         this.productCategory = productCategory
@@ -409,5 +419,6 @@ class RequestPlaceOrder {
         this.dateTo = dateTo
         this.language = lang
         this.reason = reason
+        this.serviceReasonOther = reasonString
     }
 }

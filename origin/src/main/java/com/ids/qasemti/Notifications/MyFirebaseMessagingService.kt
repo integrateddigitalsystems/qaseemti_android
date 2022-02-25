@@ -135,7 +135,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
             if (appAlive!!) {
                 try {
-                    MyApplication.listOrderTrack.add(id.toString())
+                    if(!MyApplication.listOrderTrack.contains(id.toString()))
+                        MyApplication.listOrderTrack.add(id.toString())
                     MyApplication.listDestination.add(LatLng(0.0,0.0))
                     MyApplication.foregroundOnlyLocationService?.subscribeToLocationUpdates()
                 } catch (ex: Exception) {
