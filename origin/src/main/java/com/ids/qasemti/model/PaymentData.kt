@@ -17,6 +17,10 @@ class PaymentData(
     @Expose
     var valueAr : String ?="" ,
 
+    @SerializedName("slug")
+    @Expose
+    var slug : String ?="" ,
+
     var selected : Boolean = false
 ) {
 }

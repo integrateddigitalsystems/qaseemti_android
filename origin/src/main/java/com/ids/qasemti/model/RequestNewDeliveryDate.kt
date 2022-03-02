@@ -13,6 +13,14 @@ class RequestNewDeliveryDate(
     @Expose
     var new_delivery_date : String ?="" ,
 
+    @SerializedName("time_slot_from")
+    @Expose
+    var timeSlotFrom : String ?="",
+
+    @SerializedName("time_slot_to")
+    @Expose
+    var timeSlotTo : String ?="" ,
+
     @SerializedName("language")
     @Expose
     var lang : String ?=""

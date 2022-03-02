@@ -45,7 +45,7 @@ class AdapterCheckoutPayment(
         else
             holder.ivRadioPayment.setImageResource(R.drawable.blue_circle_border)
 
-      // try{holder.ivPayment.setImageResource(AppHelper.getImageId(con,items[position].slug!!))}catch (e:Exception){}
+       try{holder.ivPayment.setImageResource(AppHelper.getImageId(con,items[position].slug!!))}catch (e:Exception){}
     }
 
     override fun getItemCount(): Int {

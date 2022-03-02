@@ -644,8 +644,31 @@ class CallAPIs {
 
         }
 
+        fun getIP(con:Context,listener: ApiListener,ll:LatLng){
+            RetroFitIP.client?.create(RetrofitInterface::class.java)
+                ?.getIpAddress(
+                )?.enqueue(object : Callback<ResponseIP> {
+                    override fun onResponse(
+                        call: Call<ResponseIP>,
+                        response: Response<ResponseIP>
+                    ) {
+                        if(!response.body()!!.origin.isNullOrEmpty()){
+                            updateDevice(con,listener,response.body()!!.origin!!,ll)
+                        }else{
+                            updateDevice(con,listener,"",ll)
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseIP>, t: Throwable) {
+                        updateDevice(con,listener,"",LatLng(0.0,0.0))
+                    }
+                }
+                )
+
+        }
+
         fun updateDevice(context: Context,
-        listener: ApiListener){
+        listener: ApiListener,ip:String , ll : LatLng){
 
             val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
             val cal = Calendar.getInstance()
@@ -701,6 +724,7 @@ class CallAPIs {
                         0,
                         lang,
                         MyApplication.userId
+
                     )
 
                     if(MyApplication.isClient){
@@ -708,6 +732,11 @@ class CallAPIs {
                     }else{
                         newReq.isServiceProvider = 1
                     }
+
+                    newReq.ipAddress = ip
+                    newReq.lat = ll.latitude
+                    newReq.long = ll.longitude
+
 
                     var jsonString = Gson().toJson(newReq)
                     logw("UPDATE_JSON",jsonString)

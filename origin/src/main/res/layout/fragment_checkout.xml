@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/llToolBar"
-        android:layout_marginBottom="@dimen/big_margin"
+        android:layout_marginBottom="@dimen/bigger_icon"
         android:scrollbars="none">
 
         <LinearLayout
@@ -170,6 +170,17 @@
                         android:layout_marginTop="@dimen/normal_margin"
                         android:background="@color/gray_medium_2" />
 
+
+                    <com.ids.qasemti.custom.CustomTextViewMedium
+                        android:id="@+id/tvRestrictedCHeckout"
+                        android:layout_marginStart="@dimen/first_margin"
+                        android:layout_marginEnd="@dimen/first_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:tag="product_is_restricted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/product_is_restricted"/>
+
                     <com.ids.qasemti.custom.CustomTextViewBold
                         android:id="@+id/tvFromTitle"
                         android:layout_width="match_parent"
@@ -246,7 +257,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/height_35"
                                 android:background="@color/transparent"
-                                android:hint="dd/mm/yyyy"
+                                android:hint="yyyy-mm-dd"
                                 android:inputType="none"
                                 android:paddingStart="@dimen/normal_margin"
                                 android:paddingEnd="@dimen/mini_margin"
@@ -429,7 +440,10 @@
                         </RelativeLayout>
 
 
+
                     </LinearLayout>
+
+
 
                 </LinearLayout>
 
@@ -438,6 +452,7 @@
 
 
             <LinearLayout
+                android:id="@+id/llSpReason"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_start_end"
@@ -1015,7 +1030,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginStart="@dimen/margin_start_end"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/margin_start_end"
@@ -1024,29 +1040,41 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvPaymentMethodCheckout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:nestedScrollingEnabled="false" />
             </LinearLayout>
 
-
-            <Button
-                android:id="@+id/btPlaceOrder"
+            <com.ids.qasemti.custom.CustomTextViewMedium
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
-                android:layout_marginStart="@dimen/margin_start_end"
-                android:layout_marginTop="@dimen/big_margin"
-                android:layout_marginEnd="@dimen/margin_start_end"
-                android:layout_marginBottom="@dimen/normal_margin"
-                android:background="@drawable/blue_rounded"
-                android:tag="FindService"
-                android:text="@string/FindService"
-                android:textColor="@color/white" />
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:id="@+id/noPaymentMethods"
+                android:tag="no_service_paymentMethod"
+                android:text="@string/no_service_paymentMethod"/>
+
+
 
 
         </LinearLayout>
 
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/btPlaceOrder"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/margin_start_end"
+        android:layout_marginTop="@dimen/big_margin"
+        android:layout_marginEnd="@dimen/margin_start_end"
+        android:layout_marginBottom="@dimen/normal_margin"
+        android:background="@drawable/blue_rounded"
+        android:tag="FindService"
+        android:text="@string/FindService"
+        android:textColor="@color/white" />
 
     <include layout="@layout/loading"/>
 

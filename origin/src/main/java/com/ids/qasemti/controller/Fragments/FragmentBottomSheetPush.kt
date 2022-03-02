@@ -8,6 +8,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.annotation.Nullable
 import androidx.fragment.app.DialogFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.MyApplication
@@ -48,7 +49,11 @@ class FragmentBottomSheetPush : BottomSheetDialogFragment() , ApiListener{
         swAvailable.setOnCheckedChangeListener { compoundButton, b ->
             MyApplication.generalNotificaiton = if(swAvailable.isChecked) 1 else 0
             if(AppHelper.isOnline(requireContext())){
-                CallAPIs.updateDevice(requireContext(),this)
+                if (AppHelper.checkLocPerm(requireContext()))
+                    AppHelper.getLoc(requireContext(), this)
+                else
+                    CallAPIs.getIP(requireContext(), this, LatLng(0.0, 0.0))
+               // CallAPIs.updateDevice(requireContext(),this)
             }else{
                 swAvailable.isChecked = !swAvailable.isChecked
                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))

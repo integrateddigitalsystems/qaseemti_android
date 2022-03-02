@@ -3,6 +3,8 @@ package com.ids.qasemti.model
 import android.location.Address
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.TimeDuration
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ServiceAvailableDateTime
 
 class ResponseOrders(
     @SerializedName("date")
@@ -272,11 +274,23 @@ class ResponseOrders(
 
     @SerializedName("client_rate")
     @Expose
-    var clientRate : String ?="" ,
+    var clientRate : String ?="",
 
     @SerializedName("new_delivery_date")
     @Expose
     var newDeliveryDate : String ?="",
+
+    @SerializedName("new_time_slot_to")
+    @Expose
+    var newTimeSlotTo : String ?="",
+
+    @SerializedName("new_time_slot_from")
+    @Expose
+    var newTimeSlotFrom : String ?="",
+
+    @SerializedName("time")
+    @Expose
+    var time : TimeDuration?=null,
 
     @SerializedName("old_total")
     @Expose
@@ -318,11 +332,11 @@ class ResponseOrders(
 
     @SerializedName("service_reason_id")
     @Expose
-    var reasonId : String ?="" ,
+    var reasonId : String ?="",
 
     @SerializedName("service_reason_other")
     @Expose
-    var serviceReasonOther : String ?="" ,
+    var serviceReasonOther : String ?="",
 
     @SerializedName("service_reason")
     @Expose

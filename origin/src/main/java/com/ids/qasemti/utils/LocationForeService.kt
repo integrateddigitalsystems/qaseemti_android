@@ -30,6 +30,7 @@ import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ResponseDistanc
 import com.ids.qasemti.controller.Fragments.FragmentOrders
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.OrderLocation
+import com.ids.qasemti.model.ResponseGeoAddress
 import com.ids.qasemti.model.ResponseMessage
 import com.ids.qasemti.model.ResponseOrders
 import kotlinx.android.synthetic.main.activity_code_verification.*
@@ -294,7 +295,7 @@ class LocationForeService : Service() , ApiListener{
 
 
 
-    fun notifyClose(orderId :  Int ){
+    fun notifyClose(orderId :  Int,index : Int ){
         var req = RequestOrderIdNotify(orderId)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.notifyOrderArrived(req)?.enqueue(object : Callback<ResponseMessage> {
@@ -303,11 +304,13 @@ class LocationForeService : Service() , ApiListener{
                     response: Response<ResponseMessage>
                 ) {
                     if(response.body()!!.result == 1 ){
-                        doneONce = true
-                        logw("LOGDIST","less 50" )
-                        MyApplication.doneOrders.get(indx).done=true
-                        AppHelper.toGSOnDOne(MyApplication.doneOrders)
-                        var x = MyApplication.listDoneOrders
+                        try {
+                            doneONce = true
+                            logw("LOGDIST", "less 50")
+                            MyApplication.doneOrders.find { it.orderId!!.toInt() == orderId }!!.done = true
+                            AppHelper.toGSOnDOne(MyApplication.doneOrders)
+                            var x = MyApplication.listDoneOrders
+                        }catch (ex:Exception){}
                     }else{
                         logw("NOTF","error")
                     }
@@ -321,7 +324,53 @@ class LocationForeService : Service() , ApiListener{
     }
 
 
+    fun getDIstance( from : LatLng,
+                     to : LatLng,
+                     con : Application,
+    index: Int ) {
+
+        var dest = from.latitude.toString() + ","+from.longitude.toString()
+        var origin  = to.latitude.toString() + ","+to.longitude.toString()
+
+        RetroFitMap2.client?.create(RetrofitInterface::class.java)
+            ?.getDistance(dest, origin, con.getString(R.string.googleKey))
+            ?.enqueue(object : Callback<ResponseDistance> {
+                override fun onResponse(
+                    call: Call<ResponseDistance>,
+                    response: Response<ResponseDistance>
+                ) {
+
+                    try {
+
+                        var dist = response.body()!!
+                        var element = dist.rows.get(0).elements.get(0)
+                        if(element.status.equals("OK")){
+                            if(element.distance.value!!.toDouble() <= MyApplication.notifyDistance!!.toDouble() && !doneONce){
+                                //API
+                                notifyClose(MyApplication.doneOrders.get(index).orderId!!.toInt(),index)
+
+                            }else{
+                                MyApplication.doneOrders.get(index).done = false
+                            }
+                        }
+
+                    } catch (E: java.lang.Exception) {
+
+                        var x = E
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseDistance>, throwable: Throwable) {
+
+                    var x = 1
+                }
+            })
+    }
+
+
     fun setUpLocations() {
+
+
 
         val locationResult = object : MyLocation.LocationResult() {
             override fun gotLocation(location: Location?) {
@@ -348,6 +397,18 @@ class LocationForeService : Service() , ApiListener{
         var firstLocation : Location ?=null
 
 
+        for(item in MyApplication.listOrderTrack){
+
+            var doneOr = MyApplication.doneOrders.find { it.orderId == item }
+
+            if(doneOr==null )
+            {
+                MyApplication.doneOrders.add(OrderDone(false,item))
+                AppHelper.toGSOnDOne(MyApplication.doneOrders)
+            }
+        }
+
+
         locationListenerGps = object : LocationListener {
 
 
@@ -357,74 +418,50 @@ class LocationForeService : Service() , ApiListener{
                 MyApplication.selectedCurrentAddress!!.lat=location.latitude.toString()
                 MyApplication.selectedCurrentAddress!!.long=location.longitude.toString()}catch (e:Exception){}
 
+                var update = LatLng(location.latitude, location.longitude)
                 if(location!=null)
                     firstLocation = location
                 var ct = 0
                 for(doc in MyApplication.documents) {
-                    doneONce = false
                     try {
                         doc!!.update("order_laltitude", location.latitude.toString())
                         doc!!.update("order_longitude", location.longitude.toString())
-                    }catch (ex:java.lang.Exception){
+                    } catch (ex: java.lang.Exception) {
 
                     }
+                }
 
-                    try {
-                        var update = LatLng(location.latitude, location.longitude)
-                        var dest = MyApplication.listDestination.get(ct)
-                        if (MyApplication.doneOrders.find { it.orderId == MyApplication.listOrderTrack.get(ct) }==null) {
-                            MyApplication.doneOrders.add(
-                                OrderDone(
-                                    false,
-                                    MyApplication.listOrderTrack.get(ct)
-                                )
+                for(item in MyApplication.doneOrders){
+                    if(!item.done!!){
+                        var loc = MyApplication.listDestination.find { it.oder_id == item.orderId }
+
+                        if (loc!!.order_longitude!!.toDouble() == 0.0 && loc.order_laltitude!!.toDouble() == 0.0) {
+                            docLat = update
+                            indx = ct
+                            CallAPIs.getOrderByOrderId(
+                               item.orderId!!.toInt(),
+                                this@LocationForeService
                             )
-                            AppHelper.toGSOnDOne(MyApplication.doneOrders)
-
-                            if (dest.longitude == 0.0 && dest.latitude == 0.0) {
-                                docLat = update
-                                indx = ct
-                                CallAPIs.getOrderByOrderId(
-                                    MyApplication.listOrderTrack.get(ct).toInt(),
-                                    this@LocationForeService
-                                )
-                            } else {
-                                indx = ct
-                                CallAPIs.getDistance(
-                                    update,
-                                    dest,
-                                    application,
-                                    this@LocationForeService
-                                )
-                            }
-
-                        }else if (!MyApplication.doneOrders.get(ct).done!!) {
-                            logw("LOGDIST", "notDone")
-                            if (dest.longitude == 0.0 && dest.latitude == 0.0) {
-                                docLat = update
-                                indx = ct
-                                CallAPIs.getOrderByOrderId(
-                                    MyApplication.listOrderTrack.get(ct).toInt(),
-                                    this@LocationForeService
-                                )
-                            } else {
-                                indx = ct
-                                CallAPIs.getDistance(
-                                    update,
-                                    dest,
-                                    application,
-                                    this@LocationForeService
-                                )
-                            }
+                        } else {
+                            indx = ct
+                            item.done = true
+                           getDIstance(
+                                update,
+                                LatLng(loc.order_laltitude!!.toDouble(),loc.order_longitude!!.toDouble()),
+                                application ,
+                               ct
+                            )
                         }
-                    }catch (ex:Exception){
-
+                    }else{
+                        logw("LOGDIST", "Already Done")
                     }
-
-
 
                     ct++
                 }
+
+
+
+
 
                 val intent = Intent(ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
                 intent.putExtra(EXTRA_LOCATION, currentLocation)
@@ -495,6 +532,8 @@ class LocationForeService : Service() , ApiListener{
                     } catch (e: Exception) {
                     }
                 }
+
+
 
             }
 
@@ -696,7 +735,7 @@ class LocationForeService : Service() , ApiListener{
                     if(element.status.equals("OK")){
                         if(element.distance.value!!.toDouble() <= MyApplication.notifyDistance!!.toDouble() && !doneONce){
                             //API
-                                notifyClose(MyApplication.doneOrders.get(indx).orderId!!.toInt())
+                                notifyClose(MyApplication.doneOrders.get(indx).orderId!!.toInt(),indx)
 
                         }
                     }
@@ -708,7 +747,7 @@ class LocationForeService : Service() , ApiListener{
                         //do API
                         logw("LOGLOC",distance.toString())
                     }*/
-                    CallAPIs.getDistance(docLat!!,dest,application,this)
+                    getDIstance(docLat!!,dest,application,indx)
                 }
 
 

@@ -117,6 +117,8 @@ class MyApplication : Application() {
         var selectedService : ResponseService ?=null
         var rentalId : Int ?=0
         var purchaseId : Int ?=0
+        var myCurrLoc : LatLng ?=null
+        var updateDeviceFirst : Boolean ?= false
         var selectedOrder : ResponseOrders?=null
         var selectedPlaceOrder : RequestPlaceOrder ?=null
         var selectedAddress : ResponseAddress ?=null
@@ -198,7 +200,7 @@ class MyApplication : Application() {
         var backgrounded : Boolean = false
 
         var listOrderTrack : ArrayList<String> = arrayListOf()
-        var listDestination : ArrayList<LatLng> = arrayListOf()
+        var listDestination : ArrayList<OrderLocation> = arrayListOf()
         var doneOrders : ArrayList<OrderDone> = arrayListOf()
         var closeDistance : Int ?= 0
 

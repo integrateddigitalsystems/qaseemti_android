@@ -12,13 +12,17 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.setColorTypeface
-
-import java.util.ArrayList
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickListener: RVOnItemClickListener, context: Context) :
     RecyclerView.Adapter<AdapterOrders.VHItem>() {
 
     var con = context
+    var hourFormat : String ="HH:mm:ss"
+    var hourMinFor : String = "HH:mm"
+    var fromForm = SimpleDateFormat(hourFormat, Locale.ENGLISH)
+    var toForm = SimpleDateFormat(hourMinFor, Locale.ENGLISH)
       override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
         return VHItem(LayoutInflater.from(parent.context).inflate(R.layout.item_orders, parent, false))
     }
@@ -56,7 +60,12 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
         }}catch (e:Exception){
             holder.expected.text = AppHelper.getRemoteString("no_data",con)
         }
-        try{holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-mm-dd hh:mm:ssss","yyyy-MM-dd HH:mm")}catch (e:Exception){}
+        if(items.get(position).product!!.availableDates!=null && items.get(position).product!!.availableDates.size >0 ){
+            holder.expected.text = holder.expected.text.toString() + " "+toForm.format(fromForm.parse(items.get(position)!!.time!!.from))+ " - "+toForm.format(fromForm.parse(items.get(position)!!.time!!.to))
+        }
+        try{holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-mm-dd hh:mm:ssss","yyyy-MM-dd HH:mm")}catch (e:Exception){
+            holder.orderDate.text = items.get(position).date
+        }
         try{holder.tvLocation.text = AppHelper.addressFromOrder(items.get(position),1,con)}catch (e:Exception){
             holder.tvLocation.text = AppHelper.getRemoteString("no_data",con)
         }

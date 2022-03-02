@@ -33,12 +33,15 @@ import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.controller.MyApplication.Companion.allowedLocation
 import com.ids.qasemti.controller.MyApplication.Companion.tempOrder
 import com.ids.qasemti.controller.MyApplication.Companion.tempSwitch
+import com.ids.qasemti.model.OrderLocation
 import com.ids.qasemti.model.ResponseOrders
 import com.ids.qasemti.utils.*
 import kotlinx.android.synthetic.main.layout_order_contact_tab.*
 import kotlinx.android.synthetic.main.layout_order_switch.*
+import kotlinx.android.synthetic.main.layout_request_new_time.*
 import org.w3c.dom.Text
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AdapterOrderType(
@@ -55,6 +58,10 @@ class AdapterOrderType(
     var con = context
     var tempHolder: VHItem ?=null
     var tempPos : Int ?= 0
+    var hourFormat : String ="HH:mm:ss"
+    var hourMinFor : String = "HH:mm"
+    var fromForm = SimpleDateFormat(hourFormat, Locale.ENGLISH)
+    var toForm = SimpleDateFormat(hourMinFor, Locale.ENGLISH)
     var mPermissionResult: ActivityResultLauncher<Array<String>>? = null
     var fromSwitch = false
     var delivered = 0
@@ -170,8 +177,24 @@ class AdapterOrderType(
                holder.tvOrderDateValue.text = ""
         }
         try{
-            holder.expectedDate.text = items.get(position).deliveryDate!!
-        }catch (ex:java.lang.Exception){holder.expectedDate.text=""}
+            if(items.get(position).product!!.availableDates!=null && items.get(position).product!!.availableDates!!.size >0){
+                holder.expectedDate.text =
+                    if (!items.get(position).deliveryDate!!.isEmpty()) items.get(position).deliveryDate else AppHelper.getRemoteString(
+                        "no_data",
+                        con
+                    )
+                if(items.get(position).time!=null){
+                    holder.expectedDate.text =  holder.expectedDate.text.toString() +" "+ toForm.format(fromForm.parse(items.get(position)!!.time!!.from))+ " - "+toForm.format(fromForm.parse(items.get(position)!!.time!!.to))
+                }
+            }else {
+                holder.expectedDate.text = items.get(position).deliveryDate!!
+            }
+        }catch (ex:java.lang.Exception){
+            if(items.get(position).deliveryDate!!.isNullOrEmpty())
+                holder.expectedDate.text=""
+            else
+                holder.expectedDate.text = items.get(position)!!.deliveryDate
+        }
         try{
             holder.orderId.text = "#"+items.get(position).orderId.toString()
         }catch (ex:java.lang.Exception){holder.orderId.text =""}
@@ -215,7 +238,7 @@ class AdapterOrderType(
                    MyApplication.trackOrderId = items.get(position).orderId!!.toInt()
                    if(!MyApplication.listOrderTrack.contains(MyApplication.trackOrderId.toString()))
                        MyApplication.listOrderTrack.add(MyApplication.trackOrderId!!.toString())
-                   MyApplication.listDestination.add(LatLng(items.get(position).shipping_latitude!!.toDouble(),items.get(position).shipping_longitude!!.toDouble()))
+                   MyApplication.listDestination.add(OrderLocation("",items.get(position).orderId,items.get(position).shipping_latitude,items.get(position).shipping_longitude))
                    AppHelper.toGsonArrString()
                    if (!MyApplication.isClient) {
                        (con as ActivityHome).changeState(true,MyApplication.listOrderTrack.size-1)
@@ -352,7 +375,8 @@ class AdapterOrderType(
                                 if(allowedLocation) {
                                     holder.switchOnTrack.isEnabled = false
                                     MyApplication.selectedOrder = items.get(position)
-                                    MyApplication.listDestination.add(LatLng(items.get(position).shipping_latitude!!.toDouble(),items.get(position).shipping_longitude!!.toDouble()))
+                                    MyApplication.listDestination.add(OrderLocation("",items.get(position).orderId,items.get(position).shipping_latitude,items.get(position).shipping_longitude))
+
                                     MyApplication.trackOrderId =
                                         items.get(position).orderId!!.toInt()
                                     if(!MyApplication.listOrderTrack.contains(MyApplication.trackOrderId.toString()))

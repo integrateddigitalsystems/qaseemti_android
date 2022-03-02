@@ -439,4 +439,7 @@ interface RetrofitInterface {
 
     ):Call<ResponseGalleryImages>
 
+    @GET("ip")
+    fun getIpAddress():Call<ResponseIP>
+
 }

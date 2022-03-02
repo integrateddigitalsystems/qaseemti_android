@@ -10,7 +10,12 @@ class RequestOTP(
 
     @SerializedName("device_id")
     @Expose
-    var deviceId : Int ?=0
+    var deviceId : Int ?=0 ,
+
+    @SerializedName("language")
+    @Expose
+    var lang : String ?=""
+
 
 ) {
 }

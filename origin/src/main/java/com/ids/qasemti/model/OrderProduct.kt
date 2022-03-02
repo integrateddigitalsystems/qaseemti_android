@@ -60,6 +60,10 @@ class OrderProduct(
     @Expose
     var productId: String? = "",
 
+    @SerializedName("product_parent")
+    @Expose
+    var productParent : String ?="" ,
+
     @SerializedName("qty")
     @Expose
     var qty: String? = "",
@@ -131,5 +135,6 @@ class OrderProduct(
     @SerializedName("service_reason")
     @Expose
     var serviceReasons : ArrayList<RequiredFiles> = arrayListOf()
+
 ) {
 }

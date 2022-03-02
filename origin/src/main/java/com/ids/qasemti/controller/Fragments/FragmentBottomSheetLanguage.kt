@@ -10,6 +10,7 @@ import android.content.Intent
 import androidx.annotation.Nullable
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.DialogFragment
+import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivityHome
 import com.ids.qasemti.controller.MyApplication
@@ -71,7 +72,11 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(),ApiListener{
         MyApplication.selectedFragmentTag=AppConstants.FRAGMENT_ACCOUNT
         LocaleUtils.setLocale(Locale("ar"))
         //sendUpdateLanguage()
-        CallAPIs.updateDevice(requireContext(),this)
+        if (AppHelper.checkLocPerm(requireContext()))
+            AppHelper.getLoc(requireContext(), this)
+        else
+            CallAPIs.getIP(requireContext(), this, LatLng(0.0, 0.0))
+       // CallAPIs.updateDevice(requireContext(),this)
       //  AppHelper.updateDevice(requireContext(),MyApplication.selectedPhone!!)
         reloadActivity()
 
@@ -85,7 +90,11 @@ class FragmentBottomSeetLanguage : BottomSheetDialogFragment(),ApiListener{
         MyApplication.selectedFragmentTag=AppConstants.FRAGMENT_ACCOUNT
         LocaleUtils.setLocale(Locale("en"))
        // sendUpdateLanguage()
-        CallAPIs.updateDevice(requireContext(),this)
+        if (AppHelper.checkLocPerm(requireContext()))
+            AppHelper.getLoc(requireContext(), this)
+        else
+            CallAPIs.getIP(requireContext(), this, LatLng(0.0, 0.0))
+            // CallAPIs.updateDevice(requireContext(),this)
        // AppHelper.updateDevice(requireContext(),MyApplication.selectedPhone!!)
         reloadActivity()
     }

@@ -15,6 +15,7 @@ import com.ids.qasemti.controller.Adapters.RVOnItemClickListener.RVOnItemClickLi
 import com.ids.qasemti.model.ResponseService
 import com.ids.qasemti.model.ServiceItem
 import com.ids.qasemti.utils.AppHelper
+import com.ids.qasemti.utils.hide
 import java.util.ArrayList
 
 class AdapterMyServices(
@@ -46,7 +47,7 @@ class AdapterMyServices(
             if(!items.get(position).variations[0].sizeCapacity.isNullOrEmpty())
                 holder.quantity.text = items.get(position).variations[0].sizeCapacity.toString()
             else
-                holder.quantity.text = "55"
+                holder.quantity.hide()
         }catch (ex:Exception){
             holder.quantity.text = ""
         }

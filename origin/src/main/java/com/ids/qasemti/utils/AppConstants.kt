@@ -125,6 +125,8 @@ object AppConstants {
     const val NOTF_NEW_CHAT = 10
     const val NOTF_SETTLEMENTS = 11
     const val NOTF_RATE = 12
+    const val NOTF_ARRIVED = 13
+    const val NOTF_CASH_DELIVERY = 14
 
 
     const val PAYMENT_SUCCESS = "CAPTURED"

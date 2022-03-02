@@ -52,6 +52,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.system.exitProcess
 import android.R.string.no
+import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.MyApplication.Companion.listOrderTrack
 import com.ids.qasemti.model.RequestCart
@@ -59,7 +60,7 @@ import com.ids.qasemti.model.ResponseMainOrder
 import kotlinx.android.synthetic.main.fragment_cart.*
 
 
-class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedListener,
+class ActivityHome : AppCompactBase(),ApiListener, NavigationView.OnNavigationItemSelectedListener,
     RVOnItemClickListener {
     private lateinit var fragMang: FragmentManager
     private val TAG = "HomeActivity"
@@ -612,7 +613,11 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
             }
             MyApplication.selectedPos = 2
             context.finishAffinity()
-            CallAPIs.updateDevice(this)
+            if (AppHelper.checkLocPerm(this))
+                AppHelper.getLoc(this, this)
+            else
+                CallAPIs.getIP(this, this, LatLng(0.0, 0.0))
+           // CallAPIs.updateDevice(this)
             startActivity(
                 Intent(
                     context,
@@ -954,6 +959,10 @@ class ActivityHome : AppCompactBase(), NavigationView.OnNavigationItemSelectedLi
         val serviceIntent = Intent(this, CurrentLocationService::class.java)
         bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
         startService(serviceIntent)
+    }
+
+    override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
+
     }
 
 

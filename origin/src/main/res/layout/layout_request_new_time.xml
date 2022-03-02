@@ -248,7 +248,13 @@
 
                  </LinearLayout>
 
+
+
+
              </LinearLayout>
+
+
+
 
 
             <LinearLayout
@@ -288,6 +294,17 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tvRestrictedSuggest"
+                    android:layout_marginStart="@dimen/first_margin"
+                    android:layout_marginEnd="@dimen/first_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:tag="product_is_restricted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/product_is_restricted"/>
+
                 <LinearLayout
 
                     android:layout_width="match_parent"
@@ -297,6 +314,7 @@
                     android:layout_marginEnd="@dimen/first_margin"
                     android:layout_marginBottom="@dimen/first_margin"
                     android:weightSum="3">
+
 
 
                     <RelativeLayout
@@ -395,6 +413,8 @@
                     android:background="@drawable/rounded_blue"
                     android:text="@string/SendRequest"
                     android:textColor="@color/white" />
+
+
 
             </LinearLayout>
 

@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
@@ -110,7 +111,11 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener , ApiL
                 loading.show()
                 //updateDevice()
                 if(AppHelper.isOnline(this)) {
-                    CallAPIs.updateDevice(this, this)
+                    if (AppHelper.checkLocPerm(this))
+                        AppHelper.getLoc(this, this)
+                    else
+                        CallAPIs.getIP(this, this, LatLng(0.0, 0.0))
+                   // CallAPIs.updateDevice(this, this)
                 }else{
                     AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
                 }
@@ -229,7 +234,7 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener , ApiL
         loading.hide()
     }
     fun sendOTP() {
-        var req = RequestOTP(  MyApplication.selectedPhone, MyApplication.deviceId)
+        var req = RequestOTP(  MyApplication.selectedPhone, MyApplication.deviceId,MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.sendOTP(
                 req

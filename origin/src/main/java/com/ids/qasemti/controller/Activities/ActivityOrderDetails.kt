@@ -69,15 +69,37 @@ import android.content.pm.ApplicationInfo
 import android.os.*
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.youtube.player.internal.c
 import com.ids.qasemti.BuildConfig
+import com.ids.qasemti.controller.Adapters.AdapterInterval
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.TimeDuration
+import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ServiceAvailableDateTime
+import kotlinx.android.synthetic.main.activity_order_details.btAcceptOrder
+import kotlinx.android.synthetic.main.fragment_checkout.*
+import kotlinx.android.synthetic.main.fragment_service_details.*
+import kotlinx.android.synthetic.main.item_orders.*
 import java.io.*
 import java.net.HttpURLConnection
 
 
-class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListener {
+class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListener,
+    com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
 
     var dialog: Dialog? = null
+    var selectedDayId: Int? = -1
+    var editor = "from"
+    var from : String ?=""
+    var to : String ?=""
+    var myTimes: ArrayList<TimeDuration> = arrayListOf()
+    var hourFormat : String ="HH:mm:ss"
+    var hourMinFor : String = "HH:mm"
+    var fromForm = SimpleDateFormat(hourFormat, Locale.ENGLISH)
+    var toForm = SimpleDateFormat(hourMinFor, Locale.ENGLISH)
+    var sendFormat: String = "yyyy-MM-dd"
+    var viewFormat: String = "dd/MM/yyyy"
+    var sendFormatter = SimpleDateFormat(sendFormat, Locale.ENGLISH)
+    var viewFormatter = SimpleDateFormat(viewFormat, Locale.ENGLISH)
     var cancelReasons: ArrayList<BankItem> = arrayListOf()
     var arrayCancelSpinner: ArrayList<ItemSpinner> = arrayListOf()
     var orderId = 1
@@ -127,7 +149,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
            )*/
         //   sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
-        if(!MyApplication.isClient) {
+        if (!MyApplication.isClient) {
             MyApplication.serviceContext = this
             val serviceIntent = Intent(this, LocationForeService::class.java)
             bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
@@ -138,7 +160,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     override fun onResume() {
 
         super.onResume()
-        if(!MyApplication.isClient) {
+        if (!MyApplication.isClient) {
             LocalBroadcastManager.getInstance(this).registerReceiver(
                 foregroundOnlyBroadcastReceiver,
                 IntentFilter(
@@ -149,7 +171,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     }
 
     override fun onPause() {
-        if(!MyApplication.isClient) {
+        if (!MyApplication.isClient) {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(
                 foregroundOnlyBroadcastReceiver
             )
@@ -174,7 +196,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             foregroundOnlyLocationService = binder.foreService
             foregroundOnlyLocationServiceBound = true
             if (MyApplication.saveLocationTracking!!)
-                changeState(true,0)
+                changeState(true, 0)
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
@@ -189,7 +211,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         setListeners()
 
 
-        if(!MyApplication.isClient) {
+        if (!MyApplication.isClient) {
             foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
         }
         //  startServicing()
@@ -223,8 +245,9 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
         return bmpUri
     }
-    fun createBitmapThread(loading:LinearLayout , url: String ,title:String ,con:Activity){
-        loading.visibility=View.VISIBLE
+
+    fun createBitmapThread(loading: LinearLayout, url: String, title: String, con: Activity) {
+        loading.visibility = View.VISIBLE
         Thread {
             val url = URL(url)
             val connection: HttpURLConnection =
@@ -236,7 +259,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
 
             con.runOnUiThread {
-                var  bmp = myBitmap
+                var bmp = myBitmap
                 val uri: Uri = getUriImageFromBitmap(myBitmap, con)!!
 
                 val shareIntent = Intent(Intent.ACTION_SEND)
@@ -271,19 +294,25 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
         return installed
     }
-    fun shareFacebook(){
 
-        if(MyApplication.isClient){
+    fun shareFacebook() {
+
+        if (MyApplication.isClient) {
             llShareSocial.show()
-        }else{
+        } else {
             llShareSocial.hide()
         }
 
         btShareInsta.setOnClickListener {
-            if(verifyInstagram())
-                createBitmapThread(loading,MyApplication.selectedOrder!!.product!!.featuredImage!!,"Hello there",this)
+            if (verifyInstagram())
+                createBitmapThread(
+                    loading,
+                    MyApplication.selectedOrder!!.product!!.featuredImage!!,
+                    "Hello there",
+                    this
+                )
             else
-                AppHelper.createDialog(this,AppHelper.getRemoteString("install_instagram",this))
+                AppHelper.createDialog(this, AppHelper.getRemoteString("install_instagram", this))
         }
 
 
@@ -300,9 +329,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
 
 
-
-
     }
+
     fun startServicing() {
         var enabled = MyApplication.saveLocationTracking
 
@@ -327,7 +355,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     }
 
 
-    fun changeState(track: Boolean,indx : Int) {
+    fun changeState(track: Boolean, indx: Int) {
 
         var gps_enabled = false
         var mLocationManager =
@@ -338,7 +366,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         } catch (ex: Exception) {
         }
 
-        if(gps_enabled) {
+        if (gps_enabled) {
 
             if (!track) {
                 MyApplication.selectedOrderRemoveIndex = indx
@@ -372,18 +400,18 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                             .setNegativeButton(
                                 AppHelper.getRemoteString(
                                     "cancel",
-                                   this
+                                    this
                                 )
                             ) { dialog, _ ->
                                 // getOrders()
                                 swOnTrack.isChecked = false
                                 setStatus()
-                                toast(AppHelper.getRemoteString("location_updates_disabled",this))
+                                toast(AppHelper.getRemoteString("location_updates_disabled", this))
                             }
                             .setPositiveButton(
                                 AppHelper.getRemoteString(
                                     "ok",
-                                   this
+                                    this
                                 )
                             ) { dialog, _ ->
                                 requestForegroundPermissions()
@@ -395,8 +423,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 } catch (ex: Exception) {
                 }
             }
-        }else{
-            AppHelper.createDialog(this,AppHelper.getRemoteString("GpsDisabled",this))
+        } else {
+            AppHelper.createDialog(this, AppHelper.getRemoteString("GpsDisabled", this))
         }
     }
 
@@ -457,7 +485,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     // updateButtonState(false)
                     swOnTrack.isChecked = false
                     setStatus()
-                    toast(AppHelper.getRemoteString("location_updates_disabled",this))
+                    toast(AppHelper.getRemoteString("location_updates_disabled", this))
 
                     Snackbar.make(
                         findViewById(R.id.rootLayoutOrderDetails),
@@ -502,19 +530,22 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             btCancelOrder.hide()
             llEditOrderTime.hide()
             //setOrderData()
-            CallAPIs.getOrderByOrderIdBroad(MyApplication.selectedOrderId!!,MyApplication.userId,this)
-        }else{
+            CallAPIs.getOrderByOrderIdBroad(
+                MyApplication.selectedOrderId!!,
+                MyApplication.userId,
+                this
+            )
+        } else {
             loading.show()
             CallAPIs.getOrderByOrderId(orderId, this)
         }
 
         try {
             var type = intent.getIntExtra("type", 1)
-        }catch (ex:Exception){}
+        } catch (ex: Exception) {
+        }
 
         tvLocationOrderDeatils.setColorTypeface(this, R.color.primary, "", false)
-
-
 
 
         //setOrderData()
@@ -567,6 +598,12 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         if (typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE) || typeSelected.equals(AppConstants.ORDER_TYPE_UPCOMING)) {
             if (!MyApplication.isClient) {
 
+                tvRestrictedSuggest.typeface = AppHelper.getTypefaceBoldItalic(this)
+                if(!MyApplication.isClient && MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size >0 ){
+                    tvRestrictedSuggest.show()
+                }else{
+                    tvRestrictedSuggest.hide()
+                }
                 if (MyApplication.selectedOrder!!.vendor == null || MyApplication.selectedOrder!!.vendor!!.userId == null) {
 
                     llOrderSwitches.hide()
@@ -574,15 +611,18 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     llDetailsCallMessage.hide()
 
                 } else {
-                    if(!MyApplication.selectedOrder!!.delivered!!)
+                    if (!MyApplication.selectedOrder!!.delivered!!)
                         llEditOrderTime.show()
-                  /*  if(MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty()){
-                        llEditOrderTime.hide()
-                        //btCancelOrder.hide()
-                    }*/
+                    /*  if(MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty()){
+                          llEditOrderTime.hide()
+                          //btCancelOrder.hide()
+                      }*/
                     btCancelOrder.show()
                     llDetailsCallMessage.show()
-                    if(!MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty() && typeSelected.equals(AppConstants.ORDER_TYPE_ACTIVE))
+                    if (!MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty() && typeSelected.equals(
+                            AppConstants.ORDER_TYPE_ACTIVE
+                        )
+                    )
                         llOrderSwitches.show()
                     else
                         llOrderSwitches.hide()
@@ -591,10 +631,11 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 if (!MyApplication.selectedOrder!!.newDeliveryDate.isNullOrEmpty()) {
                     llSuggestedDate.show()
                     try {
-                        tvSuggestedDate.text = MyApplication.selectedOrder!!.newDeliveryDate
-                    }catch (ex:Exception){
+                        tvSuggestedDate.text = MyApplication.selectedOrder!!.newDeliveryDate + " "+MyApplication.selectedOrder!!.newTimeSlotFrom+" - "+ MyApplication.selectedOrder!!.newTimeSlotTo
+                    } catch (ex: Exception) {
 
                     }
+
                 } else {
                     llSuggestedDate.hide()
                 }
@@ -604,7 +645,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 if (MyApplication.selectedOrder!!.vendor == null || MyApplication.selectedOrder!!.vendor!!.userId == null) {
 
 
-                }else{
+                } else {
                     btCancelOrder.show()
                 }
             }
@@ -630,19 +671,19 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
         }
 
-        if(MyApplication.isClient && !MyApplication.selectedOrder!!.vendor!!.profilePic!!.isNullOrEmpty()) {
+        if (MyApplication.isClient && !MyApplication.selectedOrder!!.vendor!!.profilePic!!.isNullOrEmpty()) {
             try {
                 ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.vendor!!.profilePic!!)
                 ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
-                llProfileOrder.setPadding(0,0,0,0)
+                llProfileOrder.setPadding(0, 0, 0, 0)
             } catch (ex: Exception) {
 
             }
-        }else  if(!MyApplication.isClient && !MyApplication.selectedOrder!!.customer!!.profile_pic_url!!.isNullOrEmpty()){
+        } else if (!MyApplication.isClient && !MyApplication.selectedOrder!!.customer!!.profile_pic_url!!.isNullOrEmpty()) {
             try {
                 ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.customer!!.profile_pic_url!!)
                 ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
-                llProfileOrder.setPadding(0,0,0,0)
+                llProfileOrder.setPadding(0, 0, 0, 0)
             } catch (ex: Exception) {
 
             }
@@ -654,7 +695,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     if (MyApplication.isClient && MyApplication.selectedOrder!!.type!!.lowercase() == "rental") {
                         btRenewOrder.show()
                         btRepeatOrder.hide()
-                    } else{
+                    } else {
                         btRepeatOrder.show()
                         btRenewOrder.hide()
                     }
@@ -746,13 +787,17 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 tvOrderCustomerName.text =
                     MyApplication.selectedOrder!!.customer!!.first_name + " " + MyApplication.selectedOrder!!.customer!!.last_name
             else {
-                 if(MyApplication.selectedOrder!!.vendor!=null){
-                   try{
-                      tvOrderCustomerName.text = MyApplication.selectedOrder!!.vendor!!.firstName!! + " " + MyApplication.selectedOrder!!.vendor!!.lastName}catch (e:Exception){
-                       tvOrderCustomerName.text = AppHelper.getRemoteString("pending_service_provider",this)
-                   }
-                }else{
-                   tvOrderCustomerName.text = AppHelper.getRemoteString("pending_service_provider",this)
+                if (MyApplication.selectedOrder!!.vendor != null) {
+                    try {
+                        tvOrderCustomerName.text =
+                            MyApplication.selectedOrder!!.vendor!!.firstName!! + " " + MyApplication.selectedOrder!!.vendor!!.lastName
+                    } catch (e: Exception) {
+                        tvOrderCustomerName.text =
+                            AppHelper.getRemoteString("pending_service_provider", this)
+                    }
+                } else {
+                    tvOrderCustomerName.text =
+                        AppHelper.getRemoteString("pending_service_provider", this)
                 }
             }
         } catch (e: Exception) {
@@ -768,13 +813,25 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 "yyyy-MM-dd HH:mm"
             )
         } catch (e: Exception) {
+            tvOrderDateDeet.text =  MyApplication.selectedOrder!!.date!!
         }
         try {
-            tvExpectedOrderDateDeet.text =
-                if (!MyApplication.selectedOrder!!.deliveryDate!!.isEmpty()) MyApplication.selectedOrder!!.deliveryDate else AppHelper.getRemoteString(
-                    "no_data",
-                    this
-                )
+            if(MyApplication.selectedOrder!!.product!!.availableDates!=null && MyApplication.selectedOrder!!.product!!.availableDates!!.size >0){
+                tvExpectedOrderDateDeet.text =
+                    if (!MyApplication.selectedOrder!!.deliveryDate!!.isEmpty()) MyApplication.selectedOrder!!.deliveryDate else AppHelper.getRemoteString(
+                        "no_data",
+                        this
+                    )
+                if(MyApplication.selectedOrder!!.time!=null){
+                    tvExpectedOrderDateDeet.text = tvExpectedOrderDateDeet.text.toString() + " "+ toForm.format(fromForm.parse(MyApplication.selectedOrder!!.time!!.from))+ " - "+toForm.format(fromForm.parse(MyApplication.selectedOrder!!.time!!.to))
+                }
+            }else {
+                tvExpectedOrderDateDeet.text =
+                    if (!MyApplication.selectedOrder!!.deliveryDate!!.isEmpty()) MyApplication.selectedOrder!!.deliveryDate else AppHelper.getRemoteString(
+                        "no_data",
+                        this
+                    )
+            }
         } catch (e: Exception) {
             AppHelper.getRemoteString("no_data", this)
         }
@@ -784,7 +841,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
         try {
             tvOrderAmountDeet.text =
-                dec.format( MyApplication.selectedOrder!!.total!!.toDouble()).toString() + " " + MyApplication.selectedOrder!!.currency
+                dec.format(MyApplication.selectedOrder!!.total!!.toDouble())
+                    .toString() + " " + MyApplication.selectedOrder!!.currency
         } catch (e: Exception) {
         }
 
@@ -796,7 +854,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
         try {
             tvAmountOrderTotal.text =
-               dec.format( MyApplication.selectedOrder!!.grand_total!!.toDouble()).toString() + " " + MyApplication.selectedOrder!!.currency
+                dec.format(MyApplication.selectedOrder!!.grand_total!!.toDouble())
+                    .toString() + " " + MyApplication.selectedOrder!!.currency
         } catch (e: Exception) {
         }
         try {
@@ -805,7 +864,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         } catch (e: Exception) {
         }
 
-        if(!MyApplication.selectedOrder!!.couponCode.isNullOrEmpty()) {
+        if (!MyApplication.selectedOrder!!.couponCode.isNullOrEmpty()) {
             try {
                 tvCouponCode.text =
                     MyApplication.selectedOrder!!.couponCode!!.toString()
@@ -814,21 +873,24 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             try {
 
                 tvCouponValue.text =
-                    dec.format( MyApplication.selectedOrder!!.discountAmount!!.toDouble()).toString() + " "
-                if(MyApplication.selectedOrder!!.discounType.equals(AppConstants.COUPON_FIXED)) {
-                    tvCouponValue.text = tvCouponValue.text.toString()+ MyApplication.selectedOrder!!.currency
-                } else{
-                  if(MyApplication.languageCode == AppConstants.LANG_ENGLISH){
-                      tvCouponValue.text = tvCouponValue.text.toString()+"%"
-                  }else{
-                      tvCouponValue.text ="% "+tvCouponValue.text.toString()
-                  }
+                    dec.format(MyApplication.selectedOrder!!.discountAmount!!.toDouble())
+                        .toString() + " "
+                if (MyApplication.selectedOrder!!.discounType.equals(AppConstants.COUPON_FIXED)) {
+                    tvCouponValue.text =
+                        tvCouponValue.text.toString() + MyApplication.selectedOrder!!.currency
+                } else {
+                    if (MyApplication.languageCode == AppConstants.LANG_ENGLISH) {
+                        tvCouponValue.text = tvCouponValue.text.toString() + "%"
+                    } else {
+                        tvCouponValue.text = "% " + tvCouponValue.text.toString()
+                    }
                 }
             } catch (e: Exception) {
             }
             try {
                 tvOrderAmountDeet.text =
-                    dec.format( MyApplication.selectedOrder!!.oldTotal!!.toDouble()).toString() + " " + MyApplication.selectedOrder!!.currency
+                    dec.format(MyApplication.selectedOrder!!.oldTotal!!.toDouble())
+                        .toString() + " " + MyApplication.selectedOrder!!.currency
             } catch (e: Exception) {
             }
         }
@@ -850,7 +912,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
         try {
             swOnTrack.isChecked = MyApplication.selectedOrder!!.onTrack!!
-            if(swOnTrack.isChecked)
+            if (swOnTrack.isChecked)
                 swOnTrack.isEnabled = false
             AppHelper.setSwitchColor(swOnTrack, this)
         } catch (ex: java.lang.Exception) {
@@ -1054,6 +1116,50 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
     }
 
+    fun limitDatePicker(
+        datePicker: com.wdullaer.materialdatetimepicker.date.DatePickerDialog,
+        daysOfWeek: ArrayList<Int>
+    ) {
+        var loopdate: Calendar = Calendar.getInstance()
+        var min_date_c = Calendar.getInstance()
+        var max_date_c = Calendar.getInstance()
+        max_date_c.add(Calendar.YEAR, 100)
+        var tr = loopdate.before(max_date_c)
+        while (loopdate.before(max_date_c)) {
+            val dayOfWeek = loopdate[Calendar.DAY_OF_WEEK]
+            if (!daysOfWeek.contains(dayOfWeek)) {
+                val disabledDays = arrayOfNulls<Calendar>(1)
+                disabledDays[0] = loopdate
+                datePicker.setDisabledDays(disabledDays)
+            }
+            min_date_c.add(Calendar.DATE, 1)
+            loopdate = min_date_c
+        }
+    }
+
+    fun dateTimetoDays(array: ArrayList<ServiceAvailableDateTime>): ArrayList<Int> {
+        var arrayInt: ArrayList<Int> = arrayListOf()
+        for (item in array) {
+            if (item.day!!.equals("Monday", true)) {
+                arrayInt.add(Calendar.MONDAY)
+            } else if (item!!.day!!.equals("Tuesday", true)) {
+                arrayInt.add(Calendar.TUESDAY)
+            } else if (item!!.day!!.equals("Wednesday", true)) {
+                arrayInt.add(Calendar.WEDNESDAY)
+            } else if (item!!.day!!.equals("Thursday", true)) {
+                arrayInt.add(Calendar.THURSDAY)
+            } else if (item!!.day!!.equals("Friday", true)) {
+                arrayInt.add(Calendar.FRIDAY)
+            } else if (item!!.day!!.equals("Saturday", true)) {
+                arrayInt.add(Calendar.SATURDAY)
+            } else if (item!!.day!!.equals("Sunday", true)) {
+                arrayInt.add(Calendar.SUNDAY)
+            }
+        }
+
+        return arrayInt
+    }
+
     fun showAcceptOrderPopup(context: Activity) {
         AppHelper.createYesNoDialog(
             context,
@@ -1071,6 +1177,48 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             }
 
         }
+    }
+
+
+    fun dayIdtoString(id: Int): String {
+        if (id == Calendar.MONDAY) {
+            return "MONDAY"
+        } else if (id == Calendar.TUESDAY) {
+            return "TUESDAY"
+        } else if (id == Calendar.WEDNESDAY) {
+            return "WEDNESDAY"
+        } else if (id == Calendar.THURSDAY) {
+            return "THURSDAY"
+        } else if (id == Calendar.FRIDAY) {
+            return "FRIDAY"
+        } else if (id == Calendar.SATURDAY) {
+            return "SATURDAY"
+        } else {
+            return "SUNDAY"
+        }
+    }
+    private fun timeDialog() {
+        dialog = Dialog(this, R.style.dialogWithoutTitle)
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setCanceledOnTouchOutside(false)
+        dialog!!.setContentView(R.layout.popup_recyler)
+        dialog!!.setCancelable(true)
+        val rv: RecyclerView = dialog!!.findViewById(R.id.rvData)
+
+        var day = dayIdtoString(selectedDayId!!)
+        myTimes =
+            MyApplication.selectedOrder!!.product!!.availableDates.find { it.day.equals(day, true) }!!.time
+        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        rv.layoutManager = layoutManager
+        var adapter = AdapterInterval(myTimes, this)
+        rv.adapter = adapter
+
+        /* try{
+             var item=arrayCountries.find { it.code!!.replace("+","").trim()==MyApplication.selectedItemDialog.replace("+","").trim() }
+             var position=arrayCountries.indexOf(item!!)
+             rv.scrollToPosition(position)}catch (e: java.lang.Exception){}*/
+
+        dialog!!.show()
     }
 
     fun setListeners() {
@@ -1094,7 +1242,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
 
         btRepeatOrder.onOneClick {
-            MyApplication.repeating =true
+            MyApplication.repeating = true
             MyApplication.selectedAddress = null
 
             startActivity(
@@ -1138,66 +1286,136 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             startActivity(Intent(this, ActivityChat::class.java))
         }
         rlCheckoutDate.onOneClick {
-            var mcurrentDate = Calendar.getInstance()
-            var mYear = 0
-            var mMonth = 0
-            var mDay = 0
-            mYear = mcurrentDate!![Calendar.YEAR]
-            mMonth = mcurrentDate!![Calendar.MONTH]
-            mDay = mcurrentDate!![Calendar.DAY_OF_MONTH]
 
-            mcurrentDate.set(mYear, mMonth, mDay)
-            val mDatePicker = DatePickerDialog(
-                this,
-                DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
-                    val myCalendar = Calendar.getInstance()
-                    myCalendar[Calendar.YEAR] = selectedyear
-                    myCalendar[Calendar.MONTH] = selectedmonth
-                    myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                    val myFormat = "yyyy-MM-dd" //Change as you need
-                    var sdf =
-                        SimpleDateFormat(myFormat, Locale.ENGLISH)
-                    var date = sdf.format(myCalendar.time)
-                    etOrderDetailDate.text = date.toEditable()
-                }, mYear, mMonth, mDay
-            )
-            mDatePicker.show()
+            if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
+
+                selectedDayId = -1
+                etOrderDetailTime.text = "".toEditable()
+                val datePicker =
+                    com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
+
+                datePicker.setAccentColor(AppHelper.getColor(this, R.color.primary))
+
+
+                var intArray =
+                    dateTimetoDays(MyApplication.selectedOrder!!.product!!.availableDates)
+                limitDatePicker(datePicker, intArray)
+
+
+                datePicker.minDate = Calendar.getInstance()
+                var x = datePicker.disabledDays
+                datePicker.onDateSetListener = this
+                editor = "from"
+
+                datePicker.show(supportFragmentManager!!, "")
+            } else {
+                var mcurrentDate = Calendar.getInstance()
+                var mYear = 0
+                var mMonth = 0
+                var mDay = 0
+                mYear = mcurrentDate!![Calendar.YEAR]
+                mMonth = mcurrentDate!![Calendar.MONTH]
+                mDay = mcurrentDate!![Calendar.DAY_OF_MONTH]
+
+                mcurrentDate.set(mYear, mMonth, mDay)
+                val mDatePicker = DatePickerDialog(
+                    this,
+                    DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
+                        val myCalendar = Calendar.getInstance()
+                        myCalendar[Calendar.YEAR] = selectedyear
+                        myCalendar[Calendar.MONTH] = selectedmonth
+                        myCalendar[Calendar.DAY_OF_MONTH] = selectedday
+                        val myFormat = "yyyy-MM-dd" //Change as you need
+                        var sdf =
+                            SimpleDateFormat(myFormat, Locale.ENGLISH)
+                        var date = sdf.format(myCalendar.time)
+                        etOrderDetailDate.text = date.toEditable()
+                    }, mYear, mMonth, mDay
+                )
+                mDatePicker.datePicker.minDate = mcurrentDate!!.time.time
+                mDatePicker.show()
+            }
         }
 
         btSendRequest.onOneClick {
-            if (etOrderDetailDate.text.toString().isEmpty() || etOrderDetailTime.text.toString().isEmpty())
-                createDialog(this, AppHelper.getRemoteString("valid_delivery_time",this))
+            if (etOrderDetailDate.text.toString().isEmpty() || etOrderDetailTime.text.toString()
+                    .isEmpty()
+            )
+                createDialog(this, AppHelper.getRemoteString("valid_delivery_time", this))
             else {
                 if (AppHelper.isOnline(this)) {
-                    sendSuggestedDate()
+                    if(MyApplication.selectedOrder!!.product!!.availableDates!=null && MyApplication.selectedOrder!!.product!!.availableDates.size>0) {
+                        var day = dayIdtoString(selectedDayId!!)
+                        myTimes =
+                            MyApplication.selectedOrder!!.product!!.availableDates.find { it.day.equals(day, true) }!!.time
+                        if(myTimes.size >0)
+                            sendSuggestAvailable()
+                        else
+                            sendSuggestedDate()
+                    }else{
+                        sendSuggestedDate()
+                    }
                 } else {
-                    AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
+                    AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
                 }
             }
 
         }
 
         rlCheckoutTime.onOneClick {
-            // TODO Auto-generated method stub
-            val mcurrentTime = Calendar.getInstance()
-            val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
-            val minute = mcurrentTime[Calendar.MINUTE]
-            val myFormat = "dd/MM/yyyy" //Change as you need
-            val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
-            val now = mcurrentTime.time
-            val nowDate = sdf.format(now)
-            val timePickerDialog = TimePickerDialog(
-                this, R.style.DatePickerDialog,
-                { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+                if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
+                    if (selectedDayId!! == -1) {
+                        toast(AppHelper.getRemoteString("need_specific_date", this))
+                    } else {
+                        var day = dayIdtoString(selectedDayId!!)
+                        myTimes =
+                            MyApplication.selectedOrder!!.product!!.availableDates.find { it.day.equals(day, true) }!!.time
+                        if(myTimes.size >0 )
+                            timeDialog()
+                        else{
+                            val mcurrentTime = Calendar.getInstance()
+                            val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+                            val minute = mcurrentTime[Calendar.MINUTE]
+                            val myFormat = "dd/MM/yyyy" //Change as you need
+                            val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+                            val now = mcurrentTime.time
+                            val nowDate = sdf.format(now)
+                            val timePickerDialog = TimePickerDialog(
+                                this, R.style.DatePickerDialog,
+                                { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
-                    var time = String.format("%02d", selectedHour) + ":" + String.format(
-                        "%02d",
-                        selectedMinute
-                    ) + ":00"
-                    etOrderDetailTime.text = time.toEditable()
-                }, hour, minute, false
-            ) //Yes 24 hour time
-            timePickerDialog.show()
+                                    var time = String.format("%02d", selectedHour) + ":" + String.format(
+                                        "%02d",
+                                        selectedMinute
+                                    ) + ":00"
+                                    etOrderDetailTime.text = time.toEditable()
+                                }, hour, minute, false
+                            ) //Yes 24 hour time
+                            timePickerDialog.show()
+                        }
+                    }
+                } else {
+                    // TODO Auto-generated method stub
+                    val mcurrentTime = Calendar.getInstance()
+                    val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+                    val minute = mcurrentTime[Calendar.MINUTE]
+                    val myFormat = "dd/MM/yyyy" //Change as you need
+                    val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+                    val now = mcurrentTime.time
+                    val nowDate = sdf.format(now)
+                    val timePickerDialog = TimePickerDialog(
+                        this, R.style.DatePickerDialog,
+                        { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+
+                            var time = String.format("%02d", selectedHour) + ":" + String.format(
+                                "%02d",
+                                selectedMinute
+                            ) + ":00"
+                            etOrderDetailTime.text = time.toEditable()
+                        }, hour, minute, false
+                    ) //Yes 24 hour time
+                    timePickerDialog.show()
+                }
         }
 
         btSubmit.onOneClick {
@@ -1254,7 +1472,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     }
                 }
             } else {
-                AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
+                AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
             }
         }
         btDontCancel.onOneClick {
@@ -1271,7 +1489,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
 
         swOnTrack.setOnClickListener {
-            if(AppHelper.isOnline(this)) {
+            if (AppHelper.isOnline(this)) {
                 AppHelper.createSwitchDialog(
                     this,
                     AppHelper.getRemoteString("ok", this),
@@ -1283,13 +1501,19 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 ) {
                     if (swOnTrack.isChecked) {
                         MyApplication.saveLocationTracking = true
-                        if(!MyApplication.listOrderTrack!!.contains(MyApplication.selectedOrder!!.orderId.toString()))
+                        if (!MyApplication.listOrderTrack!!.contains(MyApplication.selectedOrder!!.orderId.toString()))
                             MyApplication.listOrderTrack.add(MyApplication.selectedOrder!!.orderId!!)
-                        MyApplication.listDestination.add(LatLng(MyApplication.selectedOrder!!.shipping_latitude!!.toDouble(),MyApplication.selectedOrder!!.shipping_longitude!!.toDouble()))
+                        MyApplication.listDestination.add(OrderLocation(
+                            "",
+                            MyApplication.selectedOrder!!.orderId,
+                                MyApplication.selectedOrder!!.shipping_latitude!!,
+                                MyApplication.selectedOrder!!.shipping_longitude!!
+                            )
+                        )
 
                         AppHelper.toGsonArrString()
                         swOnTrack.isEnabled = true
-                        changeState(true,0)
+                        changeState(true, 0)
                         AppHelper.setSwitchColor(swOnTrack, this)
                         onTrack = 1
                     } else {
@@ -1301,14 +1525,14 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     // MyApplication.trackingActivity = this
                     //  AppHelper.setUpDoc(MyApplication.selectedOrder!!, this)
                 }
-            }else{
+            } else {
                 swOnTrack.isChecked = !swOnTrack.isChecked
                 AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
             }
 
         }
         swPaid.setOnClickListener {
-            if(AppHelper.isOnline(this)) {
+            if (AppHelper.isOnline(this)) {
                 AppHelper.createSwitchDialog(
                     this,
                     AppHelper.getRemoteString("ok", this),
@@ -1336,7 +1560,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     }
                     setStatus()
                 }
-            }else{
+            } else {
                 swPaid.isChecked = !swPaid.isChecked
                 AppHelper.createDialog(this, AppHelper.getRemoteString("no_internet", this))
             }
@@ -1363,9 +1587,10 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                         }
                         swDelivered.isEnabled = false
                         MyApplication.saveLocationTracking = false
-                        var indx = MyApplication.listOrderTrack.indexOf(MyApplication.selectedOrder!!.orderId)
-                        if(indx !=-1)
-                            changeState(false,indx)
+                        var indx =
+                            MyApplication.listOrderTrack.indexOf(MyApplication.selectedOrder!!.orderId)
+                        if (indx != -1)
+                            changeState(false, indx)
                         AppHelper.setSwitchColor(swDelivered, this)
                         delivered = 1
                     } else {
@@ -1391,17 +1616,17 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 AppHelper.loadDrawable(this, "icon_star_fill", ivRate)
                 ivRate.setTint(R.color.transparent)
             }
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
 
         }
 
         llRatingOrder.setOnClickListener {
-            if( !MyApplication.selectedOrder!!.vendorRate.isNullOrEmpty() && MyApplication.selectedOrder!!.vendorRate!!.toInt() == 0 && MyApplication.isClient)
+            if (!MyApplication.selectedOrder!!.vendorRate.isNullOrEmpty() && MyApplication.selectedOrder!!.vendorRate!!.toInt() == 0 && MyApplication.isClient)
                 showRatingDialog()
-            else if(!MyApplication.isClient && !MyApplication.selectedOrder!!.clientRate.isNullOrEmpty() && MyApplication.selectedOrder!!.clientRate!!.toInt() == 0){
+            else if (!MyApplication.isClient && !MyApplication.selectedOrder!!.clientRate.isNullOrEmpty() && MyApplication.selectedOrder!!.clientRate!!.toInt() == 0) {
                 showRatingDialog()
-            }else{
-               createDialog(this,AppHelper.getRemoteString("ratedAlready",this))
+            } else {
+                createDialog(this, AppHelper.getRemoteString("ratedAlready", this))
             }
         }
 
@@ -1490,11 +1715,51 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     }
 
 
+    fun sendSuggestAvailable() {
+        loading.show()
+        var newReq = RequestNewDeliveryDate(
+            MyApplication.selectedOrder!!.orderId!!.toInt(),
+            etOrderDetailDate.text.toString(),
+            from,
+            to,
+            MyApplication.languageCode
+        )
+        RetrofitClient.client?.create(RetrofitInterface::class.java)
+            ?.sp_send_new_dt(newReq)?.enqueue(object : Callback<ResponseDeliveryDate> {
+                override fun onResponse(
+                    call: Call<ResponseDeliveryDate>,
+                    response: Response<ResponseDeliveryDate>
+                ) {
+                    try {
+                        loading.hide()
+                        if (response.body()!!.result == "1") {
+                            createDialog(
+                                this@ActivityOrderDetails,
+                                AppHelper.getRemoteString(
+                                    "sugg_date_sent",
+                                    this@ActivityOrderDetails
+                                )
+                            )
+                        }
+                    } catch (E: java.lang.Exception) {
+                        loading.hide()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseDeliveryDate>, throwable: Throwable) {
+                    loading.hide()
+                }
+            })
+    }
+
+
     fun sendSuggestedDate() {
         loading.show()
         var newReq = RequestNewDeliveryDate(
             MyApplication.selectedOrder!!.orderId!!.toInt(),
             etOrderDetailDate.text.toString() + " " + etOrderDetailTime.text.toString(),
+            "",
+            "",
             MyApplication.languageCode
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
@@ -1544,6 +1809,10 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
     override fun onItemClicked(view: View, position: Int) {
 
+        etOrderDetailTime.text = myTimes.get(position).from!!.toEditable()
+        from = myTimes.get(position).from
+        to = myTimes.get(position).to
+        dialog!!.cancel()
 
     }
 
@@ -1581,14 +1850,14 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                  etRatingText.startAnimation(shake)
              } else*/
             if (rbOrder.rating == 0f)
-                 rbOrder.startAnimation(shake)
-        else {
-            if (MyApplication.isClient) {
-                setClientRating(loading, etRatingText.text.toString(), rbOrder.rating.toInt())
-            } else {
-                setSerRating(loading, etRatingText.text.toString(), rbOrder.rating.toInt())
+                rbOrder.startAnimation(shake)
+            else {
+                if (MyApplication.isClient) {
+                    setClientRating(loading, etRatingText.text.toString(), rbOrder.rating.toInt())
+                } else {
+                    setSerRating(loading, etRatingText.text.toString(), rbOrder.rating.toInt())
+                }
             }
-        }
         }
 
         close.onOneClick {
@@ -1656,7 +1925,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                         if (response.body()!!.result == 1) {
                             dialog!!.dismiss()
                             MyApplication.selectedOrder!!.vendorRate = rating!!.toString()
-                        }else {
+                        } else {
                             createDialog(this@ActivityOrderDetails, response.body()!!.message!!)
                         }
                     } catch (E: java.lang.Exception) {
@@ -1670,29 +1939,44 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     }
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-        if(success) {
+        if (success) {
             /*if (apiId == AppConstants.ORDER_BY_ORDER_ID_BROAD) {
 
             } else {*/
-                if(apiId == AppConstants.GET_CATEGORIES){
-                    setOrderData()
-                }else {
-                    try {
-                        MyApplication.selectedOrder = response as ResponseOrders
-                        if (MyApplication.categories.size > 0) {
-                            setOrderData()
-                        } else {
-                            CallAPIs.getCategories(this,this)
-                        }
-                    } catch (ex: Exception) {
-                        logw("OrderError", ex.toString())
-                        loading.hide()
+            if (apiId == AppConstants.GET_CATEGORIES) {
+                setOrderData()
+            } else {
+                try {
+                    MyApplication.selectedOrder = response as ResponseOrders
+                    if (MyApplication.categories.size > 0) {
+                        setOrderData()
+                    } else {
+                        CallAPIs.getCategories(this, this)
                     }
-                    // }
+                } catch (ex: Exception) {
+                    logw("OrderError", ex.toString())
+                    loading.hide()
                 }
-        }else
-        {
+                // }
+            }
+        } else {
             loading.hide()
         }
+    }
+
+    override fun onDateSet(
+        view: com.wdullaer.materialdatetimepicker.date.DatePickerDialog?,
+        year: Int,
+        monthOfYear: Int,
+        dayOfMonth: Int
+    ) {
+        val myCalendar = Calendar.getInstance()
+        myCalendar[Calendar.YEAR] = year
+        myCalendar[Calendar.MONTH] = monthOfYear
+        myCalendar[Calendar.DAY_OF_MONTH] = dayOfMonth
+        selectedDayId = myCalendar.get(Calendar.DAY_OF_WEEK)
+        var date = sendFormatter.format(myCalendar.time)
+        var dateShow = viewFormatter.format(myCalendar.time)
+        etOrderDetailDate.text = dateShow.toEditable()
     }
 }

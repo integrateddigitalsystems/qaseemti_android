@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import com.google.android.gms.maps.model.LatLng
 import com.ids.qasemti.R
 import com.ids.qasemti.controller.Base.ActivityBase
 import com.ids.qasemti.controller.Base.AppCompactBase
@@ -180,7 +181,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
 
     fun sendOTP() {
         pvCode.text!!.clear()
-        var req = RequestOTP(MyApplication.selectedPhone, MyApplication.deviceId)
+        var req = RequestOTP(MyApplication.selectedPhone, MyApplication.deviceId,MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.sendOTP(
                 req
@@ -224,7 +225,11 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
     fun requestSucc(respone: ResponseVerification) {
         if (respone.result.equals("1")) {
             MyApplication.selectedPhone = respone.user!!.mobileNumber!!
-            CallAPIs.updateDevice(this,this)
+           // CallAPIs.updateDevice(this,this)
+            if (AppHelper.checkLocPerm(this))
+                AppHelper.getLoc(this, this)
+            else
+                CallAPIs.getIP(this, this, LatLng(0.0, 0.0))
            // AppHelper.updateDevice(this,respone.user!!.mobileNumber!!)
             if (respone.user != null ) {
                 if(!MyApplication.isClient){

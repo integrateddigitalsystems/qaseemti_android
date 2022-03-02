@@ -37,6 +37,7 @@ import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.android.synthetic.main.home_container.*
 import kotlinx.android.synthetic.main.layout_border_data.*
 import kotlinx.android.synthetic.main.layout_border_red.*
+import kotlinx.android.synthetic.main.layout_request_new_time.*
 import kotlinx.android.synthetic.main.loading.*
 import kotlinx.android.synthetic.main.service_tab_1.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -60,6 +61,10 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
     var request: RequestPaymentOrder? = null
     var reviewed: Boolean? = false
     var username: String? = ""
+    var hourFormat : String ="HH:mm:ss"
+    var hourMinFor : String = "HH:mm"
+    var fromForm = SimpleDateFormat(hourFormat, Locale.ENGLISH)
+    var toForm = SimpleDateFormat(hourMinFor, Locale.ENGLISH)
     var dec = DecimalFormat("##.##")
     var arrayOrderData: ArrayList<OrderData> = arrayListOf()
     var arrayOrderCost: ArrayList<OrderData> = arrayListOf()
@@ -146,10 +151,19 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
             tvOrderDate.text =
                 AppHelper.formatDate(orders.date!!, "yyyy-MM-dd hh:mm:ssss", "yyyy-MM-dd HH:mm")
         } catch (e: Exception) {
+            tvOrderDate.text = orders.date
         }
         try {
             tvExpectedDate.text = orders.deliveryDate
         } catch (ex: Exception) {
+        }
+
+        try{
+            if(orders.time!=null){
+                tvExpectedDate.text = tvExpectedDate.text.toString() + " "+ toForm.format(fromForm.parse(orders.time!!.from))+ " - "+toForm.format(fromForm.parse(orders.time!!.to))
+            }
+        }catch (ex:Exception){
+
         }
         fragMang = supportFragmentManager
         arrayOrderData.clear()

@@ -347,6 +347,8 @@
     <string name="pay">Pay</string>
     <string name="install_instagram">Please install the Instagram application</string>
     <string name="fill_reason_field">Please fill the reason field</string>
+    <string name="product_is_restricted"> " This product is restricted to specific days for delivery "</string>
+    <string name="no_service_paymentMethod">This service does not currently have a payment method</string>
 
 
 </resources>

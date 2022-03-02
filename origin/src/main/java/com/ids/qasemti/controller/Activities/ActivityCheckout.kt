@@ -46,6 +46,7 @@ import com.ids.qasemti.controller.Base.AppCompactBase
 import com.ids.sampleapp.model.ItemSpinner
 import kotlinx.android.synthetic.main.fragment_checkout.tvPrice
 import kotlinx.android.synthetic.main.fragment_service_details.*
+import kotlinx.android.synthetic.main.layout_request_new_time.*
 import java.time.LocalDate
 import java.time.Month
 import kotlin.collections.ArrayList
@@ -57,6 +58,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
     var open = true
     var REQUEST_LOCATION = 5
     var stamp: Long? = 0
+    var timeSelected : Boolean ?=false
     var selectedFromSlot: String? = ""
     var selectedToSlot: String? = ""
     var editer: String? = ""
@@ -69,7 +71,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
     var viewFormat: String = "dd/MM/yyyy"
     var timeFormat: String = "hh:mm"
     var sendFormatter = SimpleDateFormat(sendFormat, Locale.ENGLISH)
-    var viewFormatter = SimpleDateFormat(viewFormat, Locale.ENGLISH)
+    var viewFormatter = SimpleDateFormat(sendFormat, Locale.ENGLISH)
     var mainFormatter = SimpleDateFormat("yyyy-MM-dd hh:mm")
     var main2Formatter = SimpleDateFormat("yyyy-MM-dd")
     var getFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
@@ -113,6 +115,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             } catch (e: Exception) {
             }
         } else {
+            timeSelected = true
             selectedFromSlot = myTimes.get(position).from
             selectedToSlot = myTimes.get(position).to
             etFromTime.text = myTimes.get(position).from!!.toEditable()
@@ -236,6 +239,35 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
         return arrayInt
     }
 
+    private fun timeDialogRepeat() {
+        dialog = Dialog(this, R.style.dialogWithoutTitle)
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setCanceledOnTouchOutside(false)
+        dialog!!.setContentView(R.layout.popup_recyler)
+        dialog!!.setCancelable(true)
+        val rv: RecyclerView = dialog!!.findViewById(R.id.rvData)
+
+        var day = dayIdtoString(selectedDayId!!)
+        myTimes =
+            MyApplication.selectedOrder!!.product!!.availableDates.find {
+                it.day.equals(
+                    day,
+                    true
+                )
+            }!!.time
+        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        rv.layoutManager = layoutManager
+        var adapter = AdapterInterval(myTimes, this)
+        rv.adapter = adapter
+
+        /* try{
+             var item=arrayCountries.find { it.code!!.replace("+","").trim()==MyApplication.selectedItemDialog.replace("+","").trim() }
+             var position=arrayCountries.indexOf(item!!)
+             rv.scrollToPosition(position)}catch (e: java.lang.Exception){}*/
+
+        dialog!!.show()
+    }
+
     private fun timeDialog() {
         dialog = Dialog(this, R.style.dialogWithoutTitle)
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -246,7 +278,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
         var day = dayIdtoString(selectedDayId!!)
         myTimes =
-            MyApplication.selectedOrder!!.product!!.availableDates.find { it.day.equals(day, true) }!!.time
+            MyApplication.selectedService!!.availableDates.find { it.day.equals(day, true) }!!.time
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rv.layoutManager = layoutManager
         var adapter = AdapterInterval(myTimes, this)
@@ -290,40 +322,64 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             var dayName = dayIdtoString(cal.get(Calendar.DAY_OF_WEEK))
             var thisDay =
                 MyApplication.selectedService!!.availableDates.find { it.day.equals(dayName, true) }
-            if (thisDay != null) {
-                rlFromDate.onOneClick {
+            rbNow.isEnabled = false
+            rbSpecify.isChecked = true
+            selectedDayId = -1
+            rlFromDate.onOneClick {
+                val datePicker =
+                    com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
 
-                }
-            } else {
-                rbNow.isEnabled = false
-                rbSpecify.isChecked = true
-                selectedDayId = -1
-                rlFromDate.onOneClick {
-                    val datePicker =
-                        com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
-
-                    datePicker.setAccentColor(AppHelper.getColor(this, R.color.primary))
+                datePicker.setAccentColor(AppHelper.getColor(this, R.color.primary))
 
 
-                    var intArray =
-                        dateTimetoDays(MyApplication.selectedService!!.availableDates)
-                    limitDatePicker(datePicker, intArray)
+                var intArray =
+                    dateTimetoDays(MyApplication.selectedService!!.availableDates)
+                limitDatePicker(datePicker, intArray)
 
 
-                    datePicker.minDate = Calendar.getInstance()
-                    var x = datePicker.disabledDays
-                    datePicker.onDateSetListener = this
-                    editer = "from"
+                datePicker.minDate = Calendar.getInstance()
+                var x = datePicker.disabledDays
+                datePicker.onDateSetListener = this
+                editer = "from"
 
-                    datePicker.show(supportFragmentManager!!, "")
-                }
+                datePicker.show(supportFragmentManager!!, "")
+
             }
 
             rlFromTime.onOneClick {
                 if (selectedDayId!! == -1) {
                     toast(getString(R.string.need_specific_date))
                 } else {
-                    timeDialog()
+                    var day = dayIdtoString(selectedDayId!!)
+                    myTimes =
+                        MyApplication.selectedService!!.availableDates.find { it.day.equals(day, true) }!!.time
+
+
+                    if(myTimes!!.size >0){
+                        timeDialog()
+                    }else{
+                        val mcurrentTime = Calendar.getInstance()
+                        val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+                        val minute = mcurrentTime[Calendar.MINUTE]
+                        val now = mcurrentTime.time
+                        val timePickerDialog = TimePickerDialog(
+                            this, R.style.DatePickerDialog,
+                            { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+
+                                fromHour = selectedHour
+                                fromMin = selectedMinute
+                                timeSelected = true
+                                var time = selectedHour.toString()
+                                    .formatNumber("00") + ":" + selectedMinute.toString()
+                                    .formatNumber("00")
+                                etFromTime.text = time.toEditable()
+                                var date =
+                                    selectedDate!!.split(" ").get(0)
+                                selectedDate = date + " " + time
+                            }, hour, minute, true
+                        ) //Yes 24 hour time
+                        timePickerDialog.show()
+                    }
                 }
             }
 
@@ -369,7 +425,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     }!!.id!!.toInt())) {
 
                     if (!etToDate.text.isNullOrEmpty() && !etToTime.text.isNullOrEmpty()) {
-                        if (rbNow.isChecked || checkGivenDate()) {
+                        if (rbNow.isChecked || checkGivenDate()  && !etFromDate.text.toString().isNullOrEmpty() && !etFromTime.text.toString().isNullOrEmpty()) {
                             update = MyApplication.selectedPlaceOrder != null
                             if (MyApplication.selectedUser != null) {
                                 try {
@@ -378,14 +434,17 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                         CallAPIs.getAddressName(latLng!!, this, this)
                                     else {
 
-                                        if (reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()
+                                        if ((MyApplication.selectedService!!.serviceReasons == null || MyApplication.selectedService!!.serviceReasons.size == 0) || reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()
                                                 .isNullOrEmpty())
                                         ) {
-                                            if (reasonId == 0) {
-                                                reasonString = etServiceReason.text.toString()
-                                            } else {
-                                                reasonString = ""
-                                            }
+                                            if (reasonId == -1) {
+                                                reasonId = 0
+                                            } else
+                                                if (reasonId == 0) {
+                                                    reasonString = etServiceReason.text.toString()
+                                                } else {
+                                                    reasonString = ""
+                                                }
                                             setPlacedOrder()
                                         } else {
                                             AppHelper.createDialog(
@@ -410,14 +469,17 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     }
                 } else {
 
-                    if (rbNow.isChecked || checkGivenDate()) {
+                    if (rbNow.isChecked || checkGivenDate() && !etFromDate.text.toString().isNullOrEmpty() && !etFromTime.text.toString().isNullOrEmpty()) {
                         update = MyApplication.selectedPlaceOrder != null
                         if (MyApplication.selectedUser != null) {
                             try {
                                 if (MyApplication.selectedAddress == null)
                                     CallAPIs.getAddressName(latLng!!, this, this)
                                 else {
-                                    if (reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()
+                                    if ((MyApplication.selectedService!!.serviceReasons == null || MyApplication.selectedService!!.serviceReasons.size == 0)) {
+                                        reasonId = 0
+                                        reasonString = ""
+                                    } else if (reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()
                                             .isNullOrEmpty())
                                     ) {
                                         if (reasonId == 0) {
@@ -426,6 +488,8 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                             reasonString = ""
                                         }
                                         setPlacedOrder()
+
+
                                     } else {
                                         AppHelper.createDialog(
                                             this,
@@ -463,33 +527,28 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                         true
                     )
                 }
-                if (thisDay != null) {
-                    rlFromDate.onOneClick {
+                rbNow.isEnabled = false
+                rbSpecify.isChecked = true
+                selectedDayId = -1
+                rlFromDate.onOneClick {
+                    val datePicker =
+                        com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
 
-                    }
-                } else {
-                    rbNow.isEnabled = false
-                    rbSpecify.isChecked = true
-                    selectedDayId = -1
-                    rlFromDate.onOneClick {
-                        val datePicker =
-                            com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
-
-                        datePicker.setAccentColor(AppHelper.getColor(this, R.color.primary))
+                    datePicker.setAccentColor(AppHelper.getColor(this, R.color.primary))
 
 
-                        var intArray =
-                            dateTimetoDays(MyApplication.selectedService!!.availableDates)
-                        limitDatePicker(datePicker, intArray)
+                    var intArray =
+                        dateTimetoDays(MyApplication.selectedService!!.availableDates)
+                    limitDatePicker(datePicker, intArray)
 
 
-                        datePicker.minDate = Calendar.getInstance()
-                        var x = datePicker.disabledDays
-                        datePicker.onDateSetListener = this
-                        editer = "from"
+                    datePicker.minDate = Calendar.getInstance()
+                    var x = datePicker.disabledDays
+                    datePicker.onDateSetListener = this
+                    editer = "from"
 
-                        datePicker.show(supportFragmentManager!!, "")
-                    }
+                    datePicker.show(supportFragmentManager!!, "")
+
                 }
 
                 rlFromTime.onOneClick {
@@ -558,6 +617,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             var date = sendFormatter.format(myCalendar.time)
                             var dateShow = viewFormatter.format(myCalendar.time)
                             etFromDate.text = date.toEditable()
+                            timeSelected = false
                             if (compareDates() == 1) {
                                 selectedTo = date
                                 etToDate.text = dateShow.toEditable()
@@ -577,7 +637,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
                 if (MyApplication.selectedService!!.availableDates != null && MyApplication.selectedService!!.availableDates.size > 0) {
                     if (selectedDayId!! == -1) {
-                        toast(getString(R.string.need_specific_date))
+                        toast(AppHelper.getRemoteString("need_specific_date", this))
                     } else {
                         timeDialog()
                     }
@@ -598,6 +658,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                 .formatNumber("00") + ":" + selectedMinute.toString()
                                 .formatNumber("00")
                             etFromTime.text = time.toEditable()
+                            timeSelected = true
                             var date =
                                 selectedDate!!.split(" ").get(0)
                             selectedDate = date + " " + time
@@ -627,6 +688,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     )
                     if (compareDates() == -1) {
                         if (!compareTimes(selectedHour, selectedMinute)) {
+                            timeSelected = false
                             AppHelper.createDialog(this, "You cannot pick a time before selected")
                         } else {
                             etToTime.text = time.toEditable()
@@ -777,40 +839,62 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     true
                 )
             }
-            if (thisDay != null) {
-                rlFromDate.onOneClick {
+            rbNow.isEnabled = false
+            rbSpecify.isChecked = true
+            selectedDayId = -1
+            rlFromDate.onOneClick {
+                val datePicker =
+                    com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
 
-                }
-            } else {
-                rbNow.isEnabled = false
-                rbSpecify.isChecked = true
-                selectedDayId = -1
-                rlFromDate.onOneClick {
-                    val datePicker =
-                        com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
-
-                    datePicker.setAccentColor(AppHelper.getColor(this, R.color.primary))
+                datePicker.setAccentColor(AppHelper.getColor(this, R.color.primary))
 
 
-                    var intArray =
-                        dateTimetoDays(MyApplication.selectedOrder!!.product!!.availableDates)
-                    limitDatePicker(datePicker, intArray)
+                var intArray =
+                    dateTimetoDays(MyApplication.selectedOrder!!.product!!.availableDates)
+                limitDatePicker(datePicker, intArray)
 
 
-                    datePicker.minDate = Calendar.getInstance()
-                    var x = datePicker.disabledDays
-                    datePicker.onDateSetListener = this
-                    editer = "from"
+                datePicker.minDate = Calendar.getInstance()
+                var x = datePicker.disabledDays
+                datePicker.onDateSetListener = this
+                editer = "from"
 
-                    datePicker.show(supportFragmentManager!!, "")
-                }
+                datePicker.show(supportFragmentManager!!, "")
+
             }
 
             rlFromTime.onOneClick {
-                if (selectedDayId!! == -1) {
-                    toast(getString(R.string.need_specific_date))
+
+                if (MyApplication.selectedService!!.availableDates != null && MyApplication.selectedService!!.availableDates.size > 0) {
+                    if (selectedDayId!! == -1) {
+                        toast(AppHelper.getRemoteString("need_specific_date", this))
+                    } else {
+                        timeDialog()
+                    }
                 } else {
-                    timeDialog()
+                    // TODO Auto-generated method stub
+                    val mcurrentTime = Calendar.getInstance()
+                    val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+                    val minute = mcurrentTime[Calendar.MINUTE]
+                    val now = mcurrentTime.time
+                    val timePickerDialog = TimePickerDialog(
+                        this, R.style.DatePickerDialog,
+                        { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+
+                            fromHour = selectedHour
+                            fromMin = selectedMinute
+                            timeSelected = true
+                            var time = selectedHour.toString()
+                                .formatNumber("00") + ":" + selectedMinute.toString()
+                                .formatNumber("00")
+                            etFromTime.text = time.toEditable()
+                            var date =
+                                selectedDate!!.split(" ").get(0)
+                            selectedDate = date + " " + time
+                            timeSelected = true
+                        }, hour, minute, true
+                    ) //Yes 24 hour time
+                    timePickerDialog.show()
                 }
             }
         } else {
@@ -838,44 +922,90 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
         if (MyApplication.selectedService!!.availableDates != null && MyApplication.selectedService!!.availableDates.size > 0) {
             var cal = Calendar.getInstance()
-            selectedDayId = cal.get(Calendar.DAY_OF_WEEK)
+            //  selectedDayId = cal.get(Calendar.DAY_OF_WEEK)
             var dayName = dayIdtoString(cal.get(Calendar.DAY_OF_WEEK))
             var thisDay =
                 MyApplication.selectedService!!.availableDates.find { it.day.equals(dayName, true) }
-            if (thisDay != null) {
-                rlFromDate.onOneClick {
+            rbNow.isEnabled = false
+            rbSpecify.isChecked = true
+            selectedDayId = -1
+            rlFromDate.onOneClick {
+                val datePicker =
+                    com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
 
-                }
-            } else {
-                rbNow.isEnabled = false
-                rbSpecify.isChecked = true
-                selectedDayId = -1
-                rlFromDate.onOneClick {
-                    val datePicker =
-                        com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
-
-                    datePicker.setAccentColor(AppHelper.getColor(this, R.color.primary))
+                datePicker.setAccentColor(AppHelper.getColor(this, R.color.primary))
 
 
-                    var intArray =
-                        dateTimetoDays(MyApplication.selectedService!!.availableDates)
-                    limitDatePicker(datePicker, intArray)
+                var intArray =
+                    dateTimetoDays(MyApplication.selectedService!!.availableDates)
+                limitDatePicker(datePicker, intArray)
 
 
-                    datePicker.minDate = Calendar.getInstance()
-                    var x = datePicker.disabledDays
-                    datePicker.onDateSetListener = this
-                    editer = "from"
+                datePicker.minDate = Calendar.getInstance()
+                var x = datePicker.disabledDays
+                datePicker.onDateSetListener = this
+                editer = "from"
 
-                    datePicker.show(supportFragmentManager!!, "")
-                }
+                datePicker.show(supportFragmentManager!!, "")
             }
 
             rlFromTime.onOneClick {
-                if (selectedDayId!! == -1) {
-                    toast(getString(R.string.need_specific_date))
+
+                if (MyApplication.selectedService!!.availableDates != null && MyApplication.selectedService!!.availableDates.size > 0) {
+
+                        if (MyApplication.selectedService!!.availableDates != null && MyApplication.selectedService!!.availableDates.size > 0) {
+                            if (selectedDayId!! == -1) {
+                                toast(AppHelper.getRemoteString("need_specific_date", this))
+                            } else {
+                                timeDialog()
+                            }
+                        } else {
+                            // TODO Auto-generated method stub
+                            val mcurrentTime = Calendar.getInstance()
+                            val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+                            val minute = mcurrentTime[Calendar.MINUTE]
+                            val now = mcurrentTime.time
+                            val timePickerDialog = TimePickerDialog(
+                                this, R.style.DatePickerDialog,
+                                { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+
+                                    fromHour = selectedHour
+                                    fromMin = selectedMinute
+                                    timeSelected = true
+                                    var time = selectedHour.toString()
+                                        .formatNumber("00") + ":" + selectedMinute.toString()
+                                        .formatNumber("00")
+                                    etFromTime.text = time.toEditable()
+                                    var date =
+                                        selectedDate!!.split(" ").get(0)
+                                    selectedDate = date + " " + time
+                                }, hour, minute, true
+                            ) //Yes 24 hour time
+                            timePickerDialog.show()
+                        }
                 } else {
-                    timeDialog()
+                    // TODO Auto-generated method stub
+                    val mcurrentTime = Calendar.getInstance()
+                    val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+                    val minute = mcurrentTime[Calendar.MINUTE]
+                    val now = mcurrentTime.time
+                    val timePickerDialog = TimePickerDialog(
+                        this, R.style.DatePickerDialog,
+                        { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+
+                            fromHour = selectedHour
+                            fromMin = selectedMinute
+                            timeSelected = true
+                            var time = selectedHour.toString()
+                                .formatNumber("00") + ":" + selectedMinute.toString()
+                                .formatNumber("00")
+                            etFromTime.text = time.toEditable()
+                            var date =
+                                selectedDate!!.split(" ").get(0)
+                            selectedDate = date + " " + time
+                        }, hour, minute, true
+                    ) //Yes 24 hour time
+                    timePickerDialog.show()
                 }
             }
         } else {
@@ -884,8 +1014,12 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
         setOrderSummary()
         setListeners()
         setPaymentMethods()
-        if(MyApplication.selectedService!!.serviceReasons!=null && MyApplication.selectedService!!.serviceReasons.size >0 )
+        if (MyApplication.selectedService!!.serviceReasons != null && MyApplication.selectedService!!.serviceReasons.size > 0) {
+            llSpReason.show()
             setSpinnerData()
+        } else {
+            llSpReason.hide()
+        }
 
     }
 
@@ -1005,7 +1139,21 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
         btPlaceOrder.typeface = AppHelper.getTypeFace(this)
 
+        tvRestrictedCHeckout.typeface = AppHelper.getTypefaceBoldItalic(this)
+
         if (!MyApplication.renewing && !MyApplication.repeating) {
+            if(MyApplication.selectedService!!.availablePaymentMethods== null || MyApplication.selectedService!!.availablePaymentMethods.size == 0 ){
+                btPlaceOrder.hide()
+                noPaymentMethods.show()
+            }else{
+                btPlaceOrder.show()
+                noPaymentMethods.hide()
+            }
+            if (MyApplication.selectedService!!.availableDates != null && MyApplication.selectedService!!.availableDates!!.size > 0) {
+                tvRestrictedCHeckout.show()
+            } else {
+                tvRestrictedCHeckout.hide()
+            }
             if (MyApplication.selectedService != null) {
                 if (MyApplication.categories.size > 0) {
                     setUpCategory()
@@ -1017,13 +1165,27 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                 logw("rebirth", "done")
                 AppHelper.triggerRebirth(this)
             }
-        } else if (MyApplication.renewing) {
+        }
+        else if (MyApplication.renewing) {
+            if(MyApplication.selectedOrder!!.product!!.availablePaymentMethods== null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0 ){
+                btPlaceOrder.hide()
+                noPaymentMethods.show()
+            }else{
+                btPlaceOrder.show()
+                noPaymentMethods.hide()
+            }
             MyApplication.renewing = false
             tvFromTitle.show()
             tvToTitle.show()
             llToLayout.show()
             setUpRenting()
             llAddresses.isEnabled = false
+
+            if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
+                tvRestrictedCHeckout.show()
+            } else {
+                tvRestrictedCHeckout.hide()
+            }
 
 
             var current = Calendar.getInstance()
@@ -1149,6 +1311,17 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                 timePickerDialog.show()
             }*/
 
+         /*   if(MyApplication.selectedOrder!!.product!!.serviceReasons!=null && MyApplication.selectedOrder!!.product!!.serviceReasons.size > 0){
+                setSpinnerRepeat()
+                llSpReason.show()
+            }else{
+                llSpReason.hide()
+            }
+
+            if(MyApplication.selectedOrder!!.product!!.availableDates!=null && MyApplication.selectedOrder!!.product.availableDates.size > 0){
+
+            }
+*/
             rlToTime.onOneClick {
                 val mcurrentTime = Calendar.getInstance()
                 val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
@@ -1240,6 +1413,19 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             }
         } else {
 
+            if(MyApplication.selectedOrder!!.product!!.availablePaymentMethods== null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0 ){
+                btPlaceOrder.hide()
+                noPaymentMethods.show()
+            }else{
+                btPlaceOrder.show()
+                noPaymentMethods.hide()
+            }
+
+            if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
+                tvRestrictedCHeckout.show()
+            } else {
+                tvRestrictedCHeckout.hide()
+            }
 
             var addr = ""
             if (!MyApplication.selectedOrder!!.shipping_province.isNullOrEmpty())
@@ -1287,51 +1473,37 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             true
                         )
                     }
-                    if (thisDay != null) {
-                        rlFromDate.onOneClick {
-
-                        }
-                    } else {
-                        rbNow.isEnabled = false
-                        rbSpecify.isChecked = true
-                        selectedDayId = -1
-                        rlFromDate.onOneClick {
-                            val datePicker =
-                                com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
-
-                            datePicker.setAccentColor(AppHelper.getColor(this, R.color.primary))
-
-
-                            var intArray =
-                                dateTimetoDays(MyApplication.selectedService!!.availableDates)
-                            limitDatePicker(datePicker, intArray)
-
-
-                            datePicker.minDate = Calendar.getInstance()
-                            var x = datePicker.disabledDays
-                            datePicker.onDateSetListener = this
-                            editer = "from"
-
-                            datePicker.show(supportFragmentManager!!, "")
-                        }
-                    }
-
-                    rlFromTime.onOneClick {
-                        if (selectedDayId!! == -1) {
-                            toast(getString(R.string.need_specific_date))
-                        } else {
-                            timeDialog()
-                        }
-                    }
-
-                } else {
-                    setUpCurr()
+                    rbNow.isEnabled = false
+                    rbSpecify.isChecked = true
+                    selectedDayId = -1
                     rlFromDate.onOneClick {
+                        val datePicker =
+                            com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
 
-                    }
-                    rlFromTime.onOneClick {
+                        datePicker.setAccentColor(AppHelper.getColor(this, R.color.primary))
 
+
+                        var intArray =
+                            dateTimetoDays(MyApplication.selectedService!!.availableDates)
+                        limitDatePicker(datePicker, intArray)
+
+
+                        datePicker.minDate = Calendar.getInstance()
+                        var x = datePicker.disabledDays
+                        datePicker.onDateSetListener = this
+                        editer = "from"
+
+                        datePicker.show(supportFragmentManager!!, "")
                     }
+                }
+
+                rlFromTime.onOneClick {
+                    if (selectedDayId!! == -1) {
+                        toast(getString(R.string.need_specific_date))
+                    } else {
+                        timeDialogRepeat()
+                    }
+
                 }
 
                 AppHelper.setTextColor(this, etFromDate, R.color.gray_font_light)
@@ -1404,7 +1576,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                         if (selectedDayId!! == -1) {
                             toast(getString(R.string.need_specific_date))
                         } else {
-                            timeDialog()
+                            timeDialogRepeat()
                         }
                     } else {
                         // TODO Auto-generated method stub
@@ -1423,6 +1595,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                     .formatNumber("00") + ":" + selectedMinute.toString()
                                     .formatNumber("00")
                                 etFromTime.text = time.toEditable()
+                                timeSelected = true
                                 var date =
                                     selectedDate!!.split(" ").get(0)
                                 selectedDate = date + " " + time
@@ -1440,7 +1613,8 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     datePicker.setAccentColor(AppHelper.getColor(this, R.color.primary))
 
 
-                    var intArray = dateTimetoDays(MyApplication.selectedOrder!!.product!!.availableDates)
+                    var intArray =
+                        dateTimetoDays(MyApplication.selectedOrder!!.product!!.availableDates)
                     limitDatePicker(datePicker, intArray)
 
 
@@ -1470,6 +1644,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             myCalendar[Calendar.MONTH] = selectedmonth
                             myCalendar[Calendar.DAY_OF_MONTH] = selectedday
                             pickedDate = myCalendar.time
+                            timeSelected = false
                             var date = sendFormatter.format(myCalendar.time)
                             var dateShow = viewFormatter.format(myCalendar.time)
                             etFromDate.text = date.toEditable()
@@ -1494,7 +1669,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     if (selectedDayId!! == -1) {
                         toast(getString(R.string.need_specific_date))
                     } else {
-                        timeDialog()
+                        timeDialogRepeat()
                     }
                 } else {
                     // TODO Auto-generated method stub
@@ -1508,7 +1683,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
                             fromHour = selectedHour
                             fromMin = selectedMinute
-
+                            timeSelected = true
                             var time = selectedHour.toString()
                                 .formatNumber("00") + ":" + selectedMinute.toString()
                                 .formatNumber("00")
@@ -1547,8 +1722,12 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                 MyApplication.selectedOrder!!.shipping_longitude!!.toDouble()
             )
 
-            if(MyApplication.selectedOrder!!.product!!.serviceReasons!=null && MyApplication.selectedOrder!!.product!!.serviceReasons.size >0 )
-            setSpinnerRepeat()
+            if (MyApplication.selectedOrder!!.product!!.serviceReasons != null && MyApplication.selectedOrder!!.product!!.serviceReasons.size > 0) {
+                setSpinnerRepeat()
+                llSpReason.show()
+            } else {
+                llSpReason.hide()
+            }
             btPlaceOrder.onOneClick {
 
                 var lat = ""
@@ -1561,16 +1740,19 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                 }
 
 
-                if(MyApplication.selectedAddress!=null) {
+                if (MyApplication.selectedAddress != null) {
 
                     if ((MyApplication.selectedOrder!!.product!!.availableDates == null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0) || (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0 && !selectedFromSlot.isNullOrEmpty() && !selectedFromSlot.isNullOrEmpty())) {
 
                         if ((MyApplication.selectedOrder!!.product!!.availablePaymentMethods == null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0) || (MyApplication.selectedOrder!!.product!!.availablePaymentMethods != null && MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size > 0 && selectedPaymentId != -1)) {
 
-                            if (reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()!!
+                            if ((MyApplication.selectedOrder!!.product!!.serviceReasons == null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0) || reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()!!
                                     .isNullOrEmpty())
                             ) {
-                                if (reasonId == 0) {
+                                if (reasonId == -1) {
+                                    reasonId = 0
+                                    reasonString = ""
+                                } else if (reasonId == 0) {
                                     reasonString = etServiceReason.text.toString()
                                 } else {
                                     reasonString = ""
@@ -1581,7 +1763,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                     MyApplication.selectedPlaceOrder = RequestPlaceOrder(
                                         MyApplication.userId,
                                         345,
-                                        MyApplication.selectedOrder!!.product!!.productId!!.toInt(),
+                                        MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
                                         MyApplication.selectedOrder!!.product!!.typesId!!.toInt(),
                                         MyApplication.selectedOrder!!.product!!.sizeCapacityId!!.toInt(),
                                         selectedDate,
@@ -1609,7 +1791,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                     MyApplication.selectedPlaceOrder = RequestPlaceOrder(
                                         MyApplication.userId,
                                         345,
-                                        MyApplication.selectedOrder!!.product!!.productId!!.toInt(),
+                                        MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
                                         MyApplication.selectedOrder!!.product!!.typesId!!.toInt(),
                                         MyApplication.selectedOrder!!.product!!.sizeCapacityId!!.toInt(),
                                         selectedDate,
@@ -1654,15 +1836,18 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             AppHelper.getRemoteString("fill_all_field", this)
                         )
                     }
-                }else{
-                      if ((MyApplication.selectedOrder!!.product!!.availableDates == null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0) || (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0 && !selectedFromSlot.isNullOrEmpty() && !selectedFromSlot.isNullOrEmpty())) {
+                } else {
+                    if ((MyApplication.selectedOrder!!.product!!.availableDates == null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0) || (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0 && !selectedFromSlot.isNullOrEmpty() && !selectedFromSlot.isNullOrEmpty())) {
 
                         if ((MyApplication.selectedOrder!!.product!!.availablePaymentMethods == null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0) || (MyApplication.selectedOrder!!.product!!.availablePaymentMethods != null && MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size > 0 && selectedPaymentId != -1)) {
 
-                            if (reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()!!
+                            if ((MyApplication.selectedOrder!!.product!!.serviceReasons == null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0) || reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()!!
                                     .isNullOrEmpty())
                             ) {
-                                if (reasonId == 0) {
+                                if (reasonId == -1) {
+                                    reasonId = 0
+                                    reasonString = ""
+                                } else if (reasonId == 0) {
                                     reasonString = etServiceReason.text.toString()
                                 } else {
                                     reasonString = ""
@@ -1675,11 +1860,11 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                     MyApplication.selectedPlaceOrder = RequestPlaceOrder(
                                         MyApplication.userId,
                                         345,
-                                        MyApplication.selectedOrder!!.product!!.productId!!.toInt(),
+                                        MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
                                         MyApplication.selectedOrder!!.product!!.typesId!!.toInt(),
                                         MyApplication.selectedOrder!!.product!!.sizeCapacityId!!.toInt(),
                                         selectedDate,
-                                       MyApplication.selectedOrder!!.shipping_address_name,
+                                        MyApplication.selectedOrder!!.shipping_address_name,
                                         MyApplication.selectedOrder!!.shipping_latitude,
                                         MyApplication.selectedOrder!!.shipping_longitude,
                                         MyApplication.selectedOrder!!.shipping_address_street,
@@ -1687,11 +1872,11 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                         MyApplication.selectedOrder!!.shipping_floor,
                                         MyApplication.selectedOrder!!.shipping_address_description,
                                         MyApplication.selectedOrder!!.product!!.name,
-                                       MyApplication.selectedOrder!!.shipping_id!!.toInt(),
+                                        MyApplication.selectedOrder!!.shipping_id!!.toInt(),
                                         MyApplication.selectedOrder!!.shippingAvenu,
                                         MyApplication.selectedOrder!!.shipping_area,
                                         MyApplication.selectedOrder!!.shippingApartment,
-                                                MyApplication.selectedOrder!!.shipping_block,
+                                        MyApplication.selectedOrder!!.shipping_block,
                                         MyApplication.selectedOrder!!.shipping_province,
                                         MyApplication.languageCode,
                                         reasonId,
@@ -1703,7 +1888,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                     MyApplication.selectedPlaceOrder = RequestPlaceOrder(
                                         MyApplication.userId,
                                         345,
-                                        MyApplication.selectedOrder!!.product!!.productId!!.toInt(),
+                                        MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
                                         MyApplication.selectedOrder!!.product!!.typesId!!.toInt(),
                                         MyApplication.selectedOrder!!.product!!.sizeCapacityId!!.toInt(),
                                         selectedDate,
@@ -1943,10 +2128,14 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
             if ((MyApplication.selectedService!!.availablePaymentMethods == null || MyApplication.selectedService!!.availablePaymentMethods.size == 0) || (MyApplication.selectedService!!.availablePaymentMethods != null && MyApplication.selectedService!!.availablePaymentMethods.size > 0 && selectedPaymentId != -1)) {
 
-                if (reasonId == 0) {
-                    reasonString = etServiceReason.text.toString()
+                if ((MyApplication.selectedService!!.serviceReasons == null || MyApplication.selectedService!!.serviceReasons.size == 0)) {
+                    reasonId = 0
                 } else {
-                    reasonString = ""
+                    if (reasonId == 0) {
+                        reasonString = etServiceReason.text.toString()
+                    } else {
+                        reasonString = ""
+                    }
                 }
                 var type = MyApplication.selectedService!!.typeId
                 var lat = ""
@@ -2385,6 +2574,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
         dayOfMonth: Int
     ) {
         if (editer == "from") {
+            timeSelected = false
             val myCalendar = Calendar.getInstance()
             myCalendar[Calendar.YEAR] = year
             myCalendar[Calendar.MONTH] = monthOfYear
@@ -2400,7 +2590,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             }
             var x = selectedDate
             var time = selectedDate!!
-            selectedDate = etFromDate.text.toString()
+            selectedDate =dateShow
             selectedFrom = date
             etFromDate.text = dateShow.toEditable()
         } else {

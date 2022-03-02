@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -338,16 +339,17 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
     fun nextStep() {
 
 
-
-
-
         Handler(Looper.getMainLooper()).postDelayed({
             CallAPIs.getCategories(this, this)
             if (MyApplication.firstTime || !MyApplication.termsCondition!!) {
-                if(MyApplication.isClient)
+                if (MyApplication.isClient)
                     UpaymentGateway.init(this, "", "", true)
                 MyApplication.selectedPhone = ""
-                CallAPIs.updateDevice(this, this)
+                // CallAPIs.updateDevice(this, this)
+                if (AppHelper.checkLocPerm(this))
+                    AppHelper.getLoc(this, this)
+                else
+                    CallAPIs.getIP(this, this, LatLng(0.0, 0.0))
                 // AppHelper.updateDevice(this, "")
                 MyApplication.firstTime = false
                 finish()
@@ -371,32 +373,32 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                     }
 
                     var orderId = -1
-                    try{
-                        orderId = intent.getIntExtra("orderId",-1)
-                    }catch (ex:Exception){
+                    try {
+                        orderId = intent.getIntExtra("orderId", -1)
+                    } catch (ex: Exception) {
 
                     }
 
                     var crash = false
-                    try{
-                        crash = intent.getBooleanExtra("crash",false)
-                    }catch (ex:Exception){
+                    try {
+                        crash = intent.getBooleanExtra("crash", false)
+                    } catch (ex: Exception) {
 
                     }
 
-                  /*  orderId = 7851
-                    type = AppConstants.NOTF_TYPE_ACCEPT_ORDER*/
+                    /*  orderId = 7851
+                      type = AppConstants.NOTF_TYPE_ACCEPT_ORDER*/
 
-                    if(!MyApplication.trackOrderIdList.isNullOrEmpty())
-                    {
-                        try{
+                    if (!MyApplication.trackOrderIdList.isNullOrEmpty()) {
+                        try {
                             AppHelper.GsontoArrString()
-                        }catch (ex:Exception){}
+                        } catch (ex: Exception) {
+                        }
                     }
 
-                    try{
+                    try {
                         AppHelper.GsontoArrDone()
-                    }catch (ex:Exception){
+                    } catch (ex: Exception) {
 
                     }
 
@@ -404,91 +406,95 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
                         try {
                             UpaymentGateway.init(this, "", "", true)
-                        }catch (ex:Exception){
-                            logw("UpaymError",ex.toString())
+                        } catch (ex: Exception) {
+                            logw("UpaymError", ex.toString())
                         }
-                        if(from == 1 && !crash){
-                        if (type == AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE) {
-                            MyApplication.selectedPos = 3
-                            MyApplication.defaultIcon = ivFooterNotifications
-                            MyApplication.selectedFragment = FragmentNotifications()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
-                            MyApplication.tintColor = R.color.primary
-                        } else if (type == AppConstants.NOTF_TYPE_BROADCAST_ORDERS) {
-                            MyApplication.selectedPos = 1
-                            MyApplication.defaultIcon = ivFooterOrder
-                            MyApplication.tintColor = R.color.primary
-                            MyApplication.selectedFragment = FragmentOrders()
-                            if(orderId!=-1){
-                                MyApplication.selectedOrderId = orderId
-                                MyApplication.toDetails = true
-                            }else{
-                                MyApplication.toDetails = false
+                        if (from == 1 && !crash) {
+                            if (type == AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE) {
+                                MyApplication.selectedPos = 3
+                                MyApplication.defaultIcon = ivFooterNotifications
+                                MyApplication.selectedFragment = FragmentNotifications()
+                                MyApplication.selectedFragmentTag =
+                                    AppConstants.FRAGMENT_NOTFICATIONS
+                                MyApplication.tintColor = R.color.primary
+                            } else if (type == AppConstants.NOTF_TYPE_BROADCAST_ORDERS) {
+                                MyApplication.selectedPos = 1
+                                MyApplication.defaultIcon = ivFooterOrder
+                                MyApplication.tintColor = R.color.primary
+                                MyApplication.selectedFragment = FragmentOrders()
+                                if (orderId != -1) {
+                                    MyApplication.selectedOrderId = orderId
+                                    MyApplication.toDetails = true
+                                } else {
+                                    MyApplication.toDetails = false
+                                }
+                                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                            } else if (type == AppConstants.NOTF_TYPE_SERVICE || type == AppConstants.NOTF_NEW_ADMIN_SERVICE) {
+                                MyApplication.selectedPos = 2
+                                MyApplication.defaultIcon = ivFooterHome
+                                MyApplication.tintColor = R.color.primary
+                                MyApplication.selectedFragment = FragmentHomeClient()
+                                MyApplication.selectedFragmentTag =
+                                    AppConstants.FRAGMENT_HOME_CLIENT
+                            } else if (type == AppConstants.NOTF_TYPE_NORMAL) {
+                                MyApplication.selectedPos = 3
+                                MyApplication.defaultIcon = ivFooterNotifications
+                                MyApplication.selectedFragment = FragmentNotifications()
+                                MyApplication.selectedFragmentTag =
+                                    AppConstants.FRAGMENT_NOTFICATIONS
+                                MyApplication.tintColor = R.color.primary
+                            } else if (type == AppConstants.NOTF_TYPE_ACCEPT_ORDER) {
+                                MyApplication.selectedPos = 0
+                                MyApplication.defaultIcon = ivCartFooter
+                                MyApplication.tintColor = R.color.primary
+                                MyApplication.selectedFragment = FragmentCart()
+                                if (orderId != -1) {
+                                    MyApplication.selectedOrderId = orderId
+                                    MyApplication.toDetails = true
+                                } else {
+                                    MyApplication.toDetails = false
+                                }
+                                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_CART
+                            } else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE || type == AppConstants.NOTF_PAYMENT_ADDED || type == AppConstants.NOTF_CANCEL_ORDER || type == AppConstants.NOTF_RATE || type == AppConstants.NOTF_CASH_DELIVERY || type == AppConstants.NOTF_ARRIVED) {
+                                MyApplication.selectedPos = 1
+                                MyApplication.defaultIcon = ivFooterOrder
+                                MyApplication.tintColor = R.color.primary
+                                MyApplication.selectedFragment = FragmentOrders()
+                                if (orderId != -1) {
+                                    MyApplication.selectedOrderId = orderId
+                                    MyApplication.toDetails = true
+                                } else {
+                                    MyApplication.toDetails = false
+                                }
+                                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                            } else if (type == AppConstants.NOTF_NEW_CHAT) {
+                                MyApplication.selectedPos = 1
+                                MyApplication.defaultIcon = ivFooterOrder
+                                MyApplication.tintColor = R.color.primary
+                                if (orderId != -1) {
+                                    MyApplication.selectedOrderId = orderId
+                                    MyApplication.toChat = true
+                                } else {
+                                    MyApplication.toChat = false
+                                }
+                                MyApplication.selectedFragment = FragmentOrders()
+                                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                            } else if (type == AppConstants.NOTF_SETTLEMENTS) {
+                                MyApplication.selectedPos = 4
+                                MyApplication.defaultIcon = ivFooterAccount
+                                MyApplication.selectedFragment = FragmentAccount()
+                                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
+                                MyApplication.tintColor = R.color.primary
+                                MyApplication.isSettle = false
+                            } else {
+                                MyApplication.selectedPos = 3
+                                MyApplication.defaultIcon = ivFooterNotifications
+                                MyApplication.selectedFragment = FragmentNotifications()
+                                MyApplication.selectedFragmentTag =
+                                    AppConstants.FRAGMENT_NOTFICATIONS
+                                MyApplication.tintColor = R.color.primary
                             }
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        } else if (type == AppConstants.NOTF_TYPE_SERVICE || type == AppConstants.NOTF_NEW_ADMIN_SERVICE) {
-                            MyApplication.selectedPos = 2
-                            MyApplication.defaultIcon = ivFooterHome
-                            MyApplication.tintColor = R.color.primary
-                            MyApplication.selectedFragment = FragmentHomeClient()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_CLIENT
-                        } else if (type == AppConstants.NOTF_TYPE_NORMAL) {
-                            MyApplication.selectedPos = 3
-                            MyApplication.defaultIcon = ivFooterNotifications
-                            MyApplication.selectedFragment = FragmentNotifications()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
-                            MyApplication.tintColor = R.color.primary
-                        } else if (type == AppConstants.NOTF_TYPE_ACCEPT_ORDER){
-                            MyApplication.selectedPos = 0
-                            MyApplication.defaultIcon = ivCartFooter
-                            MyApplication.tintColor = R.color.primary
-                            MyApplication.selectedFragment = FragmentCart()
-                            if(orderId!=-1){
-                                MyApplication.selectedOrderId = orderId
-                                MyApplication.toDetails = true
-                            }else{
-                                MyApplication.toDetails = false
-                            }
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_CART
-                        }else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE  || type == AppConstants.NOTF_PAYMENT_ADDED || type == AppConstants.NOTF_CANCEL_ORDER|| type == AppConstants.NOTF_RATE){
-                            MyApplication.selectedPos = 1
-                            MyApplication.defaultIcon = ivFooterOrder
-                            MyApplication.tintColor = R.color.primary
-                            MyApplication.selectedFragment = FragmentOrders()
-                            if(orderId!=-1){
-                                MyApplication.selectedOrderId = orderId
-                                MyApplication.toDetails = true
-                            }else{
-                                MyApplication.toDetails = false
-                            }
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        }else if(type == AppConstants.NOTF_NEW_CHAT){
-                            MyApplication.selectedPos = 1
-                            MyApplication.defaultIcon = ivFooterOrder
-                            MyApplication.tintColor = R.color.primary
-                            if(orderId!=-1){
-                                MyApplication.selectedOrderId = orderId
-                                MyApplication.toChat = true
-                            }else{
-                                MyApplication.toChat = false
-                            }
-                            MyApplication.selectedFragment = FragmentOrders()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        } else if(type == AppConstants.NOTF_SETTLEMENTS) {
-                            MyApplication.selectedPos = 4
-                            MyApplication.defaultIcon = ivFooterAccount
-                            MyApplication.selectedFragment = FragmentAccount()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
-                            MyApplication.tintColor = R.color.primary
-                            MyApplication.isSettle = false
-                        }else {
-                            MyApplication.selectedPos = 3
-                            MyApplication.defaultIcon = ivFooterNotifications
-                            MyApplication.selectedFragment = FragmentNotifications()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
-                            MyApplication.tintColor = R.color.primary
-                        }
-                        }else{
+                        } else {
                             MyApplication.selectedPos = 2
                             MyApplication.defaultIcon = ivFooterHome
                             MyApplication.tintColor = R.color.primary
@@ -499,90 +505,95 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
                     } else {
 
-                        if(from == 1 && !crash){
+                        if (from == 1 && !crash) {
 
-                        if (type == AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE) {
-                            MyApplication.selectedPos = 3
-                            MyApplication.defaultIcon = ivFooterNotifications
-                            MyApplication.selectedFragment = FragmentNotifications()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
-                            MyApplication.tintColor = R.color.primary
-                        } else if (type == AppConstants.NOTF_TYPE_BROADCAST_ORDERS) {
-                            MyApplication.selectedPos = 2
-                            MyApplication.defaultIcon = ivFooterHome
-                            MyApplication.selectedFragment = FragmentHomeSP()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
-                            MyApplication.tintColor = R.color.primary
-                            if(orderId!=-1){
-                                MyApplication.isBroadcast = true
-                                MyApplication.selectedOrderId = orderId
-                                MyApplication.toDetails = true
-                            }else{
-                                MyApplication.toDetails = false
-                            }
-                        } else if (type == AppConstants.NOTF_TYPE_SERVICE || type == AppConstants.NOTF_NEW_ADMIN_SERVICE) {
-                            MyApplication.selectedPos = 0
-                            MyApplication.defaultIcon = ivProductFooter
-                            MyApplication.tintColor = R.color.primary
-                            MyApplication.selectedFragment = FragmentMyServices()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_MY_SERVICES
+                            if (type == AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE) {
+                                MyApplication.selectedPos = 3
+                                MyApplication.defaultIcon = ivFooterNotifications
+                                MyApplication.selectedFragment = FragmentNotifications()
+                                MyApplication.selectedFragmentTag =
+                                    AppConstants.FRAGMENT_NOTFICATIONS
+                                MyApplication.tintColor = R.color.primary
+                            } else if (type == AppConstants.NOTF_TYPE_BROADCAST_ORDERS) {
+                                MyApplication.selectedPos = 2
+                                MyApplication.defaultIcon = ivFooterHome
+                                MyApplication.selectedFragment = FragmentHomeSP()
+                                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_HOME_SP
+                                MyApplication.tintColor = R.color.primary
+                                if (orderId != -1) {
+                                    MyApplication.isBroadcast = true
+                                    MyApplication.selectedOrderId = orderId
+                                    MyApplication.toDetails = true
+                                } else {
+                                    MyApplication.toDetails = false
+                                }
+                            } else if (type == AppConstants.NOTF_TYPE_SERVICE || type == AppConstants.NOTF_NEW_ADMIN_SERVICE) {
+                                MyApplication.selectedPos = 0
+                                MyApplication.defaultIcon = ivProductFooter
+                                MyApplication.tintColor = R.color.primary
+                                MyApplication.selectedFragment = FragmentMyServices()
+                                MyApplication.selectedFragmentTag =
+                                    AppConstants.FRAGMENT_MY_SERVICES
 
-                        } else if (type == AppConstants.NOTF_TYPE_NORMAL) {
-                            MyApplication.selectedPos = 3
-                            MyApplication.defaultIcon = ivFooterNotifications
-                            MyApplication.selectedFragment = FragmentNotifications()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
-                            MyApplication.tintColor = R.color.primary
-                        }else if (type == AppConstants.NOTF_TYPE_ACCEPT_ORDER){
-                            MyApplication.selectedPos = 1
-                            MyApplication.defaultIcon = ivFooterOrder
-                            MyApplication.tintColor = R.color.primary
-                            MyApplication.selectedFragment = FragmentOrders()
-                            if(orderId!=-1){
-                                MyApplication.selectedOrderId = orderId
-                                MyApplication.toDetails = true
-                            }else{
-                                MyApplication.toDetails = false
+                            } else if (type == AppConstants.NOTF_TYPE_NORMAL) {
+                                MyApplication.selectedPos = 3
+                                MyApplication.defaultIcon = ivFooterNotifications
+                                MyApplication.selectedFragment = FragmentNotifications()
+                                MyApplication.selectedFragmentTag =
+                                    AppConstants.FRAGMENT_NOTFICATIONS
+                                MyApplication.tintColor = R.color.primary
+                            } else if (type == AppConstants.NOTF_TYPE_ACCEPT_ORDER) {
+                                MyApplication.selectedPos = 1
+                                MyApplication.defaultIcon = ivFooterOrder
+                                MyApplication.tintColor = R.color.primary
+                                MyApplication.selectedFragment = FragmentOrders()
+                                if (orderId != -1) {
+                                    MyApplication.selectedOrderId = orderId
+                                    MyApplication.toDetails = true
+                                } else {
+                                    MyApplication.toDetails = false
+                                }
+                                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                            } else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE || type == AppConstants.NOTF_PAYMENT_ADDED || type == AppConstants.NOTF_CANCEL_ORDER || type == AppConstants.NOTF_RATE || type == AppConstants.NOTF_CASH_DELIVERY || type == AppConstants.NOTF_ARRIVED) {
+                                MyApplication.selectedPos = 1
+                                MyApplication.defaultIcon = ivFooterOrder
+                                MyApplication.tintColor = R.color.primary
+                                if (orderId != -1) {
+                                    MyApplication.selectedOrderId = orderId
+                                    MyApplication.toDetails = true
+                                } else {
+                                    MyApplication.toDetails = false
+                                }
+                                MyApplication.selectedFragment = FragmentOrders()
+                                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                            } else if (type == AppConstants.NOTF_NEW_CHAT) {
+                                MyApplication.selectedPos = 1
+                                MyApplication.defaultIcon = ivFooterOrder
+                                MyApplication.tintColor = R.color.primary
+                                if (orderId != -1) {
+                                    MyApplication.selectedOrderId = orderId
+                                    MyApplication.toChat = true
+                                } else {
+                                    MyApplication.toChat = false
+                                }
+                                MyApplication.selectedFragment = FragmentOrders()
+                                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
+                            } else if (type == AppConstants.NOTF_SETTLEMENTS) {
+                                MyApplication.selectedPos = 4
+                                MyApplication.defaultIcon = ivFooterAccount
+                                MyApplication.selectedFragment = FragmentAccount()
+                                MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
+                                MyApplication.tintColor = R.color.primary
+                                MyApplication.isSettle = true
+                            } else {
+                                MyApplication.selectedPos = 3
+                                MyApplication.defaultIcon = ivFooterNotifications
+                                MyApplication.selectedFragment = FragmentNotifications()
+                                MyApplication.selectedFragmentTag =
+                                    AppConstants.FRAGMENT_NOTFICATIONS
+                                MyApplication.tintColor = R.color.primary
                             }
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        } else if (type == AppConstants.NOTF_TYPE_SUGGEST_NEW_DATE || type == AppConstants.NOTF_PAYMENT_ADDED || type == AppConstants.NOTF_CANCEL_ORDER|| type == AppConstants.NOTF_RATE){
-                            MyApplication.selectedPos = 1
-                            MyApplication.defaultIcon = ivFooterOrder
-                            MyApplication.tintColor = R.color.primary
-                            if(orderId!=-1){
-                                MyApplication.selectedOrderId = orderId
-                                MyApplication.toDetails = true
-                            }else{
-                                MyApplication.toDetails = false
-                            }
-                            MyApplication.selectedFragment = FragmentOrders()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        }else if(type == AppConstants.NOTF_NEW_CHAT){
-                            MyApplication.selectedPos = 1
-                            MyApplication.defaultIcon = ivFooterOrder
-                            MyApplication.tintColor = R.color.primary
-                            if(orderId!=-1){
-                                MyApplication.selectedOrderId = orderId
-                                MyApplication.toChat = true
-                            }else{
-                                MyApplication.toChat = false
-                            }
-                            MyApplication.selectedFragment = FragmentOrders()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ORDER
-                        } else if(type == AppConstants.NOTF_SETTLEMENTS) {
-                            MyApplication.selectedPos = 4
-                            MyApplication.defaultIcon = ivFooterAccount
-                            MyApplication.selectedFragment = FragmentAccount()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_ACCOUNT
-                            MyApplication.tintColor = R.color.primary
-                            MyApplication.isSettle = true
-                        }else {
-                            MyApplication.selectedPos = 3
-                            MyApplication.defaultIcon = ivFooterNotifications
-                            MyApplication.selectedFragment = FragmentNotifications()
-                            MyApplication.selectedFragmentTag = AppConstants.FRAGMENT_NOTFICATIONS
-                            MyApplication.tintColor = R.color.primary
-                        } }else {
+                        } else {
                             MyApplication.selectedPos = 2
                             MyApplication.defaultIcon = ivFooterHome
                             MyApplication.selectedFragment = FragmentHomeSP()
@@ -600,17 +611,25 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                     }*/
 
                     MyApplication.selectedPhone = MyApplication.phoneNumber
-                    if(MyApplication.toDetails){
-                        CallAPIs.getOrderByOrderId(orderId,this)
-                    }else {
-                        CallAPIs.updateDevice(this, this)
+                    if (MyApplication.toDetails) {
+                        CallAPIs.getOrderByOrderId(orderId, this)
+                    } else {
+                        //CallAPIs.updateDevice(this, this)
+                        if (AppHelper.checkLocPerm(this))
+                            AppHelper.getLoc(this, this)
+                        else
+                            CallAPIs.getIP(this, this, LatLng(0.0, 0.0))
                         //AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
                         CallAPIs.getUserInfo(this)
                     }
 
                 } else {
                     MyApplication.selectedPhone = ""
-                    CallAPIs.updateDevice(this, this)
+                    if (AppHelper.checkLocPerm(this))
+                        AppHelper.getLoc(this, this)
+                    else
+                        CallAPIs.getIP(this, this, LatLng(0.0, 0.0))
+                    // CallAPIs.updateDevice(this, this)
                     //AppHelper.updateDevice(this, "")
                     if (MyApplication.isClient) {
                         UpaymentGateway.init(this, "", "", true)
@@ -664,7 +683,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
             mFirebaseRemoteConfig!!.getString(FIREBASE_GOVS),
             KuwaitGovs::class.java
         )
-        logw("BASED",MyApplication.BASE_URL)
+        logw("BASED", MyApplication.BASE_URL)
         MyApplication.adTimer = mFirebaseRemoteConfig!!.getString(BANNER_TIME).toInt()
         MyApplication.kuwaitGovs.clear()
         MyApplication.kuwaitGovs.addAll(list.list)
@@ -681,9 +700,9 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
         var typePrefix = MyApplication.BASE_URL.split("wp-json").get(0)
 
 
-        for(item in MyApplication.webLinks!!.links){
-            item.urlAr = typePrefix+item.urlAr
-            item.urlEn= typePrefix+item.urlEn
+        for (item in MyApplication.webLinks!!.links) {
+            item.urlAr = typePrefix + item.urlAr
+            item.urlEn = typePrefix + item.urlEn
         }
 
         MyApplication.kuwaitCoordinates = Gson().fromJson(
@@ -705,7 +724,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
 
         //testing should be removed........................................................
-       // MyApplication.BASE_URL = BuildConfig.BASE_URL
+        // MyApplication.BASE_URL = BuildConfig.BASE_URL
         checkForUpdate()
 
         /*     if(MyApplication.termsCondition!!)
@@ -803,7 +822,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         URLs.addAll(URLS.serverLink)
                         showDialog()
                     } else {
-                       // selectedURL = MyApplication.BASE_URL.isNotEmpty()
+                        // selectedURL = MyApplication.BASE_URL.isNotEmpty()
                         setUpRestFirebase()
                     }
 
@@ -824,12 +843,13 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
 
-        if(success) {
+        if (success) {
             if (apiId == AppConstants.ORDER_BY_ID) {
 
 
                 var order = response as ResponseOrders
-                var reason = if(order.reasonId == "0") order.serviceReasonOther else order.serviceReason
+                var reason =
+                    if (order.reasonId == "0") order.serviceReasonOther else order.serviceReason
                 MyApplication.selectedOrderId = order.orderId!!.toInt()
                 MyApplication.selectedPlaceOrder = RequestPlaceOrder(
                     MyApplication.userId,
@@ -849,12 +869,16 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                     order.product!!.booking_start_date,
                     order.product!!.booking_end_date,
                     MyApplication.languageCode,
-                    order.reasonId!!.toInt() ,
+                    order.reasonId!!.toInt(),
                     reason
 
 
                 )
-                CallAPIs.updateDevice(this, this)
+                if (AppHelper.checkLocPerm(this))
+                    AppHelper.getLoc(this, this)
+                else
+                    CallAPIs.getIP(this, this, LatLng(0.0, 0.0))
+                // CallAPIs.updateDevice(this, this)
                 //AppHelper.updateDevice(this, MyApplication.phoneNumber!!)
                 CallAPIs.getUserInfo(this)
             } else if (apiId == AppConstants.ADDRESS_GEO || apiId == AppConstants.UPDATE_DEVICE) {
@@ -890,7 +914,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                 } catch (ex: Exception) {
                 }
             }
-        }else{
+        } else {
             if (apiId == API_USER_STATUS) {
                 CallAPIs.getUserInfo(this)
             }

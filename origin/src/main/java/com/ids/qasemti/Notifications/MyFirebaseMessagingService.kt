@@ -21,6 +21,7 @@ import com.ids.qasemti.R
 import com.ids.qasemti.controller.Activities.ActivitySplash
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.controller.MyApplication.Companion.appAlive
+import com.ids.qasemti.model.OrderLocation
 import com.ids.qasemti.utils.*
 import com.ids.qasemti.utils.AppConstants.NOTF_TYPE_ACCOUNT_ACTIVATE_DEACTIVATE
 
@@ -137,7 +138,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 try {
                     if(!MyApplication.listOrderTrack.contains(id.toString()))
                         MyApplication.listOrderTrack.add(id.toString())
-                    MyApplication.listDestination.add(LatLng(0.0,0.0))
+                    MyApplication.listDestination.add(OrderLocation("",id.toString(),"0.0","0.0"))
                     MyApplication.foregroundOnlyLocationService?.subscribeToLocationUpdates()
                 } catch (ex: Exception) {
                     logw("test", "exceptTion")

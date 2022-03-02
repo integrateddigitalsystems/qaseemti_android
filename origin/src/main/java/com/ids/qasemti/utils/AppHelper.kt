@@ -20,6 +20,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
+import android.location.LocationListener
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkInfo
@@ -239,6 +241,29 @@ class AppHelper {
         fun stopService(act: Context) {
             val intent = Intent(act, CurrentLocationService::class.java)
             act.stopService(intent)
+        }
+
+        private fun foregroundPermissionApproved(con: Context): Boolean {
+            return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+                con,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        }
+
+        fun getTypefaceBoldItalic(context: Context): Typeface {
+            return if (Locale.getDefault().language == "ar")
+                Typeface.createFromAsset(
+                    context.applicationContext.assets,
+                    "fonts/DroidKufi-Bold.ttf"
+                )//fonts/NeoTech-Bold.otf
+
+            else
+                Typeface.createFromAsset(
+                    context.applicationContext.assets,
+                    "fonts/Raleway-BoldItalic.ttf"
+                )//fonts/NeoTech-Bold.otf
+
+            // return Typeface.DEFAULT_BOLD
         }
 
         fun getTypeFaceItalic(context: Context): Typeface {
@@ -569,6 +594,57 @@ class AppHelper {
             MyApplication.arrayCart.clear()
             MyApplication.arrayCart.addAll(array)
         }*/
+
+
+        fun checkLocPerm(con: Context):Boolean{
+            if (ActivityCompat.checkSelfPermission(
+                    con,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    con,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                return true
+            }else{
+                return false
+            }
+        }
+
+        fun getLoc(con:Context,listener: ApiListener){
+          var firstTime  = true
+          var latLng : LatLng ?=null
+              val locationResult = object : MyLocation.LocationResult() {
+                  override fun gotLocation(location: Location?) {
+
+                      if (location != null) {
+                          val lat = location!!.latitude
+                          val lon = location.longitude
+                          //toast("$lat --SLocRes-- $lon")
+                         latLng = LatLng(location!!.latitude,location!!.longitude)
+                          if(firstTime){
+                              firstTime = false
+                              MyApplication.myCurrLoc = latLng
+                              CallAPIs.getIP(con,listener,latLng!!)
+
+                          }
+
+
+
+
+                      } else {
+                        // con.toast("cannot detect location")
+                      }
+
+                  }
+
+              }
+
+              val myLocation = MyLocation()
+              myLocation.getLocation(con, locationResult)
+
+
+      }
 
         fun updateDevice(context: Context, phone: String) {
 
