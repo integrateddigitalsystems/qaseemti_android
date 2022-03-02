@@ -229,7 +229,7 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener , ApiL
         loading.hide()
     }
     fun sendOTP() {
-        var req = RequestOTP(  MyApplication.selectedPhone, MyApplication.deviceId)
+        var req = RequestOTP(  MyApplication.selectedPhone, MyApplication.deviceId,MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.sendOTP(
                 req

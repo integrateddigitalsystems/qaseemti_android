@@ -180,7 +180,7 @@ class ActivityCodeVerification : ActivityBase(), ApiListener {
 
     fun sendOTP() {
         pvCode.text!!.clear()
-        var req = RequestOTP(MyApplication.selectedPhone, MyApplication.deviceId)
+        var req = RequestOTP(MyApplication.selectedPhone, MyApplication.deviceId,MyApplication.languageCode)
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.sendOTP(
                 req
