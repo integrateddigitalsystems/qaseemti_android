@@ -167,10 +167,10 @@
                 android:visibility="gone" />
 
             <Button
-                android:layout_below="@+id/llShareSocial"
                 android:id="@+id/btRepeatOrder"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
+                android:layout_below="@+id/llShareSocial"
                 android:layout_marginStart="@dimen/margin_start_end"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/margin_start_end"
@@ -178,7 +178,7 @@
                 android:tag="RepeatOrder"
                 android:text="@string/RepeatOrder"
                 android:textColor="@color/white"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
         </RelativeLayout>
 
