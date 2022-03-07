@@ -106,11 +106,18 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
             }
 
             override fun onFinish() {
-                isTimer = true
-                if (AppHelper.isOnline(requireContext())) {
-                    getServices(isTimer)
-                }else{
-                    AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("no_internet",requireContext()))
+                try {
+                    isTimer = true
+                    if (AppHelper.isOnline(requireContext())) {
+                        getServices(isTimer)
+                    } else {
+                        AppHelper.createDialog(
+                            requireActivity(),
+                            AppHelper.getRemoteString("no_internet", requireContext())
+                        )
+                    }
+                }catch (ex:Exception){
+
                 }
 
             }
@@ -672,6 +679,8 @@ class FragmentHomeClient : Fragment(), RVOnItemClickListener,ApiListener {
 
         if (view.id == R.id.linearService) {
             AppHelper.onOneClick {
+                MyApplication.renewing = false
+                MyApplication.repeating = false
                 MyApplication.selectedFragment = FragmentServiceDetails()
                 MyApplication.selectedService = arrayFiltered.get(position)
                 MyApplication.rental = position == 2

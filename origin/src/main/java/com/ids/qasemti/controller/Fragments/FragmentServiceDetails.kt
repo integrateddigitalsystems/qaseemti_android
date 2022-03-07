@@ -159,33 +159,55 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
         }catch (ex:java.lang.Exception){
 
         }
-        arraySpinnerTypes.clear()
-        for (i in arrayTypes.indices){
-            if(arrayTypes[i].types!=null && arrayTypes[i].types!!.isNotEmpty())
-                arraySpinnerTypes.add(ItemSpinner(arrayTypes[i].typesId!!.toInt(),arrayTypes[i].types,""))
-        }
-        val adapterTypes = AdapterGeneralSpinner(requireActivity(), R.layout.spinner_layout, arraySpinnerTypes,0)
-        spServiceType.adapter = adapterTypes
-        adapterTypes.setDropDownViewResource(R.layout.item_spinner_drop_down)
-        spServiceType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                selectedTypeId=arraySpinnerTypes[position].id!!
-                selectedTypeName=arraySpinnerTypes[position].name!!
-                setMediaPager()
+
+            arraySpinnerTypes.clear()
+            for (i in arrayTypes.indices) {
+                if (arrayTypes[i].types != null && arrayTypes[i].types!!.isNotEmpty())
+                    arraySpinnerTypes.add(
+                        ItemSpinner(
+                            arrayTypes[i].typesId!!.toInt(),
+                            arrayTypes[i].types,
+                            ""
+                        )
+                    )
+            }
+            val adapterTypes = AdapterGeneralSpinner(
+                requireActivity(),
+                R.layout.spinner_layout,
+                arraySpinnerTypes,
+                0
+            )
+        if(arraySpinnerTypes.size > 0 ) {
+            spServiceType.adapter = adapterTypes
+            adapterTypes.setDropDownViewResource(R.layout.item_spinner_drop_down)
+            spServiceType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedTypeId = arraySpinnerTypes[position].id!!
+                    selectedTypeName = arraySpinnerTypes[position].name!!
+                    setMediaPager()
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
+            if (MyApplication.selectedNotSignedInType != -1) {
+                var x =
+                    spServiceType.setSelection(arraySpinnerTypes.indexOf(arraySpinnerTypes.find {
+                        it.id == MyApplication.selectedNotSignedInType
+                    }))
+                MyApplication.selectedNotSignedInType = -1
             }
-
-        }
-
-        if(MyApplication.selectedNotSignedInType!=-1) {
-            var x =
-            spServiceType.setSelection(arraySpinnerTypes.indexOf(arraySpinnerTypes.find {
-                it.id == MyApplication.selectedNotSignedInType
-            }))
-            MyApplication.selectedNotSignedInType = -1
+        }else{
+            llSpinnerType.hide()
+            llMargin.hide()
         }
 
     }
@@ -200,33 +222,56 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
         }catch (ex:Exception){
 
         }
-        arraySpinnerSizes.clear()
-        for (i in arrayTypes.indices){
-            if(arrayTypes[i].sizeCapacity!=null && arrayTypes[i].sizeCapacity!!.isNotEmpty())
-                arraySpinnerSizes.add(ItemSpinner(arrayTypes[i].sizeCapacityId!!.toInt(),arrayTypes[i].sizeCapacity,""))
-        }
-        val adapterSize = AdapterGeneralSpinner(requireActivity(), R.layout.spinner_layout, arraySpinnerSizes,0)
-        spServiceSize.adapter = adapterSize
-        adapterSize.setDropDownViewResource(R.layout.item_spinner_drop_down)
-        spServiceSize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                selectedSizeId=arraySpinnerSizes[position].id!!
-                selectedSizeName=arraySpinnerSizes[position].name!!
-                setMediaPager()
+
+
+            arraySpinnerSizes.clear()
+            for (i in arrayTypes.indices) {
+                if (arrayTypes[i].sizeCapacity != null && arrayTypes[i].sizeCapacity!!.isNotEmpty())
+                    arraySpinnerSizes.add(
+                        ItemSpinner(
+                            arrayTypes[i].sizeCapacityId!!.toInt(),
+                            arrayTypes[i].sizeCapacity,
+                            ""
+                        )
+                    )
+            }
+
+        if(arraySpinnerSizes.size > 0 ) {
+            val adapterSize = AdapterGeneralSpinner(
+                requireActivity(),
+                R.layout.spinner_layout,
+                arraySpinnerSizes,
+                0
+            )
+            spServiceSize.adapter = adapterSize
+            adapterSize.setDropDownViewResource(R.layout.item_spinner_drop_down)
+            spServiceSize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedSizeId = arraySpinnerSizes[position].id!!
+                    selectedSizeName = arraySpinnerSizes[position].name!!
+                    setMediaPager()
+
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
 
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
+            if (MyApplication.selectedNotSignedInSize != -1) {
+                spServiceSize.setSelection(arraySpinnerSizes.indexOf(arraySpinnerSizes.find {
+                    it.id == MyApplication.selectedNotSignedInSize
+                }))
+                MyApplication.selectedNotSignedInSize = -1
             }
-
-        }
-
-        if(MyApplication.selectedNotSignedInSize!=-1) {
-            spServiceSize.setSelection(arraySpinnerSizes.indexOf(arraySpinnerSizes.find {
-                it.id == MyApplication.selectedNotSignedInSize
-            }))
-            MyApplication.selectedNotSignedInSize = -1
+        }else{
+            llSpinnerSize.hide()
         }
 
     }

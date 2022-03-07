@@ -2,12 +2,15 @@ package com.ids.qasemti.controller.Activities
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -196,6 +199,30 @@ class ActivitySelectAddress : AppCompactBase() , ApiListener {
 
     }
 
+    var mLocationManager: LocationManager? = null
+    //var myLocation = getLastKnownLocation()
+
+    private fun getLastKnownLocation(): Location? {
+        mLocationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        val providers = mLocationManager!!.getProviders(true)
+        var bestLocation: Location? = null
+        for (provider in providers) {
+            val l = mLocationManager!!.getLastKnownLocation(provider) ?: continue
+            if (bestLocation == null /*|| l.accuracy < bestLocation.accuracy*/) {
+                // Found best last known location: %s", l);
+                bestLocation = l
+            }
+        }
+        return bestLocation
+    }
+
+    fun getLocationMode(context: Context?): Int {
+        return Settings.Secure.getInt(
+            getContentResolver(),
+            Settings.Secure.LOCATION_MODE
+        )
+    }
+
     private fun getCurrentLocation() {
         loading.show()
         val locationResult = object : MyLocation.LocationResult() {
@@ -209,8 +236,7 @@ class ActivitySelectAddress : AppCompactBase() , ApiListener {
                     loading.show()
 
 
-
-                   /* Thread {
+                    /* Thread {
                         var address : Address?=null
                         try {
                             val myLocation = Geocoder(this@ActivitySelectAddress, Locale.getDefault())
@@ -227,30 +253,73 @@ class ActivitySelectAddress : AppCompactBase() , ApiListener {
                     }.start()*/
 
 
-
-                   /*
+                    /*
                     MyApplication.selectedCurrentAddress = AppHelper.getAddressLoc(
                         latLng!!.latitude,
                         latLng!!.longitude,
                         this@ActivitySelectAddress
                     )*/
 
-                     if(firstTime) {
-                         var latLng = LatLng(lat,lon)
-                         firstTime = false
-                         CallAPIs.getAddressName(latLng,this@ActivitySelectAddress,this@ActivitySelectAddress)
+                    if (firstTime) {
+                        var latLng = LatLng(lat, lon)
+                        firstTime = false
+                        CallAPIs.getAddressName(
+                            latLng,
+                            this@ActivitySelectAddress,
+                            this@ActivitySelectAddress
+                        )
 
-                     }
+                    }
 
 
                 } else {
-                    toast("cannot detect location")
+
+                    runOnUiThread {
+                        var newLoc: Location? = null
+
+                        if (ActivityCompat.checkSelfPermission(
+                                this@ActivitySelectAddress,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                                this@ActivitySelectAddress,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            newLoc = getLastKnownLocation()
+                        }
+
+                        if (newLoc == null) {
+                            if (getLocationMode(this@ActivitySelectAddress) == 1) {
+                                Toast.makeText(
+                                    this@ActivitySelectAddress,
+                                    AppHelper.getRemoteString(
+                                        "cannot_detect_loc",
+                                        this@ActivitySelectAddress
+                                    ),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                            } else {
+
+                                loading.hide()
+                            }
+                        } else {
+                            var latLng = LatLng(newLoc.latitude, newLoc.longitude)
+                            firstTime = false
+                            CallAPIs.getAddressName(
+                                latLng,
+                                this@ActivitySelectAddress,
+                                this@ActivitySelectAddress
+                            )
+                        }
+                    }
+
+                    loading.hide()
                 }
-
-                loading.hide()
             }
-
         }
+
+
 
         val myLocation = MyLocation()
         myLocation.getLocation(this, locationResult)

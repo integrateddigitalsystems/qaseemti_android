@@ -349,6 +349,7 @@
     <string name="fill_reason_field">Please fill the reason field</string>
     <string name="product_is_restricted"> " This product is restricted to specific days for delivery "</string>
     <string name="no_service_paymentMethod">This service does not currently have a payment method</string>
+    <string name="cannot_detect_loc">Cannot detect location change GPS settings</string>
 
 
 </resources>

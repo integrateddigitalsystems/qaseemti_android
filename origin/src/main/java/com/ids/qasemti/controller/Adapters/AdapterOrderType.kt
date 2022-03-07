@@ -514,9 +514,21 @@ class AdapterOrderType(
             holder.track.show()
         }
         else if(items.get(position).orderStatus.equals(AppConstants.ORDER_TYPE_ACTIVE)){
-            if(!items.get(position).paymentMethod.isNullOrEmpty())
-                holder.switch.show()
-            else
+            if(!items.get(position).paymentMethod.isNullOrEmpty()) {
+                try {
+                    var simp = SimpleDateFormat("yyyy-MM-dd")
+                    var curr = Calendar.getInstance()
+                    var Delivery = simp.parse(items.get(position).deliveryDate)
+
+                    if (curr.timeInMillis < Delivery.time || MyApplication.isClient) {
+                        holder.switch.hide()
+                    } else {
+                        holder.switch.show()
+                    }
+                }catch (ex:Exception){
+                    holder.switch.show()
+                }
+            }else
                 holder.switch.hide()
             holder.sepActive.show()
             holder.dateBorder.show()
@@ -629,6 +641,8 @@ class AdapterOrderType(
         holder.expected.typeface = AppHelper.getTypeFaceBold(con)
         holder.cancelReasonDetails.typeface = AppHelper.getTypeFace(con)
         holder.tvServiceName.setColorTypeface(con,R.color.gray_font_title,"",true)
+
+
     }
 
     override fun getItemCount(): Int {

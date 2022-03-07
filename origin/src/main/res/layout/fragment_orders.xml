@@ -7,6 +7,15 @@
     android:background="@color/gray_bg"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
 
         android:layout_marginStart="@dimen/margin_start_new"
@@ -357,13 +366,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="@dimen/medium_2"
-        android:layout_marginStart="@dimen/card_new_margin"
-        android:layout_marginEnd="@dimen/card_new_margin"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rvOrderDetails"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvOrderDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/card_new_margin"
+            android:layout_marginTop="@dimen/medium_2"
+            android:layout_marginEnd="@dimen/card_new_margin" />
 
         <com.ids.qasemti.custom.CustomTextViewMedium
             android:layout_width="match_parent"
@@ -378,10 +387,16 @@
             android:textColor="@color/primary"/>
 
 
-        <include
-            layout="@layout/loading" />
+
     </RelativeLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+
+        <include
+            layout="@layout/loading" />
+
+    </RelativeLayout>
 
 </LinearLayout>

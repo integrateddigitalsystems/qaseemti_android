@@ -1188,46 +1188,45 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     }
 
 
-    fun checkMissingData(){
-        if(etFirstNameProfile.text.isNullOrEmpty())
+    fun checkMissingData() {
+        if (etFirstNameProfile.text.isNullOrEmpty())
             etFirstNameProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
-        if(etLastNameProfile.text.isNullOrEmpty())
+        if (etLastNameProfile.text.isNullOrEmpty())
             etLastNameProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
-        if(etEmailProfile.text.isNullOrEmpty())
+        if (etEmailProfile.text.isNullOrEmpty())
             llEmailBackground.setBackgroundResource(R.drawable.rounded_white_red_border)
-        if(!AppHelper.isEmailValid(etEmailProfile.text.toString()))
+        if (!AppHelper.isEmailValid(etEmailProfile.text.toString()))
             llEmailBackground.setBackgroundResource(R.drawable.rounded_white_red_border)
 
-        if(etAddressName.text.isNullOrEmpty())
+        if (etAddressName.text.isNullOrEmpty())
             etAddressName.setBackgroundResource(R.drawable.rounded_white_red_border)
-        if(selectedProvince.isNullOrEmpty())
+        if (selectedProvince.isNullOrEmpty())
             rlProvinceProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
-        if(etStreet.text.isNullOrEmpty())
+        if (etStreet.text.isNullOrEmpty())
             etStreet.setBackgroundResource(R.drawable.rounded_white_red_border)
-        if(etBuilding.text.isNullOrEmpty())
+        if (etBuilding.text.isNullOrEmpty())
             etBuilding.setBackgroundResource(R.drawable.rounded_white_red_border)
-        if(etArea.text.isNullOrEmpty())
+        if (etArea.text.isNullOrEmpty())
             etArea.setBackgroundResource(R.drawable.rounded_white_red_border)
-        if(etBlock.text.isNullOrEmpty())
+        if (etBlock.text.isNullOrEmpty())
             etBlock.setBackgroundResource(R.drawable.rounded_white_red_border)
-        if ((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) && (!civilImageAvailable || !civilImageBackAvailable)) {
+        if ((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) || (!civilImageAvailable || !civilImageBackAvailable)) {
 
             if (etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) {
                 etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
             }
-            if(!etCivilIdNbProfile.text.isNullOrEmpty()) {
-                if (civilImageBackAvailable != civilImageAvailable) {
-                    llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
-                    llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
-                }
-            }else{
+            if (civilImageBackAvailable != civilImageAvailable || !civilImageAvailable && !civilImageBackAvailable) {
                 llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
                 llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
             }
-            if (!etIBANProfile.text.isNullOrEmpty() && etIBANProfile.text.length != 30)
-                etIBANProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+        } else {
+            llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
+            llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
         }
-        }
+        if (!etIBANProfile.text.isNullOrEmpty() && etIBANProfile.text.length != 30)
+            etIBANProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+    }
+
 
 
 
@@ -1413,7 +1412,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     var x = etCivilIdNbProfile.text
                     if(btAddNewAddress.visibility == View.VISIBLE || (!etAddressName.text.isNullOrEmpty() && !selectedProvince.isNullOrEmpty() && !etStreet.text.isNullOrEmpty() && !etBuilding.text.isNullOrEmpty() && !etArea.text.isNullOrEmpty() && !etBlock.text.isNullOrEmpty())) {
                         /* if((!etAccountNumberProfile.text.toString().isNullOrEmpty() || !etBranchNameProfile.text.isNullOrEmpty() || selectedBankId!=0 || !etIBANProfile.text.isNullOrEmpty()) && (etAccountNumberProfile.text.toString().isNullOrEmpty() || selectedBankId!=0 || etIBANProfile.text.isNullOrEmpty()))*/
-                        if ((!etCivilIdNbProfile.text.isNullOrEmpty() && etCivilIdNbProfile.text.length == 12) || (civilImageAvailable && civilImageBackAvailable)) {
+                        if ((!etCivilIdNbProfile.text.isNullOrEmpty() && etCivilIdNbProfile.text.length == 12) && (civilImageAvailable && civilImageBackAvailable)) {
                             if(civilImageBackAvailable == civilImageAvailable && checkCivil()) {
                                 if (etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30)
                                     updateServiceProfile()
@@ -1434,7 +1433,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                     llBackCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
                                     llFromCivilImage.setBackgroundResource(R.drawable.rounded_white_red_border)
 
-                                }else{
+                                }
+
                                     if(etCivilIdNbProfile.text.isNullOrEmpty()) {
                                         AppHelper.createDialog(
                                             requireActivity(),
@@ -1443,7 +1443,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                                 requireActivity()
                                             )
                                         )
-                                    }else{
+                                        etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
+                                    }else if(etCivilIdNbProfile.text.length == 12 ){
                                         AppHelper.createDialog(
                                             requireActivity(),
                                             AppHelper.getRemoteString(
@@ -1451,13 +1452,14 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                                 requireActivity()
                                             )
                                         )
+                                        etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
                                     }
-                                    etCivilIdNbProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
-                                }
+
+
 
                             }
                         } else {
-                            if((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) && !(civilImageAvailable || civilImageBackAvailable)) {
+                            if((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) ||!(civilImageAvailable || civilImageBackAvailable)) {
                                 checkMissingData()
                                 if(etCivilIdNbProfile.text.isNullOrEmpty()) {
                                     AppHelper.createDialog(
@@ -1467,7 +1469,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                             requireActivity()
                                         )
                                     )
-                                }else{
+                                }else if(etCivilIdNbProfile.text.length !=12){
                                     AppHelper.createDialog(
                                         requireActivity(),
                                         AppHelper.getRemoteString(
@@ -1476,10 +1478,13 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                         )
                                     )
                                 }
-                            }else{
-                                checkMissingData()
+                            }
+                            if(!(civilImageAvailable || civilImageBackAvailable)){
+
                                 AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
                             }
+
+                            checkMissingData()
 
                         }
                     }else{
@@ -1627,7 +1632,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
     fun checkCivil():Boolean{
         if(etCivilIdNbProfile.text.isNullOrEmpty())
-            return true
+            return false
         else if(!etCivilIdNbProfile.text.isNullOrEmpty() && etCivilIdNbProfile.text.length == 12)
             return true
         else

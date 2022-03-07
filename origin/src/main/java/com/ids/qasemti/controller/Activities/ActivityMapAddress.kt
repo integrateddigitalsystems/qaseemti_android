@@ -57,6 +57,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 import kotlin.collections.ArrayList
 import android.R.attr.apiKey
+import android.provider.Settings
 import androidx.fragment.app.FragmentActivity
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
@@ -404,10 +405,38 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
         mvLocation!!.onLowMemory()
     }
 
+
+    var mLocationManager: LocationManager? = null
+   //var myLocation = getLastKnownLocation()
+
+    private fun getLastKnownLocation(): Location? {
+        mLocationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        val providers = mLocationManager!!.getProviders(true)
+        var bestLocation: Location? = null
+        for (provider in providers) {
+            val l = mLocationManager!!.getLastKnownLocation(provider) ?: continue
+            if (bestLocation == null /*|| l.accuracy < bestLocation.accuracy*/) {
+                // Found best last known location: %s", l);
+                bestLocation = l
+            }
+        }
+        return bestLocation
+    }
+
+    fun getLocationMode(context: Context?): Int {
+        return Settings.Secure.getInt(
+            getContentResolver(),
+            Settings.Secure.LOCATION_MODE
+        )
+    }
+
     private fun getCurrentLocation() {
         loading.show()
         val locationResult = object : MyLocation.LocationResult() {
+
+
             override fun gotLocation(location: Location?) {
+
 
                 if (location != null) {
                     val lat = location!!.latitude
@@ -458,12 +487,110 @@ class ActivityMapAddress : AppCompactBase(), OnMapReadyCallback,
 
 
                 } else {
-                    toast("cannot detect location")
+
+                    runOnUiThread {
+                        var newLoc: Location? = null
+
+                        if (ActivityCompat.checkSelfPermission(
+                                this@ActivityMapAddress,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                                this@ActivityMapAddress,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            newLoc = getLastKnownLocation()
+                        }
+                        if(newLoc == null ) {
+                            if(latLng==null){
+                                latLng = LatLng(MyApplication.kuwaitCoordinates!!.lat!!.toDouble(),MyApplication.kuwaitCoordinates!!.long!!.toDouble())
+                            }
+                            startLatLng = latLng
+                            CallAPIs.getAddressName(latLng!! , this@ActivityMapAddress , this@ActivityMapAddress)
+
+
+                            /*Toast.makeText(
+                                this@ActivityMapAddress,
+                                AppHelper.getRemoteString(
+                                    "cannot_detect_loc",
+                                    this@ActivityMapAddress
+                                ),
+                                Toast.LENGTH_SHORT
+                            ).show()*/
+
+
+                          var locationManager =
+                              getSystemService(LOCATION_SERVICE) as LocationManager
+                            if (getLocationMode(this@ActivityMapAddress) == 1 ) {
+                                onBackPressed()
+                                Toast.makeText(
+                                    this@ActivityMapAddress,
+                                    AppHelper.getRemoteString(
+                                        "cannot_detect_loc",
+                                        this@ActivityMapAddress
+                                    ),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                            }else {
+
+                                loading.hide()
+                                setUpMap()
+                            }
+                        }else{
+
+
+                            latLng = LatLng(newLoc.latitude,newLoc.longitude)
+                          //  AppHelper.createDialog(this@ActivityMapAddress,"Second way   "+latLng.toString())
+                            var addressStr : String ?=""
+                            forCurr = true
+                            fromIntent = false
+                            toAdd = false
+                            loading.show()
+                            CallAPIs.getAddressName(latLng!! , this@ActivityMapAddress , this@ActivityMapAddress)
+
+                            /*Thread{
+
+                                var address : Address?=null
+                                try {
+                                    val myLocation = Geocoder(this@ActivityMapAddress, Locale.getDefault())
+                                    val myList = myLocation.getFromLocation(lat, lon, 1)
+                                    address = myList[0]
+                                    addressStr += address.getAddressLine(0).toString()
+                                }catch (ex:Exception){
+                                    Log.wtf("LOCEX",ex.toString())
+
+                                }
+
+                                runOnUiThread {
+                                    etMapSearch.text = addressStr!!.toEditable()
+                                    MyApplication.selectedCurrentAddress = address
+
+                                }
+                            }.start()*/
+
+                            startLatLng = latLng
+                            setUpMap()
+                            /*  resultLauncher!!.launch(
+                                  Intent(
+                                      this@ActivityMapAddress,
+                                      ActivityAddNewAddress::class.java
+                                  ).putExtra("from", "current")
+                              )*/
+
+                            firstTime = false
+
+                        }
+                    }
+
+                 //   toast("cannot detect location")
                 }
 
             }
 
         }
+
+
 
         val myLocation = MyLocation()
         myLocation.getLocation(this, locationResult)

@@ -124,37 +124,38 @@
 
                 <LinearLayout
                     android:id="@+id/llSpinnerServices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tbMedia"
                     android:layout_marginStart="@dimen/margin_start_end"
                     android:layout_marginEnd="@dimen/margin_start_end"
-                    android:layout_below="@id/tbMedia"
                     android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:weightSum="2">
 
                     <LinearLayout
-                        android:orientation="vertical"
+                        android:id="@+id/llSpinnerType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/primary"
-                            android:text="@string/type"
-                            android:textSize="@dimen/header_font"
                             android:tag="type"
-                            />
+                            android:text="@string/type"
+                            android:textColor="@color/primary"
+                            android:textSize="@dimen/header_font" />
 
 
                         <RelativeLayout
-                            android:gravity="center_vertical"
-                            android:layout_marginTop="@dimen/normal_margin"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/edit_text_height"
-                            android:background="@drawable/rounded_white_background">
+                            android:layout_marginTop="@dimen/normal_margin"
+                            android:background="@drawable/rounded_white_background"
+                            android:gravity="center_vertical">
 
                             <Spinner
                                 android:id="@+id/spServiceType"
@@ -165,66 +166,67 @@
 
                             <ImageView
                                 android:id="@+id/ivSpinnerTypeArrow"
-                                android:layout_marginEnd="@dimen/first_margin"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerInParent="true"
                                 android:layout_width="@dimen/small_icon"
                                 android:layout_height="@dimen/small_icon"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginEnd="@dimen/first_margin"
                                 android:src="@drawable/arrow_down"
-                                app:tint="@color/new_black"/>
+                                app:tint="@color/new_black" />
 
                         </RelativeLayout>
-
-
 
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_marginStart="@dimen/margin_start_end"
-                        android:orientation="vertical"
+                        android:id="@+id/llMargin"
+                        android:layout_width="@dimen/margin_start_end"
+                        android:layout_height="match_parent"/>
+
+                    <LinearLayout
+                        android:id="@+id/llSpinnerSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
 
 
                         <com.ids.qasemti.custom.CustomTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/primary"
-                            android:text="@string/Size"
-                            android:textSize="@dimen/header_font"
                             android:tag="Size"
-                            />
+                            android:text="@string/Size"
+                            android:textColor="@color/primary"
+                            android:textSize="@dimen/header_font" />
 
 
                         <RelativeLayout
-                            android:layout_marginTop="@dimen/normal_margin"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginTop="@dimen/normal_margin"
                             android:background="@drawable/rounded_white_background">
 
                             <Spinner
-                                android:layout_toStartOf="@id/ivSpinnerSizeArrow"
                                 android:id="@+id/spServiceSize"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:layout_toStartOf="@id/ivSpinnerSizeArrow"
                                 android:background="@color/transparent" />
 
                             <ImageView
                                 android:id="@+id/ivSpinnerSizeArrow"
-                                android:layout_marginEnd="@dimen/first_margin"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerInParent="true"
                                 android:layout_width="@dimen/small_icon"
                                 android:layout_height="@dimen/small_icon"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginEnd="@dimen/first_margin"
                                 android:src="@drawable/arrow_down"
-                                app:tint="@color/new_black"/>
+                                app:tint="@color/new_black" />
 
                         </RelativeLayout>
 
                     </LinearLayout>
-
 
 
                 </LinearLayout>

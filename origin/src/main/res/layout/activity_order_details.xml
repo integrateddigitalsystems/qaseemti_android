@@ -192,6 +192,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <Button
+            android:id="@+id/btPay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:background="@drawable/rounded_blue"
+            android:tag="pay"
+            android:text="@string/pay"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
     <Button
         android:visibility="gone"
         android:layout_marginBottom="@dimen/medium_margin"

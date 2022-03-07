@@ -678,6 +678,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                 }
             }
         } catch (e: Exception) {
+            var x = e
         }
         var list = Gson().fromJson(
             mFirebaseRemoteConfig!!.getString(FIREBASE_GOVS),

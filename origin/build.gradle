@@ -7,7 +7,7 @@ android {
     compileSdkVersion 31
     defaultConfig {
         applicationId "com.ids.qasemti"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
@@ -52,10 +52,10 @@ android {
             buildConfigField 'String', "urls", "\"urls\""
 
             dimension "color"
-            minSdkVersion 21
+            minSdkVersion 24
             targetSdkVersion 30
-            versionCode 68
-            versionName '8.1'
+            versionCode 72
+            versionName '8.5'
         }
 
 
@@ -68,10 +68,10 @@ android {
             buildConfigField 'String', "urls", "\"urls_provider\""
             buildConfigField 'String', "BASE_URL", "\"https://dev.qasemti.com/wp-json/api/v1/\""
             dimension "color"
-            minSdkVersion 21
+            minSdkVersion 24
             targetSdkVersion 30
-            versionCode 68
-            versionName '8.1'
+            versionCode 72
+            versionName '8.5'
         }
     }
 

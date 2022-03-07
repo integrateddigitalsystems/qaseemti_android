@@ -22,7 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/llToolBar"
-        android:layout_marginBottom="@dimen/bigger_icon"
         android:scrollbars="none">
 
         <LinearLayout
@@ -1055,6 +1054,20 @@
                 android:text="@string/no_service_paymentMethod"/>
 
 
+            <Button
+                android:id="@+id/btPlaceOrder"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:layout_marginBottom="@dimen/big_margin"
+                android:background="@drawable/blue_rounded"
+                android:tag="FindService"
+                android:text="@string/FindService"
+                android:textColor="@color/white" />
+
 
 
         </LinearLayout>
@@ -1062,19 +1075,7 @@
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/btPlaceOrder"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/margin_start_end"
-        android:layout_marginTop="@dimen/big_margin"
-        android:layout_marginEnd="@dimen/margin_start_end"
-        android:layout_marginBottom="@dimen/normal_margin"
-        android:background="@drawable/blue_rounded"
-        android:tag="FindService"
-        android:text="@string/FindService"
-        android:textColor="@color/white" />
+
 
     <include layout="@layout/loading"/>
 

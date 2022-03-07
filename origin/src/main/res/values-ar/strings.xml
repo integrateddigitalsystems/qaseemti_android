@@ -347,6 +347,7 @@
     <string name="fill_reason_field">يرجى ملء حقل السبب</string>
     <string name="product_is_restricted">"هذا المنتج يقتصر على أيام محددة للتسليم"</string>
     <string name="no_service_paymentMethod">لا يوجد سبل دفع لهذه الخدمة حاليا</string>
+    <string name="cannot_detect_loc">لم يمكن تحديد موقعك الرجاء تغيير تحديثات الGPS</string>
 
 
 </resources>

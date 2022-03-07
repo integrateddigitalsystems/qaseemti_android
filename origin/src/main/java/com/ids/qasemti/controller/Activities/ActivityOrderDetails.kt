@@ -611,43 +611,68 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     llDetailsCallMessage.hide()
 
                 } else {
-                    if (!MyApplication.selectedOrder!!.delivered!!)
+                    if (!MyApplication.selectedOrder!!.delivered!! && !MyApplication.selectedOrder!!.onTrack!!)
                         llEditOrderTime.show()
                     /*  if(MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty()){
                           llEditOrderTime.hide()
                           //btCancelOrder.hide()
                       }*/
+                    if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0){
+                        btPay.show()
+                    }
                     btCancelOrder.show()
                     llDetailsCallMessage.show()
                     if (!MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty() && typeSelected.equals(
                             AppConstants.ORDER_TYPE_ACTIVE
                         )
-                    )
-                        llOrderSwitches.show()
-                    else
+                    ) {
+                        try {
+                            var simp = SimpleDateFormat("yyyy-MM-dd")
+                            var curr = Calendar.getInstance()
+                            var Delivery = simp.parse(MyApplication.selectedOrder!!.deliveryDate)
+
+                            if (curr.timeInMillis < Delivery.time || MyApplication.isClient) {
+                                llOrderSwitches.hide()
+                            } else {
+                                llOrderSwitches.show()
+                            }
+                        }catch (ex:Exception){
+                            llOrderSwitches.show()
+                        }
+                    }else
                         llOrderSwitches.hide()
                 }
             } else {
-                if (!MyApplication.selectedOrder!!.newDeliveryDate.isNullOrEmpty()) {
-                    llSuggestedDate.show()
-                    try {
-                        tvSuggestedDate.text = MyApplication.selectedOrder!!.newDeliveryDate + " "+MyApplication.selectedOrder!!.newTimeSlotFrom+" - "+ MyApplication.selectedOrder!!.newTimeSlotTo
-                    } catch (ex: Exception) {
+                try {
+                    if (MyApplication.selectedOrder!!.newDeliveryDate !=null && !MyApplication.selectedOrder!!.newDeliveryDate.isNullOrEmpty()) {
+                        llSuggestedDate.show()
+                        try {
+                            tvSuggestedDate.text =
+                                MyApplication.selectedOrder!!.newDeliveryDate + " " + MyApplication.selectedOrder!!.newTimeSlotFrom + " - " + MyApplication.selectedOrder!!.newTimeSlotTo
+                        } catch (ex: Exception) {
 
+
+                        }
+
+                    } else {
+                        llSuggestedDate.hide()
                     }
-
-                } else {
-                    llSuggestedDate.hide()
+                }catch (ex:Exception){
+                    tvSuggestedDate.text = ""
                 }
                 llEditOrderTime.hide()
                 llOrderSwitches.hide()
 
                 if (MyApplication.selectedOrder!!.vendor == null || MyApplication.selectedOrder!!.vendor!!.userId == null) {
 
-
                 } else {
-                    btCancelOrder.show()
+                    if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0){
+                        btPay.show()
+                    }
+
                 }
+
+                btCancelOrder.show()
             }
             llRatingOrder.hide()
             llActualDelivery.hide()
@@ -657,6 +682,9 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             llActualDelivery.show()
             llOrderSwitches.hide()
         } else if (typeSelected.equals(AppConstants.ORDER_TYPE_UPCOMING)) {
+            if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0){
+                btPay.show()
+            }
             btCancelOrder.show()
             llRatingOrder.hide()
             llOrderSwitches.hide()
@@ -671,30 +699,53 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
         }
 
-        if (MyApplication.isClient && !MyApplication.selectedOrder!!.vendor!!.profilePic!!.isNullOrEmpty()) {
-            try {
-                ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.vendor!!.profilePic!!)
-                ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
-                llProfileOrder.setPadding(0, 0, 0, 0)
-            } catch (ex: Exception) {
 
-            }
-        } else if (!MyApplication.isClient && !MyApplication.selectedOrder!!.customer!!.profile_pic_url!!.isNullOrEmpty()) {
-            try {
-                ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.customer!!.profile_pic_url!!)
-                ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
-                llProfileOrder.setPadding(0, 0, 0, 0)
-            } catch (ex: Exception) {
+        try {
+            if (MyApplication.isClient && !MyApplication.selectedOrder!!.vendor!!.profilePic!!.isNullOrEmpty()) {
+                try {
+                    ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.vendor!!.profilePic!!)
+                    ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
+                    llProfileOrder.setPadding(0, 0, 0, 0)
+                } catch (ex: Exception) {
 
+                }
+            } else if (!MyApplication.isClient && !MyApplication.selectedOrder!!.customer!!.profile_pic_url!!.isNullOrEmpty()) {
+                try {
+                    ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.customer!!.profile_pic_url!!)
+                    ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
+                    llProfileOrder.setPadding(0, 0, 0, 0)
+                } catch (ex: Exception) {
+
+                }
             }
+        }catch (ex:Exception){
+            var x = ex
         }
         try {
             if (MyApplication.isClient) {
                 if (typeSelected.equals(AppConstants.ORDER_TYPE_COMPLETED)) {
                     llRatingOrder.show()
                     if (MyApplication.isClient && MyApplication.selectedOrder!!.type!!.lowercase() == "rental") {
-                        btRenewOrder.show()
-                        btRepeatOrder.hide()
+                        try {
+                            var format = "yyyy-MM-dd HH:mm"
+                            var  formatter = SimpleDateFormat(format,Locale.ENGLISH)
+                            var dateStart = formatter.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
+                            var dateEnd = formatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+
+                            var cal = Calendar.getInstance()
+
+                            if(cal.timeInMillis <= dateEnd.time && cal.timeInMillis >= dateStart.time) {
+                                btRepeatOrder.hide()
+                                btRenewOrder.show()
+                            }else{
+                                btRepeatOrder.show()
+                                btRenewOrder.hide()
+                            }
+                        }catch (ex:Exception){
+                            btRepeatOrder.show()
+                            btRenewOrder.hide()
+                        }
+
                     } else {
                         btRepeatOrder.show()
                         btRenewOrder.hide()
@@ -917,6 +968,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             AppHelper.setSwitchColor(swOnTrack, this)
         } catch (ex: java.lang.Exception) {
         }
+
+
         loading.hide()
     }
 
@@ -1289,8 +1342,6 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
             if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
 
-                selectedDayId = -1
-                etOrderDetailTime.text = "".toEditable()
                 val datePicker =
                     com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
 
@@ -1318,6 +1369,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 mDay = mcurrentDate!![Calendar.DAY_OF_MONTH]
 
                 mcurrentDate.set(mYear, mMonth, mDay)
+                selectedDayId = -1
+                etOrderDetailTime.text = "".toEditable()
                 val mDatePicker = DatePickerDialog(
                     this,
                     DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
@@ -1488,6 +1541,40 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
         }
 
+
+        btPay.setOnClickListener {
+            var reason = if( MyApplication.selectedOrder!!.reasonId == "0")  MyApplication.selectedOrder!!.serviceReasonOther else  MyApplication.selectedOrder!!.serviceReason
+            MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+                MyApplication.userId,
+                MyApplication.selectedOrder!!.typeId,//MAKESURE
+                MyApplication.selectedOrder!!.product!!.id,
+                MyApplication.selectedOrder!!.typesId,//MAKESURE
+                MyApplication.selectedOrder!!.sizeCapacityId,//MAKESURE
+                MyApplication.selectedOrder!!.deliveryDate,
+                if (MyApplication.selectedOrder!!.addressname != null && MyApplication.selectedOrder!!.addressname!!.isNotEmpty()) MyApplication.selectedOrder!!.addressname else "",
+                MyApplication.selectedOrder!!.addressLat,
+                MyApplication.selectedOrder!!.addressLong,
+                MyApplication.selectedOrder!!.addressStreet,
+                MyApplication.selectedOrder!!.addressBuilding,
+                MyApplication.selectedOrder!!.addressFloor,
+                MyApplication.selectedOrder!!.addressDescription,
+                if (MyApplication.selectedOrder!!.addresses.size > 0) MyApplication.selectedOrder!!.addresses.get(0).addressId!!.toInt() else 0,
+                MyApplication.selectedOrder!!.product!!.booking_start_date,
+                MyApplication.selectedOrder!!.product!!.booking_end_date,
+                MyApplication.languageCode,
+                MyApplication.selectedOrder!!.reasonId!!.toInt(),
+                reason
+
+
+            )
+            startActivity(
+                Intent(this, ActivityPlaceOrder::class.java).putExtra(
+                    AppConstants.ORDER_ID,
+                    MyApplication.selectedOrder!!.orderId
+                )
+            )
+        }
+
         swOnTrack.setOnClickListener {
             if (AppHelper.isOnline(this)) {
                 AppHelper.createSwitchDialog(
@@ -1511,8 +1598,9 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                             )
                         )
 
+                        llEditOrderTime.hide()
                         AppHelper.toGsonArrString()
-                        swOnTrack.isEnabled = true
+                        swOnTrack.isEnabled = false
                         changeState(true, 0)
                         AppHelper.setSwitchColor(swOnTrack, this)
                         onTrack = 1
@@ -1946,17 +2034,12 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             if (apiId == AppConstants.GET_CATEGORIES) {
                 setOrderData()
             } else {
-                try {
                     MyApplication.selectedOrder = response as ResponseOrders
                     if (MyApplication.categories.size > 0) {
                         setOrderData()
                     } else {
                         CallAPIs.getCategories(this, this)
                     }
-                } catch (ex: Exception) {
-                    logw("OrderError", ex.toString())
-                    loading.hide()
-                }
                 // }
             }
         } else {
@@ -1970,6 +2053,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         monthOfYear: Int,
         dayOfMonth: Int
     ) {
+        selectedDayId = -1
+        etOrderDetailTime.text = "".toEditable()
         val myCalendar = Calendar.getInstance()
         myCalendar[Calendar.YEAR] = year
         myCalendar[Calendar.MONTH] = monthOfYear

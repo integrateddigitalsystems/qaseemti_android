@@ -76,13 +76,14 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
     var orderId = "0"
 
     var arrayPaymentMethods: ArrayList<PaymentMethod> = arrayListOf()
+    var tempPaymentMethods: ArrayList<PaymentMethod> = arrayListOf()
     var adapterPaymentMethods: AdapterPaymentMethods? = null
     override fun onItemClicked(view: View, position: Int) {
         if (view.id == R.id.linearPaymentMethod) {
             try {
-                arrayPaymentMethods.forEach { it.selected = false }
-                arrayPaymentMethods[position].selected = true
-                selectedPaymentId = arrayPaymentMethods[position].id
+                tempPaymentMethods.forEach { it.selected = false }
+                tempPaymentMethods[position].selected = true
+                selectedPaymentId = tempPaymentMethods[position].id
                 adapterPaymentMethods!!.notifyDataSetChanged()
             } catch (e: Exception) {
             }
@@ -746,12 +747,14 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
 
 
     private fun setPaymentMethods() {
+        tempPaymentMethods.clear()
         for(item in arrayPaymentMethods){
-            if(!item.slug.equals("KNET",true))
-                arrayPaymentMethods.remove(item)
+            if(item.title.equals("KNET",true))
+                tempPaymentMethods.add(item)
         }
-        arrayPaymentMethods.get(0).selected = true
-        adapterPaymentMethods = AdapterPaymentMethods(arrayPaymentMethods, this, this)
+        tempPaymentMethods.get(0).selected = true
+        selectedPaymentId = tempPaymentMethods[0].id
+        adapterPaymentMethods = AdapterPaymentMethods(tempPaymentMethods, this, this)
         rvPaymentMethod.layoutManager = GridLayoutManager(this, 1)
         rvPaymentMethod.adapter = adapterPaymentMethods
         rvPaymentMethod.isNestedScrollingEnabled = false

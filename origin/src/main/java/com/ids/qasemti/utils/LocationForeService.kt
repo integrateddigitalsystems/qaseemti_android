@@ -433,25 +433,31 @@ class LocationForeService : Service() , ApiListener{
 
                 for(item in MyApplication.doneOrders){
                     if(!item.done!!){
-                        var loc = MyApplication.listDestination.find { it.oder_id == item.orderId }
+                        try {
+                            var loc =
+                                MyApplication.listDestination.find { it.oder_id == item.orderId }
 
-                        if (loc!!.order_longitude!!.toDouble() == 0.0 && loc.order_laltitude!!.toDouble() == 0.0) {
-                            docLat = update
-                            indx = ct
-                            CallAPIs.getOrderByOrderId(
-                               item.orderId!!.toInt(),
-                                this@LocationForeService
-                            )
-                        } else {
-                            indx = ct
-                            item.done = true
-                           getDIstance(
-                                update,
-                                LatLng(loc.order_laltitude!!.toDouble(),loc.order_longitude!!.toDouble()),
-                                application ,
-                               ct
-                            )
-                        }
+                            if (loc!!.order_longitude!!.toDouble() == 0.0 && loc.order_laltitude!!.toDouble() == 0.0) {
+                                docLat = update
+                                indx = ct
+                                CallAPIs.getOrderByOrderId(
+                                    item.orderId!!.toInt(),
+                                    this@LocationForeService
+                                )
+                            } else {
+                                indx = ct
+                                item.done = true
+                                getDIstance(
+                                    update,
+                                    LatLng(
+                                        loc.order_laltitude!!.toDouble(),
+                                        loc.order_longitude!!.toDouble()
+                                    ),
+                                    application,
+                                    ct
+                                )
+                            }
+                        }catch (ex:Exception){}
                     }else{
                         logw("LOGDIST", "Already Done")
                     }
