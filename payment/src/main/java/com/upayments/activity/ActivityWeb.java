@@ -14,6 +14,8 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -66,6 +68,11 @@ public class ActivityWeb  extends AppCompatActivity {
             key_noti_url= null;
         }
 
+        ImageView ll = findViewById(R.id.btClose) ;
+
+        ll.setOnClickListener(v -> {
+            finish();
+        });
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -129,6 +136,9 @@ public class ActivityWeb  extends AppCompatActivity {
                                 }, 500);
                             } else if (url.contains(key_e_url)
                                     ) {
+
+                               finish();
+
                                 shouldOverride = true;
 
                                 String[] split = url.split("\\?");
@@ -191,6 +201,7 @@ public class ActivityWeb  extends AppCompatActivity {
 
                     }
                 }, 500);
+
                 return shouldOverride;
             }
 
@@ -348,6 +359,7 @@ public class ActivityWeb  extends AppCompatActivity {
     private void handleError(WebView view, int errorCode, String description, Uri uri) {
 
         String message = null;
+        Log.wtf("UPError", String.valueOf(errorCode) );
         if (errorCode == WebViewClient.ERROR_AUTHENTICATION) {
             message = "User authentication failed on server";
         } else if (errorCode == WebViewClient.ERROR_TIMEOUT) {
@@ -398,6 +410,7 @@ public class ActivityWeb  extends AppCompatActivity {
             uPaymentCallBack.callBackUpayment(postUpayData);
             finish();
         }
+
     }
 
     @Override

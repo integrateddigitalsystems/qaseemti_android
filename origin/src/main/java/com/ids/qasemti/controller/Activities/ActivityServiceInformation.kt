@@ -914,7 +914,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
 
     fun checkInMyServices():Boolean{
         for(item in MyApplication.myServices){
-            if(item.name.equals(selectedServiceName) && item.variations.get(0).typesId!!.toInt()==selectedTypeId && item.variations.get(0).sizeCapacityId!!.toInt() == selectedSizeId)
+            if(item.name.equals(selectedServiceName) && (selectedTypeId!=null && item.variations.get(0).typesId!!.toInt()==selectedTypeId) && (selectedSizeId!=null && item.variations.get(0).sizeCapacityId!!.toInt() == selectedSizeId))
                 return true
         }
         return false

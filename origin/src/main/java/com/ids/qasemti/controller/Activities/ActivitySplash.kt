@@ -372,6 +372,8 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
                         type = -1
                     }
 
+
+
                     var orderId = -1
                     try {
                         orderId = intent.getIntExtra("orderId", -1)

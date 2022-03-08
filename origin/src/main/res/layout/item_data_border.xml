@@ -33,7 +33,7 @@
             android:paddingStart="@dimen/first_margin"
             android:layout_width="match_parent"
             android:layout_margin="@dimen/mini_margin"
-            android:maxLines="1"
+            android:maxLines="2"
             android:layout_height="match_parent"
             android:id="@+id/tvDataValue"
             android:textSize="@dimen/medium_font"

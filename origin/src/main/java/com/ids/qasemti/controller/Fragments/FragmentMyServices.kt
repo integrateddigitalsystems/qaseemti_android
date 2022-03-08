@@ -186,46 +186,27 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
         loading.hide()
         if (success) {
-            if (MyApplication.selectedUser!!.active == 1) {
-                if (!MyApplication.selectedUser!!.civilId.isNullOrEmpty() || (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty() && !MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty())) {
-                    if (MyApplication.selectedUser!!.addresses!!.size > 0 && !MyApplication.selectedUser!!.addresses!!.get(
-                            0
-                        ).addressName.isNullOrEmpty()
-                    ) {
-                        startActivity(
-                            Intent(
-                                requireContext(),
-                                ActivityServiceInformation::class.java
-                            )
+            /* if (MyApplication.selectedUser!!.active == 1) {*/
+            if (!MyApplication.selectedUser!!.civilId.isNullOrEmpty() || (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty() && !MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty())) {
+                if (MyApplication.selectedUser!!.addresses!!.size > 0 && !MyApplication.selectedUser!!.addresses!!.get(
+                        0
+                    ).addressName.isNullOrEmpty()
+                ) {
+                    startActivity(
+                        Intent(
+                            requireContext(),
+                            ActivityServiceInformation::class.java
                         )
-                        MyApplication.isEditService = false
-                    } else {
-
-                        AppHelper.createYesNoDialog(
-                            requireActivity(),
-                            AppHelper.getRemoteString("ok", requireActivity()),
-                            AppHelper.getRemoteString("cancel", requireActivity()),
-                            AppHelper.getRemoteString("must_enter_Address_First", requireActivity())
-                        ){
-                            MyApplication.register = true
-                            (requireActivity() as ActivityHome?)!!.setSelectedTab(
-                                4,
-                                FragmentAccount(),
-                                AppConstants.FRAGMENT_ACCOUNT,
-                                R.color.primary
-                            )
-                        }
-
-                    }
+                    )
+                    MyApplication.isEditService = false
                 } else {
-
 
                     AppHelper.createYesNoDialog(
                         requireActivity(),
                         AppHelper.getRemoteString("ok", requireActivity()),
                         AppHelper.getRemoteString("cancel", requireActivity()),
-                        AppHelper.getRemoteString("complete_profile", requireActivity())
-                    ){
+                        AppHelper.getRemoteString("must_enter_Address_First", requireActivity())
+                    ) {
                         MyApplication.register = true
                         (requireActivity() as ActivityHome?)!!.setSelectedTab(
                             4,
@@ -236,13 +217,33 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
                     }
 
                 }
-            } else
+            } else {
+
+
+                AppHelper.createYesNoDialog(
+                    requireActivity(),
+                    AppHelper.getRemoteString("ok", requireActivity()),
+                    AppHelper.getRemoteString("cancel", requireActivity()),
+                    AppHelper.getRemoteString("complete_profile", requireActivity())
+                ) {
+                    MyApplication.register = true
+                    (requireActivity() as ActivityHome?)!!.setSelectedTab(
+                        4,
+                        FragmentAccount(),
+                        AppConstants.FRAGMENT_ACCOUNT,
+                        R.color.primary
+                    )
+                }
+
+            }
+            /*  } else
                 AppHelper.createDialog(
                     requireActivity(),
                     AppHelper.getRemoteString("inactive_user_msg", requireActivity())
                 )
+       */ }
         }
-    }
+
 
 
 }

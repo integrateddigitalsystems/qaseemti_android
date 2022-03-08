@@ -1193,8 +1193,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             etFirstNameProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
         if (etLastNameProfile.text.isNullOrEmpty())
             etLastNameProfile.setBackgroundResource(R.drawable.rounded_white_red_border)
-        if (etEmailProfile.text.isNullOrEmpty())
-            llEmailBackground.setBackgroundResource(R.drawable.rounded_white_red_border)
+       /* if (etEmailProfile.text.isNullOrEmpty())
+            llEmailBackground.setBackgroundResource(R.drawable.rounded_white_red_border)*/
         if (!AppHelper.isEmailValid(etEmailProfile.text.toString()))
             llEmailBackground.setBackgroundResource(R.drawable.rounded_white_red_border)
 
@@ -1392,17 +1392,14 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
             if (AppHelper.isOnline(requireActivity())) {
 
 
-                if (etFirstNameProfile.text.isNullOrEmpty() || etLastNameProfile.text.isNullOrEmpty() || etEmailProfile.text.isNullOrEmpty() || !AppHelper.isEmailValid(
-                        etEmailProfile.text.toString()
-                    )
-                ) {
+                if (etFirstNameProfile.text.isNullOrEmpty() || etLastNameProfile.text.isNullOrEmpty()) {
                     checkMissingData()
                     AppHelper.createDialog(
                         requireActivity(),
                         AppHelper.getRemoteString("fill_all_field", requireContext())
                     )
 
-                } else if (!AppHelper.isEmailValid(etEmailProfile.text.toString())) {
+                } else if (!etEmailProfile.text.isNullOrEmpty() && !AppHelper.isEmailValid(etEmailProfile.text.toString())) {
                     checkMissingData()
                     AppHelper.createDialog(
                         requireActivity(),

@@ -49,9 +49,9 @@ class ActivityRegistration : ActivityBase() , ApiListener{
 
 
     btRegister.onOneClick {
-      if (etFirstName.text.isNullOrEmpty() || etLastName.text.isNullOrEmpty() || etEmail.text.isNullOrEmpty()) {
+      if (etFirstName.text.isNullOrEmpty() || etLastName.text.isNullOrEmpty() ) {
         AppHelper.createDialog(this, AppHelper.getRemoteString("fill_all_field", this))
-      } else if (!AppHelper.isEmailValid(etEmail.text.toString())) {
+      } else if (!etEmail.text.isNullOrEmpty() && !AppHelper.isEmailValid(etEmail.text.toString())) {
         AppHelper.createDialog(this, AppHelper.getRemoteString("email_valid_error", this))
       } else {
         if (!MyApplication.isClient){
@@ -158,10 +158,20 @@ class ActivityRegistration : ActivityBase() , ApiListener{
 
 
   override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
-    if(apiId==AppConstants.UPDATE_PROFILE_CLIENT || apiId==AppConstants.UPDATE_PROFILE_SERVICE_PROVIDER){
-      CallAPIs.getUserInfo(this)
+
+    var res = response as ResponseUser
+    if(res.result == 1) {
+
+      if (success) {
+        if (apiId == AppConstants.UPDATE_PROFILE_CLIENT || apiId == AppConstants.UPDATE_PROFILE_SERVICE_PROVIDER) {
+          CallAPIs.getUserInfo(this)
+        } else {
+          nextStep()
+        }
+      }
     }else{
-      nextStep()
+      loading.hide()
+      toast(res.message!!)
     }
 
 

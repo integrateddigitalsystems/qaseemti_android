@@ -7,10 +7,30 @@
     >
 
 
+
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:gravity="end"
+        android:id="@+id/llTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/btClose"
+            android:src="@drawable/close_x"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            />
+
+
+    </LinearLayout>
 
 
 

@@ -45,7 +45,6 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
         //   array.clear()
         // repeat(3){array.add("1")}
         btBck.show()
-        setTabs()
         try{
             tvPageTitle.setColorTypeface(this,R.color.primary,AppHelper.getRemoteString("settlements",this),true)
         }catch (ex:Exception){
@@ -54,12 +53,15 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
         if(MyApplication.isSettle){
             MyApplication.isSettle = false
             MyApplication.settlementTabSelected = 1
+            setTabs()
             setTabLayout(MyApplication.settlementTabSelected, tvToBeSettled)
-            getOrders(MyApplication.settlementTabSelected)
+            getSettlements(MyApplication.settlementTabSelected)
+            tvPreviews
         }else{
             MyApplication.settlementTabSelected = 0
             setTabLayout(MyApplication.settlementTabSelected, tvToBeSettled)
             getOrders(MyApplication.settlementTabSelected)
+            setTabs()
         }
 
     }
@@ -297,8 +299,13 @@ class ActivitySettlements : ActivityBase(), RVOnItemClickListener {
                 AppHelper.setTextColor(this, tv, R.color.gray_font_title)
             }
         }
-        tvSelected.setBackgroundResource(R.drawable.rounded_red_background)
-        AppHelper.setTextColor(this, tvSelected, R.color.white)
+        if(position == 0 ) {
+            tvSelected.setBackgroundResource(R.drawable.rounded_red_background)
+            AppHelper.setTextColor(this, tvSelected, R.color.white)
+        }else{
+            tvPreviews.setBackgroundResource(R.drawable.rounded_red_background)
+            AppHelper.setTextColor(this, tvPreviews, R.color.white)
+        }
 
     }
 }

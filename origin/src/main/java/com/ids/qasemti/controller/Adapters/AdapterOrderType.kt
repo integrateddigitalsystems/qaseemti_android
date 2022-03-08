@@ -520,7 +520,7 @@ class AdapterOrderType(
                     var curr = Calendar.getInstance()
                     var Delivery = simp.parse(items.get(position).deliveryDate)
 
-                    if (curr.timeInMillis < Delivery.time || MyApplication.isClient) {
+                    if (curr.timeInMillis < Delivery.time || MyApplication.isClient || (((items.get(position).paymentMethod.equals("Knet",true)||items.get(position)!!.paymentMethod.equals("كي نت",true))) && items.get(position)!!.paymentStatus.equals("0") ) ){
                         holder.switch.hide()
                     } else {
                         holder.switch.show()

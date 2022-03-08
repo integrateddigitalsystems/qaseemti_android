@@ -265,11 +265,12 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 val shareIntent = Intent(Intent.ACTION_SEND)
 
                 shareIntent.putExtra(
-                    Intent.EXTRA_TEXT,
-                    title
+                    Intent.EXTRA_TITLE,
+                    "www.google.com"
                 )
                 shareIntent.setPackage("com.instagram.android")
                 shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+               // shareIntent.putExtra(Intent.EXTRA_STREAM,Uri.parse("www.google.com"))
                 shareIntent.type = "image/png"
                 shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
@@ -323,6 +324,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             val content = ShareLinkContent.Builder()
                 .setQuote(MyApplication.selectedOrder!!.product!!.name + "\n" + MyApplication.selectedOrder!!.product!!.desc)
                 .setContentUrl(Uri.parse(MyApplication.selectedOrder!!.product!!.featuredImage))
+                .setContentUrl(Uri.parse("ww.google.com"))
                 .build()
 
             shareDialog.show(content)
@@ -617,9 +619,11 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                           llEditOrderTime.hide()
                           //btCancelOrder.hide()
                       }*/
-                    if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0){
+                    if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0 && MyApplication.isClient){
                         btPay.show()
+                        llOrderSwitches.hide()
                     }
+
                     btCancelOrder.show()
                     llDetailsCallMessage.show()
                     if (!MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty() && typeSelected.equals(
@@ -634,7 +638,11 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                             if (curr.timeInMillis < Delivery.time || MyApplication.isClient) {
                                 llOrderSwitches.hide()
                             } else {
-                                llOrderSwitches.show()
+                                if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0 ){
+                                    llOrderSwitches.hide()
+                                }else {
+                                    llOrderSwitches.show()
+                                }
                             }
                         }catch (ex:Exception){
                             llOrderSwitches.show()
@@ -666,7 +674,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 if (MyApplication.selectedOrder!!.vendor == null || MyApplication.selectedOrder!!.vendor!!.userId == null) {
 
                 } else {
-                    if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0){
+                    if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0 && MyApplication.isClient){
                         btPay.show()
                     }
 
@@ -682,7 +690,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             llActualDelivery.show()
             llOrderSwitches.hide()
         } else if (typeSelected.equals(AppConstants.ORDER_TYPE_UPCOMING)) {
-            if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0){
+            if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0&& MyApplication.isClient){
                 btPay.show()
             }
             btCancelOrder.show()
@@ -728,23 +736,44 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     if (MyApplication.isClient && MyApplication.selectedOrder!!.type!!.lowercase() == "rental") {
                         try {
                             var format = "yyyy-MM-dd HH:mm"
-                            var  formatter = SimpleDateFormat(format,Locale.ENGLISH)
-                            var dateStart = formatter.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
-                            var dateEnd = formatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+                            var formatter = SimpleDateFormat(format, Locale.ENGLISH)
+                            var dateStart =
+                                formatter.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
+                            var dateEnd =
+                                formatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
 
                             var cal = Calendar.getInstance()
 
-                            if(cal.timeInMillis <= dateEnd.time && cal.timeInMillis >= dateStart.time) {
+                            if (cal.timeInMillis <= dateEnd.time && cal.timeInMillis >= dateStart.time) {
                                 btRepeatOrder.hide()
                                 btRenewOrder.show()
-                            }else{
+                            } else {
                                 btRepeatOrder.show()
                                 btRenewOrder.hide()
                             }
-                        }catch (ex:Exception){
+                        } catch (ex: Exception) {
+                            var format = "yyyy-MM-dd"
+                            var formatter = SimpleDateFormat(format, Locale.ENGLISH)
+                            var dateStart =
+                                formatter.parse(MyApplication.selectedOrder!!.product!!.booking_start_date)
+                            var dateEnd =
+                                formatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+
+                            var cal = Calendar.getInstance()
+
+                            if (cal.timeInMillis <= dateEnd.time && cal.timeInMillis >= dateStart.time) {
+                                btRepeatOrder.hide()
+                                btRenewOrder.show()
+                            } else {
+                                btRepeatOrder.show()
+                                btRenewOrder.hide()
+                            }
+                        } catch (ex: Exception) {
                             btRepeatOrder.show()
                             btRenewOrder.hide()
                         }
+
+
 
                     } else {
                         btRepeatOrder.show()
@@ -805,11 +834,17 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             )
         )
         if (MyApplication.selectedOrder!!.typeId != 345) {
+
+            var x = MyApplication.selectedOrder!!.product!!.booking_start_date!! + "-" + MyApplication.selectedOrder!!.product!!.booking_end_date!!
+            if (!MyApplication.selectedOrder!!.product!!.booking_start_date!!.isNullOrEmpty() && !MyApplication.selectedOrder!!.product!!.booking_end_date!!.isNullOrEmpty()) MyApplication.selectedOrder!!.product!!.booking_start_date!! + "-" + MyApplication.selectedOrder!!.product!!.booking_end_date!! else AppHelper.getRemoteString(
+                "no_data",
+                this
+            )
             array.add(
                 OrderData(
                     "Period",
                     try {
-                        if (!MyApplication.selectedOrder!!.product!!.booking_start_date!!.isNullOrEmpty() && !MyApplication.selectedOrder!!.product!!.booking_end_date!!.isNullOrEmpty()) MyApplication.selectedOrder!!.product!!.booking_start_date!! + "\n -" + MyApplication.selectedOrder!!.product!!.booking_end_date!! else AppHelper.getRemoteString(
+                        if (!MyApplication.selectedOrder!!.product!!.booking_start_date!!.isNullOrEmpty() && !MyApplication.selectedOrder!!.product!!.booking_end_date!!.isNullOrEmpty()) MyApplication.selectedOrder!!.product!!.booking_start_date!! + "\n" + MyApplication.selectedOrder!!.product!!.booking_end_date!! else AppHelper.getRemoteString(
                             "no_data",
                             this
                         )
@@ -1897,10 +1932,14 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
     override fun onItemClicked(view: View, position: Int) {
 
-        etOrderDetailTime.text = myTimes.get(position).from!!.toEditable()
-        from = myTimes.get(position).from
-        to = myTimes.get(position).to
-        dialog!!.cancel()
+        try {
+            etOrderDetailTime.text = myTimes.get(position).from!!.toEditable()
+            from = myTimes.get(position).from
+            to = myTimes.get(position).to
+            dialog!!.cancel()
+        }catch (ex:Exception){
+
+        }
 
     }
 

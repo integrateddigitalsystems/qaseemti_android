@@ -70,9 +70,11 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
     var sendFormat: String = "yyyy-MM-dd"
     var viewFormat: String = "dd/MM/yyyy"
     var timeFormat: String = "hh:mm"
+    var fullTimeFormat : String = "HH:mm:ss"
     var sendFormatter = SimpleDateFormat(sendFormat, Locale.ENGLISH)
     var viewFormatter = SimpleDateFormat(sendFormat, Locale.ENGLISH)
-    var mainFormatter = SimpleDateFormat("yyyy-MM-dd hh:mm")
+    var fullTimeFormatter = SimpleDateFormat(fullTimeFormat, Locale.ENGLISH)
+    var mainFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
     var main2Formatter = SimpleDateFormat("yyyy-MM-dd")
     var getFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
     var lastFormatter = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
@@ -138,7 +140,15 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             timeSelected = true
             selectedFromSlot = myTimes.get(position).from
             selectedToSlot = myTimes.get(position).to
-            etFromTime.text = myTimes.get(position).from!!.toEditable()
+            var dateF = fullTimeFormatter.parse(selectedFromSlot)
+            var dateT = fullTimeFormatter.parse(selectedToSlot)
+            var simp = SimpleDateFormat("HH:mm", Locale.ENGLISH)
+            var res1 = simp.format(dateF)
+            var res2 = simp.format(dateT)
+
+
+
+            etFromTime.text = ( res1+"-"+res2).toEditable()
             dialog!!.cancel()
         }
     }
@@ -155,7 +165,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
         fromHour = cal.get(Calendar.HOUR_OF_DAY)
         fromMin = cal.get(Calendar.MINUTE)
         etFromTime.text = time.toEditable()
-        selectedFrom = etFromDate.text.toString()
+        selectedFrom = getFormatter.format(cal.time)
         etFromDate.text = viewFormatter.format(cal.time).toEditable()
 
         selectedDate = date + " " + time
@@ -401,6 +411,9 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                 var date =
                                     selectedDate!!.split(" ").get(0)
                                 selectedDate = date + " " + time
+                                var dateF =
+                                    selectedFrom!!.split(" ").get(0)
+                                selectedFrom = dateF + " "+ time
                             }, hour, minute, true
                         ) //Yes 24 hour time
                         timePickerDialog.show()
@@ -657,7 +670,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             myCalendar[Calendar.MONTH] = selectedmonth
                             myCalendar[Calendar.DAY_OF_MONTH] = selectedday
                             pickedDate = myCalendar.time
-                            var date = sendFormatter.format(myCalendar.time)
+                            var date = getFormatter.format(myCalendar.time)
                             var dateShow = viewFormatter.format(myCalendar.time)
                             etFromDate.text = date.toEditable()
                             timeSelected = false
@@ -707,6 +720,9 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             var date =
                                 selectedDate!!.split(" ").get(0)
                             selectedDate = date + " " + time
+                            var dateF =
+                                selectedFrom!!.split(" ").get(0)
+                            selectedFrom = dateF + " "+ time
                         }, hour, minute, true
                     ) //Yes 24 hour time
                     timePickerDialog.show()
@@ -731,6 +747,9 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                         "%02d",
                         selectedMinute
                     )
+                    var date = selectedTo!!.split(" ").get(0)
+                    selectedTo = date+" "+time
+
                     if (compareDates() == -1) {
                         if (!compareTimes(selectedHour, selectedMinute)) {
                             timeSelected = false
@@ -774,7 +793,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             var mcurrentDate: Date? = null
             var cal = Calendar.getInstance()
             if (!etToDate.text.isNullOrEmpty()) {
-                mcurrentDate = sendFormatter.parse(selectedTo)
+                mcurrentDate = getFormatter.parse(selectedTo)
                 cal.time = mcurrentDate
             }
             mYear = cal[Calendar.YEAR]
@@ -789,7 +808,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     myCalendar[Calendar.YEAR] = selectedyear
                     myCalendar[Calendar.MONTH] = selectedmonth
                     myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                    var date = sendFormatter.format(myCalendar.time)
+                    var date = getFormatter.format(myCalendar.time)
                     selectedTo = date
                     etToDate.text = viewFormatter.format(myCalendar.time).toEditable()
                 }, mYear, mMonth, mDay
@@ -936,6 +955,9 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             var date =
                                 selectedDate!!.split(" ").get(0)
                             selectedDate = date + " " + time
+                            var dateF =
+                                selectedFrom!!.split(" ").get(0)
+                            selectedFrom = dateF + " "+ time
                             timeSelected = true
                         }, hour, minute, true
                     ) //Yes 24 hour time
@@ -1024,6 +1046,9 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                     var date =
                                         selectedDate!!.split(" ").get(0)
                                     selectedDate = date + " " + time
+                                    var dateF =
+                                        selectedFrom!!.split(" ").get(0)
+                                    selectedFrom = dateF + " "+ time
                                 }, hour, minute, true
                             ) //Yes 24 hour time
                             timePickerDialog.show()
@@ -1284,14 +1309,26 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                 minRenewTo = current.time
             }*/
 
-            selectedFrom = sendFormatter.format(minRenewTime)
-            selectedTo = sendFormatter.format(minRenewTo)
+            selectedFrom = getFormatter.format(minRenewTime)
+            selectedTo = getFormatter.format(minRenewTo)
 
-            var x = mainFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
-            var y = viewFormatter.format(x)
-           etFromDate.text = y.toEditable()
+          //  var x = mainFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+           // var y = viewFormatter.format(x)
+           etFromDate.text = main2Formatter.format(minRenewTime).toEditable()
             timeSelected = true
-            etFromTime.text = timeFormatter.format(mainFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)).toEditable()
+            try {
+                etFromTime.text =
+                    timeFormatter.format(mainFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date))
+                        .toEditable()
+            }catch (ex:Exception){
+                try {
+                    etFromTime.text =
+                        timeFormatter.format(main2Formatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date))
+                            .toEditable()
+                }catch (ex:Exception){
+
+                }
+            }
             etToTime.text.clear()
             etToDate.text.clear()
 
@@ -1386,6 +1423,8 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             "%02d",
                             selectedMinute
                         )
+                        var date = selectedTo!!.split(" ").get(0)
+                        selectedTo = date+" "+time
                         if (compareDates() == -1) {
                             if (!compareTimes(selectedHour, selectedMinute)) {
                                 AppHelper.createDialog(
@@ -1425,7 +1464,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                         myCalendar[Calendar.YEAR] = selectedyear
                         myCalendar[Calendar.MONTH] = selectedmonth
                         myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                        var date = sendFormatter.format(myCalendar.time)
+                        var date = getFormatter.format(myCalendar.time)
                         selectedTo = date
                         etToDate.text = viewFormatter.format(myCalendar.time).toEditable()
                     }, mYear, mMonth, mDay
@@ -1476,6 +1515,10 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                 tvFromTitle.show()
                 tvToTitle.show()
                 llToLayout.show()
+            }else{
+                tvFromTitle.hide()
+                tvToTitle.hide()
+                llToLayout.hide()
             }
 
 
@@ -1523,6 +1566,8 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                         "%02d",
                         selectedMinute
                     )
+                    var date = selectedTo!!.split(" ").get(0)
+                    selectedTo = date+" "+time
                     if (compareDates() == -1) {
                         if (!compareTimes(selectedHour, selectedMinute)) {
                             timeSelected = false
@@ -1581,7 +1626,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     myCalendar[Calendar.YEAR] = selectedyear
                     myCalendar[Calendar.MONTH] = selectedmonth
                     myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                    var date = sendFormatter.format(myCalendar.time)
+                    var date = getFormatter.format(myCalendar.time)
                     selectedTo = date
                     etToDate.text = viewFormatter.format(myCalendar.time).toEditable()
                 }, mYear, mMonth, mDay
@@ -1682,7 +1727,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
                         datePicker.show(supportFragmentManager!!, "")
                     } else {
-                        var mcurrentDate = sendFormatter.parse(selectedFrom)
+                        var mcurrentDate = getFormatter.parse(selectedFrom)
                         var mYear = 0
                         var mMonth = 0
                         var mDay = 0
@@ -1701,7 +1746,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                 myCalendar[Calendar.MONTH] = selectedmonth
                                 myCalendar[Calendar.DAY_OF_MONTH] = selectedday
                                 pickedDate = myCalendar.time
-                                var date = sendFormatter.format(myCalendar.time)
+                                var date = getFormatter.format(myCalendar.time)
                                 var dateShow = viewFormatter.format(myCalendar.time)
                                 etFromDate.text = date.toEditable()
                                 if (compareDates() == 1) {
@@ -1749,6 +1794,9 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                 var date =
                                     selectedDate!!.split(" ").get(0)
                                 selectedDate = date + " " + time
+                                var dateF =
+                                    selectedFrom!!.split(" ").get(0)
+                                selectedFrom = dateF + " "+ time
                             }, hour, minute, true
                         ) //Yes 24 hour time
                         timePickerDialog.show()
@@ -1795,7 +1843,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             myCalendar[Calendar.DAY_OF_MONTH] = selectedday
                             pickedDate = myCalendar.time
                             timeSelected = false
-                            var date = sendFormatter.format(myCalendar.time)
+                            var date = getFormatter.format(myCalendar.time)
                             var dateShow = viewFormatter.format(myCalendar.time)
                             etFromDate.text = date.toEditable()
                             if (compareDates() == 1) {
@@ -1842,6 +1890,9 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             var date =
                                 selectedDate!!.split(" ").get(0)
                             selectedDate = date + " " + time
+                            var dateF =
+                                selectedFrom!!.split(" ").get(0)
+                            selectedFrom = dateF + " "+ time
                         }, hour, minute, true
                     ) //Yes 24 hour time
                     timePickerDialog.show()
@@ -2895,7 +2946,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             myCalendar[Calendar.DAY_OF_MONTH] = dayOfMonth
             selectedDayId = myCalendar.get(Calendar.DAY_OF_WEEK)
             pickedDate = myCalendar.time
-            var date = sendFormatter.format(myCalendar.time)
+            var date = getFormatter.format(myCalendar.time)
             var dateShow = viewFormatter.format(myCalendar.time)
             etFromDate.text = date.toEditable()
             if (compareDates() == 1) {
@@ -2927,7 +2978,23 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             }
             if(myTimes.size == 1 ){
                 timeSelected = true
-                etFromTime.text = myTimes.get(0).from!!.toEditable()
+                var date = fullTimeFormatter.parse(myTimes.get(0).to)
+                var cal = Calendar.getInstance()
+                cal.time = date
+                timeSelected = true
+                selectedFromSlot = myTimes.get(0).from
+                selectedToSlot = myTimes.get(0).to
+                var dateF = fullTimeFormatter.parse(selectedFromSlot)
+                var dateT = fullTimeFormatter.parse(selectedToSlot)
+                var simp = SimpleDateFormat("HH:mm", Locale.ENGLISH)
+                var res1 = simp.format(dateF)
+                var res2 = simp.format(dateT)
+
+
+
+                etFromTime.text = ( res1+"-"+res2).toEditable()
+                fromHour = cal.get(Calendar.HOUR_OF_DAY)
+                fromMin = cal.get(Calendar.MINUTE)
             }
             etFromDate.text = dateShow.toEditable()
         } else {

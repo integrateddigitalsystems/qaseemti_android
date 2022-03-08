@@ -12,7 +12,8 @@ import com.ids.qasemti.controller.Adapters.com.ids.qasemti.model.ServiceAvailabl
 import com.ids.qasemti.controller.MyApplication
 import com.ids.qasemti.model.CountryCodes
 import com.ids.qasemti.utils.AppHelper
-import java.util.ArrayList
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class AdapterInterval(
@@ -21,6 +22,8 @@ class AdapterInterval(
 ) :
     RecyclerView.Adapter<AdapterInterval.VHItem>() {
 
+    var fullTimeFormatter = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
+    var smallTimeFormatter = SimpleDateFormat("HH:mm",Locale.ENGLISH)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
         return VHItem(
@@ -29,7 +32,13 @@ class AdapterInterval(
     }
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
-        holder.tvName.text = items.get(position).from + "-" + items.get(position).to
+        try {
+            var dateF = fullTimeFormatter.parse(items.get(position).from)
+            var dateT = fullTimeFormatter.parse(items.get(position).to)
+            holder.tvName.text = smallTimeFormatter.format(dateF) + "-" + smallTimeFormatter.format(dateT)
+        }catch (ex:Exception){
+            holder.tvName.text = items.get(position).from +"-"+items.get(position).to
+        }
 
     }
 

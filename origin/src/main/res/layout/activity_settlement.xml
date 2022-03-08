@@ -278,7 +278,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/card_new_margin"
-            android:layout_marginEnd="@dimen/card_new_margin" />
+            android:layout_marginEnd="@dimen/card_new_margin"
+            android:paddingBottom="@dimen/rate_button_size" />
 
 
 
@@ -295,18 +296,17 @@
         android:textColor="@color/gray_font_title"/>
 
         <Button
+            android:id="@+id/btRequestSettlements"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_35"
-            android:background="@drawable/blue_rounded"
-            android:textColor="@color/white"
-            android:id="@+id/btRequestSettlements"
-            android:textSize="@dimen/normal_font"
-            android:text="@string/RequestSettlement"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="@dimen/normal_icon_size"
             android:layout_marginEnd="@dimen/normal_icon_size"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/big_margin"
-            />
+            android:background="@drawable/blue_rounded"
+            android:text="@string/RequestSettlement"
+            android:textColor="@color/white"
+            android:textSize="@dimen/normal_font" />
     </RelativeLayout>
 
 
