@@ -198,6 +198,7 @@ class MyApplication : Application() {
         var destroyed : Boolean = false
         var foregrounded : Boolean = false
         var backgrounded : Boolean = false
+        var shareLink : String ?=""
 
         var listOrderTrack : ArrayList<String> = arrayListOf()
         var listDestination : ArrayList<OrderLocation> = arrayListOf()

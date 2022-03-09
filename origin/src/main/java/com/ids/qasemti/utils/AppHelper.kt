@@ -352,9 +352,9 @@ class AppHelper {
                 return connectivityManager.activeNetworkInfo?.isConnected ?: false
             }
         }
-        fun updateStatus(orderId: Int, onTrack: Boolean, delivered: Boolean, paid: Boolean,rel : ReloadData,loading : LinearLayout,otherSwitch : SwitchCompat) {
+        fun updateStatus(order: ResponseOrders, onTrack: Boolean, delivered: Boolean, paid: Boolean,rel : ReloadData,loading : LinearLayout,otherSwitch : SwitchCompat) {
             loading.show()
-            var newReq = RequestUpdateOrder(orderId, onTrack, delivered, paid)
+            var newReq = RequestUpdateOrder(order.orderId!!.toInt(), onTrack, delivered, paid)
             RetrofitClient.client?.create(RetrofitInterface::class.java)
                 ?.updateOrderCustomStatus(newReq)?.enqueue(object : Callback<ResponseUpdate> {
                     override fun onResponse(
@@ -365,7 +365,7 @@ class AppHelper {
                             if(delivered && paid) {
                                 rel.reload()
                             }else{
-                                if(otherSwitch!=null){
+                                if(otherSwitch!=null && !((order.paymentMethod.equals("Knet",true) || order.paymentMethod.equals("كي نت",true)))){
                                     loading.hide()
                                     otherSwitch.isChecked = true
                                     otherSwitch.callOnClick()

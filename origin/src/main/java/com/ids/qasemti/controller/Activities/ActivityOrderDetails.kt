@@ -322,9 +322,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             var image: Bitmap? = null
             var shareDialog = ShareDialog(this)
             val content = ShareLinkContent.Builder()
-                .setQuote(MyApplication.selectedOrder!!.product!!.name + "\n" + MyApplication.selectedOrder!!.product!!.desc)
+                .setQuote(MyApplication.selectedOrder!!.product!!.name + "\n" + MyApplication.selectedOrder!!.product!!.desc +"\n"+MyApplication.shareLink!!)
                 .setContentUrl(Uri.parse(MyApplication.selectedOrder!!.product!!.featuredImage))
-                .setContentUrl(Uri.parse("ww.google.com"))
                 .build()
 
             shareDialog.show(content)
@@ -613,7 +612,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     llDetailsCallMessage.hide()
 
                 } else {
-                    if (!MyApplication.selectedOrder!!.delivered!! && !MyApplication.selectedOrder!!.onTrack!!)
+                    if (!MyApplication.selectedOrder!!.delivered!! && !MyApplication.selectedOrder!!.onTrack!! && MyApplication.selectedOrder!!.isRenew!=1)
                         llEditOrderTime.show()
                     /*  if(MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty()){
                           llEditOrderTime.hide()
@@ -624,7 +623,15 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                         llOrderSwitches.hide()
                     }
 
-                    btCancelOrder.show()
+                    if(MyApplication.selectedOrder!!.isRenew == 1 && MyApplication.selectedOrder!!.accepted!=1 && !MyApplication.isClient) {
+                        btCancelOrder.hide()
+                    }else{
+                         if(MyApplication.selectedOrder!!.isRenew == 1 && MyApplication.selectedOrder!!.accepted!=1 && !MyApplication.isClient) {
+                        btCancelOrder.hide()
+                    }else{
+                        btCancelOrder.show()
+                    }
+                    }
                     llDetailsCallMessage.show()
                     if (!MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty() && typeSelected.equals(
                             AppConstants.ORDER_TYPE_ACTIVE
@@ -680,7 +687,11 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
                 }
 
-                btCancelOrder.show()
+                if(MyApplication.selectedOrder!!.isRenew == 1 && MyApplication.selectedOrder!!.accepted!=1 && !MyApplication.isClient) {
+                    btCancelOrder.hide()
+                }else{
+                    btCancelOrder.show()
+                }
             }
             llRatingOrder.hide()
             llActualDelivery.hide()
@@ -693,7 +704,11 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0&& MyApplication.isClient){
                 btPay.show()
             }
-            btCancelOrder.show()
+            if(MyApplication.selectedOrder!!.isRenew == 1 && MyApplication.selectedOrder!!.accepted!=1 && !MyApplication.isClient) {
+                btCancelOrder.hide()
+            }else{
+                btCancelOrder.show()
+            }
             llRatingOrder.hide()
             llOrderSwitches.hide()
         } else {
@@ -1101,21 +1116,21 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             MyApplication.languageCode
         )
         RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.renewOrder(req)?.enqueue(object : Callback<ResponseMessage> {
+            ?.renewOrder(req)?.enqueue(object : Callback<ResponseOrderId> {
                 override fun onResponse(
-                    call: Call<ResponseMessage>,
-                    response: Response<ResponseMessage>
+                    call: Call<ResponseOrderId>,
+                    response: Response<ResponseOrderId>
                 ) {
                     try {
                         loading.hide()
-                        nextStep(response.body()!!.result!!)
+                        nextStep(response.body()!!.result!!.toInt())
                     } catch (E: java.lang.Exception) {
 
                         loading.hide()
                     }
                 }
 
-                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                override fun onFailure(call: Call<ResponseOrderId>, throwable: Throwable) {
                     loading.hide()
                 }
             })
@@ -1331,6 +1346,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
         btRepeatOrder.onOneClick {
             MyApplication.repeating = true
+            MyApplication.renewing = false
             MyApplication.selectedAddress = null
 
             startActivity(
@@ -1343,6 +1359,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         btRenewOrder.onOneClick {
 
             MyApplication.renewing = true
+            MyApplication.repeating = false
             startActivity(
                 Intent(
                     this,

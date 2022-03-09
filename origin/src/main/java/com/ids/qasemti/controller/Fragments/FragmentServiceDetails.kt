@@ -75,6 +75,8 @@ class FragmentServiceDetails : Fragment() ,  com.google.android.exoplayer2.Playe
         btServiceCheckout.typeface=AppHelper.getTypeFace(requireContext())
         btServiceCheckout.onOneClick {
             if(MyApplication.isSignedIn) {
+                MyApplication.renewing = false
+                MyApplication.repeating = false
                 MyApplication.selectedVariationType = selectedTypeId
                 MyApplication.selectedSize = selectedSizeId
                 startActivity(Intent(requireContext(), ActivityCheckout::class.java))

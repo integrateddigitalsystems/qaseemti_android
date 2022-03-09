@@ -631,16 +631,20 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             when (activeType) {
                 0 -> {
                     ordersArray.clear()
-                    ordersArray.addAll(mainArray.filter { (it.vendor != null && it.paymentMethod.equals("Cash On Delivery",true)) || (it.vendor!=null && it.paymentMethod.equals("knet",true) && it.paymentStatus!!.toInt() == 1) })
+                    ordersArray.addAll(mainArray.filter {
+                        ( (it.vendor != null
+                                && it.paymentMethod.equals("Cash On Delivery",true))
+                                ||
+                                (it.vendor!=null && it.paymentMethod.equals("knet",true) && it.paymentStatus!!.toInt() == 1))&&(it.isRenew!=1 || it.isRenew==1 && it.accepted==1) })
                 }
                 1 -> {
                     ordersArray.clear()
-                    ordersArray.addAll(mainArray.filter { (it.paymentMethod.isNullOrEmpty() || (it.paymentMethod.equals("knet",true) && it.paymentStatus!!.toInt() == 0 ) )&& it.vendor!=null })
+                    ordersArray.addAll(mainArray.filter { (it.paymentMethod.isNullOrEmpty() || (it.paymentMethod.equals("knet",true) && it.paymentStatus!!.toInt() == 0 ) )&& it.vendor!=null&&(it.isRenew!=1 || it.isRenew==1 && it.accepted==1) })
                 }
 
                 else -> {
                     ordersArray.clear()
-                    ordersArray.addAll(mainArray.filter { it.vendor == null })
+                    ordersArray.addAll(mainArray.filter { it.vendor == null || it.isRenew==1&&it.accepted==0})
                 }
 
 
@@ -683,7 +687,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             tvPendingSP.setBackgroundResource(R.color.transparent)
             AppHelper.setTextColor(requireContext(), tvPendingSP, R.color.primary)
             ordersArray.clear()
-            ordersArray.addAll(mainArray.filter { (it.paymentMethod.isNullOrEmpty() || (it.paymentMethod.equals("knet",true) && it.paymentStatus!!.toInt() == 0 ) )&& it.vendor!=null })
+            ordersArray.addAll(mainArray.filter { (it.paymentMethod.isNullOrEmpty() || (it.paymentMethod.equals("knet",true) && it.paymentStatus!!.toInt() == 0 ) )&& it.vendor!=null&&(it.isRenew!=1 || it.isRenew==1 && it.accepted==1) })
            setData(true)
             loading.hide()
 
@@ -698,7 +702,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             tvPendingPayment.setBackgroundResource(R.color.transparent)
             AppHelper.setTextColor(requireContext(), tvPendingPayment, R.color.primary)
             ordersArray.clear()
-            ordersArray.addAll(mainArray.filter { it.vendor == null })
+            ordersArray.addAll(mainArray.filter { it.vendor == null || it.isRenew==1&&it.accepted==0})
             setData(true)
             loading.hide()
         }
@@ -712,7 +716,11 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             tvPendingPayment.setBackgroundResource(R.color.transparent)
             AppHelper.setTextColor(requireContext(), tvPendingPayment, R.color.primary)
             ordersArray.clear()
-            ordersArray.addAll(mainArray.filter { (it.vendor != null && it.paymentMethod.equals("Cash On Delivery",true)) || (it.vendor!=null && it.paymentMethod.equals("knet",true) && it.paymentStatus!!.toInt() == 1) })
+            ordersArray.addAll(mainArray.filter {
+                ( (it.vendor != null
+                        && it.paymentMethod.equals("Cash On Delivery",true))
+                        ||
+                        (it.vendor!=null && it.paymentMethod.equals("knet",true) && it.paymentStatus!!.toInt() == 1))&&(it.isRenew!=1 || it.isRenew==1 && it.accepted==1) })
             setData(true)
             loading.hide()
         }

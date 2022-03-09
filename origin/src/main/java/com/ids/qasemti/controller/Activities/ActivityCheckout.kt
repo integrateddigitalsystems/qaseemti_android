@@ -1237,14 +1237,18 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             }
         }
         else if (MyApplication.renewing) {
-            if(MyApplication.selectedOrder!!.product!!.availablePaymentMethods== null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0 ){
+            /*if(MyApplication.selectedOrder!!.product!!.availablePaymentMethods== null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0 ){
                 btPlaceOrder.hide()
                 noPaymentMethods.show()
             }else{
                 btPlaceOrder.show()
                 noPaymentMethods.hide()
-            }
-            MyApplication.renewing = false
+            }*/
+                if(MyApplication.selectedOrder!!.product!!.serviceReasons==null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0 ){
+                    llSpReason.hide()
+                }else{
+                    llSpReason.show()
+                }
             tvFromTitle.show()
             tvToTitle.show()
             llToLayout.show()
@@ -1334,6 +1338,18 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
             etFromDate.isEnabled = false
             etFromTime.isEnabled = false
+            if (MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size > 0) {
+                adapterPaymentMethods = AdapterCheckoutPayment(
+                    MyApplication.selectedOrder!!.product!!.availablePaymentMethods,
+                    this,
+                    this
+                )
+                rvPaymentMethodCheckout.layoutManager = GridLayoutManager(this, 1)
+                rvPaymentMethodCheckout.adapter = adapterPaymentMethods
+                rvPaymentMethodCheckout.isNestedScrollingEnabled = false
+            } else {
+                tvPaymentMethodTitleCheckout.hide()
+            }
 
             /*rlFromDate.onOneClick {
                 var cal = Calendar.getInstance()
@@ -1419,7 +1435,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     this, R.style.DatePickerDialog,
                     { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
-                        var time = String.format("%02d", selectedHour) + " : " + String.format(
+                        var time = String.format("%02d", selectedHour) + ":" + String.format(
                             "%02d",
                             selectedMinute
                         )
@@ -2394,19 +2410,21 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             MyApplication.selectedOrder!!.shippingApartment,
             MyApplication.languageCode
         )
+        logw("renewed",Gson().toJson(req))
         RetrofitClient.client?.create(RetrofitInterface::class.java)
-            ?.renewOrder(req)?.enqueue(object : Callback<ResponseMessage> {
+            ?.renewOrder(req)?.enqueue(object : Callback<ResponseOrderId> {
                 override fun onResponse(
-                    call: Call<ResponseMessage>,
-                    response: Response<ResponseMessage>
+                    call: Call<ResponseOrderId>,
+                    response: Response<ResponseOrderId>
                 ) {
                     try {
                         loading.hide()
-                        if (response.body()!!.result == 1) {
-                            AppHelper.createDialog(
+                        if (response.body()!!.result!!.toInt() == 1) {
+                            /*AppHelper.createDialog(
                                 this@ActivityCheckout,
                                 AppHelper.getRemoteString("success", this@ActivityCheckout)
-                            )
+                            )*/
+                            updatePayment(response.body()!!.orderId!!.toInt(),selectedPaymentId!!,true)
                         } else {
                             AppHelper.createDialog(
                                 this@ActivityCheckout,
@@ -2421,7 +2439,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     }
                 }
 
-                override fun onFailure(call: Call<ResponseMessage>, throwable: Throwable) {
+                override fun onFailure(call: Call<ResponseOrderId>, throwable: Throwable) {
                     loading.hide()
                 }
             })

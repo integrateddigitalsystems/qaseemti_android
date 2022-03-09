@@ -36,7 +36,7 @@ class AdapterCart (
 
     override fun onBindViewHolder(holder: VHItem, position: Int) {
         try {
-            if(items.get(position).vendor!=null){
+            if((items.get(position).vendor!=null) && (items.get(position).isRenew==0 ||(items.get(position).isRenew==1 && items.get(position).accepted == 1 ))){
                 holder.delete.hide()
             }else{
                 holder.delete.show()

@@ -57,6 +57,7 @@ object AppConstants {
     const val FIREBASE_VERSION_CODE = "android_version_code"
     const val FIREBASE_LOCALIZE = "localize_msg"
     const val FIREBASE_GOVS = "governantes_kuwait"
+    const val FIREBASE_SHARE_LINK ="share_link"
     const val BANNER_TIME = "banner_time"
     const val CURRENCY = "currency"
     const val FIREBASE_LINKS ="htmlUrls"

@@ -332,7 +332,7 @@ class AdapterOrderType(
                     var x = holder.switchOnTrack
 
                     AppHelper.updateStatus(
-                        items.get(position).orderId!!.toInt(),
+                        items.get(position)!!,
                         holder.switchOnTrack.isChecked,
                         true,
                         holder.switchPaid.isChecked,
@@ -461,7 +461,7 @@ class AdapterOrderType(
                         AppHelper.setSwitchColor(holder.switchPaid, con)
                     }
                     AppHelper.updateStatus(
-                        items.get(position).orderId!!.toInt(),
+                        items.get(position),
                         holder.switchOnTrack.isChecked,
                         holder.switchDelivered.isChecked,
                         true,

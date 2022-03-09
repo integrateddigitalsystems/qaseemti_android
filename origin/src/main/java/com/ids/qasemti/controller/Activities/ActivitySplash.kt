@@ -50,6 +50,7 @@ import com.ids.qasemti.utils.AppConstants.FIREBASE_LINKS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LOCALIZE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_PARAMS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_SALT
+import com.ids.qasemti.utils.AppConstants.FIREBASE_SHARE_LINK
 import com.upayments.track.UpaymentGateway
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.dialog_links.*
@@ -688,6 +689,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
         )
         logw("BASED", MyApplication.BASE_URL)
         MyApplication.adTimer = mFirebaseRemoteConfig!!.getString(BANNER_TIME).toInt()
+        MyApplication.shareLink = mFirebaseRemoteConfig!!.getString(FIREBASE_SHARE_LINK)
         MyApplication.kuwaitGovs.clear()
         MyApplication.kuwaitGovs.addAll(list.list)
         MyApplication.localizeArray = Gson().fromJson(

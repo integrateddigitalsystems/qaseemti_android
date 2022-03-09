@@ -320,7 +320,7 @@ interface RetrofitInterface {
     @POST("cl_renew_order")
     fun renewOrder(
         @Body param : RequestRenewOrder
-    ):Call<ResponseMessage>
+    ):Call<ResponseOrderId>
 
 
     @POST("get_payment_methods")
