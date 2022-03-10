@@ -82,6 +82,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".controller.Activities.ActivityFullScreen"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".controller.Activities.ActivityAddNewAddress"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:configChanges="orientation|keyboardHidden"

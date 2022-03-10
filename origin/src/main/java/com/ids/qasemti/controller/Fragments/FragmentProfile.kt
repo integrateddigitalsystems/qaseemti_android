@@ -1023,7 +1023,6 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
     fun setHint() {
         etFirstNameProfile.hint = etFirstNameProfile.hint.toString() + "*"
         etLastNameProfile.hint = etLastNameProfile.hint.toString() + "*"
-        etEmailProfile.hint = etEmailProfile.hint.toString() + "*"
     }
 
     fun init() {

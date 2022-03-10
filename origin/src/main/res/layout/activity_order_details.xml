@@ -81,13 +81,13 @@
             <LinearLayout
                 android:id="@+id/llShareSocial"
                 android:layout_width="match_parent"
-                android:visibility="visible"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/llOrderSwitches"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/margin_start_end"
                 android:gravity="end"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/btShareFB"
@@ -166,11 +166,22 @@
                 android:textColor="@color/white"
                 android:visibility="gone" />
 
+            <com.ids.qasemti.custom.CustomTextViewMedium
+                android:layout_width="match_parent"
+                android:id="@+id/tvAlreadyRenewed"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_start_end"
+                android:layout_marginEnd="@dimen/margin_start_end"
+                android:layout_below="@id/llShareSocial"
+                android:text="@string/already_renewed"
+                android:tag="already_renewed"/>
+
             <Button
                 android:id="@+id/btRepeatOrder"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
-                android:layout_below="@+id/llShareSocial"
+                android:layout_below="@+id/tvAlreadyRenewed"
                 android:layout_marginStart="@dimen/margin_start_end"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:layout_marginEnd="@dimen/margin_start_end"

@@ -58,7 +58,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
     var open = true
     var REQUEST_LOCATION = 5
     var stamp: Long? = 0
-    var timeSelected : Boolean ?=false
+    var timeSelected: Boolean? = false
     var selectedFromSlot: String? = ""
     var selectedToSlot: String? = ""
     var editer: String? = ""
@@ -70,7 +70,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
     var sendFormat: String = "yyyy-MM-dd"
     var viewFormat: String = "dd/MM/yyyy"
     var timeFormat: String = "hh:mm"
-    var fullTimeFormat : String = "HH:mm:ss"
+    var fullTimeFormat: String = "HH:mm:ss"
     var sendFormatter = SimpleDateFormat(sendFormat, Locale.ENGLISH)
     var viewFormatter = SimpleDateFormat(sendFormat, Locale.ENGLISH)
     var fullTimeFormatter = SimpleDateFormat(fullTimeFormat, Locale.ENGLISH)
@@ -106,7 +106,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
     override fun onItemClicked(view: View, position: Int) {
         if (view.id == R.id.linearPaymentMethod) {
-            if(!MyApplication.repeating && !MyApplication.renewing) {
+            if (!MyApplication.repeating && !MyApplication.renewing) {
                 try {
                     MyApplication.selectedService!!.availablePaymentMethods.forEach {
                         it.selected = false
@@ -120,8 +120,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     var ex = e
                     var x = 1
                 }
-            }
-            else{
+            } else {
                 try {
                     MyApplication.selectedOrder!!.product!!.availablePaymentMethods.forEach {
                         it.selected = false
@@ -148,7 +147,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
 
 
-            etFromTime.text = ( res1+"-"+res2).toEditable()
+            etFromTime.text = (res1 + "-" + res2).toEditable()
             dialog!!.cancel()
         }
     }
@@ -202,7 +201,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
     fun checkGivenDate(): Boolean {
 
-        if(!selectedDate.isNullOrEmpty()) {
+        if (!selectedDate.isNullOrEmpty()) {
             var date: Date? = null
             if (MyApplication.selectedService!!.availableDates != null && MyApplication.selectedService!!.availableDates.size > 0) {
                 date = main2Formatter.parse(selectedDate)!!
@@ -215,7 +214,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             }
 
             return true
-        }else
+        } else
             return false
     }
 
@@ -387,12 +386,17 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     //test
                     var day = dayIdtoString(selectedDayId!!)
                     myTimes =
-                        MyApplication.selectedService!!.availableDates.find { it.day.equals(day, true) }!!.time
+                        MyApplication.selectedService!!.availableDates.find {
+                            it.day.equals(
+                                day,
+                                true
+                            )
+                        }!!.time
 
 
-                    if(myTimes!!.size >0){
+                    if (myTimes!!.size > 0) {
                         timeDialog()
-                    }else{
+                    } else {
                         val mcurrentTime = Calendar.getInstance()
                         val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
                         val minute = mcurrentTime[Calendar.MINUTE]
@@ -413,7 +417,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                 selectedDate = date + " " + time
                                 var dateF =
                                     selectedFrom!!.split(" ").get(0)
-                                selectedFrom = dateF + " "+ time
+                                selectedFrom = dateF + " " + time
                             }, hour, minute, true
                         ) //Yes 24 hour time
                         timePickerDialog.show()
@@ -457,7 +461,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             datePicker.show(supportFragmentManager!!,"")
         }*/
         btPlaceOrder.onOneClick {
-            if(selectedPaymentId !=-1) {
+            if (selectedPaymentId != -1) {
                 if (locationSelected) {
                     if (MyApplication.selectedService!!.typeId!!.equals(MyApplication.categories.find {
                             it.valEn!!.lowercase().equals("rental")
@@ -566,8 +570,8 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                         AppHelper.getRemoteString("please_select_location", this)
                     )
                 }
-            }else{
-                toast(AppHelper.getRemoteString("select_payment_method",this))
+            } else {
+                toast(AppHelper.getRemoteString("select_payment_method", this))
             }
         }
 
@@ -677,7 +681,10 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
                             if (compareDates() == 1) {
                                 selectedTo = date
-                                etToDate.text = dateShow.toEditable()
+                                var cal = myCalendar
+                                cal.add(Calendar.DAY_OF_MONTH,1)
+                                selectedTo = viewFormatter.format(cal.time)
+                                etToDate.text = selectedTo!!.toEditable()
                             }
                             etFromTime.text = "".toEditable()
                             var x = selectedDate
@@ -722,7 +729,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             selectedDate = date + " " + time
                             var dateF =
                                 selectedFrom!!.split(" ").get(0)
-                            selectedFrom = dateF + " "+ time
+                            selectedFrom = dateF + " " + time
                         }, hour, minute, true
                     ) //Yes 24 hour time
                     timePickerDialog.show()
@@ -748,7 +755,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                         selectedMinute
                     )
                     var date = selectedTo!!.split(" ").get(0)
-                    selectedTo = date+" "+time
+                    selectedTo = date + " " + time
 
                     if (compareDates() == -1) {
                         if (!compareTimes(selectedHour, selectedMinute)) {
@@ -813,6 +820,12 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     etToDate.text = viewFormatter.format(myCalendar.time).toEditable()
                 }, mYear, mMonth, mDay
             )
+            var call = Calendar.getInstance()
+            call.time = pickedDate
+            call.add(Calendar.DAY_OF_MONTH,1)
+            pickedDate = call.time
+
+
             mDatePicker.datePicker.minDate = pickedDate!!.time
             mDatePicker.show()
             // }
@@ -957,7 +970,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             selectedDate = date + " " + time
                             var dateF =
                                 selectedFrom!!.split(" ").get(0)
-                            selectedFrom = dateF + " "+ time
+                            selectedFrom = dateF + " " + time
                             timeSelected = true
                         }, hour, minute, true
                     ) //Yes 24 hour time
@@ -1020,39 +1033,39 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
                 if (MyApplication.selectedService!!.availableDates != null && MyApplication.selectedService!!.availableDates.size > 0) {
 
-                        if (MyApplication.selectedService!!.availableDates != null && MyApplication.selectedService!!.availableDates.size > 0) {
-                            if (selectedDayId!! == -1) {
-                                toast(AppHelper.getRemoteString("need_specific_date", this))
-                            } else {
-                                timeDialog()
-                            }
+                    if (MyApplication.selectedService!!.availableDates != null && MyApplication.selectedService!!.availableDates.size > 0) {
+                        if (selectedDayId!! == -1) {
+                            toast(AppHelper.getRemoteString("need_specific_date", this))
                         } else {
-                            // TODO Auto-generated method stub
-                            val mcurrentTime = Calendar.getInstance()
-                            val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
-                            val minute = mcurrentTime[Calendar.MINUTE]
-                            val now = mcurrentTime.time
-                            val timePickerDialog = TimePickerDialog(
-                                this, R.style.DatePickerDialog,
-                                { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
-
-                                    fromHour = selectedHour
-                                    fromMin = selectedMinute
-                                    timeSelected = true
-                                    var time = selectedHour.toString()
-                                        .formatNumber("00") + ":" + selectedMinute.toString()
-                                        .formatNumber("00")
-                                    etFromTime.text = time.toEditable()
-                                    var date =
-                                        selectedDate!!.split(" ").get(0)
-                                    selectedDate = date + " " + time
-                                    var dateF =
-                                        selectedFrom!!.split(" ").get(0)
-                                    selectedFrom = dateF + " "+ time
-                                }, hour, minute, true
-                            ) //Yes 24 hour time
-                            timePickerDialog.show()
+                            timeDialog()
                         }
+                    } else {
+                        // TODO Auto-generated method stub
+                        val mcurrentTime = Calendar.getInstance()
+                        val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+                        val minute = mcurrentTime[Calendar.MINUTE]
+                        val now = mcurrentTime.time
+                        val timePickerDialog = TimePickerDialog(
+                            this, R.style.DatePickerDialog,
+                            { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+
+                                fromHour = selectedHour
+                                fromMin = selectedMinute
+                                timeSelected = true
+                                var time = selectedHour.toString()
+                                    .formatNumber("00") + ":" + selectedMinute.toString()
+                                    .formatNumber("00")
+                                etFromTime.text = time.toEditable()
+                                var date =
+                                    selectedDate!!.split(" ").get(0)
+                                selectedDate = date + " " + time
+                                var dateF =
+                                    selectedFrom!!.split(" ").get(0)
+                                selectedFrom = dateF + " " + time
+                            }, hour, minute, true
+                        ) //Yes 24 hour time
+                        timePickerDialog.show()
+                    }
                 } else {
                     // TODO Auto-generated method stub
                     val mcurrentTime = Calendar.getInstance()
@@ -1186,6 +1199,10 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                 this,
                 this
             )
+            if(MyApplication.selectedService!!.availablePaymentMethods.size ==1){
+                MyApplication.selectedService!!.availablePaymentMethods!!.get(0).selected = true
+                selectedPaymentId = MyApplication.selectedService!!.availablePaymentMethods!!.get(0).id!!.toInt()
+            }
             rvPaymentMethodCheckout.layoutManager = GridLayoutManager(this, 1)
             rvPaymentMethodCheckout.adapter = adapterPaymentMethods
             rvPaymentMethodCheckout.isNestedScrollingEnabled = false
@@ -1212,10 +1229,10 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
         tvRestrictedCHeckout.typeface = AppHelper.getTypefaceBoldItalic(this)
 
         if (!MyApplication.renewing && !MyApplication.repeating) {
-            if(MyApplication.selectedService!!.availablePaymentMethods== null || MyApplication.selectedService!!.availablePaymentMethods.size == 0 ){
+            if (MyApplication.selectedService!!.availablePaymentMethods == null || MyApplication.selectedService!!.availablePaymentMethods.size == 0) {
                 btPlaceOrder.hide()
                 noPaymentMethods.show()
-            }else{
+            } else {
                 btPlaceOrder.show()
                 noPaymentMethods.hide()
             }
@@ -1235,8 +1252,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                 logw("rebirth", "done")
                 AppHelper.triggerRebirth(this)
             }
-        }
-        else if (MyApplication.renewing) {
+        } else if (MyApplication.renewing) {
             /*if(MyApplication.selectedOrder!!.product!!.availablePaymentMethods== null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0 ){
                 btPlaceOrder.hide()
                 noPaymentMethods.show()
@@ -1244,11 +1260,11 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                 btPlaceOrder.show()
                 noPaymentMethods.hide()
             }*/
-                if(MyApplication.selectedOrder!!.product!!.serviceReasons==null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0 ){
-                    llSpReason.hide()
-                }else{
-                    llSpReason.show()
-                }
+            if (MyApplication.selectedOrder!!.product!!.serviceReasons == null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0) {
+                llSpReason.hide()
+            } else {
+                llSpReason.show()
+            }
             tvFromTitle.show()
             tvToTitle.show()
             llToLayout.show()
@@ -1316,20 +1332,20 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             selectedFrom = getFormatter.format(minRenewTime)
             selectedTo = getFormatter.format(minRenewTo)
 
-          //  var x = mainFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
-           // var y = viewFormatter.format(x)
-           etFromDate.text = main2Formatter.format(minRenewTime).toEditable()
+            //  var x = mainFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date)
+            // var y = viewFormatter.format(x)
+            etFromDate.text = main2Formatter.format(minRenewTime).toEditable()
             timeSelected = true
             try {
                 etFromTime.text =
                     timeFormatter.format(mainFormatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date))
                         .toEditable()
-            }catch (ex:Exception){
+            } catch (ex: Exception) {
                 try {
                     etFromTime.text =
                         timeFormatter.format(main2Formatter.parse(MyApplication.selectedOrder!!.product!!.booking_end_date))
                             .toEditable()
-                }catch (ex:Exception){
+                } catch (ex: Exception) {
 
                 }
             }
@@ -1344,6 +1360,10 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                     this,
                     this
                 )
+                if(MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size ==1){
+                    MyApplication.selectedOrder!!.product!!.availablePaymentMethods!!.get(0).selected = true
+                    selectedPaymentId = MyApplication.selectedOrder!!.product!!.availablePaymentMethods!!.get(0).id!!.toInt()
+                }
                 rvPaymentMethodCheckout.layoutManager = GridLayoutManager(this, 1)
                 rvPaymentMethodCheckout.adapter = adapterPaymentMethods
                 rvPaymentMethodCheckout.isNestedScrollingEnabled = false
@@ -1412,17 +1432,17 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                 timePickerDialog.show()
             }*/
 
-         /*   if(MyApplication.selectedOrder!!.product!!.serviceReasons!=null && MyApplication.selectedOrder!!.product!!.serviceReasons.size > 0){
-                setSpinnerRepeat()
-                llSpReason.show()
-            }else{
-                llSpReason.hide()
-            }
+            /*   if(MyApplication.selectedOrder!!.product!!.serviceReasons!=null && MyApplication.selectedOrder!!.product!!.serviceReasons.size > 0){
+                   setSpinnerRepeat()
+                   llSpReason.show()
+               }else{
+                   llSpReason.hide()
+               }
 
-            if(MyApplication.selectedOrder!!.product!!.availableDates!=null && MyApplication.selectedOrder!!.product.availableDates.size > 0){
+               if(MyApplication.selectedOrder!!.product!!.availableDates!=null && MyApplication.selectedOrder!!.product.availableDates.size > 0){
 
-            }
-*/
+               }
+   */
             rlToTime.onOneClick {
                 val mcurrentTime = Calendar.getInstance()
                 val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
@@ -1440,7 +1460,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             selectedMinute
                         )
                         var date = selectedTo!!.split(" ").get(0)
-                        selectedTo = date+" "+time
+                        selectedTo = date + " " + time
                         if (compareDates() == -1) {
                             if (!compareTimes(selectedHour, selectedMinute)) {
                                 AppHelper.createDialog(
@@ -1485,6 +1505,10 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                         etToDate.text = viewFormatter.format(myCalendar.time).toEditable()
                     }, mYear, mMonth, mDay
                 )
+                var call = Calendar.getInstance()
+                call.time = minRenewTo
+                call.add(Calendar.DAY_OF_MONTH,1)
+                minRenewTo = call.time
                 mDatePicker.datePicker.minDate = minRenewTo!!.time
                 mDatePicker.show()
             }
@@ -1517,31 +1541,30 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                         Log.wtf("renewError", ex.toString())
                         loading.hide()
                     }
-                }else{
-                    toast(AppHelper.getRemoteString("select_payment_method",this))
+                } else {
+                    toast(AppHelper.getRemoteString("select_payment_method", this))
                 }
             }
-        }
-        else {
+        } else {
 
 
-            if(MyApplication.selectedOrder!!.typeId!!.equals(MyApplication.categories.find {
+            if (MyApplication.selectedOrder!!.typeId!!.equals(MyApplication.categories.find {
                     it.valEn!!.lowercase().equals("rental")
-                }!!.id!!.toInt())){
+                }!!.id!!.toInt())) {
                 tvFromTitle.show()
                 tvToTitle.show()
                 llToLayout.show()
-            }else{
+            } else {
                 tvFromTitle.hide()
                 tvToTitle.hide()
                 llToLayout.hide()
             }
 
 
-            if(MyApplication.selectedOrder!!.product!!.availablePaymentMethods== null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0 ){
+            if (MyApplication.selectedOrder!!.product!!.availablePaymentMethods == null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0) {
                 btPlaceOrder.hide()
                 noPaymentMethods.show()
-            }else{
+            } else {
                 btPlaceOrder.show()
                 noPaymentMethods.hide()
             }
@@ -1566,91 +1589,98 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             btPlaceOrder.text = AppHelper.getRemoteString("RepeatOrder", this)
 
 
-                  rlToTime.onOneClick {
-            val mcurrentTime = Calendar.getInstance()
-            val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
-            val minute = mcurrentTime[Calendar.MINUTE]
-            val myFormat = "dd/MM/yyyy" //Change as you need
-            val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
-            val now = mcurrentTime.time
-            val nowDate = sdf.format(now)
-            val timePickerDialog = TimePickerDialog(
-                this, R.style.DatePickerDialog,
-                { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+            rlToTime.onOneClick {
+                val mcurrentTime = Calendar.getInstance()
+                val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+                val minute = mcurrentTime[Calendar.MINUTE]
+                val myFormat = "dd/MM/yyyy" //Change as you need
+                val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+                val now = mcurrentTime.time
+                val nowDate = sdf.format(now)
+                val timePickerDialog = TimePickerDialog(
+                    this, R.style.DatePickerDialog,
+                    { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
-                    var time = String.format("%02d", selectedHour) + ":" + String.format(
-                        "%02d",
-                        selectedMinute
-                    )
-                    var date = selectedTo!!.split(" ").get(0)
-                    selectedTo = date+" "+time
-                    if (compareDates() == -1) {
-                        if (!compareTimes(selectedHour, selectedMinute)) {
-                            timeSelected = false
-                            AppHelper.createDialog(this, "You cannot pick a time before selected")
+                        var time = String.format("%02d", selectedHour) + ":" + String.format(
+                            "%02d",
+                            selectedMinute
+                        )
+                        var date = selectedTo!!.split(" ").get(0)
+                        selectedTo = date + " " + time
+                        if (compareDates() == -1) {
+                            if (!compareTimes(selectedHour, selectedMinute)) {
+                                timeSelected = false
+                                AppHelper.createDialog(
+                                    this,
+                                    "You cannot pick a time before selected"
+                                )
+                            } else {
+                                etToTime.text = time.toEditable()
+                            }
                         } else {
                             etToTime.text = time.toEditable()
                         }
-                    } else {
-                        etToTime.text = time.toEditable()
-                    }
 
-                }, hour, minute, true
-            ) //Yes 24 hour time
-            timePickerDialog.show()
-        }
-        rlToDate.onOneClick {
-            /*if(MyApplication.selectedService!!.availableDates!=null && MyApplication.selectedService!!.availableDates.size > 0){
-                   val datePicker =
-                       com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
-
-                   datePicker.setAccentColor(AppHelper.getColor(this,R.color.primary))
-
-
-
-                   var intArray = dateTimetoDays(MyApplication.selectedService!!.availableDates)
-                   limitDatePicker(datePicker,intArray)
-
-
-                var cal = Calendar.getInstance()
-                cal.time = pickedDate
-                   datePicker.minDate = cal
-                   var x = datePicker.disabledDays
-                   datePicker.onDateSetListener= this
-                   editer = "to"
-
-                   datePicker.show(supportFragmentManager!!,"")
-               }else {*/
-            var mYear = 0
-            var mMonth = 0
-            var mDay = 0
-            var mcurrentDate: Date? = null
-            var cal = Calendar.getInstance()
-            if (!etToDate.text.isNullOrEmpty()) {
-                mcurrentDate = sendFormatter.parse(selectedTo)
-                cal.time = mcurrentDate
+                    }, hour, minute, true
+                ) //Yes 24 hour time
+                timePickerDialog.show()
             }
-            mYear = cal[Calendar.YEAR]
-            mMonth = cal[Calendar.MONTH]
-            mDay = cal[Calendar.DAY_OF_MONTH]
+            rlToDate.onOneClick {
+                /*if(MyApplication.selectedService!!.availableDates!=null && MyApplication.selectedService!!.availableDates.size > 0){
+                       val datePicker =
+                           com.wdullaer.materialdatetimepicker.date.DatePickerDialog()
 
-            // mcurrentDate.set(mYear, mMonth, mDay)
-            val mDatePicker = DatePickerDialog(
-                this,
-                DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
-                    val myCalendar = Calendar.getInstance()
-                    myCalendar[Calendar.YEAR] = selectedyear
-                    myCalendar[Calendar.MONTH] = selectedmonth
-                    myCalendar[Calendar.DAY_OF_MONTH] = selectedday
-                    var date = getFormatter.format(myCalendar.time)
-                    selectedTo = date
-                    etToDate.text = viewFormatter.format(myCalendar.time).toEditable()
-                }, mYear, mMonth, mDay
-            )
-            mDatePicker.datePicker.minDate = pickedDate!!.time
-            mDatePicker.show()
-            // }
-        }
+                       datePicker.setAccentColor(AppHelper.getColor(this,R.color.primary))
+
+
+
+                       var intArray = dateTimetoDays(MyApplication.selectedService!!.availableDates)
+                       limitDatePicker(datePicker,intArray)
+
+
+                    var cal = Calendar.getInstance()
+                    cal.time = pickedDate
+                       datePicker.minDate = cal
+                       var x = datePicker.disabledDays
+                       datePicker.onDateSetListener= this
+                       editer = "to"
+
+                       datePicker.show(supportFragmentManager!!,"")
+                   }else {*/
+                var mYear = 0
+                var mMonth = 0
+                var mDay = 0
+                var mcurrentDate: Date? = null
+                var cal = Calendar.getInstance()
+                if (!etToDate.text.isNullOrEmpty()) {
+                    mcurrentDate = sendFormatter.parse(selectedTo)
+                    cal.time = mcurrentDate
+                }
+                mYear = cal[Calendar.YEAR]
+                mMonth = cal[Calendar.MONTH]
+                mDay = cal[Calendar.DAY_OF_MONTH]
+
+                // mcurrentDate.set(mYear, mMonth, mDay)
+                val mDatePicker = DatePickerDialog(
+                    this,
+                    DatePickerDialog.OnDateSetListener { datepicker, selectedyear, selectedmonth, selectedday ->
+                        val myCalendar = Calendar.getInstance()
+                        myCalendar[Calendar.YEAR] = selectedyear
+                        myCalendar[Calendar.MONTH] = selectedmonth
+                        myCalendar[Calendar.DAY_OF_MONTH] = selectedday
+                        var date = getFormatter.format(myCalendar.time)
+                        selectedTo = date
+                        etToDate.text = viewFormatter.format(myCalendar.time).toEditable()
+                    }, mYear, mMonth, mDay
+                )
+                var call = Calendar.getInstance()
+                call.time = pickedDate
+                call.add(Calendar.DAY_OF_MONTH,1)
+                pickedDate = call.time
+                mDatePicker.datePicker.minDate = pickedDate!!.time
+                mDatePicker.show()
+                // }
+            }
 
             setUpCategoryRepeat()
             llAddresses.onOneClick {
@@ -1703,7 +1733,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
                         }
                     }
-                }else{
+                } else {
                     setUpCurr()
                     rlFromDate.onOneClick {
 
@@ -1767,7 +1797,10 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                 etFromDate.text = date.toEditable()
                                 if (compareDates() == 1) {
                                     selectedTo = date
-                                    etToDate.text = dateShow.toEditable()
+                                    var cal = myCalendar
+                                    cal.add(Calendar.DAY_OF_MONTH,1)
+                                    selectedTo = viewFormatter.format(cal.time)
+                                    etToDate.text = selectedTo!!.toEditable()
                                 }
                                 etFromTime.text = "".toEditable()
                                 var x = selectedDate
@@ -1783,7 +1816,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                 }
                 rlFromTime.onOneClick {
 
-                    if (MyApplication.selectedOrder!!.product!!.availableDates != null &&MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
+                    if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
                         if (selectedDayId!! == -1) {
                             toast(getString(R.string.need_specific_date))
                         } else {
@@ -1812,7 +1845,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                 selectedDate = date + " " + time
                                 var dateF =
                                     selectedFrom!!.split(" ").get(0)
-                                selectedFrom = dateF + " "+ time
+                                selectedFrom = dateF + " " + time
                             }, hour, minute, true
                         ) //Yes 24 hour time
                         timePickerDialog.show()
@@ -1864,7 +1897,10 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             etFromDate.text = date.toEditable()
                             if (compareDates() == 1) {
                                 selectedTo = date
-                                etToDate.text = dateShow.toEditable()
+                                var cal = myCalendar
+                                cal.add(Calendar.DAY_OF_MONTH,1)
+                                selectedTo = viewFormatter.format(cal.time)
+                                etToDate.text = selectedTo!!.toEditable()
                             }
                             etFromTime.text = "".toEditable()
                             var x = selectedDate
@@ -1908,7 +1944,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             selectedDate = date + " " + time
                             var dateF =
                                 selectedFrom!!.split(" ").get(0)
-                            selectedFrom = dateF + " "+ time
+                            selectedFrom = dateF + " " + time
                         }, hour, minute, true
                     ) //Yes 24 hour time
                     timePickerDialog.show()
@@ -1952,72 +1988,70 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
                     }
 
-                    var typesSelected =  if(MyApplication.selectedOrder!!.product!!.typesId!=null) MyApplication.selectedOrder!!.product!!.typesId!!.toInt() else 0
-                    var sizeSelected = if(MyApplication.selectedOrder!!.product!!.sizeCapacityId!=null) MyApplication.selectedOrder!!.product!!.sizeCapacityId!!.toInt() else 0
+                    var typesSelected =
+                        if (MyApplication.selectedOrder!!.product!!.typesId != null) MyApplication.selectedOrder!!.product!!.typesId!!.toInt() else 0
+                    var sizeSelected =
+                        if (MyApplication.selectedOrder!!.product!!.sizeCapacityId != null) MyApplication.selectedOrder!!.product!!.sizeCapacityId!!.toInt() else 0
 
 
                     if (MyApplication.selectedOrder!!.typeId!!.equals(MyApplication.categories.find {
                             it.valEn!!.lowercase().equals("rental")
                         }!!.id!!.toInt())) {
-                            if(!etToDate.text.toString().isNullOrEmpty() && !etToTime.text.toString().isNullOrEmpty()) {
-                                if (MyApplication.selectedAddress != null) {
+                        if (!etToDate.text.toString().isNullOrEmpty() && !etToTime.text.toString()
+                                .isNullOrEmpty()
+                        ) {
+                            if (MyApplication.selectedAddress != null) {
 
-                                    if ((MyApplication.selectedOrder!!.product!!.availableDates == null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0) || (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0 && !selectedFromSlot.isNullOrEmpty() && !selectedFromSlot.isNullOrEmpty())) {
+                                if ((MyApplication.selectedOrder!!.product!!.availableDates == null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0) || (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0 && !selectedFromSlot.isNullOrEmpty() && !selectedFromSlot.isNullOrEmpty())) {
 
-                                        if ((MyApplication.selectedOrder!!.product!!.availablePaymentMethods == null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0) || (MyApplication.selectedOrder!!.product!!.availablePaymentMethods != null && MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size > 0 && selectedPaymentId != -1)) {
+                                    if ((MyApplication.selectedOrder!!.product!!.availablePaymentMethods == null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0) || (MyApplication.selectedOrder!!.product!!.availablePaymentMethods != null && MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size > 0 && selectedPaymentId != -1)) {
 
-                                            if ((MyApplication.selectedOrder!!.product!!.serviceReasons == null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0) || reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()!!
-                                                    .isNullOrEmpty())
-                                            ) {
-                                                if (reasonId == -1) {
-                                                    reasonId = 0
-                                                    reasonString = ""
-                                                } else if (reasonId == 0) {
-                                                    reasonString = etServiceReason.text.toString()
-                                                } else {
-                                                    reasonString = ""
-                                                }
-
-
-
-                                                MyApplication.selectedPlaceOrder =
-                                                    RequestPlaceOrder(
-                                                        MyApplication.userId,
-                                                        MyApplication.selectedOrder!!.typeId!!.toInt(),
-                                                        MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
-                                                       typesSelected,
-                                                        sizeSelected,
-                                                        selectedDate,
-                                                        if (MyApplication.selectedAddress!!.addressName != null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
-                                                        lat,
-                                                        long,
-                                                        if (MyApplication.selectedAddress!!.street != null && MyApplication.selectedAddress!!.street!!.isNotEmpty()) MyApplication.selectedAddress!!.street else "",
-                                                        if (MyApplication.selectedAddress!!.bldg != null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
-                                                        if (MyApplication.selectedAddress!!.floor != null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
-                                                        if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
-                                                        if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
-                                                        selectedFrom,
-                                                        selectedTo,
-                                                        MyApplication.languageCode,
-                                                        reasonId,
-                                                        reasonString!!,
-                                                        selectedFromSlot!!,
-                                                        selectedToSlot!!
-                                                    )
-                                                placeOrder()
+                                        if ((MyApplication.selectedOrder!!.product!!.serviceReasons == null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0) || reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()!!
+                                                .isNullOrEmpty())
+                                        ) {
+                                            if (reasonId == -1) {
+                                                reasonId = 0
+                                                reasonString = ""
+                                            } else if (reasonId == 0) {
+                                                reasonString = etServiceReason.text.toString()
                                             } else {
-                                                AppHelper.createDialog(
-                                                    this,
-                                                    AppHelper.getRemoteString(
-                                                        "fill_reason_field",
-                                                        this
-                                                    )
-                                                )
+                                                reasonString = ""
                                             }
+
+
+
+                                            MyApplication.selectedPlaceOrder =
+                                                RequestPlaceOrder(
+                                                    MyApplication.userId,
+                                                    MyApplication.selectedOrder!!.typeId!!.toInt(),
+                                                    MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
+                                                    typesSelected,
+                                                    sizeSelected,
+                                                    selectedDate,
+                                                    if (MyApplication.selectedAddress!!.addressName != null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
+                                                    lat,
+                                                    long,
+                                                    if (MyApplication.selectedAddress!!.street != null && MyApplication.selectedAddress!!.street!!.isNotEmpty()) MyApplication.selectedAddress!!.street else "",
+                                                    if (MyApplication.selectedAddress!!.bldg != null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
+                                                    if (MyApplication.selectedAddress!!.floor != null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
+                                                    if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
+                                                    if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
+                                                    selectedFrom,
+                                                    selectedTo,
+                                                    MyApplication.languageCode,
+                                                    reasonId,
+                                                    reasonString!!,
+                                                    if (!selectedFromSlot.equals("none")) selectedFromSlot!! else "",
+                                                    if (!selectedToSlot.equals("none")) selectedToSlot!! else ""
+                                                )
+                                            placeOrder()
                                         } else {
                                             AppHelper.createDialog(
                                                 this,
-                                                AppHelper.getRemoteString("fill_all_field", this)
+                                                AppHelper.getRemoteString(
+                                                    "fill_reason_field",
+                                                    this
+                                                )
                                             )
                                         }
                                     } else {
@@ -2027,67 +2061,67 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                         )
                                     }
                                 } else {
-                                    if ((MyApplication.selectedOrder!!.product!!.availableDates == null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0) || (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0 && !selectedFromSlot.isNullOrEmpty() && !selectedFromSlot.isNullOrEmpty())) {
+                                    AppHelper.createDialog(
+                                        this,
+                                        AppHelper.getRemoteString("fill_all_field", this)
+                                    )
+                                }
+                            } else {
+                                if ((MyApplication.selectedOrder!!.product!!.availableDates == null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0) || (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0 && !selectedFromSlot.isNullOrEmpty() && !selectedFromSlot.isNullOrEmpty())) {
 
-                                        if ((MyApplication.selectedOrder!!.product!!.availablePaymentMethods == null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0) || (MyApplication.selectedOrder!!.product!!.availablePaymentMethods != null && MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size > 0 && selectedPaymentId != -1)) {
+                                    if ((MyApplication.selectedOrder!!.product!!.availablePaymentMethods == null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0) || (MyApplication.selectedOrder!!.product!!.availablePaymentMethods != null && MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size > 0 && selectedPaymentId != -1)) {
 
-                                            if ((MyApplication.selectedOrder!!.product!!.serviceReasons == null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0) || reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()!!
-                                                    .isNullOrEmpty())
-                                            ) {
-                                                if (reasonId == -1) {
-                                                    reasonId = 0
-                                                    reasonString = ""
-                                                } else if (reasonId == 0) {
-                                                    reasonString = etServiceReason.text.toString()
-                                                } else {
-                                                    reasonString = ""
-                                                }
-                                                MyApplication.selectedAddress =
-                                                    MyApplication.selectedOrder!!.customer!!.addresses!!.get(
-                                                        0
-                                                    )
-
-
-
-                                                MyApplication.selectedPlaceOrder =
-                                                    RequestPlaceOrder(
-                                                        MyApplication.userId,
-                                                        MyApplication.selectedOrder!!.typeId!!.toInt(),
-                                                        MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
-                                                        typesSelected,
-                                                        sizeSelected,
-                                                        selectedDate,
-                                                        MyApplication.selectedOrder!!.shipping_address_name!!,
-                                                        lat,
-                                                        long,
-                                                        MyApplication.selectedOrder!!.shipping_address_street!!,
-                                                        MyApplication.selectedOrder!!.shipping_address_building!!,
-                                                        MyApplication.selectedOrder!!.shipping_floor!!,
-                                                        MyApplication.selectedOrder!!.shipping_address_description!!,
-                                                        MyApplication.selectedOrder!!.shipping_id!!.toInt(),
-                                                        selectedFrom,
-                                                        selectedTo,
-                                                        MyApplication.languageCode,
-                                                        reasonId,
-                                                        reasonString!!,
-                                                        selectedFromSlot!!,
-                                                        selectedToSlot!!
-                                                    )
-
-                                                placeOrder()
+                                        if ((MyApplication.selectedOrder!!.product!!.serviceReasons == null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0) || reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()!!
+                                                .isNullOrEmpty())
+                                        ) {
+                                            if (reasonId == -1) {
+                                                reasonId = 0
+                                                reasonString = ""
+                                            } else if (reasonId == 0) {
+                                                reasonString = etServiceReason.text.toString()
                                             } else {
-                                                AppHelper.createDialog(
-                                                    this,
-                                                    AppHelper.getRemoteString(
-                                                        "fill_reason_field",
-                                                        this
-                                                    )
-                                                )
+                                                reasonString = ""
                                             }
+                                            MyApplication.selectedAddress =
+                                                MyApplication.selectedOrder!!.customer!!.addresses!!.get(
+                                                    0
+                                                )
+
+
+
+                                            MyApplication.selectedPlaceOrder =
+                                                RequestPlaceOrder(
+                                                    MyApplication.userId,
+                                                    MyApplication.selectedOrder!!.typeId!!.toInt(),
+                                                    MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
+                                                    typesSelected,
+                                                    sizeSelected,
+                                                    selectedDate,
+                                                    MyApplication.selectedOrder!!.shipping_address_name!!,
+                                                    lat,
+                                                    long,
+                                                    MyApplication.selectedOrder!!.shipping_address_street!!,
+                                                    MyApplication.selectedOrder!!.shipping_address_building!!,
+                                                    MyApplication.selectedOrder!!.shipping_floor!!,
+                                                    MyApplication.selectedOrder!!.shipping_address_description!!,
+                                                    MyApplication.selectedOrder!!.shipping_id!!.toInt(),
+                                                    selectedFrom,
+                                                    selectedTo,
+                                                    MyApplication.languageCode,
+                                                    reasonId,
+                                                    reasonString!!,
+                                                    if (!selectedFromSlot.equals("none")) selectedFromSlot!! else "",
+                                                    if (!selectedToSlot.equals("none")) selectedToSlot!! else ""
+                                                )
+
+                                            placeOrder()
                                         } else {
                                             AppHelper.createDialog(
                                                 this,
-                                                AppHelper.getRemoteString("fill_all_field", this)
+                                                AppHelper.getRemoteString(
+                                                    "fill_reason_field",
+                                                    this
+                                                )
                                             )
                                         }
                                     } else {
@@ -2096,220 +2130,228 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                             AppHelper.getRemoteString("fill_all_field", this)
                                         )
                                     }
+                                } else {
+                                    AppHelper.createDialog(
+                                        this,
+                                        AppHelper.getRemoteString("fill_all_field", this)
+                                    )
                                 }
-                            }else{
-                                AppHelper.createDialog(this,AppHelper.getRemoteString("fill_all_field",this))
                             }
+                        } else {
+                            AppHelper.createDialog(
+                                this,
+                                AppHelper.getRemoteString("fill_all_field", this)
+                            )
+                        }
 
 
-                      }else {
+                    } else {
 
-                          if (MyApplication.selectedAddress != null) {
+                        if (MyApplication.selectedAddress != null) {
 
-                              if ((MyApplication.selectedOrder!!.product!!.availableDates == null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0) || (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0 && !selectedFromSlot.isNullOrEmpty() && !selectedFromSlot.isNullOrEmpty())) {
+                            if ((MyApplication.selectedOrder!!.product!!.availableDates == null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0) || (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0 && !selectedFromSlot.isNullOrEmpty() && !selectedFromSlot.isNullOrEmpty())) {
 
-                                  if ((MyApplication.selectedOrder!!.product!!.availablePaymentMethods == null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0) || (MyApplication.selectedOrder!!.product!!.availablePaymentMethods != null && MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size > 0 && selectedPaymentId != -1)) {
+                                if ((MyApplication.selectedOrder!!.product!!.availablePaymentMethods == null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0) || (MyApplication.selectedOrder!!.product!!.availablePaymentMethods != null && MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size > 0 && selectedPaymentId != -1)) {
 
-                                      if ((MyApplication.selectedOrder!!.product!!.serviceReasons == null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0) || reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()!!
-                                              .isNullOrEmpty())
-                                      ) {
-                                          if (reasonId == -1) {
-                                              reasonId = 0
-                                              reasonString = ""
-                                          } else if (reasonId == 0) {
-                                              reasonString = etServiceReason.text.toString()
-                                          } else {
-                                              reasonString = ""
-                                          }
-                                          if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
-
-
-                                              MyApplication.selectedPlaceOrder = RequestPlaceOrder(
-                                                  MyApplication.userId,
-                                                  345,
-                                                  MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
-                                                  typesSelected,
-                                                  sizeSelected,
-                                                  selectedDate,
-                                                  if (MyApplication.selectedAddress!!.addressName != null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
-                                                  lat,
-                                                  long,
-                                                  if (MyApplication.selectedAddress!!.street != null && MyApplication.selectedAddress!!.street!!.isNotEmpty()) MyApplication.selectedAddress!!.street else "",
-                                                  if (MyApplication.selectedAddress!!.bldg != null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
-                                                  if (MyApplication.selectedAddress!!.floor != null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
-                                                  if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
-                                                  if (MyApplication.selectedService!!.name!!.isNotEmpty()) MyApplication.selectedService!!.name else "",
-                                                  if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
-                                                  if (MyApplication.selectedAddress!!.avenue != null && MyApplication.selectedAddress!!.avenue!!.isNotEmpty()) MyApplication.selectedAddress!!.avenue else "",
-                                                  if (MyApplication.selectedAddress!!.area != null && MyApplication.selectedAddress!!.area!!.isNotEmpty()) MyApplication.selectedAddress!!.area else "",
-                                                  if (MyApplication.selectedAddress!!.apartment != null && MyApplication.selectedAddress!!.apartment!!.isNotEmpty()) MyApplication.selectedAddress!!.apartment else "",
-                                                  if (MyApplication.selectedAddress!!.block != null && MyApplication.selectedAddress!!.block!!.isNotEmpty()) MyApplication.selectedAddress!!.block else "",
-                                                  if (MyApplication.selectedAddress!!.province != null && MyApplication.selectedAddress!!.province!!.isNotEmpty()) MyApplication.selectedAddress!!.province else "",
-                                                  MyApplication.languageCode,
-                                                  reasonId,
-                                                  reasonString!!,
-                                                  selectedFromSlot!!,
-                                                  selectedToSlot!!
-                                              )
-                                          } else {
-                                              MyApplication.selectedPlaceOrder = RequestPlaceOrder(
-                                                  MyApplication.userId,
-                                                  345,
-                                                  MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
-                                                  typesSelected,
-                                                  sizeSelected,
-                                                  selectedDate,
-                                                  if (MyApplication.selectedAddress!!.addressName != null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
-                                                  lat,
-                                                  long,
-                                                  if (MyApplication.selectedAddress!!.street != null && MyApplication.selectedAddress!!.street!!.isNotEmpty()) MyApplication.selectedAddress!!.street else "",
-                                                  if (MyApplication.selectedAddress!!.bldg != null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
-                                                  if (MyApplication.selectedAddress!!.floor != null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
-                                                  if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
-                                                  if (MyApplication.selectedService!!.name!!.isNotEmpty()) MyApplication.selectedService!!.name else "",
-                                                  if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
-                                                  if (MyApplication.selectedAddress!!.avenue != null && MyApplication.selectedAddress!!.avenue!!.isNotEmpty()) MyApplication.selectedAddress!!.avenue else "",
-                                                  if (MyApplication.selectedAddress!!.area != null && MyApplication.selectedAddress!!.area!!.isNotEmpty()) MyApplication.selectedAddress!!.area else "",
-                                                  if (MyApplication.selectedAddress!!.apartment != null && MyApplication.selectedAddress!!.apartment!!.isNotEmpty()) MyApplication.selectedAddress!!.apartment else "",
-                                                  if (MyApplication.selectedAddress!!.block != null && MyApplication.selectedAddress!!.block!!.isNotEmpty()) MyApplication.selectedAddress!!.block else "",
-                                                  if (MyApplication.selectedAddress!!.province != null && MyApplication.selectedAddress!!.province!!.isNotEmpty()) MyApplication.selectedAddress!!.province else "",
-                                                  MyApplication.languageCode,
-                                                  reasonId,
-                                                  reasonString!!,
-                                                  selectedFromSlot!!,
-                                                  selectedToSlot!!
-                                              )
-                                          }
-
-                                          placeOrder()
-                                      } else {
-                                          AppHelper.createDialog(
-                                              this,
-                                              AppHelper.getRemoteString("fill_reason_field", this)
-                                          )
-                                      }
-                                  } else {
-                                      AppHelper.createDialog(
-                                          this,
-                                          AppHelper.getRemoteString("fill_all_field", this)
-                                      )
-                                  }
-                              } else {
-                                  AppHelper.createDialog(
-                                      this,
-                                      AppHelper.getRemoteString("fill_all_field", this)
-                                  )
-                              }
-                          }
-                          else {
-                              if ((MyApplication.selectedOrder!!.product!!.availableDates == null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0) || (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0 && !selectedFromSlot.isNullOrEmpty() && !selectedFromSlot.isNullOrEmpty())) {
-
-                                  if ((MyApplication.selectedOrder!!.product!!.availablePaymentMethods == null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0) || (MyApplication.selectedOrder!!.product!!.availablePaymentMethods != null && MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size > 0 && selectedPaymentId != -1)) {
-
-                                      if ((MyApplication.selectedOrder!!.product!!.serviceReasons == null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0) || reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()!!
-                                              .isNullOrEmpty())
-                                      ) {
-                                          if (reasonId == -1) {
-                                              reasonId = 0
-                                              reasonString = ""
-                                          } else if (reasonId == 0) {
-                                              reasonString = etServiceReason.text.toString()
-                                          } else {
-                                              reasonString = ""
-                                          }
-                                          MyApplication.selectedAddress =
-                                              MyApplication.selectedOrder!!.customer!!.addresses!!.get(
-                                                  0
-                                              )
-                                          if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
+                                    if ((MyApplication.selectedOrder!!.product!!.serviceReasons == null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0) || reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()!!
+                                            .isNullOrEmpty())
+                                    ) {
+                                        if (reasonId == -1) {
+                                            reasonId = 0
+                                            reasonString = ""
+                                        } else if (reasonId == 0) {
+                                            reasonString = etServiceReason.text.toString()
+                                        } else {
+                                            reasonString = ""
+                                        }
+                                        if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
 
 
-                                              MyApplication.selectedPlaceOrder = RequestPlaceOrder(
-                                                  MyApplication.userId,
-                                                  345,
-                                                  MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
-                                                  typesSelected,
-                                                  sizeSelected,
-                                                  selectedDate,
-                                                  MyApplication.selectedOrder!!.shipping_address_name,
-                                                  MyApplication.selectedOrder!!.shipping_latitude,
-                                                  MyApplication.selectedOrder!!.shipping_longitude,
-                                                  MyApplication.selectedOrder!!.shipping_address_street,
-                                                  MyApplication.selectedOrder!!.shipping_building,
-                                                  MyApplication.selectedOrder!!.shipping_floor,
-                                                  MyApplication.selectedOrder!!.shipping_address_description,
-                                                  MyApplication.selectedOrder!!.product!!.name,
-                                                  MyApplication.selectedOrder!!.shipping_id!!.toInt(),
-                                                  MyApplication.selectedOrder!!.shippingAvenu,
-                                                  MyApplication.selectedOrder!!.shipping_area,
-                                                  MyApplication.selectedOrder!!.shippingApartment,
-                                                  MyApplication.selectedOrder!!.shipping_block,
-                                                  MyApplication.selectedOrder!!.shipping_province,
-                                                  MyApplication.languageCode,
-                                                  reasonId,
-                                                  reasonString!!,
-                                                  selectedFromSlot!!,
-                                                  selectedToSlot!!
-                                              )
-                                          } else {
-                                              MyApplication.selectedPlaceOrder = RequestPlaceOrder(
-                                                  MyApplication.userId,
-                                                  345,
-                                                  MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
-                                                  typesSelected,
-                                                  sizeSelected,
-                                                  selectedDate,
-                                                  MyApplication.selectedOrder!!.shipping_address_name,
-                                                  MyApplication.selectedOrder!!.shipping_latitude,
-                                                  MyApplication.selectedOrder!!.shipping_longitude,
-                                                  MyApplication.selectedOrder!!.shipping_address_street,
-                                                  MyApplication.selectedOrder!!.shipping_building,
-                                                  MyApplication.selectedOrder!!.shipping_floor,
-                                                  MyApplication.selectedOrder!!.shipping_address_description,
-                                                  MyApplication.selectedOrder!!.product!!.name,
-                                                  MyApplication.selectedOrder!!.shipping_id!!.toInt(),
-                                                  MyApplication.selectedOrder!!.shippingAvenu,
-                                                  MyApplication.selectedOrder!!.shipping_area,
-                                                  MyApplication.selectedOrder!!.shippingApartment,
-                                                  MyApplication.selectedOrder!!.shipping_block,
-                                                  MyApplication.selectedOrder!!.shipping_province,
-                                                  MyApplication.languageCode,
-                                                  reasonId,
-                                                  reasonString!!,
-                                                  selectedFromSlot!!,
-                                                  selectedToSlot!!
-                                              )
-                                          }
+                                            MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+                                                MyApplication.userId,
+                                                345,
+                                                MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
+                                                typesSelected,
+                                                sizeSelected,
+                                                selectedDate,
+                                                if (MyApplication.selectedAddress!!.addressName != null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
+                                                lat,
+                                                long,
+                                                if (MyApplication.selectedAddress!!.street != null && MyApplication.selectedAddress!!.street!!.isNotEmpty()) MyApplication.selectedAddress!!.street else "",
+                                                if (MyApplication.selectedAddress!!.bldg != null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
+                                                if (MyApplication.selectedAddress!!.floor != null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
+                                                if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
+                                                if (MyApplication.selectedService!!.name!!.isNotEmpty()) MyApplication.selectedService!!.name else "",
+                                                if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
+                                                if (MyApplication.selectedAddress!!.avenue != null && MyApplication.selectedAddress!!.avenue!!.isNotEmpty()) MyApplication.selectedAddress!!.avenue else "",
+                                                if (MyApplication.selectedAddress!!.area != null && MyApplication.selectedAddress!!.area!!.isNotEmpty()) MyApplication.selectedAddress!!.area else "",
+                                                if (MyApplication.selectedAddress!!.apartment != null && MyApplication.selectedAddress!!.apartment!!.isNotEmpty()) MyApplication.selectedAddress!!.apartment else "",
+                                                if (MyApplication.selectedAddress!!.block != null && MyApplication.selectedAddress!!.block!!.isNotEmpty()) MyApplication.selectedAddress!!.block else "",
+                                                if (MyApplication.selectedAddress!!.province != null && MyApplication.selectedAddress!!.province!!.isNotEmpty()) MyApplication.selectedAddress!!.province else "",
+                                                MyApplication.languageCode,
+                                                reasonId,
+                                                reasonString!!,
+                                                if (!selectedFromSlot.equals("none")) selectedFromSlot!! else "",
+                                                if (!selectedToSlot.equals("none")) selectedToSlot!! else ""
+                                            )
+                                        } else {
+                                            MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+                                                MyApplication.userId,
+                                                345,
+                                                MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
+                                                typesSelected,
+                                                sizeSelected,
+                                                selectedDate,
+                                                if (MyApplication.selectedAddress!!.addressName != null && MyApplication.selectedAddress!!.addressName!!.isNotEmpty()) MyApplication.selectedAddress!!.addressName else "",
+                                                lat,
+                                                long,
+                                                if (MyApplication.selectedAddress!!.street != null && MyApplication.selectedAddress!!.street!!.isNotEmpty()) MyApplication.selectedAddress!!.street else "",
+                                                if (MyApplication.selectedAddress!!.bldg != null && MyApplication.selectedAddress!!.bldg!!.isNotEmpty()) MyApplication.selectedAddress!!.bldg else "",
+                                                if (MyApplication.selectedAddress!!.floor != null && MyApplication.selectedAddress!!.floor!!.isNotEmpty()) MyApplication.selectedAddress!!.floor else "",
+                                                if (MyApplication.selectedAddress!!.desc != null && MyApplication.selectedAddress!!.desc!!.isNotEmpty()) MyApplication.selectedAddress!!.desc else "",
+                                                if (MyApplication.selectedService!!.name!!.isNotEmpty()) MyApplication.selectedService!!.name else "",
+                                                if (MyApplication.selectedAddress!!.addressId != null && MyApplication.selectedAddress!!.addressId!!.isNotEmpty()) MyApplication.selectedAddress!!.addressId!!.toInt() else 0,
+                                                if (MyApplication.selectedAddress!!.avenue != null && MyApplication.selectedAddress!!.avenue!!.isNotEmpty()) MyApplication.selectedAddress!!.avenue else "",
+                                                if (MyApplication.selectedAddress!!.area != null && MyApplication.selectedAddress!!.area!!.isNotEmpty()) MyApplication.selectedAddress!!.area else "",
+                                                if (MyApplication.selectedAddress!!.apartment != null && MyApplication.selectedAddress!!.apartment!!.isNotEmpty()) MyApplication.selectedAddress!!.apartment else "",
+                                                if (MyApplication.selectedAddress!!.block != null && MyApplication.selectedAddress!!.block!!.isNotEmpty()) MyApplication.selectedAddress!!.block else "",
+                                                if (MyApplication.selectedAddress!!.province != null && MyApplication.selectedAddress!!.province!!.isNotEmpty()) MyApplication.selectedAddress!!.province else "",
+                                                MyApplication.languageCode,
+                                                reasonId,
+                                                reasonString!!,
+                                                if (!selectedFromSlot.equals("none")) selectedFromSlot!! else "",
+                                                if (!selectedToSlot.equals("none")) selectedToSlot!! else ""
+                                            )
+                                        }
 
-                                          placeOrder()
-                                      } else {
-                                          AppHelper.createDialog(
-                                              this,
-                                              AppHelper.getRemoteString("fill_reason_field", this)
-                                          )
-                                      }
-                                  } else {
-                                      AppHelper.createDialog(
-                                          this,
-                                          AppHelper.getRemoteString("fill_all_field", this)
-                                      )
-                                  }
-                              } else {
-                                  AppHelper.createDialog(
-                                      this,
-                                      AppHelper.getRemoteString("fill_all_field", this)
-                                  )
-                              }
-                          }
-                      }
+                                        placeOrder()
+                                    } else {
+                                        AppHelper.createDialog(
+                                            this,
+                                            AppHelper.getRemoteString("fill_reason_field", this)
+                                        )
+                                    }
+                                } else {
+                                    AppHelper.createDialog(
+                                        this,
+                                        AppHelper.getRemoteString("fill_all_field", this)
+                                    )
+                                }
+                            } else {
+                                AppHelper.createDialog(
+                                    this,
+                                    AppHelper.getRemoteString("fill_all_field", this)
+                                )
+                            }
+                        } else {
+                            if ((MyApplication.selectedOrder!!.product!!.availableDates == null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0) || (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0 && !selectedFromSlot.isNullOrEmpty() && !selectedFromSlot.isNullOrEmpty())) {
 
-                }else{
-                    toast(AppHelper.getRemoteString("select_payment_method",this))
+                                if ((MyApplication.selectedOrder!!.product!!.availablePaymentMethods == null || MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size == 0) || (MyApplication.selectedOrder!!.product!!.availablePaymentMethods != null && MyApplication.selectedOrder!!.product!!.availablePaymentMethods.size > 0 && selectedPaymentId != -1)) {
+
+                                    if ((MyApplication.selectedOrder!!.product!!.serviceReasons == null || MyApplication.selectedOrder!!.product!!.serviceReasons.size == 0) || reasonId != 0 || (reasonId == 0 && !etServiceReason.text.toString()!!
+                                            .isNullOrEmpty())
+                                    ) {
+                                        if (reasonId == -1) {
+                                            reasonId = 0
+                                            reasonString = ""
+                                        } else if (reasonId == 0) {
+                                            reasonString = etServiceReason.text.toString()
+                                        } else {
+                                            reasonString = ""
+                                        }
+                                        MyApplication.selectedAddress =
+                                            MyApplication.selectedOrder!!.customer!!.addresses!!.get(
+                                                0
+                                            )
+                                        if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
+
+
+                                            MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+                                                MyApplication.userId,
+                                                345,
+                                                MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
+                                                typesSelected,
+                                                sizeSelected,
+                                                selectedDate,
+                                                MyApplication.selectedOrder!!.shipping_address_name,
+                                                MyApplication.selectedOrder!!.shipping_latitude,
+                                                MyApplication.selectedOrder!!.shipping_longitude,
+                                                MyApplication.selectedOrder!!.shipping_address_street,
+                                                MyApplication.selectedOrder!!.shipping_building,
+                                                MyApplication.selectedOrder!!.shipping_floor,
+                                                MyApplication.selectedOrder!!.shipping_address_description,
+                                                MyApplication.selectedOrder!!.product!!.name,
+                                                MyApplication.selectedOrder!!.shipping_id!!.toInt(),
+                                                MyApplication.selectedOrder!!.shippingAvenu,
+                                                MyApplication.selectedOrder!!.shipping_area,
+                                                MyApplication.selectedOrder!!.shippingApartment,
+                                                MyApplication.selectedOrder!!.shipping_block,
+                                                MyApplication.selectedOrder!!.shipping_province,
+                                                MyApplication.languageCode,
+                                                reasonId,
+                                                reasonString!!,
+                                                if (!selectedFromSlot.equals("none")) selectedFromSlot!! else "",
+                                                if (!selectedToSlot.equals("none")) selectedToSlot!! else ""
+                                            )
+                                        } else {
+                                            MyApplication.selectedPlaceOrder = RequestPlaceOrder(
+                                                MyApplication.userId,
+                                                345,
+                                                MyApplication.selectedOrder!!.product!!.productParent!!.toInt(),
+                                                typesSelected,
+                                                sizeSelected,
+                                                selectedDate,
+                                                MyApplication.selectedOrder!!.shipping_address_name,
+                                                MyApplication.selectedOrder!!.shipping_latitude,
+                                                MyApplication.selectedOrder!!.shipping_longitude,
+                                                MyApplication.selectedOrder!!.shipping_address_street,
+                                                MyApplication.selectedOrder!!.shipping_building,
+                                                MyApplication.selectedOrder!!.shipping_floor,
+                                                MyApplication.selectedOrder!!.shipping_address_description,
+                                                MyApplication.selectedOrder!!.product!!.name,
+                                                MyApplication.selectedOrder!!.shipping_id!!.toInt(),
+                                                MyApplication.selectedOrder!!.shippingAvenu,
+                                                MyApplication.selectedOrder!!.shipping_area,
+                                                MyApplication.selectedOrder!!.shippingApartment,
+                                                MyApplication.selectedOrder!!.shipping_block,
+                                                MyApplication.selectedOrder!!.shipping_province,
+                                                MyApplication.languageCode,
+                                                reasonId,
+                                                reasonString!!,
+                                                if (!selectedFromSlot.equals("none")) selectedFromSlot!! else "",
+                                                if (!selectedToSlot.equals("none")) selectedToSlot!! else ""
+                                            )
+                                        }
+
+                                        placeOrder()
+                                    } else {
+                                        AppHelper.createDialog(
+                                            this,
+                                            AppHelper.getRemoteString("fill_reason_field", this)
+                                        )
+                                    }
+                                } else {
+                                    AppHelper.createDialog(
+                                        this,
+                                        AppHelper.getRemoteString("fill_all_field", this)
+                                    )
+                                }
+                            } else {
+                                AppHelper.createDialog(
+                                    this,
+                                    AppHelper.getRemoteString("fill_all_field", this)
+                                )
+                            }
+                        }
+                    }
+
+                } else {
+                    toast(AppHelper.getRemoteString("select_payment_method", this))
                 }
             }
 
 
-            if(MyApplication.selectedOrder!!.product!!.availableDates==null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0 ){
+            if (MyApplication.selectedOrder!!.product!!.availableDates == null || MyApplication.selectedOrder!!.product!!.availableDates.size == 0) {
                 rbNow.isChecked = true
                 rlFromDate.onOneClick {
 
@@ -2410,7 +2452,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             MyApplication.selectedOrder!!.shippingApartment,
             MyApplication.languageCode
         )
-        logw("renewed",Gson().toJson(req))
+        logw("renewed", Gson().toJson(req))
         RetrofitClient.client?.create(RetrofitInterface::class.java)
             ?.renewOrder(req)?.enqueue(object : Callback<ResponseOrderId> {
                 override fun onResponse(
@@ -2424,7 +2466,11 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                                 this@ActivityCheckout,
                                 AppHelper.getRemoteString("success", this@ActivityCheckout)
                             )*/
-                            updatePayment(response.body()!!.orderId!!.toInt(),selectedPaymentId!!,true)
+                            updatePayment(
+                                response.body()!!.orderId!!.toInt(),
+                                selectedPaymentId!!,
+                                true
+                            )
                         } else {
                             AppHelper.createDialog(
                                 this@ActivityCheckout,
@@ -2561,8 +2607,8 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             MyApplication.languageCode,
                             reasonId,
                             reasonString!!,
-                            selectedFromSlot!!,
-                            selectedToSlot!!
+                            if (!selectedFromSlot.equals("none")) selectedFromSlot!! else "",
+                            if (!selectedToSlot.equals("none")) selectedToSlot!! else ""
                         )
                     } else {
 
@@ -2586,8 +2632,8 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             MyApplication.languageCode,
                             reasonId,
                             reasonString!!,
-                            selectedFromSlot!!,
-                            selectedToSlot!!
+                            if (!selectedFromSlot.equals("none")) selectedFromSlot!! else "",
+                            if (!selectedToSlot.equals("none")) selectedToSlot!! else ""
                         )
                     }
                 } else {
@@ -2973,10 +3019,10 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
             }
             var x = selectedDate
             var time = selectedDate!!
-            selectedDate =dateShow
+            selectedDate = dateShow
             selectedFrom = date
             var day = dayIdtoString(selectedDayId!!)
-            if(MyApplication.renewing || MyApplication.repeating) {
+            if (MyApplication.renewing || MyApplication.repeating) {
                 myTimes =
                     MyApplication.selectedOrder!!.product!!.availableDates.find {
                         it.day.equals(
@@ -2984,8 +3030,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                             true
                         )
                     }!!.time
-            }
-            else{
+            } else {
                 myTimes =
                     MyApplication.selectedService!!.availableDates.find {
                         it.day.equals(
@@ -2994,7 +3039,7 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
                         )
                     }!!.time
             }
-            if(myTimes.size == 1 ){
+            if (myTimes.size == 1) {
                 timeSelected = true
                 var date = fullTimeFormatter.parse(myTimes.get(0).to)
                 var cal = Calendar.getInstance()
@@ -3010,9 +3055,12 @@ class ActivityCheckout : AppCompactBase(), RVOnItemClickListener, ApiListener,
 
 
 
-                etFromTime.text = ( res1+"-"+res2).toEditable()
+                etFromTime.text = (res1 + "-" + res2).toEditable()
                 fromHour = cal.get(Calendar.HOUR_OF_DAY)
                 fromMin = cal.get(Calendar.MINUTE)
+            } else {
+                selectedFromSlot = "none"
+                selectedToSlot = "none"
             }
             etFromDate.text = dateShow.toEditable()
         } else {

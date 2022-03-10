@@ -52,6 +52,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.text.DecimalFormat
 
 
 class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiListener {
@@ -1042,12 +1043,13 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
                 edt = service!!.eta!!
             } catch (e: Exception) {
             }
+            var dec = DecimalFormat("##.00")
             if(!price.isNullOrEmpty())
                 tvPrice.text = AppHelper.getRemoteString("Price", this) + ": " + price
             else
                 tvPrice.text = AppHelper.getRemoteString("Price", this) + ": " + AppHelper.getRemoteString("no_data", this)
             if(!earning.isNullOrEmpty())
-                tvEarning.text = AppHelper.getRemoteString("Earning", this) + ": " + earning
+                tvEarning.text = AppHelper.getRemoteString("Earning", this) + ": " + dec.format(earning.toDouble())
             else
                 tvEarning.text = AppHelper.getRemoteString("Earning",this) + ": "+ AppHelper.getRemoteString("no_data", this)
             if(!edt.isNullOrEmpty()) {

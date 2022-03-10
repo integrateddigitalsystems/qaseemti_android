@@ -520,6 +520,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         btBackTool.show()
         shake = AnimationUtils.loadAnimation(this, R.anim.shake)
         orderId = intent.getIntExtra("orderId", 1)
+        tvAlreadyRenewed.typeface = AppHelper.getTypefaceBoldItalic(this)
 
         btBackTool.onOneClick {
             super.onBackPressed()
@@ -726,6 +727,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         try {
             if (MyApplication.isClient && !MyApplication.selectedOrder!!.vendor!!.profilePic!!.isNullOrEmpty()) {
                 try {
+                    MyApplication.selectedImageShow = MyApplication.selectedOrder!!.vendor!!.profilePic!!
                     ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.vendor!!.profilePic!!)
                     ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
                     llProfileOrder.setPadding(0, 0, 0, 0)
@@ -734,6 +736,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 }
             } else if (!MyApplication.isClient && !MyApplication.selectedOrder!!.customer!!.profile_pic_url!!.isNullOrEmpty()) {
                 try {
+                    MyApplication.selectedImageShow = MyApplication.selectedOrder!!.customer!!.profile_pic_url!!
                     ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.customer!!.profile_pic_url!!)
                     ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
                     llProfileOrder.setPadding(0, 0, 0, 0)
@@ -760,9 +763,17 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                             var cal = Calendar.getInstance()
 
                             if (cal.timeInMillis <= dateEnd.time && cal.timeInMillis >= dateStart.time) {
-                                btRepeatOrder.hide()
-                                btRenewOrder.show()
+                                if(MyApplication.selectedOrder!!.hasBeenRenewed == 0 ) {
+                                    btRepeatOrder.hide()
+                                    btRenewOrder.show()
+                                    tvAlreadyRenewed.hide()
+                                }else{
+                                    tvAlreadyRenewed.show()
+                                    btRepeatOrder.show()
+                                    btRenewOrder.hide()
+                                }
                             } else {
+                                tvAlreadyRenewed.hide()
                                 btRepeatOrder.show()
                                 btRenewOrder.hide()
                             }
@@ -777,28 +788,40 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                             var cal = Calendar.getInstance()
 
                             if (cal.timeInMillis <= dateEnd.time && cal.timeInMillis >= dateStart.time) {
-                                btRepeatOrder.hide()
-                                btRenewOrder.show()
+                                if(MyApplication.selectedOrder!!.hasBeenRenewed == 0 ) {
+                                    btRepeatOrder.hide()
+                                    btRenewOrder.show()
+                                    tvAlreadyRenewed.hide()
+                                }else{
+                                    tvAlreadyRenewed.show()
+                                    btRepeatOrder.show()
+                                    btRenewOrder.hide()
+                                }
                             } else {
+                                tvAlreadyRenewed.hide()
                                 btRepeatOrder.show()
                                 btRenewOrder.hide()
                             }
                         } catch (ex: Exception) {
                             btRepeatOrder.show()
+                            tvAlreadyRenewed.hide()
                             btRenewOrder.hide()
                         }
 
 
 
                     } else {
+                        tvAlreadyRenewed.hide()
                         btRepeatOrder.show()
                         btRenewOrder.hide()
                     }
                 }
             } else {
+                tvAlreadyRenewed.hide()
                 btRenewOrder.hide()
             }
         } catch (e: Exception) {
+            tvAlreadyRenewed.hide()
             btRenewOrder.hide()
         }
 
@@ -1336,6 +1359,9 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     this,
                     AppHelper.getRemoteString("inactive_user_msg", this)
                 )
+        }
+        llProfileOrder.onOneClick {
+            startActivity(Intent(this,ActivityFullScreen::class.java))
         }
         tvLocationOrderDeatils.onOneClick {
             val intent = Intent(Intent.ACTION_VIEW)

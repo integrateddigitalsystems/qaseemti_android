@@ -92,13 +92,17 @@ class ResponseOrders(
     @Expose
     var earnings : String ?="",
 
-    @SerializedName("is_reniewed")
+    @SerializedName("is_renewal")
     @Expose
     var isRenew : Int ?=0 ,
 
     @SerializedName("accepted")
     @Expose
     var accepted : Int ?=0 ,
+
+    @SerializedName("is_renewed")
+    @Expose
+    var hasBeenRenewed : Int ?=0 ,
 
     @SerializedName("admin_fees")
     @Expose

@@ -632,10 +632,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                 0 -> {
                     ordersArray.clear()
                     ordersArray.addAll(mainArray.filter {
-                        ( (it.vendor != null
-                                && it.paymentMethod.equals("Cash On Delivery",true))
-                                ||
-                                (it.vendor!=null && it.paymentMethod.equals("knet",true) && it.paymentStatus!!.toInt() == 1))&&(it.isRenew!=1 || it.isRenew==1 && it.accepted==1) })
+                        ( (it.vendor != null && it.paymentMethod.equals("Cash On Delivery",true)) || (it.vendor!=null && it.paymentMethod.equals("knet",true) && it.paymentStatus!!.toInt() == 1))&&(it.isRenew!=1 || it.isRenew==1 && it.accepted==1) })
                 }
                 1 -> {
                     ordersArray.clear()

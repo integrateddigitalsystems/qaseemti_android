@@ -16,6 +16,7 @@ import com.ids.qasemti.model.ResponseService
 import com.ids.qasemti.model.ServiceItem
 import com.ids.qasemti.utils.AppHelper
 import com.ids.qasemti.utils.hide
+import java.text.DecimalFormat
 import java.util.ArrayList
 
 class AdapterMyServices(
@@ -25,6 +26,7 @@ class AdapterMyServices(
 ) :
     RecyclerView.Adapter<AdapterMyServices.VHItem>() {
 
+    var decFor = DecimalFormat("##.00")
     var con = context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
         return VHItem(
@@ -57,7 +59,7 @@ class AdapterMyServices(
             holder.qtPrice.text = ""
         }
         try {
-            holder.qtEarn.text = items.get(position).variations[0].earnings.toString()
+            holder.qtEarn.text = decFor.format(items.get(position).variations[0].earnings!!.toDouble())
         }catch (ex:Exception){
             holder.qtEarn.text = ""
         }

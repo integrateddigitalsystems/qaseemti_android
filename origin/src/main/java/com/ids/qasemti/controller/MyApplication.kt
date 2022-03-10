@@ -44,6 +44,7 @@ class MyApplication : Application() {
         var isDebug: Boolean = true
         var renewing  = false
         var repeating = false
+        var selectedImageShow : String ?=""
         var arraySelectedImage: ArrayList<FilesSelected> = arrayListOf()
         var myAddress : String ?=""
         var addNew : Boolean = true

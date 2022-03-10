@@ -336,6 +336,18 @@
 
                     </LinearLayout>
 
+
+                    <com.ids.qasemti.custom.CustomTextViewBold
+                        android:id="@+id/tvNumDays"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/first_margin"
+                        android:layout_marginTop="@dimen/first_margin"
+                        android:tag="To"
+                        android:text="@string/To"
+                        android:textColor="@color/gray_font_title"
+                        android:textSize="@dimen/header_font" />
+
                     <com.ids.qasemti.custom.CustomTextViewBold
                         android:id="@+id/tvToTitle"
                         android:layout_width="match_parent"
