@@ -48,6 +48,7 @@ import com.ids.qasemti.utils.AppConstants.FIREBASE_ENABLE
 import com.ids.qasemti.utils.AppConstants.FIREBASE_GOVS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LINKS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_LOCALIZE
+import com.ids.qasemti.utils.AppConstants.FIREBASE_MAX_DAY
 import com.ids.qasemti.utils.AppConstants.FIREBASE_PARAMS
 import com.ids.qasemti.utils.AppConstants.FIREBASE_SALT
 import com.ids.qasemti.utils.AppConstants.FIREBASE_SHARE_LINK
@@ -690,6 +691,7 @@ class ActivitySplash : ActivityBase(), ApiListener, RVOnItemClickListener {
         logw("BASED", MyApplication.BASE_URL)
         MyApplication.adTimer = mFirebaseRemoteConfig!!.getString(BANNER_TIME).toInt()
         MyApplication.shareLink = mFirebaseRemoteConfig!!.getString(FIREBASE_SHARE_LINK)
+        MyApplication.maxDay = mFirebaseRemoteConfig!!.getString(FIREBASE_MAX_DAY).toInt()
         MyApplication.kuwaitGovs.clear()
         MyApplication.kuwaitGovs.addAll(list.list)
         MyApplication.localizeArray = Gson().fromJson(

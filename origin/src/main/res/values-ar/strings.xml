@@ -349,6 +349,9 @@
     <string name="no_service_paymentMethod">لا يوجد سبل دفع لهذه الخدمة حاليا</string>
     <string name="cannot_detect_loc">لم يمكن تحديد موقعك الرجاء تغيير تحديثات الGPS</string>
     <string name="already_renewed">تم تجديد هذا الطلب</string>
+    <string name="you_must_fill_from">يجب تعبئت اليوم و الوقت </string>
+    <string name="pleaseSelectNumberOfDays">الرجاء تحديد عدد الأيام</string>
+    <string name="NumberOfDays">عدد الأيام</string>
 
 
 </resources>

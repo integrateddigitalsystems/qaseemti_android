@@ -89,11 +89,11 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
     var dialog: Dialog? = null
     var selectedDayId: Int? = -1
     var editor = "from"
-    var from : String ?=""
-    var to : String ?=""
+    var from: String? = ""
+    var to: String? = ""
     var myTimes: ArrayList<TimeDuration> = arrayListOf()
-    var hourFormat : String ="HH:mm:ss"
-    var hourMinFor : String = "HH:mm"
+    var hourFormat: String = "HH:mm:ss"
+    var hourMinFor: String = "HH:mm"
     var fromForm = SimpleDateFormat(hourFormat, Locale.ENGLISH)
     var toForm = SimpleDateFormat(hourMinFor, Locale.ENGLISH)
     var sendFormat: String = "yyyy-MM-dd"
@@ -270,7 +270,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 )
                 shareIntent.setPackage("com.instagram.android")
                 shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
-               // shareIntent.putExtra(Intent.EXTRA_STREAM,Uri.parse("www.google.com"))
+                // shareIntent.putExtra(Intent.EXTRA_STREAM,Uri.parse("www.google.com"))
                 shareIntent.type = "image/png"
                 shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
@@ -322,7 +322,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             var image: Bitmap? = null
             var shareDialog = ShareDialog(this)
             val content = ShareLinkContent.Builder()
-                .setQuote(MyApplication.selectedOrder!!.product!!.name + "\n" + MyApplication.selectedOrder!!.product!!.desc +"\n"+MyApplication.shareLink!!)
+                .setQuote(MyApplication.selectedOrder!!.product!!.name + "\n" + MyApplication.selectedOrder!!.product!!.desc + "\n" + MyApplication.shareLink!!)
                 .setContentUrl(Uri.parse(MyApplication.selectedOrder!!.product!!.featuredImage))
                 .build()
 
@@ -528,7 +528,6 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         if (MyApplication.isBroadcast) {
             loading.show()
             MyApplication.isBroadcast = false
-            btAcceptOrder.show()
             btCancelOrder.hide()
             llEditOrderTime.hide()
             //setOrderData()
@@ -601,9 +600,9 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             if (!MyApplication.isClient) {
 
                 tvRestrictedSuggest.typeface = AppHelper.getTypefaceBoldItalic(this)
-                if(!MyApplication.isClient && MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size >0 ){
+                if (!MyApplication.isClient && MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
                     tvRestrictedSuggest.show()
-                }else{
+                } else {
                     tvRestrictedSuggest.hide()
                 }
                 if (MyApplication.selectedOrder!!.vendor == null || MyApplication.selectedOrder!!.vendor!!.userId == null) {
@@ -613,25 +612,37 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     llDetailsCallMessage.hide()
 
                 } else {
-                    if (!MyApplication.selectedOrder!!.delivered!! && !MyApplication.selectedOrder!!.onTrack!! && MyApplication.selectedOrder!!.isRenew!=1)
+                    if (!MyApplication.selectedOrder!!.delivered!! && !MyApplication.selectedOrder!!.onTrack!! && MyApplication.selectedOrder!!.isRenew != 1 && !MyApplication.selectedOrder!!.typeId!!.equals(
+                            MyApplication.categories.find {
+                                it.valEn!!.lowercase().equals("rental")
+                            }!!.id!!.toInt()
+                        )
+                    )
                         llEditOrderTime.show()
                     /*  if(MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty()){
                           llEditOrderTime.hide()
                           //btCancelOrder.hide()
                       }*/
-                    if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0 && MyApplication.isClient){
+                    if ((MyApplication.selectedOrder!!.paymentMethod.equals(
+                            "knet",
+                            true
+                        ) || (MyApplication.selectedOrder!!.paymentMethod.equals(
+                            "كي نت",
+                            true
+                        ))) && MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0 && MyApplication.isClient
+                    ) {
                         btPay.show()
                         llOrderSwitches.hide()
                     }
 
-                    if(MyApplication.selectedOrder!!.isRenew == 1 && MyApplication.selectedOrder!!.accepted!=1 && !MyApplication.isClient) {
+                    if (MyApplication.selectedOrder!!.isRenew == 1 && MyApplication.selectedOrder!!.accepted != 1 && !MyApplication.isClient) {
                         btCancelOrder.hide()
-                    }else{
-                         if(MyApplication.selectedOrder!!.isRenew == 1 && MyApplication.selectedOrder!!.accepted!=1 && !MyApplication.isClient) {
-                        btCancelOrder.hide()
-                    }else{
-                        btCancelOrder.show()
-                    }
+                    } else {
+                        if (MyApplication.selectedOrder!!.isRenew == 1 && MyApplication.selectedOrder!!.accepted != 1 && !MyApplication.isClient) {
+                            btCancelOrder.hide()
+                        } else {
+                            btCancelOrder.show()
+                        }
                     }
                     llDetailsCallMessage.show()
                     if (!MyApplication.selectedOrder!!.paymentMethod.isNullOrEmpty() && typeSelected.equals(
@@ -646,21 +657,28 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                             if (curr.timeInMillis < Delivery.time || MyApplication.isClient) {
                                 llOrderSwitches.hide()
                             } else {
-                                if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0 ){
+                                if ((MyApplication.selectedOrder!!.paymentMethod.equals(
+                                        "knet",
+                                        true
+                                    ) || (MyApplication.selectedOrder!!.paymentMethod.equals(
+                                        "كي نت",
+                                        true
+                                    ))) && MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0
+                                ) {
                                     llOrderSwitches.hide()
-                                }else {
+                                } else {
                                     llOrderSwitches.show()
                                 }
                             }
-                        }catch (ex:Exception){
+                        } catch (ex: Exception) {
                             llOrderSwitches.show()
                         }
-                    }else
+                    } else
                         llOrderSwitches.hide()
                 }
             } else {
                 try {
-                    if (MyApplication.selectedOrder!!.newDeliveryDate !=null && !MyApplication.selectedOrder!!.newDeliveryDate.isNullOrEmpty()) {
+                    if (MyApplication.selectedOrder!!.newDeliveryDate != null && !MyApplication.selectedOrder!!.newDeliveryDate.isNullOrEmpty()) {
                         llSuggestedDate.show()
                         try {
                             tvSuggestedDate.text =
@@ -673,7 +691,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                     } else {
                         llSuggestedDate.hide()
                     }
-                }catch (ex:Exception){
+                } catch (ex: Exception) {
                     tvSuggestedDate.text = ""
                 }
                 llEditOrderTime.hide()
@@ -682,15 +700,22 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 if (MyApplication.selectedOrder!!.vendor == null || MyApplication.selectedOrder!!.vendor!!.userId == null) {
 
                 } else {
-                    if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0 && MyApplication.isClient){
+                    if ((MyApplication.selectedOrder!!.paymentMethod.equals(
+                            "knet",
+                            true
+                        ) || (MyApplication.selectedOrder!!.paymentMethod.equals(
+                            "كي نت",
+                            true
+                        ))) && MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0 && MyApplication.isClient
+                    ) {
                         btPay.show()
                     }
 
                 }
 
-                if(MyApplication.selectedOrder!!.isRenew == 1 && MyApplication.selectedOrder!!.accepted!=1 && !MyApplication.isClient) {
+                if (MyApplication.selectedOrder!!.isRenew == 1 && MyApplication.selectedOrder!!.accepted != 1 && !MyApplication.isClient) {
                     btCancelOrder.hide()
-                }else{
+                } else {
                     btCancelOrder.show()
                 }
             }
@@ -702,12 +727,19 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             llActualDelivery.show()
             llOrderSwitches.hide()
         } else if (typeSelected.equals(AppConstants.ORDER_TYPE_UPCOMING)) {
-            if((MyApplication.selectedOrder!!.paymentMethod.equals("knet",true) || (MyApplication.selectedOrder!!.paymentMethod.equals("كي نت",true) ) )&& MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0&& MyApplication.isClient){
+            if ((MyApplication.selectedOrder!!.paymentMethod.equals(
+                    "knet",
+                    true
+                ) || (MyApplication.selectedOrder!!.paymentMethod.equals(
+                    "كي نت",
+                    true
+                ))) && MyApplication.selectedOrder!!.paymentStatus!!.toInt() == 0 && MyApplication.isClient
+            ) {
                 btPay.show()
             }
-            if(MyApplication.selectedOrder!!.isRenew == 1 && MyApplication.selectedOrder!!.accepted!=1 && !MyApplication.isClient) {
+            if (MyApplication.selectedOrder!!.isRenew == 1 && MyApplication.selectedOrder!!.accepted != 1 && !MyApplication.isClient) {
                 btCancelOrder.hide()
-            }else{
+            } else {
                 btCancelOrder.show()
             }
             llRatingOrder.hide()
@@ -727,7 +759,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         try {
             if (MyApplication.isClient && !MyApplication.selectedOrder!!.vendor!!.profilePic!!.isNullOrEmpty()) {
                 try {
-                    MyApplication.selectedImageShow = MyApplication.selectedOrder!!.vendor!!.profilePic!!
+                    MyApplication.selectedImageShow =
+                        MyApplication.selectedOrder!!.vendor!!.profilePic!!
                     ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.vendor!!.profilePic!!)
                     ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
                     llProfileOrder.setPadding(0, 0, 0, 0)
@@ -736,7 +769,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 }
             } else if (!MyApplication.isClient && !MyApplication.selectedOrder!!.customer!!.profile_pic_url!!.isNullOrEmpty()) {
                 try {
-                    MyApplication.selectedImageShow = MyApplication.selectedOrder!!.customer!!.profile_pic_url!!
+                    MyApplication.selectedImageShow =
+                        MyApplication.selectedOrder!!.customer!!.profile_pic_url!!
                     ivCurrent.loadRoundedImage(MyApplication.selectedOrder!!.customer!!.profile_pic_url!!)
                     ivCurrent.setColorFilter(getResources().getColor(R.color.transparent));
                     llProfileOrder.setPadding(0, 0, 0, 0)
@@ -744,7 +778,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
                 }
             }
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
             var x = ex
         }
         try {
@@ -763,11 +797,11 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                             var cal = Calendar.getInstance()
 
                             if (cal.timeInMillis <= dateEnd.time && cal.timeInMillis >= dateStart.time) {
-                                if(MyApplication.selectedOrder!!.hasBeenRenewed == 0 ) {
+                                if (MyApplication.selectedOrder!!.hasBeenRenewed == 0) {
                                     btRepeatOrder.hide()
                                     btRenewOrder.show()
                                     tvAlreadyRenewed.hide()
-                                }else{
+                                } else {
                                     tvAlreadyRenewed.show()
                                     btRepeatOrder.show()
                                     btRenewOrder.hide()
@@ -788,11 +822,11 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                             var cal = Calendar.getInstance()
 
                             if (cal.timeInMillis <= dateEnd.time && cal.timeInMillis >= dateStart.time) {
-                                if(MyApplication.selectedOrder!!.hasBeenRenewed == 0 ) {
+                                if (MyApplication.selectedOrder!!.hasBeenRenewed == 0) {
                                     btRepeatOrder.hide()
                                     btRenewOrder.show()
                                     tvAlreadyRenewed.hide()
-                                }else{
+                                } else {
                                     tvAlreadyRenewed.show()
                                     btRepeatOrder.show()
                                     btRenewOrder.hide()
@@ -807,7 +841,6 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                             tvAlreadyRenewed.hide()
                             btRenewOrder.hide()
                         }
-
 
 
                     } else {
@@ -873,7 +906,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         )
         if (MyApplication.selectedOrder!!.typeId != 345) {
 
-            var x = MyApplication.selectedOrder!!.product!!.booking_start_date!! + "-" + MyApplication.selectedOrder!!.product!!.booking_end_date!!
+            var x =
+                MyApplication.selectedOrder!!.product!!.booking_start_date!! + "-" + MyApplication.selectedOrder!!.product!!.booking_end_date!!
             if (!MyApplication.selectedOrder!!.product!!.booking_start_date!!.isNullOrEmpty() && !MyApplication.selectedOrder!!.product!!.booking_end_date!!.isNullOrEmpty()) MyApplication.selectedOrder!!.product!!.booking_start_date!! + "-" + MyApplication.selectedOrder!!.product!!.booking_end_date!! else AppHelper.getRemoteString(
                 "no_data",
                 this
@@ -937,19 +971,22 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 "yyyy-MM-dd HH:mm"
             )
         } catch (e: Exception) {
-            tvOrderDateDeet.text =  MyApplication.selectedOrder!!.date!!
+            tvOrderDateDeet.text = MyApplication.selectedOrder!!.date!!
         }
         try {
-            if(MyApplication.selectedOrder!!.product!!.availableDates!=null && MyApplication.selectedOrder!!.product!!.availableDates!!.size >0){
+            if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates!!.size > 0) {
                 tvExpectedOrderDateDeet.text =
                     if (!MyApplication.selectedOrder!!.deliveryDate!!.isEmpty()) MyApplication.selectedOrder!!.deliveryDate else AppHelper.getRemoteString(
                         "no_data",
                         this
                     )
-                if(MyApplication.selectedOrder!!.time!=null){
-                    tvExpectedOrderDateDeet.text = tvExpectedOrderDateDeet.text.toString() + " "+ toForm.format(fromForm.parse(MyApplication.selectedOrder!!.time!!.from))+ " - "+toForm.format(fromForm.parse(MyApplication.selectedOrder!!.time!!.to))
+                if (MyApplication.selectedOrder!!.time != null) {
+                    tvExpectedOrderDateDeet.text =
+                        tvExpectedOrderDateDeet.text.toString() + " " + toForm.format(
+                            fromForm.parse(MyApplication.selectedOrder!!.time!!.from)
+                        ) + " - " + toForm.format(fromForm.parse(MyApplication.selectedOrder!!.time!!.to))
                 }
-            }else {
+            } else {
                 tvExpectedOrderDateDeet.text =
                     if (!MyApplication.selectedOrder!!.deliveryDate!!.isEmpty()) MyApplication.selectedOrder!!.deliveryDate else AppHelper.getRemoteString(
                         "no_data",
@@ -1323,6 +1360,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             return "SUNDAY"
         }
     }
+
     private fun timeDialog() {
         dialog = Dialog(this, R.style.dialogWithoutTitle)
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1333,7 +1371,12 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
         var day = dayIdtoString(selectedDayId!!)
         myTimes =
-            MyApplication.selectedOrder!!.product!!.availableDates.find { it.day.equals(day, true) }!!.time
+            MyApplication.selectedOrder!!.product!!.availableDates.find {
+                it.day.equals(
+                    day,
+                    true
+                )
+            }!!.time
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rv.layoutManager = layoutManager
         var adapter = AdapterInterval(myTimes, this)
@@ -1361,7 +1404,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 )
         }
         llProfileOrder.onOneClick {
-            startActivity(Intent(this,ActivityFullScreen::class.java))
+            startActivity(Intent(this, ActivityFullScreen::class.java))
         }
         tvLocationOrderDeatils.onOneClick {
             val intent = Intent(Intent.ACTION_VIEW)
@@ -1475,15 +1518,20 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 createDialog(this, AppHelper.getRemoteString("valid_delivery_time", this))
             else {
                 if (AppHelper.isOnline(this)) {
-                    if(MyApplication.selectedOrder!!.product!!.availableDates!=null && MyApplication.selectedOrder!!.product!!.availableDates.size>0) {
+                    if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
                         var day = dayIdtoString(selectedDayId!!)
                         myTimes =
-                            MyApplication.selectedOrder!!.product!!.availableDates.find { it.day.equals(day, true) }!!.time
-                        if(myTimes.size >0)
+                            MyApplication.selectedOrder!!.product!!.availableDates.find {
+                                it.day.equals(
+                                    day,
+                                    true
+                                )
+                            }!!.time
+                        if (myTimes.size > 0)
                             sendSuggestAvailable()
                         else
                             sendSuggestedDate()
-                    }else{
+                    } else {
                         sendSuggestedDate()
                     }
                 } else {
@@ -1494,59 +1542,65 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         }
 
         rlCheckoutTime.onOneClick {
-                if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
-                    if (selectedDayId!! == -1) {
-                        toast(AppHelper.getRemoteString("need_specific_date", this))
-                    } else {
-                        var day = dayIdtoString(selectedDayId!!)
-                        myTimes =
-                            MyApplication.selectedOrder!!.product!!.availableDates.find { it.day.equals(day, true) }!!.time
-                        if(myTimes.size >0 )
-                            timeDialog()
-                        else{
-                            val mcurrentTime = Calendar.getInstance()
-                            val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
-                            val minute = mcurrentTime[Calendar.MINUTE]
-                            val myFormat = "dd/MM/yyyy" //Change as you need
-                            val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
-                            val now = mcurrentTime.time
-                            val nowDate = sdf.format(now)
-                            val timePickerDialog = TimePickerDialog(
-                                this, R.style.DatePickerDialog,
-                                { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+            if (MyApplication.selectedOrder!!.product!!.availableDates != null && MyApplication.selectedOrder!!.product!!.availableDates.size > 0) {
+                if (selectedDayId!! == -1) {
+                    toast(AppHelper.getRemoteString("need_specific_date", this))
+                } else {
+                    var day = dayIdtoString(selectedDayId!!)
+                    myTimes =
+                        MyApplication.selectedOrder!!.product!!.availableDates.find {
+                            it.day.equals(
+                                day,
+                                true
+                            )
+                        }!!.time
+                    if (myTimes.size > 0)
+                        timeDialog()
+                    else {
+                        val mcurrentTime = Calendar.getInstance()
+                        val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+                        val minute = mcurrentTime[Calendar.MINUTE]
+                        val myFormat = "dd/MM/yyyy" //Change as you need
+                        val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+                        val now = mcurrentTime.time
+                        val nowDate = sdf.format(now)
+                        val timePickerDialog = TimePickerDialog(
+                            this, R.style.DatePickerDialog,
+                            { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
 
-                                    var time = String.format("%02d", selectedHour) + ":" + String.format(
+                                var time =
+                                    String.format("%02d", selectedHour) + ":" + String.format(
                                         "%02d",
                                         selectedMinute
                                     ) + ":00"
-                                    etOrderDetailTime.text = time.toEditable()
-                                }, hour, minute, false
-                            ) //Yes 24 hour time
-                            timePickerDialog.show()
-                        }
+                                etOrderDetailTime.text = time.toEditable()
+                            }, hour, minute, false
+                        ) //Yes 24 hour time
+                        timePickerDialog.show()
                     }
-                } else {
-                    // TODO Auto-generated method stub
-                    val mcurrentTime = Calendar.getInstance()
-                    val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
-                    val minute = mcurrentTime[Calendar.MINUTE]
-                    val myFormat = "dd/MM/yyyy" //Change as you need
-                    val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
-                    val now = mcurrentTime.time
-                    val nowDate = sdf.format(now)
-                    val timePickerDialog = TimePickerDialog(
-                        this, R.style.DatePickerDialog,
-                        { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
-
-                            var time = String.format("%02d", selectedHour) + ":" + String.format(
-                                "%02d",
-                                selectedMinute
-                            ) + ":00"
-                            etOrderDetailTime.text = time.toEditable()
-                        }, hour, minute, false
-                    ) //Yes 24 hour time
-                    timePickerDialog.show()
                 }
+            } else {
+                // TODO Auto-generated method stub
+                val mcurrentTime = Calendar.getInstance()
+                val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
+                val minute = mcurrentTime[Calendar.MINUTE]
+                val myFormat = "dd/MM/yyyy" //Change as you need
+                val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
+                val now = mcurrentTime.time
+                val nowDate = sdf.format(now)
+                val timePickerDialog = TimePickerDialog(
+                    this, R.style.DatePickerDialog,
+                    { timePicker: TimePicker?, selectedHour: Int, selectedMinute: Int ->
+
+                        var time = String.format("%02d", selectedHour) + ":" + String.format(
+                            "%02d",
+                            selectedMinute
+                        ) + ":00"
+                        etOrderDetailTime.text = time.toEditable()
+                    }, hour, minute, false
+                ) //Yes 24 hour time
+                timePickerDialog.show()
+            }
         }
 
         btSubmit.onOneClick {
@@ -1621,7 +1675,8 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
 
         btPay.setOnClickListener {
-            var reason = if( MyApplication.selectedOrder!!.reasonId == "0")  MyApplication.selectedOrder!!.serviceReasonOther else  MyApplication.selectedOrder!!.serviceReason
+            var reason =
+                if (MyApplication.selectedOrder!!.reasonId == "0") MyApplication.selectedOrder!!.serviceReasonOther else MyApplication.selectedOrder!!.serviceReason
             MyApplication.selectedPlaceOrder = RequestPlaceOrder(
                 MyApplication.userId,
                 MyApplication.selectedOrder!!.typeId,//MAKESURE
@@ -1636,7 +1691,9 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 MyApplication.selectedOrder!!.addressBuilding,
                 MyApplication.selectedOrder!!.addressFloor,
                 MyApplication.selectedOrder!!.addressDescription,
-                if (MyApplication.selectedOrder!!.addresses.size > 0) MyApplication.selectedOrder!!.addresses.get(0).addressId!!.toInt() else 0,
+                if (MyApplication.selectedOrder!!.addresses.size > 0) MyApplication.selectedOrder!!.addresses.get(
+                    0
+                ).addressId!!.toInt() else 0,
                 MyApplication.selectedOrder!!.product!!.booking_start_date,
                 MyApplication.selectedOrder!!.product!!.booking_end_date,
                 MyApplication.languageCode,
@@ -1668,9 +1725,10 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                         MyApplication.saveLocationTracking = true
                         if (!MyApplication.listOrderTrack!!.contains(MyApplication.selectedOrder!!.orderId.toString()))
                             MyApplication.listOrderTrack.add(MyApplication.selectedOrder!!.orderId!!)
-                        MyApplication.listDestination.add(OrderLocation(
-                            "",
-                            MyApplication.selectedOrder!!.orderId,
+                        MyApplication.listDestination.add(
+                            OrderLocation(
+                                "",
+                                MyApplication.selectedOrder!!.orderId,
                                 MyApplication.selectedOrder!!.shipping_latitude!!,
                                 MyApplication.selectedOrder!!.shipping_longitude!!
                             )
@@ -1980,7 +2038,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             from = myTimes.get(position).from
             to = myTimes.get(position).to
             dialog!!.cancel()
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
 
         }
 
@@ -2116,12 +2174,17 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             if (apiId == AppConstants.GET_CATEGORIES) {
                 setOrderData()
             } else {
-                    MyApplication.selectedOrder = response as ResponseOrders
-                    if (MyApplication.categories.size > 0) {
-                        setOrderData()
-                    } else {
-                        CallAPIs.getCategories(this, this)
-                    }
+                if (apiId == AppConstants.ORDER_BY_ORDER_ID_BROAD) {
+                    btAcceptOrder.show()
+                } else {
+                    btAcceptOrder.hide()
+                }
+                MyApplication.selectedOrder = response as ResponseOrders
+                if (MyApplication.categories.size > 0) {
+                    setOrderData()
+                } else {
+                    CallAPIs.getCategories(this, this)
+                }
                 // }
             }
         } else {
@@ -2143,7 +2206,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
         myCalendar[Calendar.DAY_OF_MONTH] = dayOfMonth
         selectedDayId = myCalendar.get(Calendar.DAY_OF_WEEK)
         var date = sendFormatter.format(myCalendar.time)
-        var dateShow = viewFormatter.format(myCalendar.time)
-        etOrderDetailDate.text = dateShow.toEditable()
+        var dateShow = sendFormatter.format(myCalendar.time)
+        etOrderDetailDate.text = date.toEditable()
     }
 }

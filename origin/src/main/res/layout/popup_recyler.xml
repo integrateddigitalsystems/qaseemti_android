@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:gravity="center"
-    android:minWidth="300dp"
+    android:layout_gravity="center"
+    android:paddingStart="@dimen/margin_start_end"
+    android:paddingEnd="@dimen/margin_start_end"
     android:layout_height="wrap_content"
     android:minHeight="100dp"
+    android:maxHeight="300dp"
     android:orientation="vertical"
     android:background="@color/white"
     >
@@ -18,8 +21,8 @@
         android:paddingTop="@dimen/normal_margin"
         android:paddingBottom="@dimen/normal_margin"
         android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_width="250dp"
+        android:layout_height="200dp"/>
 
 
 

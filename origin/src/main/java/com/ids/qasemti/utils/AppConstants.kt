@@ -58,6 +58,7 @@ object AppConstants {
     const val FIREBASE_LOCALIZE = "localize_msg"
     const val FIREBASE_GOVS = "governantes_kuwait"
     const val FIREBASE_SHARE_LINK ="share_link"
+    const val FIREBASE_MAX_DAY = "max_num_day"
     const val BANNER_TIME = "banner_time"
     const val CURRENCY = "currency"
     const val FIREBASE_LINKS ="htmlUrls"
