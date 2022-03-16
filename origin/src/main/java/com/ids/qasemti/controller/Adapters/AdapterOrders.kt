@@ -60,8 +60,16 @@ class AdapterOrders(val items: ArrayList<ResponseOrders>, private val itemClickL
         }}catch (e:Exception){
             holder.expected.text = AppHelper.getRemoteString("no_data",con)
         }
-        if(items.get(position).product!!.availableDates!=null && items.get(position).product!!.availableDates.size >0 ){
-            holder.expected.text = holder.expected.text.toString() + " "+toForm.format(fromForm.parse(items.get(position)!!.time!!.from))+ " - "+toForm.format(fromForm.parse(items.get(position)!!.time!!.to))
+        try {
+            if (items.get(position).product!!.availableDates != null && items.get(position).product!!.availableDates.size > 0) {
+                holder.expected.text = holder.expected.text.toString() + " " + toForm.format(
+                    fromForm.parse(
+                        items.get(position)!!.time!!.from
+                    )
+                ) + " - " + toForm.format(fromForm.parse(items.get(position)!!.time!!.to))
+            }
+        }catch (ex:Exception){
+            
         }
         try{holder.orderDate.text = AppHelper.formatDate(items[position].date!!,"yyyy-mm-dd hh:mm:ssss","yyyy-MM-dd HH:mm")}catch (e:Exception){
             holder.orderDate.text = items.get(position).date

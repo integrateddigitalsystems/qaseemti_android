@@ -351,6 +351,9 @@
     <string name="no_service_paymentMethod">This service does not currently have a payment method</string>
     <string name="cannot_detect_loc">Cannot detect location change GPS settings</string>
     <string name="already_renewed">This order has already been renewed</string>
+    <string name="you_must_fill_from">You must fill from date and time</string>
+    <string name="pleaseSelectNumberOfDays">Please select number of days</string>
+    <string name="NumberOfDays">Number Of Days</string>
 
 
 </resources>

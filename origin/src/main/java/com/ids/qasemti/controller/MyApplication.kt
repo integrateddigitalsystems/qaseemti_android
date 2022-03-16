@@ -45,6 +45,7 @@ class MyApplication : Application() {
         var renewing  = false
         var repeating = false
         var selectedImageShow : String ?=""
+        var maxDay : Int ?=0
         var arraySelectedImage: ArrayList<FilesSelected> = arrayListOf()
         var myAddress : String ?=""
         var addNew : Boolean = true
