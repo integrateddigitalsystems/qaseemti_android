@@ -354,6 +354,10 @@
     <string name="you_must_fill_from">You must fill from date and time</string>
     <string name="pleaseSelectNumberOfDays">Please select number of days</string>
     <string name="NumberOfDays">Number Of Days</string>
-
+    <string name="Time">Time</string>
+    <string name="time_restricted">The selected day is restricted to specific times for delivery, check the unavailable times bellow</string>
+    <string name="inactive_user">Your account is inactive please wait for approval </string>
+    <string name="select_available_time">Please select an available time</string>
+    <string name="service_reason_price">Service Reason Price</string>
 
 </resources>

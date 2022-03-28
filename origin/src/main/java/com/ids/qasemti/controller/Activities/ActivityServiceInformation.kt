@@ -529,6 +529,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
 
         var selectedArray = arrayAllServices.find { it.id == selectedServiceId.toString() }
         var arrayTypes = arrayListOf<ServiceVariation>()
+        selectedTypeId = null
         try {
             arrayTypes.addAll(selectedArray!!.variations.distinctBy { it.types })
         } catch (ex: Exception) {
@@ -587,6 +588,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
 
     private fun setSizeCapacitySpinner() {
         try {
+            selectedSizeId = null
             var selectedArray = arrayAllServices.find { it.id == selectedServiceId.toString() }
             var arrayTypes = arrayListOf<ServiceVariation>()
             try {

@@ -233,7 +233,14 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener , ApiListener {
 
         AppHelper.onOneClick {
             if (AppHelper.isOnline(requireContext())) {
-                array[position].open = !array[position].open
+                try {
+                    var pos = array.indexOf(array.find { it.open }!!)
+                    array.get(pos).open = false
+                    adapter!!.notifyItemChanged(pos)
+                }catch (ex:Exception){
+
+                }
+
                 if (array[position].isViewed.equals("0")) {
                     markNotification(array[position].id!!.toInt())
                     if(notfNum!! > 0) {
@@ -244,6 +251,10 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener , ApiListener {
                     (activity as ActivityHome).setNotNumber(notfNum!!.toString())
                     array[position].isViewed = "1"
                 }
+                if(array.get(position).open)
+                    array.get(position).open = false
+                else
+                    array.get(position).open = true
                 adapter!!.notifyItemChanged(position)
             } else {
                 AppHelper.createDialog(

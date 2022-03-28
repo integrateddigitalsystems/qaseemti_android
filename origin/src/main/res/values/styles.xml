@@ -40,6 +40,13 @@
         </item>
     </style>
 
+    <style name="timePickerNew" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="android:textColorPrimary">@color/primary</item> <!-- color for digits -->
+        <item name="android:textColor">@color/primary</item> <!-- color for colon -->
+        <item name="android:colorControlNormal">@color/new_black</item>
+        <item name="android:timePickerMode">spinner</item>
+        <!-- color for (horizontal) delimeters -->
+    </style>
     <style name="SwitchStyle" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/green_switch</item>
         <item name="colorSwitchThumbNormal">@color/green_switch</item>

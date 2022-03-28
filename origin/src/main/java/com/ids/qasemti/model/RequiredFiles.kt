@@ -23,6 +23,10 @@ class RequiredFiles {
     @Expose
     var metaValueAr: String? = ""
 
+    @SerializedName("reason_price")
+    @Expose
+    var reasonPrice : String ?=""
+
     var multipart : MultipartBody.Part ?=null
     var selectedFileName: String? = ""
 

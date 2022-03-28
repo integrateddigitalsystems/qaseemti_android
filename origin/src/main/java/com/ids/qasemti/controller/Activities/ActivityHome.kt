@@ -82,7 +82,10 @@ class ActivityHome : AppCompactBase(),ApiListener, NavigationView.OnNavigationIt
         super.onCreate(savedInstanceState)
         AppHelper.handleCrashes(this)
 
+
         setContentView(R.layout.activity_home)
+
+        tvMarquee.isSelected = true
         try {
             init()
         }catch (ex:Exception){
@@ -284,7 +287,7 @@ class ActivityHome : AppCompactBase(),ApiListener, NavigationView.OnNavigationIt
         llFooterProducts.hide()
         llFooterCart.show()
         setListners()
-
+        /*CallAPIs.getUserInfo(this)*/
     }
 
 
@@ -855,10 +858,13 @@ class ActivityHome : AppCompactBase(),ApiListener, NavigationView.OnNavigationIt
             showTitle(true)
         }
 
+        CallAPIs.getUserInfo(this)
+
 
         var mBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent) {
                 getNotf()
+                CallAPIs.getUserInfo(this@ActivityHome)
             }
         }
         val filter = IntentFilter("msg")
@@ -963,6 +969,12 @@ class ActivityHome : AppCompactBase(),ApiListener, NavigationView.OnNavigationIt
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
 
+        if(success){
+            if(MyApplication.selectedUser!!.active == 1)
+                llMarquee.hide()
+            else
+                llMarquee.show()
+        }
     }
 
 

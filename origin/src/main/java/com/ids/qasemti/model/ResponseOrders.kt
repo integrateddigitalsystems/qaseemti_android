@@ -352,7 +352,11 @@ class ResponseOrders(
 
     @SerializedName("service_reason")
     @Expose
-    var serviceReason : String ?=""
+    var serviceReason : String ?="" ,
+
+    @SerializedName("service_reason_price")
+    @Expose
+    var serviceReasonPrice : String ?= ""
 
 
 

@@ -180,6 +180,15 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                 if (orders.product!!.name != null && orders.product!!.name!!.isNotEmpty()) orders.product!!.name else ""
             )
         )
+        if(!orders.serviceReason.isNullOrEmpty()){
+            arrayOrderData.add(
+            OrderData(
+                AppHelper.getRemoteString("service_reason", this),
+                if (orders.serviceReason != null && orders.serviceReason!!.isNotEmpty()) orders.serviceReason!! else ""
+            )
+            )
+
+        }
         arrayOrderData.add(
             OrderData(
                 AppHelper.getRemoteString("type", this),
@@ -211,6 +220,23 @@ class ActivityPlaceOrder : AppCompactBase(), RVOnItemClickListener, UPaymentCall
                 if (orders.additional != null && orders.additional!!.isNotEmpty()) dec.format( orders.additional!!.toDouble()).toString() + " KWD" else ""
             )
         )
+        if(!orders.serviceReason.isNullOrEmpty()) {
+            arrayOrderCost.add(
+                OrderData(
+                    AppHelper.getRemoteString("service_reason_price", this),
+                    if (orders.serviceReasonPrice != null && orders.serviceReasonPrice!!.isNotEmpty()) dec.format(
+                        orders.serviceReasonPrice!!.toDouble()
+                    ).toString() + " KWD" else "0 KWD"
+
+                )
+            )
+        }
+       /* arrayOrderCost.add(
+            OrderData(
+                AppHelper.getRemoteString("AdditionalFees", this),
+                if (orders.additional != null && orders.additional!!.isNotEmpty()) dec.format( orders.additional!!.toDouble()).toString() + " KWD" else ""
+            )
+        )*/
         arrayOrderCost.add(
             OrderData(
                 AppHelper.getRemoteString("TotalAmount", this),

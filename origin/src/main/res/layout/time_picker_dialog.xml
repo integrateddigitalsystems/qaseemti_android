@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:paddingStart="@dimen/margin_start_end"
+    android:paddingEnd="@dimen/margin_start_end"
+    android:layout_height="wrap_content"
+    android:minHeight="100dp"
+    android:layout_marginStart="@dimen/margin_start_end"
+    android:layout_marginEnd="@dimen/margin_start_end"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_white_background"
+    >
+
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_width="match_parent"
+        android:text="@string/Time"
+        android:tag="Time"
+        android:gravity="center"
+        android:textColor="@color/primary"
+        android:layout_height="wrap_content"
+        />
+
+    <com.ids.qasemti.custom.CustomTextViewBold
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvTimeSubTitle"
+        android:tag="time_restricted"
+        android:text="@string/time_restricted"
+        android:gravity="center"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+
+        android:id="@+id/rvUnavailableTimes"
+        android:layout_height="wrap_content"/>
+
+    <TimePicker
+        android:visibility="visible"
+        android:id="@+id/tpEvent"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginBottom="@dimen/normal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:theme="@style/timePickerNew"
+        android:numbersTextColor="@color/primary"
+        android:numbersInnerTextColor="@color/primary"
+        android:numbersSelectorColor="@color/primary"
+        android:timePickerMode="spinner"/>
+
+    <Button
+        android:layout_marginBottom="@dimen/normal_margin"
+        android:textColor="@color/primary"
+        android:layout_width="match_parent"
+        android:tag="Done"
+        android:id="@+id/btDoneTime"
+        android:layout_height="@dimen/edit_text_height"
+        android:background="@drawable/rounded_white_red_border"
+        android:text="@string/Done"/>
+
+</LinearLayout>

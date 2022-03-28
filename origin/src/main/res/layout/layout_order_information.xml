@@ -227,6 +227,106 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/normal_margin"
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:tint="@color/primary"
+                        android:layout_width="@dimen/icon"
+                        android:layout_height="@dimen/icon"
+                        android:src="@drawable/icon_dollar" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:orientation="vertical">
+
+                        <com.ids.qasemti.custom.CustomTextViewBold
+                            android:layout_width="match_parent"
+                            android:textSize="@dimen/medium_font"
+                            android:layout_height="@dimen/icon"
+                            android:textColor="@color/gray_font_title"
+                            android:gravity="top"
+                            android:maxLines="1"
+                            android:textAlignment="viewStart"
+                            android:tag="service_reason_price"
+                            android:text="@string/service_reason_price" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/normal_icon"
+                            android:textAlignment="viewStart"
+                            android:gravity="start"
+                            android:textSize="@dimen/normal_font"
+                            android:text="@string/na_"
+                            android:tag="na_"
+                            android:id="@+id/tvReasonValue"
+                            android:textColor="@color/gray_font_title" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:tint="@color/primary"
+                        android:layout_width="@dimen/icon"
+                        android:layout_height="@dimen/icon"
+                        android:src="@drawable/icon_payment" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:orientation="vertical">
+
+                        <com.ids.qasemti.custom.CustomTextViewBold
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/icon"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/gray_font_title"
+                            android:tag="service_reason"
+                            android:textSize="@dimen/medium_font"
+                            android:text="@string/service_reason" />
+
+                        <com.ids.qasemti.custom.CustomTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="start"
+                            android:id="@+id/tvReasonName"
+                            android:layout_height="@dimen/normal_icon"
+                            android:textSize="@dimen/small_font_2"
+                            android:text="@string/na_"
+                            android:tag="na_"
+                            android:textColor="@color/gray_font_title" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
         <LinearLayout
             android:layout_gravity="center_vertical"
             android:padding="@dimen/normal_margin"

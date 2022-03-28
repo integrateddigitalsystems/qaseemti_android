@@ -295,7 +295,8 @@ class CallAPIs {
                 bankBranch,
                 iban,
                 description,
-                lang,selectedFile2!!
+                lang,
+                selectedFile2!!
             )
 
             retro.updateProfile(

@@ -27,7 +27,7 @@ class AdapterInterval(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHItem {
         return VHItem(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_popup, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_time_period, parent, false)
         )
     }
 
@@ -47,7 +47,7 @@ class AdapterInterval(
     }
 
     inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var tvName = itemView.findViewById<TextView>(R.id.tvName)
+        var tvName = itemView.findViewById<TextView>(R.id.tvTimePeriod)
         init {
             itemView.setOnClickListener(this)
         }

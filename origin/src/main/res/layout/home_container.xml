@@ -48,8 +48,41 @@
         <include
             layout="@layout/layout_footer_shadow" />
     </LinearLayout>
-    <include
-        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:id="@+id/llToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <include layout="@layout/toolbar" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/llMarquee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <com.ids.qasemti.custom.CustomTextViewBold
+            android:id="@+id/tvMarquee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/small_icon_2"
+            android:layout_marginBottom="@dimen/small_icon_2"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:tag="inactive_user"
+            android:text="@string/inactive_user" />
+
+    </LinearLayout>
+
+
 
 
 

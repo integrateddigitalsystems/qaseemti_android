@@ -352,6 +352,11 @@
     <string name="you_must_fill_from">يجب تعبئت اليوم و الوقت </string>
     <string name="pleaseSelectNumberOfDays">الرجاء تحديد عدد الأيام</string>
     <string name="NumberOfDays">عدد الأيام</string>
+    <string name="Time">الوقت</string>
+    <string name="time_restricted">اليوم المحدد مقيد بأوقات محددة للتسليم ، تحقق من الأوقات غير المتاحة أدناه</string>
+    <string name="inactive_user">حسابك غير نشط يرجى الانتظار للحصول على موافقة</string>
+    <string name="select_available_time">الرجاء تحديد وقت متاح</string>
+    <string name="service_reason_price">سعر سبب الخدمة</string>
 
 
 </resources>

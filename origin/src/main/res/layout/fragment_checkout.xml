@@ -373,12 +373,12 @@
                                 android:layout_height="wrap_content">
 
                                 <com.ids.qasemti.custom.CustomTextViewMedium
+                                    android:id="@+id/tvNumDaysValue"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/height_35"
                                     android:background="@color/transparent"
                                     android:gravity="center"
                                     android:inputType="none"
-                                    android:id="@+id/tvNumDaysValue"
                                     android:maxLines="1"
                                     android:text="@string/please__select"
                                     android:textColor="@color/colorAccent"

@@ -1024,7 +1024,16 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 tvPaymentMethod.text = MyApplication.selectedOrder!!.paymentMethod
         } catch (e: Exception) {
         }
+        try {
+            if (!MyApplication.selectedOrder!!.serviceReason.isNullOrEmpty()) {
+                tvReasonName.text = MyApplication.selectedOrder!!.serviceReason
+                tvReasonValue.text =
+                    dec.format(MyApplication.selectedOrder!!.serviceReasonPrice!!.toDouble())
+                        .toString() + MyApplication.selectedOrder!!.currency
+            }
+        }catch (ex:java.lang.Exception){
 
+        }
         if (!MyApplication.selectedOrder!!.couponCode.isNullOrEmpty()) {
             try {
                 tvCouponCode.text =
