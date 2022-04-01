@@ -16,6 +16,7 @@
     <color name="tint_new">#ffffff</color>
     <color name="plain_background">#F59C25</color>
     <color name="colored_text">#F59C25</color>
+    <color name="gray_text">#888888</color>
 
     <!--<color name="primary">#e5193a</color>
     <color name="seconday_use">#0080ff</color>

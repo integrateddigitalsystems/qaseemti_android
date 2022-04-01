@@ -235,8 +235,10 @@ class FragmentNotifications : Fragment(), RVOnItemClickListener , ApiListener {
             if (AppHelper.isOnline(requireContext())) {
                 try {
                     var pos = array.indexOf(array.find { it.open }!!)
-                    array.get(pos).open = false
-                    adapter!!.notifyItemChanged(pos)
+                    if(pos !=position) {
+                        array.get(pos).open = false
+                        adapter!!.notifyItemChanged(pos)
+                    }
                 }catch (ex:Exception){
 
                 }

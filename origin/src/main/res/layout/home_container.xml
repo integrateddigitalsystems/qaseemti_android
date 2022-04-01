@@ -64,19 +64,21 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
-        <com.ids.qasemti.custom.CustomTextViewBold
+        <TextView
             android:id="@+id/tvMarquee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/small_icon_2"
             android:layout_marginBottom="@dimen/small_icon_2"
+            android:textColor="@color/gray_text"
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:singleLine="true"
+            android:visibility="gone"
             android:tag="inactive_user"
             android:text="@string/inactive_user" />
 

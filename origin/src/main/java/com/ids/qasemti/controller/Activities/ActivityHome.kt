@@ -86,6 +86,7 @@ class ActivityHome : AppCompactBase(),ApiListener, NavigationView.OnNavigationIt
         setContentView(R.layout.activity_home)
 
         tvMarquee.isSelected = true
+        tvMarquee.typeface = AppHelper.getTypefaceBoldItalic(this)
         try {
             init()
         }catch (ex:Exception){

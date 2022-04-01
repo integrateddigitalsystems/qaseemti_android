@@ -272,7 +272,7 @@
                             android:textAlignment="viewStart"
                             android:gravity="start"
                             android:textSize="@dimen/normal_font"
-                            android:text="@string/na_"
+                            android:text="0 KWD"
                             android:tag="na_"
                             android:id="@+id/tvReasonValue"
                             android:textColor="@color/gray_font_title" />

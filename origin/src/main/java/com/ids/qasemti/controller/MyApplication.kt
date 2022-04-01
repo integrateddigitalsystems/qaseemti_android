@@ -119,6 +119,7 @@ class MyApplication : Application() {
         var selectedService : ResponseService ?=null
         var rentalId : Int ?=0
         var purchaseId : Int ?=0
+        var otherId : Int ?=0
         var myCurrLoc : LatLng ?=null
         var updateDeviceFirst : Boolean ?= false
         var selectedOrder : ResponseOrders?=null

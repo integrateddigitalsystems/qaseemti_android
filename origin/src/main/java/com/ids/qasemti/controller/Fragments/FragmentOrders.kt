@@ -190,7 +190,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
             }else {
                 if (MyApplication.renewed == true) {
                     MyApplication.renewed = false
-                    setTabLayout(0)
+                    setTabLayout(typeSelected)
                 } else if (MyApplication.completed) {
                     MyApplication.completed = false
                     setTabLayout(2)
@@ -198,7 +198,7 @@ class FragmentOrders : Fragment(), RVOnItemClickListener , ReloadData {
                     MyApplication.fromHome = false
                     setTabLayout(typeSelected)
                 } else{
-                    typeSelected =0
+                   // typeSelected =0
                     setTabLayout(typeSelected)
                 }
             }

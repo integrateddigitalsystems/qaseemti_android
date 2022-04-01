@@ -796,7 +796,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
 
                             var cal = Calendar.getInstance()
 
-                            if (cal.timeInMillis <= dateEnd.time && cal.timeInMillis >= dateStart.time) {
+                            if (cal.timeInMillis <= dateEnd.time /*&& cal.timeInMillis >= dateStart.time*/) {
                                 if (MyApplication.selectedOrder!!.hasBeenRenewed == 0) {
                                     btRepeatOrder.hide()
                                     btRenewOrder.show()
@@ -1000,11 +1000,29 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
             tvActualDeliveryTime.text = MyApplication.selectedOrder!!.deliveryDate
         } catch (e: Exception) {
         }
-        try {
+        /*try {
             tvOrderAmountDeet.text =
-                dec.format(MyApplication.selectedOrder!!.total!!.toDouble())
+                dec.format((MyApplication.selectedOrder!!.total!!.toDouble() - MyApplication.selectedOrder!!.serviceReasonPrice!!.toDouble()))
                     .toString() + " " + MyApplication.selectedOrder!!.currency
         } catch (e: Exception) {
+            try {
+                tvOrderAmountDeet.text =
+                    dec.format((MyApplication.selectedOrder!!.total!!.toDouble())
+                        .toString() + " " + MyApplication.selectedOrder!!.currency)
+            } catch (e: Exception) {
+            }
+        }*/
+        try {
+            tvOrderAmountDeet.text =
+                dec.format((MyApplication.selectedOrder!!.total!!.toDouble())
+                    .toString() + " " + MyApplication.selectedOrder!!.currency)
+        } catch (e: Exception) {
+            try{
+                tvOrderAmountDeet.text =
+                   MyApplication.selectedOrder!!.total!!+ " " + MyApplication.selectedOrder!!.currency
+            }catch (ex:Exception){
+
+            }
         }
 
         try {
