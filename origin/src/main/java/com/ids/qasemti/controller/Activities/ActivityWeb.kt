@@ -159,6 +159,7 @@ class ActivityWeb: ActivityBase() {
                     handler: SslErrorHandler?,
                     error: SslError?
                 ) {
+                    logw("SSL_ERROR", error.toString())
                     super.onReceivedSslError(view, handler, error)
                 }
 
