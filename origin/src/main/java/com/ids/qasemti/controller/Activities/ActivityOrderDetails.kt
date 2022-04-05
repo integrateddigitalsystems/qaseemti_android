@@ -1047,7 +1047,7 @@ class ActivityOrderDetails : AppCompactBase(), RVOnItemClickListener, ApiListene
                 tvReasonName.text = MyApplication.selectedOrder!!.serviceReason
                 tvReasonValue.text =
                     dec.format(MyApplication.selectedOrder!!.serviceReasonPrice!!.toDouble())
-                        .toString() + MyApplication.selectedOrder!!.currency
+                        .toString() +" "+MyApplication.selectedOrder!!.currency
             }
         }catch (ex:java.lang.Exception){
 
