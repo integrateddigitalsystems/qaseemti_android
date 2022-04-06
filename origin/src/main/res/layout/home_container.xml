@@ -78,8 +78,7 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:visibility="gone"
-            android:tag="inactive_user"
+            android:visibility="visible"
             android:text="@string/inactive_user" />
 
     </LinearLayout>

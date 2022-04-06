@@ -115,7 +115,7 @@ class ActivityMobileRegistration : ActivityBase() , RVOnItemClickListener , ApiL
                         AppHelper.getLoc(this, this)
                     else
                         CallAPIs.getIP(this, this, LatLng(0.0, 0.0))
-                   // CallAPIs.updateDevice(this, this)
+                    // CallAPIs.updateDevice(this, this)
                 }else{
                     AppHelper.createDialog(this,AppHelper.getRemoteString("no_internet",this))
                 }

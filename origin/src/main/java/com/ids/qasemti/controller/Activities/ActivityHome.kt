@@ -970,6 +970,8 @@ class ActivityHome : AppCompactBase(),ApiListener, NavigationView.OnNavigationIt
 
     override fun onDataRetrieved(success: Boolean, response: Any, apiId: Int) {
 
+
+        //llMarquee.show()
         if(success){
             if(MyApplication.selectedUser!!.active == 1)
                 llMarquee.hide()

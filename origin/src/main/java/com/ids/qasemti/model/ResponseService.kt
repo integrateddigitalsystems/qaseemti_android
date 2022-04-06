@@ -19,6 +19,10 @@ class ResponseService(
     @Expose
     var parentId : Int ?=0 ,
 
+    @SerializedName("manage_stock")
+    @Expose
+    var manageStock : String ?="" ,
+
     @SerializedName("type")
     @Expose
     var type : String ?="",

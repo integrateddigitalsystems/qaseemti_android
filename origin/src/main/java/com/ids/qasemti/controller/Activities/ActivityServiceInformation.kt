@@ -476,6 +476,7 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
                         )
                     )
             }
+
             arraySpinnerServices.add(
                 0,
                 ItemSpinner(-1, AppHelper.getRemoteString("please__select", this), "")
@@ -494,6 +495,13 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
                 ) {
                     selectedServiceId = arraySpinnerServices[position].id!!
                     selectedServiceName = arraySpinnerServices[position].name!!
+                    if(position!=0 && arrayFiltered.get(position-1).manageStock.equals("yes")){
+                        tvStockAvailableTitle.show()
+                        etStockAvailable.show()
+                    }else{
+                        tvStockAvailableTitle.hide()
+                        etStockAvailable.hide()
+                    }
                     if (position == 0)
                         selectedService = false
                     else
@@ -930,8 +938,8 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
             if(!checkInMyServices() || MyApplication.isEditService ) {
                 if (arrayImagesSelected.size == 0)
                     createDialog(this, "Please upload image")
-                else if (etStockAvailable.text.toString()
-                        .isEmpty() || (!MyApplication.isEditService && etStockAvailable.text.toString() == "0")
+                else if ((etStockAvailable.text.toString()
+                        .isEmpty() && arrayAllServices.find { it.id!!.toInt() == selectedServiceId }!!.manageStock.equals("yes")) || (!MyApplication.isEditService && etStockAvailable.text.toString() == "0")
                 )
                     createDialog(this, "Please fill stock available")
                 else {
@@ -979,8 +987,8 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
             createDialog(this, "Please fill all Required files")
         else if (arrayImagesSelected.size == 0)
             createDialog(this, "Please fill Images")
-        else if (etStockAvailable.text.toString()
-                .isEmpty() || (!MyApplication.isEditService && etStockAvailable.text.toString() == "0")
+        else if ((etStockAvailable.text.toString()
+                .isEmpty() && arrayAllServices.find { it.id!!.toInt() == selectedServiceId }!!.manageStock.equals("yes"))|| (!MyApplication.isEditService && etStockAvailable.text.toString() == "0")
         )
             createDialog(this, "Please fill stock available")
         else {
@@ -1106,14 +1114,18 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
                     selectedSizeId!!
                 )
             )
-        arrayData.add(
-            ServicesData(
-                5,
-                getString(R.string.Quantity),
-                etStockAvailable.text.toString(),
-                1
-            )
-        )
+
+        if(arrayAllServices.find { it.id!!.toInt() == selectedServiceId }!!.manageStock.equals("yes")) {
+                arrayData.add(
+                    ServicesData(
+                        5,
+                        getString(R.string.Quantity),
+                        etStockAvailable.text.toString() ,
+                        1
+
+                    )
+                )
+            }
         var adapter = AdapterServicesData(arrayData, this, this)
         rvData.layoutManager = LinearLayoutManager(this)
         rvData.adapter = adapter
@@ -1252,7 +1264,10 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
                 arrayBody,
                 MyApplication.languageCode.toRequestBody("text/plain".toMediaTypeOrNull()),
                 selectedServiceId.toString().toRequestBody("text/plain".toMediaTypeOrNull()),
-                etStockAvailable.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+                if(arrayAllServices.find { it.id!!.toInt() == selectedServiceId }!!.manageStock.equals("yes"))
+                    etStockAvailable.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+                else
+                    "0".toRequestBody("text/plain".toMediaTypeOrNull())
             )?.enqueue(object : Callback<ResponseMessage> {
                 override fun onResponse(
                     call: Call<ResponseMessage>,
@@ -1401,7 +1416,10 @@ class ActivityServiceInformation : AppCompactBase(), RVOnItemClickListener, ApiL
         }
         var req = RequestUpdateService(
             MyApplication.selectedService!!.id!!.toInt(),
+            if(arrayAllServices.find { it.id!!.toInt() == selectedServiceId }!!.manageStock.equals("yes"))
             etStockAvailable.text.toString().toInt()
+        else
+            0
         )
 
         RetrofitClient.client?.create(RetrofitInterface::class.java)

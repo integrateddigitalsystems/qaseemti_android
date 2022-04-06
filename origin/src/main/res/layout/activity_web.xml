@@ -81,165 +81,165 @@
 
         </ScrollView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/linearContact"
+            android:visibility="gone"
+
+
+            android:orientation="vertical"
+            >
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:fillViewport="true"
+                android:layout_height="match_parent">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/linearContact"
-                    android:visibility="gone"
-
-
-                    android:orientation="vertical"
-                    >
-
-                    <ScrollView
+                    android:orientation="vertical">
+                    <WebView
+                        android:layout_marginStart="@dimen/margin_start_end"
+                        android:layout_marginEnd="@dimen/margin_start_end"
+                        android:id="@+id/wvData2"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        />
+                    <LinearLayout
+                        android:id="@+id/llContactForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:fillViewport="true"
-                        android:layout_height="match_parent">
-                        <LinearLayout
+                        android:layout_marginTop="@dimen/normal_margin"
+                        >
+
+                        <com.ids.qasemti.custom.CustomTextViewBold
+                            android:layout_marginTop="@dimen/normal_margin"
+                            android:id="@+id/tvContactTitle"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                            <WebView
-                                android:layout_marginStart="@dimen/margin_start_end"
-                                android:layout_marginEnd="@dimen/margin_start_end"
-                                android:id="@+id/wvData2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@color/white"
-                                />
-                            <LinearLayout
-                                android:id="@+id/llContactForm"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_marginTop="@dimen/normal_margin"
-                                >
+                            android:gravity="start"
+                            android:text="@string/contact_us"
+                            android:tag="contact_us"
+                            android:visibility="visible"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_start_end"
+                            android:maxLines="2"
+                            android:textColor="@color/gray_font_title"
+                            android:textSize="@dimen/title_font" />
 
-                                <com.ids.qasemti.custom.CustomTextViewBold
-                                    android:layout_marginTop="@dimen/normal_margin"
-                                    android:id="@+id/tvContactTitle"
-                                    android:layout_width="match_parent"
-                                    android:gravity="start"
-                                    android:text="@string/contact_us"
-                                    android:tag="contact_us"
-                                    android:visibility="visible"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/margin_start_end"
-                                    android:maxLines="2"
-                                    android:textColor="@color/gray_font_title"
-                                    android:textSize="@dimen/title_font" />
+                        <EditText
+                            android:textAlignment="viewStart"
+                            android:id="@+id/etFullNameContact"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginStart="@dimen/margin_start_end"
+                            android:layout_marginTop="@dimen/big_margin"
+                            android:layout_marginEnd="@dimen/margin_start_end"
+                            android:background="@drawable/rounded_white_background"
+                            android:hint="@string/full_name"
+                            android:maxLines="1"
+                            android:paddingStart="@dimen/normal_margin"
+                            android:paddingEnd="@dimen/normal_margin"
+                            android:tag="full_name"
+                            android:textColor="@color/gray_font"
+                            android:textColorHint="@color/gray_medium_2"
+                            android:textSize="@dimen/normal_font" />
 
-                                <EditText
-                                    android:textAlignment="viewStart"
-                                    android:id="@+id/etFullNameContact"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/edit_text_height"
-                                    android:layout_marginStart="@dimen/margin_start_end"
-                                    android:layout_marginTop="@dimen/big_margin"
-                                    android:layout_marginEnd="@dimen/margin_start_end"
-                                    android:background="@drawable/rounded_white_background"
-                                    android:hint="@string/full_name"
-                                    android:maxLines="1"
-                                    android:paddingStart="@dimen/normal_margin"
-                                    android:paddingEnd="@dimen/normal_margin"
-                                    android:tag="full_name"
-                                    android:textColor="@color/gray_font"
-                                    android:textColorHint="@color/gray_medium_2"
-                                    android:textSize="@dimen/normal_font" />
+                        <EditText
+                            android:textAlignment="viewStart"
+                            android:id="@+id/etPhoneContact"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginStart="@dimen/margin_start_end"
+                            android:layout_marginTop="@dimen/normal_margin"
+                            android:layout_marginEnd="@dimen/margin_start_end"
+                            android:background="@drawable/rounded_white_background"
+                            android:hint="@string/mobile"
+                            android:maxLines="1"
+                            android:paddingStart="@dimen/normal_margin"
+                            android:paddingEnd="@dimen/normal_margin"
+                            android:tag="mobile"
+                            android:textColor="@color/gray_font"
+                            android:textColorHint="@color/gray_medium_2"
+                            android:textSize="@dimen/normal_font" />
 
-                                <EditText
-                                    android:textAlignment="viewStart"
-                                    android:id="@+id/etPhoneContact"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/edit_text_height"
-                                    android:layout_marginStart="@dimen/margin_start_end"
-                                    android:layout_marginTop="@dimen/normal_margin"
-                                    android:layout_marginEnd="@dimen/margin_start_end"
-                                    android:background="@drawable/rounded_white_background"
-                                    android:hint="@string/mobile"
-                                    android:maxLines="1"
-                                    android:paddingStart="@dimen/normal_margin"
-                                    android:paddingEnd="@dimen/normal_margin"
-                                    android:tag="mobile"
-                                    android:textColor="@color/gray_font"
-                                    android:textColorHint="@color/gray_medium_2"
-                                    android:textSize="@dimen/normal_font" />
+                        <EditText
+                            android:textAlignment="viewStart"
+                            android:id="@+id/etEmailContact"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginStart="@dimen/margin_start_end"
+                            android:layout_marginTop="@dimen/normal_margin"
+                            android:layout_marginEnd="@dimen/margin_start_end"
+                            android:background="@drawable/rounded_white_background"
+                            android:hint="@string/email"
+                            android:maxLines="1"
+                            android:paddingStart="@dimen/normal_margin"
+                            android:paddingEnd="@dimen/normal_margin"
+                            android:tag="email"
+                            android:textColor="@color/gray_font"
+                            android:textColorHint="@color/gray_medium_2"
+                            android:textSize="@dimen/normal_font" />
 
-                                <EditText
-                                    android:textAlignment="viewStart"
-                                    android:id="@+id/etEmailContact"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/edit_text_height"
-                                    android:layout_marginStart="@dimen/margin_start_end"
-                                    android:layout_marginTop="@dimen/normal_margin"
-                                    android:layout_marginEnd="@dimen/margin_start_end"
-                                    android:background="@drawable/rounded_white_background"
-                                    android:hint="@string/email"
-                                    android:maxLines="1"
-                                    android:paddingStart="@dimen/normal_margin"
-                                    android:paddingEnd="@dimen/normal_margin"
-                                    android:tag="email"
-                                    android:textColor="@color/gray_font"
-                                    android:textColorHint="@color/gray_medium_2"
-                                    android:textSize="@dimen/normal_font" />
+                        <EditText
+                            android:textAlignment="viewStart"
+                            android:id="@+id/etSubjectContact"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginStart="@dimen/margin_start_end"
+                            android:layout_marginTop="@dimen/normal_margin"
+                            android:layout_marginEnd="@dimen/margin_start_end"
+                            android:background="@drawable/rounded_white_background"
+                            android:hint="@string/subject"
+                            android:maxLines="1"
+                            android:paddingStart="@dimen/normal_margin"
+                            android:paddingEnd="@dimen/normal_margin"
+                            android:tag="subject"
+                            android:textColor="@color/gray_font"
+                            android:textColorHint="@color/gray_medium_2"
+                            android:textSize="@dimen/normal_font" />
 
-                                <EditText
-                                    android:textAlignment="viewStart"
-                                    android:id="@+id/etSubjectContact"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/edit_text_height"
-                                    android:layout_marginStart="@dimen/margin_start_end"
-                                    android:layout_marginTop="@dimen/normal_margin"
-                                    android:layout_marginEnd="@dimen/margin_start_end"
-                                    android:background="@drawable/rounded_white_background"
-                                    android:hint="@string/subject"
-                                    android:maxLines="1"
-                                    android:paddingStart="@dimen/normal_margin"
-                                    android:paddingEnd="@dimen/normal_margin"
-                                    android:tag="subject"
-                                    android:textColor="@color/gray_font"
-                                    android:textColorHint="@color/gray_medium_2"
-                                    android:textSize="@dimen/normal_font" />
+                        <EditText
+                            android:textAlignment="viewStart"
+                            android:id="@+id/etMessageContact"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/msg_edit_text"
+                            android:layout_marginStart="@dimen/margin_start_end"
+                            android:layout_marginTop="@dimen/normal_margin"
+                            android:layout_marginEnd="@dimen/margin_start_end"
+                            android:background="@drawable/rounded_white_background"
+                            android:gravity="start"
+                            android:hint="@string/message"
+                            android:padding="@dimen/normal_margin"
+                            android:tag="message"
+                            android:textColor="@color/gray_font"
+                            android:textColorHint="@color/gray_medium_2"
+                            android:textSize="@dimen/normal_font" />
 
-                                <EditText
-                                    android:textAlignment="viewStart"
-                                    android:id="@+id/etMessageContact"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/msg_edit_text"
-                                    android:layout_marginStart="@dimen/margin_start_end"
-                                    android:layout_marginTop="@dimen/normal_margin"
-                                    android:layout_marginEnd="@dimen/margin_start_end"
-                                    android:background="@drawable/rounded_white_background"
-                                    android:gravity="start"
-                                    android:hint="@string/message"
-                                    android:padding="@dimen/normal_margin"
-                                    android:tag="message"
-                                    android:textColor="@color/gray_font"
-                                    android:textColorHint="@color/gray_medium_2"
-                                    android:textSize="@dimen/normal_font" />
+                        <Button
+                            android:id="@+id/btContactWeb"
+                            android:layout_marginBottom="@dimen/normal_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginStart="@dimen/margin_start_end"
+                            android:layout_marginTop="@dimen/normal_margin"
+                            android:layout_marginEnd="@dimen/margin_start_end"
+                            android:background="@drawable/rounded_blue"
+                            android:tag="submit"
+                            android:text="@string/submit"
+                            android:textColor="@color/white" />
 
-                                <Button
-                                    android:id="@+id/btContactWeb"
-                                    android:layout_marginBottom="@dimen/normal_margin"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/edit_text_height"
-                                    android:layout_marginStart="@dimen/margin_start_end"
-                                    android:layout_marginTop="@dimen/normal_margin"
-                                    android:layout_marginEnd="@dimen/margin_start_end"
-                                    android:background="@drawable/rounded_blue"
-                                    android:tag="submit"
-                                    android:text="@string/submit"
-                                    android:textColor="@color/white" />
-
-                            </LinearLayout>
-                        </LinearLayout>
-
-
-                    </ScrollView>
-
-
+                    </LinearLayout>
                 </LinearLayout>
+
+
+            </ScrollView>
+
+
+        </LinearLayout>
 
 
 

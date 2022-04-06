@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitIntegClient {
     // var BASE_URL ="http://demo.ids.com.lb/inPoint/api/"
-    var BASE_URL ="https://mokhtar-fund.gov.lb/integration/api/"
+    var BASE_URL ="https://dev.qasemti.com/wp-json/api/v1/"
 
 
 

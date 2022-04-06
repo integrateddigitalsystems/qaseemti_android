@@ -35,9 +35,9 @@ class ActivityChooseLanguage : ActivityBase() {
         }
 
 
-  /*      logoClient.onOneClick {
-            startActivity(Intent(this,ActivityHome::class.java))
-        }*/
+        /*      logoClient.onOneClick {
+                  startActivity(Intent(this,ActivityHome::class.java))
+              }*/
 
     }
 
@@ -87,7 +87,7 @@ class ActivityChooseLanguage : ActivityBase() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(MyApplication.termsCondition!!)
-        goNext()
+            goNext()
 
 
     }

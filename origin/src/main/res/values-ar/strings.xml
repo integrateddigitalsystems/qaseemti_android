@@ -354,7 +354,7 @@
     <string name="NumberOfDays">عدد الأيام</string>
     <string name="Time">الوقت</string>
     <string name="time_restricted">اليوم المحدد مقيد بأوقات محددة للتسليم ، تحقق من الأوقات غير المتاحة أدناه</string>
-    <string name="inactive_user">حسابك غير نشط يرجى الانتظار للحصول على موافقة</string>
+    <string name="inactive_user"> حسابك غير نشط يرجى الانتظار للحصول على موافقة حسابك غير نشط يرجى الانتظار للحصول على موافقة حسابك غير نشط يرجى الانتظار للحصول على موافقةحسابك غير نشط يرجى الانتظار للحصول على موافقة</string>
     <string name="select_available_time">الرجاء تحديد وقت متاح</string>
     <string name="service_reason_price">سعر سبب الخدمة</string>
 

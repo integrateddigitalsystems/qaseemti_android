@@ -1,6 +1,7 @@
 package com.ids.qasemti.controller.Activities
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.net.http.SslError
 import android.os.Bundle
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.log
 
 class ActivityWeb: ActivityBase() {
 
@@ -142,8 +144,9 @@ class ActivityWeb: ActivityBase() {
                     view: WebView?,
                     request: WebResourceRequest?
                 ): Boolean {
-                    running++
-                    return false
+                   // running++
+                    logw("OVERRIDE","TRUE")
+                    return true
                 }
 
                 override fun onReceivedError(
@@ -151,7 +154,7 @@ class ActivityWeb: ActivityBase() {
                     request: WebResourceRequest?,
                     error: WebResourceError?
                 ) {
-                    super.onReceivedError(view, request, error)
+                   // super.onReceivedError(view, request, error)
                 }
 
                 override fun onReceivedSslError(
@@ -159,9 +162,33 @@ class ActivityWeb: ActivityBase() {
                     handler: SslErrorHandler?,
                     error: SslError?
                 ) {
-                    logw("SSL_ERROR", error.toString())
-                    
+
+                   /* val builder = AlertDialog.Builder(this@ActivityWeb)
+                    builder
+                        .setMessage("Your current device version does not allow to trust the used service , if you proceed you will be at a security risk")
+                        .setCancelable(true)
+                        .setNegativeButton("Cancel") { dialog, _ ->
+                            //doCancel()
+                            finish()
+                            super.onReceivedSslError(view, handler, error)
+                            dialog.cancel()
+                        }
+                        .setPositiveButton("Proceed") { dialog, _ ->
+                            handler!!.proceed()
+                            loading.show()
+                            loadContent(content,webView)
+                        }
+                    val alert = builder.create()
+                    alert.show()
+                    logw("SSL_ERROR", error.toString())*/
+
+                    //handler!!.cancel()
+
+                    llAcceptTerms.hide()
+                    loading.hide()
+                    logw("OVERRIDE", error.toString())
                     super.onReceivedSslError(view, handler, error)
+
                 }
 
                 override fun onReceivedHttpError(
@@ -172,7 +199,7 @@ class ActivityWeb: ActivityBase() {
                     super.onReceivedHttpError(view, request, errorResponse)
                     WebStorage.getInstance().deleteAllData();
 
-                    logw("HTTPWORKHTTPWORK", "error")
+                    logw("OVERRIDE", "error")
                     // Clear all the cookies
                     CookieManager.getInstance().removeAllCookies(null);
                     CookieManager.getInstance().flush();
@@ -248,11 +275,11 @@ class ActivityWeb: ActivityBase() {
             webView.setWebChromeClient(object : WebChromeClient() {
                 override fun onProgressChanged(view: WebView, newProgress: Int) {
 
-                    var prog = newProgress
-                    /*if(prog ==100)
-                    loading.visibility= View.GONE*/
+                  /*  var prog = newProgress
+                    *//*if(prog ==100)
+                    loading.visibility= View.GONE*//*
                     var x = view.url
-                    var y = 1
+                    var y = 1*/
 
                 }
 
@@ -265,7 +292,6 @@ class ActivityWeb: ActivityBase() {
             }
             )
 
-            var x = content
             webView.loadUrl(content)
         }
     }

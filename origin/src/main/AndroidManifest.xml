@@ -25,6 +25,7 @@
         android:supportsRtl="true"
         tools:replace="android:allowBackup,android:roundIcon,android:theme"
         android:hardwareAccelerated="true"
+        android:networkSecurityConfig="@xml/network_config"
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true" >
@@ -243,6 +244,11 @@
             </intent-filter>
         </service>
 
+
+
+
     </application>
+
+
 
 </manifest>
