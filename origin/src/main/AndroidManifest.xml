@@ -23,11 +23,12 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_config"
         tools:replace="android:allowBackup,android:roundIcon,android:theme"
         android:hardwareAccelerated="true"
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true" >
+        android:usesCleartextTraffic="true">
 
 
         <meta-data

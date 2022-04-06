@@ -151,6 +151,7 @@ class ActivityWeb: ActivityBase() {
                     request: WebResourceRequest?,
                     error: WebResourceError?
                 ) {
+                    llAcceptTerms.hide()
                     super.onReceivedError(view, request, error)
                 }
 
@@ -159,6 +160,7 @@ class ActivityWeb: ActivityBase() {
                     handler: SslErrorHandler?,
                     error: SslError?
                 ) {
+                    llAcceptTerms.hide()
                     super.onReceivedSslError(view, handler, error)
                 }
 

@@ -154,6 +154,7 @@ class ActivityTrackOrder : AppCompactBase(), OnMapReadyCallback , ApiListener{
 
     fun init() {
 
+        supportActionBar!!.hide()
 
         btDrawer.hide()
         btBackTool.show()

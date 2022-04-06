@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/editing/qaseemti_android-jad-branch-new/origin/src/main/res/layout/activity_web.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/drawable/footer_circle.xml" value="0.33055555555555555" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/drawable/gray_circle.xml" value="0.2203125" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/drawable/new_gray_circl.xml" value="0.2203125" />
@@ -61,7 +62,6 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/service_tab_1.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/service_tab_3.xml" value="0.1640625" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android-jad-branch-new/origin/src/main/res/layout/toolbar.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/drawable/blue_rounded.xml" value="0.1609375" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/drawable/primary_circle.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/drawable/rounded_end_button_corner_blue.xml" value="0.2046875" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/drawable/rounded_end_button_primary.xml" value="0.2046875" />
@@ -84,7 +84,7 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/footer.xml" value="0.67" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_account.xml" value="0.10885416666666667" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_cart.xml" value="0.1703125" />
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_checkout.xml" value="0.2" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_checkout.xml" value="0.67" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_home_client.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_notifications.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/fragment_orders.xml" value="0.385" />
@@ -93,7 +93,6 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/home_container.xml" value="0.1796875" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_address.xml" value="0.75" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_cart.xml" value="0.18854166666666666" />
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_chat.xml" value="0.5" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_data_border.xml" value="0.14895833333333333" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_grid_files.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/item_media_pager.xml" value="0.18854166666666666" />
@@ -106,7 +105,6 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_border_red.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_home_orders.xml" value="0.25" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_order_contact_tab.xml" value="0.33" />
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_order_information.xml" value="0.75" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_order_switch.xml" value="0.1125" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_profile.xml" value="0.2957516339869281" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/layout_request_new_time.xml" value="0.43847874720357943" />
@@ -114,7 +112,7 @@
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/popup_location_search.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/service_tab_1.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/service_tab_2.xml" value="0.18854166666666666" />
-        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/service_tab_3.xml" value="0.7169344870210136" />
+        <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/service_tab_3.xml" value="0.75" />
         <entry key="..\:/Users/j.haidar/Documents/GitHub/qaseemti_android/origin/src/main/res/layout/toolbar.xml" value="0.171875" />
       </map>
     </option>

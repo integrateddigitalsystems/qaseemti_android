@@ -52,10 +52,10 @@ android {
             buildConfigField 'String', "urls", "\"urls\""
 
             dimension "color"
-            minSdkVersion 21
+            minSdkVersion 24
             targetSdkVersion 30
-            versionCode 69
-            versionName '8.2'
+            versionCode 79
+            versionName '9.2'
         }
 
 
@@ -68,10 +68,10 @@ android {
             buildConfigField 'String', "urls", "\"urls_provider\""
             buildConfigField 'String', "BASE_URL", "\"https://dev.qasemti.com/wp-json/api/v1/\""
             dimension "color"
-            minSdkVersion 21
+            minSdkVersion 24
             targetSdkVersion 30
-            versionCode 69
-            versionName '8.2'
+            versionCode 79
+            versionName '9.2'
         }
     }
 
