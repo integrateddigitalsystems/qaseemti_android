@@ -972,7 +972,7 @@ class ActivityHome : AppCompactBase(),ApiListener, NavigationView.OnNavigationIt
 
 
         //llMarquee.show()
-        if(success){
+        if(success && !MyApplication.isClient){
             if(MyApplication.selectedUser!!.active == 1)
                 llMarquee.hide()
             else
