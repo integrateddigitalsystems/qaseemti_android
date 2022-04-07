@@ -1,21 +1,18 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     ext.kotlin_version = '1.6.10'
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
-       /* maven {
-            url 'https://maven.fabric.io/public'
-
-        }*/
+        /* maven {
+             url 'https://maven.fabric.io/public'
+         }*/
         jcenter()
         flatDir {
             dirs 'libs'
         }
 
-        
+
     }
 
 
