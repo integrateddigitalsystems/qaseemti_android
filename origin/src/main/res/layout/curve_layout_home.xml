@@ -5,32 +5,32 @@
     android:background="@color/transparent"
     android:layout_height="@dimen/no_logo_height">
 
-    <LinearLayout
-        android:paddingTop="@dimen/big_margin"
+  <LinearLayout
+      android:paddingTop="@dimen/big_margin"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:background="@color/primary"
+      android:orientation="vertical">
+
+    <com.ids.qasemti.custom.CustomTextViewMedium
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/primary"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:id="@+id/tvToolbarCurveTitle"
+        android:textSize="@dimen/big_font"/>
 
-        <com.ids.qasemti.custom.CustomTextViewMedium
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="@dimen/medium_margin"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            android:id="@+id/tvToolbarCurveTitle"
-            android:textSize="@dimen/big_font"/>
+  </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="-25dp"
-        android:background="@drawable/curve_shape_primary"
-        />
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_marginTop="-25dp"
+      android:background="@drawable/curve_shape_primary"
+      />
 
 </LinearLayout>

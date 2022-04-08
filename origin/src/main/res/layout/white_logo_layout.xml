@@ -9,11 +9,11 @@
     android:layout_height="@dimen/logo_height"
     android:background="@drawable/rounded_background_bottom">
 
-        <ImageView
-            android:tint="@color/white"
-            android:id="@+id/logo_main"
-            android:layout_width="@dimen/inside_logo"
-            android:layout_height="@dimen/inside_logo"
-            android:src="@drawable/icon_splash" />
+  <ImageView
+      android:tint="@color/white"
+      android:id="@+id/logo_main"
+      android:layout_width="@dimen/inside_logo"
+      android:layout_height="@dimen/inside_logo"
+      android:src="@drawable/icon_splash" />
 
 </LinearLayout>

@@ -187,7 +187,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
         loading.hide()
         if (success) {
             /* if (MyApplication.selectedUser!!.active == 1) {*/
-            if (!MyApplication.selectedUser!!.civilId.isNullOrEmpty() || (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty() && !MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty())) {
+          /*  if (!MyApplication.selectedUser!!.civilId.isNullOrEmpty() || (!MyApplication.selectedUser!!.civilIdAttach.isNullOrEmpty() && !MyApplication.selectedUser!!.civilAttachBack.isNullOrEmpty())) {*/
                 if (MyApplication.selectedUser!!.addresses!!.size > 0 && !MyApplication.selectedUser!!.addresses!!.get(
                         0
                     ).addressName.isNullOrEmpty()
@@ -217,7 +217,8 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
                     }
 
                 }
-            } else {
+          //  }
+    /* else {
 
 
                 AppHelper.createYesNoDialog(
@@ -235,7 +236,7 @@ class FragmentMyServices : Fragment(), RVOnItemClickListener, ApiListener {
                     )
                 }
 
-            }
+            }*/
             /*  } else
                 AppHelper.createDialog(
                     requireActivity(),

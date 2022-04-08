@@ -1408,8 +1408,8 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                     var x = etCivilIdNbProfile.text
                     if(btAddNewAddress.visibility == View.VISIBLE || (!etAddressName.text.isNullOrEmpty() && !selectedProvince.isNullOrEmpty() && !etStreet.text.isNullOrEmpty() && !etBuilding.text.isNullOrEmpty() && !etArea.text.isNullOrEmpty() && !etBlock.text.isNullOrEmpty())) {
                         /* if((!etAccountNumberProfile.text.toString().isNullOrEmpty() || !etBranchNameProfile.text.isNullOrEmpty() || selectedBankId!=0 || !etIBANProfile.text.isNullOrEmpty()) && (etAccountNumberProfile.text.toString().isNullOrEmpty() || selectedBankId!=0 || etIBANProfile.text.isNullOrEmpty()))*/
-                        if ((!etCivilIdNbProfile.text.isNullOrEmpty() && etCivilIdNbProfile.text.length == 12) && (civilImageAvailable && civilImageBackAvailable)) {
-                            if(civilImageBackAvailable == civilImageAvailable && checkCivil()) {
+                        if ((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length == 12)|| civilImageBackAvailable == civilImageAvailable/*(!civilImageAvailable && !civilImageBackAvailable) || (civilImageAvailable && civilImageBackAvailable)*/) {
+                          /*  if(civilImageBackAvailable == civilImageAvailable && checkCivil()) {*/
                                 if (etIBANProfile.text.isNullOrEmpty() || etIBANProfile.text.length == 30)
                                     updateServiceProfile()
                                 else {
@@ -1422,7 +1422,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
                                     )
                                     checkMissingData()
                                 }
-                            }else{
+                           /* }else{
                                 checkMissingData()
                                 if(checkCivil()){
                                     AppHelper.createDialog(requireActivity(),AppHelper.getRemoteString("you_must_enter_civil_front_back",requireContext()))
@@ -1453,7 +1453,7 @@ class FragmentProfile : Fragment(), RVOnItemClickListener, ApiListener {
 
 
 
-                            }
+                            }*/
                         } else {
                             if((etCivilIdNbProfile.text.isNullOrEmpty() || etCivilIdNbProfile.text.length != 12) ||!(civilImageAvailable || civilImageBackAvailable)) {
                                 checkMissingData()
